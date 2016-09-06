@@ -51,54 +51,67 @@ public class ServiceLocator implements IServiceLocator {
     private ILevelBuilder levelBuilder;
 
     public void provide(IAudioManager audioManager) {
+        assert audioManager != null;
         this.audioManager = audioManager;
     }
 
     public void provide(IMusicFactory musicFactory) {
+        assert musicFactory != null;
         this.musicFactory = musicFactory;
     }
 
     public void provide(ISoundFactory soundFactory) {
+        assert soundFactory != null;
         this.soundFactory = soundFactory;
     }
 
     public void provide(IEnemyBuilder enemyBuilder) {
+        assert enemyBuilder != null;
         this.enemyBuilder = enemyBuilder;
     }
 
     public void provide(IFileSystem fileSystem) {
+        assert fileSystem != null;
         this.fileSystem = fileSystem;
     }
 
     public void provide(IInputManager inputManager) {
+        assert inputManager != null;
         this.inputManager = inputManager;
     }
 
     public void provide(ICalc calc) {
+        assert calc != null;
         this.calc = calc;
     }
 
     public void provide(IBlockFactory blockFactory) {
+        assert blockFactory != null;
         this.blockFactory = blockFactory;
     }
 
     public void provide(IDoodleFactory doodleFactory) {
+        assert doodleFactory != null;
         this.doodleFactory = doodleFactory;
     }
 
     public void provide(IPowerupFactory powerupFactory) {
+        assert powerupFactory != null;
         this.powerupFactory = powerupFactory;
     }
 
     public void provide(IRenderer renderer) {
+        assert renderer != null;
         this.renderer = renderer;
     }
 
     public void provide(ISpriteFactory spriteFactory) {
+        assert spriteFactory != null;
         this.spriteFactory = spriteFactory;
     }
 
     public void provide(ILevelBuilder levelBuilder) {
+        assert levelBuilder != null;
         this.levelBuilder = levelBuilder;
     }
 
