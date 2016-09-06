@@ -7,7 +7,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
-public class DoodleJump {
+public class Game {
 
     /** position of quad */
     float x = 400, y = 300;
@@ -132,7 +132,7 @@ public class DoodleJump {
     }
 
     public static void main(String[] argv) {
-        DoodleJump doodleJump = new DoodleJump();
-        doodleJump.start();
+        Game game = new Game();
+        game.start();
     }
 }
