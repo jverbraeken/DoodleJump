@@ -13,7 +13,19 @@ public final class SceneFactory implements ISceneFactory {
         serviceLocator.provide(new SceneFactory());
     }
 
-    private SceneFactory() {
+    private final Menu menu = new Menu();
+    private World world;
 
+    private SceneFactory() {
+    }
+
+    @Override
+    public Menu getMenu() {
+        return null;
+    }
+
+    @Override
+    public World getNewWorld() {
+        return null;
     }
 }

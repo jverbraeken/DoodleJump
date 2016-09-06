@@ -158,7 +158,6 @@ public final class Game {
 
     public static void main(String[] argv) {
         initServices();
-        Game game = new Game();
-        game.start();
+        serviceLocator.getSceneFactory().getNewWorld().start();
     }
 }
