@@ -16,10 +16,13 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import rendering.IRenderer;
 import sprites.SpriteFactory;
 
 public final class Game {
     private static IServiceLocator serviceLocator = new ServiceLocator();
+
+    private IRenderer renderer;
     /** position of quad */
     float x = 400, y = 300;
     /** angle of quad rotation */
@@ -158,6 +161,8 @@ public final class Game {
 
     public static void main(String[] argv) {
         initServices();
-        serviceLocator.getSceneFactory().getNewWorld().start();
+        renderer = serviceLocator.getRenderer();
+        renderer.setScene(World);
+        renderer.start();
     }
 }
