@@ -1,3 +1,5 @@
+package system;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -5,9 +7,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
-import java.io.File;
-
-public class Engine {
+public class DoodleJump {
 
     /** position of quad */
     float x = 400, y = 300;
@@ -132,7 +132,7 @@ public class Engine {
     }
 
     public static void main(String[] argv) {
-        Engine engine = new Engine();
-        engine.start();
+        DoodleJump doodleJump = new DoodleJump();
+        doodleJump.start();
     }
 }
