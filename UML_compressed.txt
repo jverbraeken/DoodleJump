@@ -1,0 +1,148 @@
+@startuml
+
+package "audio" #DDDDDD {
+
+	class AudioManager {
+	}
+	class BackgroundMusic {
+	}
+	class MusicFactory {
+	}
+	class Sound {
+	}
+	class SoundFactory {
+	}
+
+	MusicFactory --> BackgroundMusic
+	SoundFactory --> Sound
+}
+
+package "enemies" #DDDDDD {
+
+	class Enemy {
+	}
+	class EnemyBuilder {
+	}
+	EnemyBuilder --> Enemy
+}
+package "filesystem" #DDDDDD {
+	
+	class FileSystem {
+	}
+}
+package "input" #DDDDDD {
+	class InputManager {
+	}
+}
+package "math" #DDDDDD {
+	class Calc {
+	}
+}
+package "objects" #DDDDDD {
+package "blocks" #BBBBBB {
+	class Block {
+	}
+	class BlockBuilder {
+	}
+	class BlockFactory {
+	}
+	class Platform {
+	}
+	class PlatformFactory {
+	}
+	BlockFactory --> BlockBuilder
+	BlockBuilder --> PlatformFactory
+	Block --o BlockBuilder
+	PlatformFactory --> Platform
+}
+package "doodles" #BBBBBB {
+
+	class Doodle {
+	}
+	class DoodleFactory {
+	}
+	
+	DoodleFactory --> Doodle
+}
+package "powerups" #BBBBBB {
+
+	class Powerup {
+	}
+	class PowerupFactory {
+	}
+	
+	PowerupFactory --> Powerup
+}
+}
+package "rendering" #DDDDDD {
+package "buttons" #BBBBBB {
+	interface IButton
+	
+	class MenuButton {
+	}
+	class PauseButton {
+	}
+	
+	MenuButton ..|> IButton
+	PauseButton ..|> IButton
+}
+	class Renderer {
+	}
+}
+package "scenes" #DDDDDD {
+	interface IScene
+
+	class Menu {
+	}
+	class World {
+	}
+	class SceneFactory {
+	}
+	
+	Menu ..|> IScene
+	World ..|> IScene
+	SceneFactory --> Menu
+	SceneFactory --> World
+}
+package "sprites" #DDDDDD {
+
+	class Sprite {
+	}
+	class SpriteFactory {
+	}
+
+	SpriteFactory --> Sprite
+}
+
+package "system" #DDDDDD {
+	
+	class ServiceLocator {
+	}
+	class LevelBuilder {
+	}
+	class Game {
+		static void main()
+	}
+
+	ServiceLocator ..|> IServiceLocator
+
+	ServiceLocator --> AudioManager
+	ServiceLocator --> MusicFactory
+	ServiceLocator --> SoundFactory
+	ServiceLocator --> EnemyBuilder
+	ServiceLocator --> FileSystem
+	ServiceLocator --> InputManager
+	ServiceLocator --> Calc
+	ServiceLocator --> BlockFactory
+	ServiceLocator --> DoodleFactory
+	ServiceLocator --> PowerupFactory
+	ServiceLocator --> Renderer
+	ServiceLocator --> SceneFactory
+	ServiceLocator --> SpriteFactory
+	ServiceLocator --> LevelBuilder
+
+	Game --> IServiceLocator
+}
+
+
+@enduml
