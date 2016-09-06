@@ -13,6 +13,7 @@ import objects.blocks.IPlatformFactory;
 import objects.doodles.IDoodleFactory;
 import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;
+import scenes.ISceneFactory;
 import sprites.ISpriteFactory;
 
 /**
@@ -32,6 +33,7 @@ public interface IServiceLocator {
     void provide(IRenderer renderer);
     void provide(ISpriteFactory spriteFactory);
     void provide(ILevelBuilder levelBuilder);
+    void provide(ISceneFactory sceneFactory);
 
     IAudioManager getAudioManager();
     IMusicFactory getMusicFactory();
@@ -46,4 +48,5 @@ public interface IServiceLocator {
     IRenderer getRenderer();
     ISpriteFactory getSpriteFactory();
     ILevelBuilder getLevelBuilder();
+    ISceneFactory getSceneFactory();
 }
