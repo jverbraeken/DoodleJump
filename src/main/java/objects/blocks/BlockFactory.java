@@ -8,6 +8,7 @@ import system.IServiceLocator;
  */
 public final class BlockFactory implements IBlockFactory {
     private static transient IServiceLocator serviceLocator;
+
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         serviceLocator.provide(new BlockFactory());

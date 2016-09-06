@@ -1,14 +1,25 @@
 package system;
 
+import audio.AudioManager;
+import audio.MusicFactory;
+import audio.SoundFactory;
+import enemies.EnemyBuilder;
+import filesystem.FileSystem;
+import input.InputManager;
+import math.Calc;
+import objects.blocks.BlockFactory;
+import objects.doodles.DoodleFactory;
+import objects.powerups.PowerupFactory;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import sprites.SpriteFactory;
 
-public class Game {
-
+public final class Game {
+    private static IServiceLocator serviceLocator = new ServiceLocator();
     /** position of quad */
     float x = 400, y = 300;
     /** angle of quad rotation */
@@ -131,7 +142,22 @@ public class Game {
         GL11.glPopMatrix();
     }
 
+    private static void initServices() {
+        AudioManager.register(serviceLocator);
+        MusicFactory.register(serviceLocator);
+        SoundFactory.register(serviceLocator);
+        EnemyBuilder.register(serviceLocator);
+        FileSystem.register(serviceLocator);
+        InputManager.register(serviceLocator);
+        Calc.register(serviceLocator);
+        BlockFactory.register(serviceLocator);
+        DoodleFactory.register(serviceLocator);
+        PowerupFactory.register(serviceLocator);
+        SpriteFactory.register(serviceLocator);
+    }
+
     public static void main(String[] argv) {
+        initServices();
         Game game = new Game();
         game.start();
     }
