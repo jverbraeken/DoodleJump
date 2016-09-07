@@ -1,11 +1,10 @@
 package input;
 
 import audio.IAudioManager;
+import com.jogamp.newt.event.KeyEvent;
+import com.jogamp.newt.event.KeyListener;
 import system.IServiceLocator;
 
-/**
- * Created by joost on 6-9-16.
- */
 public final class InputManager implements IInputManager {
     private static transient IServiceLocator serviceLocator;
     public static void register(IServiceLocator serviceLocator) {
@@ -14,6 +13,16 @@ public final class InputManager implements IInputManager {
     }
 
     private InputManager() {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
 
     }
 }

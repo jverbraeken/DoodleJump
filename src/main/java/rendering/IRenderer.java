@@ -1,11 +1,12 @@
 package rendering;
 
+import com.jogamp.opengl.GLEventListener;
 import scenes.IScene;
 
 /**
  * Created by joost on 6-9-16.
  */
-public interface IRenderer {
+public interface IRenderer extends GLEventListener {
 
     /**
      * Sets the current scene to currentScene

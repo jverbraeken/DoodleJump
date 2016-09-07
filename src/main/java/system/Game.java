@@ -10,16 +10,9 @@ import math.Calc;
 import objects.blocks.BlockFactory;
 import objects.doodles.DoodleFactory;
 import objects.powerups.PowerupFactory;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.Sys;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
 import rendering.IRenderer;
 import rendering.Renderer;
 import scenes.SceneFactory;
-import scenes.World;
 import sprites.SpriteFactory;
 
 public final class Game {
