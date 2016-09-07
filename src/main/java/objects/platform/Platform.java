@@ -1,4 +1,4 @@
-package objects.blocks;
+package objects.platform;
 
 import objects.GameObject;
 

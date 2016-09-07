@@ -1,6 +1,6 @@
-package objects.blocks;
+package objects;
 
-import audio.IAudioManager;
+import objects.platform.PlatformFactory;
 import system.IServiceLocator;
 
 /**
@@ -9,12 +9,13 @@ import system.IServiceLocator;
 public final class BlockFactory implements IBlockFactory {
     private static transient IServiceLocator serviceLocator;
 
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
+    public static void register(IServiceLocator serviceLocator_) {
+        assert serviceLocator_ != null;
+        serviceLocator = serviceLocator_;
         serviceLocator.provide(new BlockFactory());
     }
 
     private BlockFactory() {
-
+        serviceLocator.getPlatformFactory();
     }
 }

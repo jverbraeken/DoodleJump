@@ -1,8 +1,6 @@
 package input;
 
 import audio.IAudioManager;
-import com.jogamp.newt.event.KeyEvent;
-import com.jogamp.newt.event.KeyListener;
 import system.IServiceLocator;
 
 public final class InputManager implements IInputManager {
@@ -13,16 +11,6 @@ public final class InputManager implements IInputManager {
     }
 
     private InputManager() {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent keyEvent) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent keyEvent) {
 
     }
 }

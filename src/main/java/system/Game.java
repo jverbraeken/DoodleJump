@@ -3,12 +3,13 @@ package system;
 import audio.AudioManager;
 import audio.MusicFactory;
 import audio.SoundFactory;
-import objects.enemies.EnemyBuilder;
 import filesystem.FileSystem;
 import input.InputManager;
 import math.Calc;
-import objects.blocks.BlockFactory;
+import objects.BlockFactory;
 import objects.doodles.DoodleFactory;
+import objects.enemies.EnemyBuilder;
+import objects.platform.PlatformFactory;
 import objects.powerups.PowerupFactory;
 import rendering.IRenderer;
 import rendering.Renderer;
@@ -155,6 +156,7 @@ public final class Game {
         SpriteFactory.register(serviceLocator);
         Renderer.register(serviceLocator);
         SceneFactory.register(serviceLocator);
+        PlatformFactory.register(serviceLocator);
     }
 
     public static void main(String[] argv) {
