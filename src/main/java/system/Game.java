@@ -18,6 +18,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import rendering.IRenderer;
 import rendering.Renderer;
+import scenes.SceneFactory;
 import scenes.World;
 import sprites.SpriteFactory;
 
@@ -160,6 +161,7 @@ public final class Game {
         PowerupFactory.register(serviceLocator);
         SpriteFactory.register(serviceLocator);
         Renderer.register(serviceLocator);
+        SceneFactory.register(serviceLocator);
     }
 
     public static void main(String[] argv) {

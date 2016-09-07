@@ -26,6 +26,6 @@ public final class SceneFactory implements ISceneFactory {
 
     @Override
     public World getNewWorld() {
-        return null;
+        return new World();
     }
 }
