@@ -1,15 +1,13 @@
 package system;
 
 import audio.IAudioManager;
-import audio.IBackgroundMusic;
 import audio.IMusicFactory;
 import audio.ISoundFactory;
-import enemies.IEnemyBuilder;
+import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
 import math.ICalc;
 import objects.blocks.IBlockFactory;
-import objects.blocks.IPlatformFactory;
 import objects.doodles.IDoodleFactory;
 import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;

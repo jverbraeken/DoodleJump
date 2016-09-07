@@ -3,7 +3,7 @@ package system;
 import audio.AudioManager;
 import audio.MusicFactory;
 import audio.SoundFactory;
-import enemies.EnemyBuilder;
+import objects.enemies.EnemyBuilder;
 import filesystem.FileSystem;
 import input.InputManager;
 import math.Calc;

@@ -3,15 +3,13 @@ package system;
 import audio.IAudioManager;
 import audio.IMusicFactory;
 import audio.ISoundFactory;
-import enemies.IEnemyBuilder;
+import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
 import math.ICalc;
 import objects.blocks.IBlockFactory;
-import objects.blocks.IPlatformFactory;
 import objects.doodles.IDoodleFactory;
 import objects.powerups.IPowerupFactory;
-import org.junit.runners.parameterized.BlockJUnit4ClassRunnerWithParametersFactory;
 import rendering.IRenderer;
 import scenes.ISceneFactory;
 import sprites.ISpriteFactory;
@@ -39,7 +37,7 @@ public class ServiceLocator implements IServiceLocator {
     private ILevelBuilder levelFactory;
     private ISpriteFactory spriteFactory;
 
-    // enemies
+    // objects.enemies
     private IEnemyBuilder enemyBuilder;
 
     // util

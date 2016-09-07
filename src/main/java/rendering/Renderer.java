@@ -112,7 +112,7 @@ public final class Renderer implements IRenderer {
         glWindow.setVisible(true);
 
         glWindow.addGLEventListener(this);
-        glWindow.addKeyListener(serviceLocator.getInputManager());
+//        glWindow.addKeyListener(serviceLocator.getInputManager());
 
         animator = new Animator(glWindow);
         animator.start();

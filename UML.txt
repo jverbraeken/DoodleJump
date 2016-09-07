@@ -28,7 +28,7 @@ package "audio" #DDDDDD {
 	SoundFactory --> Sound
 }
 
-package "enemies" #DDDDDD {
+package "objects.enemies" #DDDDDD {
 	interface IEnemy
 	interface IEnemyBuilder
 

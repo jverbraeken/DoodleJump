@@ -1,6 +1,5 @@
-package enemies;
+package objects.enemies;
 
-import audio.IAudioManager;
 import system.IServiceLocator;
 
 /**
