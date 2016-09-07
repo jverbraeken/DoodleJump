@@ -142,6 +142,8 @@ public final class Game {
 //    }
 
     private static void initServices() {
+        int screenHeight = 800;
+        int screenWidth = 500;
         AudioManager.register(serviceLocator);
         MusicFactory.register(serviceLocator);
         SoundFactory.register(serviceLocator);
@@ -149,7 +151,7 @@ public final class Game {
         FileSystem.register(serviceLocator);
         InputManager.register(serviceLocator);
         Calc.register(serviceLocator);
-        BlockFactory.register(serviceLocator);
+        BlockFactory.register(screenWidth, screenHeight, serviceLocator);
         DoodleFactory.register(serviceLocator);
         PowerupFactory.register(serviceLocator);
         SpriteFactory.register(serviceLocator);

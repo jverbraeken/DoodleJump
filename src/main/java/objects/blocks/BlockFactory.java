@@ -8,13 +8,30 @@ import system.IServiceLocator;
  */
 public final class BlockFactory implements IBlockFactory {
     private static transient IServiceLocator serviceLocator;
+    private float screenWidth;
+    private float screenHeight;
 
-    public static void register(IServiceLocator serviceLocator) {
+    public static void register(float screenWidth, float screenHeight, IServiceLocator serviceLocator) {
         assert serviceLocator != null;
-        serviceLocator.provide(new BlockFactory());
+        serviceLocator.provide(new BlockFactory(screenWidth, screenHeight, serviceLocator));
     }
 
-    private BlockFactory() {
+    /**
+     * Create a BlockFactory.
+     * @param screenWidth = the Width of the screen
+     * @param screenHeight = the Height of the screen
+     */
+    private BlockFactory(float screenWidth, float screenHeight, IServiceLocator serviceLocator) {
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        this.serviceLocator = serviceLocator;
+    }
 
+    /**
+     * Create a new Block object and return that.
+     * @return The newly created Block
+     */
+    public Block createBlock(){
+        return new Block(screenWidth, screenHeight);
     }
 }
