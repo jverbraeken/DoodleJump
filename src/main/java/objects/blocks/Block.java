@@ -1,6 +1,7 @@
 package objects.blocks;
 
 import objects.GameObject;
+import objects.platform.Platform;
 import system.IServiceLocator;
 import system.ServiceLocator;
 
