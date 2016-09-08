@@ -7,4 +7,7 @@ import objects.IGameObject;
  */
 public interface IDoodle extends IGameObject {
 
+    boolean isAlive();
+
+    void addYPos(double hSpeed);
 }

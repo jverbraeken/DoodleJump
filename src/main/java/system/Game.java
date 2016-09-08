@@ -19,8 +19,8 @@ import sprites.SpriteFactory;
 public final class Game {
 
     public static IServiceLocator serviceLocator = new ServiceLocator();
-    public final static int height = 375;
-    public final static int width = 667;
+    public final static int height = 667;
+    public final static int width = 375;
 
     private static IRenderer renderer;
 //    /** position of quad */
@@ -157,15 +157,14 @@ public final class Game {
         DoodleFactory.register(serviceLocator);
         PowerupFactory.register(serviceLocator);
         SpriteFactory.register(serviceLocator);
-        Renderer.register(serviceLocator);
         SceneFactory.register(serviceLocator);
         PlatformFactory.register(serviceLocator);
+        Renderer.register(serviceLocator);
     }
 
     public static void main(String[] argv) {
         initServices();
         renderer = serviceLocator.getRenderer();
-        renderer.setScene(serviceLocator.getSceneFactory().getNewWorld());
         renderer.start();
     }
 

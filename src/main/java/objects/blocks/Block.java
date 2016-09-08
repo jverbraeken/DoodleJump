@@ -5,6 +5,7 @@ import objects.IGameObject;
 import objects.doodles.IDoodleFactory;
 import objects.enemies.IEnemyBuilder;
 import objects.platform.IPlatformFactory;
+import system.Game;
 
 import java.awt.*;
 import java.util.Set;
@@ -18,8 +19,9 @@ public class Block extends GameObject implements IBlock{
     private Set<IGameObject> elements;
 
     //TODO: make new block with parameters
-    public Block(double y) {
+    public Block(double maxY) {
         elements = new TreeSet<IGameObject>();
+        this.setYPos(maxY - 100);
     }
     //TODO: change to use Graphics (swing?)
     @Override
@@ -27,6 +29,7 @@ public class Block extends GameObject implements IBlock{
         for(IGameObject e : elements){
             e.paint(g);
         }
+        g.drawRect((int)getXPos(), (int)getYPos(), Game.width, 100);
     }
 
     //TODO: change to support correct implementation

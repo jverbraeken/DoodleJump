@@ -1,5 +1,7 @@
 package objects;
 
+import system.Game;
+
 import java.awt.*;
 
 /**
@@ -13,7 +15,7 @@ public abstract class GameObject implements IGameObject{
     private Object sprite;
 
     //TODO: implement correct implementation
-    public boolean collide(GameObject that) {
+    public boolean collide(IGameObject that) {
         return false;
     }
 
@@ -85,7 +87,10 @@ public abstract class GameObject implements IGameObject{
     public abstract void animate();
 
     //TODO: change to support correct implementation
-    public abstract void move();
+    public void move(double x, double y) {
+        addXPos(x);
+        addYPos(y);
+    }
 
     //TODO: change to support correct implementation
     public abstract void update();

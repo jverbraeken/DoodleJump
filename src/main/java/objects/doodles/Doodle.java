@@ -2,6 +2,8 @@ package objects.doodles;
 
 import com.sun.webkit.dom.KeyboardEventImpl;
 import objects.GameObject;
+import objects.IGameObject;
+import system.Game;
 
 import java.awt.*;
 
@@ -10,6 +12,9 @@ import java.awt.*;
  */
 public class Doodle extends GameObject implements IDoodle {
 
+
+    // Keep track if the doodle is still alive
+    private boolean alive = true;
     // The vertical acceleration of the Doodle, negative if going up and positive if going down.
     private float vAcceleration = 0f;
     // The fastest the doodle can go vertically.
@@ -23,16 +28,19 @@ public class Doodle extends GameObject implements IDoodle {
     // How much the doodle is affected by the player.
     private float hAccelerationUnit = .15f;
 
+
+
+
     //TODO: change to use Graphics (swing?)
     @Override
     public void paint(Graphics g) {
         this.update();
 
-        g.drawRect(
+        g.fillOval(
                 (int) this.getXPos(),
                 (int) this.getYPos(),
-                100,
-                100
+                200,
+                200
         );
     }
 
@@ -49,7 +57,7 @@ public class Doodle extends GameObject implements IDoodle {
      */
     public void move() {
         moveHorizontally();
-        moveVertically();
+        //moveVertically();
     }
 
     /**
@@ -75,7 +83,7 @@ public class Doodle extends GameObject implements IDoodle {
      */
     private void moveVertically() {
         // Check for collisions if the doodle is falling
-        if(this.vAcceleration < 0) {
+        if(this.vAcceleration > 0) {
             this.collided();
         }
 
@@ -83,8 +91,8 @@ public class Doodle extends GameObject implements IDoodle {
         this.applyGravity();
 
         // Apply the vAcceleration to the doodle
-        double screenHeight = 500;
-        if(this.vAcceleration > 0 && this.getYPos() > (2/3d) * screenHeight) {
+        double screenHeight = Game.height;
+        if(this.vAcceleration < 0 && this.getYPos() > (1/2d) * screenHeight) {
             // Move background
             // background.addYPos(this.vAcceleration);
         } else {
@@ -113,6 +121,10 @@ public class Doodle extends GameObject implements IDoodle {
             }
         }
         */
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 
 }
