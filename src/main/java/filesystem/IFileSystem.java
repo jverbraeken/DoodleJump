@@ -1,7 +1,46 @@
 package filesystem;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+
 /**
- * Created by joost on 6-9-16.
+ * This interface defines a file system. All file-access should be led by an implementation of this interface.
  */
 public interface IFileSystem {
+    /**
+     * Reads a text file and returns the contents as a list of Strings.
+     * @param filename The full file-path of the text file
+     * @return A List of Strings containing the lines of the text file
+     * @throws FileNotFoundException Thrown when the file could not be found
+     */
+    List<String> readTextFile(String filename) throws FileNotFoundException;
+
+    /**
+     * Reads a binary file and returns an InputStream that can be used to read through the file.
+     * @param filename The full file-path of the binary file
+     * @return An InputStream providing access to the binary data
+     * @throws FileNotFoundException Thrown when the file could not be found
+     */
+    InputStream readBinaryFile(String filename) throws FileNotFoundException;
+
+    /**
+     * Writes {@code content} to the text-file given by the filepath {@code filename}. The path to the file must exist.
+     * @param filename The full path to the file
+     * @param content The text to write to the file
+     * @throws FileNotFoundException Thrown when the file could not be found
+     */
+    void writeTextFile(String filename, String content) throws FileNotFoundException;
+
+    /**
+     * Returns an {@link OutputStream} that can be used to write binary data to the binary file. The path to the file must exist.
+     * <br />
+     * <br />
+     * <b><font color="red">Warning:</font> The file MUST be closed explicitly to prevent resource leaks</b>
+     * @param filename The full path to the file
+     * @return An OutputStream that can be used to write binary data to the text file
+     * @throws FileNotFoundException Thrown when the file could not be found
+     */
+    OutputStream writeBinaryFile(String filename) throws FileNotFoundException;
 }

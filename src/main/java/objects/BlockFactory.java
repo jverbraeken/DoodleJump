@@ -1,6 +1,7 @@
-package objects.blocks;
+package objects;
 
-import audio.IAudioManager;
+import objects.blocks.Block;
+import objects.platform.PlatformFactory;
 import system.IServiceLocator;
 
 /**

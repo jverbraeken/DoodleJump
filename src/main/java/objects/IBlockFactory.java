@@ -1,4 +1,4 @@
-package objects.blocks;
+package objects;
 
 /**
  * Created by joost on 6-9-16.

@@ -7,8 +7,9 @@ import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
 import math.ICalc;
-import objects.blocks.IBlockFactory;
+import objects.IBlockFactory;
 import objects.doodles.IDoodleFactory;
+import objects.platform.IPlatformFactory;
 import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;
 import scenes.ISceneFactory;
@@ -48,6 +49,7 @@ public class ServiceLocator implements IServiceLocator {
     private IDoodleFactory doodleFactory;
     private IBlockFactory blockFactory;
     private ILevelBuilder levelBuilder;
+    private IPlatformFactory platformFactory;
 
     private ISceneFactory sceneFactory;
 
@@ -135,6 +137,12 @@ public class ServiceLocator implements IServiceLocator {
         this.sceneFactory = sceneFactory;
     }
 
+    @Override
+    public void provide(IPlatformFactory platformFactory) {
+        assert platformFactory != null;
+        this.platformFactory = platformFactory;
+    }
+
     public IAudioManager getAudioManager() {
         return audioManager;
     }
@@ -203,4 +211,10 @@ public class ServiceLocator implements IServiceLocator {
     public ISceneFactory getSceneFactory() {
         return sceneFactory;
     }
+
+    @Override
+    public IPlatformFactory getPlatformFactory() {
+        return platformFactory;
+    }
+
 }

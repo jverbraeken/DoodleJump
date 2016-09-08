@@ -7,8 +7,9 @@ import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
 import math.ICalc;
-import objects.blocks.IBlockFactory;
+import objects.IBlockFactory;
 import objects.doodles.IDoodleFactory;
+import objects.platform.IPlatformFactory;
 import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;
 import scenes.ISceneFactory;
@@ -32,6 +33,7 @@ public interface IServiceLocator {
     void provide(ISpriteFactory spriteFactory);
     void provide(ILevelBuilder levelBuilder);
     void provide(ISceneFactory sceneFactory);
+    void provide(IPlatformFactory platformFactory);
 
     IAudioManager getAudioManager();
     IMusicFactory getMusicFactory();
@@ -47,4 +49,5 @@ public interface IServiceLocator {
     ISpriteFactory getSpriteFactory();
     ILevelBuilder getLevelBuilder();
     ISceneFactory getSceneFactory();
+    IPlatformFactory getPlatformFactory();
 }
