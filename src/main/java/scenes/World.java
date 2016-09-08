@@ -1,19 +1,13 @@
 package scenes;
 
-import objects.BlockFactory;
-import objects.GameObject;
 import objects.IBlockFactory;
 import objects.IGameObject;
 import objects.doodles.Doodle;
-import objects.doodles.DoodleFactory;
 import objects.doodles.IDoodle;
-import objects.doodles.IDoodleFactory;
 import system.Game;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.AbstractSet;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -25,21 +19,21 @@ public class World implements IScene {
     private Set<IGameObject> elements;
     private IBlockFactory blockFactory;
     private IDoodle doodle;
-    /* package */ World(IBlockFactory blockFactory, IDoodleFactory doodleFactory) {
+
+    /* package */ World(IBlockFactory blockFactory, IDoodle doodle) {
         this.blockFactory = blockFactory;
-        elements = new TreeSet<IGameObject>();
-        //TODO: implements getDoodle();
-        //Doodle doodle = doodleFactory.getDoodle();
-        //elements.add(doodle));
+        this.doodle = doodle;
+
+        elements = new HashSet<>();
+        elements.add(doodle);
+
         for(int i = 0; i < 3; i++) {
             //TODO: implement getBlock();
             //elements.add(blockFactory.getBlock());
         }
     }
 
-    public void start() {
-
-    }
+    public void start() { }
 
     @Override
     public void paint(Graphics g) {
@@ -74,4 +68,5 @@ public class World implements IScene {
             elements.add(blockFactory.newBlock(minY));
         }
     }
+
 }

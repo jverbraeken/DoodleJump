@@ -15,6 +15,7 @@ import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 public final class Renderer extends JFrame implements IRenderer {
+
     private static transient IServiceLocator serviceLocator;
     private int x = 0;
     public static IScene scene;

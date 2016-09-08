@@ -7,7 +7,6 @@ import filesystem.FileSystem;
 import input.InputManager;
 import math.Calc;
 import objects.BlockFactory;
-import objects.GameObject;
 import objects.doodles.DoodleFactory;
 import objects.enemies.EnemyBuilder;
 import objects.platform.PlatformFactory;
@@ -15,12 +14,7 @@ import objects.powerups.PowerupFactory;
 import rendering.IRenderer;
 import rendering.Renderer;
 import scenes.SceneFactory;
-import scenes.World;
 import sprites.SpriteFactory;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Set;
 
 public final class Game {
 

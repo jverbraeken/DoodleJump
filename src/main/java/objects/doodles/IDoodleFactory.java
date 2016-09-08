@@ -5,6 +5,6 @@ package objects.doodles;
  */
 public interface IDoodleFactory {
 
-    public Doodle create();
+    public IDoodle create();
 
 }
