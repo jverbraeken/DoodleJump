@@ -1,6 +1,7 @@
 package objects;
 
 import objects.blocks.Block;
+import objects.blocks.IBlock;
 import objects.platform.PlatformFactory;
 import system.IServiceLocator;
 

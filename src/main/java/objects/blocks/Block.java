@@ -7,6 +7,14 @@ import system.ServiceLocator;
 
 import java.util.ArrayList;
 import java.util.Random;
+import objects.IGameObject;
+import objects.doodles.IDoodleFactory;
+import objects.enemies.IEnemyBuilder;
+import objects.platform.IPlatformFactory;
+
+import java.awt.*;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Nick on 7-9-2016.
@@ -59,9 +67,13 @@ public class Block extends GameObject implements IBlock{
         }
 
     }
-    //TODO: change to use Graphics (swing?)
-    public void paint() {
 
+    //TODO: change to use Graphics (swing?)
+    @Override
+    public void paint(Graphics g) {
+        for(IGameObject e : blockContent){
+            e.paint(g);
+        }
     }
 
     //TODO: change to support correct implementation

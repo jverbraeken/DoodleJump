@@ -2,6 +2,8 @@ package objects.platform;
 
 import objects.GameObject;
 
+import java.awt.*;
+
 /**
  * Created by Nick on 7-9-2016.
  */
@@ -21,7 +23,7 @@ public class Platform extends GameObject implements IPlatform {
     }
 
     //TODO: change to use Graphics (swing?)
-    public void paint() {
+    public void paint(Graphics g) {
 
     }
 
