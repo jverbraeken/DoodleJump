@@ -2,13 +2,16 @@ package objects.powerups;
 
 import objects.GameObject;
 
+import java.awt.*;
+
 /**
  * Created by Nick on 7-9-2016.
  */
 public class Powerup extends GameObject implements IPowerup {
 
     //TODO: change to use Graphics (swing?)
-    public void paint() {
+    @Override
+    public void paint(Graphics g) {
 
     }
 

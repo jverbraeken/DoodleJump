@@ -1,5 +1,7 @@
 package objects;
 
+import java.awt.*;
+
 /**
  * Created by Nick on 7-9-2016.
  */
@@ -22,7 +24,7 @@ public interface IGameObject {
     public Object getSprite();
 
     //TODO: change to use Graphics (swing?)
-    public void paint();
+    public void paint(Graphics g);
 
     //TODO: change to support correct implementation
     public void animate();

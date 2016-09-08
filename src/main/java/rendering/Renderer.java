@@ -21,6 +21,7 @@ public final class Renderer extends JFrame implements IRenderer {
         serviceLocator.provide(new Renderer());
     }
 
+    //TODO: add initial scene
     private Renderer() {
         setSize(Game.height,Game.width);
         setVisible(true);
@@ -46,7 +47,8 @@ public final class Renderer extends JFrame implements IRenderer {
             if(x>100)
                 x = 0;
             x++;
-            scene.update();
+            //if(Game.running){
+            //scene.update(); }
             repaint();
             Graphics paper = getGraphics();
             paper.clearRect(0, 0, (int)getSize().getWidth(), (int)getSize().getHeight());
@@ -57,6 +59,6 @@ public final class Renderer extends JFrame implements IRenderer {
     public void paint(Graphics g){
 
         g.drawRect(x,100,100,100);
-        scene.paint();
+        //scene.paint(g);
     }
 }

@@ -3,12 +3,15 @@ package scenes;
 import objects.BlockFactory;
 import objects.GameObject;
 import objects.IBlockFactory;
+import objects.IGameObject;
 import objects.doodles.Doodle;
 import objects.doodles.DoodleFactory;
+import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
 import system.Game;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -19,12 +22,12 @@ import java.util.TreeSet;
  */
 public class World implements IScene {
 
-    private Set<GameObject> elements;
+    private Set<IGameObject> elements;
     private IBlockFactory blockFactory;
-    private Doodle doodle;
+    private IDoodle doodle;
     /* package */ World(IBlockFactory blockFactory, IDoodleFactory doodleFactory) {
         this.blockFactory = blockFactory;
-        elements = new TreeSet<GameObject>();
+        elements = new TreeSet<IGameObject>();
         //TODO: implements getDoodle();
         //Doodle doodle = doodleFactory.getDoodle();
         //elements.add(doodle));
@@ -39,15 +42,15 @@ public class World implements IScene {
     }
 
     @Override
-    public void paint() {
-        for(GameObject e : elements) {
-            e.paint();
+    public void paint(Graphics g) {
+        for(IGameObject e : elements) {
+            e.paint(g);
         }
     }
 
     @Override
     public void update() {
-        for(GameObject e : elements) {
+        for(IGameObject e : elements) {
             if(e.getClass().equals(Doodle.class)){
                 if(e.getYPos() > Game.height) {
                     elements.remove(e);
@@ -62,13 +65,13 @@ public class World implements IScene {
 
         if(elements.size() < 4) {
             double minY = Double.MAX_VALUE;
-            for(GameObject e : elements) {
+            for(IGameObject e : elements) {
                 if(e.getYPos() < minY){
                     minY = e.getYPos();
                 }
             }
             //TODO: implements New Block
-            //elements.add(BlockFactory.newBlock(minY);
+            elements.add(blockFactory.newBlock(minY));
         }
     }
 }

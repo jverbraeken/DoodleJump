@@ -3,6 +3,7 @@ package scenes;
 import system.Game;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by joost on 6-9-16.
@@ -16,7 +17,7 @@ public class Menu implements IScene {
     }
 
     @Override
-    public void paint(){
+    public void paint(Graphics g){
 
     }
 
