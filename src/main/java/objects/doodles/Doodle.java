@@ -34,6 +34,30 @@ public class Doodle extends GameObject implements IDoodle {
      * Move the Doodle.
      */
     public void move() {
+        moveHorizontally();
+        moveVertically();
+    }
+
+    /**
+     * Move the Doodle along the X axis.
+     */
+    private void moveHorizontally() {
+        boolean keyLeft = false;
+        boolean keyRight = false;
+        if(keyLeft && this.hAcceleration > -this.hAccelerationLimit) {
+            // Go left
+            this.hAcceleration -= this.hAccelerationUnit;
+        } else if(keyRight && this.hAcceleration < this.hAccelerationLimit) {
+            // Go right
+            this.hAcceleration += this.hAccelerationUnit;
+        }
+        this.addXPos(this.hAcceleration);
+    }
+
+    /**
+     * Move the Doodle along the Y axis.
+     */
+    private void moveVertically() {
         // Check for collisions if the doodle is falling
         if(this.vAcceleration < 0) {
             this.collided();
@@ -51,19 +75,8 @@ public class Doodle extends GameObject implements IDoodle {
             // Move doodle
             this.addYPos(this.vAcceleration);
         }
-
-        // Move player for user
-        boolean keyLeft = false;
-        boolean keyRight = false;
-        if(keyLeft && this.hAcceleration > -this.hAccelerationLimit) {
-            // Go left
-            this.hAcceleration -= this.hAccelerationUnit;
-        } else if(keyRight && this.hAcceleration < this.hAccelerationLimit) {
-            // Go right
-            this.hAcceleration += this.hAccelerationUnit;
-        }
-        this.addXPos(this.hAcceleration);
     }
+
     /**
      * Applies gravity vAcceleration to the doodle.
      */
