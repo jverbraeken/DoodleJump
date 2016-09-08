@@ -1,5 +1,6 @@
 package objects.doodles;
 
+import com.sun.webkit.dom.KeyboardEventImpl;
 import objects.GameObject;
 
 /**
@@ -7,58 +8,63 @@ import objects.GameObject;
  */
 public class Doodle extends GameObject implements IDoodle {
 
-    // The acceleration of the Doodle, positive if going up and negative if going down.
-    private float acceleration = 0f;
-    // The fastest the doodle can go.
-    private float accelerationLimit = 6f;
+    // The vertical acceleration of the Doodle, positive if going up and negative if going down.
+    private float vAcceleration = 0f;
+    // The fastest the doodle can go vertically.
+    private float vAccelerationLimit = 6f;
     // How much the doodle is affected by gravity.
     private float gravityAcceleration = .25f;
+    // The horizontal speed of the Doodle.
+    private float hSpeed = .25f;
 
     //TODO: change to use Graphics (swing?)
-    public void paint() {
-
-    }
+    public void paint() { }
 
     //TODO: change to support correct implementation
-    public void animate() {
+    public void animate() { }
 
-    }
+    //TODO: change to support correct implementation
+    public void update() { }
 
     /**
      * Move the Doodle.
      */
     public void move() {
         // Check for collisions if the doodle is falling
-        if(this.acceleration < 0) {
+        if(this.vAcceleration < 0) {
             this.collided();
         }
 
         // Apply gravity to the doodle
         this.applyGravity();
 
-        // Apply the acceleration to the doodle
-        System.out.println(this.getYPos());
+        // Apply the vAcceleration to the doodle
         double screenHeight = 500;
-        if(this.getYPos() > (2/3d) * screenHeight) {
+        if(this.vAcceleration > 0 && this.getYPos() > (2/3d) * screenHeight) {
             // Move background
-            // background.addYPos(this.acceleration);
+            // background.addYPos(this.vAcceleration);
         } else {
             // Move doodle
-            this.addYPos(this.acceleration);
+            this.addYPos(this.vAcceleration);
+        }
+
+        // Move player for user
+        boolean keyleft = false;
+        boolean keyright = false;
+        if(keyleft) {
+            // Go left
+            this.addXPos(-this.hSpeed);
+        } else if(keyright) {
+            // Go right
+            this.addXPos(this.hSpeed);
         }
     }
-
-    //TODO: change to support correct implementation
-    public void update() {
-
-    }
-
     /**
-     * Applies gravity acceleration to the doodle.
+     * Applies gravity vAcceleration to the doodle.
      */
     private void applyGravity() {
-        if(this.acceleration >= -accelerationLimit) {
-            this.acceleration -= this.gravityAcceleration;
+        if(this.vAcceleration >= -vAccelerationLimit) {
+            this.vAcceleration -= this.gravityAcceleration;
         }
     }
 
@@ -69,12 +75,12 @@ public class Doodle extends GameObject implements IDoodle {
         /*
         for(GameObject in Block) {
             if(this.collide(that) {
-                this.acceleration = this.accelerationLimit + this.gravityAcceleration;
+                this.vAcceleration = this.vAccelerationLimit + this.gravityAcceleration;
             }
         }
         */
 
-        this.acceleration = this.accelerationLimit + this.gravityAcceleration;
+        this.vAcceleration = this.vAccelerationLimit + this.gravityAcceleration;
     }
 
 }
