@@ -12,6 +12,8 @@ public class Doodle extends GameObject implements IDoodle {
      * and negative if going done.
      */
     public float acceleration = 0f;
+    private float accelerationLimit = 6f;
+    private float gravityAcceleration = .25f;
 
     //TODO: change to use Graphics (swing?)
     public void paint() {
@@ -23,8 +25,14 @@ public class Doodle extends GameObject implements IDoodle {
 
     }
 
-    //TODO: change to support correct implementation
+    /**
+     * Move the Doodle.
+     */
     public void move() {
+        if(this.acceleration < 0) {
+            this.collided();
+        }
+
         this.applyGravity();
     }
 
@@ -37,9 +45,24 @@ public class Doodle extends GameObject implements IDoodle {
      * Applies gravity acceleration to the doodle.
      */
     private void applyGravity() {
-        if(this.acceleration >= -6) {
-            this.acceleration -= .25f;
+        if(this.acceleration >= -accelerationLimit) {
+            this.acceleration -= this.gravityAcceleration;
         }
+    }
+
+    /**
+     * Find out whether or not the Doodle collided with something.
+     */
+    private void collided() {
+        /*
+        for(GameObject in Block) {
+            if(this.collide(that) {
+                this.acceleration = this.accelerationLimit + this.gravityAcceleration;
+            }
+        }
+         */
+
+        this.acceleration = this.accelerationLimit + this.gravityAcceleration;
     }
 
 }

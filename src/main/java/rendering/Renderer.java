@@ -29,14 +29,12 @@ public final class Renderer implements IRenderer {
 
     @Override
     public void start() {
-        IDoodleFactory a = serviceLocator.getDoodleFactory();
-        Doodle b = a.create();
-        System.out.println(b.acceleration);
-        b.move();
-        System.out.println(b.acceleration);
+        IDoodleFactory factory = serviceLocator.getDoodleFactory();
+        Doodle doodle = factory.create();
 
-        for(int x = 0; x<1; x++){
-            System.out.println("YO");
+        for(int x = 0; x<100; x++){
+            System.out.println(doodle.acceleration);
+            doodle.move();
         }
     }
 }
