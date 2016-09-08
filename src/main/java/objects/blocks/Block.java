@@ -19,11 +19,12 @@ import java.util.TreeSet;
 /**
  * Created by Nick on 7-9-2016.
  */
-public class Block extends GameObject implements IBlock{
+public class Block extends GameObject implements IBlock,IGameObject{
     private final int jumpHeight = 100;
     private float height;
     private float width;
-    private ArrayList<GameObject> blockContent;
+    private int blockNumber;
+    private ArrayList<IGameObject> blockContent;
     private IServiceLocator serviceLocator;
 
     /**
@@ -33,10 +34,12 @@ public class Block extends GameObject implements IBlock{
      * @param width - width of the screen
      * @param serviceLocator - the ServiceLocator of this game.
      */
-    public Block(float height, float width, IServiceLocator serviceLocator) {
+    public Block(float width, float height, IServiceLocator serviceLocator, int blockNumber) {
         this.height = height;
         this.width = width;
         this.serviceLocator = serviceLocator;
+        this.blockNumber = blockNumber;
+        blockContent = new ArrayList<IGameObject>();
         createAndPlaceObjects();
     }
 
@@ -50,19 +53,25 @@ public class Block extends GameObject implements IBlock{
 
     private void placePlatforms() {
         //Get the diagnal length of the screen
-        int max = (int)(width + height)/200;
-        int min = 4;
+        int max = (int)(width + height)/130;
+        int min = 6;
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
         int heightDevidedPlatforms = (int) height/platformAmount;
 
         for (int i = 0; i < platformAmount; i++) {
-            float heightDeviation = (float) (rand.nextFloat() * 1.6 - 0.8);
+            float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
             float widthDeviation = (float) (rand.nextFloat() * 0.8 + 0.1);
-
-            int yLoc = (int) (heightDevidedPlatforms * i + (heightDeviation * heightDevidedPlatforms));
+            int yLoc;
+            if(blockNumber == 0) {
+                yLoc = (int) (heightDevidedPlatforms * i + (heightDeviation * heightDevidedPlatforms));
+            }
+            else {
+                yLoc = (int) (- height * (blockNumber -1) - (heightDevidedPlatforms * i + (heightDeviation * heightDevidedPlatforms)));
+            }
             int xLoc = (int) (widthDeviation * width);
             Platform p = new Platform(xLoc, yLoc);
+            System.out.println("i = " + i + " - " + blockNumber + " ha: " + xLoc + " - " + yLoc + p);
             blockContent.add(p);
         }
 

@@ -59,6 +59,6 @@ public final class Renderer extends JFrame implements IRenderer {
     public void paint(Graphics g){
 
         g.drawRect(x,100,100,100);
-        //scene.paint(g);
+        scene.paint(g);
     }
 }

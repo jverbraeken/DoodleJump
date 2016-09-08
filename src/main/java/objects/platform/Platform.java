@@ -24,7 +24,7 @@ public class Platform extends GameObject implements IPlatform {
 
     //TODO: change to use Graphics (swing?)
     public void paint(Graphics g) {
-
+        g.drawRect(xPos,yPos,50,20);
     }
 
     //TODO: change to support correct implementation

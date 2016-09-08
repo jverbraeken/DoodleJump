@@ -12,6 +12,7 @@ public final class BlockFactory implements IBlockFactory {
     private static transient IServiceLocator serviceLocator;
     private float screenWidth;
     private float screenHeight;
+    private int blockNumber;
 
     public static void register(float screenWidth, float screenHeight, IServiceLocator serviceLocator) {
         assert serviceLocator != null;
@@ -27,6 +28,7 @@ public final class BlockFactory implements IBlockFactory {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.serviceLocator = serviceLocator;
+        this.blockNumber = 0;
     }
 
     /**
@@ -34,6 +36,8 @@ public final class BlockFactory implements IBlockFactory {
      * @return The newly created Block
      */
     public Block createBlock(){
-        return new Block(screenWidth, screenHeight, serviceLocator);
+        Block b = new Block(screenWidth, screenHeight, serviceLocator, blockNumber);
+        blockNumber++;
+        return b;
     }
 }
