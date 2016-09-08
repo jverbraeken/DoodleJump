@@ -14,8 +14,12 @@ public class Doodle extends GameObject implements IDoodle {
     private float vAccelerationLimit = 6f;
     // How much the doodle is affected by gravity.
     private float gravityAcceleration = .25f;
-    // The horizontal speed of the Doodle.
-    private float hSpeed = .25f;
+    // The horizontal acceleration of the Doodle, positive if going right and negative if going left.
+    private float hAcceleration = 0f;
+    // The fastest the doodle can go horizontally.
+    private float hAccelerationLimit = 3f;
+    // How much the doodle is affected by the player.
+    private float hAccelerationUnit = .15f;
 
     //TODO: change to use Graphics (swing?)
     public void paint() { }
@@ -49,15 +53,16 @@ public class Doodle extends GameObject implements IDoodle {
         }
 
         // Move player for user
-        boolean keyleft = false;
-        boolean keyright = false;
-        if(keyleft) {
+        boolean keyLeft = false;
+        boolean keyRight = false;
+        if(keyLeft && this.hAcceleration > -this.hAccelerationLimit) {
             // Go left
-            this.addXPos(-this.hSpeed);
-        } else if(keyright) {
+            this.hAcceleration -= this.hAccelerationUnit;
+        } else if(keyRight && this.hAcceleration < this.hAccelerationLimit) {
             // Go right
-            this.addXPos(this.hSpeed);
+            this.hAcceleration += this.hAccelerationUnit;
         }
+        this.addXPos(this.hAcceleration);
     }
     /**
      * Applies gravity vAcceleration to the doodle.
