@@ -37,7 +37,15 @@ public class Doodle extends GameObject implements IDoodle {
         this.applyGravity();
 
         // Apply the acceleration to the doodle
-        this.addYPos(this.acceleration);
+        System.out.println(this.getYPos());
+        double screenHeight = 500;
+        if(this.getYPos() > (2/3d) * screenHeight) {
+            // Move background
+            // background.addYPos(this.acceleration);
+        } else {
+            // Move doodle
+            this.addYPos(this.acceleration);
+        }
     }
 
     //TODO: change to support correct implementation
