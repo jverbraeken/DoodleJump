@@ -5,4 +5,6 @@ package scenes;
  */
 public interface IScene {
     void start();
+    void paint();
+    void update();
 }
