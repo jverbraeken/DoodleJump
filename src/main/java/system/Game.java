@@ -26,8 +26,8 @@ import java.util.Set;
 public final class Game {
 
     public static IServiceLocator serviceLocator = new ServiceLocator();
-    public final static int height = 375;
-    public final static int width = 667;
+    public final static int height = 800;
+    public final static int width = 500;
 
     private static IRenderer renderer;
 //    /** position of quad */
@@ -153,8 +153,6 @@ public final class Game {
 //    }
 
     private static void initServices() {
-        int screenHeight = 800;
-        int screenWidth = 500;
         AudioManager.register(serviceLocator);
         MusicFactory.register(serviceLocator);
         SoundFactory.register(serviceLocator);
@@ -162,7 +160,7 @@ public final class Game {
         FileSystem.register(serviceLocator);
         InputManager.register(serviceLocator);
         Calc.register(serviceLocator);
-        BlockFactory.register(screenWidth, screenHeight, serviceLocator);
+        BlockFactory.register(width, height, serviceLocator);
         DoodleFactory.register(serviceLocator);
         PowerupFactory.register(serviceLocator);
         SpriteFactory.register(serviceLocator);

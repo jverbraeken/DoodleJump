@@ -71,7 +71,7 @@ public class World implements IScene {
                 }
             }
             //TODO: implements New Block
-            elements.add(blockFactory.newBlock(minY));
+            elements.add(blockFactory.createBlock());
         }
     }
 }
