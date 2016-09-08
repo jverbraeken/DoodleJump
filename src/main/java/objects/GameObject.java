@@ -11,7 +11,7 @@ public abstract class GameObject implements IGameObject{
     private Object sprite;
 
     //TODO: implement correct implementation
-    public boolean collide(GameObject A, GameObject B) {
+    public boolean collide(GameObject that) {
         return false;
     }
 

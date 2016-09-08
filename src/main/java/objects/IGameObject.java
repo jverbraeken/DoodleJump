@@ -5,7 +5,7 @@ package objects;
  */
 public interface IGameObject {
 
-    public boolean collide(GameObject A, GameObject B);
+    public boolean collide(GameObject that);
 
     public double getXPos();
 
