@@ -11,6 +11,7 @@ public final class SceneFactory implements ISceneFactory {
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         serviceLocator.provide(new SceneFactory());
+        SceneFactory.serviceLocator = serviceLocator;
     }
 
     private final Menu menu = new Menu();
@@ -26,6 +27,6 @@ public final class SceneFactory implements ISceneFactory {
 
     @Override
     public World getNewWorld() {
-        return new World();
+        return new World(serviceLocator.getBlockFactory(),serviceLocator.getDoodleFactory());
     }
 }

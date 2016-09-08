@@ -3,6 +3,8 @@ package objects.doodles;
 import com.sun.webkit.dom.KeyboardEventImpl;
 import objects.GameObject;
 
+import java.awt.*;
+
 /**
  * Created by Nick on 7-9-2016.
  */
@@ -22,7 +24,8 @@ public class Doodle extends GameObject implements IDoodle {
     private float hAccelerationUnit = .15f;
 
     //TODO: change to use Graphics (swing?)
-    public void paint() { }
+    @Override
+    public void paint(Graphics g) { }
 
     //TODO: change to support correct implementation
     public void animate() { }

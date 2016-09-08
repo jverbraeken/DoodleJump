@@ -7,6 +7,7 @@ import filesystem.FileSystem;
 import input.InputManager;
 import math.Calc;
 import objects.BlockFactory;
+import objects.GameObject;
 import objects.doodles.DoodleFactory;
 import objects.enemies.EnemyBuilder;
 import objects.platform.PlatformFactory;
@@ -14,10 +15,18 @@ import objects.powerups.PowerupFactory;
 import rendering.IRenderer;
 import rendering.Renderer;
 import scenes.SceneFactory;
+import scenes.World;
 import sprites.SpriteFactory;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.Set;
+
 public final class Game {
-    private static IServiceLocator serviceLocator = new ServiceLocator();
+
+    public static IServiceLocator serviceLocator = new ServiceLocator();
+    public final static int height = 375;
+    public final static int width = 667;
 
     private static IRenderer renderer;
 //    /** position of quad */

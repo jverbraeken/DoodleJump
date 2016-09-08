@@ -1,5 +1,7 @@
 package objects;
 
+import java.awt.*;
+
 /**
  * Created by Nick on 7-9-2016.
  */
@@ -77,7 +79,7 @@ public abstract class GameObject implements IGameObject{
     }
 
     //TODO: change to use Graphics (swing?)
-    public abstract void paint();
+    public abstract void paint(Graphics g);
 
     //TODO: change to support correct implementation
     public abstract void animate();

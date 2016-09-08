@@ -1,5 +1,7 @@
 package objects;
 
+import objects.blocks.Block;
+import objects.blocks.IBlock;
 import objects.platform.PlatformFactory;
 import system.IServiceLocator;
 
@@ -17,5 +19,10 @@ public final class BlockFactory implements IBlockFactory {
 
     private BlockFactory() {
         serviceLocator.getPlatformFactory();
+    }
+
+    public IBlock newBlock(double maxY){
+        //TODO: implement different type of blocks to return
+        return new Block(maxY);
     }
 }
