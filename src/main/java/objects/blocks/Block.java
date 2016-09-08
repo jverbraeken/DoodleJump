@@ -1,6 +1,8 @@
 package objects.blocks;
 
 import objects.GameObject;
+import system.IServiceLocator;
+import system.ServiceLocator;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,11 +14,20 @@ public class Block extends GameObject implements IBlock{
     private final int jumpHeight = 100;
     private float height;
     private float width;
-    private ArrayList<ObjectLocation> blockContent;
+    private ArrayList<GameObject> blockContent;
+    private IServiceLocator serviceLocator;
 
-    public Block(float height, float width ) {
+    /**
+     * Create a Block. This object will automatically create and place
+     * all the object inside of it.
+     * @param height - height of the screen
+     * @param width - width of the screen
+     * @param serviceLocator - the ServiceLocator of this game.
+     */
+    public Block(float height, float width, IServiceLocator serviceLocator) {
         this.height = height;
         this.width = width;
+        this.serviceLocator = serviceLocator;
         createAndPlaceObjects();
     }
 
@@ -26,7 +37,6 @@ public class Block extends GameObject implements IBlock{
      */
     private void createAndPlaceObjects() {
         placePlatforms();
-
     }
 
     private void placePlatforms() {
@@ -35,9 +45,16 @@ public class Block extends GameObject implements IBlock{
         int min = 4;
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
+        int heightDevidedPlatforms = (int) height/platformAmount;
 
         for (int i = 0; i < platformAmount; i++) {
+            float heightDeviation = (float) (rand.nextFloat() * 1.6 - 0.8);
+            float widthDeviation = (float) (rand.nextFloat() * 0.8 + 0.1);
 
+            int yLoc = (int) (heightDevidedPlatforms * i + (heightDeviation * heightDevidedPlatforms));
+            int xLoc = (int) (widthDeviation * width);
+            Platform p = new Platform(xLoc, yLoc);
+            blockContent.add(p);
         }
 
     }

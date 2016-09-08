@@ -32,6 +32,6 @@ public final class BlockFactory implements IBlockFactory {
      * @return The newly created Block
      */
     public Block createBlock(){
-        return new Block(screenWidth, screenHeight);
+        return new Block(screenWidth, screenHeight, serviceLocator);
     }
 }

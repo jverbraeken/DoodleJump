@@ -7,6 +7,12 @@ import objects.GameObject;
  */
 public class Platform extends GameObject implements IPlatform {
 
+    public Platform(int x, int y) {
+        super();
+        //xPos = x;
+        //yPos = y;
+    }
+
     //TODO: change to use Graphics (swing?)
     public void paint() {
 
