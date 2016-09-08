@@ -1,18 +1,11 @@
 package rendering;
 
-import objects.doodles.Doodle;
-import objects.doodles.DoodleFactory;
-import objects.doodles.IDoodleFactory;
 import scenes.IScene;
 import system.Game;
 import system.IServiceLocator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
 
 public final class Renderer extends JFrame implements IRenderer {
 
@@ -33,6 +26,7 @@ public final class Renderer extends JFrame implements IRenderer {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
     }
 
     @Override
@@ -53,7 +47,8 @@ public final class Renderer extends JFrame implements IRenderer {
                 x = 0;
             x++;
             //if(Game.running){
-            //scene.update(); }
+            //  scene.update();
+            //}
             repaint();
             Graphics paper = getGraphics();
             paper.clearRect(0, 0, (int)getSize().getWidth(), (int)getSize().getHeight());
@@ -62,7 +57,7 @@ public final class Renderer extends JFrame implements IRenderer {
 
     @Override
     public void paint(Graphics g) {
-        g.drawRect(x,100,100,100);
-        //scene.paint(g);
+        this.scene.paint(g);
     }
+
 }

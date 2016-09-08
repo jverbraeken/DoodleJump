@@ -168,4 +168,5 @@ public final class Game {
         renderer.setScene(serviceLocator.getSceneFactory().getNewWorld());
         renderer.start();
     }
+
 }

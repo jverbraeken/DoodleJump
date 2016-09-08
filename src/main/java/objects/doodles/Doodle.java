@@ -10,12 +10,12 @@ import java.awt.*;
  */
 public class Doodle extends GameObject implements IDoodle {
 
-    // The vertical acceleration of the Doodle, positive if going up and negative if going down.
+    // The vertical acceleration of the Doodle, negative if going up and positive if going down.
     private float vAcceleration = 0f;
     // The fastest the doodle can go vertically.
     private float vAccelerationLimit = 6f;
     // How much the doodle is affected by gravity.
-    private float gravityAcceleration = .25f;
+    private float gravityAcceleration = .15f;
     // The horizontal acceleration of the Doodle, positive if going right and negative if going left.
     private float hAcceleration = 0f;
     // The fastest the doodle can go horizontally.
@@ -25,13 +25,24 @@ public class Doodle extends GameObject implements IDoodle {
 
     //TODO: change to use Graphics (swing?)
     @Override
-    public void paint(Graphics g) { }
+    public void paint(Graphics g) {
+        this.update();
+
+        g.drawRect(
+                (int) this.getXPos(),
+                (int) this.getYPos(),
+                100,
+                100
+        );
+    }
 
     //TODO: change to support correct implementation
     public void animate() { }
 
     //TODO: change to support correct implementation
-    public void update() { }
+    public void update() {
+        this.move();
+    }
 
     /**
      * Move the Doodle.
@@ -46,7 +57,8 @@ public class Doodle extends GameObject implements IDoodle {
      */
     private void moveHorizontally() {
         boolean keyLeft = false;
-        boolean keyRight = false;
+        boolean keyRight = true;
+
         if(keyLeft && this.hAcceleration > -this.hAccelerationLimit) {
             // Go left
             this.hAcceleration -= this.hAccelerationUnit;
@@ -54,6 +66,7 @@ public class Doodle extends GameObject implements IDoodle {
             // Go right
             this.hAcceleration += this.hAccelerationUnit;
         }
+
         this.addXPos(this.hAcceleration);
     }
 
@@ -85,7 +98,7 @@ public class Doodle extends GameObject implements IDoodle {
      */
     private void applyGravity() {
         if(this.vAcceleration >= -vAccelerationLimit) {
-            this.vAcceleration -= this.gravityAcceleration;
+            this.vAcceleration += this.gravityAcceleration;
         }
     }
 
@@ -100,8 +113,6 @@ public class Doodle extends GameObject implements IDoodle {
             }
         }
         */
-
-        this.vAcceleration = this.vAccelerationLimit + this.gravityAcceleration;
     }
 
 }
