@@ -14,11 +14,6 @@ public interface IGameObject {
     public double[] getHitBox();
 
     //TODO: change Object to sprite
-
-    /**
-     * utyu
-     * @return erdtf
-     */
     public Object getSprite();
 
     //TODO: change to use Graphics (swing?)

@@ -15,12 +15,56 @@ public abstract class GameObject implements IGameObject{
         return false;
     }
 
+    /**
+     * Get the X position of the Object.
+     *
+     * @return The X position of the Object.
+     */
     public double getXPos() {
         return xPos;
     }
 
+    /**
+     * Get the Y position of the Object.
+     *
+     * @return The Y position of the Object.
+     */
     public double getYPos() {
         return yPos;
+    }
+
+    /**
+     * Set the X position of the Object.
+     *
+     * @param   xPos    The new X position.
+     */
+    public void setXPos(double xPos) { this.xPos = xPos; }
+
+    /**
+     * Set the Y position of the Object.
+     *
+     * @param   yPos    The new Y position.
+     */
+    public void setYPos(double yPos) { this.yPos = yPos; }
+
+    /**
+     * Add a value to the X position.
+     *
+     * @param   extra    The value to add.
+     */
+    public void addXPos(double extra) {
+        double current = this.getXPos();
+        this.setXPos(current + extra);
+    }
+
+    /**
+     * Add a value to the Y position.
+     *
+     * @param   extra    The value to add.
+     */
+    public void addYPos(double extra) {
+        double current = this.getYPos();
+        this.setYPos(current + extra);
     }
 
     public double[] getHitBox() {
@@ -28,7 +72,6 @@ public abstract class GameObject implements IGameObject{
     }
 
     //TODO: change Object to sprite
-    /** {@inheritDoc} */
     public Object getSprite() {
         return sprite;
     }

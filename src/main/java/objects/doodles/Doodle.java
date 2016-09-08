@@ -7,12 +7,11 @@ import objects.GameObject;
  */
 public class Doodle extends GameObject implements IDoodle {
 
-    /**
-     * The acceleration of the Doodle, positive if going up
-     * and negative if going done.
-     */
-    public float acceleration = 0f;
+    // The acceleration of the Doodle, positive if going up and negative if going down.
+    private float acceleration = 0f;
+    // The fastest the doodle can go.
     private float accelerationLimit = 6f;
+    // How much the doodle is affected by gravity.
     private float gravityAcceleration = .25f;
 
     //TODO: change to use Graphics (swing?)
@@ -29,11 +28,16 @@ public class Doodle extends GameObject implements IDoodle {
      * Move the Doodle.
      */
     public void move() {
+        // Check for collisions if the doodle is falling
         if(this.acceleration < 0) {
             this.collided();
         }
 
+        // Apply gravity to the doodle
         this.applyGravity();
+
+        // Apply the acceleration to the doodle
+        this.addYPos(this.acceleration);
     }
 
     //TODO: change to support correct implementation
@@ -60,7 +64,7 @@ public class Doodle extends GameObject implements IDoodle {
                 this.acceleration = this.accelerationLimit + this.gravityAcceleration;
             }
         }
-         */
+        */
 
         this.acceleration = this.accelerationLimit + this.gravityAcceleration;
     }

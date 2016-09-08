@@ -33,7 +33,6 @@ public final class Renderer implements IRenderer {
         Doodle doodle = factory.create();
 
         for(int x = 0; x<100; x++){
-            System.out.println(doodle.acceleration);
             doodle.move();
         }
     }
