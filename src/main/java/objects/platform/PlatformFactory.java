@@ -7,6 +7,7 @@ import system.IServiceLocator;
  * Created by Nick on 7-9-2016.
  */
 public class PlatformFactory implements IPlatformFactory {
+
     private static transient IServiceLocator serviceLocator;
 
     public static void register(IServiceLocator serviceLocator) {
@@ -15,7 +16,6 @@ public class PlatformFactory implements IPlatformFactory {
         serviceLocator.provide(new PlatformFactory());
     }
 
-    private PlatformFactory() {
+    private PlatformFactory() { }
 
-    }
 }

@@ -1,6 +1,6 @@
 @startuml
 
-package "audio" #DDDDDD {
+package "resources.audio" #DDDDDD {
 	interface IAudioManager
 	interface IBackgroundMusic
 	interface IMusicFactory
@@ -159,7 +159,7 @@ package "scenes" #DDDDDD {
 	SceneFactory --> Menu
 	SceneFactory --> World
 }
-package "sprites" #DDDDDD {
+package "resources.sprites" #DDDDDD {
 	interface ISprite
 	interface ISpriteFactory
 

@@ -1,9 +1,11 @@
 package filesystem;
 
-import audio.IAudioManager;
 import system.IServiceLocator;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,18 +14,20 @@ import java.util.List;
  */
 public final class FileSystem implements IFileSystem {
     private static transient IServiceLocator serviceLocator;
-
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
+    public static void register(IServiceLocator serviceLocator_) {
+        assert serviceLocator_ != null;
+        serviceLocator = serviceLocator_;
         serviceLocator.provide(new FileSystem());
     }
+
+    private ClassLoader classLoader = getClass().getClassLoader();
 
     private FileSystem() {}
 
     @Override
     /** {@inheritDoc} */
     public List<String> readTextFile(String filename) throws FileNotFoundException {
-        File file = validateFile(filename);
+        File file = getFile(filename);
 
         Reader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -44,17 +48,29 @@ public final class FileSystem implements IFileSystem {
     @Override
     /** {@inheritDoc} */
     public InputStream readBinaryFile(String filename) throws FileNotFoundException {
-        File file = validateFile(filename);
+        File file = getFile(filename);
 
         InputStream inputStream = new FileInputStream(file);
-        InputStream bufferedInputStream = new BufferedInputStream(inputStream);
-        return bufferedInputStream;
+        return new BufferedInputStream(inputStream);
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public Image readImage(String filename) throws FileNotFoundException {
+        File file = getFile(filename);
+
+        try {
+            return ImageIO.read(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     /** {@inheritDoc} */
     public void writeTextFile(String filename, String content) throws FileNotFoundException {
-        File file = validateFile(filename);
+        File file = getFile(filename);
 
         try {
             Writer fileWriter = new FileWriter(file);
@@ -69,19 +85,21 @@ public final class FileSystem implements IFileSystem {
     @Override
     /** {@inheritDoc} */
     public OutputStream writeBinaryFile(String filename) throws FileNotFoundException {
-        File file = validateFile(filename);
+        File file = getFile(filename);
 
         OutputStream outputStream = new FileOutputStream(file);
-        OutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
-        return bufferedOutputStream;
+        return new BufferedOutputStream(outputStream);
     }
 
-    private File validateFile(String filename) throws FileNotFoundException {
+    @Override
+    /** {@inheritDoc} */
+    public File getFile(String filename) throws FileNotFoundException {
         assert filename != null;
-        File file = new File(filename);
-        if (!file.isFile()) {
+
+        URL url = classLoader.getResource(filename);
+        if (url == null) {
             throw new FileNotFoundException("The following file could not be found: \"" + filename + "\"");
         }
-        return file;
+        return new File(url.getFile());
     }
 }

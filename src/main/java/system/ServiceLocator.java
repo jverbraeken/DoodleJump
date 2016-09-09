@@ -1,8 +1,9 @@
 package system;
 
-import audio.IAudioManager;
-import audio.IMusicFactory;
-import audio.ISoundFactory;
+import resources.IRes;
+import resources.audio.IAudioManager;
+import resources.audio.IMusicFactory;
+import resources.audio.ISoundFactory;
 import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
@@ -13,17 +14,14 @@ import objects.platform.IPlatformFactory;
 import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;
 import scenes.ISceneFactory;
-import sprites.ISpriteFactory;
+import resources.sprites.ISpriteFactory;
 
-/**
- * Created by joost on 6-9-16.
- */
 public class ServiceLocator implements IServiceLocator {
 
     // input
     private IInputManager inputManager;
 
-    // audio
+    // resources.audio
     private IAudioManager audioManager;
     private IMusicFactory musicFactory;
     private ISoundFactory soundFactory;
@@ -37,6 +35,7 @@ public class ServiceLocator implements IServiceLocator {
     // resources
     private ILevelBuilder levelFactory;
     private ISpriteFactory spriteFactory;
+    private IRes res;
 
     // objects.enemies
     private IEnemyBuilder enemyBuilder;
@@ -143,6 +142,12 @@ public class ServiceLocator implements IServiceLocator {
         this.platformFactory = platformFactory;
     }
 
+    @Override
+    public void provide(IRes res) {
+        assert res != null;
+        this.res = res;
+    }
+
     public IAudioManager getAudioManager() {
         return audioManager;
     }
@@ -215,6 +220,11 @@ public class ServiceLocator implements IServiceLocator {
     @Override
     public IPlatformFactory getPlatformFactory() {
         return platformFactory;
+    }
+
+    @Override
+    public IRes getRes() {
+        return res;
     }
 
 }

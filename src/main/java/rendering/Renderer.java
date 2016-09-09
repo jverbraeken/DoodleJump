@@ -1,5 +1,6 @@
 package rendering;
 
+import resources.sprites.ISpriteFactory;
 import scenes.IScene;
 import system.Game;
 import system.IServiceLocator;
@@ -12,14 +13,17 @@ import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 public final class Renderer extends JFrame implements IRenderer {
+
     private static transient IServiceLocator serviceLocator;
-    private int x = 0;
-    public static IScene scene;
 
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
+        Renderer.serviceLocator = serviceLocator;
         serviceLocator.provide(new Renderer());
     }
+
+    private int x = 0;
+    private static IScene scene;
 
     //TODO: add initial scene
     private Renderer() {
@@ -56,9 +60,9 @@ public final class Renderer extends JFrame implements IRenderer {
     }
 
     @Override
-    public void paint(Graphics g){
-
-        g.drawRect(x,100,100,100);
-        scene.paint(g);
+    public void paint(Graphics g) {
+        ISpriteFactory factory = serviceLocator.getSpriteFactory();
+        Image doodleSprite = factory.getDoodleSprite();
+        g.drawImage(doodleSprite, x, 100, null);
     }
 }
