@@ -9,9 +9,6 @@ import java.awt.*;
  */
 public class Platform extends GameObject implements IPlatform {
 
-    private int xPos;
-    private int yPos;
-
     /**
      * Creat and initiate the Platform object
      * @param x - the X position of the platform
@@ -19,12 +16,12 @@ public class Platform extends GameObject implements IPlatform {
      */
     public Platform(int x, int y) {
         super();
-        xPos = x;
-        yPos = y;
+        setXPos(x);
+        setYPos(y);
     }
 
     public void paint(Graphics g) {
-        g.drawRect(xPos,yPos,50,20);
+        g.drawRect((int)getXPos(),(int)getYPos(),50,20);
     }
 
     //TODO: change to support correct implementation

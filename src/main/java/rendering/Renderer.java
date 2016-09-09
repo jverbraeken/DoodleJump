@@ -49,6 +49,7 @@ public final class Renderer extends JFrame implements IRenderer {
             x++;
             //if(Game.running){
             //scene.update(); }
+            scene.update();
             repaint();
             Graphics paper = getGraphics();
             paper.clearRect(0, 0, (int)getSize().getWidth(), (int)getSize().getHeight());

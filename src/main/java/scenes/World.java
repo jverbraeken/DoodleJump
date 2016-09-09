@@ -58,7 +58,7 @@ public class World implements IScene {
     public int determinePlatformY(int platformNumber){
         Random rand = new Random();
         float heightDeviation = (float) (rand.nextFloat() - 0.5);
-        return (int) (platformNumber * 75 + heightDeviation * 50);
+        return (int) (height + (-platformNumber * 75 + heightDeviation * 50));
     }
 
     public void start() {
@@ -74,13 +74,17 @@ public class World implements IScene {
 
     @Override
     public void update() {
+        ArrayList<IGameObject> ar = new ArrayList<IGameObject>();
         for(IGameObject e : elements) {
-            if(e.getClass().equals(Doodle.class)){
-                if(e.getYPos() > Game.height) {
-                    elements.remove(e);
-                }
+            if(e.getYPos() > Game.height) {
+                ar.add(e);
             }
         }
+
+        for (IGameObject e : ar){
+            elements.remove(e);
+        }
+        ar = null;
 
         if(!elements.contains(doodle)){
             //TODO: implement Game Over
@@ -98,6 +102,11 @@ public class World implements IScene {
             IPlatform platform = serviceLocator.getPlatformFactory().createPlatform(determinePlatformX(),
                     determinePlatformY(elements.size()));
             elements.add(platform);
+        }
+
+        int amountLower = 1;
+        for (IGameObject element : elements){
+            element.addYPos(amountLower);
         }
     }
 }

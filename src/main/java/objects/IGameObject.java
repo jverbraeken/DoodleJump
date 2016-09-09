@@ -13,6 +13,14 @@ public interface IGameObject {
 
     public double getYPos();
 
+    public void setXPos(double xPos);
+
+    public void setYPos(double yPos);
+
+    public void addXPos(double extra);
+
+    public void addYPos(double extra);
+
     public double[] getHitBox();
 
     //TODO: change Object to sprite
