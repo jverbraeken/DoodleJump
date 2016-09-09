@@ -54,7 +54,7 @@ public class Block extends GameObject implements IBlock, IGameObject {
     }
 
     private void placePlatforms() {
-        //Get the diagnal length of the screen
+        //Get the diagonal length of the screen
         int max = (int)(width + height)/130;
         int min = 6;
         Random rand = new Random();
