@@ -1,5 +1,7 @@
 package filesystem;
 
+import java.awt.*;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -26,6 +28,14 @@ public interface IFileSystem {
     InputStream readBinaryFile(String filename) throws FileNotFoundException;
 
     /**
+     * Reads and returns an image.
+     * @param filename The full file-path of the image
+     * @return An Image embedding the image on the disk
+     * @throws FileNotFoundException Thrown when the file could not be found
+     */
+    Image readImage(String filename) throws FileNotFoundException;
+
+    /**
      * Writes {@code content} to the text-file given by the filepath {@code filename}. The path to the file must exist.
      * @param filename The full path to the file
      * @param content The text to write to the file
@@ -43,4 +53,12 @@ public interface IFileSystem {
      * @throws FileNotFoundException Thrown when the file could not be found
      */
     OutputStream writeBinaryFile(String filename) throws FileNotFoundException;
+
+    /**
+     * Loads the file specified by {@code filename} and checks if it is a valid file.
+     * @param filename The name of the file
+     * @return A {@link File} class embedding the specified file
+     * @throws FileNotFoundException Thrown when the file specified was not found
+     */
+    File getFile(String filename) throws FileNotFoundException;
 }

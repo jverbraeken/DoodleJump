@@ -8,7 +8,6 @@ import system.IServiceLocator;
  */
 public class PlatformFactory implements IPlatformFactory {
     private static transient IServiceLocator serviceLocator;
-
     public static void register(IServiceLocator serviceLocator_) {
         assert serviceLocator_ != null;
         serviceLocator = serviceLocator_;

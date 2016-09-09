@@ -8,10 +8,10 @@ import system.IServiceLocator;
  */
 public final class SceneFactory implements ISceneFactory {
     private static transient IServiceLocator serviceLocator;
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
+    public static void register(IServiceLocator serviceLocator_) {
+        assert serviceLocator_ != null;
+        serviceLocator = serviceLocator_;
         serviceLocator.provide(new SceneFactory());
-        SceneFactory.serviceLocator = serviceLocator;
     }
 
     private final Menu menu = new Menu();

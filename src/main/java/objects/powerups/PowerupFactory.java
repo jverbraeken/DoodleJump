@@ -1,6 +1,5 @@
 package objects.powerups;
 
-import audio.IAudioManager;
 import system.IServiceLocator;
 
 /**
@@ -8,8 +7,9 @@ import system.IServiceLocator;
  */
 public final class PowerupFactory implements IPowerupFactory {
     private static transient IServiceLocator serviceLocator;
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
+    public static void register(IServiceLocator serviceLocator_) {
+        assert serviceLocator_ != null;
+        serviceLocator = serviceLocator_;
         serviceLocator.provide(new PowerupFactory());
     }
 

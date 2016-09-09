@@ -1,8 +1,9 @@
 package system;
 
-import audio.IAudioManager;
-import audio.IMusicFactory;
-import audio.ISoundFactory;
+import resources.IRes;
+import resources.audio.IAudioManager;
+import resources.audio.IMusicFactory;
+import resources.audio.ISoundFactory;
 import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
@@ -13,11 +14,8 @@ import objects.platform.IPlatformFactory;
 import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;
 import scenes.ISceneFactory;
-import sprites.ISpriteFactory;
+import resources.sprites.ISpriteFactory;
 
-/**
- * Created by joost on 6-9-16.
- */
 public interface IServiceLocator {
     void provide(IAudioManager audioManager);
     void provide(IMusicFactory musicFactory);
@@ -34,6 +32,7 @@ public interface IServiceLocator {
     void provide(ILevelBuilder levelBuilder);
     void provide(ISceneFactory sceneFactory);
     void provide(IPlatformFactory platformFactory);
+    void provide(IRes res);
 
     IAudioManager getAudioManager();
     IMusicFactory getMusicFactory();
@@ -50,4 +49,5 @@ public interface IServiceLocator {
     ILevelBuilder getLevelBuilder();
     ISceneFactory getSceneFactory();
     IPlatformFactory getPlatformFactory();
+    IRes getRes();
 }

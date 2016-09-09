@@ -1,6 +1,6 @@
 @startuml
 
-package "audio" #DDDDDD {
+package "resources.audio" #DDDDDD {
 
 	class AudioManager {
 	}
@@ -104,7 +104,7 @@ package "scenes" #DDDDDD {
 	SceneFactory --> Menu
 	SceneFactory --> World
 }
-package "sprites" #DDDDDD {
+package "resources.sprites" #DDDDDD {
 
 	class Sprite {
 	}

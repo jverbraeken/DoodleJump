@@ -1,13 +1,13 @@
 package system;
 
-import audio.AudioManager;
-import audio.MusicFactory;
-import audio.SoundFactory;
+import resources.Res;
+import resources.audio.AudioManager;
+import resources.audio.MusicFactory;
+import resources.audio.SoundFactory;
 import filesystem.FileSystem;
 import input.InputManager;
 import math.Calc;
 import objects.BlockFactory;
-import objects.GameObject;
 import objects.doodles.DoodleFactory;
 import objects.enemies.EnemyBuilder;
 import objects.platform.PlatformFactory;
@@ -15,12 +15,7 @@ import objects.powerups.PowerupFactory;
 import rendering.IRenderer;
 import rendering.Renderer;
 import scenes.SceneFactory;
-import scenes.World;
-import sprites.SpriteFactory;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Set;
+import resources.sprites.SpriteFactory;
 
 public final class Game {
 
@@ -166,6 +161,7 @@ public final class Game {
         Renderer.register(serviceLocator);
         SceneFactory.register(serviceLocator);
         PlatformFactory.register(serviceLocator);
+        Res.register(serviceLocator);
     }
 
     public static void main(String[] argv) {

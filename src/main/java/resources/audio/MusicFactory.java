@@ -1,4 +1,4 @@
-package audio;
+package resources.audio;
 
 import system.IServiceLocator;
 
@@ -7,8 +7,9 @@ import system.IServiceLocator;
  */
 public final class MusicFactory implements IMusicFactory {
     private static transient IServiceLocator serviceLocator;
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
+    public static void register(IServiceLocator serviceLocator_) {
+        assert serviceLocator_ != null;
+        serviceLocator = serviceLocator_;
         serviceLocator.provide(new MusicFactory());
     }
 

@@ -13,13 +13,14 @@ import java.nio.ShortBuffer;
 
 public final class Renderer extends JFrame implements IRenderer {
     private static transient IServiceLocator serviceLocator;
-    private int x = 0;
-    public static IScene scene;
-
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
+    public static void register(IServiceLocator serviceLocator_) {
+        assert serviceLocator_ != null;
+        serviceLocator = serviceLocator_;
         serviceLocator.provide(new Renderer());
     }
+
+    private int x = 0;
+    private static IScene scene;
 
     //TODO: add initial scene
     private Renderer() {
