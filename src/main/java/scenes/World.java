@@ -12,10 +12,7 @@ import system.Game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.AbstractSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by joost on 6-9-16.
@@ -27,13 +24,13 @@ public class World implements IScene {
     private IDoodle doodle;
     /* package */ World(IBlockFactory blockFactory, IDoodleFactory doodleFactory) {
         this.blockFactory = blockFactory;
-        elements = new TreeSet<IGameObject>();
+        elements = new HashSet<>();
         //TODO: implements getDoodle();
         //Doodle doodle = doodleFactory.getDoodle();
         //elements.add(doodle));
         for(int i = 0; i < 3; i++) {
             //TODO: implement getBlock();
-            //elements.add(blockFactory.getBlock());
+            elements.add(blockFactory.createBlock());
         }
     }
 
@@ -71,7 +68,7 @@ public class World implements IScene {
                 }
             }
             //TODO: implements New Block
-            elements.add(blockFactory.newBlock(minY));
+            elements.add(blockFactory.createBlock());
         }
     }
 }

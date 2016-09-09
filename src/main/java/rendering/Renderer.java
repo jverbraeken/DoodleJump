@@ -23,7 +23,7 @@ public final class Renderer extends JFrame implements IRenderer {
 
     //TODO: add initial scene
     private Renderer() {
-        setSize(Game.height,Game.width);
+        setSize(Game.width, Game.height);
         setVisible(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,6 +59,6 @@ public final class Renderer extends JFrame implements IRenderer {
     public void paint(Graphics g){
 
         g.drawRect(x,100,100,100);
-        //scene.paint(g);
+        scene.paint(g);
     }
 }

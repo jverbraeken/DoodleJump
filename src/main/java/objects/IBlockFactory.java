@@ -6,5 +6,5 @@ import objects.blocks.IBlock;
  * Created by joost on 6-9-16.
  */
 public interface IBlockFactory {
-    IBlock newBlock(double minY);
+    IBlock createBlock();
 }
