@@ -18,48 +18,48 @@ public final class AudioManager implements IAudioManager {
     }
 
     public enum Sound {
-        BIJELI("bijeli.mp3"),
-        BLIZZARD("blizzard.mp3"),
-        BUBBLES1("bubbles-1.mp3"),
-        BUBBLES2("bubbles-2.mp3"),
-        CHILL("chill.mp3"),
-        COLLECT("collect.mp3"),
-        CRNARUPA("crnarupa.mp3"),
-        EGGMONSTERHIT("egg-monster-hit.mp3"),
-        EXPLODINGPLATFORM("explodingplatform.mp3"),
-        EXPLODINGPLATFORM2("explodingplatform2.mp3"),
-        FEDER("feder.mp3"),
-        JETPACK("jetpack.mp3"),
-        JUMP("jump.mp3"),
-        JUMPONMONSTER("jumponmonster.mp3"),
-        LOMISE("lomise.mp3"),
-        MATCHSOUND("match-sound.mp3"),
-        MONSTERCRASH("monster-crash.mp3"),
-        MONSTERBLIZU("monsterblizu.mp3"),
-        MONSTERPOGODAK("monsterpogodak.mp3"),
-        OOGAPUCANJE("ooga-pucanje.mp3"),
-        OOGAPUCANJE2("ooga-pucanje2.mp3"),
-        PADA("pada.mp3"),
-        PROPELLOR("propellor.mp3"),
-        PUCANJE("pucanje.mp3"),
-        PUCANJE2("pucanje2.mp3"),
-        RAIN("rain.mp3"),
-        ROCKET("rocket.mp3"),
-        SNOWBALLMONSTERHIT("snowball-monster-hit.mp3"),
-        SNOWBALLTHROW("snowball-throw.mp3"),
-        SNOWBALLTHROW2("snowball-throw2.mp3"),
-        SOCCERMONSTERCRASH("soccer-monster-crash.mp3"),
-        SOCCERMONSTERHIT("soccer-monster-hit.mp3"),
-        SPRINGSHOES("springshoes.mp3"),
-        START("start.mp3"),
-        THUNDER("thunder.mp3"),
-        TRAMPOLINE("trampoline.mp3"),
-        UFO("ufo.mp3"),
-        UFOPOGODAK("ufopogodak.mp3"),
-        UNDERWATERSHOOT("underwater-shoot.mp3"),
-        UNDERWATERSHOOT2("underwater-shoot2.mp3"),
-        USAUGATEUFO("usaugateufo.mp3"),
-        WIN("win.mp3")
+        BIJELI("sounds/bijeli.wav"),
+        BLIZZARD("sounds/blizzard.wav"),
+        BUBBLES1("sounds/bubbles-1.wav"),
+        BUBBLES2("sounds/bubbles-2.wav"),
+        CHILL("sounds/chill.wav"),
+        COLLECT("sounds/collect.wav"),
+        CRNARUPA("sounds/crnarupa.wav"),
+        EGGMONSTERHIT("sounds/egg-monster-hit.wav"),
+        EXPLODINGPLATFORM("sounds/explodingplatform.wav"),
+        EXPLODINGPLATFORM2("sounds/explodingplatform2.wav"),
+        FEDER("sounds/feder.wav"),
+        JETPACK("sounds/jetpack.wav"),
+        JUMP("sounds/jump.wav"),
+        JUMPONMONSTER("sounds/jumponmonster.wav"),
+        LOMISE("sounds/lomise.wav"),
+        MATCHSOUND("sounds/match-sound.wav"),
+        MONSTERCRASH("sounds/monster-crash.wav"),
+        MONSTERBLIZU("sounds/monsterblizu.wav"),
+        MONSTERPOGODAK("sounds/monsterpogodak.wav"),
+        OOGAPUCANJE("sounds/ooga-pucanje.wav"),
+        OOGAPUCANJE2("sounds/ooga-pucanje2.wav"),
+        PADA("sounds/pada.wav"),
+        PROPELLER("sounds/propeller.wav"),
+        PUCANJE("sounds/pucanje.wav"),
+        PUCANJE2("sounds/pucanje2.wav"),
+        RAIN("sounds/rain.wav"),
+        ROCKET("sounds/rocket.wav"),
+        SNOWBALLMONSTERHIT("sounds/snowball-monster-hit.wav"),
+        SNOWBALLTHROW("sounds/snowball-throw.wav"),
+        SNOWBALLTHROW2("sounds/snowball-throw2.wav"),
+        SOCCERMONSTERCRASH("sounds/soccer-monster-crash.wav"),
+        SOCCERMONSTERHIT("sounds/soccer-monster-hit.wav"),
+        SPRINGSHOES("sounds/springshoes.wav"),
+        START("sounds/start.wav"),
+        THUNDER("sounds/thunder.wav"),
+        TRAMPOLINE("sounds/trampoline.wav"),
+        UFO("sounds/ufo.wav"),
+        UFOPOGODAK("sounds/ufopogodak.wav"),
+        UNDERWATERSHOOT("sounds/underwater-shoot.wav"),
+        UNDERWATERSHOOT2("sounds/underwater-shoot2.wav"),
+        USAUGATEUFO("sounds/usaugateufo.wav"),
+        WIN("sounds/win.wav");
 
         private Clip clip;
 
@@ -70,6 +70,21 @@ public final class AudioManager implements IAudioManager {
                 // TODO log the file was not found
                 e.printStackTrace();
             }
+        }
+
+        public void play() {
+            if (clip.isRunning()) {
+                clip.stop();
+            }
+            clip.setFramePosition(0);
+            clip.start();
+        }
+
+        /**
+         * OPTIONAL: loads all sounds into memory.
+         */
+        public static void preload() {
+            values();
         }
     }
 }

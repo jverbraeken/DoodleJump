@@ -78,6 +78,7 @@ public final class FileSystem implements IFileSystem {
 
             Clip clip = AudioSystem.getClip();
             clip.open(inputStream);
+            return clip;
         } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
             e.printStackTrace();
         }

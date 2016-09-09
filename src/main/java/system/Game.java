@@ -19,7 +19,7 @@ import resources.sprites.SpriteFactory;
 
 public final class Game {
 
-    public static IServiceLocator serviceLocator = new ServiceLocator();
+    private static IServiceLocator serviceLocator = new ServiceLocator();
     public final static int height = 800;
     public final static int width = 500;
 
@@ -168,6 +168,8 @@ public final class Game {
         initServices();
         renderer = serviceLocator.getRenderer();
         renderer.setScene(serviceLocator.getSceneFactory().getNewWorld());
+        AudioManager.Sound.preload();
+        AudioManager.Sound.START.play();
         renderer.start();
     }
 }
