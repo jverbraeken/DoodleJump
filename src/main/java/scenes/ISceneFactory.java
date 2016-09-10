@@ -1,9 +1,8 @@
 package scenes;
 
-/**
- * Created by joost on 6-9-16.
- */
-public interface ISceneFactory {
+import system.Factory;
+
+public interface ISceneFactory extends Factory {
     Menu getMenu();
     World getNewWorld();
 }

@@ -3,7 +3,6 @@ package objects.blocks;
 import objects.GameObject;
 
 /**
- * Created by cornel on 7-9-2016.
  * A ObjectLocation is an object that stores a x and y location and
  * an object. It also has getter methods for these variables.
  */

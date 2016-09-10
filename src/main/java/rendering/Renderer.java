@@ -14,9 +14,16 @@ import java.nio.ShortBuffer;
 
 public final class Renderer extends JFrame implements IRenderer {
 
+    /**
+    * Used to gain access to all services.
+    */
     private static transient IServiceLocator serviceLocator;
 
-    public static void register(IServiceLocator serviceLocator) {
+    /**
+    * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+    * @param serviceLocator The IServiceLocator to which the class should offer its functionality
+    */
+    public static void register(final IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         Renderer.serviceLocator = serviceLocator;
         serviceLocator.provide(new Renderer());
@@ -25,12 +32,14 @@ public final class Renderer extends JFrame implements IRenderer {
     private int x = 0;
     private static IScene scene;
 
-    //TODO: add initial scene
+    /**
+     * Prevents instantiation from outside the class.
+     */
     private Renderer() {
         setSize(Game.width, Game.height);
         setVisible(true);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
 

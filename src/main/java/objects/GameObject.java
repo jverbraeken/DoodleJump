@@ -1,11 +1,11 @@
 package objects;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 /**
- * Created by Nick on 7-9-2016.
+ * The super class of all classes that represents objects in the game.
  */
-public abstract class GameObject implements IGameObject{
+public abstract class GameObject implements IGameObject {
 
     private double xPos;
     private double yPos;
@@ -13,18 +13,22 @@ public abstract class GameObject implements IGameObject{
     private Object sprite;
 
     //TODO: implement correct implementation
+    /** {@inheritDoc} */
     public boolean collide(GameObject that) {
         return false;
     }
 
+    /** {@inheritDoc} */
     public double getXPos() {
         return xPos;
     }
 
+    /** {@inheritDoc} */
     public double getYPos() {
         return yPos;
     }
 
+    /** {@inheritDoc} */
     public double[] getHitBox() {
         return hitBox;
     }
@@ -36,14 +40,18 @@ public abstract class GameObject implements IGameObject{
     }
 
     //TODO: change to use Graphics (swing?)
+    /** {@inheritDoc} */
     public abstract void paint(Graphics g);
 
     //TODO: change to support correct implementation
+    /** {@inheritDoc} */
     public abstract void animate();
 
     //TODO: change to support correct implementation
+    /** {@inheritDoc} */
     public abstract void move();
 
     //TODO: change to support correct implementation
+    /** {@inheritDoc} */
     public abstract void update();
 }

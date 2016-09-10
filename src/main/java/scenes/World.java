@@ -1,16 +1,12 @@
 package scenes;
 
-import objects.BlockFactory;
-import objects.GameObject;
-import objects.IBlockFactory;
+import objects.blocks.IBlockFactory;
 import objects.IGameObject;
 import objects.doodles.Doodle;
-import objects.doodles.DoodleFactory;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
 import system.Game;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 

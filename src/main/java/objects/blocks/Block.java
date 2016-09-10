@@ -1,24 +1,16 @@
 package objects.blocks;
 
 import objects.GameObject;
-import objects.platform.Platform;
+import objects.blocks.platform.IPlatformFactory;
+import objects.blocks.platform.Platform;
 import system.IServiceLocator;
-import system.ServiceLocator;
 
 import java.util.ArrayList;
 import java.util.Random;
 import objects.IGameObject;
-import objects.doodles.IDoodleFactory;
-import objects.enemies.IEnemyBuilder;
-import objects.platform.IPlatformFactory;
 
 import java.awt.*;
-import java.util.Set;
-import java.util.TreeSet;
 
-/**
- * Created by Nick on 7-9-2016.
- */
 public class Block extends GameObject implements IBlock, IGameObject {
 
     private final int jumpHeight = 100;
@@ -27,6 +19,7 @@ public class Block extends GameObject implements IBlock, IGameObject {
     private int blockNumber;
     private ArrayList<IGameObject> blockContent;
     private IServiceLocator serviceLocator;
+    private IPlatformFactory platformFactory;
 
     /**
      * Create a Block. This object will automatically create and place
@@ -36,10 +29,11 @@ public class Block extends GameObject implements IBlock, IGameObject {
      * @param serviceLocator - the ServiceLocator of this game.
      * @param blockNumber - The number of the block.
      */
-    public Block(float width, float height, IServiceLocator serviceLocator, int blockNumber) {
+    /* package */ Block(float width, float height, IServiceLocator serviceLocator, int blockNumber) {
         this.height = height;
         this.width = width;
         this.serviceLocator = serviceLocator;
+        platformFactory = serviceLocator.getPlatformFactory();
         this.blockNumber = blockNumber;
         blockContent = new ArrayList<IGameObject>();
         createAndPlaceObjects();
@@ -73,14 +67,14 @@ public class Block extends GameObject implements IBlock, IGameObject {
             }
 
             int xLoc = (int) (widthDeviation * width);
-            Platform p = new Platform(xLoc, yLoc);
+            Platform p = platformFactory.newPlatform(xLoc, yLoc);
             blockContent.add(p);
         }
 
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paint(final Graphics g) {
         for(IGameObject e : blockContent){
             e.paint(g);
         }

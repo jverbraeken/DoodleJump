@@ -6,6 +6,9 @@ import javax.sound.sampled.Clip;
 import java.io.FileNotFoundException;
 
 public final class AudioManager implements IAudioManager {
+    /**
+    * Used to gain access to all services.
+    */
     private static transient IServiceLocator serviceLocator;
     public static void register(IServiceLocator serviceLocator_) {
         assert serviceLocator_ != null;
@@ -13,6 +16,9 @@ public final class AudioManager implements IAudioManager {
         serviceLocator.provide(new AudioManager());
     }
 
+    /**
+     * Prevents instantiation from outside the class.
+     */
     private AudioManager() {
 
     }

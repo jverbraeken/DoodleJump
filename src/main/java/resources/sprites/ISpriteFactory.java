@@ -1,11 +1,10 @@
 package resources.sprites;
 
+import system.Factory;
+
 import java.awt.*;
 
-/**
- * Created by joost on 6-9-16.
- */
-public interface ISpriteFactory {
+public interface ISpriteFactory extends Factory {
 
     // Doodle
     Image getDoodleSprite();

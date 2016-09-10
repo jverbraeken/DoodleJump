@@ -7,6 +7,9 @@ import system.IServiceLocator;
  * Created by joost on 6-9-16.
  */
 public final class SceneFactory implements ISceneFactory {
+    /**
+    * Used to gain access to all services.
+    */
     private static transient IServiceLocator serviceLocator;
     public static void register(IServiceLocator serviceLocator_) {
         assert serviceLocator_ != null;
@@ -17,6 +20,9 @@ public final class SceneFactory implements ISceneFactory {
     private final Menu menu = new Menu();
     private World world;
 
+    /**
+     * Prevents instantiation from outside the class.
+     */
     private SceneFactory() {
     }
 

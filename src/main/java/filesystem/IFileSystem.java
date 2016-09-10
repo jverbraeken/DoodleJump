@@ -1,7 +1,7 @@
 package filesystem;
 
 import javax.sound.sampled.Clip;
-import java.awt.*;
+import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;

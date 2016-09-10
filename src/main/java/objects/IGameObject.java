@@ -1,37 +1,33 @@
 package objects;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 /**
- * Created by Nick on 7-9-2016.
+ * The interface implemented by {@link GameObject}, the super class of all classes that represents objects in the game.
  */
 public interface IGameObject {
 
-    public boolean collide(GameObject that);
+    boolean collide(GameObject that);
 
-    public double getXPos();
+    double getXPos();
 
-    public double getYPos();
+    double getYPos();
 
-    public double[] getHitBox();
+    double[] getHitBox();
 
     //TODO: change Object to sprite
 
-    /**
-     * utyu
-     * @return erdtf
-     */
-    public Object getSprite();
+    Object getSprite();
 
     //TODO: change to use Graphics (swing?)
-    public void paint(Graphics g);
+    void paint(Graphics g);
 
     //TODO: change to support correct implementation
-    public void animate();
+    void animate();
 
     //TODO: change to support correct implementation
-    public void move();
+    void move();
 
     //TODO: change to support correct implementation
-    public void update();
+    void update();
 }

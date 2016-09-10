@@ -1,23 +1,20 @@
-package objects.platform;
+package objects.blocks.platform;
 
 import objects.GameObject;
 
 import java.awt.*;
 
-/**
- * Created by Nick on 7-9-2016.
- */
 public class Platform extends GameObject implements IPlatform {
 
     private int xPos;
     private int yPos;
 
     /**
-     * Create and initiate the Platform object
+     * Create and initiate a Platform object
      * @param x - the X position of the platform
      * @param y - the y position of the platform
      */
-    public Platform(int x, int y) {
+    protected Platform(final int x, final int y) {
         super();
         xPos = x;
         yPos = y;
