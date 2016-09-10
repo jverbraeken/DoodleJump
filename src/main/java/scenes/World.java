@@ -10,9 +10,6 @@ import system.Game;
 import java.awt.*;
 import java.util.*;
 
-/**
- * Created by joost on 6-9-16.
- */
 public class World implements IScene {
 
     private Set<IGameObject> elements;
@@ -24,7 +21,7 @@ public class World implements IScene {
         //TODO: implements getDoodle();
         //Doodle doodle = doodleFactory.getDoodle();
         //elements.add(doodle));
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             //TODO: implement getBlock();
             elements.add(blockFactory.createBlock());
         }
@@ -43,20 +40,20 @@ public class World implements IScene {
 
     @Override
     public void update() {
-        for(IGameObject e : elements) {
+        for (IGameObject e : elements) {
             if(e.getClass().equals(Doodle.class)){
-                if(e.getYPos() > Game.height) {
+                if(e.getYPos() > Game.HEIGHT) {
                     elements.remove(e);
                 }
             }
         }
 
-        if(!elements.contains(doodle)){
+        if (!elements.contains(doodle)){
             //TODO: implement Game Over
             //Game.endGame();
         }
 
-        if(elements.size() < 4) {
+        if (elements.size() < 4) {
             double minY = Double.MAX_VALUE;
             for(IGameObject e : elements) {
                 if(e.getYPos() < minY){

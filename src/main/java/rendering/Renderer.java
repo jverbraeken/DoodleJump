@@ -36,7 +36,7 @@ public final class Renderer extends JFrame implements IRenderer {
      * Prevents instantiation from outside the class.
      */
     private Renderer() {
-        setSize(Game.width, Game.height);
+        setSize(Game.WIDTH, Game.HEIGHT);
         setVisible(true);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -51,14 +51,15 @@ public final class Renderer extends JFrame implements IRenderer {
 
     @Override
     public synchronized void start() {
-        while(true){
+        while (true){
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(x>100)
+            if (x > 100) {
                 x = 0;
+            }
             x++;
             //if(Game.running){
             //scene.update(); }

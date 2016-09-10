@@ -19,8 +19,8 @@ import resources.sprites.SpriteFactory;
 public final class Game {
 
     private static IServiceLocator serviceLocator = new ServiceLocator();
-    public final static int height = 800;
-    public final static int width = 500;
+    public static final int HEIGHT = 800;
+    public static final int WIDTH = 500;
 
     private static IRenderer renderer;
     private static IAudioManager audioManager;
@@ -31,7 +31,7 @@ public final class Game {
         FileSystem.register(serviceLocator);
         InputManager.register(serviceLocator);
         Calc.register(serviceLocator);
-        BlockFactory.register(width, height, serviceLocator);
+        BlockFactory.register(WIDTH, HEIGHT, serviceLocator);
         DoodleFactory.register(serviceLocator);
         PowerupFactory.register(serviceLocator);
         SpriteFactory.register(serviceLocator);
@@ -39,6 +39,13 @@ public final class Game {
         SceneFactory.register(serviceLocator);
         PlatformFactory.register(serviceLocator);
         Res.register(serviceLocator);
+    }
+
+    /**
+     * Prevents the creation of a new {@code Game} object.
+     */
+    private Game() {
+
     }
 
     public static void main(String[] argv) {
