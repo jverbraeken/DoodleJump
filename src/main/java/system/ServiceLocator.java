@@ -2,8 +2,6 @@ package system;
 
 import resources.IRes;
 import resources.audio.IAudioManager;
-import resources.audio.IMusicFactory;
-import resources.audio.ISoundFactory;
 import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
@@ -23,8 +21,6 @@ public class ServiceLocator implements IServiceLocator {
 
     // resources.audio
     private IAudioManager audioManager;
-    private IMusicFactory musicFactory;
-    private ISoundFactory soundFactory;
 
     // rendering
     private IRenderer renderer;
@@ -56,18 +52,6 @@ public class ServiceLocator implements IServiceLocator {
     public void provide(IAudioManager audioManager) {
         assert audioManager != null;
         this.audioManager = audioManager;
-    }
-
-    @Override
-    public void provide(IMusicFactory musicFactory) {
-        assert musicFactory != null;
-        this.musicFactory = musicFactory;
-    }
-
-    @Override
-    public void provide(ISoundFactory soundFactory) {
-        assert soundFactory != null;
-        this.soundFactory = soundFactory;
     }
 
     @Override
@@ -148,18 +132,9 @@ public class ServiceLocator implements IServiceLocator {
         this.res = res;
     }
 
+    @Override
     public IAudioManager getAudioManager() {
         return audioManager;
-    }
-
-    @Override
-    public IMusicFactory getMusicFactory() {
-        return musicFactory;
-    }
-
-    @Override
-    public ISoundFactory getSoundFactory() {
-        return soundFactory;
     }
 
     @Override
