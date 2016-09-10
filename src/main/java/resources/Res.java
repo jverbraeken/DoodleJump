@@ -27,6 +27,7 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.doodle, spritepath + "blue-lik-right@2x.png");
         sprites.put(IRes.sprites.platform1, spritepath + "platform-green@2x.png");
         sprites.put(IRes.sprites.playButton, spritepath + "play.png");
+        sprites.put(IRes.sprites.background, spritepath + "bck.png");
     }
 
     private Res() {

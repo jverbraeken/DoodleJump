@@ -18,10 +18,10 @@ public class ButtonFactory implements IButtonFactory {
         serviceLocator.provide(new ButtonFactory());
     }
 
-    public PlayButton getPlayButton() {
+    public PlayButton createPlayButton(int x, int y) {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         Image buttonImage = spriteFactory.getPlayButton();
-        return new PlayButton(buttonImage);
+        return new PlayButton(x, y, buttonImage);
     }
 
 }

@@ -76,4 +76,7 @@ public interface ISpriteFactory {
     // Buttons
     Image getPlayButton();
 
+    // Background
+    Image getStartMenuBackground();
+
 }

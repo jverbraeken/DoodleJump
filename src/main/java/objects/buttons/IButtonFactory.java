@@ -5,6 +5,6 @@ package objects.buttons;
  */
 public interface IButtonFactory {
 
-    PlayButton getPlayButton();
+    PlayButton createPlayButton(int x, int y);
 
 }

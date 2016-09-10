@@ -314,9 +314,15 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.sprites.avoid);
     }
 
+    // Buttons
     @Override
     public Image getPlayButton() { return getSprite(IRes.sprites.playButton); }
 
+    // Backgrounds
+    @Override
+    public Image getStartMenuBackground() { return getSprite(IRes.sprites.background); }
+
+    // Miscellaneous
     private Image getSprite(IRes.sprites sprite) {
         try {
             return cache.get(sprite);

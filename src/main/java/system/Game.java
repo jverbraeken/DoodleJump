@@ -1,5 +1,6 @@
 package system;
 
+import objects.backgrounds.BackgroundFactory;
 import objects.buttons.ButtonFactory;
 import resources.Res;
 import resources.audio.AudioManager;
@@ -20,8 +21,8 @@ import resources.sprites.SpriteFactory;
 public final class Game {
 
     private static IServiceLocator serviceLocator = new ServiceLocator();
-    public final static int height = 800;
-    public final static int width = 500;
+    public final static int height = 512;
+    public final static int width = 320;
 
     private static void initServices() {
         AudioManager.register(serviceLocator);
@@ -38,6 +39,7 @@ public final class Game {
         PlatformFactory.register(serviceLocator);
         Res.register(serviceLocator);
         ButtonFactory.register(serviceLocator);
+        BackgroundFactory.register(serviceLocator);
     }
 
     public static void main(String[] argv) {

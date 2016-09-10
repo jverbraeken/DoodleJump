@@ -9,9 +9,10 @@ public interface IGameObject {
 
     public boolean collide(GameObject that);
 
-    public double getXPos();
-
-    public double getYPos();
+    public int getXPos();
+    public int getYPos();
+    public void setXPos(int xPos);
+    public void setYPos(int yPos);
 
     public double[] getHitBox();
 

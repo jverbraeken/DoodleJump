@@ -7,8 +7,8 @@ import java.awt.*;
  */
 public abstract class GameObject implements IGameObject {
 
-    private double xPos;
-    private double yPos;
+    private int xPos;
+    private int yPos;
     private double[] hitBox;
     private Object sprite;
 
@@ -17,12 +17,20 @@ public abstract class GameObject implements IGameObject {
         return false;
     }
 
-    public double getXPos() {
+    public int getXPos() {
         return xPos;
     }
 
-    public double getYPos() {
+    public int getYPos() {
         return yPos;
+    }
+
+    public void setXPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public void setYPos(int yPos) {
+        this.yPos = yPos;
     }
 
     public double[] getHitBox() {

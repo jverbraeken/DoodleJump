@@ -11,13 +11,15 @@ public class PlayButton extends GameObject implements IButton {
 
     private Image buttonImage;
 
-    public PlayButton(Image buttonImage) {
+    public PlayButton(int x, int y, Image buttonImage) {
         this.buttonImage = buttonImage;
+        this.setXPos(x);
+        this.setYPos(y);
     }
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(this.buttonImage, 10, 10, null);
+        g.drawImage(this.buttonImage, this.getXPos(), this.getYPos(), null);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package system;
 
+import objects.backgrounds.IBackgroundFactory;
 import objects.buttons.IButtonFactory;
 import resources.IRes;
 import resources.audio.IAudioManager;
@@ -47,7 +48,9 @@ public class ServiceLocator implements IServiceLocator {
     private IBlockFactory blockFactory;
     private ILevelBuilder levelBuilder;
     private IPlatformFactory platformFactory;
+    private IBackgroundFactory backgroundFactory;
 
+    // scenes
     private ISceneFactory sceneFactory;
 
     @Override
@@ -141,6 +144,12 @@ public class ServiceLocator implements IServiceLocator {
     }
 
     @Override
+    public void provide(IBackgroundFactory backgroundFactory) {
+        assert backgroundFactory != null;
+        this.backgroundFactory = backgroundFactory;
+    }
+
+    @Override
     public IAudioManager getAudioManager() {
         return audioManager;
     }
@@ -212,5 +221,8 @@ public class ServiceLocator implements IServiceLocator {
 
     @Override
     public IButtonFactory getButtonFactory() { return buttonFactory; }
+
+    @Override
+    public IBackgroundFactory getBackgroundFactory() { return backgroundFactory; }
 
 }

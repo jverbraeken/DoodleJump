@@ -1,6 +1,8 @@
 package scenes;
 
 import objects.IGameObject;
+import objects.backgrounds.IBackground;
+import objects.backgrounds.IBackgroundFactory;
 import objects.buttons.IButtonFactory;
 import objects.buttons.PlayButton;
 import resources.sprites.ISpriteFactory;
@@ -23,8 +25,12 @@ public class Menu implements IScene {
     /* package */ Menu(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
 
+        IBackgroundFactory backgroundFactory = serviceLocator.getBackgroundFactory();
+        IBackground background = backgroundFactory.createStartMenuBackground();
+        elements.add(background);
+
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        PlayButton playButton = buttonFactory.getPlayButton();
+        PlayButton playButton = buttonFactory.createPlayButton(50, Game.height - 150);
         elements.add(playButton);
     }
 

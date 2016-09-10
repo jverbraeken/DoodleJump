@@ -63,7 +63,11 @@ public interface IRes {
         waitDontShoot,
         avoid,
 
-        playButton
+        // Buttons
+        playButton,
+
+        // Backgrounds
+        background
     }
 
     /**
