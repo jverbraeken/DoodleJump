@@ -1,5 +1,6 @@
 package filesystem;
 
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,6 +35,14 @@ public interface IFileSystem {
      * @throws FileNotFoundException Thrown when the file could not be found
      */
     Image readImage(String filename) throws FileNotFoundException;
+
+    /**
+     * Reads and returns a sound.
+     * @param filename The full file-path of the sound
+     * @return A Clip embedding the sound on the disk
+     * @throws FileNotFoundException Thrown when the file could not be found
+     */
+    Clip readSound(String filename) throws FileNotFoundException;
 
     /**
      * Writes {@code content} to the text-file given by the filepath {@code filename}. The path to the file must exist.

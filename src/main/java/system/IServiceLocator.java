@@ -2,8 +2,6 @@ package system;
 
 import resources.IRes;
 import resources.audio.IAudioManager;
-import resources.audio.IMusicFactory;
-import resources.audio.ISoundFactory;
 import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
@@ -18,8 +16,6 @@ import resources.sprites.ISpriteFactory;
 
 public interface IServiceLocator {
     void provide(IAudioManager audioManager);
-    void provide(IMusicFactory musicFactory);
-    void provide(ISoundFactory soundFactory);
     void provide(IEnemyBuilder enemyBuilder);
     void provide(IFileSystem fileSystem);
     void provide(IInputManager inputManager);
@@ -35,8 +31,6 @@ public interface IServiceLocator {
     void provide(IRes res);
 
     IAudioManager getAudioManager();
-    IMusicFactory getMusicFactory();
-    ISoundFactory getSoundFactory();
     IEnemyBuilder getEnemyBuilder();
     IFileSystem getFileSystem();
     IInputManager getInputManager();

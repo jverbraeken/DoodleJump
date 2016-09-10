@@ -3,6 +3,7 @@ package filesystem;
 import system.IServiceLocator;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
@@ -62,6 +63,23 @@ public final class FileSystem implements IFileSystem {
         try {
             return ImageIO.read(file);
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public Clip readSound(String filename) throws FileNotFoundException {
+        File file = getFile(filename);
+
+        try {
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(file);
+
+            Clip clip = AudioSystem.getClip();
+            clip.open(inputStream);
+            return clip;
+        } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
             e.printStackTrace();
         }
         return null;
