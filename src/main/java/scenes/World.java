@@ -1,5 +1,6 @@
 package scenes;
 
+
 import objects.BlockFactory;
 import objects.IBlockFactory;
 import objects.IGameObject;
@@ -11,6 +12,7 @@ import objects.doodles.IDoodleFactory;
 import objects.platform.IPlatform;
 import objects.platform.Platform;
 import objects.platform.PlatformFactory;
+import objects.doodles.Collisions;
 import system.Game;
 import system.IServiceLocator;
 
@@ -26,6 +28,7 @@ import java.util.TreeSet;
 public class World implements IScene {
     private static transient IServiceLocator serviceLocator;
     private Set<IGameObject> elements = new HashSet<>();
+  private Collisions collision = new Collisions();
     private IDoodle doodle;
     private int width = Game.width;
     private int height = Game.height;
@@ -120,7 +123,10 @@ public class World implements IScene {
     }
 
     private void checkDoodleCollision(){
-        System.out.println("Dooble" + doodle.getXPos() + " " + doodle.getYPos() + " " + doodle.getWidth() + " " + doodle.getHeight());
+        for(IGameObject e : elements){
+            collision.collision(doodle, e);
+        }
+     /*   System.out.println("Dooble" + doodle.getXPos() + " " + doodle.getYPos() + " " + doodle.getWidth() + " " + doodle.getHeight());
 
         for(IGameObject e : elements){
             System.out.println(e.getXPos() + " " + e.getWidth());
@@ -140,7 +146,7 @@ public class World implements IScene {
                     }
                 }
             }
-        }
+        }*/
     }
 
 }

@@ -134,4 +134,9 @@ public class Doodle extends GameObject implements IDoodle {
         return alive;
     }
 
+    public float getVAccel(){return vAcceleration;}
+
+    public void setVAccel (float vAccel){
+        vAcceleration = vAccel;
+    }
 }
