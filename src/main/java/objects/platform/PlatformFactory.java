@@ -18,4 +18,8 @@ public class PlatformFactory implements IPlatformFactory {
     private PlatformFactory() {
 
     }
+
+    public IPlatform createPlatform(int x, int y){
+        return new Platform(x, y);
+    }
 }
