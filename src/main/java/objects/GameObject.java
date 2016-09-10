@@ -1,5 +1,7 @@
 package objects;
 
+import system.Game;
+
 import java.awt.*;
 
 /**
@@ -9,11 +11,26 @@ public abstract class GameObject implements IGameObject{
 
     private double xPos;
     private double yPos;
-    private double[] hitBox;
+    private double height;
+    private double width;
     private Object sprite;
 
     //TODO: implement correct implementation
-    public boolean collide(GameObject that) {
+    public boolean collide(IGameObject that) {
+        if(getXPos() < that.getXPos() && that.getXPos() < getXPos() + getWidth()) {
+            System.out.println("ZZ");
+            if(getYPos() < that.getYPos() && that.getYPos() < getYPos()+ getHeight()) {
+                return true;
+            } else if(that.getYPos() < getYPos() && getYPos() < that.getYPos() + that.getHeight()){
+                return true;
+            }
+        } else if(that.getXPos() < xPos && xPos < that.getXPos() + that.getWidth()){
+            if(yPos < that.getYPos() && that.getYPos() < yPos + that.getHeight()) {
+                return true;
+            } else if(that.getYPos() < yPos && yPos < that.getYPos() + that.getHeight()){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -69,12 +86,23 @@ public abstract class GameObject implements IGameObject{
         this.setYPos(current + extra);
     }
 
-    public double[] getHitBox() {
-        return hitBox;
+    public double getHeight(){
+        return height;
+    }
+
+    public double getWidth(){
+        return width;
+    }
+
+    public void setHeight(double h){
+        height = h;
+    }
+
+    public void setWidth(double w){
+        width = w;
     }
 
     //TODO: change Object to sprite
-    /** {@inheritDoc} */
     public Object getSprite() {
         return sprite;
     }
@@ -86,7 +114,10 @@ public abstract class GameObject implements IGameObject{
     public abstract void animate();
 
     //TODO: change to support correct implementation
-    public abstract void move();
+    public void move(double x, double y) {
+        addXPos(x);
+        addYPos(y);
+    }
 
     //TODO: change to support correct implementation
     public abstract void update();

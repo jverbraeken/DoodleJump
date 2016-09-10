@@ -1,11 +1,11 @@
 package scenes;
 
 import objects.BlockFactory;
-import objects.GameObject;
 import objects.IBlockFactory;
 import objects.IGameObject;
+import objects.blocks.Block;
+import objects.blocks.IBlock;
 import objects.doodles.Doodle;
-import objects.doodles.DoodleFactory;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
 import objects.platform.IPlatform;
@@ -14,9 +14,11 @@ import objects.platform.PlatformFactory;
 import system.Game;
 import system.IServiceLocator;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by joost on 6-9-16.
@@ -27,24 +29,9 @@ public class World implements IScene {
     private IDoodle doodle;
     private int width = Game.width;
     private int height = Game.height;
-
-    /* package */ World(IServiceLocator serviceLocator) {
-        World.serviceLocator = serviceLocator;
-        this.init();
-        //TODO: implements getDoodle();
-    }
-
-    public void init() {
-
-        for (int i = 0; i < 30; i ++){
-            IPlatform platform = serviceLocator.getPlatformFactory().createPlatform(determinePlatformX(), determinePlatformY(i));
-            elements.add(platform);
-        }
-//        for(int i = 0; i < 3; i++) {
-//            //TODO: implement getBlock();
-//            elements.add(blockFactory.createBlock());
-//        }
-    }
+    private double hSpeed;
+    private final static double GRAVITY = .15;
+    private IBlockFactory blockFactory;
 
     public int determinePlatformX(){
         Random rand = new Random();
@@ -61,52 +48,99 @@ public class World implements IScene {
         return (int) (height + (-platformNumber * 75 + heightDeviation * 50));
     }
 
-    public void start() {
+    /* package */ World(IBlockFactory blockFactory, IDoodle doodle) {
+        this.blockFactory = blockFactory;
+        this.doodle = doodle;
 
+        elements = new HashSet<>();
+        hSpeed = 0;
+        elements.add(blockFactory.createBlock());
     }
+
+    public void start() { }
 
     @Override
     public void paint(Graphics g) {
         for(IGameObject e : elements) {
             e.paint(g);
         }
+        doodle.paint(g);
     }
 
     @Override
     public void update() {
-        ArrayList<IGameObject> ar = new ArrayList<IGameObject>();
-        for(IGameObject e : elements) {
-            if(e.getYPos() > Game.height) {
-                ar.add(e);
-            }
-        }
 
-        for (IGameObject e : ar){
-            elements.remove(e);
-        }
-        ar = null;
+        clearRedundantBlocks();
 
-        if(!elements.contains(doodle)){
+        if (!checkAlive()) {
             //TODO: implement Game Over
             //Game.endGame();
         }
+        generateNewBlocks();
 
-        if(elements.size() < 30) {
-            double minY = Double.MAX_VALUE;
-            for(IGameObject e : elements) {
-                if(e.getYPos() < minY){
-                    minY = e.getYPos();
-                }
-            }
-            //TODO: implements new platform
-            IPlatform platform = serviceLocator.getPlatformFactory().createPlatform(determinePlatformX(),
-                    determinePlatformY(elements.size()));
-            elements.add(platform);
-        }
+        checkDoodleCollision();
 
-        int amountLower = 1;
-        for (IGameObject element : elements){
-            element.addYPos(amountLower);
+        updateSpeed();
+    }
+
+    public boolean checkAlive(){
+        return doodle.isAlive();
+    }
+
+    public void clearRedundantBlocks(){
+        for (IGameObject e : elements) {
+           if (e.getYPos() > Game.height) {
+                    elements.remove(e);
+           }
         }
     }
+
+    public void updateSpeed(){
+        hSpeed = hSpeed + GRAVITY;
+        if(this.hSpeed < 0 && doodle.getYPos() < 0.5 * Game.height) {
+            System.out.println("H" + height);
+            for(IGameObject e : elements){
+                e.addYPos(-hSpeed);
+            }
+        } else {
+           doodle.addYPos(hSpeed);
+        }
+
+    }
+    public void generateNewBlocks() {
+        if (elements.size() < 4) {
+            double minY = Game.height;
+            for (IGameObject e : elements) {
+                if (e.getYPos() < minY) {
+                    minY = e.getYPos();
+                    //TODO: new blocks
+                }
+            }
+        }
+    }
+
+    private void checkDoodleCollision(){
+        System.out.println("Dooble" + doodle.getXPos() + " " + doodle.getYPos() + " " + doodle.getWidth() + " " + doodle.getHeight());
+
+        for(IGameObject e : elements){
+            System.out.println(e.getXPos() + " " + e.getWidth());
+            if(doodle.collide(e)){
+
+                System.out.println("A");
+                if(e.getClass().equals(Block.class)) {
+                    System.out.println("B");
+                    IBlock f = (IBlock) e;
+                    for(IGameObject g : f.getElements()){
+                        System.out.println("C" + g.getXPos() + " " + g.getYPos() + " " + g.getWidth() + " " + g.getHeight());
+                        if(doodle.collide(g)){
+                            System.out.println("HIT");
+                            if(hSpeed > 0){
+                            hSpeed = -8;}
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

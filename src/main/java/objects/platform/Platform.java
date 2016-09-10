@@ -18,6 +18,8 @@ public class Platform extends GameObject implements IPlatform {
         super();
         setXPos(x);
         setYPos(y);
+        setHeight(20);
+        setWidth(50);
     }
 
     public void paint(Graphics g) {

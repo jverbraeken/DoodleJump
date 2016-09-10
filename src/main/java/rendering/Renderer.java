@@ -6,28 +6,27 @@ import system.IServiceLocator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
 
 public final class Renderer extends JFrame implements IRenderer {
+
     private static transient IServiceLocator serviceLocator;
     private int x = 0;
-    public static IScene scene;
+    public IScene scene;
 
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
-        serviceLocator.provide(new Renderer());
+        serviceLocator.provide(new Renderer(serviceLocator.getSceneFactory().getNewWorld()));
+        Renderer.serviceLocator = serviceLocator;
     }
 
     //TODO: add initial scene
-    private Renderer() {
-        setSize(Game.width, Game.height);
+    private Renderer(IScene startScene) {
+        setSize(Game.width,Game.height);
         setVisible(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        scene = startScene;
     }
 
     @Override
@@ -40,26 +39,23 @@ public final class Renderer extends JFrame implements IRenderer {
     public synchronized void start() {
         while(true){
             try {
-                Thread.sleep(10);
+                Thread.sleep(15);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(x>100)
-                x = 0;
-            x++;
             //if(Game.running){
-            //scene.update(); }
-            scene.update();
-            repaint();
+              scene.update();
+            //}
             Graphics paper = getGraphics();
             paper.clearRect(0, 0, (int)getSize().getWidth(), (int)getSize().getHeight());
+
+            repaint();
         }
     }
 
     @Override
-    public void paint(Graphics g){
-
-        g.drawRect(x,100,100,100);
-        scene.paint(g);
+    public void paint(Graphics g) {
+        this.scene.paint(g);
     }
+
 }

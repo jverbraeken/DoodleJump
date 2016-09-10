@@ -16,4 +16,9 @@ public final class DoodleFactory implements IDoodleFactory {
     private DoodleFactory() {
 
     }
+
+    public Doodle create() {
+        return new Doodle();
+    }
+
 }
