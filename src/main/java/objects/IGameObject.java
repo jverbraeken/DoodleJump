@@ -2,32 +2,29 @@ package objects;
 
 import java.awt.*;
 
-/**
- * Created by Nick on 7-9-2016.
- */
 public interface IGameObject {
 
-    public boolean collide(GameObject that);
+    boolean collide(GameObject that);
 
-    public int getXPos();
-    public int getYPos();
-    public void setXPos(int xPos);
-    public void setYPos(int yPos);
+    int getXPos();
+    int getYPos();
+    void setXPos(int xPos);
+    void setYPos(int yPos);
 
-    public double[] getHitBox();
+    double[] getHitBox();
 
     //TODO: change Object to sprite
-    public Object getSprite();
+    Object getSprite();
 
     //TODO: change to use Graphics (swing?)
-    public void paint(Graphics g);
+    void paint(Graphics g);
 
     //TODO: change to support correct implementation
-    public void animate();
+    void animate();
 
     //TODO: change to support correct implementation
-    public void move();
+    void move();
 
     //TODO: change to support correct implementation
-    public void update();
+    void update();
 }

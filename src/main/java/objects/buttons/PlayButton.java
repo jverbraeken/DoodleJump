@@ -3,24 +3,38 @@ package objects.buttons;
 import objects.GameObject;
 import rendering.IRenderer;
 import rendering.Renderer;
+import system.IServiceLocator;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by erico on 10-9-2016.
+ * <b>Immutable</b>
  */
 public class PlayButton extends Button implements IButton {
 
-    private Image buttonImage;
-    private int xPos, yPos;
+    private final IServiceLocator serviceLocator;
 
-    public PlayButton(int x, int y, Image buttonImage) {
+    private final Image buttonImage;
+    private final int xPos, yPos, width, height;
+    /** The cached values of xPos + width and yPos + height */
+    private final int xxPos, yyPos;
+
+    /* package */ PlayButton(IServiceLocator serviceLocator, int x, int y, int width, int height, Image buttonImage) {
         super();
+
+        assert serviceLocator != null;
+        assert buttonImage != null;
+
+        this.serviceLocator = serviceLocator;
         this.buttonImage = buttonImage;
-        this.setXPos(x);
-        this.setYPos(y);
+        this.xPos = x;
+        this.yPos = y;
+        this.width = width;
+        this.height = height;
+        this.xxPos = x + width;
+        this.yyPos = y + height;
     }
 
     @Override
@@ -38,16 +52,9 @@ public class PlayButton extends Button implements IButton {
         return this.yPos;
     }
 
-    @Override
-    public void setXPos(int xPos) {
-        this.xPos = xPos;
-    }
-
-    @Override
-    public void setYPos(int yPos) {
-        this.yPos = yPos;
-
-    }
+    //TODO this should be an immutable object -> MovableGameObject superclass??? More methods don't make sense...
+    public void setXPos(int x) {}
+    public void setYPos(int y) {}
 
     @Override
     public double[] getHitBox() {
@@ -61,7 +68,8 @@ public class PlayButton extends Button implements IButton {
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(this.buttonImage, this.getXPos(), this.getYPos(), null);
+        assert g != null;
+        g.drawImage(this.buttonImage, xPos, yPos, width, height, null);
     }
 
     @Override
@@ -73,4 +81,12 @@ public class PlayButton extends Button implements IButton {
     @Override
     public void update() { }
 
+    @Override
+    public void mouseClicked(int x, int y) {
+        assert x >= 0 && y >= 0;
+        if (x > xPos && y > yPos && x <= xxPos && y <= yyPos) {
+            System.out.println("Play button clicked!");
+            serviceLocator.getRenderer().setScene(serviceLocator.getSceneFactory().newWorld());
+        }
+    }
 }

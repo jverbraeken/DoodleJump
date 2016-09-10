@@ -1,14 +1,10 @@
 package objects.buttons;
 
+import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import system.Game;
 import system.IServiceLocator;
 
-import java.awt.*;
-import java.awt.event.ActionListener;
-
-/**
- * Created by erico on 10-9-2016.
- */
 public class ButtonFactory implements IButtonFactory {
 
     private static transient IServiceLocator serviceLocator;
@@ -19,10 +15,12 @@ public class ButtonFactory implements IButtonFactory {
         serviceLocator.provide(new ButtonFactory());
     }
 
-    public PlayButton createPlayButton(int x, int y) {
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        Image buttonImage = spriteFactory.getPlayButton();
-        return new PlayButton(x, y, buttonImage);
-    }
+    private static final double playButtonWidthPercentage = 0.35;
 
+    public PlayButton newPlayButton(int x, int y) {
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getPlayButtonSprite();
+        int width = (int) (Game.width * playButtonWidthPercentage);
+        return new PlayButton(serviceLocator, x, y, width, (int) (width * buttonSprite.getRatio()), buttonSprite.getImage());
+    }
 }

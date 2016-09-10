@@ -4,7 +4,7 @@ import system.IServiceLocator;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
-import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -51,13 +51,14 @@ public final class FileSystem implements IFileSystem {
     public InputStream readBinaryFile(String filename) throws FileNotFoundException {
         File file = getFile(filename);
 
-        InputStream inputStream = new FileInputStream(file);
+        InputStream inputStream = new FileInputStream(
+                file);
         return new BufferedInputStream(inputStream);
     }
 
     @Override
     /** {@inheritDoc} */
-    public Image readImage(String filename) throws FileNotFoundException {
+    public BufferedImage readImage(String filename) throws FileNotFoundException {
         File file = getFile(filename);
 
         try {

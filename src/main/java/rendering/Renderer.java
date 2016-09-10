@@ -30,16 +30,21 @@ public final class Renderer extends JFrame implements IRenderer {
 
     private Renderer() {
         addWindowListener(new RendererListener());
+        addMouseListener(serviceLocator.getInputManager());
         setSize(Game.width, Game.height);
         setVisible(true);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
 
     @Override
     public void setScene(IScene scene) {
         assert scene != null;
+        if (Renderer.scene != null) {
+            Renderer.scene.stop();
+        }
+        scene.start();
         Renderer.scene = scene;
     }
 
@@ -57,7 +62,6 @@ public final class Renderer extends JFrame implements IRenderer {
             repaint();
         }*/
         repaint();
-        while(true) { }
     }
 
     @Override

@@ -21,8 +21,8 @@ import resources.sprites.SpriteFactory;
 public final class Game {
 
     private static IServiceLocator serviceLocator = new ServiceLocator();
-    public final static int height = 512;
-    public final static int width = 320;
+    public final static int width = 640;
+    public final static int height = 1024;
 
     private static void initServices() {
         AudioManager.register(serviceLocator);
@@ -46,7 +46,7 @@ public final class Game {
         initServices();
 
         IRenderer renderer = serviceLocator.getRenderer();
-        renderer.setScene(serviceLocator.getSceneFactory().getStartMenu());
+        renderer.setScene(serviceLocator.getSceneFactory().newMenu());
         renderer.start();
     }
 

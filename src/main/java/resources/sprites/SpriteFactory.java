@@ -7,22 +7,23 @@ import resources.IRes;
 import system.IServiceLocator;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
 
 public final class SpriteFactory implements ISpriteFactory {
 
     private static transient IServiceLocator serviceLocator;
-    LoadingCache<IRes.sprites, Image> cache;
+    LoadingCache<IRes.sprites, ISprite> cache;
 
     private SpriteFactory() {
         cache = CacheBuilder.newBuilder()
                 .maximumSize(Long.MAX_VALUE)
                 .build(
-                        new CacheLoader<IRes.sprites, Image>() {
+                        new CacheLoader<IRes.sprites, ISprite>() {
                             @Override
-                            public Image load(IRes.sprites sprite) throws FileNotFoundException {
-                                return loadImage(sprite);
+                            public ISprite load(IRes.sprites sprite) throws FileNotFoundException {
+                                return loadISprite(sprite);
                             }
                         }
                 );
@@ -35,295 +36,295 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     @Override
-    public Image getDoodleSprite() {
+    public ISprite getDoodleSprite() {
         return getSprite(IRes.sprites.doodle);
     }
 
     @Override
-    public Image getPlatformSprite1() {
+    public ISprite getPlatformSprite1() {
         return getSprite(IRes.sprites.platform1);
     }
 
     @Override
-    public Image getPlatformSprite2() {
+    public ISprite getPlatformSprite2() {
         return getSprite(IRes.sprites.platform2);
     }
 
     @Override
-    public Image getPlatformSprite3() {
+    public ISprite getPlatformSprite3() {
         return getSprite(IRes.sprites.platform3);
     }
 
     @Override
-    public Image getPlatformSprite4() {
+    public ISprite getPlatformSprite4() {
         return getSprite(IRes.sprites.platform4);
     }
 
     @Override
-    public Image getPlatformSprite5() {
+    public ISprite getPlatformSprite5() {
         return getSprite(IRes.sprites.platform5);
     }
 
     @Override
-    public Image getPlatformSprite6() {
+    public ISprite getPlatformSprite6() {
         return getSprite(IRes.sprites.platform6);
     }
 
     @Override
-    public Image getPlatformSprite7() {
+    public ISprite getPlatformSprite7() {
         return getSprite(IRes.sprites.platform7);
     }
 
     @Override
-    public Image getPlatformSprite8() {
+    public ISprite getPlatformSprite8() {
         return getSprite(IRes.sprites.platform8);
     }
 
     @Override
-    public Image getPlatformSprite9() {
+    public ISprite getPlatformSprite9() {
         return getSprite(IRes.sprites.platform9);
     }
 
     @Override
-    public Image getPlatformBrokenSprite1() {
+    public ISprite getPlatformBrokenSprite1() {
         return getSprite(IRes.sprites.platformBroken1);
     }
 
     @Override
-    public Image getPlatformBrokenSprite2() {
+    public ISprite getPlatformBrokenSprite2() {
         return getSprite(IRes.sprites.platformBroken2);
     }
 
     @Override
-    public Image getPlatformBrokenSprite3() {
+    public ISprite getPlatformBrokenSprite3() {
         return getSprite(IRes.sprites.platformBroken3);
     }
 
     @Override
-    public Image getPlatformBrokenSprite4() {
+    public ISprite getPlatformBrokenSprite4() {
         return getSprite(IRes.sprites.platformBroken4);
     }
 
     @Override
-    public Image getPlatformExplosiveSprite1() {
+    public ISprite getPlatformExplosiveSprite1() {
         return getSprite(IRes.sprites.platformExplosive1);
     }
 
     @Override
-    public Image getPlatformExplosiveSprite2() {
+    public ISprite getPlatformExplosiveSprite2() {
         return getSprite(IRes.sprites.platformExplosive2);
     }
 
     @Override
-    public Image getPlatformExplosiveSprite3() {
+    public ISprite getPlatformExplosiveSprite3() {
         return getSprite(IRes.sprites.platformExplosive3);
     }
 
     @Override
-    public Image getPlatformMovable1() {
+    public ISprite getPlatformMovable1() {
         return getSprite(IRes.sprites.platformMovable1);
     }
 
     @Override
-    public Image getPlatformMovable2() {
+    public ISprite getPlatformMovable2() {
         return getSprite(IRes.sprites.platformMovable2);
     }
 
     @Override
-    public Image getPlatformMovable3() {
+    public ISprite getPlatformMovable3() {
         return getSprite(IRes.sprites.platformMovable3);
     }
 
     @Override
-    public Image getPlatformMovable4() {
+    public ISprite getPlatformMovable4() {
         return getSprite(IRes.sprites.platformMovable4);
     }
 
     @Override
-    public Image getPlatformShining1() {
+    public ISprite getPlatformShining1() {
         return getSprite(IRes.sprites.platformShining1);
     }
 
     @Override
-    public Image getPlatformShining2() {
+    public ISprite getPlatformShining2() {
         return getSprite(IRes.sprites.platformShining2);
     }
 
     @Override
-    public Image getPlatformShining3() {
+    public ISprite getPlatformShining3() {
         return getSprite(IRes.sprites.platformShining3);
     }
 
     @Override
-    public Image getPuddingMonsterSprite1() {
+    public ISprite getPuddingMonsterSprite1() {
         return getSprite(IRes.sprites.puddingMonster1);
     }
 
     @Override
-    public Image getPuddingMonsterSprite2() {
+    public ISprite getPuddingMonsterSprite2() {
         return getSprite(IRes.sprites.puddingMonster2);
     }
 
     @Override
-    public Image getPuddingMonsterSprite3() {
+    public ISprite getPuddingMonsterSprite3() {
         return getSprite(IRes.sprites.puddingMonster3);
     }
 
     @Override
-    public Image getPuddingMonsterSprite4() {
+    public ISprite getPuddingMonsterSprite4() {
         return getSprite(IRes.sprites.puddingMonster4);
     }
 
     @Override
-    public Image getPuddingMonsterSprite5() {
+    public ISprite getPuddingMonsterSprite5() {
         return getSprite(IRes.sprites.puddingMonster5);
     }
 
     @Override
-    public Image getTwinMonsterSprite() {
+    public ISprite getTwinMonsterSprite() {
         return getSprite(IRes.sprites.twinMonster);
     }
 
     @Override
-    public Image getThreeEyedMonsterSprite1() {
+    public ISprite getThreeEyedMonsterSprite1() {
         return getSprite(IRes.sprites.threeEyedMonster1);
     }
 
     @Override
-    public Image getThreeEyedMonsterSprite2() {
+    public ISprite getThreeEyedMonsterSprite2() {
         return getSprite(IRes.sprites.threeEyedMonster2);
     }
 
     @Override
-    public Image getThreeEyedMonsterSprite3() {
+    public ISprite getThreeEyedMonsterSprite3() {
         return getSprite(IRes.sprites.threeEyedMonster3);
     }
 
     @Override
-    public Image getThreeEyedMonsterSprite4() {
+    public ISprite getThreeEyedMonsterSprite4() {
         return getSprite(IRes.sprites.threeEyedMonster4);
     }
 
     @Override
-    public Image getThreeEyedMonsterSprite5() {
+    public ISprite getThreeEyedMonsterSprite5() {
         return getSprite(IRes.sprites.threeEyedMonster5);
     }
 
     @Override
-    public Image getVampireMonsterSprite1() {
+    public ISprite getVampireMonsterSprite1() {
         return getSprite(IRes.sprites.vampireMonster1);
     }
 
     @Override
-    public Image getVampireMonsterSprite2() {
+    public ISprite getVampireMonsterSprite2() {
         return getSprite(IRes.sprites.vampireMonster2);
     }
 
     @Override
-    public Image getVampireMonsterSprite3() {
+    public ISprite getVampireMonsterSprite3() {
         return getSprite(IRes.sprites.vampireMonster3);
     }
 
     @Override
-    public Image getVampireMonsterSprite4() {
+    public ISprite getVampireMonsterSprite4() {
         return getSprite(IRes.sprites.vampireMonster4);
     }
 
     @Override
-    public Image getVampireMonsterSprite5() {
+    public ISprite getVampireMonsterSprite5() {
         return getSprite(IRes.sprites.vampireMonster5);
     }
 
     @Override
-    public Image getOrdinaryMonsterSprite() {
+    public ISprite getOrdinaryMonsterSprite() {
         return getSprite(IRes.sprites.ordinaryMonster);
     }
 
     @Override
-    public Image getCactusMonster1Sprite() {
+    public ISprite getCactusMonster1Sprite() {
         return getSprite(IRes.sprites.cactusMonster1);
     }
 
     @Override
-    public Image getCactusMonster2Sprite() {
+    public ISprite getCactusMonster2Sprite() {
         return getSprite(IRes.sprites.cactusMonster2);
     }
 
     @Override
-    public Image getFiveFeetMonsterSprite() {
+    public ISprite getFiveFeetMonsterSprite() {
         return getSprite(IRes.sprites.fiveFeetMonster);
     }
 
     @Override
-    public Image getLowFiveFeetMonster1Sprite() {
+    public ISprite getLowFiveFeetMonster1Sprite() {
         return getSprite(IRes.sprites.lowFiveFeetMonster1);
     }
 
     @Override
-    public Image getLowFiveFeetMonster2Sprite() {
+    public ISprite getLowFiveFeetMonster2Sprite() {
         return getSprite(IRes.sprites.lowFiveFeetMonster2);
     }
 
     @Override
-    public Image getSmallMonsterSprite() {
+    public ISprite getSmallMonsterSprite() {
         return getSprite(IRes.sprites.smallMonster);
     }
 
     @Override
-    public Image getUFOSprite() {
+    public ISprite getUFOSprite() {
         return getSprite(IRes.sprites.ufo);
     }
 
     @Override
-    public Image getUFOShiningSprite() {
+    public ISprite getUFOShiningSprite() {
         return getSprite(IRes.sprites.ufoShining);
     }
 
     @Override
-    public Image getTrampolineSprite() {
+    public ISprite getTrampolineSprite() {
         return getSprite(IRes.sprites.trampoline);
     }
 
     @Override
-    public Image getSpringSprite() {
+    public ISprite getSpringSprite() {
         return getSprite(IRes.sprites.spring);
     }
 
     @Override
-    public Image getRocketSprite() {
+    public ISprite getRocketSprite() {
         return getSprite(IRes.sprites.rocket);
     }
 
     @Override
-    public Image getCapSprite() {
+    public ISprite getCapSprite() {
         return getSprite(IRes.sprites.cap);
     }
 
     @Override
-    public Image getShieldSprite() {
+    public ISprite getShieldSprite() {
         return getSprite(IRes.sprites.shield);
     }
 
     @Override
-    public Image getWaitDontShootSprite() {
+    public ISprite getWaitDontShootSprite() {
         return getSprite(IRes.sprites.waitDontShoot);
     }
 
     @Override
-    public Image getAvoidSprite() {
+    public ISprite getAvoidSprite() {
         return getSprite(IRes.sprites.avoid);
     }
 
     // Buttons
     @Override
-    public Image getPlayButton() { return getSprite(IRes.sprites.playButton); }
+    public ISprite getPlayButtonSprite() { return getSprite(IRes.sprites.playButton); }
 
     // Backgrounds
     @Override
-    public Image getStartMenuBackground() { return getSprite(IRes.sprites.background); }
+    public ISprite getStartMenuBackground() { return getSprite(IRes.sprites.background); }
 
     // Miscellaneous
-    private Image getSprite(IRes.sprites sprite) {
+    private ISprite getSprite(IRes.sprites sprite) {
         try {
             return cache.get(sprite);
         } catch (ExecutionException e) {
@@ -334,13 +335,14 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
-     * Loads an image with the name {@code imageName}
+     * Loads an ISprite with the name {@code ISpriteName}
      *
-     * @return The image
-     * @throws FileNotFoundException Thrown when the image was not found
+     * @return The ISprite
+     * @throws FileNotFoundException Thrown when the ISprite was not found
      */
-    private Image loadImage(IRes.sprites sprite) throws FileNotFoundException {
-        String filepath = serviceLocator.getRes().getSpritePath(sprite);
-        return serviceLocator.getFileSystem().readImage(filepath);
+    private ISprite loadISprite(IRes.sprites spriteName) throws FileNotFoundException {
+        String filepath = serviceLocator.getRes().getSpritePath(spriteName);
+        BufferedImage image = serviceLocator.getFileSystem().readImage(filepath);
+        return new Sprite(image);
     }
 }

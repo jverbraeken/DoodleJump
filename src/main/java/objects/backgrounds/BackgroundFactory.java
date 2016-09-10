@@ -6,9 +6,6 @@ import system.IServiceLocator;
 
 import java.awt.*;
 
-/**
- * Created by erico on 10-9-2016.
- */
 public class BackgroundFactory implements IBackgroundFactory {
 
     private static transient IServiceLocator serviceLocator;
@@ -22,7 +19,7 @@ public class BackgroundFactory implements IBackgroundFactory {
     @Override
     public IBackground createStartMenuBackground() {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        Image background = spriteFactory.getStartMenuBackground();
+        Image background = spriteFactory.getStartMenuBackground().getImage();
         return new StartMenuBackground(background);
     }
 

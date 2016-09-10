@@ -17,11 +17,11 @@ public final class SceneFactory implements ISceneFactory {
     }
 
     @Override
-    public Menu getStartMenu() {
+    public Menu newMenu() {
         return new Menu(serviceLocator);
     }
 
     @Override
-    public World getNewWorld() { return new World(serviceLocator); }
+    public World newWorld() { return new World(serviceLocator); }
 
 }

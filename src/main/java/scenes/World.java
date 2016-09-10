@@ -20,7 +20,7 @@ import java.util.*;
  */
 public class World implements IScene {
 
-    private IServiceLocator serviceLocator;
+    private final IServiceLocator serviceLocator;
     private Set<IGameObject> elements = new HashSet<>();
     private IDoodle doodle;
 
@@ -34,7 +34,12 @@ public class World implements IScene {
     }
 
     @Override
+    /** {@inheritDoc} */
     public void start() { }
+
+    @Override
+    /** {@inheritDoc} */
+    public void stop() { }
 
     @Override
     public void paint(Graphics g) {

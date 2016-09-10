@@ -26,7 +26,7 @@ public class Block extends GameObject implements IBlock, IGameObject {
     private float width;
     private int blockNumber;
     private ArrayList<IGameObject> blockContent;
-    private IServiceLocator serviceLocator;
+    private final IServiceLocator serviceLocator;
 
     /**
      * Create a Block. This object will automatically create and place
@@ -41,7 +41,7 @@ public class Block extends GameObject implements IBlock, IGameObject {
         this.width = width;
         this.serviceLocator = serviceLocator;
         this.blockNumber = blockNumber;
-        blockContent = new ArrayList<IGameObject>();
+        blockContent = new ArrayList<>();
         createAndPlaceObjects();
     }
 
@@ -81,7 +81,7 @@ public class Block extends GameObject implements IBlock, IGameObject {
 
     @Override
     public void paint(Graphics g) {
-        for(IGameObject e : blockContent){
+        for (IGameObject e : blockContent){
             e.paint(g);
         }
     }

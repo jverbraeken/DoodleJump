@@ -8,75 +8,75 @@ import java.awt.*;
 public interface ISpriteFactory {
 
     // Doodle
-    Image getDoodleSprite();
+    ISprite getDoodleSprite();
 
     // Platforms
-    Image getPlatformSprite1();
-    Image getPlatformSprite2();
-    Image getPlatformSprite3();
-    Image getPlatformSprite4();
-    Image getPlatformSprite5();
-    Image getPlatformSprite6();
-    Image getPlatformSprite7();
-    Image getPlatformSprite8();
-    Image getPlatformSprite9();
-    Image getPlatformBrokenSprite1();
-    Image getPlatformBrokenSprite2();
-    Image getPlatformBrokenSprite3();
-    Image getPlatformBrokenSprite4();
-    Image getPlatformExplosiveSprite1();
-    Image getPlatformExplosiveSprite2();
-    Image getPlatformExplosiveSprite3();
-    Image getPlatformMovable1();
-    Image getPlatformMovable2();
-    Image getPlatformMovable3();
-    Image getPlatformMovable4();
-    Image getPlatformShining1();
-    Image getPlatformShining2();
-    Image getPlatformShining3();
+    ISprite getPlatformSprite1();
+    ISprite getPlatformSprite2();
+    ISprite getPlatformSprite3();
+    ISprite getPlatformSprite4();
+    ISprite getPlatformSprite5();
+    ISprite getPlatformSprite6();
+    ISprite getPlatformSprite7();
+    ISprite getPlatformSprite8();
+    ISprite getPlatformSprite9();
+    ISprite getPlatformBrokenSprite1();
+    ISprite getPlatformBrokenSprite2();
+    ISprite getPlatformBrokenSprite3();
+    ISprite getPlatformBrokenSprite4();
+    ISprite getPlatformExplosiveSprite1();
+    ISprite getPlatformExplosiveSprite2();
+    ISprite getPlatformExplosiveSprite3();
+    ISprite getPlatformMovable1();
+    ISprite getPlatformMovable2();
+    ISprite getPlatformMovable3();
+    ISprite getPlatformMovable4();
+    ISprite getPlatformShining1();
+    ISprite getPlatformShining2();
+    ISprite getPlatformShining3();
 
     // Monsters
-    Image getPuddingMonsterSprite1(); // By default the green monster with some blood
-    Image getPuddingMonsterSprite2();
-    Image getPuddingMonsterSprite3();
-    Image getPuddingMonsterSprite4();
-    Image getPuddingMonsterSprite5();
-    Image getTwinMonsterSprite(); // By default the blue twin
-    Image getThreeEyedMonsterSprite1(); // By default three yellow eyes
-    Image getThreeEyedMonsterSprite2();
-    Image getThreeEyedMonsterSprite3();
-    Image getThreeEyedMonsterSprite4();
-    Image getThreeEyedMonsterSprite5();
-    Image getVampireMonsterSprite1(); // By default a blue monster with 2 red teeth
-    Image getVampireMonsterSprite2();
-    Image getVampireMonsterSprite3();
-    Image getVampireMonsterSprite4();
-    Image getVampireMonsterSprite5();
-    Image getOrdinaryMonsterSprite(); // By default the purple monster with a blank head
-    Image getCactusMonster1Sprite(); // By default with three flaps at its left and right side and three eyes
-    Image getCactusMonster2Sprite();
-    Image getFiveFeetMonsterSprite(); // By default a blue pudding with 5 red feet
-    Image getLowFiveFeetMonster1Sprite(); // By default a green very low monster with 5 feet
-    Image getLowFiveFeetMonster2Sprite();
-    Image getSmallMonsterSprite(); // By default a very small three eyed red monster
-    Image getUFOSprite();
-    Image getUFOShiningSprite();
+    ISprite getPuddingMonsterSprite1(); // By default the green monster with some blood
+    ISprite getPuddingMonsterSprite2();
+    ISprite getPuddingMonsterSprite3();
+    ISprite getPuddingMonsterSprite4();
+    ISprite getPuddingMonsterSprite5();
+    ISprite getTwinMonsterSprite(); // By default the blue twin
+    ISprite getThreeEyedMonsterSprite1(); // By default three yellow eyes
+    ISprite getThreeEyedMonsterSprite2();
+    ISprite getThreeEyedMonsterSprite3();
+    ISprite getThreeEyedMonsterSprite4();
+    ISprite getThreeEyedMonsterSprite5();
+    ISprite getVampireMonsterSprite1(); // By default a blue monster with 2 red teeth
+    ISprite getVampireMonsterSprite2();
+    ISprite getVampireMonsterSprite3();
+    ISprite getVampireMonsterSprite4();
+    ISprite getVampireMonsterSprite5();
+    ISprite getOrdinaryMonsterSprite(); // By default the purple monster with a blank head
+    ISprite getCactusMonster1Sprite(); // By default with three flaps at its left and right side and three eyes
+    ISprite getCactusMonster2Sprite();
+    ISprite getFiveFeetMonsterSprite(); // By default a blue pudding with 5 red feet
+    ISprite getLowFiveFeetMonster1Sprite(); // By default a green very low monster with 5 feet
+    ISprite getLowFiveFeetMonster2Sprite();
+    ISprite getSmallMonsterSprite(); // By default a very small three eyed red monster
+    ISprite getUFOSprite();
+    ISprite getUFOShiningSprite();
 
     // Tools
-    Image getTrampolineSprite();
-    Image getSpringSprite();
-    Image getRocketSprite();
-    Image getCapSprite();
-    Image getShieldSprite();
+    ISprite getTrampolineSprite();
+    ISprite getSpringSprite();
+    ISprite getRocketSprite();
+    ISprite getCapSprite();
+    ISprite getShieldSprite();
 
     // Text
-    Image getWaitDontShootSprite();
-    Image getAvoidSprite();
+    ISprite getWaitDontShootSprite();
+    ISprite getAvoidSprite();
 
     // Buttons
-    Image getPlayButton();
+    ISprite getPlayButtonSprite();
 
     // Background
-    Image getStartMenuBackground();
+    ISprite getStartMenuBackground();
 
 }

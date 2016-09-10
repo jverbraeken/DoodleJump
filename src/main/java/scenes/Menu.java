@@ -1,26 +1,29 @@
 package scenes;
 
+import input.IMouseInputObserver;
 import objects.IGameObject;
 import objects.backgrounds.IBackground;
 import objects.backgrounds.IBackgroundFactory;
 import objects.buttons.IButtonFactory;
 import objects.buttons.PlayButton;
-import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by joost on 6-9-16.
- */
-public class Menu implements IScene {
+public class Menu implements IScene, IMouseInputObserver {
 
-    private IServiceLocator serviceLocator;
-    private Set<IGameObject> elements = new HashSet<>();
+    private final IServiceLocator serviceLocator;
+    private final Set<IGameObject> elements = new HashSet<>();
+    /**
+     * This button is not added to {@link Menu#elements} because we want to invoke methods on it, after the constructor
+     * has been executed, that are specific to buttons.
+     */
+    private final PlayButton playButton;
+    private final double playButtonXPercentage = 0.1;
+    private final double playButtonYPercentage = 0.3;
 
     /* package */ Menu(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
@@ -30,20 +33,35 @@ public class Menu implements IScene {
         elements.add(background);
 
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        PlayButton playButton = buttonFactory.createPlayButton(50, Game.height - 150);
-        elements.add(playButton);
+        playButton = buttonFactory.newPlayButton((int) (Game.width * playButtonXPercentage), (int) (Game.height * playButtonYPercentage));
     }
 
     @Override
-    public void start() { }
+    /** {@inheritDoc} */
+    public void start() {
+        serviceLocator.getInputManager().addObserver(playButton);
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public void stop() {
+        serviceLocator.getInputManager().removeObserver(playButton);
+    }
 
     @Override
     public void paint(Graphics g){
-        for(IGameObject e : elements) {
+        for (IGameObject e : elements) {
             e.paint(g);
         }
+        playButton.paint(g);
     }
 
     @Override
     public void update() { }
+
+    @Override
+    /** {@inheritDoc} */
+    public void mouseClicked(int x, int y) {
+        System.out.println("X: " + x + ", Y: " + y);
+    }
 }
