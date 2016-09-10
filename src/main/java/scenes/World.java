@@ -9,6 +9,7 @@ import objects.doodles.DoodleFactory;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
 import system.Game;
+import system.IServiceLocator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,24 +20,21 @@ import java.util.*;
  */
 public class World implements IScene {
 
-    private Set<IGameObject> elements;
-    private IBlockFactory blockFactory;
+    private IServiceLocator serviceLocator;
+    private Set<IGameObject> elements = new HashSet<>();
     private IDoodle doodle;
-    /* package */ World(IBlockFactory blockFactory, IDoodleFactory doodleFactory) {
-        this.blockFactory = blockFactory;
-        elements = new HashSet<>();
-        //TODO: implements getDoodle();
-        //Doodle doodle = doodleFactory.getDoodle();
-        //elements.add(doodle));
+
+    /* package */ World(IServiceLocator serviceLocator) {
+        this.serviceLocator = serviceLocator;
+
+        IBlockFactory blockFactory = serviceLocator.getBlockFactory();
         for(int i = 0; i < 3; i++) {
-            //TODO: implement getBlock();
             elements.add(blockFactory.createBlock());
         }
     }
 
-    public void start() {
-
-    }
+    @Override
+    public void start() { }
 
     @Override
     public void paint(Graphics g) {
@@ -68,7 +66,7 @@ public class World implements IScene {
                 }
             }
             //TODO: implements New Block
-            elements.add(blockFactory.createBlock());
+            elements.add(serviceLocator.getBlockFactory().createBlock());
         }
     }
 }

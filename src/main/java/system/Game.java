@@ -1,5 +1,6 @@
 package system;
 
+import objects.buttons.ButtonFactory;
 import resources.Res;
 import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
@@ -22,9 +23,6 @@ public final class Game {
     public final static int height = 800;
     public final static int width = 500;
 
-    private static IRenderer renderer;
-    private static IAudioManager audioManager;
-
     private static void initServices() {
         AudioManager.register(serviceLocator);
         EnemyBuilder.register(serviceLocator);
@@ -39,17 +37,15 @@ public final class Game {
         SceneFactory.register(serviceLocator);
         PlatformFactory.register(serviceLocator);
         Res.register(serviceLocator);
+        ButtonFactory.register(serviceLocator);
     }
 
     public static void main(String[] argv) {
         initServices();
 
-        renderer = serviceLocator.getRenderer();
-        renderer.setScene(serviceLocator.getSceneFactory().getNewWorld());
-
-        audioManager = serviceLocator.getAudioManager();
-        audioManager.preload();
-        audioManager.playStart();
+        IRenderer renderer = serviceLocator.getRenderer();
+        renderer.setScene(serviceLocator.getSceneFactory().getStartMenu());
         renderer.start();
     }
+
 }

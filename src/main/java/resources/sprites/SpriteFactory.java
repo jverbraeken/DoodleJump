@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
 
 public final class SpriteFactory implements ISpriteFactory {
+
     private static transient IServiceLocator serviceLocator;
     LoadingCache<IRes.sprites, Image> cache;
 
@@ -27,9 +28,9 @@ public final class SpriteFactory implements ISpriteFactory {
                 );
     }
 
-    public static void register(IServiceLocator serviceLocator_) {
-        assert serviceLocator_ != null;
-        serviceLocator = serviceLocator_;
+    public static void register(IServiceLocator serviceLocator) {
+        assert serviceLocator != null;
+        SpriteFactory.serviceLocator = serviceLocator;
         serviceLocator.provide(new SpriteFactory());
     }
 
@@ -312,6 +313,9 @@ public final class SpriteFactory implements ISpriteFactory {
     public Image getAvoidSprite() {
         return getSprite(IRes.sprites.avoid);
     }
+
+    @Override
+    public Image getPlayButton() { return getSprite(IRes.sprites.playButton); }
 
     private Image getSprite(IRes.sprites sprite) {
         try {

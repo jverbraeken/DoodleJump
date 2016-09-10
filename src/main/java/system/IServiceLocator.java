@@ -1,5 +1,6 @@
 package system;
 
+import objects.buttons.IButtonFactory;
 import resources.IRes;
 import resources.audio.IAudioManager;
 import objects.enemies.IEnemyBuilder;
@@ -15,6 +16,7 @@ import scenes.ISceneFactory;
 import resources.sprites.ISpriteFactory;
 
 public interface IServiceLocator {
+
     void provide(IAudioManager audioManager);
     void provide(IEnemyBuilder enemyBuilder);
     void provide(IFileSystem fileSystem);
@@ -29,6 +31,7 @@ public interface IServiceLocator {
     void provide(ISceneFactory sceneFactory);
     void provide(IPlatformFactory platformFactory);
     void provide(IRes res);
+    void provide(IButtonFactory buttonFactory);
 
     IAudioManager getAudioManager();
     IEnemyBuilder getEnemyBuilder();
@@ -44,4 +47,6 @@ public interface IServiceLocator {
     ISceneFactory getSceneFactory();
     IPlatformFactory getPlatformFactory();
     IRes getRes();
+    IButtonFactory getButtonFactory();
+
 }

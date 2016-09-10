@@ -72,4 +72,8 @@ public interface ISpriteFactory {
     // Text
     Image getWaitDontShootSprite();
     Image getAvoidSprite();
+
+    // Buttons
+    Image getPlayButton();
+
 }

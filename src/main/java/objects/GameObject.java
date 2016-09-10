@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * Created by Nick on 7-9-2016.
  */
-public abstract class GameObject implements IGameObject{
+public abstract class GameObject implements IGameObject {
 
     private double xPos;
     private double yPos;

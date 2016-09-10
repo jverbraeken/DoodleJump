@@ -7,10 +7,12 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public final class Res implements IRes {
+
     private static transient IServiceLocator serviceLocator;
-    public static void register(IServiceLocator serviceLocator_) {
-        assert serviceLocator_ != null;
-        serviceLocator = serviceLocator_;
+
+    public static void register(IServiceLocator serviceLocator) {
+        assert serviceLocator != null;
+        Res.serviceLocator = serviceLocator;
         serviceLocator.provide(new Res());
     }
 
@@ -24,6 +26,7 @@ public final class Res implements IRes {
         }
         sprites.put(IRes.sprites.doodle, spritepath + "blue-lik-right@2x.png");
         sprites.put(IRes.sprites.platform1, spritepath + "platform-green@2x.png");
+        sprites.put(IRes.sprites.playButton, spritepath + "play.png");
     }
 
     private Res() {
