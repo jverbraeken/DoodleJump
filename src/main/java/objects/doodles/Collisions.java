@@ -21,15 +21,18 @@ public class Collisions {
         public void playerCollision(GameObject mover, GameObject collided) {
             if (collided instanceof Platform) {
                 Doodle player = (Doodle) mover;
-                if(player.getVAccel() <= 0.0){
+                if(player.getVAccelleration() <= 0.0){
                     player.setVAccel(6.0f);
                 }
             }
             else if(collided instanceof Enemy){
                 Doodle player = (Doodle) mover;
-                if(player.getVAccel() <= 0.0){
+                if(player.getVAccelleration() <= 0.0){
                     player.setVAccel(6.0f);
                     // TODO: still needs code to remove the enemy from the field
+                }
+                else {
+                    player.setAlive();
                 }
             }
         }
