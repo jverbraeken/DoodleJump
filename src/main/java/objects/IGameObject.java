@@ -19,6 +19,10 @@ public interface IGameObject extends IDrawable {
 
     double[] getHitBox();
 
+    int getHeight();
+
+    int getWidth();
+
     int getXPos();
 
     int getYPos();
@@ -26,6 +30,10 @@ public interface IGameObject extends IDrawable {
     void move();
 
     void paint();
+
+    void setHeight(int height);
+
+    void setWidth(int width);
 
     void setXPos(int xPos);
 

@@ -5,10 +5,12 @@ package objects;
  */
 public abstract class AGameObject implements IGameObject {
 
-    private int xPos;
-    private int yPos;
+    private int height;
     private double[] hitBox;
     private Object sprite;
+    private int width;
+    private int xPos;
+    private int yPos;
 
     @Override
     /** {@inheritDoc} */
@@ -46,6 +48,18 @@ public abstract class AGameObject implements IGameObject {
 
     @Override
     /** {@inheritDoc} */
+    public int getHeight() {
+        return this.height;
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public int getWidth() {
+        return this.width;
+    }
+
+    @Override
+    /** {@inheritDoc} */
     public int getXPos() {
         return this.xPos;
     }
@@ -63,6 +77,16 @@ public abstract class AGameObject implements IGameObject {
     @Override
     /** {@inheritDoc} */
     public abstract void paint();
+
+    @Override
+    /** {@inheritDoc} */
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public void setWidth(int width) { this.width = width; }
 
     @Override
     /** {@inheritDoc} */

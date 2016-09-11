@@ -27,15 +27,18 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /* package */ Doodle(IServiceLocator serviceLocator) {
         Doodle.serviceLocator = serviceLocator;
+
         this.setXPos(Game.WIDTH / 2);
         this.setYPos(Game.HEIGHT / 2);
+        this.setWidth(50);
+        this.setHeight(50);
     }
 
     //TODO: change to use Graphics (swing?)
     @Override
     public void paint() {
         this.update();
-        serviceLocator.getRenderer().drawRectangle(this.getXPos(), this.getYPos(), 50, 50);
+        serviceLocator.getRenderer().drawRectangle(this.getXPos(), this.getYPos(), this.getWidth(), this.getHeight());
     }
 
     //TODO: change to support correct implementation
@@ -101,7 +104,7 @@ public class Doodle extends AGameObject implements IDoodle {
     public void collide(IGameObject collidee) {
         ICollisions collisions = serviceLocator.getCollisions();
         boolean collided = collisions.collide(this, collidee);
-        
+
         if(collided) {
             System.out.println("Collide doodle with platform");
             this.vAcceleration = -this.vAccelerationLimit;

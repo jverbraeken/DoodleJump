@@ -1,6 +1,7 @@
 package system;
 
 import math.ICalc;
+import objects.Collisions;
 import objects.backgrounds.BackgroundFactory;
 import objects.buttons.ButtonFactory;
 import resources.Res;
@@ -56,6 +57,7 @@ public final class Game {
         Res.register(serviceLocator);
         ButtonFactory.register(serviceLocator);
         BackgroundFactory.register(serviceLocator);
+        Collisions.register(serviceLocator);
     }
 
     /**

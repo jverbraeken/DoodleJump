@@ -15,7 +15,7 @@ public class Collisions implements ICollisions {
     private Collisions() { }
 
     public boolean collide(IGameObject a, IGameObject b) {
-        if(a.getYPos() == b.getYPos()) {
+        if(a.getYPos() > b.getYPos() && a.getYPos() < (b.getYPos() + b.getHeight())) {  
             return true;
         }
 

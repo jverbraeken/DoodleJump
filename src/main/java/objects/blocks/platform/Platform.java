@@ -24,22 +24,20 @@ public class Platform extends AGameObject implements IPlatform {
 
         this.setXPos(x);
         this.setYPos(y);
+        this.setHeight(20);
+        this.setWidth(50);
     }
 
     @Override
-    public void animate() {
-
-    }
+    public void animate() { }
 
     @Override
-    public void move() {
-
-    }
+    public void move() { }
 
     @Override
     /** {@inheritDoc} */
     public void paint() {
-        serviceLocator.getRenderer().drawRectangle(this.getXPos(), this.getYPos(), 50, 20);
+        serviceLocator.getRenderer().drawRectangle(this.getXPos(), this.getYPos(), this.getWidth(), this.getHeight());
     }
 
     @Override

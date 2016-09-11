@@ -18,6 +18,8 @@ import rendering.IRenderer;
 import scenes.ISceneFactory;
 import resources.sprites.ISpriteFactory;
 
+import java.awt.*;
+
 public class ServiceLocator implements IServiceLocator {
 
     // input
@@ -191,18 +193,27 @@ public class ServiceLocator implements IServiceLocator {
         this.buttonFactory = buttonFactory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void provide(IBackgroundFactory backgroundFactory) {
         assert backgroundFactory != null;
         this.backgroundFactory = backgroundFactory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void provide(ICollisions collisions) {
         assert collisions != null;
         this.collisions = collisions;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IAudioManager getAudioManager() {
         return audioManager;
@@ -316,24 +327,18 @@ public class ServiceLocator implements IServiceLocator {
      * {@inheritDoc}
      */
     @Override
-    public IButtonFactory getButtonFactory() {
-        return buttonFactory;
-    }
+    public IButtonFactory getButtonFactory() { return buttonFactory; }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public IBackgroundFactory getBackgroundFactory() {
-        return backgroundFactory;
-    }
+    public IBackgroundFactory getBackgroundFactory() { return backgroundFactory; }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ICollisions getCollisions() {
-        return collisions;
-    }
+    public ICollisions getCollisions() { return collisions; }
 
 }
