@@ -3,6 +3,8 @@ package objects.doodles;
 import objects.AGameObject;
 import objects.ICollisions;
 import objects.IGameObject;
+import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
@@ -22,14 +24,19 @@ public class Doodle extends AGameObject implements IDoodle {
     private float hAccelerationLimit = 3f;
     // How much the doodle is affected by the player.
     private float hAccelerationUnit = .15f;
+    // The sprite for the doodle
+    private ISprite sprite;
 
     /* package */ Doodle(IServiceLocator serviceLocator) {
         Doodle.serviceLocator = serviceLocator;
 
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        this.sprite = spriteFactory.getDoodleSprite();
+
         this.setXPos(Game.WIDTH / 2);
         this.setYPos(Game.HEIGHT / 2);
-        this.setWidth(50);
-        this.setHeight(50);
+        this.setWidth(sprite.getWidth());
+        this.setHeight(sprite.getHeight());
     }
 
     @Override
@@ -54,7 +61,7 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public void paint() {
         this.update();
-        serviceLocator.getRenderer().drawRectangle(this.getXPos(), this.getYPos(), this.getWidth(), this.getHeight());
+        serviceLocator.getRenderer().drawImage(this.sprite.getImage(), this.getXPos(), this.getYPos());
     }
 
     @Override
