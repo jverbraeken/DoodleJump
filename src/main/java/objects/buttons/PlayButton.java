@@ -19,8 +19,8 @@ public class PlayButton implements IButton {
 
     private final Image buttonImage;
     private int xPos, yPos, width, height;
-    /** The cached values of xPos + width and yPos + height */
-    private final int xxPos, yyPos;
+    /** The cached values of xPos, yPos + height/2, xPos + width and yPos + height */
+    private final int clickXPos, clickYPos, clickXXPos, clickYYpos;
 
     /* package */ PlayButton(IServiceLocator serviceLocator, int x, int y, int width, int height, Image buttonImage) {
         super();
@@ -34,8 +34,10 @@ public class PlayButton implements IButton {
         this.yPos = y;
         this.width = width;
         this.height = height;
-        this.xxPos = x + width;
-        this.yyPos = y + height;
+        this.clickXPos = x;
+        this.clickYPos = y + height/2;
+        this.clickXXPos = clickXPos + width;
+        this.clickYYpos = clickYPos + height;
     }
 
     @Override
@@ -88,7 +90,7 @@ public class PlayButton implements IButton {
 
         System.out.println("Play button received mouse click!");
         assert x >= 0 && y >= 0;
-        if (x > xPos && y > yPos && x <= xxPos && y <= yyPos) {
+        if (x > clickXPos && y > clickYPos && x <= clickXXPos && y <= clickYYpos) {
             System.out.println("Play button clicked!");
             Game.setScene(serviceLocator.getSceneFactory().newWorld());
         }
