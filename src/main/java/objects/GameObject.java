@@ -44,7 +44,7 @@ public abstract class GameObject implements IGameObject {
     }
 
     //TODO: change to use Graphics (swing?)
-    public abstract void paint(Graphics g);
+    public abstract void paint();
 
     //TODO: change to support correct implementation
     public abstract void animate();

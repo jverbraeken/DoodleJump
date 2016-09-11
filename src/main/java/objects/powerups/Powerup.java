@@ -11,21 +11,28 @@ public class Powerup extends GameObject implements IPowerup {
 
     //TODO: change to use Graphics (swing?)
     @Override
-    public void paint(Graphics g) {
+    /** {@inheritDoc} */
+    public void paint() {
 
     }
 
     //TODO: change to support correct implementation
+    @Override
+    /** {@inheritDoc} */
     public void animate() {
 
     }
 
     //TODO: change to support correct implementation
+    @Override
+    /** {@inheritDoc} */
     public void move() {
 
     }
 
     //TODO: change to support correct implementation
+    @Override
+    /** {@inheritDoc} */
     public void update() {
 
     }

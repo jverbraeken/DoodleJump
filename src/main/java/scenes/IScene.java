@@ -18,9 +18,8 @@ public interface IScene {
 
     /**
      * Repaint the scene.
-     * @param g The graphics buffer to which the scene should be painted
      */
-    void paint(Graphics g);
+    void paint();
 
     /**
      * Update the scene.

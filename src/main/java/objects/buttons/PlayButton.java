@@ -3,6 +3,7 @@ package objects.buttons;
 import objects.GameObject;
 import rendering.IRenderer;
 import rendering.Renderer;
+import system.Game;
 import system.IServiceLocator;
 
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.awt.event.ActionListener;
 /**
  * <b>Immutable</b>
  */
-public class PlayButton extends Button implements IButton {
+public class PlayButton implements IButton {
 
     private final IServiceLocator serviceLocator;
 
@@ -69,9 +70,8 @@ public class PlayButton extends Button implements IButton {
     }
 
     @Override
-    public void paint(Graphics g) {
-        assert g != null;
-        g.drawImage(this.buttonImage, xPos, yPos, width, height, null);
+    public void paint() {
+        serviceLocator.getRenderer().drawImage(this.buttonImage, xPos, yPos, width, height);
     }
 
     @Override
@@ -85,10 +85,12 @@ public class PlayButton extends Button implements IButton {
 
     @Override
     public void mouseClicked(int x, int y) {
+
+        System.out.println("Play button received mouse click!");
         assert x >= 0 && y >= 0;
         if (x > xPos && y > yPos && x <= xxPos && y <= yyPos) {
             System.out.println("Play button clicked!");
-            serviceLocator.getRenderer().setScene(serviceLocator.getSceneFactory().newWorld());
+            Game.setScene(serviceLocator.getSceneFactory().newWorld());
         }
     }
 }

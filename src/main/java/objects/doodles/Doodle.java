@@ -4,9 +4,6 @@ import objects.GameObject;
 
 import java.awt.*;
 
-/**
- * Created by Nick on 7-9-2016.
- */
 public class Doodle extends GameObject implements IDoodle {
 
     /* package */ Doodle() {
@@ -15,7 +12,7 @@ public class Doodle extends GameObject implements IDoodle {
 
     //TODO: change to use Graphics (swing?)
     @Override
-    public void paint(Graphics g) {
+    public void paint() {
 
     }
 

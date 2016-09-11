@@ -39,9 +39,9 @@ public class World implements IScene {
     public void stop() { }
 
     @Override
-    public void paint(Graphics g) {
+    public void paint() {
         for(IGameObject e : elements) {
-            e.paint(g);
+            e.paint();
         }
     }
 

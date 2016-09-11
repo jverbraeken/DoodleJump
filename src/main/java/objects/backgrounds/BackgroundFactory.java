@@ -1,5 +1,6 @@
 package objects.backgrounds;
 
+import rendering.IDrawable;
 import resources.sprites.ISpriteFactory;
 import resources.sprites.SpriteFactory;
 import system.IServiceLocator;
@@ -17,10 +18,10 @@ public class BackgroundFactory implements IBackgroundFactory {
     }
 
     @Override
-    public IBackground createStartMenuBackground() {
+    public IDrawable createStartMenuBackground() {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         Image background = spriteFactory.getStartMenuBackground().getImage();
-        return new StartMenuBackground(background);
+        return () -> serviceLocator.getRenderer().drawImage(background, 0, 0);
     }
 
 }

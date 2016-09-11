@@ -73,16 +73,16 @@ public class Block extends GameObject implements IBlock, IGameObject {
             }
 
             int xLoc = (int) (widthDeviation * width);
-            Platform p = new Platform(xLoc, yLoc);
+            Platform p = new Platform(serviceLocator, xLoc, yLoc);
             blockContent.add(p);
         }
 
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paint() {
         for (IGameObject e : blockContent){
-            e.paint(g);
+            e.paint();
         }
     }
 

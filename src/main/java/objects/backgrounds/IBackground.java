@@ -1,9 +1,6 @@
 package objects.backgrounds;
 
-import objects.IGameObject;
+import rendering.IDrawable;
 
-/**
- * Created by erico on 10-9-2016.
- */
-public interface IBackground extends IGameObject {
+public interface IBackground extends IDrawable {
 }

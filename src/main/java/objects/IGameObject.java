@@ -1,8 +1,10 @@
 package objects;
 
+import rendering.IDrawable;
+
 import java.awt.*;
 
-public interface IGameObject {
+public interface IGameObject extends IDrawable {
 
     boolean collide(GameObject that);
 
@@ -15,9 +17,6 @@ public interface IGameObject {
 
     //TODO: change Object to sprite
     Object getSprite();
-
-    //TODO: change to use Graphics (swing?)
-    void paint(Graphics g);
 
     //TODO: change to support correct implementation
     void animate();

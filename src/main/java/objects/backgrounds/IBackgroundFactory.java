@@ -1,10 +1,9 @@
 package objects.backgrounds;
 
-/**
- * Created by erico on 10-9-2016.
- */
+import rendering.IDrawable;
+
 public interface IBackgroundFactory {
 
-    IBackground createStartMenuBackground();
+    IDrawable createStartMenuBackground();
 
 }
