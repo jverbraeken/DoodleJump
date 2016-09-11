@@ -48,47 +48,8 @@ public class PlayButton implements IButton {
     }
 
     @Override
-    public boolean collide(AGameObject that) {
-        return false;
-    }
-
-    @Override
     public void paint() {
         serviceLocator.getRenderer().drawImage(image, topLeft[0], topLeft[1], width, height);
     }
 
-    @Override
-    public int getXPos() {
-        return this.topLeft[0];
-    }
-
-    @Override
-    public int getYPos() {
-        return this.topLeft[1];
-    }
-
-    @Override
-    public void setXPos(int xPos) { }
-
-    @Override
-    public void setYPos(int yPos) { }
-
-    @Override
-    public double[] getHitBox() {
-        return new double[0];
-    }
-
-    @Override
-    public Object getSprite() {
-        return null;
-    }
-
-    @Override
-    public void animate() { }
-
-    @Override
-    public void move() { }
-
-    @Override
-    public void update() { }
 }
