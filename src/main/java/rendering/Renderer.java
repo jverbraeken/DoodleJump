@@ -7,12 +7,13 @@ import system.IServiceLocator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
-public final class Renderer extends JFrame implements IRenderer {
+public final class Renderer implements IRenderer {
 
     private static transient IServiceLocator serviceLocator;
 
@@ -22,47 +23,44 @@ public final class Renderer extends JFrame implements IRenderer {
         serviceLocator.provide(new Renderer());
     }
 
-    private int x = 0;
-    private static IScene scene;
+    private Graphics graphics;
 
-    //TODO: add initial scene
     private Renderer() {
-        setSize(Game.width, Game.height);
-        setVisible(true);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+
     }
 
     @Override
-    public void setScene(IScene currentScene) {
-        assert currentScene != null;
-        scene = currentScene;
+    /** {@inheritDoc} */
+    public void start() {
+
+    }
+
+    public void drawRectangle(int x, int y, int width, int height) {
+        graphics.drawRect(x, y, width, height);
     }
 
     @Override
-    public synchronized void start() {
-        while(true){
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if(x>100)
-                x = 0;
-            x++;
-            //if(Game.running){
-            //scene.update(); }
-            repaint();
-            Graphics paper = getGraphics();
-            paper.clearRect(0, 0, (int)getSize().getWidth(), (int)getSize().getHeight());
+    /** {@inheritDoc} */
+    public void drawImage(Image image, int x, int y) {
+        assert graphics != null;
+        if (image == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
         }
+        graphics.drawImage(image, x, y, null);
     }
 
     @Override
-    public void paint(Graphics g) {
-        ISpriteFactory factory = serviceLocator.getSpriteFactory();
-        Image doodleSprite = factory.getDoodleSprite();
-        g.drawImage(doodleSprite, x, 100, null);
+    /** {@inheritDoc} */
+    public void drawImage(Image image, int x, int y, int width, int height) {
+        graphics.drawImage(image, x, y, width, height, null);
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public void setGraphicsBuffer(Graphics graphics) {
+        if (graphics == null) {
+            throw new IllegalArgumentException("The graphics buffer cannot be null");
+        }
+        this.graphics = graphics;
     }
 }

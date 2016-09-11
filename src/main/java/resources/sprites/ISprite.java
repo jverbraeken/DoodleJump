@@ -1,7 +1,10 @@
 package resources.sprites;
 
-/**
- * Created by joost on 6-9-16.
- */
+import java.awt.Image;
+
 public interface ISprite {
+    Image getImage();
+    int getWidth();
+    int getHeight();
+    double getRatio();
 }

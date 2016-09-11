@@ -5,10 +5,10 @@ import java.awt.*;
 /**
  * Created by Nick on 7-9-2016.
  */
-public abstract class GameObject implements IGameObject{
+public abstract class GameObject implements IGameObject {
 
-    private double xPos;
-    private double yPos;
+    private int xPos;
+    private int yPos;
     private double[] hitBox;
     private Object sprite;
 
@@ -17,12 +17,20 @@ public abstract class GameObject implements IGameObject{
         return false;
     }
 
-    public double getXPos() {
+    public int getXPos() {
         return xPos;
     }
 
-    public double getYPos() {
+    public int getYPos() {
         return yPos;
+    }
+
+    public void setXPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public void setYPos(int yPos) {
+        this.yPos = yPos;
     }
 
     public double[] getHitBox() {
@@ -36,7 +44,7 @@ public abstract class GameObject implements IGameObject{
     }
 
     //TODO: change to use Graphics (swing?)
-    public abstract void paint(Graphics g);
+    public abstract void paint();
 
     //TODO: change to support correct implementation
     public abstract void animate();

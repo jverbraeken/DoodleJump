@@ -1,7 +1,10 @@
 package objects.doodles;
 
-/**
- * Created by joost on 6-9-16.
- */
 public interface IDoodleFactory {
+
+    /**
+     * Creates and returns a new IDoodle. Note that multiple doodles are possible.
+     * @return A new Doodle
+     */
+    IDoodle newDoodle();
 }

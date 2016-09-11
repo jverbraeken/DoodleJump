@@ -1,37 +1,29 @@
 package objects;
 
+import rendering.IDrawable;
+
 import java.awt.*;
 
-/**
- * Created by Nick on 7-9-2016.
- */
-public interface IGameObject {
+public interface IGameObject extends IDrawable {
 
-    public boolean collide(GameObject that);
+    boolean collide(GameObject that);
 
-    public double getXPos();
+    int getXPos();
+    int getYPos();
+    void setXPos(int xPos);
+    void setYPos(int yPos);
 
-    public double getYPos();
-
-    public double[] getHitBox();
+    double[] getHitBox();
 
     //TODO: change Object to sprite
-
-    /**
-     * utyu
-     * @return erdtf
-     */
-    public Object getSprite();
-
-    //TODO: change to use Graphics (swing?)
-    public void paint(Graphics g);
+    Object getSprite();
 
     //TODO: change to support correct implementation
-    public void animate();
+    void animate();
 
     //TODO: change to support correct implementation
-    public void move();
+    void move();
 
     //TODO: change to support correct implementation
-    public void update();
+    void update();
 }

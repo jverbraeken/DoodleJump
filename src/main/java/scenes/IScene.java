@@ -6,7 +6,24 @@ import java.awt.*;
  * Created by joost on 6-9-16.
  */
 public interface IScene {
+    /**
+     * This method must be called when starting the scene.
+     */
     void start();
-    void paint(Graphics g);
-    void update();
+
+    /**
+     * This method must be called when stopping the scene.
+     */
+    void stop();
+
+    /**
+     * Repaint the scene.
+     */
+    void paint();
+
+    /**
+     * Update the scene.
+     * @param delta The time in milliseconds that has passed between the last frame and the new frame
+     */
+    void update(double delta);
 }

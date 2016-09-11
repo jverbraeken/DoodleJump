@@ -61,7 +61,13 @@ public interface IRes {
         shield,
 
         waitDontShoot,
-        avoid
+        avoid,
+
+        // Buttons
+        playButton,
+
+        // Backgrounds
+        background
     }
 
     /**

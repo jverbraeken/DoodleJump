@@ -2,6 +2,7 @@ package filesystem;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -34,7 +35,7 @@ public interface IFileSystem {
      * @return An Image embedding the image on the disk
      * @throws FileNotFoundException Thrown when the file could not be found
      */
-    Image readImage(String filename) throws FileNotFoundException;
+    BufferedImage readImage(String filename) throws FileNotFoundException;
 
     /**
      * Reads and returns a sound.

@@ -7,26 +7,21 @@ import system.IServiceLocator;
  * Created by joost on 6-9-16.
  */
 public final class SceneFactory implements ISceneFactory {
+
     private static transient IServiceLocator serviceLocator;
-    public static void register(IServiceLocator serviceLocator_) {
-        assert serviceLocator_ != null;
-        serviceLocator = serviceLocator_;
+
+    public static void register(IServiceLocator serviceLocator) {
+        assert serviceLocator != null;
+        SceneFactory.serviceLocator = serviceLocator;
         serviceLocator.provide(new SceneFactory());
     }
 
-    private final Menu menu = new Menu();
-    private World world;
-
-    private SceneFactory() {
+    @Override
+    public Menu newMenu() {
+        return new Menu(serviceLocator);
     }
 
     @Override
-    public Menu getMenu() {
-        return null;
-    }
+    public World newWorld() { return new World(serviceLocator); }
 
-    @Override
-    public World getNewWorld() {
-        return new World(serviceLocator.getBlockFactory(),serviceLocator.getDoodleFactory());
-    }
 }
