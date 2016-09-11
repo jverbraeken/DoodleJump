@@ -1,13 +1,9 @@
 package objects.powerups;
 
-import objects.GameObject;
+import objects.AGameObject;
 
-import java.awt.*;
 
-/**
- * Created by Nick on 7-9-2016.
- */
-public class Powerup extends GameObject implements IPowerup {
+public abstract class Powerup extends AGameObject implements IPowerup {
 
     //TODO: change to use Graphics (swing?)
     @Override

@@ -1,17 +1,13 @@
 package scenes;
 
-import objects.BlockFactory;
-import objects.GameObject;
-import objects.IBlockFactory;
+import objects.blocks.IBlockFactory;
 import objects.IGameObject;
 import objects.doodles.Doodle;
-import objects.doodles.DoodleFactory;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
 import system.Game;
 import system.IServiceLocator;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
@@ -49,18 +45,18 @@ public class World implements IScene {
     public void update(double delta) {
         for(IGameObject e : elements) {
             if(e.getClass().equals(Doodle.class)){
-                if(e.getYPos() > Game.height) {
+                if(e.getYPos() > Game.HEIGHT) {
                     elements.remove(e);
                 }
             }
         }
 
-        if(!elements.contains(doodle)){
+        if (!elements.contains(doodle)){
             //TODO: implement Game Over
             //Game.endGame();
         }
 
-        if(elements.size() < 4) {
+        if (elements.size() < 4) {
             double minY = Double.MAX_VALUE;
             for(IGameObject e : elements) {
                 if(e.getYPos() < minY){

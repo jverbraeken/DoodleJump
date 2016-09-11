@@ -1,25 +1,18 @@
 package objects.blocks;
 
-import objects.GameObject;
-import objects.platform.Platform;
+import objects.AGameObject;
+import objects.blocks.platform.IPlatform;
+import objects.blocks.platform.IPlatformFactory;
+import objects.blocks.platform.Platform;
 import system.IServiceLocator;
-import system.ServiceLocator;
 
 import java.util.ArrayList;
 import java.util.Random;
 import objects.IGameObject;
-import objects.doodles.IDoodleFactory;
-import objects.enemies.IEnemyBuilder;
-import objects.platform.IPlatformFactory;
 
 import java.awt.*;
-import java.util.Set;
-import java.util.TreeSet;
 
-/**
- * Created by Nick on 7-9-2016.
- */
-public class Block extends GameObject implements IBlock, IGameObject {
+public class Block extends AGameObject implements IBlock {
 
     private final int jumpHeight = 100;
     private float height;
@@ -27,6 +20,7 @@ public class Block extends GameObject implements IBlock, IGameObject {
     private int blockNumber;
     private ArrayList<IGameObject> blockContent;
     private final IServiceLocator serviceLocator;
+    private IPlatformFactory platformFactory;
 
     /**
      * Create a Block. This object will automatically create and place
@@ -36,10 +30,11 @@ public class Block extends GameObject implements IBlock, IGameObject {
      * @param serviceLocator - the ServiceLocator of this game.
      * @param blockNumber - The number of the block.
      */
-    public Block(float width, float height, IServiceLocator serviceLocator, int blockNumber) {
+    /* package */ Block(float width, float height, IServiceLocator serviceLocator, int blockNumber) {
         this.height = height;
         this.width = width;
         this.serviceLocator = serviceLocator;
+        platformFactory = serviceLocator.getPlatformFactory();
         this.blockNumber = blockNumber;
         blockContent = new ArrayList<>();
         createAndPlaceObjects();
@@ -73,7 +68,7 @@ public class Block extends GameObject implements IBlock, IGameObject {
             }
 
             int xLoc = (int) (widthDeviation * width);
-            Platform p = new Platform(serviceLocator, xLoc, yLoc);
+            IPlatform p = platformFactory.newPlatform(xLoc, yLoc);
             blockContent.add(p);
         }
 
@@ -81,7 +76,7 @@ public class Block extends GameObject implements IBlock, IGameObject {
 
     @Override
     public void paint() {
-        for (IGameObject e : blockContent){
+        for(IGameObject e : blockContent){
             e.paint();
         }
     }

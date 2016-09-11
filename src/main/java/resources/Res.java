@@ -7,7 +7,9 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public final class Res implements IRes {
-
+    /**
+    * Used to gain access to all services.
+    */
     private static transient IServiceLocator serviceLocator;
 
     public static void register(IServiceLocator serviceLocator) {

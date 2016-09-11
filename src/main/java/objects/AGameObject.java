@@ -1,11 +1,11 @@
 package objects;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 /**
- * Created by Nick on 7-9-2016.
+ * The super class of all classes that represents objects in the game.
  */
-public abstract class GameObject implements IGameObject {
+public abstract class AGameObject implements IGameObject {
 
     private int xPos;
     private int yPos;
@@ -13,45 +13,63 @@ public abstract class GameObject implements IGameObject {
     private Object sprite;
 
     //TODO: implement correct implementation
-    public boolean collide(GameObject that) {
+    /** {@inheritDoc} */
+    @Override
+    public boolean collide(AGameObject that) {
         return false;
     }
 
-    public int getXPos() {
-        return xPos;
-    }
-
-    public int getYPos() {
-        return yPos;
-    }
-
+    @Override
     public void setXPos(int xPos) {
         this.xPos = xPos;
     }
 
+    @Override
     public void setYPos(int yPos) {
         this.yPos = yPos;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public int getXPos() {
+        return xPos;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int getYPos() {
+        return yPos;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public double[] getHitBox() {
         return hitBox;
     }
 
     //TODO: change Object to sprite
     /** {@inheritDoc} */
+    @Override
     public Object getSprite() {
         return sprite;
     }
 
-    //TODO: change to use Graphics (swing?)
+    /** {@inheritDoc} */
+    @Override
     public abstract void paint();
 
     //TODO: change to support correct implementation
+    /** {@inheritDoc} */
+    @Override
     public abstract void animate();
 
     //TODO: change to support correct implementation
+    /** {@inheritDoc} */
+    @Override
     public abstract void move();
 
     //TODO: change to support correct implementation
+    /** {@inheritDoc} */
+    @Override
     public abstract void update();
 }

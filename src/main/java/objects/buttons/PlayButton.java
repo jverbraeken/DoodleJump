@@ -1,6 +1,6 @@
 package objects.buttons;
 
-import objects.GameObject;
+import objects.AGameObject;
 import rendering.IRenderer;
 import rendering.Renderer;
 import system.Game;
@@ -39,7 +39,7 @@ public class PlayButton implements IButton {
     }
 
     @Override
-    public boolean collide(GameObject that) {
+    public boolean collide(AGameObject that) {
         return false;
     }
 

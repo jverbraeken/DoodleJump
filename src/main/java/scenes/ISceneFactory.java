@@ -1,6 +1,7 @@
 package scenes;
 
-public interface ISceneFactory {
+import system.IFactory;
+public interface ISceneFactory extends IFactory {
 
     Menu newMenu();
     World newWorld();

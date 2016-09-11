@@ -1,11 +1,12 @@
 package objects.doodles;
 
-import objects.GameObject;
+import objects.AGameObject;
 
-import java.awt.*;
+public class Doodle extends AGameObject implements IDoodle {
 
-public class Doodle extends GameObject implements IDoodle {
-
+    /**
+     * Creates a new doodle and prevents instantiation from outside the package.
+     */
     /* package */ Doodle() {
 
     }

@@ -12,10 +12,15 @@ import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
 
 public final class SpriteFactory implements ISpriteFactory {
-
+    /**
+    * Used to gain access to all services.
+    */
     private static transient IServiceLocator serviceLocator;
     LoadingCache<IRes.sprites, ISprite> cache;
 
+    /**
+     * Prevents instantiation from outside the class.
+     */
     private SpriteFactory() {
         cache = CacheBuilder.newBuilder()
                 .maximumSize(Long.MAX_VALUE)

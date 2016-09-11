@@ -1,19 +1,23 @@
 package scenes;
 
-import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
-/**
- * Created by joost on 6-9-16.
- */
 public final class SceneFactory implements ISceneFactory {
-
+    /**
+     * Used to gain access to all services.
+     */
     private static transient IServiceLocator serviceLocator;
 
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        SceneFactory.serviceLocator = serviceLocator;
+    public static void register(IServiceLocator serviceLocator_) {
+        assert serviceLocator_ != null;
+        serviceLocator = serviceLocator_;
         serviceLocator.provide(new SceneFactory());
+    }
+
+    /**
+     * Prevents instantiation from outside the class.
+     */
+    private SceneFactory() {
     }
 
     @Override
@@ -22,6 +26,8 @@ public final class SceneFactory implements ISceneFactory {
     }
 
     @Override
-    public World newWorld() { return new World(serviceLocator); }
+    public World newWorld() {
+        return new World(serviceLocator);
+    }
 
 }

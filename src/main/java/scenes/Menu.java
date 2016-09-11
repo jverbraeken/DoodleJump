@@ -30,7 +30,7 @@ public class Menu implements IScene, IMouseInputObserver {
         background = backgroundFactory.createStartMenuBackground();
 
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        playButton = buttonFactory.newPlayButton((int) (Game.width * playButtonXPercentage), (int) (Game.height * playButtonYPercentage));
+        playButton = buttonFactory.newPlayButton((int) (Game.WIDTH * playButtonXPercentage), (int) (Game.HEIGHT * playButtonYPercentage));
     }
 
     @Override

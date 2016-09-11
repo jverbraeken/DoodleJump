@@ -1,7 +1,6 @@
 package objects.powerups;
 
-/**
- * Created by joost on 6-9-16.
- */
-public interface IPowerupFactory {
+import system.IFactory;
+
+public interface IPowerupFactory extends IFactory {
 }

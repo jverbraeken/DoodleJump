@@ -1,13 +1,12 @@
 package objects.enemies;
 
-import objects.GameObject;
+
+import objects.AGameObject;
 
 import java.awt.*;
 
-/**
- * Created by joost on 6-9-16.
- */
-public abstract class Enemy extends GameObject implements IEnemy {
+
+public abstract class Enemy extends AGameObject implements IEnemy {
 
     //TODO: change to use Graphics (swing?)
     public void paint(Graphics g) {

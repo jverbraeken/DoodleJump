@@ -2,15 +2,19 @@ package objects;
 
 import rendering.IDrawable;
 
-import java.awt.*;
-
+/**
+ * The interface implemented by {@link AGameObject}, the super class of all classes that represents objects in the game.
+ */
 public interface IGameObject extends IDrawable {
 
-    boolean collide(GameObject that);
+    boolean collide(AGameObject that);
 
     int getXPos();
+
     int getYPos();
+
     void setXPos(int xPos);
+
     void setYPos(int yPos);
 
     double[] getHitBox();

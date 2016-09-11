@@ -9,10 +9,10 @@ import resources.audio.IAudioManager;
 import filesystem.FileSystem;
 import input.InputManager;
 import math.Calc;
-import objects.BlockFactory;
+import objects.blocks.BlockFactory;
 import objects.doodles.DoodleFactory;
 import objects.enemies.EnemyBuilder;
-import objects.platform.PlatformFactory;
+import objects.blocks.platform.PlatformFactory;
 import objects.powerups.PowerupFactory;
 import rendering.IRenderer;
 import rendering.Renderer;
@@ -28,8 +28,9 @@ import java.awt.event.WindowEvent;
 public final class Game {
 
     private static IServiceLocator serviceLocator = new ServiceLocator();
-    public final static int width = 640;
-    public final static int height = 1024;
+    
+    public final static int WIDTH = 640;
+    public final static int HEIGHT = 1024;
 
     private static JFrame frame;
     private static JPanel panel;
@@ -45,7 +46,7 @@ public final class Game {
         FileSystem.register(serviceLocator);
         InputManager.register(serviceLocator);
         Calc.register(serviceLocator);
-        BlockFactory.register(width, height, serviceLocator);
+        BlockFactory.register(WIDTH, HEIGHT, serviceLocator);
         DoodleFactory.register(serviceLocator);
         PowerupFactory.register(serviceLocator);
         SpriteFactory.register(serviceLocator);
@@ -55,6 +56,13 @@ public final class Game {
         Res.register(serviceLocator);
         ButtonFactory.register(serviceLocator);
         BackgroundFactory.register(serviceLocator);
+    }
+
+    /**
+     * Prevents the creation of a new {@code Game} object.
+     */
+    private Game() {
+
     }
 
     public static void main(String[] argv) {
@@ -74,7 +82,7 @@ public final class Game {
             }
         });
         frame.addMouseListener(serviceLocator.getInputManager());
-        frame.setSize(Game.width, Game.height);
+        frame.setSize(Game.WIDTH, Game.HEIGHT);
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -88,7 +96,7 @@ public final class Game {
                 }
             }
         };
-        panel.setSize(Game.width, Game.height);
+        panel.setSize(Game.WIDTH, Game.HEIGHT);
         panel.setLayout(new GridLayout(1, 1));
 
         frame.setContentPane(panel);
@@ -148,5 +156,4 @@ public final class Game {
     public static double getFPS(long threadSleep, long renderTime) {
         return 1000000000 / (threadSleep + renderTime);
     }
-
 }

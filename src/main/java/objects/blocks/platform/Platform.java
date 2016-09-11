@@ -1,11 +1,11 @@
-package objects.platform;
+package objects.blocks.platform;
 
-import objects.GameObject;
+import objects.AGameObject;
 import system.IServiceLocator;
 
 import java.awt.*;
 
-public class Platform extends GameObject implements IPlatform {
+public class Platform extends AGameObject implements IPlatform {
 
     private static IServiceLocator serviceLocator;
 
@@ -13,11 +13,11 @@ public class Platform extends GameObject implements IPlatform {
     private int yPos;
 
     /**
-     * Create and initiate the Platform object
+     * Create and initiate a Platform object
      * @param x - the X position of the platform
      * @param y - the y position of the platform
      */
-    public Platform(IServiceLocator serviceLocator, int x, int y) {
+    public Platform(final IServiceLocator serviceLocator, final int x, final int y) {
         super();
         Platform.serviceLocator = serviceLocator;
         xPos = x;
@@ -28,6 +28,41 @@ public class Platform extends GameObject implements IPlatform {
     /** {@inheritDoc} */
     public void paint() {
         serviceLocator.getRenderer().drawRectangle(xPos, yPos, 50, 20);
+    }
+
+    @Override
+    public boolean collide(AGameObject that) {
+        return false;
+    }
+
+    @Override
+    public int getXPos() {
+        return 0;
+    }
+
+    @Override
+    public int getYPos() {
+        return 0;
+    }
+
+    @Override
+    public void setXPos(int xPos) {
+
+    }
+
+    @Override
+    public void setYPos(int yPos) {
+
+    }
+
+    @Override
+    public double[] getHitBox() {
+        return new double[0];
+    }
+
+    @Override
+    public Object getSprite() {
+        return null;
     }
 
     //TODO: change to support correct implementation

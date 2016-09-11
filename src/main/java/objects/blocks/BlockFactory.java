@@ -1,14 +1,11 @@
-package objects;
+package objects.blocks;
 
-import objects.blocks.Block;
-import objects.blocks.IBlock;
-import objects.platform.PlatformFactory;
 import system.IServiceLocator;
 
-/**
- * Created by joost on 6-9-16.
- */
 public final class BlockFactory implements IBlockFactory {
+    /**
+    * Used to gain access to all services.
+    */
     private static transient IServiceLocator serviceLocator;
     private float screenWidth;
     private float screenHeight;

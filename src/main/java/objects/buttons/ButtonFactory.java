@@ -20,7 +20,7 @@ public class ButtonFactory implements IButtonFactory {
     public PlayButton newPlayButton(int x, int y) {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayButtonSprite();
-        int width = (int) (Game.width * playButtonWidthPercentage);
+        int width = (int) (Game.WIDTH * playButtonWidthPercentage);
         return new PlayButton(serviceLocator, x, y, width, (int) (width * buttonSprite.getRatio()), buttonSprite.getImage());
     }
 }

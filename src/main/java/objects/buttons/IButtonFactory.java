@@ -1,9 +1,8 @@
 package objects.buttons;
 
-/**
- * Created by erico on 10-9-2016.
- */
-public interface IButtonFactory {
+import system.IFactory;
+
+public interface IButtonFactory extends IFactory {
 
     PlayButton newPlayButton(int x, int y);
 
