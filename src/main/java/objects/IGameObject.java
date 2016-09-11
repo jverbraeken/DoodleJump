@@ -13,6 +13,8 @@ public interface IGameObject extends IDrawable {
 
     void animate();
 
+    void collide(IGameObject collidee);
+
     Object getSprite();
 
     double[] getHitBox();

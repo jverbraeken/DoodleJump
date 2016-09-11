@@ -29,8 +29,8 @@ public final class Game {
 
     private static IServiceLocator serviceLocator = new ServiceLocator();
     
-    public final static int WIDTH = 640;
-    public final static int HEIGHT = 1024;
+    public final static int WIDTH = 320;
+    public final static int HEIGHT = 517;
 
     private static JFrame frame;
     private static JPanel panel;
@@ -46,7 +46,7 @@ public final class Game {
         FileSystem.register(serviceLocator);
         InputManager.register(serviceLocator);
         Calc.register(serviceLocator);
-        BlockFactory.register(WIDTH, HEIGHT, serviceLocator);
+        BlockFactory.register(serviceLocator);
         DoodleFactory.register(serviceLocator);
         PowerupFactory.register(serviceLocator);
         SpriteFactory.register(serviceLocator);

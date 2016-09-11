@@ -1,5 +1,6 @@
 package scenes;
 
+import objects.blocks.Block;
 import objects.blocks.IBlockFactory;
 import objects.IGameObject;
 import objects.doodles.Doodle;
@@ -41,6 +42,12 @@ public class World implements IScene {
     public void paint() {
         for(IGameObject e : elements) {
             e.paint();
+
+            Block block = (Block) e;
+            ArrayList<IGameObject> platforms = block.getContent();
+            for(IGameObject platform : platforms) {
+                this.doodle.collide(platform);
+            }
         }
 
         this.doodle.paint();

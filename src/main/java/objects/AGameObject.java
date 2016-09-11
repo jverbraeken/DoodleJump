@@ -29,6 +29,10 @@ public abstract class AGameObject implements IGameObject {
     }
 
     @Override
+    /** (@inheritDoc} */
+    public void collide(IGameObject collidee) { }
+
+    @Override
     /** {@inheritDoc} */
     public double[] getHitBox() {
         return this.hitBox;

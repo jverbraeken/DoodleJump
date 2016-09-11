@@ -1,17 +1,17 @@
 package objects;
 
-import objects.blocks.platform.IPlatform;
-import objects.doodles.IDoodle;
-
 public class Collisions {
-    // TODO: still needs to take the width of an object into consideration.
-    public void collision(IGameObject mover, IGameObject collided) {
-        if((mover.getXPos() == collided.getXPos()) && (mover.getXPos() == collided.getXPos())){
-            collide(mover, collided);
+
+    public boolean collide(IGameObject a, IGameObject b) {
+        if(a.getYPos() == b.getYPos()) {
+            return true;
         }
+
+        return false;
     }
 
-    public void  collide(IGameObject mover, IGameObject collided) {
+    /*
+    public void collide(IGameObject mover, IGameObject collided) {
         if (mover instanceof IDoodle) {
             playerCollision(mover, collided);
         }
@@ -23,7 +23,7 @@ public class Collisions {
             IPlatform platform = (IPlatform) collided;
             player.collide(platform);
         }
-        /*else if(collided instanceof Enemy){
+        else if(collided instanceof Enemy){
             Doodle player = (Doodle) mover;
             if(player.getVAccelleration() <= 0.0){
                 player.setVAccel(6.0f);
@@ -32,7 +32,7 @@ public class Collisions {
             else {
                 player.setAlive();
             }
-        }*/
-    }
+        }
+    }*/
 
 }

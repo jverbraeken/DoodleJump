@@ -1,12 +1,17 @@
 package objects.doodles;
 
 import objects.AGameObject;
+import objects.Collisions;
+import objects.IGameObject;
 import objects.blocks.platform.IPlatform;
+import system.Game;
 import system.IServiceLocator;
 
 public class Doodle extends AGameObject implements IDoodle {
 
     private static IServiceLocator serviceLocator;
+
+    private Collisions collisions = new Collisions();
 
     // The vertical acceleration of the Doodle, negative if going up and positive if going down.
     private float vAcceleration = 0f;
@@ -23,8 +28,8 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /* package */ Doodle(IServiceLocator serviceLocator) {
         Doodle.serviceLocator = serviceLocator;
-        this.setXPos(0);
-        this.setYPos(0);
+        this.setXPos(Game.WIDTH / 2);
+        this.setYPos(Game.HEIGHT / 2);
     }
 
     //TODO: change to use Graphics (swing?)
@@ -54,7 +59,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void moveHorizontally() {
         boolean keyLeft = false;
-        boolean keyRight = true;
+        boolean keyRight = false;
 
         if(keyLeft && this.hAcceleration > -this.hAccelerationLimit) {
             // Go left
@@ -75,8 +80,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.applyGravity();
 
         // Apply the vAcceleration to the doodle
-        double screenHeight = 500;
-        if(this.vAcceleration > 0 && this.getYPos() > .5d * screenHeight) {
+        if(this.vAcceleration < 0 && this.getYPos() < .5d * Game.HEIGHT) {
             // Move background
             // background.addYPos(this.vAcceleration);
         } else {
@@ -94,11 +98,12 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    /**
-     * Find out whether or not the Doodle collided with something.
-     */
-    public void collide(IPlatform platform) {
-        System.out.println("Collide doodle with platform");
+    @Override
+    public void collide(IGameObject collidee) {
+        boolean collided = this.collisions.collide(this, collidee);
+        if(collided) {
+            System.out.println("Collide doodle with platform");
+            this.vAcceleration = -this.vAccelerationLimit;
+        }
     }
-
 }
