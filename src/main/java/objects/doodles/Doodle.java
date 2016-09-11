@@ -9,6 +9,10 @@ import java.awt.*;
  */
 public class Doodle extends GameObject implements IDoodle {
 
+    /* package */ Doodle() {
+
+    }
+
     //TODO: change to use Graphics (swing?)
     @Override
     public void paint(Graphics g) {

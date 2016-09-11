@@ -17,7 +17,7 @@ public class PlayButton extends Button implements IButton {
     private final IServiceLocator serviceLocator;
 
     private final Image buttonImage;
-    private final int xPos, yPos, width, height;
+    private int xPos, yPos, width, height;
     /** The cached values of xPos + width and yPos + height */
     private final int xxPos, yyPos;
 
@@ -53,7 +53,9 @@ public class PlayButton extends Button implements IButton {
     }
 
     //TODO this should be an immutable object -> MovableGameObject superclass??? More methods don't make sense...
-    public void setXPos(int x) {}
+    public void setXPos(int x) {
+        this.xPos = x;
+    }
     public void setYPos(int y) {}
 
     @Override

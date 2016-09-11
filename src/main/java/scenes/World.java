@@ -15,9 +15,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
-/**
- * Created by joost on 6-9-16.
- */
 public class World implements IScene {
 
     private final IServiceLocator serviceLocator;
@@ -49,7 +46,7 @@ public class World implements IScene {
     }
 
     @Override
-    public void update() {
+    public void update(double delta) {
         for(IGameObject e : elements) {
             if(e.getClass().equals(Doodle.class)){
                 if(e.getYPos() > Game.height) {

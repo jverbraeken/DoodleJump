@@ -57,7 +57,8 @@ public class Menu implements IScene, IMouseInputObserver {
     }
 
     @Override
-    public void update() { }
+    public void update(double delta) {
+    }
 
     @Override
     /** {@inheritDoc} */

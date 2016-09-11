@@ -15,4 +15,10 @@ public final class DoodleFactory implements IDoodleFactory {
     private DoodleFactory() {
 
     }
+
+    @Override
+    /** {@inheritdoc} */
+    public IDoodle newDoodle() {
+        return new Doodle();
+    }
 }

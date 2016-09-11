@@ -7,20 +7,15 @@ import system.IServiceLocator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
-public final class Renderer extends JFrame implements IRenderer {
+public final class Renderer implements IRenderer {
 
     private static transient IServiceLocator serviceLocator;
-
-    private static IScene scene;
 
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
@@ -28,72 +23,90 @@ public final class Renderer extends JFrame implements IRenderer {
         serviceLocator.provide(new Renderer());
     }
 
+    private final JFrame frame;
+    private final JPanel panel;
+    private IScene scene;
+
+    private static final int TARGET_FPS = 60;
+    private static final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+
     private Renderer() {
-        addWindowListener(new RendererListener());
-        addMouseListener(serviceLocator.getInputManager());
-        setSize(Game.width, Game.height);
-        setVisible(true);
-        setResizable(false);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        frame = new JFrame("Doodle Jump");
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            /**
+             * Invoked when a window is in the process of being closed.
+             */
+            public void windowClosing(WindowEvent windowEvent) {
+                System.exit(0);
+            }
+        });
+        frame.addMouseListener(serviceLocator.getInputManager());
+        frame.setSize(Game.width, Game.height);
+        frame.setVisible(true);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        panel = new JPanel() {
+            @Override
+            public void paintComponent(Graphics g) {
+                if (scene != null) {
+                    scene.paint(g);
+                }
+            }
+        };
+        panel.setSize(Game.width, Game.height);
+        panel.setLayout(new GridLayout(1, 1));
+
+        frame.setContentPane(panel);
     }
 
     @Override
     public void setScene(IScene scene) {
         assert scene != null;
-        if (Renderer.scene != null) {
-            Renderer.scene.stop();
+        if (this.scene != null) {
+            this.scene.stop();
         }
         scene.start();
-        Renderer.scene = scene;
+        this.scene = scene;
+        frame.repaint();
     }
 
     @Override
     public synchronized void start() {
-        /*while(true){
+
+        long lastLoopTime = System.nanoTime();
+        long lastFpsTime = 0;
+        while (true) {
+            long now = System.nanoTime();
+            long updateLength = now - lastLoopTime;
+            lastLoopTime = now;
+            double delta = updateLength / ((double) OPTIMAL_TIME);
+
+            lastFpsTime += updateLength;
+            if (lastFpsTime >= 1000000000) {
+                lastFpsTime = 0;
+            }
+            scene.update(delta);
+            panel.repaint();
             try {
-                Thread.sleep(33);
+                long gameTime = (lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / 1000000;
+                System.out.println(gameTime);
+                Thread.sleep(gameTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            Graphics paper = getGraphics();
-            paper.clearRect(0, 0, (int)getSize().getWidth(), (int)getSize().getHeight());
-            repaint();
-        }*/
-        repaint();
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        if(scene != null) {
-            scene.paint(g);
         }
     }
 
-    private class RendererListener implements WindowListener {
-
-        @Override
-        public void windowOpened(WindowEvent e) { }
-
-        @Override
-        public void windowClosing(WindowEvent e) { }
-
-        @Override
-        public void windowClosed(WindowEvent e) { }
-
-        @Override
-        public void windowIconified(WindowEvent e) { }
-
-        @Override
-        public void windowDeiconified(WindowEvent e) { }
-
-        @Override
-        public void windowActivated(WindowEvent e) { }
-
-        @Override
-        public void windowDeactivated(WindowEvent e) { }
-
+    /**
+     * Return the current FPS
+     *
+     * @param threadSleep Amount of time thread has slept
+     * @param renderTime  Amount of time took rendering/updating
+     * @return
+     */
+    public static double getFPS(long threadSleep, long renderTime) {
+        return 1000000000 / (threadSleep + renderTime);
     }
-
 }
