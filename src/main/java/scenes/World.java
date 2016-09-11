@@ -26,9 +26,10 @@ import java.util.TreeSet;
  * Created by joost on 6-9-16.
  */
 public class World implements IScene {
+
     private static transient IServiceLocator serviceLocator;
     private Set<IGameObject> elements = new HashSet<>();
-  private Collisions collision = new Collisions();
+    private Collisions collision = new Collisions();
     private IDoodle doodle;
     private int width = Game.width;
     private int height = Game.height;
@@ -126,27 +127,6 @@ public class World implements IScene {
         for(IGameObject e : elements){
             collision.collision(doodle, e);
         }
-     /*   System.out.println("Dooble" + doodle.getXPos() + " " + doodle.getYPos() + " " + doodle.getWidth() + " " + doodle.getHeight());
-
-        for(IGameObject e : elements){
-            System.out.println(e.getXPos() + " " + e.getWidth());
-            if(doodle.collide(e)){
-
-                System.out.println("A");
-                if(e.getClass().equals(Block.class)) {
-                    System.out.println("B");
-                    IBlock f = (IBlock) e;
-                    for(IGameObject g : f.getElements()){
-                        System.out.println("C" + g.getXPos() + " " + g.getYPos() + " " + g.getWidth() + " " + g.getHeight());
-                        if(doodle.collide(g)){
-                            System.out.println("HIT");
-                            if(hSpeed > 0){
-                            hSpeed = -8;}
-                        }
-                    }
-                }
-            }
-        }*/
     }
 
 }
