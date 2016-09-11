@@ -3,22 +3,16 @@ package scenes;
 import system.IServiceLocator;
 
 public final class SceneFactory implements ISceneFactory {
-    /**
-     * Used to gain access to all services.
-     */
+
     private static transient IServiceLocator serviceLocator;
 
-    public static void register(IServiceLocator serviceLocator_) {
-        assert serviceLocator_ != null;
-        serviceLocator = serviceLocator_;
+    public static void register(IServiceLocator serviceLocator) {
+        assert serviceLocator != null;
+        SceneFactory.serviceLocator = serviceLocator;
         serviceLocator.provide(new SceneFactory());
     }
 
-    /**
-     * Prevents instantiation from outside the class.
-     */
-    private SceneFactory() {
-    }
+    private SceneFactory() { }
 
     @Override
     public Menu newMenu() {

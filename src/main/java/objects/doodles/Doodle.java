@@ -2,6 +2,7 @@ package objects.doodles;
 
 import objects.AGameObject;
 import objects.Collisions;
+import objects.ICollisions;
 import objects.IGameObject;
 import objects.blocks.platform.IPlatform;
 import system.Game;
@@ -10,8 +11,6 @@ import system.IServiceLocator;
 public class Doodle extends AGameObject implements IDoodle {
 
     private static IServiceLocator serviceLocator;
-
-    private Collisions collisions = new Collisions();
 
     // The vertical acceleration of the Doodle, negative if going up and positive if going down.
     private float vAcceleration = 0f;
@@ -100,7 +99,9 @@ public class Doodle extends AGameObject implements IDoodle {
 
     @Override
     public void collide(IGameObject collidee) {
-        boolean collided = this.collisions.collide(this, collidee);
+        ICollisions collisions = serviceLocator.getCollisions();
+        boolean collided = collisions.collide(this, collidee);
+        
         if(collided) {
             System.out.println("Collide doodle with platform");
             this.vAcceleration = -this.vAccelerationLimit;
