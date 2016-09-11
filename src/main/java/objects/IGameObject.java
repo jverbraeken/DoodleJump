@@ -7,27 +7,37 @@ import rendering.IDrawable;
  */
 public interface IGameObject extends IDrawable {
 
-    boolean collide(AGameObject that);
+    void addXPos(int xPos);
+
+    void addYPos(int yPos);
+
+    void animate();
+
+    void collide(IGameObject collidee);
+
+    Object getSprite();
+
+    double[] getHitBox();
+
+    int getHeight();
+
+    int getWidth();
 
     int getXPos();
 
     int getYPos();
 
+    void move();
+
+    void paint();
+
+    void setHeight(int height);
+
+    void setWidth(int width);
+
     void setXPos(int xPos);
 
     void setYPos(int yPos);
 
-    double[] getHitBox();
-
-    //TODO: change Object to sprite
-    Object getSprite();
-
-    //TODO: change to support correct implementation
-    void animate();
-
-    //TODO: change to support correct implementation
-    void move();
-
-    //TODO: change to support correct implementation
     void update();
 }

@@ -3,38 +3,25 @@ package objects.blocks;
 import system.IServiceLocator;
 
 public final class BlockFactory implements IBlockFactory {
-    /**
-    * Used to gain access to all services.
-    */
+
     private static transient IServiceLocator serviceLocator;
-    private float screenWidth;
-    private float screenHeight;
-    private int blockNumber;
+    private int blockCounter;
 
-    public static void register(float screenWidth, float screenHeight, IServiceLocator serviceLocator) {
+    public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
-        serviceLocator.provide(new BlockFactory(screenWidth, screenHeight, serviceLocator));
+        BlockFactory.serviceLocator = serviceLocator;
+        serviceLocator.provide(new BlockFactory());
     }
 
-    /**
-     * Create a BlockFactory.
-     * @param screenWidth = the Width of the screen
-     * @param screenHeight = the Height of the screen
-     */
-    private BlockFactory(float screenWidth, float screenHeight, IServiceLocator serviceLocator) {
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
-        this.serviceLocator = serviceLocator;
-        this.blockNumber = 0;
+    private BlockFactory() {
+        this.blockCounter = 0;
     }
 
-    /**
-     * Create a new Block object and return that.
-     * @return The newly created Block
-     */
-    public Block createBlock(){
-        Block b = new Block(screenWidth, screenHeight, serviceLocator, blockNumber);
-        blockNumber++;
-        return b;
+    @Override
+    public IBlock createBlock(){
+        Block block = new Block(serviceLocator, blockCounter);
+        blockCounter++;
+        return block;
     }
+
 }

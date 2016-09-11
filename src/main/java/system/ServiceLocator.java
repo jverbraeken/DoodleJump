@@ -1,5 +1,7 @@
 package system;
 
+import objects.Collisions;
+import objects.ICollisions;
 import objects.backgrounds.IBackgroundFactory;
 import objects.buttons.IButtonFactory;
 import resources.IRes;
@@ -15,6 +17,8 @@ import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;
 import scenes.ISceneFactory;
 import resources.sprites.ISpriteFactory;
+
+import java.awt.*;
 
 public class ServiceLocator implements IServiceLocator {
 
@@ -49,6 +53,7 @@ public class ServiceLocator implements IServiceLocator {
     private ILevelBuilder levelBuilder;
     private IPlatformFactory platformFactory;
     private IBackgroundFactory backgroundFactory;
+    private ICollisions collisions;
 
     // scenes
     private ISceneFactory sceneFactory;
@@ -188,12 +193,27 @@ public class ServiceLocator implements IServiceLocator {
         this.buttonFactory = buttonFactory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void provide(IBackgroundFactory backgroundFactory) {
         assert backgroundFactory != null;
         this.backgroundFactory = backgroundFactory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void provide(ICollisions collisions) {
+        assert collisions != null;
+        this.collisions = collisions;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IAudioManager getAudioManager() {
         return audioManager;
@@ -303,10 +323,22 @@ public class ServiceLocator implements IServiceLocator {
         return res;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IButtonFactory getButtonFactory() { return buttonFactory; }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IBackgroundFactory getBackgroundFactory() { return backgroundFactory; }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ICollisions getCollisions() { return collisions; }
 
 }

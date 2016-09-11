@@ -1,5 +1,6 @@
 package scenes;
 
+import objects.blocks.Block;
 import objects.blocks.IBlockFactory;
 import objects.IGameObject;
 import objects.doodles.Doodle;
@@ -8,7 +9,6 @@ import objects.doodles.IDoodleFactory;
 import system.Game;
 import system.IServiceLocator;
 
-import java.awt.*;
 import java.util.*;
 
 public class World implements IScene {
@@ -24,6 +24,9 @@ public class World implements IScene {
         for(int i = 0; i < 3; i++) {
             elements.add(blockFactory.createBlock());
         }
+
+        IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
+        this.doodle = doodleFactory.createDoodle();
     }
 
     @Override
@@ -38,7 +41,15 @@ public class World implements IScene {
     public void paint() {
         for(IGameObject e : elements) {
             e.paint();
+
+            Block block = (Block) e;
+            ArrayList<IGameObject> platforms = block.getContent();
+            for(IGameObject platform : platforms) {
+                this.doodle.collide(platform);
+            }
         }
+
+        this.doodle.paint();
     }
 
     @Override

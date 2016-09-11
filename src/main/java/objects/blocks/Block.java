@@ -3,58 +3,59 @@ package objects.blocks;
 import objects.AGameObject;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
-import objects.blocks.platform.Platform;
+import system.Game;
 import system.IServiceLocator;
 
 import java.util.ArrayList;
 import java.util.Random;
 import objects.IGameObject;
 
-import java.awt.*;
-
 public class Block extends AGameObject implements IBlock {
 
-    private final int jumpHeight = 100;
-    private float height;
-    private float width;
-    private int blockNumber;
-    private ArrayList<IGameObject> blockContent;
-    private final IServiceLocator serviceLocator;
-    private IPlatformFactory platformFactory;
+    private static IServiceLocator serviceLocator;
 
-    /**
-     * Create a Block. This object will automatically create and place
-     * all the object inside of it.
-     * @param height - height of the screen
-     * @param width - width of the screen
-     * @param serviceLocator - the ServiceLocator of this game.
-     * @param blockNumber - The number of the block.
-     */
-    /* package */ Block(float width, float height, IServiceLocator serviceLocator, int blockNumber) {
-        this.height = height;
-        this.width = width;
-        this.serviceLocator = serviceLocator;
-        platformFactory = serviceLocator.getPlatformFactory();
+    private ArrayList<IGameObject> content = new ArrayList<>();
+    private int blockNumber;
+
+    /* package */ Block(IServiceLocator serviceLocator, int blockNumber) {
+        Block.serviceLocator = serviceLocator;
+
         this.blockNumber = blockNumber;
-        blockContent = new ArrayList<>();
+
         createAndPlaceObjects();
     }
 
-    /**
-     * The Block contains objects, for example Platforms. Here
-     * these objects are created and their locations ar initiated.
-     */
+    @Override
+    public void paint() {
+        for(IGameObject e : content){
+            e.paint();
+        }
+    }
+
+    @Override
+    public void animate() { }
+
+    @Override
+    public void move() { }
+
+    @Override
+    public void update() { }
+
+
     private void createAndPlaceObjects() {
         placePlatforms();
     }
 
+    public ArrayList<IGameObject> getContent() {
+        return this.content;
+    }
+
     private void placePlatforms() {
-        //Get the diagnal length of the screen
-        int max = (int)(width + height)/130;
+        int max = (int)(Game.WIDTH + Game.HEIGHT)/130;
         int min = 6;
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
-        int heightDividedPlatforms = (int) height/platformAmount;
+        int heightDividedPlatforms = (int) Game.HEIGHT/platformAmount;
 
         for (int i = 0; i < platformAmount; i++) {
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
@@ -64,29 +65,14 @@ public class Block extends AGameObject implements IBlock {
             if(blockNumber == 0) {
                 yLoc = (int) (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms));
             } else {
-                yLoc = (int) (- height * (blockNumber -1) - (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
+                yLoc = (int) (-Game.HEIGHT * (blockNumber -1) - (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
             }
 
-            int xLoc = (int) (widthDeviation * width);
-            IPlatform p = platformFactory.newPlatform(xLoc, yLoc);
-            blockContent.add(p);
-        }
-
-    }
-
-    @Override
-    public void paint() {
-        for(IGameObject e : blockContent){
-            e.paint();
+            int xLoc = (int) (widthDeviation * Game.WIDTH);
+            IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
+            IPlatform platform = platformFactory.createPlatform(xLoc, yLoc);
+            content.add(platform);
         }
     }
 
-    //TODO: change to support correct implementation
-    public void animate() { }
-
-    //TODO: change to support correct implementation
-    public void move() { }
-
-    //TODO: change to support correct implementation
-    public void update() { }
 }
