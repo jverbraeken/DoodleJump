@@ -2,8 +2,11 @@ package objects.doodles;
 
 import objects.AGameObject;
 import objects.blocks.platform.IPlatform;
+import system.IServiceLocator;
 
 public class Doodle extends AGameObject implements IDoodle {
+
+    private static IServiceLocator serviceLocator;
 
     // The vertical acceleration of the Doodle, negative if going up and positive if going down.
     private float vAcceleration = 0f;
@@ -18,11 +21,18 @@ public class Doodle extends AGameObject implements IDoodle {
     // How much the doodle is affected by the player.
     private float hAccelerationUnit = .15f;
 
-    /* package */ Doodle() { }
+    /* package */ Doodle(IServiceLocator serviceLocator) {
+        Doodle.serviceLocator = serviceLocator;
+        this.setXPos(0);
+        this.setYPos(0);
+    }
 
     //TODO: change to use Graphics (swing?)
     @Override
-    public void paint() { }
+    public void paint() {
+        this.update();
+        serviceLocator.getRenderer().drawRectangle(this.getXPos(), this.getYPos(), 50, 50);
+    }
 
     //TODO: change to support correct implementation
     public void animate() { }
@@ -34,7 +44,9 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     //TODO: change to support correct implementation
-    public void update() { }
+    public void update() {
+        this.move();
+    }
 
 
     /**

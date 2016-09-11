@@ -24,6 +24,9 @@ public class World implements IScene {
         for(int i = 0; i < 3; i++) {
             elements.add(blockFactory.createBlock());
         }
+
+        IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
+        this.doodle = doodleFactory.newDoodle();
     }
 
     @Override
@@ -39,6 +42,8 @@ public class World implements IScene {
         for(IGameObject e : elements) {
             e.paint();
         }
+
+        this.doodle.paint();
     }
 
     @Override

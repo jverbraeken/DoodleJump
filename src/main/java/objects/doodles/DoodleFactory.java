@@ -14,6 +14,7 @@ public final class DoodleFactory implements IDoodleFactory {
     */
     public static void register(final IServiceLocator serviceLocator) {
         assert serviceLocator != null;
+        DoodleFactory.serviceLocator = serviceLocator;
         serviceLocator.provide(new DoodleFactory());
     }
 
@@ -27,6 +28,6 @@ public final class DoodleFactory implements IDoodleFactory {
     @Override
     /** {@inheritdoc} */
     public IDoodle newDoodle() {
-        return new Doodle();
+        return new Doodle(serviceLocator);
     }
 }
