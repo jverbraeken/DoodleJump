@@ -83,6 +83,7 @@ public final class Game {
         });
         frame.addMouseListener(serviceLocator.getInputManager());
         frame.setSize(Game.WIDTH, Game.HEIGHT);
+        frame.setUndecorated(true);
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
