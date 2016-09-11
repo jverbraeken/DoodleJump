@@ -9,7 +9,6 @@ import objects.doodles.IDoodleFactory;
 import system.Game;
 import system.IServiceLocator;
 
-import java.awt.*;
 import java.util.*;
 
 public class World implements IScene {
@@ -27,7 +26,7 @@ public class World implements IScene {
         }
 
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
-        this.doodle = doodleFactory.newDoodle();
+        this.doodle = doodleFactory.createDoodle();
     }
 
     @Override

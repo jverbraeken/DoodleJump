@@ -1,18 +1,12 @@
 package scenes;
 
 import input.IMouseInputObserver;
-import objects.IGameObject;
-import objects.backgrounds.IBackground;
 import objects.backgrounds.IBackgroundFactory;
 import objects.buttons.IButtonFactory;
 import objects.buttons.PlayButton;
 import rendering.IDrawable;
 import system.Game;
 import system.IServiceLocator;
-
-import java.awt.*;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Menu implements IScene, IMouseInputObserver {
 
@@ -30,7 +24,7 @@ public class Menu implements IScene, IMouseInputObserver {
         background = backgroundFactory.createStartMenuBackground();
 
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        playButton = buttonFactory.newPlayButton((int) (Game.WIDTH * playButtonXPercentage), (int) (Game.HEIGHT * playButtonYPercentage));
+        playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * playButtonXPercentage), (int) (Game.HEIGHT * playButtonYPercentage));
     }
 
     @Override

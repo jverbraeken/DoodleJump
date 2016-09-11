@@ -17,13 +17,11 @@ public final class BlockFactory implements IBlockFactory {
         this.blockCounter = 0;
     }
 
-    /**
-     * Create a new Block object and return that.
-     * @return The newly created Block
-     */
-    public Block createBlock(){
+    @Override
+    public IBlock createBlock(){
         Block block = new Block(serviceLocator, blockCounter);
         blockCounter++;
         return block;
     }
+
 }

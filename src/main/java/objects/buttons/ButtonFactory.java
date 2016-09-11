@@ -2,7 +2,6 @@ package objects.buttons;
 
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
-import system.Game;
 import system.IServiceLocator;
 
 public class ButtonFactory implements IButtonFactory {
@@ -15,9 +14,7 @@ public class ButtonFactory implements IButtonFactory {
         serviceLocator.provide(new ButtonFactory());
     }
 
-    private static final double playButtonWidthPercentage = 0.35;
-
-    public PlayButton newPlayButton(int x, int y) {
+    public PlayButton createPlayButton(int x, int y) {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayButtonSprite();
         return new PlayButton(serviceLocator, x, y, buttonSprite.getImage());

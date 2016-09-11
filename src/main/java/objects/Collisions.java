@@ -4,11 +4,8 @@ import system.IServiceLocator;
 
 public class Collisions implements ICollisions {
 
-    private static transient IServiceLocator serviceLocator;
-
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
-        Collisions.serviceLocator = serviceLocator;
         serviceLocator.provide(new Collisions());
     }
 

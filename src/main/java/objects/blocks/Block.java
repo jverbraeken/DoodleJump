@@ -14,8 +14,8 @@ public class Block extends AGameObject implements IBlock {
 
     private static IServiceLocator serviceLocator;
 
-    private int blockNumber;
     private ArrayList<IGameObject> content = new ArrayList<>();
+    private int blockNumber;
 
     /* package */ Block(IServiceLocator serviceLocator, int blockNumber) {
         Block.serviceLocator = serviceLocator;
@@ -25,8 +25,29 @@ public class Block extends AGameObject implements IBlock {
         createAndPlaceObjects();
     }
 
+    @Override
+    public void paint() {
+        for(IGameObject e : content){
+            e.paint();
+        }
+    }
+
+    @Override
+    public void animate() { }
+
+    @Override
+    public void move() { }
+
+    @Override
+    public void update() { }
+
+
     private void createAndPlaceObjects() {
         placePlatforms();
+    }
+
+    public ArrayList<IGameObject> getContent() {
+        return this.content;
     }
 
     private void placePlatforms() {
@@ -49,29 +70,9 @@ public class Block extends AGameObject implements IBlock {
 
             int xLoc = (int) (widthDeviation * Game.WIDTH);
             IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-            IPlatform platform = platformFactory.newPlatform(xLoc, yLoc);
+            IPlatform platform = platformFactory.createPlatform(xLoc, yLoc);
             content.add(platform);
         }
     }
-
-    public ArrayList<IGameObject> getContent() {
-        return this.content;
-    }
-
-    @Override
-    public void paint() {
-        for(IGameObject e : content){
-            e.paint();
-        }
-    }
-
-    //TODO: change to support correct implementation
-    public void animate() { }
-
-    //TODO: change to support correct implementation
-    public void move() { }
-
-    //TODO: change to support correct implementation
-    public void update() { }
 
 }

@@ -1,18 +1,10 @@
 package objects.buttons;
 
-import objects.AGameObject;
-import rendering.IRenderer;
-import rendering.Renderer;
 import system.Game;
 import system.IServiceLocator;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-/**
- * <b>Immutable</b>
- */
 public class PlayButton implements IButton {
 
     private final IServiceLocator serviceLocator;

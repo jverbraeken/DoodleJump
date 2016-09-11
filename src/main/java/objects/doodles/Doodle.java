@@ -1,10 +1,8 @@
 package objects.doodles;
 
 import objects.AGameObject;
-import objects.Collisions;
 import objects.ICollisions;
 import objects.IGameObject;
-import objects.blocks.platform.IPlatform;
 import system.Game;
 import system.IServiceLocator;
 
@@ -34,23 +32,32 @@ public class Doodle extends AGameObject implements IDoodle {
         this.setHeight(50);
     }
 
-    //TODO: change to use Graphics (swing?)
+    @Override
+    public void animate() { }
+
+    @Override
+    public void collide(IGameObject collidee) {
+        ICollisions collisions = serviceLocator.getCollisions();
+        boolean collided = collisions.collide(this, collidee);
+
+        if(collided) {
+            this.vAcceleration = -this.vAccelerationLimit;
+        }
+    }
+
+    @Override
+    public void move() {
+        this.moveHorizontally();
+        this.moveVertically();
+    }
+
     @Override
     public void paint() {
         this.update();
         serviceLocator.getRenderer().drawRectangle(this.getXPos(), this.getYPos(), this.getWidth(), this.getHeight());
     }
 
-    //TODO: change to support correct implementation
-    public void animate() { }
-
-    //TODO: change to support correct implementation
-    public void move() {
-        this.moveHorizontally();
-        this.moveVertically();
-    }
-
-    //TODO: change to support correct implementation
+    @Override
     public void update() {
         this.move();
     }
@@ -100,14 +107,4 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    @Override
-    public void collide(IGameObject collidee) {
-        ICollisions collisions = serviceLocator.getCollisions();
-        boolean collided = collisions.collide(this, collidee);
-
-        if(collided) {
-            System.out.println("Collide doodle with platform");
-            this.vAcceleration = -this.vAccelerationLimit;
-        }
-    }
 }
