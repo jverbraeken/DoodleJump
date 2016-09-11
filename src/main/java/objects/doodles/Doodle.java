@@ -1,6 +1,7 @@
 package objects.doodles;
 
 import objects.AGameObject;
+import objects.blocks.platform.IPlatform;
 
 public class Doodle extends AGameObject implements IDoodle {
 
@@ -27,7 +28,10 @@ public class Doodle extends AGameObject implements IDoodle {
     public void animate() { }
 
     //TODO: change to support correct implementation
-    public void move() { }
+    public void move() {
+        this.moveHorizontally();
+        this.moveVertically();
+    }
 
     //TODO: change to support correct implementation
     public void update() { }
@@ -55,11 +59,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * Move the Doodle along the Y axis.
      */
     private void moveVertically() {
-        // Check for collisions if the doodle is falling
-        if(this.vAcceleration < 0) {
-            this.collided();
-        }
-
         // Apply gravity to the doodle
         this.applyGravity();
 
@@ -86,14 +85,8 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Find out whether or not the Doodle collided with something.
      */
-    private void collided() {
-        /*
-        for(GameObject in Block) {
-            if(this.collide(that) {
-                this.vAcceleration = this.vAccelerationLimit + this.gravityAcceleration;
-            }
-        }
-        */
+    public void collide(IPlatform platform) {
+        System.out.println("Collide doodle with platform");
     }
 
 }

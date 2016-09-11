@@ -31,11 +31,6 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     @Override
-    public boolean collide(AGameObject that) {
-        return false;
-    }
-
-    @Override
     public int getXPos() {
         return 0;
     }

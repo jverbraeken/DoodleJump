@@ -30,12 +30,6 @@ public abstract class AGameObject implements IGameObject {
 
     @Override
     /** {@inheritDoc} */
-    public boolean collide(AGameObject that) {
-        return false;
-    }
-
-    @Override
-    /** {@inheritDoc} */
     public double[] getHitBox() {
         return this.hitBox;
     }
