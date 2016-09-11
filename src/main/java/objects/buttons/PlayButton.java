@@ -17,82 +17,39 @@ public class PlayButton implements IButton {
 
     private final IServiceLocator serviceLocator;
 
-    private final Image buttonImage;
-    private int xPos, yPos, width, height;
-    /** The cached values of xPos, yPos + height/2, xPos + width and yPos + height */
-    private final int clickXPos, clickYPos, clickXXPos, clickYYpos;
+    private final Image image;
+    private final int width, height;
+    private final int[] topLeft = new int[2], bottomRight = new int[2];
 
-    /* package */ PlayButton(IServiceLocator serviceLocator, int x, int y, int width, int height, Image buttonImage) {
+    /* package */ PlayButton(IServiceLocator serviceLocator, int x, int y, Image image) {
         super();
 
         assert serviceLocator != null;
-        assert buttonImage != null;
+        assert image != null;
 
         this.serviceLocator = serviceLocator;
-        this.buttonImage = buttonImage;
-        this.xPos = x;
-        this.yPos = y;
-        this.width = width;
-        this.height = height;
-        this.clickXPos = x;
-        this.clickYPos = y + height/2;
-        this.clickXXPos = clickXPos + width;
-        this.clickYYpos = clickYPos + height;
+        this.image = image;
+        this.width = image.getWidth(null);
+        this.height = image.getHeight(null);
+        this.topLeft[0] = x;
+        this.topLeft[1] = y;
+        this.bottomRight[0] = x + width;
+        this.bottomRight[1] = y + height;
     }
 
     @Override
-    public boolean collide(AGameObject that) {
-        return false;
-    }
-
-    @Override
-    public int getXPos() {
-        return this.xPos;
-    }
-
-    @Override
-    public int getYPos() {
-        return this.yPos;
-    }
-
-    //TODO this should be an immutable object -> MovableGameObject superclass??? More methods don't make sense...
-    public void setXPos(int x) {
-        this.xPos = x;
-    }
-    public void setYPos(int y) {}
-
-    @Override
-    public double[] getHitBox() {
-        return new double[0];
-    }
-
-    @Override
-    public Object getSprite() {
-        return null;
+    public void mouseClicked(int x, int y) {
+        assert x >= 0 && y >= 0;
+        if(x > topLeft[0] && x < bottomRight[0]) {
+            if(y > topLeft[1] && y < bottomRight[1]) {
+                Game.setScene(serviceLocator.getSceneFactory().newWorld());
+            }
+        }
     }
 
     @Override
     public void paint() {
-        serviceLocator.getRenderer().drawImage(this.buttonImage, xPos, yPos, width, height);
+        serviceLocator.getRenderer().drawImage(image, topLeft[0], topLeft[1], width, height);
     }
 
-    @Override
-    public void animate() { }
-
-    @Override
-    public void move() { }
-
-    @Override
-    public void update() { }
-
-    @Override
-    public void mouseClicked(int x, int y) {
-
-        System.out.println("Play button received mouse click!");
-        assert x >= 0 && y >= 0;
-        if (x > clickXPos && y > clickYPos && x <= clickXXPos && y <= clickYYpos) {
-            System.out.println("Play button clicked!");
-            Game.setScene(serviceLocator.getSceneFactory().newWorld());
-        }
-    }
 }

@@ -83,6 +83,7 @@ public final class Game {
         });
         frame.addMouseListener(serviceLocator.getInputManager());
         frame.setSize(Game.WIDTH, Game.HEIGHT);
+        frame.setUndecorated(true);
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -138,7 +139,7 @@ public final class Game {
             panel.repaint();
             try {
                 long gameTime = (lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / ICalc.MICROSCONDS;
-                System.out.println(gameTime);
+                //System.out.println(gameTime);
                 Thread.sleep(gameTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
