@@ -30,8 +30,8 @@ public final class Game {
 
     private static IServiceLocator serviceLocator = new ServiceLocator();
     
-    public final static int WIDTH = 320;
-    public final static int HEIGHT = 517;
+    public final static int WIDTH = 500;
+    public final static int HEIGHT = 800;
 
     private static JFrame frame;
     private static JPanel panel;
@@ -40,6 +40,8 @@ public final class Game {
 
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
+
+    private static int times = 0;
 
     private static void initServices() {
         AudioManager.register(serviceLocator);
@@ -85,7 +87,7 @@ public final class Game {
         });
         frame.addMouseListener(serviceLocator.getInputManager());
         frame.setSize(Game.WIDTH, Game.HEIGHT);
-        frame.setUndecorated(true);
+        //frame.setUndecorated(true);
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -97,6 +99,11 @@ public final class Game {
                 if (scene != null) {
                     scene.paint();
                 }
+
+                if(times % 2 == 0){
+                    frame.repaint();
+                }
+                times ++;
             }
         };
         panel.setSize(Game.WIDTH, Game.HEIGHT);
