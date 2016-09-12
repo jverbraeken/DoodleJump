@@ -6,7 +6,6 @@ import objects.blocks.platform.IPlatformFactory;
 import system.Game;
 import system.IServiceLocator;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import objects.IGameObject;
@@ -27,9 +26,9 @@ public class Block extends AGameObject implements IBlock {
     }
 
     @Override
-    public void paint() {
+    public void render() {
         for(IGameObject e : content){
-            e.paint();
+            e.render();
         }
     }
 
@@ -73,12 +72,14 @@ public class Block extends AGameObject implements IBlock {
             if(blockNumber == 0) {
                 yLoc = (int) (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms));
             } else {
-                yLoc = (int) (-Game.HEIGHT * (blockNumber -1) - (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
+                yLoc = (int) (-Game.HEIGHT * (blockNumber - 1) - (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
             }
 
-            int xLoc = (int) (widthDeviation * Game.WIDTH);
             IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-            IPlatform platform = platformFactory.createPlatform(xLoc, yLoc);
+            IPlatform platform = platformFactory.createPlatform(0, yLoc);
+
+            int xLoc = (int) (widthDeviation * (Game.WIDTH - platform.getWidth()));
+            platform.setXPos(xLoc);
             content.add(platform);
         }
     }

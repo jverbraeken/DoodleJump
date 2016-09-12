@@ -1,6 +1,5 @@
 package scenes;
 
-import objects.blocks.Block;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.IGameObject;
@@ -54,13 +53,13 @@ public class World implements IScene {
 
     @Override
     public void paint() {
-        background.paint();
+        background.render();
 
         for(IGameObject e : elements) {
-            e.paint();
+            e.render();
         }
 
-        this.doodle.paint();
+        this.doodle.render();
     }
 
     @Override
