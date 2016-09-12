@@ -1,12 +1,12 @@
 package system;
 
+import input.IInputManager;
 import math.ICalc;
 import objects.Collisions;
 import objects.backgrounds.BackgroundFactory;
 import objects.buttons.ButtonFactory;
 import resources.Res;
 import resources.audio.AudioManager;
-import resources.audio.IAudioManager;
 import filesystem.FileSystem;
 import input.InputManager;
 import math.Calc;
@@ -15,7 +15,6 @@ import objects.doodles.DoodleFactory;
 import objects.enemies.EnemyBuilder;
 import objects.blocks.platform.PlatformFactory;
 import objects.powerups.PowerupFactory;
-import rendering.IRenderer;
 import rendering.Renderer;
 import scenes.IScene;
 import scenes.SceneFactory;
@@ -76,6 +75,8 @@ public final class Game {
 
         frame = new JFrame("Doodle Jump");
 
+        IInputManager inputManager = serviceLocator.getInputManager();
+
         frame.addWindowListener(new WindowAdapter() {
             @Override
             /**
@@ -85,7 +86,8 @@ public final class Game {
                 System.exit(0);
             }
         });
-        frame.addMouseListener(serviceLocator.getInputManager());
+        frame.addMouseListener(inputManager);
+        frame.addKeyListener(inputManager);
         frame.setSize(Game.WIDTH, Game.HEIGHT);
         //frame.setUndecorated(true);
         frame.setVisible(true);
@@ -100,7 +102,7 @@ public final class Game {
                     scene.paint();
                 }
 
-                if(times % 2 == 0){
+                if(times % 2 == 0) {
                     frame.repaint();
                 }
                 times ++;
