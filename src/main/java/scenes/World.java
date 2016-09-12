@@ -12,20 +12,20 @@ import system.IServiceLocator;
 
 import java.util.*;
 
-public class World implements IScene {
+/* package */ class World implements IScene {
 
     private final IServiceLocator serviceLocator;
-    private Set<IGameObject> elements = new HashSet<>();
+    private final Set<IGameObject> elements = new HashSet<>();
     private final IDrawable background;
 
-    private IDoodle doodle;
+    private final IDoodle doodle;
 
     // The vertical speed, negative if going up and positive if going down.
     private double vSpeed = -11;
     // The fastest the doodle can go vertically.
-    private double vSpeedLimit = 11;
+    private final double vSpeedLimit = 11;
     // How much the doodle is affected by gravity.
-    private double gravityAcceleration = .2;
+    private final double gravityAcceleration = .2;
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
@@ -43,14 +43,15 @@ public class World implements IScene {
         this.vSpeed = -9;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void start() { }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void stop() { }
 
+    /** {@inheritDoc} */
     @Override
     public void paint() {
         background.render();
@@ -62,6 +63,7 @@ public class World implements IScene {
         this.doodle.render();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void update(double delta) {
 
@@ -78,7 +80,7 @@ public class World implements IScene {
         newBlocks();
     }
 
-    public void updateSpeed(){
+    private void updateSpeed(){
         for(IGameObject e : elements) {
             IBlock block = (IBlock) e;
             HashSet<IGameObject> inside = block.getContent();
@@ -92,7 +94,7 @@ public class World implements IScene {
         this.applyGravity();
     }
 
-    public void applySpeed(){
+    private void applySpeed(){
         if(this.vSpeed < 0 && doodle.getYPos() < .5d * Game.HEIGHT - doodle.getHeight()) {
             for(IGameObject e : elements)
             e.addYPos(-this.vSpeed);
@@ -110,14 +112,14 @@ public class World implements IScene {
         }
     }
 
-    public void updateObjects(){
+    private void updateObjects(){
         for(IGameObject e: elements){
             e.update();
         }
         doodle.update();
     }
 
-    public void cleanUp(){
+    private void cleanUp(){
         for(IGameObject e : elements) {
             if(e.getClass().equals(Doodle.class)){
                 if(e.getYPos() > Game.HEIGHT) {
@@ -127,7 +129,7 @@ public class World implements IScene {
         }
     }
 
-    public void newBlocks(){
+    private void newBlocks(){
         if (elements.size() < 4) {
             double minY = Double.MAX_VALUE;
             for(IGameObject e : elements) {

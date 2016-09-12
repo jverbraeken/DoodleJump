@@ -18,7 +18,7 @@ public interface IGameObject extends IDrawable {
 
     Object getSprite();
 
-    Double[] getHitBox();
+    double[] getHitBox();
 
     int getHeight();
 
@@ -40,7 +40,7 @@ public interface IGameObject extends IDrawable {
 
     void setYPos(double yPos);
 
-    void setHitBox(Double[] hitbox);
+    void setHitBox(double[] hitbox);
 
     void update();
 }

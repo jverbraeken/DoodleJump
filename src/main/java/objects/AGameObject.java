@@ -9,7 +9,7 @@ import java.util.Set;
 public abstract class AGameObject implements IGameObject {
 
     private int height;
-    private Double[] hitBox;
+    private double[] hitBox;
     private Object sprite;
     private int width;
     private double xPos;
@@ -18,11 +18,13 @@ public abstract class AGameObject implements IGameObject {
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract void animate();
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addXPos(double xPos) {
         double current = this.getXPos();
         this.setXPos(current + xPos);
@@ -31,6 +33,7 @@ public abstract class AGameObject implements IGameObject {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addYPos(double yPos) {
         double current = this.getYPos();
         this.setYPos(current + yPos);
@@ -39,17 +42,20 @@ public abstract class AGameObject implements IGameObject {
     /**
      * {@inheritDoc}
      */
-    public Double[] getHitBox() {
+    @Override
+    public double[] getHitBox() {
         return this.hitBox;
     }
 
-    public void setHitBox(Double[] hitbox) {
+    @Override
+    public void setHitBox(double[] hitbox) {
         this.hitBox = hitbox;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object getSprite() {
         return this.sprite;
     }
@@ -57,6 +63,7 @@ public abstract class AGameObject implements IGameObject {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getHeight() {
         return this.height;
     }
@@ -64,6 +71,7 @@ public abstract class AGameObject implements IGameObject {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setHeight(int height) {
         this.height = height;
     }
@@ -71,6 +79,7 @@ public abstract class AGameObject implements IGameObject {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getWidth() {
         return this.width;
     }
@@ -78,22 +87,26 @@ public abstract class AGameObject implements IGameObject {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setWidth(int width) {
         this.width = width;
     }
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getXPos() {
         return this.xPos;
     }
 
     /** {@inheritDoc} */
+    @Override
     public abstract void render();
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setXPos(double xPos) {
         this.xPos = xPos;
     }
@@ -101,6 +114,7 @@ public abstract class AGameObject implements IGameObject {
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getYPos() {
         return this.yPos;
     }
@@ -108,6 +122,7 @@ public abstract class AGameObject implements IGameObject {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setYPos(double yPos) {
         this.yPos = yPos;
     }
@@ -115,10 +130,12 @@ public abstract class AGameObject implements IGameObject {
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract void move();
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public abstract void update();
 }
