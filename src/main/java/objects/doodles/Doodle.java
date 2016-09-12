@@ -1,5 +1,6 @@
 package objects.doodles;
 
+import input.IInputManager;
 import objects.AGameObject;
 import objects.ICollisions;
 import objects.IGameObject;
@@ -7,6 +8,8 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
+
+import java.awt.event.KeyEvent;
 
 public class Doodle extends AGameObject implements IDoodle {
 
@@ -32,6 +35,9 @@ public class Doodle extends AGameObject implements IDoodle {
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.sprite = spriteFactory.getDoodleSprite();
+
+        IInputManager inputManager = serviceLocator.getInputManager();
+        inputManager.addObserver(this);
 
         this.setXPos(Game.WIDTH / 2);
         this.setYPos(Game.HEIGHT / 2);
@@ -114,4 +120,8 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
+    @Override
+    public void keyPressed(KeyEvent key) {
+        System.out.println(key);
+    }
 }

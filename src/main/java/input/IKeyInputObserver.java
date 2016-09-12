@@ -1,5 +1,7 @@
 package input;
 
+import java.awt.event.KeyEvent;
+
 public interface IKeyInputObserver {
 
     /**
@@ -9,6 +11,6 @@ public interface IKeyInputObserver {
      * </br>
      * @param key The character that is pressed.
      */
-    void keyPressed(char key);
+    void keyPressed(KeyEvent key);
 
 }

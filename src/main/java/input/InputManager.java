@@ -66,7 +66,9 @@ public final class InputManager implements IInputManager {
     @Override
     /** {@inheritDoc} */
     public void keyPressed(KeyEvent e) {
-        System.out.println(e);
+        for (IKeyInputObserver observer : keyInputObservers) {
+            observer.keyPressed(e);
+        }
     }
 
     @Override
