@@ -42,6 +42,12 @@ public class Block extends AGameObject implements IBlock {
     @Override
     public void update() { }
 
+    @Override
+    public void addYPos(double y){
+        for(IGameObject e : content){
+            e.addYPos(y);
+        }
+    }
 
     private void createAndPlaceObjects() {
         placePlatforms();

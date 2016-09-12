@@ -3,6 +3,7 @@ package resources.sprites;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import objects.doodles.IDoodle;
 import resources.IRes;
 import system.IServiceLocator;
 
@@ -41,8 +42,15 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     @Override
-    public ISprite getDoodleSprite() {
-        return getSprite(IRes.sprites.doodle);
+    public ISprite getDoodleSprite(IDoodle.directions direction) {
+        if(direction == IDoodle.directions.left) {
+            return this.getSprite(IRes.sprites.doodleLeft);
+        } else if(direction == IDoodle.directions.right) {
+            return this.getSprite(IRes.sprites.doodleRight);
+        }
+
+        // Default Doodle sprite.
+        return this.getSprite(IRes.sprites.doodleRight);
     }
 
     @Override
@@ -348,6 +356,24 @@ public final class SpriteFactory implements ISpriteFactory {
     private ISprite loadISprite(IRes.sprites spriteName) throws FileNotFoundException {
         String filepath = serviceLocator.getRes().getSpritePath(spriteName);
         BufferedImage image = serviceLocator.getFileSystem().readImage(filepath);
-        return new Sprite(image);
+        return new Sprite(getFileName(filepath), image);
+    }
+
+    /**
+     * Returns the filename from a filepath.
+     *
+     * Example:
+     * <pre>
+     *     {@code
+     *     getFileName("resources/sprites/sprite.png").equals("sprite.png")
+     *     }
+     * </pre>
+     *
+     * @param filepath The full path to the file, the directories seperated by '('
+     * @return The name of the file
+     */
+    private String getFileName(final String filepath) {
+        int fileNameIndex = filepath.lastIndexOf('/') + 1;
+        return filepath.substring(fileNameIndex);
     }
 }

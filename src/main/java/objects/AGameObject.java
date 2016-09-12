@@ -9,8 +9,8 @@ public abstract class AGameObject implements IGameObject {
     private double[] hitBox;
     private Object sprite;
     private int width;
-    private int xPos;
-    private int yPos;
+    private double xPos;
+    private double yPos;
 
     @Override
     /** {@inheritDoc} */
@@ -18,21 +18,17 @@ public abstract class AGameObject implements IGameObject {
 
     @Override
     /** {@inheritDoc} */
-    public void addXPos(int xPos) {
-        int current = this.getXPos();
+    public void addXPos(double xPos) {
+        double current = this.getXPos();
         this.setXPos(current + xPos);
     }
 
     @Override
     /** {@inheritDoc} */
-    public void addYPos(int yPos) {
-        int current = this.getYPos();
+    public void addYPos(double yPos) {
+        double current = this.getYPos();
         this.setYPos(current + yPos);
     }
-
-    @Override
-    /** (@inheritDoc} */
-    public void collide(IGameObject collidee) { }
 
     @Override
     /** {@inheritDoc} */
@@ -60,13 +56,13 @@ public abstract class AGameObject implements IGameObject {
 
     @Override
     /** {@inheritDoc} */
-    public int getXPos() {
+    public double getXPos() {
         return this.xPos;
     }
 
     @Override
     /** {@inheritDoc} */
-    public int getYPos() {
+    public double getYPos() {
         return this.yPos;
     }
 
@@ -90,13 +86,13 @@ public abstract class AGameObject implements IGameObject {
 
     @Override
     /** {@inheritDoc} */
-    public void setXPos(int xPos) {
+    public void setXPos(double xPos) {
         this.xPos = xPos;
     }
 
     @Override
     /** {@inheritDoc} */
-    public void setYPos(int yPos) {
+    public void setYPos(double yPos) {
         this.yPos = yPos;
     }
 

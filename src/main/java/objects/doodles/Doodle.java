@@ -15,25 +15,25 @@ public class Doodle extends AGameObject implements IDoodle {
 
     private static IServiceLocator serviceLocator;
 
-    // The vertical acceleration of the Doodle, negative if going up and positive if going down.
-    private float vAcceleration = 0f;
-    // The fastest the doodle can go vertically.
-    private float vAccelerationLimit = 9f;
-    // How much the doodle is affected by gravity.
-    private float gravityAcceleration = .15f;
-    // How much the doodle is affected by the player.
+    // How much the Doodle is affected by the player.
     private float hSpeedUnit = 5;
-    // The sprite for the doodle
+    // The sprite for the Doodle.
     private ISprite sprite;
+    // The direction the Doodle is moving towards.
+    private directions moving;
+    // The direction the Doodle is facing.
+    private directions facing;
 
-    private enum direction { left, right }
-    private direction moving;
-
+    /**
+     * Doodle constructor.
+     * <br>
+     * @param serviceLocator The service locator.
+     */
     /* package */ Doodle(IServiceLocator serviceLocator) {
         Doodle.serviceLocator = serviceLocator;
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        this.sprite = spriteFactory.getDoodleSprite();
+        this.sprite = spriteFactory.getDoodleSprite(directions.right);
 
         IInputManager inputManager = serviceLocator.getInputManager();
         inputManager.addObserver(this);
@@ -44,95 +44,91 @@ public class Doodle extends AGameObject implements IDoodle {
         this.setHeight(sprite.getHeight());
     }
 
+    /** {@inheritDoc} */
     @Override
-    public void animate() { }
-
-    @Override
-    public void collide(IGameObject collidee) {
-        ICollisions collisions = serviceLocator.getCollisions();
-        boolean collided = collisions.collide(this, collidee);
-
-        if(collided) {
-            this.vAcceleration = -this.vAccelerationLimit;
-        }
+    public void animate() {
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        this.sprite = spriteFactory.getDoodleSprite(this.facing);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public boolean collide(IGameObject collidee) {
+        assert !collidee.equals(null);
+        ICollisions collisions = serviceLocator.getCollisions();
+        return collisions.collide(this, collidee);
+    }
+
+    /** {@inheritDoc} */
     @Override
     public void move() {
         this.moveHorizontally();
-        this.moveVertically();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void paint() {
-        this.update();
-        serviceLocator.getRenderer().drawImage(this.sprite.getImage(), this.getXPos(), this.getYPos());
+        serviceLocator.getRenderer().drawSprite(this.sprite, (int)this.getXPos(), (int)this.getYPos());
     }
 
+    /** {@inheritDoc} */
     @Override
-    public void update() {  this.move(); }
+    public void update() {
+        this.animate();
+        this.move();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void keyPress(int keyCode) {
+        if(this.leftPressed(keyCode)) {
+            this.moving = directions.left;
+            this.facing = directions.left;
+        } else if(this.rightPressed(keyCode)) {
+            this.moving = directions.right;
+            this.facing = directions.right;
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void keyRelease(int keyCode) {
+        if(this.leftPressed(keyCode) && this.moving == directions.left) {
+            this.moving = null;
+        } else if(this.rightPressed(keyCode) && this.moving == directions.right) {
+            this.moving = null;
+        }
+    }
 
     /**
      * Move the Doodle along the X axis.
      */
     private void moveHorizontally() {
-        if(moving == direction.left) {
+        if(moving == directions.left) {
             this.addXPos((int) -this.hSpeedUnit);
-        } else if(moving == direction.right) {
+        } else if(moving == directions.right) {
             this.addXPos((int) this.hSpeedUnit);
         }
     }
 
     /**
-     * Move the Doodle along the Y axis.
+     * Check if the left key for the Doodle is pressed.
+     *
+     * @param keyCode The keyCode of the key.
+     * @return A boolean indicating whether the key for left is pressed.
      */
-    private void moveVertically() {
-        // Apply gravity to the doodle
-        this.applyGravity();
-
-        // Apply the vAcceleration to the doodle
-        if(this.vAcceleration < 0 && this.getYPos() < .5d * Game.HEIGHT) {
-            // Move background
-            // background.addYPos(this.vAcceleration);
-        } else {
-            // Move doodle
-            this.addYPos((int) this.vAcceleration);
-        }
-    }
-
-    /**
-     * Applies gravity vAcceleration to the doodle.
-     */
-    private void applyGravity() {
-        if(this.vAcceleration >= -vAccelerationLimit) {
-            this.vAcceleration += this.gravityAcceleration;
-        }
-    }
-
-    @Override
-    public void keyPress(int keyCode) {
-        if(this.left(keyCode)) {
-            this.moving = direction.left;
-        } else if(this.right(keyCode)) {
-            this.moving = direction.right;
-        }
-    }
-
-    @Override
-    public void keyRelease(int keyCode) {
-        if(this.left(keyCode) && this.moving == direction.left) {
-            this.moving = null;
-        } else if(this.right(keyCode) && this.moving == direction.right) {
-            this.moving = null;
-        }
-    }
-
-    private boolean left(int keyCode) {
+    private boolean leftPressed(int keyCode) {
         return keyCode == KeyCode.getKeyCode(Keys.arrowLeft) ||
                 keyCode == KeyCode.getKeyCode(Keys.a);
     }
 
-    private boolean right(int keyCode) {
+    /**
+     * Check if the right key for the Doodle is pressed.
+     *
+     * @param keyCode The keyCode of the key.
+     * @return A boolean indicating whether the key for right is pressed.
+     */
+    private boolean rightPressed(int keyCode) {
         return keyCode == KeyCode.getKeyCode(Keys.arrowRight) ||
                 keyCode == KeyCode.getKeyCode(Keys.d);
     }
