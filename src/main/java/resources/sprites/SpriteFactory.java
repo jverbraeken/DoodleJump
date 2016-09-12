@@ -348,6 +348,24 @@ public final class SpriteFactory implements ISpriteFactory {
     private ISprite loadISprite(IRes.sprites spriteName) throws FileNotFoundException {
         String filepath = serviceLocator.getRes().getSpritePath(spriteName);
         BufferedImage image = serviceLocator.getFileSystem().readImage(filepath);
-        return new Sprite(image);
+        return new Sprite(getFileName(filepath), image);
+    }
+
+    /**
+     * Returns the filename from a filepath.
+     *
+     * Example:
+     * <pre>
+     *     {@code
+     *     getFileName("resources/sprites/sprite.png").equals("sprite.png")
+     *     }
+     * </pre>
+     *
+     * @param filepath The full path to the file, the directories seperated by '('
+     * @return The name of the file
+     */
+    private String getFileName(final String filepath) {
+        int fileNameIndex = filepath.lastIndexOf('/') + 1;
+        return filepath.substring(fileNameIndex);
     }
 }

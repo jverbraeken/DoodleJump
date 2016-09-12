@@ -1,5 +1,6 @@
 package objects.buttons;
 
+import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
@@ -9,20 +10,20 @@ public class PlayButton implements IButton {
 
     private final IServiceLocator serviceLocator;
 
-    private final Image image;
+    private final ISprite sprite;
     private final int width, height;
     private final int[] topLeft = new int[2], bottomRight = new int[2];
 
-    /* package */ PlayButton(IServiceLocator serviceLocator, int x, int y, Image image) {
+    /* package */ PlayButton(IServiceLocator serviceLocator, int x, int y, ISprite sprite) {
         super();
 
         assert serviceLocator != null;
-        assert image != null;
+        assert sprite != null;
 
         this.serviceLocator = serviceLocator;
-        this.image = image;
-        this.width = image.getWidth(null);
-        this.height = image.getHeight(null);
+        this.sprite = sprite;
+        this.width = sprite.getImage().getWidth(null);
+        this.height = sprite.getImage().getHeight(null);
         this.topLeft[0] = x;
         this.topLeft[1] = y;
         this.bottomRight[0] = x + width;
@@ -41,7 +42,7 @@ public class PlayButton implements IButton {
 
     @Override
     public void paint() {
-        serviceLocator.getRenderer().drawImage(image, topLeft[0], topLeft[1], width, height);
+        serviceLocator.getRenderer().drawSprite(sprite, topLeft[0], topLeft[1], width, height);
     }
 
 }

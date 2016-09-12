@@ -70,6 +70,8 @@ public final class Game {
     }
 
     public static void main(String[] argv) {
+        System.setProperty("Log4jContextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
+
         initServices();
 
         serviceLocator.getRenderer().start();

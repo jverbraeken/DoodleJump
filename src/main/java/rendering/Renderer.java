@@ -1,5 +1,8 @@
 package rendering;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.IScene;
 import system.Game;
@@ -31,6 +34,7 @@ public final class Renderer implements IRenderer {
     }
 
     private Graphics graphics;
+    private static final Logger logger = LoggerFactory.getLogger(Renderer.class);
 
     private Renderer() {
     }
@@ -42,23 +46,30 @@ public final class Renderer implements IRenderer {
     }
 
     public void drawRectangle(int x, int y, int width, int height) {
+        logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
         graphics.drawRect(x, y, width, height);
     }
 
     @Override
     /** {@inheritDoc} */
-    public void drawImage(Image image, int x, int y) {
+    public void drawSprite(ISprite sprite, int x, int y) {
         assert graphics != null;
-        if (image == null) {
+        if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
-        graphics.drawImage(image, x, y, null);
+        logger.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ")");
+        graphics.drawImage(sprite.getImage(), x, y, null);
     }
 
     @Override
     /** {@inheritDoc} */
-    public void drawImage(Image image, int x, int y, int width, int height) {
-        graphics.drawImage(image, x, y, width, height, null);
+    public void drawSprite(ISprite sprite, int x, int y, int width, int height) {
+        assert graphics != null;
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
+        logger.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ")");
+        graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
 
     @Override
