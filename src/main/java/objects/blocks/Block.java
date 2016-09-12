@@ -73,6 +73,12 @@ public class Block extends AGameObject implements IBlock {
             IPlatform platform = platformFactory.createPlatform(xLoc, yLoc);
             content.add(platform);
         }
+        if (blockNumber == 0){
+            System.out.println("hier");
+            IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
+            IPlatform platform = platformFactory.createPlatform(getWidth()/2, (int) (getHeight()/1.2));
+            content.add(platform);
+        }
     }
 
 }

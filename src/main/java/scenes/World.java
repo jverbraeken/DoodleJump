@@ -6,6 +6,7 @@ import objects.IGameObject;
 import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
+import rendering.IDrawable;
 import system.Game;
 import system.IServiceLocator;
 
@@ -15,6 +16,8 @@ public class World implements IScene {
 
     private final IServiceLocator serviceLocator;
     private Set<IGameObject> elements = new HashSet<>();
+    private final IDrawable background;
+
     private IDoodle doodle;
 
     /* package */ World(IServiceLocator serviceLocator) {
@@ -24,6 +27,8 @@ public class World implements IScene {
         for(int i = 0; i < 3; i++) {
             elements.add(blockFactory.createBlock());
         }
+
+        background = serviceLocator.getBackgroundFactory().createBackground();
 
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
@@ -39,6 +44,8 @@ public class World implements IScene {
 
     @Override
     public void paint() {
+        background.paint();
+
         for(IGameObject e : elements) {
             e.paint();
 

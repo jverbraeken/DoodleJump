@@ -5,6 +5,6 @@ import system.IFactory;
 
 public interface IBackgroundFactory extends IFactory {
 
-    IDrawable createStartMenuBackground();
+    IDrawable createBackground();
 
 }
