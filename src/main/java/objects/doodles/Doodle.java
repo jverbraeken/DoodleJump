@@ -24,9 +24,9 @@ public class Doodle extends AGameObject implements IDoodle {
     // The horizontal acceleration of the Doodle, positive if going right and negative if going left.
     private float hAcceleration = 0f;
     // The fastest the doodle can go horizontally.
-    private float hAccelerationLimit = 3f;
+    private float hAccelerationLimit = 5f;
     // How much the doodle is affected by the player.
-    private float hAccelerationUnit = .15f;
+    private float hAccelerationUnit = .5f;
     // The sprite for the doodle
     private ISprite sprite;
 
@@ -119,10 +119,14 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     @Override
-    public void keyPressed(KeyEvent key) {
-        if(key.getKeyChar() == 'a') {
+    public void keyPressed(int keyCode) {
+        // keyCode 37 - arrow left
+        // keyCode 65 - 'a'
+        // keyCode 39 - arrow right
+        // keyCode 85 - 'd'
+        if(keyCode == 37 || keyCode == 65) {
             this.moveHorizontally(true);
-        } else if(key.getKeyChar() == 'd') {
+        } else if(keyCode == 39 || keyCode == 68) {
             this.moveHorizontally(false);
         }
     }
