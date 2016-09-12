@@ -21,6 +21,7 @@ public class StartBlock extends AGameObject implements IBlock {
         StartBlock.serviceLocator = serviceLocator;
 
         this.blockNumber = 0;
+        setYPos(0);
 
         createAndPlaceObjects();
     }
@@ -67,11 +68,11 @@ public class StartBlock extends AGameObject implements IBlock {
             float widthDeviation = (float) (rand.nextFloat() * 0.8 + 0.1);
             int yLoc;
 
-            if(blockNumber == 0) {
-                yLoc = (int) (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms));
-            } else {
-                yLoc = (int) (-Game.HEIGHT * (blockNumber -1) - (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
-            }
+//            if(blockNumber == 0) {
+//                yLoc = (int) (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms));
+//            }
+            yLoc = (int) (getYPos() + (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
+
 
             int xLoc = (int) (widthDeviation * Game.WIDTH);
             platform = platformFactory.createPlatform(xLoc, yLoc);
@@ -81,6 +82,9 @@ public class StartBlock extends AGameObject implements IBlock {
 
     @Override
     public void addYPos(double y){
+        double current = this.getYPos();
+        this.setYPos(current + y);
+
         for(IGameObject e : content){
             e.addYPos(y);
         }

@@ -15,12 +15,13 @@ public class Block extends AGameObject implements IBlock {
     private static IServiceLocator serviceLocator;
 
     private HashSet<IGameObject> content = new HashSet<>();
-    private int blockNumber;
+    //private int blockNumber;
 
-    /* package */ Block(IServiceLocator serviceLocator, int blockNumber) {
+    /* package */ Block(IServiceLocator serviceLocator, double lastPlatformHeight) {
         Block.serviceLocator = serviceLocator;
 
-        this.blockNumber = blockNumber;
+        //this.blockNumber = blockNumber;
+        setYPos(lastPlatformHeight - 800);
 
         createAndPlaceObjects();
     }
@@ -43,6 +44,9 @@ public class Block extends AGameObject implements IBlock {
 
     @Override
     public void addYPos(double y){
+        double current = this.getYPos();
+        this.setYPos(current + y);
+
         for(IGameObject e : content){
             e.addYPos(y);
         }
@@ -69,11 +73,8 @@ public class Block extends AGameObject implements IBlock {
             float widthDeviation = (float) (rand.nextFloat() * 0.8 + 0.1);
             int yLoc;
 
-            if(blockNumber == 0) {
-                yLoc = (int) (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms));
-            } else {
-                yLoc = (int) (-Game.HEIGHT * (blockNumber - 1) - (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
-            }
+            yLoc = (int) (getYPos() + (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
+
 
             IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
             IPlatform platform = platformFactory.createPlatform(0, yLoc);
