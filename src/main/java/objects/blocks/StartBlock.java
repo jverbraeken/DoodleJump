@@ -7,7 +7,6 @@ import objects.blocks.platform.IPlatformFactory;
 import system.Game;
 import system.IServiceLocator;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -27,9 +26,9 @@ public class StartBlock extends AGameObject implements IBlock {
     }
 
     @Override
-    public void paint() {
+    public void render() {
         for(IGameObject e : content){
-            e.paint();
+            e.render();
         }
     }
 

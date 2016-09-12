@@ -41,7 +41,7 @@ public class Menu implements IScene, IMouseInputObserver {
 
     @Override
     public void paint() {
-        background.paint();
+        background.render();
         playButton.paint();
     }
 

@@ -81,13 +81,15 @@ public abstract class AGameObject implements IGameObject {
     public void setWidth(int width) {
         this.width = width;
     }
-
     /**
      * {@inheritDoc}
      */
     public double getXPos() {
         return this.xPos;
     }
+
+    /** {@inheritDoc} */
+    public abstract void render();
 
     /**
      * {@inheritDoc}
@@ -114,11 +116,6 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     public abstract void move();
-
-    /**
-     * {@inheritDoc}
-     */
-    public abstract void paint();
 
     /**
      * {@inheritDoc}

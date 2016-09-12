@@ -3,6 +3,7 @@ package resources.sprites;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import objects.doodles.IDoodle;
 import resources.IRes;
 import system.IServiceLocator;
 
@@ -41,8 +42,15 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     @Override
-    public ISprite getDoodleSprite() {
-        return getSprite(IRes.sprites.doodle);
+    public ISprite getDoodleSprite(IDoodle.directions direction) {
+        if(direction == IDoodle.directions.left) {
+            return this.getSprite(IRes.sprites.doodleLeft);
+        } else if(direction == IDoodle.directions.right) {
+            return this.getSprite(IRes.sprites.doodleRight);
+        }
+
+        // Default Doodle sprite.
+        return this.getSprite(IRes.sprites.doodleRight);
     }
 
     @Override
