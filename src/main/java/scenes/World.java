@@ -1,6 +1,7 @@
 package scenes;
 
 import objects.blocks.Block;
+import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.IGameObject;
 import objects.doodles.Doodle;
@@ -24,7 +25,8 @@ public class World implements IScene {
         this.serviceLocator = serviceLocator;
 
         IBlockFactory blockFactory = serviceLocator.getBlockFactory();
-        for(int i = 0; i < 3; i++) {
+        elements.add(blockFactory.createStartBlock());
+        for(int i = 1; i < 3; i++) {
             elements.add(blockFactory.createBlock());
         }
 
@@ -49,8 +51,8 @@ public class World implements IScene {
         for(IGameObject e : elements) {
             e.paint();
 
-            Block block = (Block) e;
-            ArrayList<IGameObject> platforms = block.getContent();
+            IBlock block = (IBlock) e;
+            HashSet<IGameObject> platforms = block.getContent();
             for(IGameObject platform : platforms) {
                 this.doodle.collide(platform);
             }

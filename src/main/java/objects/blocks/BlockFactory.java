@@ -17,12 +17,12 @@ public final class BlockFactory implements IBlockFactory {
         this.blockCounter = 0;
     }
 
-//    @Override
-//    public IBlock createStartBlock(){
-//        Block block = new StartBlock(serviceLocator);
-//        blockCounter++;
-//        return block;
-//    }
+    @Override
+    public IBlock createStartBlock(){
+        IBlock block = new StartBlock(serviceLocator);
+        blockCounter++;
+        return block;
+    }
 
     @Override
     public IBlock createBlock(){
