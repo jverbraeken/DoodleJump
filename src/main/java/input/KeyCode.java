@@ -28,7 +28,7 @@ public class KeyCode {
 
         // Letters
         keyMap.put(Keys.a, 65);
-        keyMap.put(Keys.d, 85);
+        keyMap.put(Keys.d, 68);
     }
 
     /**

@@ -27,10 +27,13 @@ public final class Res implements IRes {
         for (IRes.sprites sprite : IRes.sprites.values()) {
             sprites.put(sprite, spritepath + "unimplemented.jpg");
         }
-        sprites.put(IRes.sprites.doodle, spritepath + "blue-lik-right@2x.png");
         sprites.put(IRes.sprites.platform1, spritepath + "platform-green@2x.png");
         sprites.put(IRes.sprites.playButton, spritepath + "play@2x.png");
         sprites.put(IRes.sprites.background, spritepath + "bck@2x.png");
+
+        // Doodle
+        sprites.put(IRes.sprites.doodleLeft, spritepath + "blue-lik-left@2x.png");
+        sprites.put(IRes.sprites.doodleRight, spritepath + "blue-lik-right@2x.png");
     }
 
     private Res() {

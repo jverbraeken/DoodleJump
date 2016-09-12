@@ -11,6 +11,7 @@ public interface IKeyInputObserver {
      * </br>
      * @param keyCode The character that is pressed.
      */
-    void keyPressed(int keyCode);
+    void keyPress(int keyCode);
+    void keyRelease(int keyCode);
 
 }
