@@ -11,11 +11,14 @@ import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public class Doodle extends AGameObject implements IDoodle {
 
     private static IServiceLocator serviceLocator;
     // How much the doodle is affected by the player.
-    private float hSpeedUnit = 5;
+    private float hSpeedUnit = 10;
     // The sprite for the doodle
     private ISprite sprite;
 
@@ -34,6 +37,10 @@ public class Doodle extends AGameObject implements IDoodle {
         this.setYPos(Game.HEIGHT / 2);
         this.setWidth(sprite.getWidth());
         this.setHeight(sprite.getHeight());
+        System.out.println(sprite.getWidth());
+
+        Double[] hit = {getWidth()/3d, 0d, 2*getWidth()/3d, (double)getHeight()};
+        this.setHitBox(hit);
     }
 
     @Override
@@ -42,7 +49,21 @@ public class Doodle extends AGameObject implements IDoodle {
     public boolean collide(IGameObject collidee) {
         assert !collidee.equals(null);
         ICollisions collisions = serviceLocator.getCollisions();
-        return collisions.collide(this, collidee);
+
+        if(this.getXPos()+getHitBox()[0] < collidee.getXPos() && collidee.getXPos() < this.getXPos()+getHitBox()[2]){
+            if(this.getYPos()+getHitBox()[1] < collidee.getYPos() && collidee.getYPos() < this.getYPos()+getHitBox()[3]){
+                return true;
+            } else if(collidee.getYPos() < this.getYPos()+getHitBox()[1] && this.getYPos()+getHitBox()[1] < collidee.getYPos() + collidee.getWidth()){
+                return true;
+            }
+        } else if(collidee.getXPos() < this.getXPos()+getHitBox()[0] && this.getXPos()+getHitBox()[0] < collidee.getXPos() + collidee.getWidth()){
+            if(this.getYPos()+getHitBox()[1] < collidee.getYPos() && collidee.getYPos() < this.getYPos()+getHitBox()[3]){
+                return true;
+            } else if(collidee.getYPos() < this.getYPos()+getHitBox()[1] && this.getYPos()+getHitBox()[1] < collidee.getYPos() + collidee.getWidth()){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
