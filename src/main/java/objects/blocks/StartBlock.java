@@ -18,6 +18,7 @@ public class StartBlock extends AGameObject implements IBlock {
     private HashSet<IGameObject> content = new HashSet<>();
     private int blockNumber;
 
+
     /* package */ StartBlock(IServiceLocator serviceLocator) {
         StartBlock.serviceLocator = serviceLocator;
 
@@ -26,6 +27,7 @@ public class StartBlock extends AGameObject implements IBlock {
         createAndPlaceObjects();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void paint() {
         for(IGameObject e : content){
@@ -33,12 +35,15 @@ public class StartBlock extends AGameObject implements IBlock {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void animate() { }
 
+    /** {@inheritDoc} */
     @Override
     public void move() { }
 
+    /** {@inheritDoc} */
     @Override
     public void update() { }
 

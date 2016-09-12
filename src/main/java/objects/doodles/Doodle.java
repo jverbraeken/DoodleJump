@@ -39,9 +39,11 @@ public class Doodle extends AGameObject implements IDoodle {
         this.setHeight(sprite.getHeight());
     }
 
+    /** {@inheritDoc} */
     @Override
     public void animate() { }
 
+    /** {@inheritDoc} */
     @Override
     public void collide(IGameObject collidee) {
         ICollisions collisions = serviceLocator.getCollisions();
@@ -52,18 +54,21 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void move() {
         this.moveHorizontally();
         this.moveVertically();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void paint() {
         this.update();
         serviceLocator.getRenderer().drawImage(this.sprite.getImage(), this.getXPos(), this.getYPos());
     }
 
+    /** {@inheritDoc} */
     @Override
     public void update() {
         this.move();

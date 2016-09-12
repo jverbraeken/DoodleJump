@@ -18,6 +18,11 @@ public class Block extends AGameObject implements IBlock {
     private HashSet<IGameObject> content = new HashSet<>();
     private int blockNumber;
 
+    /**
+     * Create and initialize a Block.
+     * @param serviceLocator the ServiceLocator of this session.
+     * @param blockNumber the BlockNumber of the list of Blocks in World.
+     */
     /* package */ Block(IServiceLocator serviceLocator, int blockNumber) {
         Block.serviceLocator = serviceLocator;
 
@@ -26,6 +31,7 @@ public class Block extends AGameObject implements IBlock {
         createAndPlaceObjects();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void paint() {
         for(IGameObject e : content){
@@ -33,14 +39,16 @@ public class Block extends AGameObject implements IBlock {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void animate() { }
 
+    /** {@inheritDoc} */
     @Override
     public void move() { }
 
+    /** {@inheritDoc} */
     @Override
-
     public void update() { }
 
 
@@ -52,6 +60,7 @@ public class Block extends AGameObject implements IBlock {
         return this.content;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void placePlatforms() {
         int max = (int)(Game.WIDTH + Game.HEIGHT)/130;

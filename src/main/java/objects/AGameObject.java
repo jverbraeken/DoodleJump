@@ -30,8 +30,8 @@ public abstract class AGameObject implements IGameObject {
         this.setYPos(current + yPos);
     }
 
+    /** {@inheritDoc} */
     @Override
-    /** (@inheritDoc} */
     public void collide(IGameObject collidee) { }
 
     /** {@inheritDoc} */
