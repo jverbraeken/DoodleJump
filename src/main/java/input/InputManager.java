@@ -31,7 +31,9 @@ public final class InputManager implements IInputManager {
     /**
      * Prevents instantiation from outside the class.
      */
-    private InputManager() { }
+    private InputManager() {
+        KeyCode.init();
+    }
 
     /* MOUSE EVENTS */
     @Override

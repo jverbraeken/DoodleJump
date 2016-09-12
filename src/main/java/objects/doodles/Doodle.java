@@ -1,6 +1,8 @@
 package objects.doodles;
 
 import input.IInputManager;
+import input.KeyCode;
+import input.Keys;
 import objects.AGameObject;
 import objects.ICollisions;
 import objects.IGameObject;
@@ -120,13 +122,9 @@ public class Doodle extends AGameObject implements IDoodle {
 
     @Override
     public void keyPressed(int keyCode) {
-        // keyCode 37 - arrow left
-        // keyCode 65 - 'a'
-        // keyCode 39 - arrow right
-        // keyCode 85 - 'd'
-        if(keyCode == 37 || keyCode == 65) {
+        if(keyCode == KeyCode.getKeyCode(Keys.arrowLeft) || keyCode == KeyCode.getKeyCode(Keys.a)) {
             this.moveHorizontally(true);
-        } else if(keyCode == 39 || keyCode == 68) {
+        } else if(keyCode == KeyCode.getKeyCode(Keys.arrowRight) || keyCode == KeyCode.getKeyCode(Keys.d)) {
             this.moveHorizontally(false);
         }
     }
