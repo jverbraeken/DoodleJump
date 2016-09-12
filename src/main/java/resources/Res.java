@@ -7,6 +7,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public final class Res implements IRes {
+
     /**
     * Used to gain access to all services.
     */

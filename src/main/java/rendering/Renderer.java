@@ -8,13 +8,7 @@ import scenes.IScene;
 import system.Game;
 import system.IServiceLocator;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
 
 public final class Renderer implements IRenderer {
 
@@ -22,6 +16,8 @@ public final class Renderer implements IRenderer {
     * Used to gain access to all services.
     */
     private static transient IServiceLocator serviceLocator;
+
+    private Graphics graphics;
 
     /**
     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -33,17 +29,13 @@ public final class Renderer implements IRenderer {
         serviceLocator.provide(new Renderer());
     }
 
-    private Graphics graphics;
     private static final Logger logger = LoggerFactory.getLogger(Renderer.class);
 
-    private Renderer() {
-    }
+    private Renderer() { }
 
     @Override
     /** {@inheritDoc} */
-    public void start() {
-
-    }
+    public void start() { }
 
     public void drawRectangle(int x, int y, int width, int height) {
         logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
@@ -80,4 +72,5 @@ public final class Renderer implements IRenderer {
         }
         this.graphics = graphics;
     }
+
 }

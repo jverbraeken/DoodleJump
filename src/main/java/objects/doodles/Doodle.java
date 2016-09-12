@@ -1,5 +1,8 @@
 package objects.doodles;
 
+import input.IInputManager;
+import input.KeyCode;
+import input.Keys;
 import objects.AGameObject;
 import objects.ICollisions;
 import objects.IGameObject;
@@ -11,20 +14,21 @@ import system.IServiceLocator;
 public class Doodle extends AGameObject implements IDoodle {
 
     private static IServiceLocator serviceLocator;
-    // The horizontal acceleration of the Doodle, positive if going right and negative if going left.
-    private float hAcceleration = 0f;
-    // The fastest the doodle can go horizontally.
-    private float hAccelerationLimit = 3f;
     // How much the doodle is affected by the player.
-    private float hAccelerationUnit = .15f;
+    private float hSpeedUnit = 5;
     // The sprite for the doodle
     private ISprite sprite;
+
+    private enum directions { left, right }
 
     /* package */ Doodle(IServiceLocator serviceLocator) {
         Doodle.serviceLocator = serviceLocator;
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.sprite = spriteFactory.getDoodleSprite();
+
+        IInputManager inputManager = serviceLocator.getInputManager();
+        inputManager.addObserver(this);
 
         this.setXPos(Game.WIDTH / 2);
         this.setYPos(Game.HEIGHT / 2);
@@ -43,7 +47,6 @@ public class Doodle extends AGameObject implements IDoodle {
 
     @Override
     public void move() {
-        this.moveHorizontally();
     }
 
     @Override
@@ -59,19 +62,23 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Move the Doodle along the X axis.
+     *
+     * @param direction true to go left, false to go right
      */
-    private void moveHorizontally() {
-        boolean keyLeft = false;
-        boolean keyRight = false;
-
-        if(keyLeft && this.hAcceleration > -this.hAccelerationLimit) {
-            // Go left
-            this.hAcceleration -= this.hAccelerationUnit;
-        } else if(keyRight && this.hAcceleration < this.hAccelerationLimit) {
-            // Go right
-            this.hAcceleration += this.hAccelerationUnit;
+    private void moveHorizontally(directions direction) {
+        if(direction == directions.left) {
+            this.addXPos((int) -this.hSpeedUnit);
+        } else if(direction == directions.right) {
+            this.addXPos((int) this.hSpeedUnit);
         }
+    }
 
-        this.addXPos((int) this.hAcceleration);
+    @Override
+    public void keyPressed(int keyCode) {
+        if(keyCode == KeyCode.getKeyCode(Keys.arrowLeft) || keyCode == KeyCode.getKeyCode(Keys.a)) {
+            this.moveHorizontally(directions.left);
+        } else if(keyCode == KeyCode.getKeyCode(Keys.arrowRight) || keyCode == KeyCode.getKeyCode(Keys.d)) {
+            this.moveHorizontally(directions.right);
+        }
     }
 }
