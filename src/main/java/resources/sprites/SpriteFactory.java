@@ -16,7 +16,7 @@ public final class SpriteFactory implements ISpriteFactory {
     * Used to gain access to all services.
     */
     private static transient IServiceLocator serviceLocator;
-    LoadingCache<IRes.sprites, ISprite> cache;
+    private LoadingCache<IRes.sprites, ISprite> cache;
 
     /**
      * Prevents instantiation from outside the class.
@@ -326,7 +326,37 @@ public final class SpriteFactory implements ISpriteFactory {
 
     // Backgrounds
     @Override
-    public ISprite getStartMenuBackground() { return getSprite(IRes.sprites.background); }
+    public ISprite getStartMenuBackgroundSprite() { return getSprite(IRes.sprites.background); }
+
+    @Override
+    public ISprite getScorebarSprite() {
+        return getSprite(IRes.sprites.scorebar);
+    }
+
+    @Override
+    public ISprite getPauseSprite() {
+        return getSprite(IRes.sprites.pause);
+    }
+
+    @Override
+    public ISprite getDigitSprite(int digit) {
+        if (digit < 0 || digit > 9) {
+            throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
+        }
+        switch (digit) {
+            case 0: return getSprite(IRes.sprites.zero);
+            case 1: return getSprite(IRes.sprites.one);
+            case 2: return getSprite(IRes.sprites.two);
+            case 3: return getSprite(IRes.sprites.three);
+            case 4: return getSprite(IRes.sprites.four);
+            case 5: return getSprite(IRes.sprites.five);
+            case 6: return getSprite(IRes.sprites.six);
+            case 7: return getSprite(IRes.sprites.seven);
+            case 8: return getSprite(IRes.sprites.eight);
+            case 9: return getSprite(IRes.sprites.nine);
+            default: return null;
+        }
+    }
 
     // Miscellaneous
     private ISprite getSprite(IRes.sprites sprite) {

@@ -1,5 +1,6 @@
 package scenes;
 
+import input.IMouseInputObserver;
 import objects.blocks.Block;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
@@ -7,7 +8,10 @@ import objects.IGameObject;
 import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rendering.IDrawable;
+import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
@@ -19,6 +23,8 @@ public class World implements IScene {
     private Set<IGameObject> elements = new HashSet<>();
     private final IDrawable background;
 
+    private Scorebar scorebar;
+
     private IDoodle doodle;
 
     // The vertical speed, negative if going up and positive if going down.
@@ -27,6 +33,8 @@ public class World implements IScene {
     private double vSpeedLimit = 9;
     // How much the doodle is affected by gravity.
     private double gravityAcceleration = .15;
+
+    private double score;
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
@@ -38,6 +46,8 @@ public class World implements IScene {
         }
 
         background = serviceLocator.getBackgroundFactory().createBackground();
+
+        scorebar = new Scorebar();
 
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
@@ -60,7 +70,9 @@ public class World implements IScene {
             e.paint();
         }
 
-        this.doodle.paint();
+        doodle.paint();
+
+        scorebar.render();
     }
 
     @Override
@@ -71,15 +83,10 @@ public class World implements IScene {
         applySpeed();
         cleanUp();
 
-        if (!elements.contains(doodle)){
-            //TODO: implement Game Over
-            //Game.endGame();
-        }
-
         newBlocks();
     }
 
-    public void updateSpeed(){
+    private void updateSpeed(){
         for(IGameObject e : elements) {
             IBlock block = (IBlock) e;
             HashSet<IGameObject> inside = block.getContent();
@@ -92,7 +99,7 @@ public class World implements IScene {
         this.applyGravity();
     }
 
-    public void applySpeed(){
+    private void applySpeed(){
         if(this.vSpeed < 0 && doodle.getYPos() < .5d * Game.HEIGHT) {
             for(IGameObject e : elements)
             e.addYPos(-this.vSpeed);
@@ -110,14 +117,14 @@ public class World implements IScene {
         }
     }
 
-    public void updateObjects(){
+    private void updateObjects(){
         for(IGameObject e: elements){
             e.update();
         }
         doodle.update();
     }
 
-    public void cleanUp(){
+    private void cleanUp(){
         for(IGameObject e : elements) {
             if(e.getClass().equals(Doodle.class)){
                 if(e.getYPos() > Game.HEIGHT) {
@@ -127,7 +134,7 @@ public class World implements IScene {
         }
     }
 
-    public void newBlocks(){
+    private void newBlocks(){
         if (elements.size() < 4) {
             double minY = Double.MAX_VALUE;
             for(IGameObject e : elements) {
@@ -137,6 +144,76 @@ public class World implements IScene {
             }
             //TODO: implements New Block
             elements.add(serviceLocator.getBlockFactory().createBlock());
+        }
+    }
+
+    /**
+     * IMMUTABLE
+     *
+     * The bar on top of the screen displaying the score and pause button
+     */
+    private final class Scorebar implements IMouseInputObserver {
+        private final ISprite scoreBarSprite, pauseSprite;
+        private final ISprite[] digitSprites;
+        private final int scoreXOffset, YOffset;
+        private final int pauseXOffsetFromRight, pauseClickRight, pauseClickBottom;
+        private final Logger logger = LoggerFactory.getLogger(Scorebar.class);
+
+        private Scorebar() {
+            scoreBarSprite = serviceLocator.getSpriteFactory().getScorebarSprite();
+            pauseSprite = serviceLocator.getSpriteFactory().getPauseSprite();
+            digitSprites = new ISprite[10];
+            for (int i = 0; i < 10; i++) {
+                digitSprites[i] = serviceLocator.getSpriteFactory().getDigitSprite(i);
+            }
+            scoreXOffset = digitSprites[2].getWidth();
+            YOffset = scoreBarSprite.getHeight() / 2 - digitSprites[1].getHeight() / 2;
+
+            pauseXOffsetFromRight = Game.WIDTH - 2 * pauseSprite.getWidth();
+            pauseClickRight = pauseXOffsetFromRight + pauseSprite.getWidth();
+            pauseClickBottom = YOffset + pauseSprite.getHeight();
+
+            serviceLocator.getInputManager().addObserver(this);
+        }
+
+        private void render() {
+            renderBar();
+            renderScore();
+            renderPauseButton();
+        }
+
+        private void renderBar() {
+            serviceLocator.getRenderer().drawSprite(scoreBarSprite, 0, 0, Game.WIDTH, Game.HEIGHT);
+        }
+
+        private void renderScore() {
+            int roundedScore = (int) score;
+            int digit;
+            ArrayList<Integer> scoreDigits = new ArrayList<>(6);
+            while (roundedScore != 0) {
+                digit = roundedScore % 10;
+                roundedScore = roundedScore / 10;
+                scoreDigits.add(digit);
+            }
+
+            int pos = scoreXOffset;
+            ISprite sprite;
+            for (int i = scoreDigits.size()-1; i >= 0; i--) {
+                sprite = digitSprites[scoreDigits.get(i)];
+                serviceLocator.getRenderer().drawSprite(sprite, pos, YOffset);
+                pos += sprite.getWidth() + 1;
+            }
+        }
+
+        private void renderPauseButton() {
+            serviceLocator.getRenderer().drawSprite(pauseSprite, pauseXOffsetFromRight, YOffset);
+        }
+
+        @Override
+        public void mouseClicked(int x, int y) {
+            if (x >= pauseXOffsetFromRight && x < pauseClickRight && y >= YOffset && y < pauseClickBottom) {
+                logger.info("Pause button was clicked!");
+            }
         }
     }
 }

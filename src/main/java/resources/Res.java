@@ -26,10 +26,25 @@ public final class Res implements IRes {
         for (IRes.sprites sprite : IRes.sprites.values()) {
             sprites.put(sprite, spritepath + "unimplemented.jpg");
         }
+        sprites.put(IRes.sprites.background, spritepath + "bck@2x.png");
         sprites.put(IRes.sprites.doodle, spritepath + "blue-lik-right@2x.png");
         sprites.put(IRes.sprites.platform1, spritepath + "platform-green@2x.png");
         sprites.put(IRes.sprites.playButton, spritepath + "play@2x.png");
-        sprites.put(IRes.sprites.background, spritepath + "bck@2x.png");
+
+        // Top bar
+
+        sprites.put(IRes.sprites.scorebar, spritepath + "scorebar.png");
+        sprites.put(IRes.sprites.pause, spritepath + "pause.png");
+        sprites.put(IRes.sprites.zero, spritepath + "0.png");
+        sprites.put(IRes.sprites.one, spritepath + "1.png");
+        sprites.put(IRes.sprites.two, spritepath + "2.png");
+        sprites.put(IRes.sprites.three, spritepath + "3.png");
+        sprites.put(IRes.sprites.four, spritepath + "4.png");
+        sprites.put(IRes.sprites.five, spritepath + "5.png");
+        sprites.put(IRes.sprites.six, spritepath + "6.png");
+        sprites.put(IRes.sprites.seven, spritepath + "7.png");
+        sprites.put(IRes.sprites.eight, spritepath + "8.png");
+        sprites.put(IRes.sprites.nine, spritepath + "9.png");
     }
 
     private Res() {

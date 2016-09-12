@@ -74,6 +74,16 @@ public interface ISpriteFactory extends IFactory {
     ISprite getPlayButtonSprite();
 
     // Background
-    ISprite getStartMenuBackground();
+    ISprite getStartMenuBackgroundSprite();
 
+    // Top bar
+    ISprite getScorebarSprite();
+    ISprite getPauseSprite();
+
+    /**
+     * Returns a sprite of the digit specified in Doodle Jump font.
+     * @param digit Between 0 and 10
+     * @return A sprite expressing the digit
+     */
+    ISprite getDigitSprite(int digit);
 }
