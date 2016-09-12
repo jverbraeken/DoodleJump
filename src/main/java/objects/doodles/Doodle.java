@@ -11,8 +11,6 @@ import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
-import java.awt.event.KeyEvent;
-
 public class Doodle extends AGameObject implements IDoodle {
 
     private static IServiceLocator serviceLocator;
@@ -20,17 +18,15 @@ public class Doodle extends AGameObject implements IDoodle {
     // The vertical acceleration of the Doodle, negative if going up and positive if going down.
     private float vAcceleration = 0f;
     // The fastest the doodle can go vertically.
-    private float vAccelerationLimit = 6f;
+    private float vAccelerationLimit = 9f;
     // How much the doodle is affected by gravity.
     private float gravityAcceleration = .15f;
-    // The horizontal acceleration of the Doodle, positive if going right and negative if going left.
-    private float hAcceleration = 0f;
-    // The fastest the doodle can go horizontally.
-    private float hAccelerationLimit = 5f;
     // How much the doodle is affected by the player.
-    private float hAccelerationUnit = .5f;
+    private float hSpeedUnit = 5;
     // The sprite for the doodle
     private ISprite sprite;
+
+    private enum directions { left, right }
 
     /* package */ Doodle(IServiceLocator serviceLocator) {
         Doodle.serviceLocator = serviceLocator;
@@ -82,16 +78,12 @@ public class Doodle extends AGameObject implements IDoodle {
      *
      * @param direction true to go left, false to go right
      */
-    private void moveHorizontally(boolean direction) {
-        if(direction && this.hAcceleration > -this.hAccelerationLimit) {
-            // Go left
-            this.hAcceleration -= this.hAccelerationUnit;
-        } else if(!direction && this.hAcceleration < this.hAccelerationLimit) {
-            // Go right
-            this.hAcceleration += this.hAccelerationUnit;
+    private void moveHorizontally(directions direction) {
+        if(direction == directions.left) {
+            this.addXPos((int) -this.hSpeedUnit);
+        } else if(direction == directions.right) {
+            this.addXPos((int) this.hSpeedUnit);
         }
-
-        this.addXPos((int) this.hAcceleration);
     }
 
     /**
@@ -123,9 +115,10 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public void keyPressed(int keyCode) {
         if(keyCode == KeyCode.getKeyCode(Keys.arrowLeft) || keyCode == KeyCode.getKeyCode(Keys.a)) {
-            this.moveHorizontally(true);
+            this.moveHorizontally(directions.left);
         } else if(keyCode == KeyCode.getKeyCode(Keys.arrowRight) || keyCode == KeyCode.getKeyCode(Keys.d)) {
-            this.moveHorizontally(false);
+            this.moveHorizontally(directions.right);
         }
     }
+
 }

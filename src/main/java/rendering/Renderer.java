@@ -57,4 +57,5 @@ public final class Renderer implements IRenderer {
         }
         this.graphics = graphics;
     }
+
 }

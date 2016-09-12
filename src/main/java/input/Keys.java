@@ -1,7 +1,7 @@
 package input;
 
 /**
- * Created by erico on 12-9-2016.
+ * Public enum to identify keys.
  */
 public enum Keys {
 

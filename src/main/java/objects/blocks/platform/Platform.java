@@ -32,8 +32,6 @@ public class Platform extends AGameObject implements IPlatform {
     @Override
     public void paint() {
         serviceLocator.getRenderer().drawImage(this.sprite.getImage(), this.getXPos(), this.getYPos());
-
-        //serviceLocator.getRenderer().drawRectangle(this.getXPos(), this.getYPos(), this.getWidth(), this.getHeight());
     }
 
     @Override
