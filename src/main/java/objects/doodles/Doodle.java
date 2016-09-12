@@ -56,7 +56,12 @@ public class Doodle extends AGameObject implements IDoodle {
 
     @Override
     public void update() {
-        move();
+        double middle = this.getXPos() + this.getWidth() / 2;
+        if(middle < 0) {
+            this.addXPos(Game.WIDTH);
+        } else if(middle > Game.WIDTH) {
+            this.addXPos(-Game.WIDTH);
+        }
     }
 
 
