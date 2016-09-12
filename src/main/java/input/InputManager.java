@@ -63,19 +63,24 @@ public final class InputManager implements IInputManager {
     /* KEY EVENTS */
     @Override
     /** {@inheritDoc} */
-    public void keyTyped(KeyEvent e) { }
+    public void keyTyped(KeyEvent e) {
+    }
 
     @Override
     /** {@inheritDoc} */
     public void keyPressed(KeyEvent e) {
         for (IKeyInputObserver observer : keyInputObservers) {
-            observer.keyPressed(e.getKeyCode());
+            observer.keyPress(e.getKeyCode());
         }
     }
 
     @Override
     /** {@inheritDoc} */
-    public void keyReleased(KeyEvent e) { }
+    public void keyReleased(KeyEvent e) {
+        for (IKeyInputObserver observer : keyInputObservers) {
+            observer.keyRelease(e.getKeyCode());
+        }
+    }
 
     @Override
     /** {@inheritDoc} */

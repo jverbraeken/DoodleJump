@@ -26,7 +26,8 @@ public class Doodle extends AGameObject implements IDoodle {
     // The sprite for the doodle
     private ISprite sprite;
 
-    private enum directions { left, right }
+    private enum direction { left, right }
+    private direction moving;
 
     /* package */ Doodle(IServiceLocator serviceLocator) {
         Doodle.serviceLocator = serviceLocator;
@@ -58,6 +59,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     @Override
     public void move() {
+        this.moveHorizontally();
         this.moveVertically();
     }
 
@@ -68,20 +70,15 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     @Override
-    public void update() {
-        this.move();
-    }
-
+    public void update() {  this.move(); }
 
     /**
      * Move the Doodle along the X axis.
-     *
-     * @param direction true to go left, false to go right
      */
-    private void moveHorizontally(directions direction) {
-        if(direction == directions.left) {
+    private void moveHorizontally() {
+        if(moving == direction.left) {
             this.addXPos((int) -this.hSpeedUnit);
-        } else if(direction == directions.right) {
+        } else if(moving == direction.right) {
             this.addXPos((int) this.hSpeedUnit);
         }
     }
@@ -113,12 +110,31 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     @Override
-    public void keyPressed(int keyCode) {
-        if(keyCode == KeyCode.getKeyCode(Keys.arrowLeft) || keyCode == KeyCode.getKeyCode(Keys.a)) {
-            this.moveHorizontally(directions.left);
-        } else if(keyCode == KeyCode.getKeyCode(Keys.arrowRight) || keyCode == KeyCode.getKeyCode(Keys.d)) {
-            this.moveHorizontally(directions.right);
+    public void keyPress(int keyCode) {
+        if(this.left(keyCode)) {
+            this.moving = direction.left;
+        } else if(this.right(keyCode)) {
+            this.moving = direction.right;
         }
+    }
+
+    @Override
+    public void keyRelease(int keyCode) {
+        if(this.left(keyCode) && this.moving == direction.left) {
+            this.moving = null;
+        } else if(this.right(keyCode) && this.moving == direction.right) {
+            this.moving = null;
+        }
+    }
+
+    private boolean left(int keyCode) {
+        return keyCode == KeyCode.getKeyCode(Keys.arrowLeft) ||
+                keyCode == KeyCode.getKeyCode(Keys.a);
+    }
+
+    private boolean right(int keyCode) {
+        return keyCode == KeyCode.getKeyCode(Keys.arrowRight) ||
+                keyCode == KeyCode.getKeyCode(Keys.d);
     }
 
 }
