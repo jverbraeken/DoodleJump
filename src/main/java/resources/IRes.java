@@ -2,8 +2,10 @@ package resources;
 
 public interface IRes {
     enum sprites {
-        doodleLeft,
-        doodleRight,
+        doodleLeftAscend,
+        doodleLeftDescend,
+        doodleRightAscend,
+        doodleRightDescend,
 
         platform1,
         platform2,

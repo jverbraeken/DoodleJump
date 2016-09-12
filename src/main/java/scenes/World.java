@@ -65,8 +65,8 @@ public class World implements IScene {
     @Override
     public void update(double delta) {
 
-        updateObjects();
         updateSpeed();
+        updateObjects();
         applySpeed();
         cleanUp();
 
@@ -89,6 +89,8 @@ public class World implements IScene {
             }
         }
         this.applyGravity();
+
+        this.doodle.setVerticalSpeed(vSpeed);
     }
 
     public void applySpeed(){

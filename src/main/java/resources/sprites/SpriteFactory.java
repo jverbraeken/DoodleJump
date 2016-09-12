@@ -42,15 +42,17 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     @Override
-    public ISprite getDoodleSprite(IDoodle.directions direction) {
-        if(direction == IDoodle.directions.left) {
-            return this.getSprite(IRes.sprites.doodleLeft);
-        } else if(direction == IDoodle.directions.right) {
-            return this.getSprite(IRes.sprites.doodleRight);
+    public ISprite[] getDoodleSprite(IDoodle.directions direction) {
+        ISprite[] sprites = new ISprite[2];
+        if (direction == IDoodle.directions.left) {
+            sprites[0] = this.getSprite(IRes.sprites.doodleLeftAscend);
+            sprites[1] = this.getSprite(IRes.sprites.doodleLeftDescend);
+        } else { // Use Right by default
+            sprites[0] = this.getSprite(IRes.sprites.doodleRightAscend);
+            sprites[1] = this.getSprite(IRes.sprites.doodleRightDescend);
         }
 
-        // Default Doodle sprite.
-        return this.getSprite(IRes.sprites.doodleRight);
+        return sprites;
     }
 
     @Override
