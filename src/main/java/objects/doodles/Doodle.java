@@ -15,8 +15,12 @@ public class Doodle extends AGameObject implements IDoodle {
 
     private static IServiceLocator serviceLocator;
 
-    // How much the Doodle is affected by the player.
-    private float hSpeedUnit = 5;
+    //
+    private double hSpeedLimit = 6d;
+    private double hSpeed = 0d;
+    private double hAcceleration = .5d;
+    //
+
     // The sprite for the Doodle.
     private ISprite sprite;
     // The direction the Doodle is moving towards.
@@ -111,10 +115,22 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void moveHorizontally() {
         if(moving == directions.left) {
-            this.addXPos((int) -this.hSpeedUnit);
+            if(this.hSpeed > -this.hSpeedLimit) {
+                this.hSpeed -= this.hAcceleration;
+            }
         } else if(moving == directions.right) {
-            this.addXPos((int) this.hSpeedUnit);
+            if(this.hSpeed < this.hSpeedLimit) {
+                this.hSpeed += this.hAcceleration;
+            }
+        } else {
+            if(this.hSpeed < 0) {
+                this.hSpeed += this.hAcceleration;
+            } else if(this.hSpeed > 0) {
+                this.hSpeed -= this.hAcceleration;
+            }
         }
+
+        this.addXPos((int) this.hSpeed);
     }
 
     /**
