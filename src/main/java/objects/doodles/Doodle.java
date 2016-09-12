@@ -60,7 +60,6 @@ public class Doodle extends AGameObject implements IDoodle {
 
     @Override
     public void move() {
-        this.moveHorizontally();
         this.moveVertically();
     }
 
@@ -78,15 +77,14 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Move the Doodle along the X axis.
+     *
+     * @param direction true to go left, false to go right
      */
-    private void moveHorizontally() {
-        boolean keyLeft = false;
-        boolean keyRight = false;
-
-        if(keyLeft && this.hAcceleration > -this.hAccelerationLimit) {
+    private void moveHorizontally(boolean direction) {
+        if(direction && this.hAcceleration > -this.hAccelerationLimit) {
             // Go left
             this.hAcceleration -= this.hAccelerationUnit;
-        } else if(keyRight && this.hAcceleration < this.hAccelerationLimit) {
+        } else if(!direction && this.hAcceleration < this.hAccelerationLimit) {
             // Go right
             this.hAcceleration += this.hAccelerationUnit;
         }
@@ -122,6 +120,10 @@ public class Doodle extends AGameObject implements IDoodle {
 
     @Override
     public void keyPressed(KeyEvent key) {
-        System.out.println(key);
+        if(key.getKeyChar() == 'a') {
+            this.moveHorizontally(true);
+        } else if(key.getKeyChar() == 'd') {
+            this.moveHorizontally(false);
+        }
     }
 }
