@@ -1,6 +1,7 @@
 package objects.blocks.platform;
 
 import objects.AGameObject;
+import system.Game;
 import system.IServiceLocator;
 
 public class Platform extends AGameObject implements IPlatform {
@@ -13,6 +14,7 @@ public class Platform extends AGameObject implements IPlatform {
         Platform.serviceLocator = serviceLocator;
 
         this.setXPos(x);
+        //this.setXPos(.5* Game.WIDTH+30);
         this.setYPos(y);
         this.setHeight(20);
         this.setWidth(50);
@@ -26,7 +28,7 @@ public class Platform extends AGameObject implements IPlatform {
 
     @Override
     public void paint() {
-        serviceLocator.getRenderer().drawRectangle(this.getXPos(), this.getYPos(), this.getWidth(), this.getHeight());
+        serviceLocator.getRenderer().drawRectangle((int)this.getXPos(), (int)this.getYPos(), this.getWidth(), this.getHeight());
     }
 
     @Override

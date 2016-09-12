@@ -7,13 +7,11 @@ import rendering.IDrawable;
  */
 public interface IGameObject extends IDrawable {
 
-    void addXPos(int xPos);
+    void addXPos(double xPos);
 
-    void addYPos(int yPos);
+    void addYPos(double yPos);
 
     void animate();
-
-    void collide(IGameObject collidee);
 
     Object getSprite();
 
@@ -23,9 +21,9 @@ public interface IGameObject extends IDrawable {
 
     int getWidth();
 
-    int getXPos();
+    double getXPos();
 
-    int getYPos();
+    double getYPos();
 
     void move();
 
@@ -35,9 +33,9 @@ public interface IGameObject extends IDrawable {
 
     void setWidth(int width);
 
-    void setXPos(int xPos);
+    void setXPos(double xPos);
 
-    void setYPos(int yPos);
+    void setYPos(double yPos);
 
     void update();
 }

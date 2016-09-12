@@ -17,6 +17,13 @@ public class World implements IScene {
     private Set<IGameObject> elements = new HashSet<>();
     private IDoodle doodle;
 
+    // The vertical speed, negative if going up and positive if going down.
+    private double vSpeed = -9;
+    // The fastest the doodle can go vertically.
+    private double vSpeedLimit = 9;
+    // How much the doodle is affected by gravity.
+    private double gravityAcceleration = .15;
+
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
 
@@ -27,6 +34,7 @@ public class World implements IScene {
 
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
+        this.vSpeed = -9;
     }
 
     @Override
@@ -41,12 +49,6 @@ public class World implements IScene {
     public void paint() {
         for(IGameObject e : elements) {
             e.paint();
-
-            Block block = (Block) e;
-            ArrayList<IGameObject> platforms = block.getContent();
-            for(IGameObject platform : platforms) {
-                this.doodle.collide(platform);
-            }
         }
 
         this.doodle.paint();
@@ -54,6 +56,59 @@ public class World implements IScene {
 
     @Override
     public void update(double delta) {
+
+        updateObjects();
+        updateSpeed();
+        applySpeed();
+        cleanUp();
+
+        if (!elements.contains(doodle)){
+            //TODO: implement Game Over
+            //Game.endGame();
+        }
+
+        newBlocks();
+    }
+
+    public void updateSpeed(){
+        for(IGameObject e : elements){
+            Block block = (Block) e;
+            ArrayList<IGameObject> inside = block.getContent();
+            for(IGameObject item : inside) {
+                if (vSpeed > 0 && this.doodle.collide(item)){
+                    vSpeed = -vSpeedLimit;
+                }
+            }
+        }
+        this.applyGravity();
+    }
+
+    public void applySpeed(){
+        if(this.vSpeed < 0 && doodle.getYPos() < .5d * Game.HEIGHT) {
+            for(IGameObject e : elements)
+            e.addYPos(-this.vSpeed);
+        } else {
+            doodle.addYPos(this.vSpeed);
+        }
+    }
+
+    /**
+     * Applies gravity vAcceleration to the doodle.
+     */
+    private void applyGravity() {
+        if(this.vSpeed >= -vSpeedLimit) {
+            this.vSpeed += this.gravityAcceleration;
+        }
+    }
+
+    public void updateObjects(){
+        for(IGameObject e: elements){
+            e.update();
+        }
+        doodle.update();
+    }
+
+    public void cleanUp(){
         for(IGameObject e : elements) {
             if(e.getClass().equals(Doodle.class)){
                 if(e.getYPos() > Game.HEIGHT) {
@@ -61,12 +116,9 @@ public class World implements IScene {
                 }
             }
         }
+    }
 
-        if (!elements.contains(doodle)){
-            //TODO: implement Game Over
-            //Game.endGame();
-        }
-
+    public void newBlocks(){
         if (elements.size() < 4) {
             double minY = Double.MAX_VALUE;
             for(IGameObject e : elements) {
