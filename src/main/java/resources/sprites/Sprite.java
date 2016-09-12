@@ -18,26 +18,26 @@ public class Sprite implements ISprite {
         this.ratio = (double) height / (double) width;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public Image getImage() {
         return image;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public int getWidth() {
         return width;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public int getHeight() {
         return height;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public double getRatio() {
         return ratio;
     }

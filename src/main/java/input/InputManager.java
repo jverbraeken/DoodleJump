@@ -30,8 +30,8 @@ public final class InputManager implements IInputManager {
 
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void mouseClicked(MouseEvent e) {
     }
 
@@ -57,14 +57,14 @@ public final class InputManager implements IInputManager {
 
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void addObserver(IMouseInputObserver mouseInputObserver) {
         mouseInputObservers.add(mouseInputObserver);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void removeObserver(IMouseInputObserver mouseInputObserver) {
         mouseInputObservers.remove(mouseInputObserver);
     }

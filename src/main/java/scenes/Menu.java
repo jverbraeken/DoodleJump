@@ -27,30 +27,32 @@ public class Menu implements IScene, IMouseInputObserver {
         playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * playButtonXPercentage), (int) (Game.HEIGHT * playButtonYPercentage));
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void start() {
         serviceLocator.getInputManager().addObserver(playButton);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void stop() {
         serviceLocator.getInputManager().removeObserver(playButton);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void paint() {
         background.paint();
         playButton.paint();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void update(double delta) {
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void mouseClicked(int x, int y) {
         System.out.println("X: " + x + ", Y: " + y);
     }

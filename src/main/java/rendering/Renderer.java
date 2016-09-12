@@ -35,8 +35,8 @@ public final class Renderer implements IRenderer {
     private Renderer() {
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void start() {
 
     }
@@ -45,8 +45,8 @@ public final class Renderer implements IRenderer {
         graphics.drawRect(x, y, width, height);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void drawImage(Image image, int x, int y) {
         assert graphics != null;
         if (image == null) {
@@ -55,14 +55,14 @@ public final class Renderer implements IRenderer {
         graphics.drawImage(image, x, y, null);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void drawImage(Image image, int x, int y, int width, int height) {
         graphics.drawImage(image, x, y, width, height, null);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void setGraphicsBuffer(Graphics graphics) {
         if (graphics == null) {
             throw new IllegalArgumentException("The graphics buffer cannot be null");

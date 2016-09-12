@@ -12,19 +12,19 @@ public abstract class AGameObject implements IGameObject {
     private int xPos;
     private int yPos;
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public abstract void animate();
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void addXPos(int xPos) {
         int current = this.getXPos();
         this.setXPos(current + xPos);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void addYPos(int yPos) {
         int current = this.getYPos();
         this.setYPos(current + yPos);
@@ -34,10 +34,16 @@ public abstract class AGameObject implements IGameObject {
     /** (@inheritDoc} */
     public void collide(IGameObject collidee) { }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public double[] getHitBox() {
         return this.hitBox;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int getHeight() {
+        return this.height;
     }
 
     /** {@inheritDoc} */
@@ -46,61 +52,53 @@ public abstract class AGameObject implements IGameObject {
         return this.sprite;
     }
 
-    @Override
     /** {@inheritDoc} */
-    public int getHeight() {
-        return this.height;
-    }
-
     @Override
-    /** {@inheritDoc} */
     public int getWidth() {
         return this.width;
     }
 
-    @Override
     /** {@inheritDoc} */
-    public int getXPos() {
-        return this.xPos;
-    }
+    @Override
+    public int getXPos() { return this.xPos; }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public int getYPos() {
         return this.yPos;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public abstract void move();
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public abstract void paint();
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void setHeight(int height) {
         this.height = height;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void setWidth(int width) { this.width = width; }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void setXPos(int xPos) {
         this.xPos = xPos;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void setYPos(int yPos) {
         this.yPos = yPos;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public abstract void update();
 }
