@@ -17,3 +17,6 @@ hs_err_pid*
 
 # Intellij
 workspace.xml
+
+# Ignore logs
+*.log

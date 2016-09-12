@@ -17,6 +17,6 @@ public class ButtonFactory implements IButtonFactory {
     public PlayButton createPlayButton(int x, int y) {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayButtonSprite();
-        return new PlayButton(serviceLocator, x, y, buttonSprite.getImage());
+        return new PlayButton(serviceLocator, x, y, buttonSprite);
     }
 }

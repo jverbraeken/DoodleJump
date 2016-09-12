@@ -31,7 +31,7 @@ public class Platform extends AGameObject implements IPlatform {
 
     @Override
     public void paint() {
-        serviceLocator.getRenderer().drawImage(this.sprite.getImage(), (int)this.getXPos(), (int)this.getYPos());
+        serviceLocator.getRenderer().drawSprite(this.sprite, (int)this.getXPos(), (int)this.getYPos());
     }
 
     @Override
