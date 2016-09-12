@@ -5,6 +5,7 @@ import objects.blocks.Block;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.IGameObject;
+import objects.buttons.IButton;
 import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
@@ -66,7 +67,7 @@ public class World implements IScene {
     public void paint() {
         background.paint();
 
-        for(IGameObject e : elements) {
+        for (IGameObject e : elements) {
             e.paint();
         }
 
@@ -152,67 +153,116 @@ public class World implements IScene {
      *
      * The bar on top of the screen displaying the score and pause button
      */
-    private final class Scorebar implements IMouseInputObserver {
-        private final ISprite scoreBarSprite, pauseSprite;
-        private final ISprite[] digitSprites;
-        private final int scoreXOffset, YOffset;
-        private final int pauseXOffsetFromRight, pauseClickRight, pauseClickBottom;
+    private final class Scorebar {
+        private final double scaling;
+
+        private final ISprite scoreBarSprite;
+        private final int scoreBarHeight;
+
+        private final PauseButton pauseButton;
+        private final ScoreText scoreText;
+
         private final Logger logger = LoggerFactory.getLogger(Scorebar.class);
+
+
+        /** The transparant and black border at the bottom of the scoreBar that is not take into account when
+         * drawing scoreBar content.
+         */
+        private static final int SCOREBARDEADZONE = 28;
 
         private Scorebar() {
             scoreBarSprite = serviceLocator.getSpriteFactory().getScorebarSprite();
-            pauseSprite = serviceLocator.getSpriteFactory().getPauseSprite();
-            digitSprites = new ISprite[10];
+            scaling = (double) Game.WIDTH / (double) scoreBarSprite.getWidth();
+            scoreBarHeight = (int) (scaling * scoreBarSprite.getHeight());
+
+            ISprite[] digitSprites = new ISprite[10];
             for (int i = 0; i < 10; i++) {
                 digitSprites[i] = serviceLocator.getSpriteFactory().getDigitSprite(i);
             }
-            scoreXOffset = digitSprites[2].getWidth();
-            YOffset = scoreBarSprite.getHeight() / 2 - digitSprites[1].getHeight() / 2;
+            int scoreX = (int) (digitSprites[2].getWidth() * scaling);
+            int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2);
+            scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
 
-            pauseXOffsetFromRight = Game.WIDTH - 2 * pauseSprite.getWidth();
-            pauseClickRight = pauseXOffsetFromRight + pauseSprite.getWidth();
-            pauseClickBottom = YOffset + pauseSprite.getHeight();
+            ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseSprite();
+            int pauseX = (int) (Game.WIDTH - 2 * pauseSprite.getWidth() * scaling);
+            int pauseY = (int) (((double) Game.WIDTH / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
+            pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
 
-            serviceLocator.getInputManager().addObserver(this);
+            serviceLocator.getInputManager().addObserver(pauseButton);
         }
 
         private void render() {
-            renderBar();
-            renderScore();
-            renderPauseButton();
+            serviceLocator.getRenderer().drawSprite(scoreBarSprite, 0, 0, Game.WIDTH, scoreBarHeight);
+            scoreText.paint();
+            pauseButton.paint();
         }
 
-        private void renderBar() {
-            serviceLocator.getRenderer().drawSprite(scoreBarSprite, 0, 0, Game.WIDTH, Game.HEIGHT);
-        }
+        private class PauseButton implements IButton {
+            private final int x, y, width, height;
+            private final ISprite sprite;
 
-        private void renderScore() {
-            int roundedScore = (int) score;
-            int digit;
-            ArrayList<Integer> scoreDigits = new ArrayList<>(6);
-            while (roundedScore != 0) {
-                digit = roundedScore % 10;
-                roundedScore = roundedScore / 10;
-                scoreDigits.add(digit);
+            private PauseButton(int x, int y, double scaling, ISprite sprite) {
+                this.x = x;
+                this.y = y;
+                this.width = (int) (sprite.getWidth() * scaling);
+                this.height = (int) (sprite.getHeight() * scaling);
+                this.sprite = sprite;
             }
 
-            int pos = scoreXOffset;
-            ISprite sprite;
-            for (int i = scoreDigits.size()-1; i >= 0; i--) {
-                sprite = digitSprites[scoreDigits.get(i)];
-                serviceLocator.getRenderer().drawSprite(sprite, pos, YOffset);
-                pos += sprite.getWidth() + 1;
+            @Override
+            public void paint() {
+                serviceLocator.getRenderer().drawSprite(sprite, x, y, width, height);
+            }
+
+            @Override
+            public void mouseClicked(int mouseX, int mouseY) {
+                if (mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
+                    logger.info("Pause button was clicked!");
+                }
             }
         }
 
-        private void renderPauseButton() {
-            serviceLocator.getRenderer().drawSprite(pauseSprite, pauseXOffsetFromRight, YOffset);
-        }
+        private class ScoreText implements IDrawable {
+            private final int x;
+            private final ISprite[] digitSprites;
+            /** We use an array so that we get very good cache prediction and a 4 times smaller size than width
+             * seperate (integer) variables.
+             * </br>
+             * [top-Y, width, height] for each of the 10 entries -> total length = 30
+             */
+            private final byte[] digitData;
 
-        @Override
-        public void mouseClicked(int x, int y) {
-            if (x >= pauseXOffsetFromRight && x < pauseClickRight && y >= YOffset && y < pauseClickBottom) {
-                logger.info("Pause button was clicked!");
+            private ScoreText(int x, int yCenter, double scaling, ISprite[] digitSprites) {
+                assert digitSprites.length == 10;
+                this.x = x;
+                digitData = new byte[30];
+                for (int i = 0; i < 10; i++) {
+                    digitData[i * 3] = (byte) (yCenter - digitSprites[i].getHeight() / 2);
+                    digitData[i * 3 + 1] = (byte) (digitSprites[i].getWidth() * scaling);
+                    digitData[i * 3 + 2] = (byte) (digitSprites[i].getHeight() * scaling);
+                }
+                this.digitSprites = digitSprites;
+            }
+
+            @Override
+            public void paint() {
+                int roundedScore = (int) score;
+                int digit;
+                Stack<Integer> scoreDigits = new Stack<>();
+                while (roundedScore != 0) {
+                    digit = roundedScore % 10;
+                    roundedScore = roundedScore / 10;
+                    scoreDigits.push(digit);
+                }
+
+                int pos = x;
+                ISprite sprite;
+                while (!scoreDigits.isEmpty()) {
+                    digit = scoreDigits.pop();
+                    sprite = digitSprites[digit];
+                    serviceLocator.getRenderer().drawSprite(sprite, pos, digitData[digit * 3], digitData[digit * 3 + 1], digitData[digit * 3 + 2]);
+                    pos += digitData[digit * 3 + 1] + 1;
+                }
             }
         }
     }

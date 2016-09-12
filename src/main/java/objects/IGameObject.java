@@ -27,8 +27,6 @@ public interface IGameObject extends IDrawable {
 
     void move();
 
-    void paint();
-
     void setHeight(int height);
 
     void setWidth(int width);
