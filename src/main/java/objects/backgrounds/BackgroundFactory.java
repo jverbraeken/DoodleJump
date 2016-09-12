@@ -18,7 +18,7 @@ public class BackgroundFactory implements IBackgroundFactory {
     }
 
     @Override
-    public IDrawable createStartMenuBackground() {
+    public IDrawable createBackground() {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         Image background = spriteFactory.getStartMenuBackground().getImage();
         return () -> serviceLocator.getRenderer().drawImage(background, 0, 0);

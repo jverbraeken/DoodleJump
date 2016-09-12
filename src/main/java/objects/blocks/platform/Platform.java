@@ -1,11 +1,14 @@
 package objects.blocks.platform;
 
 import objects.AGameObject;
+import resources.sprites.ISprite;
+import resources.sprites.Sprite;
 import system.IServiceLocator;
 
 public class Platform extends AGameObject implements IPlatform {
 
     private static IServiceLocator serviceLocator;
+    private ISprite sprite;
 
     /* package */ Platform(IServiceLocator serviceLocator, int x, int y) {
         super();
@@ -14,8 +17,10 @@ public class Platform extends AGameObject implements IPlatform {
 
         this.setXPos(x);
         this.setYPos(y);
-        this.setHeight(20);
-        this.setWidth(50);
+        this.sprite = serviceLocator.getSpriteFactory().getPlatformSprite1();
+        this.setHeight(sprite.getHeight());
+        this.setWidth(sprite.getWidth());
+
     }
 
     @Override
@@ -26,7 +31,9 @@ public class Platform extends AGameObject implements IPlatform {
 
     @Override
     public void paint() {
-        serviceLocator.getRenderer().drawRectangle(this.getXPos(), this.getYPos(), this.getWidth(), this.getHeight());
+        serviceLocator.getRenderer().drawImage(this.sprite.getImage(), this.getXPos(), this.getYPos());
+
+        //serviceLocator.getRenderer().drawRectangle(this.getXPos(), this.getYPos(), this.getWidth(), this.getHeight());
     }
 
     @Override

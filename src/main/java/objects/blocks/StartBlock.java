@@ -1,6 +1,7 @@
 package objects.blocks;
 
 import objects.AGameObject;
+import objects.IGameObject;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import system.Game;
@@ -9,19 +10,18 @@ import system.IServiceLocator;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
-import objects.IGameObject;
 
-public class Block extends AGameObject implements IBlock {
+public class StartBlock extends AGameObject implements IBlock {
 
     private static IServiceLocator serviceLocator;
 
     private HashSet<IGameObject> content = new HashSet<>();
     private int blockNumber;
 
-    /* package */ Block(IServiceLocator serviceLocator, int blockNumber) {
-        Block.serviceLocator = serviceLocator;
+    /* package */ StartBlock(IServiceLocator serviceLocator) {
+        StartBlock.serviceLocator = serviceLocator;
 
-        this.blockNumber = blockNumber;
+        this.blockNumber = 0;
 
         createAndPlaceObjects();
     }
@@ -58,8 +58,12 @@ public class Block extends AGameObject implements IBlock {
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
         int heightDividedPlatforms = (int) Game.HEIGHT/platformAmount;
+        System.out.println(Game.WIDTH/2 + " - " + (int) (Game.HEIGHT/1.2));
+        IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
+        IPlatform platform = platformFactory.createPlatform(Game.WIDTH/2, (int) (Game.HEIGHT/1.2));
+        content.add(platform);
 
-        for (int i = 0; i < platformAmount; i++) {
+        for (int i = 1; i < platformAmount; i++) {
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
             float widthDeviation = (float) (rand.nextFloat() * 0.8 + 0.1);
             int yLoc;
@@ -71,10 +75,10 @@ public class Block extends AGameObject implements IBlock {
             }
 
             int xLoc = (int) (widthDeviation * Game.WIDTH);
-            IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-            IPlatform platform = platformFactory.createPlatform(xLoc, yLoc);
+            platform = platformFactory.createPlatform(xLoc, yLoc);
             content.add(platform);
         }
+
     }
 
 }

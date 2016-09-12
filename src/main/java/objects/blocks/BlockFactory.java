@@ -18,6 +18,13 @@ public final class BlockFactory implements IBlockFactory {
     }
 
     @Override
+    public IBlock createStartBlock(){
+        IBlock block = new StartBlock(serviceLocator);
+        blockCounter++;
+        return block;
+    }
+
+    @Override
     public IBlock createBlock(){
         Block block = new Block(serviceLocator, blockCounter);
         blockCounter++;
