@@ -116,6 +116,12 @@ public class Doodle extends AGameObject implements IDoodle {
             if(this.hSpeed < this.hSpeedLimit) {
                 this.hSpeed += this.hAcceleration;
             }
+        } else {
+            if(this.hSpeed < 0) {
+                this.hSpeed += this.hAcceleration;
+            } else if(this.hSpeed > 0) {
+                this.hSpeed -= this.hAcceleration;
+            }
         }
 
         this.addXPos((int) this.hSpeed);
