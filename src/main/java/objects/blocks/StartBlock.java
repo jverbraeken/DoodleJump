@@ -78,7 +78,13 @@ public class StartBlock extends AGameObject implements IBlock {
             platform = platformFactory.createPlatform(xLoc, yLoc);
             content.add(platform);
         }
+    }
 
+    @Override
+    public void addYPos(double y){
+        for(IGameObject e : content){
+            e.addYPos(y);
+        }
     }
 
 }
