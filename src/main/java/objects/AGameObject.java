@@ -72,7 +72,7 @@ public abstract class AGameObject implements IGameObject {
 
     @Override
     /** {@inheritDoc} */
-    public abstract void paint();
+    public abstract void render();
 
     @Override
     /** {@inheritDoc} */

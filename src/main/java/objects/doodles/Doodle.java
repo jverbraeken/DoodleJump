@@ -67,7 +67,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public void paint() {
+    public void render() {
         serviceLocator.getRenderer().drawSprite(this.sprite, (int)this.getXPos(), (int)this.getYPos());
     }
 
@@ -76,6 +76,12 @@ public class Doodle extends AGameObject implements IDoodle {
     public void update() {
         this.animate();
         this.move();
+        double middle = this.getXPos() + this.getWidth() / 2;
+        if(middle < 0) {
+            this.addXPos(Game.WIDTH);
+        } else if(middle > Game.WIDTH) {
+            this.addXPos(-Game.WIDTH);
+        }
     }
 
     /** {@inheritDoc} */
