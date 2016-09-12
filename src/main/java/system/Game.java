@@ -147,7 +147,8 @@ public final class Game {
             scene.update(delta);
             panel.repaint();
             try {
-                long gameTime = (lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / ICalc.MICROSCONDS;
+                long gameTime = 16;
+                        //= (lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / ICalc.MICROSCONDS;
                 //System.out.println(gameTime);
                 Thread.sleep(gameTime);
             } catch (InterruptedException e) {

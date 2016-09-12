@@ -21,7 +21,7 @@ public class Menu implements IScene, IMouseInputObserver {
         this.serviceLocator = serviceLocator;
 
         IBackgroundFactory backgroundFactory = serviceLocator.getBackgroundFactory();
-        background = backgroundFactory.createStartMenuBackground();
+        background = backgroundFactory.createBackground();
 
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
         playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * playButtonXPercentage), (int) (Game.HEIGHT * playButtonYPercentage));

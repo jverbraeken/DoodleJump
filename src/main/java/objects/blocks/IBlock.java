@@ -2,6 +2,9 @@ package objects.blocks;
 
 import objects.IGameObject;
 
-public interface IBlock extends IGameObject {
+import java.util.HashSet;
 
+public interface IBlock extends IGameObject {
+    HashSet<IGameObject> getContent();
+    void placePlatforms();
 }

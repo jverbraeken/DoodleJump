@@ -1,11 +1,13 @@
 package scenes;
 
 import objects.blocks.Block;
+import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.IGameObject;
 import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
+import rendering.IDrawable;
 import system.Game;
 import system.IServiceLocator;
 
@@ -15,15 +17,20 @@ public class World implements IScene {
 
     private final IServiceLocator serviceLocator;
     private Set<IGameObject> elements = new HashSet<>();
+    private final IDrawable background;
+
     private IDoodle doodle;
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
 
         IBlockFactory blockFactory = serviceLocator.getBlockFactory();
-        for(int i = 0; i < 3; i++) {
+        elements.add(blockFactory.createStartBlock());
+        for(int i = 1; i < 3; i++) {
             elements.add(blockFactory.createBlock());
         }
+
+        background = serviceLocator.getBackgroundFactory().createBackground();
 
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
@@ -39,11 +46,13 @@ public class World implements IScene {
 
     @Override
     public void paint() {
+        background.paint();
+
         for(IGameObject e : elements) {
             e.paint();
 
-            Block block = (Block) e;
-            ArrayList<IGameObject> platforms = block.getContent();
+            IBlock block = (IBlock) e;
+            HashSet<IGameObject> platforms = block.getContent();
             for(IGameObject platform : platforms) {
                 this.doodle.collide(platform);
             }
