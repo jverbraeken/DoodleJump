@@ -29,8 +29,8 @@ public final class Game {
 
     private static IServiceLocator serviceLocator = new ServiceLocator();
     
-    public static int WIDTH = 300;
-    public static int HEIGHT = 500;
+    public static int WIDTH = 600;
+    public static int HEIGHT = 1000;
 
     private static JFrame frame;
     private static JPanel panel;
@@ -45,11 +45,9 @@ public final class Game {
     public static final int NORMAL_WIDTH = Game.WIDTH;
     public static final int NORMAL_HEIGHT = Game.HEIGHT;
     private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-    public static float scale = (float)d.getHeight() / NORMAL_HEIGHT ;
+    public static float scale = 2;//(float)d.getHeight() / NORMAL_HEIGHT ;
 
     private static void initServices() {
-        HEIGHT = (int)(HEIGHT*scale);
-        WIDTH = (int)(WIDTH*scale);
         AudioManager.register(serviceLocator);
         EnemyBuilder.register(serviceLocator);
         FileSystem.register(serviceLocator);
@@ -108,24 +106,24 @@ public final class Game {
             public void paintComponent(Graphics g) {
                 serviceLocator.getRenderer().setGraphicsBuffer(g);
 
-
+                ((Graphics2D)g).scale(1/scale,1/scale);
                 if (scene != null) {
                     scene.paint();
                 }
 
 
+                ((Graphics2D)g).scale(scale,scale);
 
-                ((Graphics2D)g).scale(1/scale,1/scale);
+
+
                 if(times % 2 == 0) {
                     frame.repaint();
                 }
-                ((Graphics2D)g).scale(scale,scale);
-
                 times ++;
 
             }
         };
-        panel.setSize(Game.WIDTH, Game.HEIGHT);
+        frame.setSize(Game.WIDTH/2, Game.HEIGHT/2);
         panel.setLayout(new GridLayout(1, 1));
 
         frame.setContentPane(panel);
