@@ -3,9 +3,12 @@ package scenes;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.IGameObject;
+import objects.blocks.platform.IPlatform;
 import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rendering.IDrawable;
 import system.Game;
 import system.IServiceLocator;
@@ -13,6 +16,8 @@ import system.IServiceLocator;
 import java.util.*;
 
 public class World implements IScene {
+
+    private final Logger logger = LoggerFactory.getLogger(World.class);
 
     private final IServiceLocator serviceLocator;
     private Set<IGameObject> elements = new HashSet<>();
@@ -23,9 +28,9 @@ public class World implements IScene {
     // The vertical speed, negative if going up and positive if going down.
     private double vSpeed = -9;
     // The fastest the doodle can go vertically.
-    private double vSpeedLimit = 9;
+    public static double vSpeedLimit = 9;
     // How much the doodle is affected by gravity.
-    private double gravityAcceleration = .15;
+    public static double gravityAcceleration = .15;
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
@@ -35,7 +40,7 @@ public class World implements IScene {
         elements.add(lastCreatedBlock);
 
         for(int i = 1; i < 3; i++) {
-            lastCreatedBlock = blockFactory.createBlock(lastCreatedBlock.getYPos());
+            lastCreatedBlock = blockFactory.createBlock(getTopPlatform());
             elements.add(lastCreatedBlock);
         }
 
@@ -148,19 +153,25 @@ public class World implements IScene {
                     minY = e.getYPos();
                 }
             }
-            IBlock topBlock = getTopBlock();
+            IPlatform topPlatform = getTopPlatform();
             //TODO: implements New Block
-            elements.add(serviceLocator.getBlockFactory().createBlock(topBlock.getYPos()));
+            elements.add(serviceLocator.getBlockFactory().createBlock(topPlatform));
         }
     }
 
-    private IBlock getTopBlock() {
+    private IPlatform getTopPlatform() {
         IBlock topBlock = (IBlock) elements.iterator().next();
         for (IGameObject e : elements) {
             if (e.getYPos() < topBlock.getYPos()) {
                 topBlock = (IBlock) e;
             }
         }
-        return topBlock;
+        IPlatform topPlatform = (IPlatform) topBlock.getContent().iterator().next();
+        for (IGameObject e : topBlock.getContent()) {
+            if (e.getYPos() < topPlatform.getYPos()) {
+                topPlatform = (IPlatform) e;
+            }
+        }
+        return topPlatform;
     }
 }

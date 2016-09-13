@@ -1,5 +1,6 @@
 package objects.blocks;
 
+import objects.blocks.platform.IPlatform;
 import system.IServiceLocator;
 
 public final class BlockFactory implements IBlockFactory {
@@ -23,8 +24,8 @@ public final class BlockFactory implements IBlockFactory {
     }
 
     @Override
-    public IBlock createBlock(double lastPlatformHeight){
-        Block block = new Block(serviceLocator, lastPlatformHeight);
+    public IBlock createBlock(IPlatform lastPlatform){
+        Block block = new Block(serviceLocator, lastPlatform);
         return block;
     }
 

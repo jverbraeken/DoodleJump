@@ -3,6 +3,7 @@ package objects.blocks;
 import objects.AGameObject;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
+import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
@@ -17,13 +18,13 @@ public class Block extends AGameObject implements IBlock {
     private HashSet<IGameObject> content = new HashSet<>();
     //private int blockNumber;
 
-    /* package */ Block(IServiceLocator serviceLocator, double lastPlatformHeight) {
+    /* package */ Block(IServiceLocator serviceLocator, IPlatform lastPlatform) {
         Block.serviceLocator = serviceLocator;
 
         //this.blockNumber = blockNumber;
-        setYPos(lastPlatformHeight - 800);
+        setYPos(lastPlatform.getYPos() - 800);
 
-        createAndPlaceObjects();
+        createAndPlaceObjects(lastPlatform);
     }
 
     @Override
@@ -52,8 +53,8 @@ public class Block extends AGameObject implements IBlock {
         }
     }
 
-    private void createAndPlaceObjects() {
-        placePlatforms();
+    private void createAndPlaceObjects(IPlatform lastPlatform) {
+        placePlatforms(lastPlatform);
     }
 
     public HashSet<IGameObject> getContent() {
@@ -61,12 +62,16 @@ public class Block extends AGameObject implements IBlock {
     }
 
     @Override
-    public void placePlatforms() {
+    public void placePlatforms(IPlatform lastPlatform) {
         int max = (int)(Game.WIDTH + Game.HEIGHT)/130;
         int min = 6;
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
         int heightDividedPlatforms = (int) Game.HEIGHT/platformAmount;
+
+        double t = World.vSpeedLimit/World.gravityAcceleration;
+
+        int maxY = (int) (0.5 * World.gravityAcceleration * Math.pow(t,2));
 
         for (int i = 0; i < platformAmount; i++) {
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
@@ -76,12 +81,19 @@ public class Block extends AGameObject implements IBlock {
             yLoc = (int) (getYPos() + (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
 
 
+
+            if(yLoc < lastPlatform.getYPos() - maxY){
+                yLoc = (int) lastPlatform.getYPos() - maxY;
+            }
+
             IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
             IPlatform platform = platformFactory.createPlatform(0, yLoc);
 
             int xLoc = (int) (widthDeviation * (Game.WIDTH - platform.getWidth()));
             platform.setXPos(xLoc);
             content.add(platform);
+
+            lastPlatform = platform;
         }
     }
 
