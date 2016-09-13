@@ -25,11 +25,17 @@ public class Trampoline extends AGameObject implements ITrampoline {
 
         this.setXPos(x);
         this.setYPos(y);
+        this.setHeight(sprite.getHeight());
+        this.setWidth(sprite.getWidth());
     }
 
     /** {@inheritDoc} */
     @Override
     public void animate() { }
+
+    /** {@inheritDoc} */
+    @Override
+    public double getBoost() { return -20; }
 
     /** {@inheritDoc} */
     @Override

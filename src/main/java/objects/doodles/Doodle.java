@@ -4,8 +4,11 @@ import input.IInputManager;
 import input.KeyCode;
 import input.Keys;
 import objects.AGameObject;
-import objects.ICollisions;
 import objects.IGameObject;
+import objects.blocks.platform.IPlatform;
+import objects.powerups.ITrampoline;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
@@ -14,6 +17,8 @@ import system.IServiceLocator;
 public class Doodle extends AGameObject implements IDoodle {
 
     private static IServiceLocator serviceLocator;
+
+    private final Logger logger = LoggerFactory.getLogger(Doodle.class);
 
     //
     private double hSpeedLimit = 6d;
@@ -31,6 +36,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Doodle constructor.
      * <br>
+     *
      * @param serviceLocator The service locator.
      */
      /* package */ Doodle(IServiceLocator serviceLocator) {
@@ -46,66 +52,101 @@ public class Doodle extends AGameObject implements IDoodle {
         this.setYPos(Game.HEIGHT / 2);
         this.setWidth(sprite.getWidth());
         this.setHeight(sprite.getHeight());
-     }
 
-    /** {@inheritDoc} */
+        double[] hit = {getWidth() / 3d, 0d, 2 * getWidth() / 3d, (double) getHeight()};
+        this.setHitBox(hit);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void animate() {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.sprite = spriteFactory.getDoodleSprite(this.facing);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean collide(IGameObject collidee) {
-        assert !collidee.equals(null);
-        ICollisions collisions = serviceLocator.getCollisions();
-        return collisions.collide(this, collidee);
+        if (collidee == null) {
+            throw new IllegalArgumentException("collidee cannot be null");
+        }
+
+        /** If one of these boolean turns false there is no intersection possible between 2 rectangles */
+        if (this.getXPos() + getHitBox()[0] < collidee.getXPos() + collidee.getWidth()
+                && this.getXPos() + getHitBox()[2] > collidee.getXPos()
+                && this.getYPos() + getHitBox()[1] < collidee.getYPos() + collidee.getHeight()
+                && this.getYPos() + getHitBox()[3] > collidee.getYPos()) {
+            if(collidee instanceof ITrampoline) {
+                System.out.println("hoi");
+            }
+
+            if (collidee instanceof IPlatform || collidee instanceof ITrampoline) {
+                return this.getYPos() + this.getHeight() < collidee.getYPos() + collidee.getHeight();
+            } else {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void move() {
         this.moveHorizontally();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(this.sprite, (int)this.getXPos(), (int)this.getYPos());
+        serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update() {
         this.animate();
         this.move();
         double middle = this.getXPos() + this.getWidth() / 2;
-        if(middle < 0) {
+        if (middle < 0) {
             this.addXPos(Game.WIDTH);
-        } else if(middle > Game.WIDTH) {
+        } else if (middle > Game.WIDTH) {
             this.addXPos(-Game.WIDTH);
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void keyPress(int keyCode) {
-        if(this.leftPressed(keyCode)) {
+        if (this.leftPressed(keyCode)) {
             this.moving = directions.left;
             this.facing = directions.left;
-        } else if(this.rightPressed(keyCode)) {
+        } else if (this.rightPressed(keyCode)) {
             this.moving = directions.right;
             this.facing = directions.right;
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void keyRelease(int keyCode) {
-        if(this.leftPressed(keyCode) && this.moving == directions.left) {
+        if (this.leftPressed(keyCode) && this.moving == directions.left) {
             this.moving = null;
-        } else if(this.rightPressed(keyCode) && this.moving == directions.right) {
+        } else if (this.rightPressed(keyCode) && this.moving == directions.right) {
             this.moving = null;
         }
     }
@@ -114,18 +155,18 @@ public class Doodle extends AGameObject implements IDoodle {
      * Move the Doodle along the X axis.
      */
     private void moveHorizontally() {
-        if(moving == directions.left) {
-            if(this.hSpeed > -this.hSpeedLimit) {
+        if (moving == directions.left) {
+            if (this.hSpeed > -this.hSpeedLimit) {
                 this.hSpeed -= this.hAcceleration;
             }
-        } else if(moving == directions.right) {
-            if(this.hSpeed < this.hSpeedLimit) {
+        } else if (moving == directions.right) {
+            if (this.hSpeed < this.hSpeedLimit) {
                 this.hSpeed += this.hAcceleration;
             }
         } else {
-            if(this.hSpeed < 0) {
+            if (this.hSpeed < 0) {
                 this.hSpeed += this.hAcceleration;
-            } else if(this.hSpeed > 0) {
+            } else if (this.hSpeed > 0) {
                 this.hSpeed -= this.hAcceleration;
             }
         }
