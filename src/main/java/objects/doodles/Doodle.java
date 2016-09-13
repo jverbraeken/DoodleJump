@@ -35,8 +35,6 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Doodle constructor.
-     * <br>
-     *
      * @param serviceLocator The service locator.
      */
      /* package */ Doodle(IServiceLocator serviceLocator) {
@@ -57,25 +55,21 @@ public class Doodle extends AGameObject implements IDoodle {
         this.setHitBox(hit);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void animate() {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.sprite = spriteFactory.getDoodleSprite(this.facing);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean collide(IGameObject collidee) {
         if (collidee == null) {
             throw new IllegalArgumentException("collidee cannot be null");
         }
 
-        /** If one of these boolean turns false there is no intersection possible between 2 rectangles */
+        // If one of these boolean turns false there is no intersection possible between 2 rectangles
         if (this.getXPos() + getHitBox()[0] < collidee.getXPos() + collidee.getWidth()
                 && this.getXPos() + getHitBox()[2] > collidee.getXPos()
                 && this.getYPos() + getHitBox()[1] < collidee.getYPos() + collidee.getHeight()
@@ -91,40 +85,25 @@ public class Doodle extends AGameObject implements IDoodle {
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void move() {
-        this.moveHorizontally();
-    }
+    public void move() { this.moveHorizontally(); }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void render() {
         serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void update() {
         this.animate();
         this.move();
-        double middle = this.getXPos() + this.getWidth() / 2;
-        if (middle < 0) {
-            this.addXPos(Game.WIDTH);
-        } else if (middle > Game.WIDTH) {
-            this.addXPos(-Game.WIDTH);
-        }
+        this.wrap();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void keyPress(int keyCode) {
         if (this.leftPressed(keyCode)) {
@@ -136,15 +115,25 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void keyRelease(int keyCode) {
         if (this.leftPressed(keyCode) && this.moving == directions.left) {
             this.moving = null;
         } else if (this.rightPressed(keyCode) && this.moving == directions.right) {
             this.moving = null;
+        }
+    }
+
+    /**
+     * Wrap the Doodle.
+     */
+    private void wrap() {
+        double middle = this.getXPos() + this.getWidth() / 2;
+        if (middle < 0) {
+            this.addXPos(Game.WIDTH);
+        } else if (middle > Game.WIDTH) {
+            this.addXPos(-Game.WIDTH);
         }
     }
 

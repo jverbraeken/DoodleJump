@@ -1,6 +1,7 @@
 package resources;
 
 public interface IRes {
+
     enum sprites {
         doodleLeft,
         doodleRight,
@@ -79,4 +80,5 @@ public interface IRes {
      * @return The filepath to the sprite
      */
     String getSpritePath(sprites sprite);
+
 }

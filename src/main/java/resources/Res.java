@@ -8,9 +8,6 @@ import java.util.Map;
 
 public final class Res implements IRes {
 
-    /**
-    * Used to gain access to all services.
-    */
     private static transient IServiceLocator serviceLocator;
 
     public static void register(IServiceLocator serviceLocator) {
@@ -18,6 +15,7 @@ public final class Res implements IRes {
         Res.serviceLocator = serviceLocator;
         serviceLocator.provide(new Res());
     }
+
 
     private Map<IRes.sprites, String> sprites = new EnumMap<>(IRes.sprites.class);
 
@@ -51,11 +49,14 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.shield, spritepath + "powerup-shield@2x.png");
     }
 
+
     private Res() { }
+
 
     /** {@inheritDoc} */
     @Override
     public String getSpritePath(IRes.sprites sprite) {
         return sprites.get(sprite);
     }
+
 }

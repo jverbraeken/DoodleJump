@@ -1,11 +1,10 @@
 package objects.powerups;
 
-import objects.AGameObject;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-public class Spring extends AGameObject implements IPowerup {
+public class Spring extends APowerup implements IPowerup {
 
     private static IServiceLocator serviceLocator;
 
@@ -54,7 +53,6 @@ public class Spring extends AGameObject implements IPowerup {
     /** {@inheritDoc} */
     @Override
     public void update() { }
-
 
     /**
      * Change the Spring sprite to used.
