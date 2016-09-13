@@ -64,8 +64,8 @@ public class Block extends AGameObject implements IBlock {
 
     @Override
     public void placePlatforms(IPlatform lastPlatform) {
-        int max = (int)(Game.WIDTH + Game.HEIGHT)/130;
-        int min = 6;
+        int max = (int)(Game.WIDTH + Game.HEIGHT)/120;
+        int min = 8;
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
         int heightDividedPlatforms = (int) Game.HEIGHT/platformAmount;
