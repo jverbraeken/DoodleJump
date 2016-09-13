@@ -57,14 +57,18 @@ public interface ISpriteFactory extends IFactory {
     ISprite getLowFiveFeetMonster1Sprite(); // By default a green very low monster with 5 feet
     ISprite getLowFiveFeetMonster2Sprite();
     ISprite getSmallMonsterSprite(); // By default a very small three eyed red monster
+
+    // UFO
     ISprite getUFOSprite();
     ISprite getUFOShiningSprite();
 
-    // Tools
+    // Powerups
     ISprite getTrampolineSprite();
+    ISprite getTrampolineUsedSprite();
     ISprite getSpringSprite();
+    ISprite getSpringUsedSprite();
     ISprite getRocketSprite();
-    ISprite getCapSprite();
+    ISprite getPropellorSprite();
     ISprite getShieldSprite();
 
     // Text

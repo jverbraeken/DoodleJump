@@ -33,7 +33,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * <br>
      * @param serviceLocator The service locator.
      */
-    /* package */ Doodle(IServiceLocator serviceLocator) {
+     /* package */ Doodle(IServiceLocator serviceLocator) {
         Doodle.serviceLocator = serviceLocator;
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
@@ -46,7 +46,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.setYPos(Game.HEIGHT / 2);
         this.setWidth(sprite.getWidth());
         this.setHeight(sprite.getHeight());
-    }
+     }
 
     /** {@inheritDoc} */
     @Override

@@ -56,9 +56,11 @@ public interface IRes {
         ufoShining,
 
         trampoline,
+        trampolineUsed,
         spring,
+        springUsed,
         rocket,
-        cap,
+        propellor,
         shield,
 
         waitDontShoot,

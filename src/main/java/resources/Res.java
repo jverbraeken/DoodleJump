@@ -27,17 +27,31 @@ public final class Res implements IRes {
         for (IRes.sprites sprite : IRes.sprites.values()) {
             sprites.put(sprite, spritepath + "unimplemented.jpg");
         }
-        sprites.put(IRes.sprites.platform1, spritepath + "platform-green@2x.png");
-        sprites.put(IRes.sprites.playButton, spritepath + "play@2x.png");
+
+        // Background
         sprites.put(IRes.sprites.background, spritepath + "bck@2x.png");
+
+        // Buttons
+        sprites.put(IRes.sprites.playButton, spritepath + "play@2x.png");
 
         // Doodle
         sprites.put(IRes.sprites.doodleLeft, spritepath + "blue-lik-left@2x.png");
         sprites.put(IRes.sprites.doodleRight, spritepath + "blue-lik-right@2x.png");
+
+        // Platforms
+        sprites.put(IRes.sprites.platform1, spritepath + "platform-green@2x.png");
+
+        // Powerups
+        sprites.put(IRes.sprites.trampoline, spritepath + "powerup-trampoline@2x.png");
+        sprites.put(IRes.sprites.trampolineUsed, spritepath + "powerup-trampoline-used@2x.png");
+        sprites.put(IRes.sprites.spring, spritepath + "powerup-spring@2x.png");
+        sprites.put(IRes.sprites.springUsed, spritepath + "powerup-spring-used@2x.png");
+        sprites.put(IRes.sprites.rocket, spritepath + "powerup-rockets@2x.png");
+        sprites.put(IRes.sprites.propellor, spritepath + "powerup-propellor@2x.png");
+        sprites.put(IRes.sprites.shield, spritepath + "powerup-shield@2x.png");
     }
 
-    private Res() {
-    }
+    private Res() { }
 
     /** {@inheritDoc} */
     @Override
