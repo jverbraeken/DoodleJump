@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.IGameObject;
 import system.IServiceLocator;
 
 public final class PowerupFactory implements IPowerupFactory {
@@ -14,8 +15,8 @@ public final class PowerupFactory implements IPowerupFactory {
 
     private PowerupFactory() { }
 
-    public IPowerup createPowerup() {
-        return new Trampoline(serviceLocator);
+    public IGameObject createTrampoline(int x, int y) {
+        return new Trampoline(serviceLocator, x, y);
     }
 
 }

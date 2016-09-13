@@ -3,6 +3,8 @@ package objects.blocks;
 import objects.AGameObject;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
+import objects.powerups.IPowerupFactory;
+import objects.powerups.ITrampoline;
 import system.Game;
 import system.IServiceLocator;
 
@@ -82,6 +84,12 @@ public class Block extends AGameObject implements IBlock {
             int xLoc = (int) (widthDeviation * (Game.WIDTH - platform.getWidth()));
             platform.setXPos(xLoc);
             content.add(platform);
+
+            //TODO: Move powerup generation somewhere else
+            //TODO: User better calculations
+            IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+            IGameObject trampoline = powerupFactory.createTrampoline(xLoc + 20, yLoc - platform.getHeight() + 5);
+            content.add(trampoline);
         }
     }
 

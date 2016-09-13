@@ -13,13 +13,18 @@ public class Trampoline extends AGameObject implements ITrampoline {
 
     /**
      * Trampoline constructor.
-     * @param serviceLocator The Games service locator.
+     * @param serviceLocator - The Games service locator.
+     * @param x - The X location for the trampoline.
+     * @param y - The Y location for the trampoline.
      */
-    /* package */ Trampoline(IServiceLocator serviceLocator) {
+    /* package */ Trampoline(IServiceLocator serviceLocator, int x, int y) {
         Trampoline.serviceLocator = serviceLocator;
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.sprite = spriteFactory.getTrampolineSprite();
+
+        this.setXPos(x);
+        this.setYPos(y);
     }
 
     /** {@inheritDoc} */
@@ -32,7 +37,9 @@ public class Trampoline extends AGameObject implements ITrampoline {
 
     /** {@inheritDoc} */
     @Override
-    public void render() { }
+    public void render() {
+        serviceLocator.getRenderer().drawSprite(this.sprite, (int)this.getXPos(), (int)this.getYPos());
+    }
 
     /** {@inheritDoc} */
     @Override

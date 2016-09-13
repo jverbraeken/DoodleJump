@@ -19,7 +19,6 @@ public class Platform extends AGameObject implements IPlatform {
         this.sprite = serviceLocator.getSpriteFactory().getPlatformSprite1();
         this.setHeight(sprite.getHeight());
         this.setWidth(sprite.getWidth());
-
     }
 
     @Override
