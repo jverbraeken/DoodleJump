@@ -45,7 +45,7 @@ public final class Game {
     public static final int NORMAL_WIDTH = Game.WIDTH;
     public static final int NORMAL_HEIGHT = Game.HEIGHT;
     private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-    private static float scale =   Math.min( (float)d.getWidth() / NORMAL_WIDTH, (float)d.getHeight() / NORMAL_HEIGHT );
+    public static float scale = (float)d.getHeight() / NORMAL_HEIGHT ;
 
     private static void initServices() {
         AudioManager.register(serviceLocator);
@@ -136,6 +136,7 @@ public final class Game {
      */
     public static void setScene(IScene scene) {
         assert scene != null;
+
         if (Game.scene != null) {
             Game.scene.stop();
         }

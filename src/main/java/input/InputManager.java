@@ -1,5 +1,6 @@
 package input;
 
+import system.Game;
 import system.IServiceLocator;
 
 import java.awt.event.KeyEvent;
@@ -44,7 +45,7 @@ public final class InputManager implements IInputManager {
     /** {@inheritDoc} */
     public void mousePressed(MouseEvent e) {
         for (IMouseInputObserver observer : mouseInputObservers) {
-            observer.mouseClicked(e.getX(), e.getY());
+            observer.mouseClicked((int)(Game.scale*e.getX()), (int)(Game.scale*e.getY()-20));
         }
     }
 

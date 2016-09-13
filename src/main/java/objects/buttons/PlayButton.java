@@ -42,7 +42,7 @@ public class PlayButton implements IButton {
 
     @Override
     public void paint() {
-        serviceLocator.getRenderer().drawSprite(sprite, topLeft[0], topLeft[1], width, height);
+        serviceLocator.getRenderer().drawSprite(sprite, (int)(topLeft[0]), (int)(topLeft[1]), width, height);
     }
 
 }
