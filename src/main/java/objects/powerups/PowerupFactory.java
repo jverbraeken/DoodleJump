@@ -13,4 +13,9 @@ public final class PowerupFactory implements IPowerupFactory {
     }
 
     private PowerupFactory() { }
+
+    public IPowerup createPowerup() {
+        return new Trampoline(serviceLocator);
+    }
+
 }
