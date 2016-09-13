@@ -35,7 +35,10 @@ public class Trampoline extends AGameObject implements ITrampoline {
 
     /** {@inheritDoc} */
     @Override
-    public double getBoost() { return -20; }
+    public double getBoost() {
+        this.used();
+        return -25;
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -51,9 +54,11 @@ public class Trampoline extends AGameObject implements ITrampoline {
     @Override
     public void update() { }
 
-    /** {@inheritDoc} */
-    @Override
-    public void used() {
+
+    /**
+     * Change the Trampoline sprite to used.
+     */
+    private void used() {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.sprite = spriteFactory.getTrampolineUsedSprite();
     }
