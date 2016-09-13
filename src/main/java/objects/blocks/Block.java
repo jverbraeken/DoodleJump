@@ -131,7 +131,6 @@ public class Block extends AGameObject implements IBlock {
             //A marge of 50 is used
             if(e.getYPos() -50 > Game.HEIGHT) {
                 toRemove.add(e);
-                System.out.println("platje");
             }
 
         }

@@ -28,9 +28,9 @@ public class World implements IScene {
     // The vertical speed, negative if going up and positive if going down.
     private double vSpeed = -20;
     // The fastest the doodle can go vertically.
-    public static double vSpeedLimit = 20;
+    public final static double vSpeedLimit = 20;
     // How much the doodle is affected by gravity.
-    public static double gravityAcceleration = .5;
+    public final static double gravityAcceleration = .5;
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
