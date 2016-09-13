@@ -7,6 +7,7 @@ import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import objects.IGameObject;
@@ -15,14 +16,15 @@ public class Block extends AGameObject implements IBlock {
 
     private static IServiceLocator serviceLocator;
 
-    private HashSet<IGameObject> content = new HashSet<>();
+    private ArrayList<IGameObject> content = new ArrayList<>();
     //private int blockNumber;
 
     /* package */ Block(IServiceLocator serviceLocator, IPlatform lastPlatform) {
         Block.serviceLocator = serviceLocator;
 
         //this.blockNumber = blockNumber;
-        setYPos(lastPlatform.getYPos() - 800);
+        setYPos(lastPlatform.getYPos() + 800);
+        System.out.println("new block, lastp:" + lastPlatform.getYPos());
 
         createAndPlaceObjects(lastPlatform);
     }
@@ -57,7 +59,7 @@ public class Block extends AGameObject implements IBlock {
         placePlatforms(lastPlatform);
     }
 
-    public HashSet<IGameObject> getContent() {
+    public ArrayList<IGameObject> getContent() {
         return this.content;
     }
 
@@ -74,16 +76,16 @@ public class Block extends AGameObject implements IBlock {
         int maxY = (int) (0.5 * World.gravityAcceleration * Math.pow(t,2));
 
         for (int i = 0; i < platformAmount; i++) {
+
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
             float widthDeviation = (float) (rand.nextFloat() * 0.8 + 0.1);
-            int yLoc;
 
-            yLoc = (int) (getYPos() + (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
+            int yLast = (int) lastPlatform.getYPos();
+            int yLoc = (int) (yLast - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
 
 
-
-            if(yLoc < lastPlatform.getYPos() - maxY){
-                yLoc = (int) lastPlatform.getYPos() - maxY;
+            if(yLoc < yLast - maxY){
+                yLoc = yLast - maxY;
             }
 
             IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
@@ -95,6 +97,9 @@ public class Block extends AGameObject implements IBlock {
 
             lastPlatform = platform;
         }
+
+        this.setYPos(lastPlatform.getYPos());
     }
+
 
 }

@@ -89,7 +89,7 @@ public class World implements IScene {
     public void updateSpeed(){
         for(IGameObject e : elements) {
             IBlock block = (IBlock) e;
-            HashSet<IGameObject> inside = block.getContent();
+            ArrayList<IGameObject> inside = block.getContent();
             for (IGameObject item : inside) {
                 if (vSpeed > 0 && this.doodle.collide(item)) {
                     vSpeed = -vSpeedLimit;
@@ -166,12 +166,9 @@ public class World implements IScene {
                 topBlock = (IBlock) e;
             }
         }
-        IPlatform topPlatform = (IPlatform) topBlock.getContent().iterator().next();
-        for (IGameObject e : topBlock.getContent()) {
-            if (e.getYPos() < topPlatform.getYPos()) {
-                topPlatform = (IPlatform) e;
-            }
-        }
+        ArrayList<IGameObject> arr = topBlock.getContent();
+        IPlatform topPlatform = (IPlatform) arr.get(arr.size() - 1);
+
         return topPlatform;
     }
 }

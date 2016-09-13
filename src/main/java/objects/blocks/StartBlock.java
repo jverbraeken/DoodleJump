@@ -8,6 +8,8 @@ import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -15,7 +17,7 @@ public class StartBlock extends AGameObject implements IBlock {
 
     private static IServiceLocator serviceLocator;
 
-    private HashSet<IGameObject> content = new HashSet<>();
+    private ArrayList<IGameObject> content = new ArrayList<>();
     private int blockNumber;
 
     /* package */ StartBlock(IServiceLocator serviceLocator) {
@@ -48,7 +50,7 @@ public class StartBlock extends AGameObject implements IBlock {
         placePlatforms(null);
     }
 
-    public HashSet<IGameObject> getContent() {
+    public ArrayList<IGameObject> getContent() {
         return this.content;
     }
 
@@ -59,9 +61,10 @@ public class StartBlock extends AGameObject implements IBlock {
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
         int heightDividedPlatforms = (int) Game.HEIGHT/platformAmount;
-        System.out.println(Game.WIDTH/2 + " - " + (int) (Game.HEIGHT/1.2));
+
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
         IPlatform platform = platformFactory.createPlatform(Game.WIDTH/2, (int) (Game.HEIGHT/1.2));
+        lastPlatform = platform;
         content.add(platform);
 
         double t = World.vSpeedLimit/World.gravityAcceleration;
@@ -71,14 +74,11 @@ public class StartBlock extends AGameObject implements IBlock {
         for (int i = 1; i < platformAmount; i++) {
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
             float widthDeviation = (float) (rand.nextFloat() * 0.8 + 0.1);
-            int yLoc;
 
-            yLoc = (int) (getYPos() + (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
+            int yLast = (int) lastPlatform.getYPos();
 
-            int yLast = 0;
-            if(lastPlatform != null) {
-                yLast = (int) lastPlatform.getYPos();
-            }
+            int yLoc = (int) (yLast - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
+
             if(yLoc < yLast - maxY){
                 yLoc = yLast - maxY;
             }
@@ -86,7 +86,10 @@ public class StartBlock extends AGameObject implements IBlock {
             int xLoc = (int) (widthDeviation * Game.WIDTH);
             platform = platformFactory.createPlatform(xLoc, yLoc);
             content.add(platform);
+            lastPlatform = platform;
+
         }
+        this.setYPos(lastPlatform.getYPos());
     }
 
     @Override
