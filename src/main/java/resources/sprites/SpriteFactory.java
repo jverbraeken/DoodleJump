@@ -339,6 +339,16 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     @Override
+    public ISprite getResumeButtonSprite() {
+        return getSprite(IRes.sprites.resumeButton);
+    }
+
+    @Override
+    public ISprite getPauseCoverSprite() {
+        return getSprite(IRes.sprites.pauseCover);
+    }
+
+    @Override
     public ISprite getDigitSprite(int digit) {
         if (digit < 0 || digit > 9) {
             throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
@@ -359,15 +369,6 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     // Miscellaneous
-    private ISprite getSprite(IRes.sprites sprite) {
-        try {
-            return cache.get(sprite);
-        } catch (ExecutionException e) {
-            // TODO use e.getCause() and log that
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /**
      * Loads an ISprite with the name {@code ISpriteName}
@@ -379,6 +380,17 @@ public final class SpriteFactory implements ISpriteFactory {
         String filepath = serviceLocator.getRes().getSpritePath(spriteName);
         BufferedImage image = serviceLocator.getFileSystem().readImage(filepath);
         return new Sprite(getFileName(filepath), image);
+    }
+
+
+    private ISprite getSprite(IRes.sprites sprite) {
+        try {
+            return cache.get(sprite);
+        } catch (ExecutionException e) {
+            // TODO use e.getCause() and log that
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

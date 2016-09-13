@@ -81,7 +81,7 @@ public interface ISpriteFactory extends IFactory {
     ISprite getPauseSprite();
 
     // Pause
-    ISprite getPauseCover();
+    ISprite getPauseCoverSprite();
     ISprite getResumeButtonSprite();
 
     /**

@@ -21,12 +21,12 @@ import java.util.*;
 public class World implements IScene {
 
     private final IServiceLocator serviceLocator;
-    private Set<IGameObject> elements = new HashSet<>();
+    private final Set<IGameObject> elements = new HashSet<>();
     private final IDrawable background;
 
-    private Scorebar scorebar;
+    private final Scorebar scorebar;
 
-    private IDoodle doodle;
+    private final IDoodle doodle;
 
     // The vertical speed, negative if going up and positive if going down.
     private double vSpeed = -9;
@@ -34,6 +34,8 @@ public class World implements IScene {
     private double vSpeedLimit = 9;
     // How much the doodle is affected by gravity.
     private double gravityAcceleration = .15;
+
+    private final static double SCOREMULTIPLIER = 0.015;
 
     private double score;
 
@@ -73,8 +75,6 @@ public class World implements IScene {
 
         doodle.paint();
 
-        score++;
-
         scorebar.render();
     }
 
@@ -104,8 +104,10 @@ public class World implements IScene {
 
     private void applySpeed(){
         if(this.vSpeed < 0 && doodle.getYPos() < .5d * Game.HEIGHT) {
-            for(IGameObject e : elements)
-            e.addYPos(-this.vSpeed);
+            for(IGameObject e : elements) {
+                e.addYPos(-this.vSpeed);
+                score -= this.vSpeed * SCOREMULTIPLIER;
+            }
         } else {
             doodle.addYPos(this.vSpeed);
         }
