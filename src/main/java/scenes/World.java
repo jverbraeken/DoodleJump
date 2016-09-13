@@ -129,6 +129,10 @@ public class World implements IScene {
     }
 
 
+    /**
+     * Checks for all the Blocks if they are under over the height
+     * of the screen, if that's the case, delete that Block.
+     */
     public void cleanUp(){
         HashSet<IGameObject> toRemove = new HashSet<>();
         for(IGameObject e : elements) {
@@ -139,7 +143,10 @@ public class World implements IScene {
                 }
             }
             else if (e instanceof IBlock){
-                if(e.getYPos() > Game.HEIGHT) {
+                IBlock x = (IBlock) e;
+                x.cleanUpPlatforms();
+                //A marge of 50 is used
+                if(e.getYPos() -50 > Game.HEIGHT) {
                     toRemove.add(e);
                 }
             }

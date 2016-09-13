@@ -88,7 +88,7 @@ public class StartBlock extends AGameObject implements IBlock {
 
 
             platformCollideCheck(platform);
-            
+
             content.add(platform);
             lastPlatform = platform;
         }
@@ -116,6 +116,24 @@ public class StartBlock extends AGameObject implements IBlock {
 
         for(IGameObject e : content){
             e.addYPos(y);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void cleanUpPlatforms() {
+        HashSet<IGameObject> toRemove = new HashSet<>();
+        for(IGameObject e : content) {
+            //A marge of 50 is used
+            if(e.getYPos() -50 > Game.HEIGHT) {
+                toRemove.add(e);
+            }
+
+        }
+        for(IGameObject e : toRemove) {
+            content.remove(e);
         }
     }
 

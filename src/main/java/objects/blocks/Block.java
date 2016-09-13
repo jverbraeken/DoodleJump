@@ -23,7 +23,6 @@ public class Block extends AGameObject implements IBlock {
 
         //this.blockNumber = blockNumber;
         setYPos(lastPlatform.getYPos() + 800);
-        System.out.println("new block, lastp:" + lastPlatform.getYPos());
 
         createAndPlaceObjects(lastPlatform);
     }
@@ -103,6 +102,12 @@ public class Block extends AGameObject implements IBlock {
         this.setYPos(lastPlatform.getYPos());
     }
 
+    /**
+     * Checks if the platform collides with any of the platforms
+     * in this Block. When there is a collision, delete the platform
+     * from the list.
+     * @param platform The IPlatform that has to be checked for collision.
+     */
     private void platformCollideCheck(IPlatform platform){
         HashSet<IGameObject> toRemove = new HashSet<>();
         for(IGameObject e : content){
@@ -111,6 +116,25 @@ public class Block extends AGameObject implements IBlock {
             }
         }
 
+        for(IGameObject e : toRemove) {
+            content.remove(e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void cleanUpPlatforms() {
+        HashSet<IGameObject> toRemove = new HashSet<>();
+        for(IGameObject e : content) {
+            //A marge of 50 is used
+            if(e.getYPos() -50 > Game.HEIGHT) {
+                toRemove.add(e);
+                System.out.println("platje");
+            }
+
+        }
         for(IGameObject e : toRemove) {
             content.remove(e);
         }
