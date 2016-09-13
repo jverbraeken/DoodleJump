@@ -80,9 +80,6 @@ public class Doodle extends AGameObject implements IDoodle {
                 && this.getXPos() + getHitBox()[2] > collidee.getXPos()
                 && this.getYPos() + getHitBox()[1] < collidee.getYPos() + collidee.getHeight()
                 && this.getYPos() + getHitBox()[3] > collidee.getYPos()) {
-            if(collidee instanceof ITrampoline) {
-                System.out.println("hoi");
-            }
 
             if (collidee instanceof IPlatform || collidee instanceof ITrampoline) {
                 return this.getYPos() + this.getHeight() < collidee.getYPos() + collidee.getHeight();

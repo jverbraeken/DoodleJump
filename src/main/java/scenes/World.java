@@ -112,9 +112,7 @@ import java.util.*;
      * Applies gravity vAcceleration to the doodle.
      */
     private void applyGravity() {
-        if(this.vSpeed >= -vSpeedLimit) {
-            this.vSpeed += this.gravityAcceleration;
-        }
+        this.vSpeed += this.gravityAcceleration;
     }
 
     private void updateObjects(){
