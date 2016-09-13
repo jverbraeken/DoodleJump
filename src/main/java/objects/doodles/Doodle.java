@@ -62,7 +62,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.spritePack = spriteFactory.getDoodleSprite(this.facing);
 
         // If the Doodle moves up quickly shorten its legs
-        if (this.vSpeed < -10) {
+        if (this.vSpeed < -15) {
             this.sprite = this.spritePack[1];
         } else {
             this.sprite = this.spritePack[0];
