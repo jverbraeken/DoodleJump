@@ -20,7 +20,7 @@ import java.util.Stack;
 
 /* package */ class World implements IScene {
 
-    private final static double SCOREMULTIPLIER = 0.015;
+    private final static double SCOREMULTIPLIER = 0.15;
     private final IServiceLocator serviceLocator;
     private final Set<IGameObject> elements = new HashSet<>();
     private final IDrawable background;
