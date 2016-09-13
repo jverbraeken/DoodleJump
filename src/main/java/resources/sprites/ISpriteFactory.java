@@ -6,7 +6,7 @@ import system.IFactory;
 public interface ISpriteFactory extends IFactory {
 
     // Doodle
-    ISprite getDoodleSprite(IDoodle.directions direction);
+    ISprite[] getDoodleSprite(IDoodle.directions direction);
 
     // Platforms
     ISprite getPlatformSprite1();

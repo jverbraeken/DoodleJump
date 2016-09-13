@@ -67,8 +67,8 @@ import java.util.*;
     /** {@inheritDoc} */
     @Override
     public void update(double delta) {
-        updateObjects();
         updateSpeed();
+        updateObjects();
         applySpeed();
         cleanUp();
 
@@ -92,6 +92,8 @@ import java.util.*;
         }
 
         this.applyGravity();
+
+        this.doodle.setVerticalSpeed(vSpeed);
     }
 
     private void applySpeed(){
@@ -160,4 +162,5 @@ import java.util.*;
         }
         return topBlock;
     }
+
 }

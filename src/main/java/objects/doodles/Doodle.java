@@ -7,8 +7,6 @@ import objects.AGameObject;
 import objects.IGameObject;
 import objects.blocks.platform.IPlatform;
 import objects.powerups.IPowerup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
@@ -18,15 +16,16 @@ public class Doodle extends AGameObject implements IDoodle {
 
     private static IServiceLocator serviceLocator;
 
-    private final Logger logger = LoggerFactory.getLogger(Doodle.class);
-
-    //
+    // Horizontal speed limit for the Doodle.
     private double hSpeedLimit = 6d;
+    // Current horizontal speed for the Doodle.
     private double hSpeed = 0d;
+    // Current vertical speed for the Doodle.
+    private double vSpeed = 0d;
+    // Horizontal acceleration for the Doodle.
     private double hAcceleration = .5d;
-    //
-
     // The sprite for the Doodle.
+    private ISprite[] spritePack;
     private ISprite sprite;
     // The direction the Doodle is moving towards.
     private directions moving;
@@ -41,7 +40,8 @@ public class Doodle extends AGameObject implements IDoodle {
         Doodle.serviceLocator = serviceLocator;
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        this.sprite = spriteFactory.getDoodleSprite(directions.right);
+        this.spritePack = spriteFactory.getDoodleSprite(directions.right);
+        this.sprite = this.spritePack[0];
 
         IInputManager inputManager = serviceLocator.getInputManager();
         inputManager.addObserver(this);
@@ -59,7 +59,14 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public void animate() {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        this.sprite = spriteFactory.getDoodleSprite(this.facing);
+        this.spritePack = spriteFactory.getDoodleSprite(this.facing);
+
+        // If the Doodle moves up quickly shorten its legs
+        if (this.vSpeed < -10) {
+            this.sprite = this.spritePack[1];
+        } else {
+            this.sprite = this.spritePack[0];
+        }
     }
 
     /** {@inheritDoc} */
@@ -126,15 +133,10 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Wrap the Doodle.
+     * Set the vertical speed of the Doodle.
      */
-    private void wrap() {
-        double middle = this.getXPos() + this.getWidth() / 2;
-        if (middle < 0) {
-            this.addXPos(Game.WIDTH);
-        } else if (middle > Game.WIDTH) {
-            this.addXPos(-Game.WIDTH);
-        }
+    public void setVerticalSpeed(double vSpeed) {
+        this.vSpeed = vSpeed;
     }
 
     /**
@@ -180,6 +182,18 @@ public class Doodle extends AGameObject implements IDoodle {
     private boolean rightPressed(int keyCode) {
         return keyCode == KeyCode.getKeyCode(Keys.arrowRight) ||
                 keyCode == KeyCode.getKeyCode(Keys.d);
+    }
+
+    /**
+     * Wrap the Doodle around the screen.
+     */
+    private void wrap() {
+        double middle = this.getXPos() + this.getWidth() / 2;
+        if(middle < 0) {
+            this.addXPos(Game.WIDTH);
+        } else if(middle > Game.WIDTH) {
+            this.addXPos(-Game.WIDTH);
+        }
     }
 
 }
