@@ -15,14 +15,26 @@ import java.util.*;
 /* package */ class World implements IScene {
 
     private final IServiceLocator serviceLocator;
+
+    /**
+     * Set of all object (excluding Doodle) in the world.
+     */
     private final Set<IGameObject> elements = new HashSet<>();
+    /**
+     * The background of the world.
+     */
     private final IDrawable background;
-
+    /**
+     * The active Doodle in this world.
+     */
     private final IDoodle doodle;
-
-    // The vertical speed, negative if going up and positive if going down.
+    /**
+     * The vertical speed, negative if going up and positive if going down.
+     */
     private double vSpeed = -20;
-    // How much the doodle is affected by gravity.
+    /**
+     * How much the doodle is affected by gravity.
+     */
     private final double gravityAcceleration = .5;
 
     /* package */ World(IServiceLocator serviceLocator) {
@@ -32,7 +44,7 @@ import java.util.*;
         IBlock lastCreatedBlock = blockFactory.createStartBlock();
         elements.add(lastCreatedBlock);
 
-        for(int i = 1; i < 3; i++) {
+        for (int i = 1; i < 3; i++) {
             lastCreatedBlock = blockFactory.createBlock(lastCreatedBlock.getYPos());
             elements.add(lastCreatedBlock);
         }
@@ -57,7 +69,7 @@ import java.util.*;
     public void paint() {
         background.render();
 
-        for(IGameObject e : elements) {
+        for (IGameObject e : elements) {
             e.render();
         }
 
@@ -81,10 +93,10 @@ import java.util.*;
     }
 
     private void updateSpeed(){
-        for(IGameObject e : elements) {
+        for (IGameObject e : elements) {
             IBlock block = (IBlock) e;
             HashSet<IGameObject> inside = block.getContent();
-            for(IGameObject item : inside) {
+            for (IGameObject item : inside) {
                 if (vSpeed > 0 && this.doodle.collide(item)) {
                     vSpeed = item.getBoost();
                 }
@@ -97,7 +109,7 @@ import java.util.*;
     }
 
     private void applySpeed(){
-        if(this.vSpeed < 0 && doodle.getYPos() < .5d * Game.HEIGHT - doodle.getHeight()) {
+        if (this.vSpeed < 0 && doodle.getYPos() < .5d * Game.HEIGHT - doodle.getHeight()) {
             for(IGameObject e : elements)
             e.addYPos(-this.vSpeed);
         } else {
@@ -113,7 +125,7 @@ import java.util.*;
     }
 
     private void updateObjects(){
-        for(IGameObject e: elements){
+        for (IGameObject e: elements){
             e.update();
         }
         doodle.update();
@@ -122,19 +134,13 @@ import java.util.*;
 
     public void cleanUp(){
         HashSet<IGameObject> toRemove = new HashSet<>();
-        for(IGameObject e : elements) {
-            if(e.getClass().equals(Doodle.class)){
-                if(e.getYPos() > Game.HEIGHT) {
-                    toRemove.add(e);
-                }
-            }
-            else if (e instanceof IBlock){
-                if(e.getYPos() > Game.HEIGHT) {
-                    toRemove.add(e);
-                }
+        for (IGameObject e : elements) {
+            if (e.getYPos() > Game.HEIGHT) {
+                toRemove.add(e);
             }
         }
-        for(IGameObject e : toRemove) {
+
+        for (IGameObject e : toRemove) {
             elements.remove(e);
         }
     }
@@ -142,7 +148,7 @@ import java.util.*;
     public void newBlocks(){
         if (elements.size() < 3) {
             double minY = Double.MAX_VALUE;
-            for(IGameObject e : elements) {
+            for (IGameObject e : elements) {
                 if(e.getYPos() < minY){
                     minY = e.getYPos();
                 }
