@@ -10,6 +10,7 @@ public class Trampoline extends AGameObject implements ITrampoline {
     private static IServiceLocator serviceLocator;
 
     private ISprite sprite;
+    private double boost = -25;
 
     /**
      * Trampoline constructor.
@@ -37,7 +38,7 @@ public class Trampoline extends AGameObject implements ITrampoline {
     @Override
     public double getBoost() {
         this.used();
-        return -25;
+        return this.boost;
     }
 
     /** {@inheritDoc} */

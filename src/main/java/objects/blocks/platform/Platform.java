@@ -7,7 +7,9 @@ import system.IServiceLocator;
 public class Platform extends AGameObject implements IPlatform {
 
     private static IServiceLocator serviceLocator;
+
     private ISprite sprite;
+    private double boost = -10;
 
     /**
      * Platform constructor.
@@ -34,7 +36,7 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public double getBoost() { return -10; }
+    public double getBoost() { return this.boost; }
 
     /** {@inheritDoc} */
     @Override
