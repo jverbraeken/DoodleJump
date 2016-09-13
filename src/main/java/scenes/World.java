@@ -31,9 +31,12 @@ import java.util.*;
         this.serviceLocator = serviceLocator;
 
         IBlockFactory blockFactory = serviceLocator.getBlockFactory();
-        elements.add(blockFactory.createStartBlock());
+        IBlock lastCreatedBlock = blockFactory.createStartBlock();
+        elements.add(lastCreatedBlock);
+
         for(int i = 1; i < 3; i++) {
-            elements.add(blockFactory.createBlock());
+            lastCreatedBlock = blockFactory.createBlock(lastCreatedBlock.getYPos());
+            elements.add(lastCreatedBlock);
         }
 
         background = serviceLocator.getBackgroundFactory().createBackground();
@@ -87,6 +90,7 @@ import java.util.*;
             for(IGameObject item : inside) {
                 //TODO: TEMP FIX to make sure the doodle doesnt hit with its "head"
                 if (vSpeed > 0 && this.doodle.collide(item) && doodle.getYPos() + doodle.getHeight() < item.getYPos() + item.getHeight()){
+
                     vSpeed = -vSpeedLimit;
                 }
             }
@@ -119,26 +123,49 @@ import java.util.*;
         doodle.update();
     }
 
-    private void cleanUp(){
+
+    public void cleanUp(){
+        HashSet<IGameObject> toRemove = new HashSet<>();
         for(IGameObject e : elements) {
             if(e.getClass().equals(Doodle.class)){
+                System.out.println("Dooodle " + e.getYPos());
                 if(e.getYPos() > Game.HEIGHT) {
+                    toRemove.add(e);
                     elements.remove(e);
                 }
             }
+            else if (e instanceof IBlock){
+                if(e.getYPos() > Game.HEIGHT) {
+                    toRemove.add(e);
+                }
+            }
+        }
+        for(IGameObject e : toRemove) {
+            elements.remove(e);
         }
     }
 
-    private void newBlocks(){
-        if (elements.size() < 4) {
+    public void newBlocks(){
+        if (elements.size() < 3) {
             double minY = Double.MAX_VALUE;
             for(IGameObject e : elements) {
                 if(e.getYPos() < minY){
                     minY = e.getYPos();
                 }
             }
+            IBlock topBlock = getTopBlock();
             //TODO: implements New Block
-            elements.add(serviceLocator.getBlockFactory().createBlock());
+            elements.add(serviceLocator.getBlockFactory().createBlock(topBlock.getYPos()));
         }
+    }
+
+    private IBlock getTopBlock() {
+        IBlock topBlock = (IBlock) elements.iterator().next();
+        for (IGameObject e : elements) {
+            if (e.getYPos() < topBlock.getYPos()) {
+                topBlock = (IBlock) e;
+            }
+        }
+        return topBlock;
     }
 }

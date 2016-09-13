@@ -5,7 +5,6 @@ import system.IServiceLocator;
 public final class BlockFactory implements IBlockFactory {
 
     private static transient IServiceLocator serviceLocator;
-    private int blockCounter;
 
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
@@ -14,20 +13,18 @@ public final class BlockFactory implements IBlockFactory {
     }
 
     private BlockFactory() {
-        this.blockCounter = 0;
+
     }
 
     @Override
     public IBlock createStartBlock(){
         IBlock block = new StartBlock(serviceLocator);
-        blockCounter++;
         return block;
     }
 
     @Override
-    public IBlock createBlock(){
-        Block block = new Block(serviceLocator, blockCounter);
-        blockCounter++;
+    public IBlock createBlock(double lastPlatformHeight){
+        Block block = new Block(serviceLocator, lastPlatformHeight);
         return block;
     }
 
