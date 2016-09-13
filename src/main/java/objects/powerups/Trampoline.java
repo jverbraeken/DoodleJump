@@ -10,7 +10,7 @@ public class Trampoline extends AGameObject implements ITrampoline {
     private static IServiceLocator serviceLocator;
 
     private ISprite sprite;
-    private double boost = -25;
+    private double boost = -50;
 
     /**
      * Trampoline constructor.

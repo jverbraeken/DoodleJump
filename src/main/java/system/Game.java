@@ -29,7 +29,7 @@ public final class Game {
 
     private static IServiceLocator serviceLocator = new ServiceLocator();
     
-    public final static int WIDTH = 500;
+    public final static int WIDTH = 400;
     public final static int HEIGHT = 800;
 
     private static JFrame frame;
@@ -41,6 +41,11 @@ public final class Game {
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
 
     private static int times = 0;
+
+    public static final int NORMAL_WIDTH = Game.WIDTH;
+    public static final int NORMAL_HEIGHT = Game.HEIGHT;
+    private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+    private static float scale =   Math.min( (float)d.getWidth() / NORMAL_WIDTH, (float)d.getHeight() / NORMAL_HEIGHT );
 
     private static void initServices() {
         AudioManager.register(serviceLocator);
@@ -100,6 +105,9 @@ public final class Game {
             @Override
             public void paintComponent(Graphics g) {
                 serviceLocator.getRenderer().setGraphicsBuffer(g);
+
+                ((Graphics2D)g).scale(1/scale,1/scale);
+
                 if (scene != null) {
                     scene.paint();
                 }
@@ -108,6 +116,8 @@ public final class Game {
                     frame.repaint();
                 }
                 times ++;
+
+                ((Graphics2D)g).scale(scale,scale);
             }
         };
         panel.setSize(Game.WIDTH, Game.HEIGHT);

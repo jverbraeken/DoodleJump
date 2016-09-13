@@ -3,11 +3,9 @@ package scenes;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.IGameObject;
-import objects.blocks.platform.IPlatform;
 import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
-import objects.powerups.ITrampoline;
 import rendering.IDrawable;
 import system.Game;
 import system.IServiceLocator;
@@ -23,11 +21,9 @@ import java.util.*;
     private final IDoodle doodle;
 
     // The vertical speed, negative if going up and positive if going down.
-    private double vSpeed = -11;
-    // The fastest the doodle can go vertically.
-    private final double vSpeedLimit = 11;
+    private double vSpeed = -20;
     // How much the doodle is affected by gravity.
-    private final double gravityAcceleration = .2;
+    private final double gravityAcceleration = .5;
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
@@ -71,7 +67,6 @@ import java.util.*;
     /** {@inheritDoc} */
     @Override
     public void update(double delta) {
-
         updateObjects();
         updateSpeed();
         applySpeed();
@@ -127,10 +122,8 @@ import java.util.*;
         HashSet<IGameObject> toRemove = new HashSet<>();
         for(IGameObject e : elements) {
             if(e.getClass().equals(Doodle.class)){
-                System.out.println("Dooodle " + e.getYPos());
                 if(e.getYPos() > Game.HEIGHT) {
                     toRemove.add(e);
-                    elements.remove(e);
                 }
             }
             else if (e instanceof IBlock){

@@ -72,7 +72,7 @@ public class Block extends AGameObject implements IBlock {
 
         for (int i = 0; i < platformAmount; i++) {
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
-            float widthDeviation = (float) (rand.nextFloat() * 0.8 + 0.1);
+            float widthDeviation = (float) (rand.nextFloat());
             int yLoc;
 
             yLoc = (int) (getYPos() + (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
