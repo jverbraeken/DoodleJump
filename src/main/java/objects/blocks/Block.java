@@ -92,6 +92,9 @@ public class Block extends AGameObject implements IBlock {
 
             int xLoc = (int) (widthDeviation * (Game.WIDTH - platform.getWidth()));
             platform.setXPos(xLoc);
+
+            platformCollideCheck(platform);
+
             content.add(platform);
 
             lastPlatform = platform;
@@ -100,5 +103,16 @@ public class Block extends AGameObject implements IBlock {
         this.setYPos(lastPlatform.getYPos());
     }
 
+    private void platformCollideCheck(IPlatform platform){
+        HashSet<IGameObject> toRemove = new HashSet<>();
+        for(IGameObject e : content){
+            if(serviceLocator.getCollisions().collide(platform, e)){
+                toRemove.add(e);
+            }
+        }
 
+        for(IGameObject e : toRemove) {
+            content.remove(e);
+        }
+    }
 }
