@@ -13,7 +13,6 @@ import java.util.Random;
 import objects.IGameObject;
 
 public class Block extends AGameObject implements IBlock {
-
     private static IServiceLocator serviceLocator;
 
     private ArrayList<IGameObject> content = new ArrayList<>();
@@ -78,7 +77,7 @@ public class Block extends AGameObject implements IBlock {
         for (int i = 0; i < platformAmount; i++) {
 
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
-            float widthDeviation = (float) (rand.nextFloat() * 0.8 + 0.1);
+            float widthDeviation = (float) (rand.nextFloat());
 
             int yLast = (int) lastPlatform.getYPos();
             int yLoc = (int) (yLast - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
