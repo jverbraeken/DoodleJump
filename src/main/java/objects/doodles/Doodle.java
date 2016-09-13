@@ -6,7 +6,7 @@ import input.Keys;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.blocks.platform.IPlatform;
-import objects.powerups.ITrampoline;
+import objects.powerups.IPowerup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import resources.sprites.ISprite;
@@ -81,7 +81,7 @@ public class Doodle extends AGameObject implements IDoodle {
                 && this.getYPos() + getHitBox()[1] < collidee.getYPos() + collidee.getHeight()
                 && this.getYPos() + getHitBox()[3] > collidee.getYPos()) {
 
-            if (collidee instanceof IPlatform || collidee instanceof ITrampoline) {
+            if (collidee instanceof IPlatform || collidee instanceof IPowerup) {
                 return this.getYPos() + this.getHeight() < collidee.getYPos() + collidee.getHeight();
             } else {
                 return true;

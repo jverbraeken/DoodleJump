@@ -5,12 +5,12 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-public class Trampoline extends AGameObject implements IPowerup {
+public class Spring extends AGameObject implements IPowerup {
 
     private static IServiceLocator serviceLocator;
 
     private ISprite sprite;
-    private double boost = -50;
+    private double boost = -35;
 
     /**
      * Trampoline constructor.
@@ -18,11 +18,11 @@ public class Trampoline extends AGameObject implements IPowerup {
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
-    /* package */ Trampoline(IServiceLocator serviceLocator, int x, int y) {
-        Trampoline.serviceLocator = serviceLocator;
+    /* package */ Spring(IServiceLocator serviceLocator, int x, int y) {
+        Spring.serviceLocator = serviceLocator;
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        this.sprite = spriteFactory.getTrampolineSprite();
+        this.sprite = spriteFactory.getSpringSprite();
 
         this.setXPos(x);
         this.setYPos(y);
@@ -57,13 +57,13 @@ public class Trampoline extends AGameObject implements IPowerup {
 
 
     /**
-     * Change the Trampoline sprite to used.
+     * Change the Spring sprite to used.
      */
     private void used() {
         int oldHeight = this.sprite.getHeight();
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
+        ISprite newSprite = spriteFactory.getSpringUsedSprite();
 
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);

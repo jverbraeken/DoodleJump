@@ -13,8 +13,18 @@ public final class PowerupFactory implements IPowerupFactory {
         serviceLocator.provide(new PowerupFactory());
     }
 
+
     private PowerupFactory() { }
 
+
+    @Override
+    /** {@inheritDoc} */
+    public IGameObject createSpring(int x, int y) {
+        return new Spring(serviceLocator, x, y);
+    }
+
+    @Override
+    /** {@inheritDoc} */
     public IGameObject createTrampoline(int x, int y) {
         return new Trampoline(serviceLocator, x, y);
     }

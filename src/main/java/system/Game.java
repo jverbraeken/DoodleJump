@@ -29,7 +29,7 @@ public final class Game {
 
     private static IServiceLocator serviceLocator = new ServiceLocator();
     
-    public final static int WIDTH = 400;
+    public final static int WIDTH = 500;
     public final static int HEIGHT = 800;
 
     private static JFrame frame;
