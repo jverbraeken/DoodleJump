@@ -114,6 +114,7 @@ public final class Game {
         frame.setContentPane(panel);
 
         setScene(serviceLocator.getSceneFactory().newMenu());
+        serviceLocator.getInputManager().setMainWindowBorderSize((int) panel.getLocationOnScreen().getX(), (int) panel.getLocationOnScreen().getY());
 
         loop();
     }

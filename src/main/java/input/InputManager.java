@@ -21,13 +21,14 @@ public final class InputManager implements IInputManager {
         serviceLocator.provide(new InputManager());
     }
 
-    private final Set<IMouseInputObserver> mouseInputObservers = new HashSet<>();
+    private static final Set<IMouseInputObserver> mouseInputObservers = new HashSet<>();
+    private int windowLeftBorderSize = 0;
+    private int windowTopBorderSize = 0;
 
     /**
      * Prevents instantiation from outside the class.
      */
     private InputManager() {
-
     }
 
     @Override
@@ -38,7 +39,7 @@ public final class InputManager implements IInputManager {
     @Override
     public void mousePressed(MouseEvent e) {
         for (IMouseInputObserver observer : mouseInputObservers) {
-            observer.mouseClicked(e.getX(), e.getY());
+            observer.mouseClicked(e.getX() - windowLeftBorderSize, e.getY() - windowTopBorderSize);
         }
     }
 
@@ -67,5 +68,12 @@ public final class InputManager implements IInputManager {
     /** {@inheritDoc} */
     public void removeObserver(IMouseInputObserver mouseInputObserver) {
         mouseInputObservers.remove(mouseInputObserver);
+    }
+
+    @Override
+    /** {@inheritDoc} */
+    public void setMainWindowBorderSize(int windowLeftBorderSize, int windowTopBorderSize) {
+        this.windowLeftBorderSize = windowLeftBorderSize;
+        this.windowTopBorderSize = windowTopBorderSize;
     }
 }
