@@ -15,7 +15,6 @@ public class Platform extends AGameObject implements IPlatform {
         Platform.serviceLocator = serviceLocator;
 
         this.setXPos(x);
-        //this.setXPos(.5* Game.WIDTH+30);
         this.setYPos(y);
         this.sprite = serviceLocator.getSpriteFactory().getPlatformSprite1();
         this.setHeight(sprite.getHeight());
@@ -30,7 +29,7 @@ public class Platform extends AGameObject implements IPlatform {
     public void move() { }
 
     @Override
-    public void paint() {
+    public void render() {
         serviceLocator.getRenderer().drawSprite(this.sprite, (int)this.getXPos(), (int)this.getYPos());
     }
 

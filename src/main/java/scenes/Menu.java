@@ -41,8 +41,8 @@ public class Menu implements IScene {
 
     @Override
     public void paint() {
-        background.paint();
-        playButton.paint();
+        background.render();
+        playButton.render();
     }
 
     @Override

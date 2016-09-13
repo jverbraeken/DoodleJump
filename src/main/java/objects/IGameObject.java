@@ -2,6 +2,9 @@ package objects;
 
 import rendering.IDrawable;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 /**
  * The interface implemented by {@link AGameObject}, the super class of all classes that represents objects in the game.
  */
@@ -27,6 +30,8 @@ public interface IGameObject extends IDrawable {
 
     void move();
 
+    void render();
+
     void setHeight(int height);
 
     void setWidth(int width);
@@ -34,6 +39,8 @@ public interface IGameObject extends IDrawable {
     void setXPos(double xPos);
 
     void setYPos(double yPos);
+
+    void setHitBox(double[] hitbox);
 
     void update();
 }

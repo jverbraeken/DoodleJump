@@ -1,5 +1,5 @@
 package rendering;
 
 public interface IDrawable {
-    void paint();
+    void render();
 }

@@ -1,6 +1,7 @@
 package system;
 
 import filesystem.FileSystem;
+import input.IInputManager;
 import input.InputManager;
 import math.Calc;
 import math.ICalc;
@@ -28,8 +29,10 @@ import java.awt.event.WindowEvent;
 
 public final class Game {
 
-    public final static int WIDTH = 500;
-    public final static int HEIGHT = 800;
+    public final static int WIDTH = 600;
+    public final static int HEIGHT = 1000;
+    public static final int NORMAL_WIDTH = Game.WIDTH;
+    public static final int NORMAL_HEIGHT = Game.HEIGHT;
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
     private static final int RESUMEBUTTONX = (int) (0.55 * WIDTH);
@@ -41,6 +44,8 @@ public final class Game {
     private static int times = 0;
     private static boolean isPaused = false;
     private static IButton resumeButton;
+    private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+    private static float scale = Math.min((float) d.getWidth() / NORMAL_WIDTH, (float) d.getHeight() / NORMAL_HEIGHT);
 
     /**
      * Prevents the creation of a new {@code Game} object.
@@ -77,6 +82,8 @@ public final class Game {
 
         frame = new JFrame("Doodle Jump");
 
+        IInputManager inputManager = serviceLocator.getInputManager();
+
         frame.addWindowListener(new WindowAdapter() {
             @Override
             /**
@@ -86,7 +93,8 @@ public final class Game {
                 System.exit(0);
             }
         });
-        frame.addMouseListener(serviceLocator.getInputManager());
+        frame.addMouseListener(inputManager);
+        frame.addKeyListener(inputManager);
         frame.setSize(Game.WIDTH, Game.HEIGHT);
         //frame.setUndecorated(true);
         frame.setVisible(true);
@@ -97,6 +105,9 @@ public final class Game {
             @Override
             public void paintComponent(Graphics g) {
                 serviceLocator.getRenderer().setGraphicsBuffer(g);
+
+                ((Graphics2D) g).scale(1 / scale, 1 / scale);
+
                 if (scene != null) {
                     scene.paint();
                 }
@@ -105,10 +116,7 @@ public final class Game {
                     drawPauseScreen();
                 }
 
-                if (times % 2 == 0) {
-                    frame.repaint();
-                }
-                times++;
+                ((Graphics2D) g).scale(scale, scale);
             }
         };
         panel.setSize(Game.WIDTH, Game.HEIGHT);
@@ -174,7 +182,7 @@ public final class Game {
         double scaling = (double) WIDTH / (double) pauseCover.getWidth();
         serviceLocator.getRenderer().drawSprite(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
 
-        resumeButton.paint();
+        resumeButton.render();
     }
 
     /**

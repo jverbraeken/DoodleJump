@@ -1,23 +1,16 @@
 package resources;
 
-import resources.audio.IAudioManager;
 import system.IServiceLocator;
 
 import java.util.EnumMap;
 import java.util.Map;
 
 public final class Res implements IRes {
+
     /**
-    * Used to gain access to all services.
-    */
+     * Used to gain access to all services.
+     */
     private static transient IServiceLocator serviceLocator;
-
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        Res.serviceLocator = serviceLocator;
-        serviceLocator.provide(new Res());
-    }
-
     private Map<IRes.sprites, String> sprites = new EnumMap<>(IRes.sprites.class);
 
     {
@@ -27,7 +20,6 @@ public final class Res implements IRes {
             sprites.put(sprite, spritepath + "unimplemented.jpg");
         }
         sprites.put(IRes.sprites.background, spritepath + "bck@2x.png");
-        sprites.put(IRes.sprites.doodle, spritepath + "blue-lik-right@2x.png");
         sprites.put(IRes.sprites.platform1, spritepath + "platform-green@2x.png");
         sprites.put(IRes.sprites.playButton, spritepath + "play@2x.png");
         sprites.put(IRes.sprites.resumeButton, spritepath + "resume@2x.png");
@@ -47,12 +39,24 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.seven, spritepath + "7.png");
         sprites.put(IRes.sprites.eight, spritepath + "8.png");
         sprites.put(IRes.sprites.nine, spritepath + "9.png");
+
+        // Doodle
+        sprites.put(IRes.sprites.doodleLeft, spritepath + "blue-lik-left@2x.png");
+        sprites.put(IRes.sprites.doodleRight, spritepath + "blue-lik-right@2x.png");
     }
 
     private Res() {
     }
 
-    /** {@inheritDoc} */
+    public static void register(IServiceLocator serviceLocator) {
+        assert serviceLocator != null;
+        Res.serviceLocator = serviceLocator;
+        serviceLocator.provide(new Res());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSpritePath(IRes.sprites sprite) {
         return sprites.get(sprite);

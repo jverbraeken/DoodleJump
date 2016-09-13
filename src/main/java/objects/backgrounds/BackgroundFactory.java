@@ -3,6 +3,7 @@ package objects.backgrounds;
 import rendering.IDrawable;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import system.Game;
 import system.IServiceLocator;
 
 public class BackgroundFactory implements IBackgroundFactory {

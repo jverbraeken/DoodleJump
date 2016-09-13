@@ -50,7 +50,7 @@ public class Button implements IButton {
     }
 
     @Override
-    public void paint() {
+    public void render() {
         serviceLocator.getRenderer().drawSprite(sprite, topLeft[0], topLeft[1], width, height);
     }
 

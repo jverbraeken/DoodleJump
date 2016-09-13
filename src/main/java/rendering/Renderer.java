@@ -15,6 +15,7 @@ public final class Renderer implements IRenderer {
      */
     private static transient IServiceLocator serviceLocator;
     private Graphics graphics;
+
     private Renderer() {
     }
 
@@ -32,7 +33,6 @@ public final class Renderer implements IRenderer {
     @Override
     /** {@inheritDoc} */
     public void start() {
-
     }
 
     public void drawRectangle(int x, int y, int width, int height) {
@@ -70,4 +70,5 @@ public final class Renderer implements IRenderer {
         }
         this.graphics = graphics;
     }
+
 }

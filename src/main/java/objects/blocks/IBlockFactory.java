@@ -4,7 +4,7 @@ import system.IFactory;
 
 public interface IBlockFactory extends IFactory {
 
-    IBlock createBlock();
+    IBlock createBlock(double lastPlatformHeight);
     IBlock createStartBlock();
 
     

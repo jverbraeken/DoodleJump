@@ -6,7 +6,6 @@ import objects.blocks.platform.IPlatformFactory;
 import system.Game;
 import system.IServiceLocator;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import objects.IGameObject;
@@ -16,20 +15,21 @@ public class Block extends AGameObject implements IBlock {
     private static IServiceLocator serviceLocator;
 
     private HashSet<IGameObject> content = new HashSet<>();
-    private int blockNumber;
+    //private int blockNumber;
 
-    /* package */ Block(IServiceLocator serviceLocator, int blockNumber) {
+    /* package */ Block(IServiceLocator serviceLocator, double lastPlatformHeight) {
         Block.serviceLocator = serviceLocator;
 
-        this.blockNumber = blockNumber;
+        //this.blockNumber = blockNumber;
+        setYPos(lastPlatformHeight - 800);
 
         createAndPlaceObjects();
     }
 
     @Override
-    public void paint() {
+    public void render() {
         for(IGameObject e : content){
-            e.paint();
+            e.render();
         }
     }
 
@@ -44,6 +44,9 @@ public class Block extends AGameObject implements IBlock {
 
     @Override
     public void addYPos(double y){
+        double current = this.getYPos();
+        this.setYPos(current + y);
+
         for(IGameObject e : content){
             e.addYPos(y);
         }
@@ -67,18 +70,17 @@ public class Block extends AGameObject implements IBlock {
 
         for (int i = 0; i < platformAmount; i++) {
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
-            float widthDeviation = (float) (rand.nextFloat() * 0.8 + 0.1);
+            float widthDeviation = (float) (rand.nextFloat());
             int yLoc;
 
-            if(blockNumber == 0) {
-                yLoc = (int) (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms));
-            } else {
-                yLoc = (int) (-Game.HEIGHT * (blockNumber -1) - (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
-            }
+            yLoc = (int) (getYPos() + (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
 
-            int xLoc = (int) (widthDeviation * Game.WIDTH);
+
             IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-            IPlatform platform = platformFactory.createPlatform(xLoc, yLoc);
+            IPlatform platform = platformFactory.createPlatform(0, yLoc);
+
+            int xLoc = (int) (widthDeviation * (Game.WIDTH - platform.getWidth()));
+            platform.setXPos(xLoc);
             content.add(platform);
         }
     }

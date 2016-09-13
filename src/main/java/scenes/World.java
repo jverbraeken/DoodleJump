@@ -1,10 +1,8 @@
 package scenes;
 
-import input.IMouseInputObserver;
-import objects.blocks.Block;
+import objects.IGameObject;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
-import objects.IGameObject;
 import objects.buttons.IButton;
 import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
@@ -16,36 +14,36 @@ import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 
-public class World implements IScene {
+/* package */ class World implements IScene {
 
+    private final static double SCOREMULTIPLIER = 0.015;
     private final IServiceLocator serviceLocator;
     private final Set<IGameObject> elements = new HashSet<>();
     private final IDrawable background;
-
     private final Scorebar scorebar;
-
     private final IDoodle doodle;
-
-    // The vertical speed, negative if going up and positive if going down.
-    private double vSpeed = -9;
     // The fastest the doodle can go vertically.
-    private double vSpeedLimit = 9;
+    private final double vSpeedLimit = 20;
     // How much the doodle is affected by gravity.
-    private double gravityAcceleration = .15;
-
-    private final static double SCOREMULTIPLIER = 0.015;
-
+    private final double gravityAcceleration = .5;
+    // The vertical speed, negative if going up and positive if going down.
+    private double vSpeed = -20;
     private double score;
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
 
         IBlockFactory blockFactory = serviceLocator.getBlockFactory();
-        elements.add(blockFactory.createStartBlock());
-        for(int i = 1; i < 3; i++) {
-            elements.add(blockFactory.createBlock());
+        IBlock lastCreatedBlock = blockFactory.createStartBlock();
+        elements.add(lastCreatedBlock);
+
+        for (int i = 1; i < 3; i++) {
+            lastCreatedBlock = blockFactory.createBlock(lastCreatedBlock.getYPos());
+            elements.add(lastCreatedBlock);
         }
 
         background = serviceLocator.getBackgroundFactory().createBackground();
@@ -57,27 +55,39 @@ public class World implements IScene {
         this.vSpeed = -9;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
-    public void start() { }
+    public void start() {
+    }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
-    public void stop() { }
+    public void stop() {
+    }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paint() {
-        background.paint();
+        background.render();
 
         for (IGameObject e : elements) {
-            e.paint();
+            e.render();
         }
 
-        doodle.paint();
+        this.doodle.render();
 
         scorebar.render();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(double delta) {
 
@@ -89,12 +99,14 @@ public class World implements IScene {
         newBlocks();
     }
 
-    private void updateSpeed(){
-        for(IGameObject e : elements) {
+    private void updateSpeed() {
+        for (IGameObject e : elements) {
             IBlock block = (IBlock) e;
             HashSet<IGameObject> inside = block.getContent();
-            for(IGameObject item : inside) {
-                if (vSpeed > 0 && this.doodle.collide(item)){
+            for (IGameObject item : inside) {
+                //TODO: TEMP FIX to make sure the doodle doesnt hit with its "head"
+                if (vSpeed > 0 && this.doodle.collide(item) && doodle.getYPos() + doodle.getHitBox()[3] < item.getYPos() + item.getHeight()) {
+
                     vSpeed = -vSpeedLimit;
                 }
             }
@@ -102,9 +114,9 @@ public class World implements IScene {
         this.applyGravity();
     }
 
-    private void applySpeed(){
-        if(this.vSpeed < 0 && doodle.getYPos() < .5d * Game.HEIGHT) {
-            for(IGameObject e : elements) {
+    private void applySpeed() {
+        if (this.vSpeed < 0 && doodle.getYPos() < .5d * Game.HEIGHT - doodle.getHeight()) {
+            for (IGameObject e : elements) {
                 e.addYPos(-this.vSpeed);
                 score -= this.vSpeed * SCOREMULTIPLIER;
             }
@@ -117,62 +129,78 @@ public class World implements IScene {
      * Applies gravity vAcceleration to the doodle.
      */
     private void applyGravity() {
-        if(this.vSpeed >= -vSpeedLimit) {
+        if (this.vSpeed >= -vSpeedLimit) {
             this.vSpeed += this.gravityAcceleration;
         }
     }
 
-    private void updateObjects(){
-        for(IGameObject e: elements){
+    private void updateObjects() {
+        for (IGameObject e : elements) {
             e.update();
         }
         doodle.update();
     }
 
-    private void cleanUp(){
-        for(IGameObject e : elements) {
-            if(e.getClass().equals(Doodle.class)){
-                if(e.getYPos() > Game.HEIGHT) {
-                    elements.remove(e);
+    private void cleanUp() {
+        HashSet<IGameObject> toRemove = new HashSet<>();
+        for (IGameObject e : elements) {
+            if (e.getClass().equals(Doodle.class)) {
+                System.out.println("Dooodle " + e.getYPos());
+                if (e.getYPos() > Game.HEIGHT) {
+                    toRemove.add(e);
+                }
+            } else if (e instanceof IBlock) {
+                if (e.getYPos() > Game.HEIGHT) {
+                    toRemove.add(e);
                 }
             }
+        }
+        for (IGameObject e : toRemove) {
+            elements.remove(e);
         }
     }
 
-    private void newBlocks(){
-        if (elements.size() < 4) {
+    private void newBlocks() {
+        if (elements.size() < 3) {
             double minY = Double.MAX_VALUE;
-            for(IGameObject e : elements) {
-                if(e.getYPos() < minY){
+            for (IGameObject e : elements) {
+                if (e.getYPos() < minY) {
                     minY = e.getYPos();
                 }
             }
+            IBlock topBlock = getTopBlock();
             //TODO: implements New Block
-            elements.add(serviceLocator.getBlockFactory().createBlock());
+            elements.add(serviceLocator.getBlockFactory().createBlock(topBlock.getYPos()));
         }
+    }
+
+    private IBlock getTopBlock() {
+        IBlock topBlock = (IBlock) elements.iterator().next();
+        for (IGameObject e : elements) {
+            if (e.getYPos() < topBlock.getYPos()) {
+                topBlock = (IBlock) e;
+            }
+        }
+        return topBlock;
     }
 
     /**
      * IMMUTABLE
-     *
+     * <p>
      * The bar on top of the screen displaying the score and pause button
      */
     private final class Scorebar {
-        private final double scaling;
-
-        private final ISprite scoreBarSprite;
-        private final int scoreBarHeight;
-
-        private final PauseButton pauseButton;
-        private final ScoreText scoreText;
-
-        private final Logger logger = LoggerFactory.getLogger(Scorebar.class);
-
-
-        /** The transparant and black border at the bottom of the scoreBar that is not take into account when
+        /**
+         * The transparant and black border at the bottom of the scoreBar that is not take into account when
          * drawing scoreBar content.
          */
         private static final int SCOREBARDEADZONE = 28;
+        private final double scaling;
+        private final ISprite scoreBarSprite;
+        private final int scoreBarHeight;
+        private final PauseButton pauseButton;
+        private final ScoreText scoreText;
+        private final Logger logger = LoggerFactory.getLogger(Scorebar.class);
 
         private Scorebar() {
             scoreBarSprite = serviceLocator.getSpriteFactory().getScorebarSprite();
@@ -197,8 +225,8 @@ public class World implements IScene {
 
         private void render() {
             serviceLocator.getRenderer().drawSprite(scoreBarSprite, 0, 0, Game.WIDTH, scoreBarHeight);
-            scoreText.paint();
-            pauseButton.paint();
+            scoreText.render();
+            pauseButton.render();
         }
 
         private class PauseButton implements IButton {
@@ -214,7 +242,7 @@ public class World implements IScene {
             }
 
             @Override
-            public void paint() {
+            public void render() {
                 serviceLocator.getRenderer().drawSprite(sprite, x, y, width, height);
             }
 
@@ -230,7 +258,8 @@ public class World implements IScene {
         private class ScoreText implements IDrawable {
             private final int x;
             private final ISprite[] digitSprites;
-            /** We use an array so that we get very good cache prediction and a 4 times smaller size than width
+            /**
+             * We use an array so that we get very good cache prediction and a 4 times smaller size than width
              * seperate (integer) variables.
              * </br>
              * [top-Y, width, height] for each of the 10 entries -> total length = 30
@@ -250,7 +279,7 @@ public class World implements IScene {
             }
 
             @Override
-            public void paint() {
+            public void render() {
                 int roundedScore = (int) score;
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();

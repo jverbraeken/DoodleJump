@@ -1,11 +1,12 @@
 package resources.sprites;
 
+import objects.doodles.IDoodle;
 import system.IFactory;
 
 public interface ISpriteFactory extends IFactory {
 
     // Doodle
-    ISprite getDoodleSprite();
+    ISprite getDoodleSprite(IDoodle.directions direction);
 
     // Platforms
     ISprite getPlatformSprite1();

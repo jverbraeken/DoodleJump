@@ -1,6 +1,5 @@
 package system;
 
-import objects.Collisions;
 import objects.ICollisions;
 import objects.backgrounds.IBackgroundFactory;
 import objects.buttons.IButtonFactory;
@@ -18,12 +17,11 @@ import rendering.IRenderer;
 import scenes.ISceneFactory;
 import resources.sprites.ISpriteFactory;
 
-import java.awt.*;
-
 public class ServiceLocator implements IServiceLocator {
 
     // input
     private IInputManager inputManager;
+    private IInputManager keyInputManager;
 
     // resources.audio
     private IAudioManager audioManager;
