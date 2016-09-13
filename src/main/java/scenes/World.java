@@ -12,20 +12,20 @@ import system.IServiceLocator;
 
 import java.util.*;
 
-public class World implements IScene {
+/* package */ class World implements IScene {
 
     private final IServiceLocator serviceLocator;
-    private Set<IGameObject> elements = new HashSet<>();
+    private final Set<IGameObject> elements = new HashSet<>();
     private final IDrawable background;
 
-    private IDoodle doodle;
+    private final IDoodle doodle;
 
     // The vertical speed, negative if going up and positive if going down.
-    private double vSpeed = -9;
+    private double vSpeed = -11;
     // The fastest the doodle can go vertically.
-    private double vSpeedLimit = 9;
+    private final double vSpeedLimit = 11;
     // How much the doodle is affected by gravity.
-    private double gravityAcceleration = .15;
+    private final double gravityAcceleration = .2;
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
@@ -46,14 +46,15 @@ public class World implements IScene {
         this.vSpeed = -9;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void start() { }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void stop() { }
 
+    /** {@inheritDoc} */
     @Override
     public void paint() {
         background.render();
@@ -65,6 +66,7 @@ public class World implements IScene {
         this.doodle.render();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void update(double delta) {
 
@@ -81,12 +83,14 @@ public class World implements IScene {
         newBlocks();
     }
 
-    public void updateSpeed(){
+    private void updateSpeed(){
         for(IGameObject e : elements) {
             IBlock block = (IBlock) e;
             HashSet<IGameObject> inside = block.getContent();
-            for (IGameObject item : inside) {
-                if (vSpeed > 0 && this.doodle.collide(item)) {
+            for(IGameObject item : inside) {
+                //TODO: TEMP FIX to make sure the doodle doesnt hit with its "head"
+                if (vSpeed > 0 && this.doodle.collide(item) && doodle.getYPos() + doodle.getHeight() < item.getYPos() + item.getHeight()){
+
                     vSpeed = -vSpeedLimit;
                 }
             }
@@ -94,8 +98,8 @@ public class World implements IScene {
         this.applyGravity();
     }
 
-    public void applySpeed(){
-        if(this.vSpeed < 0 && doodle.getYPos() < .5d * Game.HEIGHT) {
+    private void applySpeed(){
+        if(this.vSpeed < 0 && doodle.getYPos() < .5d * Game.HEIGHT - doodle.getHeight()) {
             for(IGameObject e : elements)
             e.addYPos(-this.vSpeed);
         } else {
@@ -112,12 +116,13 @@ public class World implements IScene {
         }
     }
 
-    public void updateObjects(){
+    private void updateObjects(){
         for(IGameObject e: elements){
             e.update();
         }
         doodle.update();
     }
+
 
     public void cleanUp(){
         HashSet<IGameObject> toRemove = new HashSet<>();

@@ -1,5 +1,8 @@
 package objects;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 /**
  * The super class of all classes that represents objects in the game.
  */
@@ -12,91 +15,127 @@ public abstract class AGameObject implements IGameObject {
     private double xPos;
     private double yPos;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public abstract void animate();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void addXPos(double xPos) {
         double current = this.getXPos();
         this.setXPos(current + xPos);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void addYPos(double yPos) {
         double current = this.getYPos();
         this.setYPos(current + yPos);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public double[] getHitBox() {
         return this.hitBox;
     }
 
-    /** {@inheritDoc} */
+    @Override
+    public void setHitBox(double[] hitbox) {
+        this.hitBox = hitbox;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object getSprite() {
         return this.sprite;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public int getHeight() {
         return this.height;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
-    public int getWidth() {
-        return this.width;
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public double getXPos() {
-        return this.xPos;
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public double getYPos() {
-        return this.yPos;
-    }
-
-    @Override
-    /** {@inheritDoc} */
-    public abstract void move();
-
-    @Override
-    /** {@inheritDoc} */
-    public abstract void render();
-
-    @Override
-    /** {@inheritDoc} */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
-    public void setWidth(int width) { this.width = width; }
+    public int getWidth() {
+        return this.width;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getXPos() {
+        return this.xPos;
+    }
+
     /** {@inheritDoc} */
+    @Override
+    public abstract void render();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setXPos(double xPos) {
         this.xPos = xPos;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
+    public double getYPos() {
+        return this.yPos;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setYPos(double yPos) {
         this.yPos = yPos;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
+    public abstract void move();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public abstract void update();
 }
