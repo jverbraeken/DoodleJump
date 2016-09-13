@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -31,12 +32,24 @@ public class Trampoline extends APowerup implements IPowerup {
 
     /** {@inheritDoc} */
     @Override
-    public void animate() { }
+    public void animate() {
+        int oldHeight = this.sprite.getHeight();
+
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
+
+        int newHeight = newSprite.getHeight();
+        this.addYPos(oldHeight - newHeight);
+
+        this.sprite = newSprite;
+    }
 
     /** {@inheritDoc} */
     @Override
     public double getBoost() {
-        this.used();
+        this.animate();
+        this.playSound();
+
         return this.boost;
     }
 
@@ -55,18 +68,11 @@ public class Trampoline extends APowerup implements IPowerup {
     public void update() { }
 
     /**
-     * Change the Trampoline sprite to used.
+     * Play the sound for the Trampoline.
      */
-    private void used() {
-        int oldHeight = this.sprite.getHeight();
-
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
-
-        int newHeight = newSprite.getHeight();
-        this.addYPos(oldHeight - newHeight);
-
-        this.sprite = newSprite;
+    private void playSound() {
+        IAudioManager audioManager = serviceLocator.getAudioManager();
+        audioManager.playTrampoline();
     }
 
 }

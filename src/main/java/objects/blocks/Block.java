@@ -87,7 +87,7 @@ public class Block extends AGameObject implements IBlock {
             //TODO: Move powerup generation somewhere else
             //TODO: User better calculations
             IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-            IGameObject powerup = powerupFactory.createTrampoline(xLoc + 20, yLoc - platform.getHeight() + 5);
+            IGameObject powerup = powerupFactory.createSpring(xLoc + 20, yLoc - platform.getHeight() + 5);
             content.add(powerup);
         }
     }
