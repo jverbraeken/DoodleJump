@@ -73,34 +73,14 @@ public class Doodle extends AGameObject implements IDoodle {
             throw new IllegalArgumentException("collidee cannot be null");
         }
 
-        // The collidee X-position is between the left and right side of the doodle
-        if (this.getXPos() + getHitBox()[0] < collidee.getXPos() &&
-                collidee.getXPos() < this.getXPos() + getHitBox()[2]) {
-            // The collidee Y-position is between the top and bottom side of the doodle
-            if (this.getYPos() + getHitBox()[1] < collidee.getYPos() &&
-                    collidee.getYPos() < this.getYPos() + getHitBox()[3]) {
-                return true;
-            }
-            // The doodle Y-position is between the top and bottom side of the collidee
-            else if (collidee.getYPos() < this.getYPos() + getHitBox()[1] &&
-                    this.getYPos() + getHitBox()[1] < collidee.getYPos() + collidee.getWidth()) {
-                return true;
-            }
+        /** If one of these boolean turns false there is no intersection possible between 2 rectangles */
+        if (this.getXPos() + getHitBox()[0] < collidee.getXPos() + collidee.getWidth()
+                && this.getXPos() + getHitBox()[2] > collidee.getXPos()
+                && this.getYPos() + getHitBox()[1] < collidee.getYPos() + collidee.getHeight()
+                && this.getYPos() + getHitBox()[3] > collidee.getYPos()) {
+            return true;
         }
-        // The doodle X-position is between the left and right side of the collidee
-        else if (collidee.getXPos() < this.getXPos() + getHitBox()[0] &&
-                this.getXPos() + getHitBox()[0] < collidee.getXPos() + collidee.getWidth()) {
-            // The collidee Y-position is between the top and bottom side of the doodle
-            if (this.getYPos() + getHitBox()[1] < collidee.getYPos() &&
-                    collidee.getYPos() < this.getYPos() + getHitBox()[3]) {
-                return true;
-            }
-            // The doodle Y-position is between the top and bottom side of the collidee
-            else if (collidee.getYPos() < this.getYPos() + getHitBox()[1] &&
-                    this.getYPos() + getHitBox()[1] < collidee.getYPos() + collidee.getWidth()) {
-                return true;
-            }
-        }
+
         return false;
     }
 
