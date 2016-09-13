@@ -17,6 +17,7 @@ import objects.blocks.platform.PlatformFactory;
 import objects.powerups.PowerupFactory;
 import rendering.IRenderer;
 import rendering.Renderer;
+import resources.sprites.ISprite;
 import scenes.IScene;
 import scenes.SceneFactory;
 import resources.sprites.SpriteFactory;
@@ -42,6 +43,8 @@ public final class Game {
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
 
     private static int times = 0;
+
+    private static boolean isPaused = true;
 
     private static void initServices() {
         AudioManager.register(serviceLocator);
@@ -138,6 +141,14 @@ public final class Game {
         long lastLoopTime = System.nanoTime();
         long lastFpsTime = 0;
         while (true) {
+            while (isPaused) {
+                try {
+                    drawPauseScreen();
+                    Thread.sleep((long) (1d / TARGET_FPS));
+                } catch (InterruptedException e) {
+                    // Ignore; just go to the next iteration of the while loop
+                }
+            }
             long now = System.nanoTime();
             long updateLength = now - lastLoopTime;
             lastLoopTime = now;
@@ -160,6 +171,14 @@ public final class Game {
         }
     }
 
+    private static void drawPauseScreen() {
+        ISprite pauseCover = serviceLocator.getSpriteFactory().getPauseCover();
+
+        double scaling = WIDTH / pauseCover.getWidth();
+        serviceLocator.getRenderer().drawSprite(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
+
+    }
+
     /**
      * Returns the current FPS
      *
@@ -169,5 +188,13 @@ public final class Game {
      */
     public static double getFPS(long threadSleep, long renderTime) {
         return 1000000000 / (threadSleep + renderTime);
+    }
+
+    /**
+     * Pauses or resumes the game.
+     * @param paused <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
+     */
+    public static void setPaused(boolean paused) {
+        isPaused = paused;
     }
 }

@@ -30,6 +30,8 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.doodle, spritepath + "blue-lik-right@2x.png");
         sprites.put(IRes.sprites.platform1, spritepath + "platform-green@2x.png");
         sprites.put(IRes.sprites.playButton, spritepath + "play@2x.png");
+        sprites.put(IRes.sprites.resumeButton, spritepath + "resume@2x.png");
+        sprites.put(IRes.sprites.pauseCover, spritepath + "pause-cover@2x.png");
 
         // Top bar
 

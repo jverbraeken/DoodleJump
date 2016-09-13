@@ -81,7 +81,7 @@ public interface IRes {
         seven,
         eight,
         nine,
-        pause
+        resumeButton, pauseCover, pause
     }
 
     /**

@@ -220,7 +220,7 @@ public class World implements IScene {
             public void mouseClicked(int mouseX, int mouseY) {
                 if (mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
                     logger.info("Pause button was clicked!");
-                    System.out.println("Pause button was clicked!");
+                    Game.setPaused(true);
                 }
             }
         }

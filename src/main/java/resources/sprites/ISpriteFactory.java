@@ -80,6 +80,10 @@ public interface ISpriteFactory extends IFactory {
     ISprite getScorebarSprite();
     ISprite getPauseSprite();
 
+    // Pause
+    ISprite getPauseCover();
+    ISprite getResumeButtonSprite();
+
     /**
      * Returns a sprite of the digit specified in Doodle Jump font.
      * @param digit Between 0 and 10
