@@ -3,6 +3,7 @@ package objects.backgrounds;
 import rendering.IDrawable;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import system.Game;
 import system.IServiceLocator;
 
 public class BackgroundFactory implements IBackgroundFactory {
@@ -19,7 +20,8 @@ public class BackgroundFactory implements IBackgroundFactory {
     public IDrawable createBackground() {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite background = spriteFactory.getStartMenuBackground();
-        return () -> serviceLocator.getRenderer().drawSprite(background, 0, 0);
+        return () -> {serviceLocator.getRenderer().drawSprite(background, 0, 0);
+        serviceLocator.getRenderer().drawSprite(background, 0, Game.HEIGHT);};
     }
 
 }

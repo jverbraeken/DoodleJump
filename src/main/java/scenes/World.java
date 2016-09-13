@@ -21,11 +21,11 @@ import java.util.*;
     private final IDoodle doodle;
 
     // The vertical speed, negative if going up and positive if going down.
-    private double vSpeed = -11;
+    private double vSpeed = -20;
     // The fastest the doodle can go vertically.
-    private final double vSpeedLimit = 11;
+    private final double vSpeedLimit = 20;
     // How much the doodle is affected by gravity.
-    private final double gravityAcceleration = .2;
+    private final double gravityAcceleration = .5;
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
@@ -89,7 +89,7 @@ import java.util.*;
             HashSet<IGameObject> inside = block.getContent();
             for(IGameObject item : inside) {
                 //TODO: TEMP FIX to make sure the doodle doesnt hit with its "head"
-                if (vSpeed > 0 && this.doodle.collide(item) && doodle.getYPos() + doodle.getHeight() < item.getYPos() + item.getHeight()){
+                if (vSpeed > 0 && this.doodle.collide(item) && doodle.getYPos() + doodle.getHitBox()[3] < item.getYPos() + item.getHeight()){
 
                     vSpeed = -vSpeedLimit;
                 }
@@ -131,7 +131,6 @@ import java.util.*;
                 System.out.println("Dooodle " + e.getYPos());
                 if(e.getYPos() > Game.HEIGHT) {
                     toRemove.add(e);
-                    elements.remove(e);
                 }
             }
             else if (e instanceof IBlock){
