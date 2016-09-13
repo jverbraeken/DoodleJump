@@ -16,20 +16,37 @@ public class Doodle extends AGameObject implements IDoodle {
 
     private static IServiceLocator serviceLocator;
 
-    // Horizontal speed limit for the Doodle.
+    /**
+     * Horizontal speed limit for the Doodle.
+     */
     private double hSpeedLimit = 6d;
-    // Current horizontal speed for the Doodle.
+    /**
+     * Current horizontal speed for the Doodle.
+     */
     private double hSpeed = 0d;
-    // Current vertical speed for the Doodle.
+    /**
+     * Current vertical speed for the Doodle.
+     */
     private double vSpeed = 0d;
-    // Horizontal acceleration for the Doodle.
+    /**
+     * Horizontal acceleration for the Doodle.
+     */
     private double hAcceleration = .5d;
-    // The sprite for the Doodle.
+    /**
+     * The sprite pack for the Doodle, containing all sprites for one direction.
+     */
     private ISprite[] spritePack;
+    /**
+     * The sprite for the Doodle.
+     */
     private ISprite sprite;
-    // The direction the Doodle is moving towards.
+    /**
+     * The direction the Doodle is moving towards.
+     */
     private directions moving;
-    // The direction the Doodle is facing.
+    /**
+     * The direction the Doodle is facing.
+     */
     private directions facing;
 
     /**
@@ -189,7 +206,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void wrap() {
         double middle = this.getXPos() + this.getWidth() / 2;
-        if(middle < 0) {
+        if (middle < 0) {
             this.addXPos(Game.WIDTH);
         } else if(middle > Game.WIDTH) {
             this.addXPos(-Game.WIDTH);
