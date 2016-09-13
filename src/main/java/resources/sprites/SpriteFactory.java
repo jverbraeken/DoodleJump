@@ -388,8 +388,8 @@ public final class SpriteFactory implements ISpriteFactory {
 
     /** {@inheritDoc} */
     @Override
-    public ISprite getPropellorSprite() {
-        return getSprite(IRes.sprites.propellor);
+    public ISprite getPropellerSprite() {
+        return getSprite(IRes.sprites.propeller);
     }
 
     /** {@inheritDoc} */

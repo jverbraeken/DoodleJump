@@ -63,7 +63,7 @@ public interface IRes {
         spring,
         springUsed,
         rocket,
-        propellor,
+        propeller,
         shield,
 
         waitDontShoot,

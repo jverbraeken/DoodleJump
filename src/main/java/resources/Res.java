@@ -47,7 +47,7 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.spring, spritepath + "powerup-spring@2x.png");
         sprites.put(IRes.sprites.springUsed, spritepath + "powerup-spring-used@2x.png");
         sprites.put(IRes.sprites.rocket, spritepath + "powerup-rockets@2x.png");
-        sprites.put(IRes.sprites.propellor, spritepath + "powerup-propellor@2x.png");
+        sprites.put(IRes.sprites.propeller, spritepath + "powerup-propeller@2x.png");
         sprites.put(IRes.sprites.shield, spritepath + "powerup-shield@2x.png");
     }
 

@@ -9,8 +9,14 @@ public class Trampoline extends APowerup implements IPowerup {
 
     private static IServiceLocator serviceLocator;
 
+    /**
+     * The sprite for the Trampoline.
+     */
     private ISprite sprite;
-    private double boost = -50;
+    /**
+     * The boost value for the Trampoline.
+     */
+    private static final double boost = -50;
 
     /**
      * Trampoline constructor.
@@ -18,7 +24,7 @@ public class Trampoline extends APowerup implements IPowerup {
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
-    /* package */ Trampoline(IServiceLocator serviceLocator, int x, int y) {
+    /* package */ Trampoline(final IServiceLocator serviceLocator, final int x, final int y) {
         Trampoline.serviceLocator = serviceLocator;
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
@@ -60,7 +66,7 @@ public class Trampoline extends APowerup implements IPowerup {
     /** {@inheritDoc} */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(this.sprite, (int)this.getXPos(), (int)this.getYPos());
+        serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
     }
 
     /** {@inheritDoc} */
