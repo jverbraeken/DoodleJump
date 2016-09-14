@@ -112,7 +112,6 @@ public final class Game {
 
                 if (isPaused) {
                     drawPauseScreen();
-                    resumeButton.render();
                 }
 
                 ((Graphics2D) g).scale(scale, scale);
@@ -125,6 +124,9 @@ public final class Game {
 
         setScene(serviceLocator.getSceneFactory().newMenu());
         serviceLocator.getInputManager().setMainWindowBorderSize((int) panel.getLocationOnScreen().getX(), (int) panel.getLocationOnScreen().getY());
+
+        resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (Game.WIDTH * RESUMEBUTTONX), (int) (Game.HEIGHT * RESUMEBUTTONY));
+        serviceLocator.getInputManager().addObserver(resumeButton);
 
         loop();
     }
@@ -202,8 +204,7 @@ public final class Game {
         ISprite pauseCover = serviceLocator.getSpriteFactory().getPauseCoverSprite();
         double scaling = (double) WIDTH / (double) pauseCover.getWidth();
         serviceLocator.getRenderer().drawSprite(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
-        resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (Game.WIDTH * RESUMEBUTTONX), (int) (Game.HEIGHT * RESUMEBUTTONY));
-        serviceLocator.getInputManager().addObserver(resumeButton);
+        resumeButton.render();
     }
 
 }
