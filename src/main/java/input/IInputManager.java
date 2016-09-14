@@ -10,10 +10,12 @@ public interface IInputManager extends MouseListener, KeyListener {
     // MOUSE
 
     void addObserver(IMouseInputObserver mouseInputObserver);
+
     void removeObserver(IMouseInputObserver mouseInputObserver);
 
     // KEYBOARD
 
     void addObserver(IKeyInputObserver keyInputObserver);
+
     void removeObserver(IKeyInputObserver keyInputObserver);
 }

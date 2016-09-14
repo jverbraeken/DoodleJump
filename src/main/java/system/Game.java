@@ -36,8 +36,8 @@ public final class Game {
     public static final int NORMAL_HEIGHT = Game.HEIGHT;
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
-    private static final double RESUMEBUTTONX = (0.55);
-    private static final double RESUMEBUTTONY = (0.75);
+    private static final double RESUMEBUTTONX = 0.55;
+    private static final double RESUMEBUTTONY = 0.75;
     private static IServiceLocator serviceLocator = new ServiceLocator();
     private static JFrame frame;
     private static JPanel panel;
@@ -47,6 +47,12 @@ public final class Game {
     private static IButton resumeButton;
     private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     private static float scale = 2;
+
+    /**
+     * Prevents the creation of a new {@code Game} object.
+     */
+    private Game() {
+    }
 
     private static void initServices() {
         AudioManager.register(serviceLocator);
@@ -66,11 +72,6 @@ public final class Game {
         BackgroundFactory.register(serviceLocator);
         Collisions.register(serviceLocator);
     }
-
-    /**
-     * Prevents the creation of a new {@code Game} object.
-     */
-    private Game() { }
 
     public static void main(String[] argv) {
         System.setProperty("Log4jContextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
@@ -117,7 +118,7 @@ public final class Game {
                 ((Graphics2D) g).scale(scale, scale);
             }
         };
-        frame.setSize(Game.WIDTH/2, Game.HEIGHT/2);
+        frame.setSize(Game.WIDTH / 2, Game.HEIGHT / 2);
         panel.setLayout(new GridLayout(1, 1));
 
         frame.setContentPane(panel);
