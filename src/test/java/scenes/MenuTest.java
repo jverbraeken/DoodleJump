@@ -49,7 +49,7 @@ public class MenuTest {
     public void testRender() {
         menu.paint();
         verify(background).render();
-        verify(playButton).paint();
+        verify(playButton).render();
     }
 
     @Test
