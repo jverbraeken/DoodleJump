@@ -2,6 +2,7 @@ package scenes;
 
 import input.IMouseInputObserver;
 import objects.backgrounds.IBackgroundFactory;
+import objects.buttons.IButton;
 import objects.buttons.IButtonFactory;
 import objects.buttons.PlayButton;
 import rendering.IDrawable;
@@ -12,7 +13,7 @@ public class Menu implements IScene, IMouseInputObserver {
 
     private final IServiceLocator serviceLocator;
 
-    private final PlayButton playButton;
+    private final IButton playButton;
     private final IDrawable background;
     private final double playButtonXPercentage = 0.1;
     private final double playButtonYPercentage = 0.3;

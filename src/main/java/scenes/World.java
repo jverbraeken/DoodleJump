@@ -44,6 +44,8 @@ import java.util.*;
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
         this.vSpeed = -9;
+
+        serviceLocator.getAudioManager().playStart();
     }
 
     /** {@inheritDoc} */
@@ -84,10 +86,11 @@ import java.util.*;
     }
 
     private void updateSpeed(){
-        for(IGameObject e : elements) {
+        for (IGameObject e : elements) {
+            //TODO: elements should not be IGameObject but IBlock
             IBlock block = (IBlock) e;
             HashSet<IGameObject> inside = block.getContent();
-            for(IGameObject item : inside) {
+            for (IGameObject item : inside) {
                 //TODO: TEMP FIX to make sure the doodle doesnt hit with its "head"
                 if (vSpeed > 0 && this.doodle.collide(item) && doodle.getYPos() + doodle.getHitBox()[3] < item.getYPos() + item.getHeight()){
 
