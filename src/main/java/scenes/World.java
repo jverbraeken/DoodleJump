@@ -22,33 +22,33 @@ import java.util.Stack;
 
 public class World implements IScene {
 
-    // TODO: Add JavaDoc
-    private final Logger logger = LoggerFactory.getLogger(World.class);
-    private final static double SCOREMULTIPLIER = 0.15;
-    private final IServiceLocator serviceLocator;
-    private final Set<IGameObject> elements = new HashSet<>();
-    private final IDrawable background;
-
     /**
-     * The Doodle for the world.
-     */
-    private final IDoodle doodle;
-    /**
-     * The vertical speed, negative if going up and positive if going down.
-     */
-    private double vSpeed = -20;
-    /**
-     *  The fastest the doodle can go vertically.
+     * The fastest the doodle can go vertically.
      */
     public final static double vSpeedLimit = 20;
     /**
      * How much the doodle is affected by gravity.
      */
     public final static double gravityAcceleration = .5;
+    private final static double SCOREMULTIPLIER = 0.15;
+    private final static int PAUSEOFFSET = 38;
+    // TODO: Add JavaDoc
+    private final Logger logger = LoggerFactory.getLogger(World.class);
+    private final IServiceLocator serviceLocator;
+    private final Set<IGameObject> elements = new HashSet<>();
+    private final IDrawable background;
+    /**
+     * The Doodle for the world.
+     */
+    private final IDoodle doodle;
     /**
      * The scorebar for the world.
      */
     private final Scorebar scorebar;
+    /**
+     * The vertical speed, negative if going up and positive if going down.
+     */
+    private double vSpeed = -20;
     /**
      * The score for the world.
      */
@@ -75,15 +75,23 @@ public class World implements IScene {
         this.vSpeed = -9;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void start() { }
+    public void start() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void stop() { }
+    public void stop() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paint() {
         background.render();
@@ -97,7 +105,9 @@ public class World implements IScene {
         scorebar.render();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(double delta) {
         updateObjects();
@@ -220,7 +230,7 @@ public class World implements IScene {
 
     /**
      * IMMUTABLE
-     *
+     * <p>
      * The bar on top of the screen displaying the score and pause button
      */
     private final class Scorebar {
@@ -250,7 +260,7 @@ public class World implements IScene {
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
 
             ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseSprite();
-            int pauseX = (int) (Game.WIDTH - 2 * pauseSprite.getWidth() * scaling);
+            int pauseX = (int) (Game.WIDTH - pauseSprite.getWidth() * scaling - PAUSEOFFSET);
             int pauseY = (int) (((double) Game.WIDTH / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
 

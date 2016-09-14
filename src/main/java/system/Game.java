@@ -30,14 +30,14 @@ import java.awt.event.WindowEvent;
 public final class Game {
 
     // TODO: Remove unused and add JavaDoc
-    public final static int WIDTH = 600;
-    public final static int HEIGHT = 1000;
+    public final static int WIDTH = 640;
+    public final static int HEIGHT = 960;
     public static final int NORMAL_WIDTH = Game.WIDTH;
     public static final int NORMAL_HEIGHT = Game.HEIGHT;
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
-    private static final int RESUMEBUTTONX = (int) (0.55 * WIDTH);
-    private static final int RESUMEBUTTONY = (int) (0.75 * HEIGHT);
+    private static final double RESUMEBUTTONX = 0.55;
+    private static final double RESUMEBUTTONY = 0.75;
     private static IServiceLocator serviceLocator = new ServiceLocator();
     private static JFrame frame;
     private static JPanel panel;
@@ -47,6 +47,12 @@ public final class Game {
     private static IButton resumeButton;
     private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     private static float scale = 2;
+
+    /**
+     * Prevents the creation of a new {@code Game} object.
+     */
+    private Game() {
+    }
 
     private static void initServices() {
         AudioManager.register(serviceLocator);
@@ -66,11 +72,6 @@ public final class Game {
         BackgroundFactory.register(serviceLocator);
         Collisions.register(serviceLocator);
     }
-
-    /**
-     * Prevents the creation of a new {@code Game} object.
-     */
-    private Game() { }
 
     public static void main(String[] argv) {
         System.setProperty("Log4jContextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
@@ -109,8 +110,6 @@ public final class Game {
                     scene.paint();
                 }
 
-                ((Graphics2D)g).scale(scale,scale);
-
 
                 if (isPaused) {
                     drawPauseScreen();
@@ -119,7 +118,7 @@ public final class Game {
                 ((Graphics2D) g).scale(scale, scale);
             }
         };
-        frame.setSize(Game.WIDTH/2, Game.HEIGHT/2);
+        frame.setSize(Game.WIDTH / 2, Game.HEIGHT / 2);
         panel.setLayout(new GridLayout(1, 1));
 
         frame.setContentPane(panel);
@@ -127,7 +126,7 @@ public final class Game {
         setScene(serviceLocator.getSceneFactory().newMenu());
         serviceLocator.getInputManager().setMainWindowBorderSize((int) panel.getLocationOnScreen().getX(), (int) panel.getLocationOnScreen().getY());
 
-        resumeButton = serviceLocator.getButtonFactory().createResumeButton(RESUMEBUTTONX, RESUMEBUTTONY);
+        resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (Game.WIDTH * RESUMEBUTTONX), (int) (Game.HEIGHT * RESUMEBUTTONY));
         serviceLocator.getInputManager().addObserver(resumeButton);
 
         loop();
@@ -204,9 +203,8 @@ public final class Game {
      */
     private static void drawPauseScreen() {
         ISprite pauseCover = serviceLocator.getSpriteFactory().getPauseCoverSprite();
-        double scaling = (double) WIDTH/2 / (double) pauseCover.getWidth();
+        double scaling = (double) WIDTH / (double) pauseCover.getWidth();
         serviceLocator.getRenderer().drawSprite(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
-
         resumeButton.render();
     }
 
