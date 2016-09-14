@@ -15,6 +15,7 @@ public class ButtonFactory implements IButtonFactory {
         serviceLocator.provide(new ButtonFactory());
     }
 
+    @Override
     public IButton createPlayButton(int x, int y) {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
@@ -23,6 +24,7 @@ public class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, playAction, "play");
     }
 
+    @Override
     public IButton createResumeButton(int x, int y) {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();

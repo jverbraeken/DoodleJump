@@ -46,7 +46,7 @@ public final class InputManager implements IInputManager {
     public void mousePressed(MouseEvent e) {
         for (IMouseInputObserver observer : mouseInputObservers) {
             //observer.mouseClicked(e.getX() , e.getY() );
-            observer.mouseClicked((2 * e.getX() - windowLeftBorderSize), (2 * e.getY() - windowTopBorderSize));
+            observer.mouseClicked((2 * e.getX() - 2*windowLeftBorderSize), (2 * e.getY() - 2*windowTopBorderSize));
         }
     }
 

@@ -250,7 +250,7 @@ public class World implements IScene {
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
 
             ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseSprite();
-            int pauseX = (int) (Game.WIDTH - 2 * pauseSprite.getWidth() * scaling);
+            int pauseX = (int) (Game.WIDTH - pauseSprite.getWidth() * scaling - 38);
             int pauseY = (int) (((double) Game.WIDTH / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
 

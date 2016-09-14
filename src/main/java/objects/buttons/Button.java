@@ -36,21 +36,19 @@ public class Button implements IButton {
 
     /** {@inheritDoc} */
     @Override
-    public void mouseClicked(int x, int y) {
-        assert x >= 0 && y >= 0;
-
-        if(x > topLeft[0] && x < bottomRight[0]) {
-            if(y > topLeft[1] && y < bottomRight[1]) {
-                logger.info("Button clicked: \"" + name + "\"");
-                action.run();
-            }
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public void render() {
         serviceLocator.getRenderer().drawSprite(sprite, topLeft[0], topLeft[1], width, height);
     }
 
+    @Override
+    public void mouseClicked(int x, int y) {
+            assert x >= 0 && y >= 0;
+
+            if(x > topLeft[0] && x < bottomRight[0]) {
+                if(y > topLeft[1] && y < bottomRight[1]) {
+                    logger.info("Button clicked: \"" + name + "\"");
+                    action.run();
+                }
+            }
+    }
 }
