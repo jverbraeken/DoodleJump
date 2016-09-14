@@ -7,7 +7,6 @@ import objects.doodles.IDoodle;
 import resources.IRes;
 import system.IServiceLocator;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
@@ -18,6 +17,7 @@ public final class SpriteFactory implements ISpriteFactory {
     * Used to gain access to all services.
     */
     private static transient IServiceLocator serviceLocator;
+
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         SpriteFactory.serviceLocator = serviceLocator;
@@ -25,7 +25,7 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
 
-    LoadingCache<IRes.sprites, ISprite> cache;
+    private LoadingCache<IRes.sprites, ISprite> cache;
 
     /**
      * Prevents instantiation from outside the class.
@@ -42,6 +42,18 @@ public final class SpriteFactory implements ISpriteFactory {
                         }
                 );
     }
+
+
+    // Backgrounds
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getStartMenuBackgroundSprite() { return getSprite(IRes.sprites.background); }
+
+
+    // Buttons
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getPlayButtonSprite() { return getSprite(IRes.sprites.playButton); }
 
 
     // Doodle
@@ -411,33 +423,50 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
 
-    // Buttons
+    // Top bar
     /** {@inheritDoc} */
     @Override
-    public ISprite getPlayButtonSprite() { return getSprite(IRes.sprites.playButton); }
+    public ISprite getScorebarSprite() {
+        return getSprite(IRes.sprites.scorebar);
+    }
 
-
-    // Backgrounds
     /** {@inheritDoc} */
     @Override
-    public ISprite getStartMenuBackground() { return getSprite(IRes.sprites.background); }
+    public ISprite getPauseSprite() {
+        return getSprite(IRes.sprites.pause);
+    }
 
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getResumeButtonSprite() {
+        return getSprite(IRes.sprites.resumeButton);
+    }
 
-    // Miscellaneous
-    /**
-     * Get a sprite given its path.
-     *
-     * @param sprite The path of the sprite.
-     * @return The actual sprite.
-     */
-    private ISprite getSprite(IRes.sprites sprite) {
-        try {
-            return cache.get(sprite);
-        } catch (ExecutionException e) {
-            // TODO use e.getCause() and log that
-            e.printStackTrace();
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getPauseCoverSprite() {
+        return getSprite(IRes.sprites.pauseCover);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getDigitSprite(int digit) {
+        if (digit < 0 || digit > 9) {
+            throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
         }
-        return null;
+        switch (digit) {
+            case 0: return getSprite(IRes.sprites.zero);
+            case 1: return getSprite(IRes.sprites.one);
+            case 2: return getSprite(IRes.sprites.two);
+            case 3: return getSprite(IRes.sprites.three);
+            case 4: return getSprite(IRes.sprites.four);
+            case 5: return getSprite(IRes.sprites.five);
+            case 6: return getSprite(IRes.sprites.six);
+            case 7: return getSprite(IRes.sprites.seven);
+            case 8: return getSprite(IRes.sprites.eight);
+            case 9: return getSprite(IRes.sprites.nine);
+            default: return null;
+        }
     }
 
     /**
@@ -453,13 +482,28 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
+     * TODO: Add JavaDoc
+     * @param sprite
+     * @return
+     */
+    private ISprite getSprite(IRes.sprites sprite) {
+        try {
+            return cache.get(sprite);
+        } catch (ExecutionException e) {
+            // TODO use e.getCause() and log that
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * Returns the filename from a filepath.
      *
      * Example:
      * <pre>
-     *     {@code
+     * {@code
      *     getFileName("resources/sprites/sprite.png").equals("sprite.png")
-     *     }
+     * }
      * </pre>
      *
      * @param filepath The full path to the file, the directories seperated by '('

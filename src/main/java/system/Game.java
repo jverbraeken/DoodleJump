@@ -1,24 +1,26 @@
 package system;
 
+import filesystem.FileSystem;
 import input.IInputManager;
+import input.InputManager;
+import math.Calc;
 import math.ICalc;
 import objects.Collisions;
 import objects.backgrounds.BackgroundFactory;
-import objects.buttons.ButtonFactory;
-import resources.Res;
-import resources.audio.AudioManager;
-import filesystem.FileSystem;
-import input.InputManager;
-import math.Calc;
 import objects.blocks.BlockFactory;
+import objects.blocks.platform.PlatformFactory;
+import objects.buttons.ButtonFactory;
+import objects.buttons.IButton;
 import objects.doodles.DoodleFactory;
 import objects.enemies.EnemyBuilder;
-import objects.blocks.platform.PlatformFactory;
 import objects.powerups.PowerupFactory;
 import rendering.Renderer;
+import resources.Res;
+import resources.audio.AudioManager;
+import resources.sprites.ISprite;
+import resources.sprites.SpriteFactory;
 import scenes.IScene;
 import scenes.SceneFactory;
-import resources.sprites.SpriteFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,25 +29,30 @@ import java.awt.event.WindowEvent;
 
 public final class Game {
 
-    private static IServiceLocator serviceLocator = new ServiceLocator();
-    
-    public final static int WIDTH = 500;
-    public final static int HEIGHT = 800;
-
-    private static JFrame frame;
-    private static JPanel panel;
-
-    private static IScene scene;
-
-    private static final int TARGET_FPS = 60;
-    private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
-
-    private static int times = 0;
-
+    // TODO: Remove unused and add JavaDoc
+    public final static int WIDTH = 640;
+    public final static int HEIGHT = 960;
     public static final int NORMAL_WIDTH = Game.WIDTH;
     public static final int NORMAL_HEIGHT = Game.HEIGHT;
+    private static final int TARGET_FPS = 60;
+    private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
+    private static final double RESUMEBUTTONX = 0.55;
+    private static final double RESUMEBUTTONY = 0.75;
+    private static IServiceLocator serviceLocator = new ServiceLocator();
+    private static JFrame frame;
+    private static JPanel panel;
+    private static IScene scene;
+    private static int times = 0;
+    private static boolean isPaused = false;
+    private static IButton resumeButton;
     private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-    private static float scale =   Math.min( (float)d.getWidth() / NORMAL_WIDTH, (float)d.getHeight() / NORMAL_HEIGHT );
+    private static float scale = 2;
+
+    /**
+     * Prevents the creation of a new {@code Game} object.
+     */
+    private Game() {
+    }
 
     private static void initServices() {
         AudioManager.register(serviceLocator);
@@ -64,13 +71,6 @@ public final class Game {
         ButtonFactory.register(serviceLocator);
         BackgroundFactory.register(serviceLocator);
         Collisions.register(serviceLocator);
-    }
-
-    /**
-     * Prevents the creation of a new {@code Game} object.
-     */
-    private Game() {
-
     }
 
     public static void main(String[] argv) {
@@ -96,7 +96,6 @@ public final class Game {
         frame.addMouseListener(inputManager);
         frame.addKeyListener(inputManager);
         frame.setSize(Game.WIDTH, Game.HEIGHT);
-        //frame.setUndecorated(true);
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -106,32 +105,36 @@ public final class Game {
             public void paintComponent(Graphics g) {
                 serviceLocator.getRenderer().setGraphicsBuffer(g);
 
-                ((Graphics2D)g).scale(1/scale,1/scale);
-
+                ((Graphics2D) g).scale(1 / scale, 1 / scale);
                 if (scene != null) {
                     scene.paint();
                 }
 
-                if(times % 2 == 0) {
-                    frame.repaint();
-                }
-                times ++;
 
-                ((Graphics2D)g).scale(scale,scale);
+                if (isPaused) {
+                    drawPauseScreen();
+                }
+
+                ((Graphics2D) g).scale(scale, scale);
             }
         };
-        panel.setSize(Game.WIDTH, Game.HEIGHT);
+        frame.setSize(Game.WIDTH / 2, Game.HEIGHT / 2);
         panel.setLayout(new GridLayout(1, 1));
 
         frame.setContentPane(panel);
 
         setScene(serviceLocator.getSceneFactory().newMenu());
+        serviceLocator.getInputManager().setMainWindowBorderSize((int) panel.getLocationOnScreen().getX(), (int) panel.getLocationOnScreen().getY());
+
+        resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (Game.WIDTH * RESUMEBUTTONX), (int) (Game.HEIGHT * RESUMEBUTTONY));
+        serviceLocator.getInputManager().addObserver(resumeButton);
 
         loop();
     }
 
     /**
      * Sets the current scene to currentScene
+     *
      * @param scene The new scene that must be visible to the user. Cannot be null
      */
     public static void setScene(IScene scene) {
@@ -139,36 +142,10 @@ public final class Game {
         if (Game.scene != null) {
             Game.scene.stop();
         }
+
         scene.start();
         Game.scene = scene;
         frame.repaint();
-    }
-
-    private static synchronized void loop() {
-
-        long lastLoopTime = System.nanoTime();
-        long lastFpsTime = 0;
-        while (true) {
-            long now = System.nanoTime();
-            long updateLength = now - lastLoopTime;
-            lastLoopTime = now;
-            double delta = updateLength / ((double) OPTIMAL_TIME);
-
-            lastFpsTime += updateLength;
-            if (lastFpsTime >= ICalc.NANOSECONDS) {
-                lastFpsTime = 0;
-            }
-            scene.update(delta);
-            panel.repaint();
-            try {
-                long gameTime = 16;
-                //= (lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / ICalc.MICROSCONDS;
-                //System.out.println(gameTime);
-                Thread.sleep(gameTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
@@ -181,4 +158,54 @@ public final class Game {
     public static double getFPS(long threadSleep, long renderTime) {
         return 1000000000 / (threadSleep + renderTime);
     }
+
+    /**
+     * Pauses or resumes the game.
+     *
+     * @param paused <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
+     */
+    public static void setPaused(boolean paused) {
+        isPaused = paused;
+    }
+
+    /**
+     * TODO: Add JavaDoc
+     */
+    private static synchronized void loop() {
+        long lastLoopTime = System.nanoTime();
+        long lastFpsTime = 0;
+        while (true) {
+            long now = System.nanoTime();
+            long updateLength = now - lastLoopTime;
+            lastLoopTime = now;
+            double delta = updateLength / ((double) OPTIMAL_TIME);
+
+            lastFpsTime += updateLength;
+            if (lastFpsTime >= ICalc.NANOSECONDS) {
+                lastFpsTime = 0;
+            }
+            if (!isPaused) {
+                scene.update(delta);
+            }
+
+            panel.repaint();
+            try {
+                long gameTime = 16;
+                Thread.sleep(gameTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * TODO: Add JavaDoc
+     */
+    private static void drawPauseScreen() {
+        ISprite pauseCover = serviceLocator.getSpriteFactory().getPauseCoverSprite();
+        double scaling = (double) WIDTH / (double) pauseCover.getWidth();
+        serviceLocator.getRenderer().drawSprite(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
+        resumeButton.render();
+    }
+
 }

@@ -1,10 +1,30 @@
 package objects.blocks;
 
 import objects.IGameObject;
+import objects.blocks.platform.IPlatform;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public interface IBlock extends IGameObject {
-    HashSet<IGameObject> getContent();
-    void placePlatforms();
+
+    /**
+     * Get the content of the block.
+     *
+     * @return The content of the block.
+     */
+    ArrayList<IGameObject> getContent();
+
+    /**
+     * Place platforms in the block.
+     *
+     * @param last The last platform from the previous block.
+     */
+    void placePlatforms(IPlatform last);
+
+    /**
+     * Checks for all the Platforms if they are under over the height
+     * of the screen, if that's the case, delete that Platforms.
+     */
+    void cleanUpPlatforms();
+
 }

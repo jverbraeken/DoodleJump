@@ -3,86 +3,145 @@ package objects.blocks;
 import objects.AGameObject;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
-import objects.powerups.IPowerupFactory;
+import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import objects.IGameObject;
 
-public class Block extends AGameObject implements IBlock {
+/* package */ class Block extends AGameObject implements IBlock {
 
     private static IServiceLocator serviceLocator;
+    private ArrayList<IGameObject> content = new ArrayList<>();
 
-    private HashSet<IGameObject> content = new HashSet<>();
-    //private int blockNumber;
-
-    /* package */ Block(IServiceLocator serviceLocator, double lastPlatformHeight) {
+    /* package */ Block(IServiceLocator serviceLocator, IPlatform lastPlatform) {
         Block.serviceLocator = serviceLocator;
 
-        //this.blockNumber = blockNumber;
-        setYPos(lastPlatformHeight - 800);
-
-        createAndPlaceObjects();
+        setYPos(lastPlatform.getYPos() + 800);
+        createAndPlaceObjects(lastPlatform);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void render() {
-        for(IGameObject e : content){
+        for (IGameObject e : content){
             e.render();
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void animate() { }
 
+    /** {@inheritDoc} */
     @Override
     public void move() { }
 
+    /** {@inheritDoc} */
     @Override
     public void update() { }
 
+    /** {@inheritDoc} */
     @Override
-    public void addYPos(double y){
+    public void addYPos(double y) {
         double current = this.getYPos();
         this.setYPos(current + y);
 
-        for(IGameObject e : content){
+        for (IGameObject e : content){
             e.addYPos(y);
         }
     }
 
-    private void createAndPlaceObjects() {
-        placePlatforms();
-    }
-
-    public HashSet<IGameObject> getContent() {
+    /** {@inheritDoc} */
+    @Override
+    public ArrayList<IGameObject> getContent() {
         return this.content;
     }
 
+    /** {@inheritDoc} */
     @Override
-    public void placePlatforms() {
-        int max = (int)(Game.WIDTH + Game.HEIGHT)/130;
-        int min = 6;
+    public void placePlatforms(IPlatform lastPlatform) {
+        int max = (Game.WIDTH + Game.HEIGHT) / 120;
+        int min = 8;
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
         int heightDividedPlatforms = (int) Game.HEIGHT/platformAmount;
 
+        double t = World.vSpeedLimit/World.gravityAcceleration;
+
+        int maxY = (int) (0.5 * World.gravityAcceleration * Math.pow(t,2));
+
         for (int i = 0; i < platformAmount; i++) {
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
-            float widthDeviation = (float) (rand.nextFloat());
-            int yLoc;
+            float widthDeviation = rand.nextFloat();
 
-            yLoc = (int) (getYPos() + (heightDividedPlatforms * i + (heightDeviation * heightDividedPlatforms)));
+            int yLast = (int) lastPlatform.getYPos();
+            int yLoc = (int) (yLast - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
 
+
+            if(yLoc < yLast - maxY){
+                yLoc = yLast - maxY;
+            }
 
             IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
             IPlatform platform = platformFactory.createPlatform(0, yLoc);
 
             int xLoc = (int) (widthDeviation * (Game.WIDTH - platform.getWidth()));
             platform.setXPos(xLoc);
+
+            platformCollideCheck(platform);
+
             content.add(platform);
+
+            lastPlatform = platform;
+        }
+
+        this.setYPos(lastPlatform.getYPos());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void cleanUpPlatforms() {
+        HashSet<IGameObject> toRemove = new HashSet<>();
+        for (IGameObject e : content) {
+            if (e.getYPos() -50 > Game.HEIGHT) {
+                toRemove.add(e);
+            }
+        }
+
+        for (IGameObject e : toRemove) {
+            content.remove(e);
+        }
+    }
+
+    /**
+     * Creates and places platforms in the block.
+     *
+     * @param lastPlatform The highest platform in the previous block.
+     */
+    private void createAndPlaceObjects(IPlatform lastPlatform) {
+        placePlatforms(lastPlatform);
+    }
+
+    /**
+     * Checks if the platform collides with any of the platforms
+     * in this Block. When there is a collision, delete the platform
+     * from the list.
+     * @param platform The IPlatform that has to be checked for collision.
+     */
+    private void platformCollideCheck(IPlatform platform) {
+        HashSet<IGameObject> toRemove = new HashSet<>();
+        for (IGameObject e : content){
+            if (serviceLocator.getCollisions().collide(platform, e)){
+                toRemove.add(e);
+            }
+        }
+
+        for (IGameObject e : toRemove) {
+            content.remove(e);
         }
     }
 

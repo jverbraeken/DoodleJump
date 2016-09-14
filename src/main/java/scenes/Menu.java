@@ -2,20 +2,20 @@ package scenes;
 
 import input.IMouseInputObserver;
 import objects.backgrounds.IBackgroundFactory;
+import objects.buttons.IButton;
 import objects.buttons.IButtonFactory;
-import objects.buttons.PlayButton;
 import rendering.IDrawable;
 import system.Game;
 import system.IServiceLocator;
 
-public class Menu implements IScene, IMouseInputObserver {
+public class Menu implements IScene {
 
     private final IServiceLocator serviceLocator;
 
-    private final PlayButton playButton;
+    private final IButton playButton;
     private final IDrawable background;
-    private final double playButtonXPercentage = 0.1;
-    private final double playButtonYPercentage = 0.3;
+    private static final double playButtonXPercentage = 0.1;
+    private static final double playButtonYPercentage = 0.3;
 
     /* package */ Menu(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
@@ -27,31 +27,27 @@ public class Menu implements IScene, IMouseInputObserver {
         playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * playButtonXPercentage), (int) (Game.HEIGHT * playButtonYPercentage));
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void start() {
         serviceLocator.getInputManager().addObserver(playButton);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void stop() {
         serviceLocator.getInputManager().removeObserver(playButton);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void paint() {
         background.render();
-        playButton.paint();
+        playButton.render();
     }
 
-    @Override
-    public void update(double delta) {
-    }
-
-    @Override
     /** {@inheritDoc} */
-    public void mouseClicked(int x, int y) {
-        System.out.println("X: " + x + ", Y: " + y);
-    }
+    @Override
+    public void update(double delta) { }
+
 }

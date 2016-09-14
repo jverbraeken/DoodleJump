@@ -13,15 +13,7 @@ public class KeyCode {
      */
     private static final Map<Keys, Integer> keyMap = new EnumMap<>(Keys.class);
 
-    /**
-     * Prevent KeyCodes instances.
-     */
-    private KeyCode() { }
-
-    /**
-     * Initialize the keyMap.
-     */
-    /* package */ static void init() {
+    static  {
         // Arrows
         keyMap.put(Keys.arrowLeft, 37);
         keyMap.put(Keys.arrowRight, 39);
@@ -30,6 +22,11 @@ public class KeyCode {
         keyMap.put(Keys.a, 65);
         keyMap.put(Keys.d, 68);
     }
+
+    /**
+     * Prevent KeyCodes instances.
+     */
+    private KeyCode() { }
 
     /**
      * Get the keycode given the key.

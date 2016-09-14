@@ -1,9 +1,8 @@
 package objects.buttons;
 
 import input.IMouseInputObserver;
+import rendering.IDrawable;
 
-public interface IButton extends IMouseInputObserver {
-
-    void paint();
+public interface IButton extends IDrawable, IMouseInputObserver {
 
 }

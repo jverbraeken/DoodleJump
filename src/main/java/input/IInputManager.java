@@ -5,10 +5,17 @@ import java.awt.event.MouseListener;
 
 public interface IInputManager extends MouseListener, KeyListener {
 
+    void setMainWindowBorderSize(int windowLeftBorderSize, int windowTopBorderSize);
+
+    // MOUSE
+
     void addObserver(IMouseInputObserver mouseInputObserver);
-    void addObserver(IKeyInputObserver keyInputObserver);
 
     void removeObserver(IMouseInputObserver mouseInputObserver);
-    void removeObserver(IKeyInputObserver keyInputObserver);
 
+    // KEYBOARD
+
+    void addObserver(IKeyInputObserver keyInputObserver);
+
+    void removeObserver(IKeyInputObserver keyInputObserver);
 }
