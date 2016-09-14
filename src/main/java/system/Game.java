@@ -45,7 +45,7 @@ public final class Game {
     public static final int NORMAL_WIDTH = Game.WIDTH;
     public static final int NORMAL_HEIGHT = Game.HEIGHT;
     private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-    private static float scale =   Math.min( (float)d.getWidth() / NORMAL_WIDTH, (float)d.getHeight() / NORMAL_HEIGHT );
+    public static float scale = 2;
 
     private static void initServices() {
         AudioManager.register(serviceLocator);
@@ -69,9 +69,7 @@ public final class Game {
     /**
      * Prevents the creation of a new {@code Game} object.
      */
-    private Game() {
-
-    }
+    private Game() { }
 
     public static void main(String[] argv) {
         System.setProperty("Log4jContextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
@@ -107,20 +105,22 @@ public final class Game {
                 serviceLocator.getRenderer().setGraphicsBuffer(g);
 
                 ((Graphics2D)g).scale(1/scale,1/scale);
-
                 if (scene != null) {
                     scene.paint();
                 }
+
+
+                ((Graphics2D)g).scale(scale,scale);
+
+
 
                 if(times % 2 == 0) {
                     frame.repaint();
                 }
                 times ++;
-
-                ((Graphics2D)g).scale(scale,scale);
             }
         };
-        panel.setSize(Game.WIDTH, Game.HEIGHT);
+        frame.setSize(Game.WIDTH/2, Game.HEIGHT/2);
         panel.setLayout(new GridLayout(1, 1));
 
         frame.setContentPane(panel);
@@ -136,9 +136,11 @@ public final class Game {
      */
     public static void setScene(IScene scene) {
         assert scene != null;
+
         if (Game.scene != null) {
             Game.scene.stop();
         }
+
         scene.start();
         Game.scene = scene;
         frame.repaint();

@@ -36,72 +36,72 @@ public final class InputManager implements IInputManager {
     }
 
     /* MOUSE EVENTS */
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void mouseClicked(MouseEvent e) { }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void mousePressed(MouseEvent e) {
         for (IMouseInputObserver observer : mouseInputObservers) {
-            observer.mouseClicked(e.getX(), e.getY());
+            observer.mouseClicked((2 * e.getX()), (2 * e.getY() - 70));
         }
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void mouseReleased(MouseEvent e) { }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void mouseEntered(MouseEvent e) { }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void mouseExited(MouseEvent e) { }
 
     /* KEY EVENTS */
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void keyTyped(KeyEvent e) {
     }
+    /** {@inheritDoc} */
 
     @Override
-    /** {@inheritDoc} */
     public void keyPressed(KeyEvent e) {
         for (IKeyInputObserver observer : keyInputObservers) {
             observer.keyPress(e.getKeyCode());
         }
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void keyReleased(KeyEvent e) {
         for (IKeyInputObserver observer : keyInputObservers) {
             observer.keyRelease(e.getKeyCode());
         }
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void addObserver(IMouseInputObserver mouseInputObserver) {
         mouseInputObservers.add(mouseInputObserver);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void addObserver(IKeyInputObserver keyInputObserver) {
         keyInputObservers.add(keyInputObserver);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void removeObserver(IMouseInputObserver mouseInputObserver) {
         mouseInputObservers.remove(mouseInputObserver);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void removeObserver(IKeyInputObserver keyInputObserver) {
         keyInputObservers.remove(keyInputObserver);
     }

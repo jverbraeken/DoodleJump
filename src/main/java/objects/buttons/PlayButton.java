@@ -4,8 +4,6 @@ import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
-import java.awt.*;
-
 public class PlayButton implements IButton {
 
     private final IServiceLocator serviceLocator;
@@ -30,6 +28,7 @@ public class PlayButton implements IButton {
         this.bottomRight[1] = y + height;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void mouseClicked(int x, int y) {
         assert x >= 0 && y >= 0;
@@ -40,6 +39,7 @@ public class PlayButton implements IButton {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void paint() {
         serviceLocator.getRenderer().drawSprite(sprite, topLeft[0], topLeft[1], width, height);
