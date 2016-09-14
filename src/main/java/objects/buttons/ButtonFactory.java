@@ -2,6 +2,7 @@ package objects.buttons;
 
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import system.Game;
 import system.IServiceLocator;
 
 public class ButtonFactory implements IButtonFactory {
@@ -14,9 +15,19 @@ public class ButtonFactory implements IButtonFactory {
         serviceLocator.provide(new ButtonFactory());
     }
 
-    public PlayButton createPlayButton(int x, int y) {
+    public IButton createPlayButton(int x, int y) {
+        assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayButtonSprite();
-        return new PlayButton(serviceLocator, x, y, buttonSprite);
+        Runnable playAction = () -> Game.setScene(serviceLocator.getSceneFactory().newWorld());
+        return new Button(serviceLocator, x, y, buttonSprite, playAction, "play");
+    }
+
+    public IButton createResumeButton(int x, int y) {
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getResumeButtonSprite();
+        Runnable resumeAction = () -> Game.setPaused(false);
+        return new Button(serviceLocator, x, y, buttonSprite, resumeAction, "resume");
     }
 }

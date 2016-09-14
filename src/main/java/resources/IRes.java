@@ -68,7 +68,21 @@ public interface IRes {
         playButton,
 
         // Backgrounds
-        background
+        background,
+
+        // Top bar
+        scorebar,
+        zero,
+        one,
+        two,
+        three,
+        four,
+        five,
+        six,
+        seven,
+        eight,
+        nine,
+        resumeButton, pauseCover, pause
     }
 
     /**

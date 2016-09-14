@@ -25,15 +25,16 @@ public final class InputManager implements IInputManager {
     }
 
 
+    private int windowLeftBorderSize = 0;
+    private int windowTopBorderSize = 0;
+
     private final Set<IMouseInputObserver> mouseInputObservers = new HashSet<>();
     private final Set<IKeyInputObserver> keyInputObservers = new HashSet<>();
 
     /**
      * Prevents instantiation from outside the class.
      */
-    private InputManager() {
-        KeyCode.init();
-    }
+    private InputManager() { }
 
     /* MOUSE EVENTS */
     /** {@inheritDoc} */
@@ -44,7 +45,8 @@ public final class InputManager implements IInputManager {
     @Override
     public void mousePressed(MouseEvent e) {
         for (IMouseInputObserver observer : mouseInputObservers) {
-            observer.mouseClicked((2 * e.getX()), (2 * e.getY() - 70));
+            //observer.mouseClicked(e.getX() , e.getY() );
+            observer.mouseClicked((2 * e.getX() - windowLeftBorderSize), (2 * e.getY() - windowTopBorderSize));
         }
     }
 
@@ -63,10 +65,9 @@ public final class InputManager implements IInputManager {
     /* KEY EVENTS */
     /** {@inheritDoc} */
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
-    /** {@inheritDoc} */
+    public void keyTyped(KeyEvent e) {  }
 
+    /** {@inheritDoc} */
     @Override
     public void keyPressed(KeyEvent e) {
         for (IKeyInputObserver observer : keyInputObservers) {
@@ -106,4 +107,14 @@ public final class InputManager implements IInputManager {
         keyInputObservers.remove(keyInputObserver);
     }
 
+    /**
+     * Set the main border size, used for mouse inputs.
+     *
+     * @param windowLeftBorderSize The size of the left border.
+     * @param windowTopBorderSize The size of the top border.
+     */
+    public void setMainWindowBorderSize(int windowLeftBorderSize, int windowTopBorderSize) {
+        this.windowLeftBorderSize = windowLeftBorderSize;
+        this.windowTopBorderSize = windowTopBorderSize;
+    }
 }
