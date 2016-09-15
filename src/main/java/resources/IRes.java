@@ -1,9 +1,12 @@
 package resources;
 
 public interface IRes {
+
     enum sprites {
-        doodleLeft,
-        doodleRight,
+        doodleLeftAscend,
+        doodleLeftDescend,
+        doodleRightAscend,
+        doodleRightDescend,
 
         platform1,
         platform2,
@@ -56,9 +59,11 @@ public interface IRes {
         ufoShining,
 
         trampoline,
+        trampolineUsed,
         spring,
+        springUsed,
         rocket,
-        cap,
+        propeller,
         shield,
 
         waitDontShoot,
@@ -91,4 +96,5 @@ public interface IRes {
      * @return The filepath to the sprite
      */
     String getSpritePath(sprites sprite);
+
 }

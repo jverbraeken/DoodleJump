@@ -43,6 +43,14 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
+    public double getBoost() {
+        return 0d;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public double[] getHitBox() {
         return this.hitBox;
     }

@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Random;
 import objects.IGameObject;
 
-public class Block extends AGameObject implements IBlock {
+/* package */ class Block extends AGameObject implements IBlock {
 
     private static IServiceLocator serviceLocator;
     private ArrayList<IGameObject> content = new ArrayList<>();
@@ -75,7 +75,6 @@ public class Block extends AGameObject implements IBlock {
         int maxY = (int) (0.5 * World.gravityAcceleration * Math.pow(t,2));
 
         for (int i = 0; i < platformAmount; i++) {
-
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
             float widthDeviation = rand.nextFloat();
 

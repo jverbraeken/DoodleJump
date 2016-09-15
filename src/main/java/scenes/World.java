@@ -22,20 +22,23 @@ import java.util.Stack;
 
 public class World implements IScene {
 
+    // TODO: Add JavaDoc
+    private final static double SCOREMULTIPLIER = 0.15;
+    private final static int PAUSEOFFSET = 38;
+    private final Logger logger = LoggerFactory.getLogger(World.class);
+    private final IServiceLocator serviceLocator;
+
     /**
      * The fastest the doodle can go vertically.
      */
     public final static double vSpeedLimit = 20;
     /**
-     * How much the doodle is affected by gravity.
+     * Set of all object (excluding Doodle) in the world.
      */
-    public final static double gravityAcceleration = .5;
-    private final static double SCOREMULTIPLIER = 0.15;
-    private final static int PAUSEOFFSET = 38;
-    // TODO: Add JavaDoc
-    private final Logger logger = LoggerFactory.getLogger(World.class);
-    private final IServiceLocator serviceLocator;
     private final Set<IGameObject> elements = new HashSet<>();
+    /**
+     * The background of the world.
+     */
     private final IDrawable background;
     /**
      * The Doodle for the world.
@@ -49,6 +52,10 @@ public class World implements IScene {
      * The vertical speed, negative if going up and positive if going down.
      */
     private double vSpeed = -20;
+    /**
+     * How much the doodle is affected by gravity.
+     */
+    public static final double gravityAcceleration = .5;
     /**
      * The score for the world.
      */
@@ -75,23 +82,15 @@ public class World implements IScene {
         this.vSpeed = -9;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void start() {
-    }
+    public void start() { }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void stop() {
-    }
+    public void stop() { }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void paint() {
         background.render();
@@ -105,13 +104,11 @@ public class World implements IScene {
         scorebar.render();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void update(double delta) {
-        updateObjects();
         updateSpeed();
+        updateObjects();
         applySpeed();
         cleanUp();
 
@@ -128,13 +125,15 @@ public class World implements IScene {
             IBlock block = (IBlock) e;
             ArrayList<IGameObject> inside = block.getContent();
             for (IGameObject item : inside) {
-                //TODO: TEMP FIX to make sure the doodle doesnt hit with its "head"
-                if (vSpeed > 0 && this.doodle.collide(item) && doodle.getYPos() + doodle.getHitBox()[3] < item.getYPos() + item.getHeight()) {
-                    vSpeed = -vSpeedLimit;
+                if (vSpeed > 0 && this.doodle.collide(item)) {
+                    vSpeed = item.getBoost();
                 }
             }
         }
+
         this.applyGravity();
+
+        this.doodle.setVerticalSpeed(vSpeed);
     }
 
     /**
@@ -155,9 +154,7 @@ public class World implements IScene {
      * Applies gravity vAcceleration to the doodle.
      */
     private void applyGravity() {
-        if (this.vSpeed >= -vSpeedLimit) {
-            this.vSpeed += gravityAcceleration;
-        }
+        this.vSpeed += this.gravityAcceleration;
     }
 
     /**
