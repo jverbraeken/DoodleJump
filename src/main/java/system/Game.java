@@ -124,7 +124,9 @@ public final class Game {
         frame.setContentPane(panel);
 
         setScene(serviceLocator.getSceneFactory().newMenu());
-        serviceLocator.getInputManager().setMainWindowBorderSize((int) panel.getLocationOnScreen().getX(), (int) panel.getLocationOnScreen().getY());
+        int x = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
+        int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
+        serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
         resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (Game.WIDTH * RESUMEBUTTONX), (int) (Game.HEIGHT * RESUMEBUTTONY));
         serviceLocator.getInputManager().addObserver(resumeButton);

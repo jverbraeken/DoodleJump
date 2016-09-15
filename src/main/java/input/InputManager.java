@@ -17,6 +17,7 @@ public final class InputManager implements IInputManager {
     private final Set<IKeyInputObserver> keyInputObservers = new HashSet<>();
     private int windowLeftBorderSize = 0;
     private int windowTopBorderSize = 0;
+
     /**
      * Prevents instantiation from outside the class.
      */
@@ -35,7 +36,6 @@ public final class InputManager implements IInputManager {
     }
 
     /* MOUSE EVENTS */
-
     /**
      * {@inheritDoc}
      */
