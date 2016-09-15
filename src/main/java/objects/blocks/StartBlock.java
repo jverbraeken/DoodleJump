@@ -114,7 +114,7 @@ public class StartBlock extends AGameObject implements IBlock {
         HashSet<IGameObject> toRemove = new HashSet<>();
         for(IGameObject e : content) {
             //A marge of 50 is used
-            if(e.getYPos() -50 > Game.HEIGHT) {
+            if(e.getYPos() + Game.HEIGHT * 0.01 > Game.HEIGHT) {
                 toRemove.add(e);
             }
 

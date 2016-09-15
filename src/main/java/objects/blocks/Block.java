@@ -101,15 +101,40 @@ import objects.IGameObject;
 
             lastObject = platform;
 
-            //TODO: Move powerup generation somewhere else
-            //TODO: User better calculations
-            IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-            IGameObject powerup = powerupFactory.createTrampoline(xLoc + 20, yLoc - platform.getHeight() + 5);
-            content.add(powerup);
+            chanceForPowerup(platform);
 
         }
 
         this.setYPos(lastObject.getYPos());
+    }
+
+    /** Takes a random number between 0 and 10000 and
+     * gives the platform a powerup if it's a certain number
+     * between 0 and 10000.
+     * @param platform The platform a powerup potentially is placed on.
+     **/
+    private void chanceForPowerup(IPlatform platform) {
+        Random rand = new Random();
+
+        int randomNr = (int) (rand.nextFloat() * 10000);
+
+        System.out.println(randomNr);
+        if (randomNr < 9500){
+            return;
+        }
+        else if (randomNr >= 9500 && randomNr < 9900){
+            IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+            int springXLoc = (int) (rand.nextFloat() * platform.getWidth());
+            IGameObject powerup = powerupFactory.createSpring((int) platform.getXPos() + springXLoc,
+                    (int) platform.getYPos() - platform.getHeight() + 5);
+            content.add(powerup);
+        }
+        else if (randomNr >= 9900){
+            IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+            IGameObject powerup = powerupFactory.createTrampoline((int) platform.getXPos() + 20,
+                    (int) platform.getYPos() - platform.getHeight() + 5);
+            content.add(powerup);
+        }
     }
 
     /** {@inheritDoc} */
