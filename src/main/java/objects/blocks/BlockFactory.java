@@ -1,5 +1,6 @@
 package objects.blocks;
 
+import objects.IGameObject;
 import objects.blocks.platform.IPlatform;
 import system.IServiceLocator;
 
@@ -27,8 +28,8 @@ public final class BlockFactory implements IBlockFactory {
 
     /** {@inheritDoc} */
     @Override
-    public IBlock createBlock(IPlatform lastPlatform) {
-        Block block = new Block(serviceLocator, lastPlatform);
+    public IBlock createBlock(IGameObject lastObject) {
+        Block block = new Block(serviceLocator, lastObject);
         return block;
     }
 
