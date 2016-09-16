@@ -22,8 +22,8 @@ public interface IRes {
         doodleRightDescend,
 
         // Kill screen
-        bottom,
-        gameover,
+        gameOver,
+        killScreenBottom,
 
         // Monsters
         puddingMonster1,
@@ -49,8 +49,6 @@ public interface IRes {
         lowFiveFeetMonster1,
         lowFiveFeetMonster2,
         smallMonster,
-        ufo,
-        ufoShining,
 
         // Numbers
         zero, one, two, three, four, five, six, seven, eight, nine,
@@ -94,7 +92,11 @@ public interface IRes {
 
         // Miscellanous
         waitDontShoot,
-        avoid
+        avoid,
+
+        // UFO
+        ufo,
+        ufoShining
     }
 
     /**

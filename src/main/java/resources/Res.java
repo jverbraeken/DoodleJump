@@ -43,8 +43,8 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.doodleRightDescend, spritepath + "blue-lik-right-odskok@2x.png");
 
         // Kill screen
-        sprites.put(IRes.sprites.bottom, spritepath + "kill-bottom@2x.png");
-        sprites.put(IRes.sprites.gameover, spritepath + "gameover@2x.png");
+        sprites.put(IRes.sprites.gameOver, spritepath + "gameover@2x.png");
+        sprites.put(IRes.sprites.killScreenBottom, spritepath + "kill-bottom@2x.png");
 
 
         // Numbers

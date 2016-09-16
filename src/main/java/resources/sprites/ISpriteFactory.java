@@ -5,36 +5,24 @@ import system.IFactory;
 
 public interface ISpriteFactory extends IFactory {
 
-    // Background
+    // Buttons
+    ISprite getMenuButtonSprite();
+    ISprite getPauseButtonSprite();
+    ISprite getPlayButtonSprite();
+    ISprite getPlayAgainButtonSprite();
+    ISprite getResumeButtonSprite();
+
+    // Covers
     ISprite getBackground();
+    ISprite getPauseCoverSprite();
+    ISprite getStartCoverSprite();
 
     // Doodle
     ISprite[] getDoodleSprite(IDoodle.directions direction);
 
-    // Platforms
-    ISprite getPlatformSprite1();
-    ISprite getPlatformSprite2();
-    ISprite getPlatformSprite3();
-    ISprite getPlatformSprite4();
-    ISprite getPlatformSprite5();
-    ISprite getPlatformSprite6();
-    ISprite getPlatformSprite7();
-    ISprite getPlatformSprite8();
-    ISprite getPlatformSprite9();
-    ISprite getPlatformBrokenSprite1();
-    ISprite getPlatformBrokenSprite2();
-    ISprite getPlatformBrokenSprite3();
-    ISprite getPlatformBrokenSprite4();
-    ISprite getPlatformExplosiveSprite1();
-    ISprite getPlatformExplosiveSprite2();
-    ISprite getPlatformExplosiveSprite3();
-    ISprite getPlatformMovable1();
-    ISprite getPlatformMovable2();
-    ISprite getPlatformMovable3();
-    ISprite getPlatformMovable4();
-    ISprite getPlatformShining1();
-    ISprite getPlatformShining2();
-    ISprite getPlatformShining3();
+    // Kill screen
+    ISprite getGameOverSprite();
+    ISprite getKillScreenBottomSprite();
 
     // Monsters
     ISprite getPuddingMonsterSprite1(); // By default the green monster with some blood
@@ -61,9 +49,30 @@ public interface ISpriteFactory extends IFactory {
     ISprite getLowFiveFeetMonster2Sprite();
     ISprite getSmallMonsterSprite(); // By default a very small three eyed red monster
 
-    // UFO
-    ISprite getUFOSprite();
-    ISprite getUFOShiningSprite();
+    // Platforms
+    ISprite getPlatformSprite1();
+    ISprite getPlatformSprite2();
+    ISprite getPlatformSprite3();
+    ISprite getPlatformSprite4();
+    ISprite getPlatformSprite5();
+    ISprite getPlatformSprite6();
+    ISprite getPlatformSprite7();
+    ISprite getPlatformSprite8();
+    ISprite getPlatformSprite9();
+    ISprite getPlatformBrokenSprite1();
+    ISprite getPlatformBrokenSprite2();
+    ISprite getPlatformBrokenSprite3();
+    ISprite getPlatformBrokenSprite4();
+    ISprite getPlatformExplosiveSprite1();
+    ISprite getPlatformExplosiveSprite2();
+    ISprite getPlatformExplosiveSprite3();
+    ISprite getPlatformMovable1();
+    ISprite getPlatformMovable2();
+    ISprite getPlatformMovable3();
+    ISprite getPlatformMovable4();
+    ISprite getPlatformShining1();
+    ISprite getPlatformShining2();
+    ISprite getPlatformShining3();
 
     // Powerups
     ISprite getTrampolineSprite();
@@ -78,17 +87,12 @@ public interface ISpriteFactory extends IFactory {
     ISprite getWaitDontShootSprite();
     ISprite getAvoidSprite();
 
-    // Start
-    ISprite getPlayButtonSprite();
-    ISprite getStartCoverSprite();
-
     // Top bar
     ISprite getScorebarSprite();
-    ISprite getPauseSprite();
 
-    // Pause
-    ISprite getPauseCoverSprite();
-    ISprite getResumeButtonSprite();
+    // UFO
+    ISprite getUFOSprite();
+    ISprite getUFOShiningSprite();
 
     /**
      * Returns a sprite of the digit specified in Doodle Jump font.

@@ -18,6 +18,9 @@ public final class SpriteFactory implements ISpriteFactory {
     */
     private static transient IServiceLocator serviceLocator;
 
+    /**
+     * TODO: Add JavaDoc
+     */
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         SpriteFactory.serviceLocator = serviceLocator;
@@ -43,11 +46,44 @@ public final class SpriteFactory implements ISpriteFactory {
                 );
     }
 
+    // Buttons
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getMenuButtonSprite() { return getSprite(IRes.sprites.menu); }
 
-    // Backgrounds
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getPauseButtonSprite() {
+        return getSprite(IRes.sprites.pause);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getPlayButtonSprite() { return getSprite(IRes.sprites.play); }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getPlayAgainButtonSprite() { return getSprite(IRes.sprites.playagain); }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getResumeButtonSprite() {
+        return getSprite(IRes.sprites.resume);
+    }
+
+
+    // Covers
     /** {@inheritDoc} */
     @Override
     public ISprite getBackground() { return getSprite(IRes.sprites.background); }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getPauseCoverSprite() { return getSprite(IRes.sprites.pauseCover); }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getStartCoverSprite() { return getSprite(IRes.sprites.startCover); }
 
 
     // Doodle
@@ -64,6 +100,173 @@ public final class SpriteFactory implements ISpriteFactory {
         }
 
         return sprites;
+    }
+
+
+    // Kill screen
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getGameOverSprite() { return getSprite(IRes.sprites.gameOver); }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getKillScreenBottomSprite() { return getSprite(IRes.sprites.killScreenBottom); }
+
+
+    // Monsters
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getPuddingMonsterSprite2() {
+        return getSprite(IRes.sprites.puddingMonster2);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getPuddingMonsterSprite3() {
+        return getSprite(IRes.sprites.puddingMonster3);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getPuddingMonsterSprite4() {
+        return getSprite(IRes.sprites.puddingMonster4);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getPuddingMonsterSprite5() {
+        return getSprite(IRes.sprites.puddingMonster5);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getTwinMonsterSprite() {
+        return getSprite(IRes.sprites.twinMonster);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getThreeEyedMonsterSprite1() {
+        return getSprite(IRes.sprites.threeEyedMonster1);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getThreeEyedMonsterSprite2() {
+        return getSprite(IRes.sprites.threeEyedMonster2);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getThreeEyedMonsterSprite3() {
+        return getSprite(IRes.sprites.threeEyedMonster3);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getThreeEyedMonsterSprite4() {
+        return getSprite(IRes.sprites.threeEyedMonster4);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getThreeEyedMonsterSprite5() {
+        return getSprite(IRes.sprites.threeEyedMonster5);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getVampireMonsterSprite1() {
+        return getSprite(IRes.sprites.vampireMonster1);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getVampireMonsterSprite2() {
+        return getSprite(IRes.sprites.vampireMonster2);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getVampireMonsterSprite3() {
+        return getSprite(IRes.sprites.vampireMonster3);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getVampireMonsterSprite4() {
+        return getSprite(IRes.sprites.vampireMonster4);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getVampireMonsterSprite5() {
+        return getSprite(IRes.sprites.vampireMonster5);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getOrdinaryMonsterSprite() {
+        return getSprite(IRes.sprites.ordinaryMonster);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getCactusMonster1Sprite() {
+        return getSprite(IRes.sprites.cactusMonster1);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getCactusMonster2Sprite() {
+        return getSprite(IRes.sprites.cactusMonster2);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getFiveFeetMonsterSprite() {
+        return getSprite(IRes.sprites.fiveFeetMonster);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getLowFiveFeetMonster1Sprite() {
+        return getSprite(IRes.sprites.lowFiveFeetMonster1);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getLowFiveFeetMonster2Sprite() {
+        return getSprite(IRes.sprites.lowFiveFeetMonster2);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getSmallMonsterSprite() {
+        return getSprite(IRes.sprites.smallMonster);
+    }
+
+
+    // Numbers
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getDigitSprite(int digit) {
+        if (digit < 0 || digit > 9) {
+            throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
+        }
+        switch (digit) {
+            case 0: return getSprite(IRes.sprites.zero);
+            case 1: return getSprite(IRes.sprites.one);
+            case 2: return getSprite(IRes.sprites.two);
+            case 3: return getSprite(IRes.sprites.three);
+            case 4: return getSprite(IRes.sprites.four);
+            case 5: return getSprite(IRes.sprites.five);
+            case 6: return getSprite(IRes.sprites.six);
+            case 7: return getSprite(IRes.sprites.seven);
+            case 8: return getSprite(IRes.sprites.eight);
+            case 9: return getSprite(IRes.sprites.nine);
+            default: return null;
+        }
     }
 
 
@@ -213,154 +416,6 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
 
-    // Monsters
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getPuddingMonsterSprite2() {
-        return getSprite(IRes.sprites.puddingMonster2);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getPuddingMonsterSprite3() {
-        return getSprite(IRes.sprites.puddingMonster3);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getPuddingMonsterSprite4() {
-        return getSprite(IRes.sprites.puddingMonster4);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getPuddingMonsterSprite5() {
-        return getSprite(IRes.sprites.puddingMonster5);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getTwinMonsterSprite() {
-        return getSprite(IRes.sprites.twinMonster);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getThreeEyedMonsterSprite1() {
-        return getSprite(IRes.sprites.threeEyedMonster1);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getThreeEyedMonsterSprite2() {
-        return getSprite(IRes.sprites.threeEyedMonster2);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getThreeEyedMonsterSprite3() {
-        return getSprite(IRes.sprites.threeEyedMonster3);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getThreeEyedMonsterSprite4() {
-        return getSprite(IRes.sprites.threeEyedMonster4);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getThreeEyedMonsterSprite5() {
-        return getSprite(IRes.sprites.threeEyedMonster5);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getVampireMonsterSprite1() {
-        return getSprite(IRes.sprites.vampireMonster1);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getVampireMonsterSprite2() {
-        return getSprite(IRes.sprites.vampireMonster2);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getVampireMonsterSprite3() {
-        return getSprite(IRes.sprites.vampireMonster3);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getVampireMonsterSprite4() {
-        return getSprite(IRes.sprites.vampireMonster4);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getVampireMonsterSprite5() {
-        return getSprite(IRes.sprites.vampireMonster5);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getOrdinaryMonsterSprite() {
-        return getSprite(IRes.sprites.ordinaryMonster);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getCactusMonster1Sprite() {
-        return getSprite(IRes.sprites.cactusMonster1);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getCactusMonster2Sprite() {
-        return getSprite(IRes.sprites.cactusMonster2);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getFiveFeetMonsterSprite() {
-        return getSprite(IRes.sprites.fiveFeetMonster);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getLowFiveFeetMonster1Sprite() {
-        return getSprite(IRes.sprites.lowFiveFeetMonster1);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getLowFiveFeetMonster2Sprite() {
-        return getSprite(IRes.sprites.lowFiveFeetMonster2);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getSmallMonsterSprite() {
-        return getSprite(IRes.sprites.smallMonster);
-    }
-
-
-    // UFO
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getUFOSprite() {
-        return getSprite(IRes.sprites.ufo);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getUFOShiningSprite() {
-        return getSprite(IRes.sprites.ufoShining);
-    }
-
-
     // Powerups
     /** {@inheritDoc} */
     @Override
@@ -424,54 +479,19 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.sprites.scorebar);
     }
 
+
+    // UFO
     /** {@inheritDoc} */
     @Override
-    public ISprite getPauseSprite() {
-        return getSprite(IRes.sprites.pause);
+    public ISprite getUFOSprite() {
+        return getSprite(IRes.sprites.ufo);
     }
 
     /** {@inheritDoc} */
     @Override
-    public ISprite getDigitSprite(int digit) {
-        if (digit < 0 || digit > 9) {
-            throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
-        }
-        switch (digit) {
-            case 0: return getSprite(IRes.sprites.zero);
-            case 1: return getSprite(IRes.sprites.one);
-            case 2: return getSprite(IRes.sprites.two);
-            case 3: return getSprite(IRes.sprites.three);
-            case 4: return getSprite(IRes.sprites.four);
-            case 5: return getSprite(IRes.sprites.five);
-            case 6: return getSprite(IRes.sprites.six);
-            case 7: return getSprite(IRes.sprites.seven);
-            case 8: return getSprite(IRes.sprites.eight);
-            case 9: return getSprite(IRes.sprites.nine);
-            default: return null;
-        }
+    public ISprite getUFOShiningSprite() {
+        return getSprite(IRes.sprites.ufoShining);
     }
-
-
-    // Pause
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getResumeButtonSprite() {
-        return getSprite(IRes.sprites.resume);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getPauseCoverSprite() { return getSprite(IRes.sprites.pauseCover); }
-
-
-    // Start
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getPlayButtonSprite() { return getSprite(IRes.sprites.play); }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getStartCoverSprite() { return getSprite(IRes.sprites.startCover); }
 
 
     // Miscellaneous
@@ -489,8 +509,6 @@ public final class SpriteFactory implements ISpriteFactory {
 
     /**
      * TODO: Add JavaDoc
-     * @param sprite
-     * @return
      */
     private ISprite getSprite(IRes.sprites sprite) {
         try {
@@ -519,4 +537,5 @@ public final class SpriteFactory implements ISpriteFactory {
         int fileNameIndex = filepath.lastIndexOf('/') + 1;
         return filepath.substring(fileNameIndex);
     }
+
 }
