@@ -39,7 +39,7 @@ public class World implements IScene {
     /**
      * The background of the world.
      */
-    private final IDrawable background;
+    private final ISprite background;
     /**
      * The Doodle for the world.
      */
@@ -73,7 +73,7 @@ public class World implements IScene {
             elements.add(lastCreatedBlock);
         }
 
-        background = serviceLocator.getBackgroundFactory().createBackground();
+        background = serviceLocator.getSpriteFactory().getBackground();
 
         scorebar = new Scorebar();
 
@@ -93,7 +93,7 @@ public class World implements IScene {
     /** {@inheritDoc} */
     @Override
     public void paint() {
-        background.render();
+        serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
 
         for (IGameObject e : elements) {
             e.render();

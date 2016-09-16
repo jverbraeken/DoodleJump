@@ -3,6 +3,8 @@ package resources;
 public interface IRes {
 
     enum sprites {
+        background,
+
         doodleLeftAscend,
         doodleLeftDescend,
         doodleRightAscend,
@@ -72,8 +74,8 @@ public interface IRes {
         // Buttons
         playButton,
 
-        // Backgrounds
-        background,
+        // Covers
+        startCover,
 
         // Top bar
         scorebar,

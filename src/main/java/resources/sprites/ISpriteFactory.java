@@ -5,6 +5,9 @@ import system.IFactory;
 
 public interface ISpriteFactory extends IFactory {
 
+    // Background
+    ISprite getBackground();
+
     // Doodle
     ISprite[] getDoodleSprite(IDoodle.directions direction);
 
@@ -75,11 +78,9 @@ public interface ISpriteFactory extends IFactory {
     ISprite getWaitDontShootSprite();
     ISprite getAvoidSprite();
 
-    // Buttons
+    // Start
     ISprite getPlayButtonSprite();
-
-    // Background
-    ISprite getStartMenuBackgroundSprite();
+    ISprite getStartCoverSprite();
 
     // Top bar
     ISprite getScorebarSprite();

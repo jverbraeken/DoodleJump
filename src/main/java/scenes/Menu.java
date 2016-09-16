@@ -1,10 +1,9 @@
 package scenes;
 
-import input.IMouseInputObserver;
-import objects.backgrounds.IBackgroundFactory;
 import objects.buttons.IButton;
 import objects.buttons.IButtonFactory;
-import rendering.IDrawable;
+import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
@@ -13,15 +12,15 @@ public class Menu implements IScene {
     private final IServiceLocator serviceLocator;
 
     private final IButton playButton;
-    private final IDrawable background;
-    private static final double playButtonXPercentage = 0.1;
-    private static final double playButtonYPercentage = 0.3;
+    private final ISprite cover;
+    private static final double playButtonXPercentage = 0.15;
+    private static final double playButtonYPercentage = 0.25;
 
     /* package */ Menu(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
 
-        IBackgroundFactory backgroundFactory = serviceLocator.getBackgroundFactory();
-        background = backgroundFactory.createBackground();
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        cover = spriteFactory.getStartCoverSprite();
 
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
         playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * playButtonXPercentage), (int) (Game.HEIGHT * playButtonYPercentage));
@@ -42,7 +41,7 @@ public class Menu implements IScene {
     /** {@inheritDoc} */
     @Override
     public void paint() {
-        background.render();
+        serviceLocator.getRenderer().drawSprite(this.cover, 0, 0);
         playButton.render();
     }
 
