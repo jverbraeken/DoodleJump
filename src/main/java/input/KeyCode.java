@@ -21,6 +21,10 @@ public class KeyCode {
         // Letters
         keyMap.put(Keys.a, 65);
         keyMap.put(Keys.d, 68);
+
+        // Miscellaneous
+        keyMap.put(Keys.enter, 10);
+        keyMap.put(Keys.space, 32);
     }
 
     /**

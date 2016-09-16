@@ -1,5 +1,8 @@
 package scenes;
 
+import input.IKeyInputObserver;
+import input.KeyCode;
+import input.Keys;
 import objects.buttons.IButton;
 import objects.buttons.IButtonFactory;
 import resources.sprites.ISprite;
@@ -7,7 +10,7 @@ import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
-public class Menu implements IScene {
+public class Menu implements IScene, IKeyInputObserver {
 
     private final IServiceLocator serviceLocator;
 
@@ -30,12 +33,14 @@ public class Menu implements IScene {
     @Override
     public void start() {
         serviceLocator.getInputManager().addObserver(playButton);
+        serviceLocator.getInputManager().addObserver(this);
     }
 
     /** {@inheritDoc} */
     @Override
     public void stop() {
         serviceLocator.getInputManager().removeObserver(playButton);
+        serviceLocator.getInputManager().removeObserver(this);
     }
 
     /** {@inheritDoc} */
@@ -48,5 +53,17 @@ public class Menu implements IScene {
     /** {@inheritDoc} */
     @Override
     public void update(double delta) { }
+
+    /** {@inheritDoc} */
+    @Override
+    public void keyPress(int keyCode) { }
+
+    /** {@inheritDoc} */
+    @Override
+    public void keyRelease(int keyCode) {
+        if (KeyCode.getKeyCode(Keys.enter) == keyCode || KeyCode.getKeyCode(Keys.space) == keyCode) {
+            Game.setScene(serviceLocator.getSceneFactory().newWorld());
+        }
+    }
 
 }
