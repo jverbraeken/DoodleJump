@@ -62,7 +62,8 @@ public class Menu implements IScene, IKeyInputObserver {
     @Override
     public void keyRelease(int keyCode) {
         if (KeyCode.getKeyCode(Keys.enter) == keyCode || KeyCode.getKeyCode(Keys.space) == keyCode) {
-            // TODO: Start game
+            Game.setScene(serviceLocator.getSceneFactory().newWorld());
         }
     }
+
 }
