@@ -456,7 +456,7 @@ public final class SpriteFactory implements ISpriteFactory {
     /** {@inheritDoc} */
     @Override
     public ISprite getResumeButtonSprite() {
-        return getSprite(IRes.sprites.resumeButton);
+        return getSprite(IRes.sprites.resume);
     }
 
     /** {@inheritDoc} */
@@ -467,7 +467,7 @@ public final class SpriteFactory implements ISpriteFactory {
     // Start
     /** {@inheritDoc} */
     @Override
-    public ISprite getPlayButtonSprite() { return getSprite(IRes.sprites.playButton); }
+    public ISprite getPlayButtonSprite() { return getSprite(IRes.sprites.play); }
 
     /** {@inheritDoc} */
     @Override

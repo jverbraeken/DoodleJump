@@ -3,37 +3,29 @@ package resources;
 public interface IRes {
 
     enum sprites {
-        background,
+        // Buttons
+        menu,
+        pause,
+        play,
+        playagain,
+        resume,
 
+        // Covers
+        background,
+        pauseCover,
+        startCover,
+
+        // Doodle
         doodleLeftAscend,
         doodleLeftDescend,
         doodleRightAscend,
         doodleRightDescend,
 
-        platform1,
-        platform2,
-        platform3,
-        platform4,
-        platform5,
-        platform6,
-        platform7,
-        platform8,
-        platform9,
-        platformBroken1,
-        platformBroken2,
-        platformBroken3,
-        platformBroken4,
-        platformExplosive1,
-        platformExplosive2,
-        platformExplosive3,
-        platformMovable1,
-        platformMovable2,
-        platformMovable3,
-        platformMovable4,
-        platformShining1,
-        platformShining2,
-        platformShining3,
+        // Kill screen
+        bottom,
+        gameover,
 
+        // Monsters
         puddingMonster1,
         puddingMonster2,
         puddingMonster3,
@@ -60,6 +52,35 @@ public interface IRes {
         ufo,
         ufoShining,
 
+        // Numbers
+        zero, one, two, three, four, five, six, seven, eight, nine,
+
+        // Platforms
+        platform1,
+        platform2,
+        platform3,
+        platform4,
+        platform5,
+        platform6,
+        platform7,
+        platform8,
+        platform9,
+        platformBroken1,
+        platformBroken2,
+        platformBroken3,
+        platformBroken4,
+        platformExplosive1,
+        platformExplosive2,
+        platformExplosive3,
+        platformMovable1,
+        platformMovable2,
+        platformMovable3,
+        platformMovable4,
+        platformShining1,
+        platformShining2,
+        platformShining3,
+
+        // Powerups
         trampoline,
         trampolineUsed,
         spring,
@@ -68,28 +89,12 @@ public interface IRes {
         propeller,
         shield,
 
-        waitDontShoot,
-        avoid,
-
-        // Buttons
-        playButton,
-
-        // Covers
-        startCover,
-
         // Top bar
         scorebar,
-        zero,
-        one,
-        two,
-        three,
-        four,
-        five,
-        six,
-        seven,
-        eight,
-        nine,
-        resumeButton, pauseCover, pause
+
+        // Miscellanous
+        waitDontShoot,
+        avoid
     }
 
     /**
