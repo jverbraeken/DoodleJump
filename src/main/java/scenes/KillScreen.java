@@ -15,11 +15,11 @@ public class KillScreen implements IScene, IMouseInputObserver {
 
     private final IButton playAgainButton;
     private final IButton mainMenuButton;
-    private final ISprite background;
-    private final double playAgainButtonXPercentage = 0.4;
-    private final double playAgainButtonYPercentage = 0.7;
-    private final double mainMenuButtonXPercentage = 0.4;
-    private final double mainMenuButtonYPercentage = 0.8;
+    private final ISprite background, bottomKillScreen, gameOverSprite;
+    private final double playAgainButtonXPercentage = 0.3;
+    private final double playAgainButtonYPercentage = 0.6;
+    private final double mainMenuButtonXPercentage = 0.6;
+    private final double mainMenuButtonYPercentage = 0.7;
     private final double gameOverTextXPercentage = 0.1;
     private final double gameOverTextYPercentage = 0.3;
 
@@ -28,6 +28,8 @@ public class KillScreen implements IScene, IMouseInputObserver {
         this.serviceLocator = serviceLocator;
 
        background = serviceLocator.getSpriteFactory().getBackground();
+        bottomKillScreen = serviceLocator.getSpriteFactory().getKillScreenBottomSprite();
+        gameOverSprite = serviceLocator.getSpriteFactory().getGameOverSprite();
 
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
         playAgainButton = buttonFactory.createPlayAgainButton((int) (Game.WIDTH * playAgainButtonXPercentage), (int) (Game.HEIGHT * playAgainButtonYPercentage));
@@ -53,7 +55,10 @@ public class KillScreen implements IScene, IMouseInputObserver {
 
     @Override
     public void paint() {
-        serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
+        serviceLocator.getRenderer().drawSprite(this.background, 0, 0 );
+        serviceLocator.getRenderer().drawSprite(this.gameOverSprite, (int)(Game.WIDTH * gameOverTextXPercentage), (int)(Game.HEIGHT *gameOverTextYPercentage));
+        double y = (double) Game.HEIGHT - (double) bottomKillScreen.getHeight();
+        serviceLocator.getRenderer().drawSprite(this.bottomKillScreen, 0, (int) y);
         playAgainButton.render();
         mainMenuButton.render();
     }
