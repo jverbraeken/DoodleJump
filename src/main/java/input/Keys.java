@@ -11,6 +11,10 @@ public enum Keys {
 
     // Letters
     a,
-    d;
+    d,
+
+    // Miscellaneous
+    enter,
+    space
 
 }
