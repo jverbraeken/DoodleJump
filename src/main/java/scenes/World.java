@@ -63,6 +63,7 @@ public class World implements IScene {
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
+        Game.setAlive(true);
 
         IBlockFactory blockFactory = serviceLocator.getBlockFactory();
         IBlock lastCreatedBlock = blockFactory.createStartBlock();
@@ -115,6 +116,7 @@ public class World implements IScene {
         // TODO: check if doodle is alive
 
         newBlocks();
+        Game.setAlive(doodle.getYPos() < Game.HEIGHT);
     }
 
     /**
@@ -256,7 +258,7 @@ public class World implements IScene {
             int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2);
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
 
-            ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseSprite();
+            ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseButtonSprite();
             int pauseX = (int) (Game.WIDTH - pauseSprite.getWidth() * scaling - PAUSEOFFSET);
             int pauseY = (int) (((double) Game.WIDTH / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);

@@ -43,6 +43,7 @@ public final class Game {
     private static IScene scene;
     private static int times = 0;
     private static boolean isPaused = false;
+    private static boolean isAlive = true;
     private static IButton resumeButton;
     private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     private static float scale = 2;
@@ -113,6 +114,11 @@ public final class Game {
                     drawPauseScreen();
                 }
 
+                if(!isAlive) {
+                    setScene(serviceLocator.getSceneFactory().newKillScreen());
+                    setAlive(true);
+                }
+
                 ((Graphics2D) g).scale(scale, scale);
             }
         };
@@ -167,6 +173,16 @@ public final class Game {
     public static void setPaused(boolean paused) {
         isPaused = paused;
     }
+
+    /**
+     * Set the state of the game to be alive or dead.
+     *
+     * @param alive <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
+     */
+    public static void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
 
     /**
      * TODO: Add JavaDoc
