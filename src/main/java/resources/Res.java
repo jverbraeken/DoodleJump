@@ -28,16 +28,15 @@ public final class Res implements IRes {
         // Background
         sprites.put(IRes.sprites.background, spritepath + "bck@2x.png");
 
-        // Buttons
-        sprites.put(IRes.sprites.playButton, spritepath + "play@2x.png");
-        sprites.put(IRes.sprites.resumeButton, spritepath + "resume@2x.png");
-        sprites.put(IRes.sprites.pauseCover, spritepath + "pause-cover@2x.png");
-
         // Doodle
         sprites.put(IRes.sprites.doodleLeftAscend, spritepath + "blue-lik-left@2x.png");
         sprites.put(IRes.sprites.doodleLeftDescend, spritepath + "blue-lik-left-odskok@2x.png");
         sprites.put(IRes.sprites.doodleRightAscend, spritepath + "blue-lik-right@2x.png");
         sprites.put(IRes.sprites.doodleRightDescend, spritepath + "blue-lik-right-odskok@2x.png");
+
+        // Pause
+        sprites.put(IRes.sprites.resumeButton, spritepath + "resume@2x.png");
+        sprites.put(IRes.sprites.pauseCover, spritepath + "pause-cover@2x.png");
 
         // Platforms
         sprites.put(IRes.sprites.platform1, spritepath + "platform-green@2x.png");
@@ -64,6 +63,10 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.seven, spritepath + "7.png");
         sprites.put(IRes.sprites.eight, spritepath + "8.png");
         sprites.put(IRes.sprites.nine, spritepath + "9.png");
+
+        // Start
+        sprites.put(IRes.sprites.playButton, spritepath + "play@2x.png");
+        sprites.put(IRes.sprites.startCover, spritepath + "Default@2x.png");
     }
 
     private Res() { }

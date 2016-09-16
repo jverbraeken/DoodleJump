@@ -47,13 +47,7 @@ public final class SpriteFactory implements ISpriteFactory {
     // Backgrounds
     /** {@inheritDoc} */
     @Override
-    public ISprite getStartMenuBackgroundSprite() { return getSprite(IRes.sprites.background); }
-
-
-    // Buttons
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getPlayButtonSprite() { return getSprite(IRes.sprites.playButton); }
+    public ISprite getBackground() { return getSprite(IRes.sprites.background); }
 
 
     // Doodle
@@ -438,18 +432,6 @@ public final class SpriteFactory implements ISpriteFactory {
 
     /** {@inheritDoc} */
     @Override
-    public ISprite getResumeButtonSprite() {
-        return getSprite(IRes.sprites.resumeButton);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getPauseCoverSprite() {
-        return getSprite(IRes.sprites.pauseCover);
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public ISprite getDigitSprite(int digit) {
         if (digit < 0 || digit > 9) {
             throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
@@ -469,6 +451,30 @@ public final class SpriteFactory implements ISpriteFactory {
         }
     }
 
+
+    // Pause
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getResumeButtonSprite() {
+        return getSprite(IRes.sprites.resumeButton);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getPauseCoverSprite() { return getSprite(IRes.sprites.pauseCover); }
+
+
+    // Start
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getPlayButtonSprite() { return getSprite(IRes.sprites.playButton); }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getStartCoverSprite() { return getSprite(IRes.sprites.startCover); }
+
+
+    // Miscellaneous
     /**
      * Loads an ISprite with the name {@code ISpriteName}
      *
