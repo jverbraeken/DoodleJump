@@ -70,6 +70,5 @@ public class KillScreen implements IScene, IMouseInputObserver {
     @Override
     /** {@inheritDoc} */
     public void mouseClicked(int x, int y) {
-        System.out.println("X: " + x + ", Y: " + y);
     }
 }

@@ -119,7 +119,6 @@ import objects.IGameObject;
 
         int randomNr = (int) (rand.nextFloat() * 10000);
 
-        System.out.println(randomNr);
         if (randomNr < 9500){
             return;
         }

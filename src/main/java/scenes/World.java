@@ -178,7 +178,6 @@ public class World implements IScene {
         HashSet<IGameObject> toRemove = new HashSet<>();
         for (IGameObject e : elements) {
             if (e.getClass().equals(Doodle.class)) {
-                System.out.println("Dooodle " + e.getYPos());
                 if (e.getYPos() > Game.HEIGHT) {
                     toRemove.add(e);
                 }
