@@ -63,6 +63,7 @@ public class World implements IScene {
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
+        Game.setAlive(true);
 
         IBlockFactory blockFactory = serviceLocator.getBlockFactory();
         IBlock lastCreatedBlock = blockFactory.createStartBlock();
@@ -115,6 +116,7 @@ public class World implements IScene {
         // TODO: check if doodle is alive
 
         newBlocks();
+        Game.setAlive(doodle.getYPos() < Game.HEIGHT);
     }
 
     /**
