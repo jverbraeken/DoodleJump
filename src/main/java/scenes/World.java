@@ -70,7 +70,7 @@ public class World implements IScene {
         elements.add(lastCreatedBlock);
 
         for (int i = 1; i < 3; i++) {
-            lastCreatedBlock = blockFactory.createBlock(getTopPlatform());
+            lastCreatedBlock = blockFactory.createBlock(getTopObject());
             elements.add(lastCreatedBlock);
         }
 
@@ -183,7 +183,7 @@ public class World implements IScene {
                     toRemove.add(e);
                 }
             } else if (e instanceof IBlock) {
-                if (e.getYPos() > Game.HEIGHT) {
+                if (e.getYPos() + Game.HEIGHT * 0.01  > Game.HEIGHT) {
                     toRemove.add(e);
                 }
             }
@@ -205,16 +205,16 @@ public class World implements IScene {
                     minY = e.getYPos();
                 }
             }
-            IPlatform topPlatform = getTopPlatform();
+            IGameObject topObject = getTopObject();
             //TODO: implements New Block
-            elements.add(serviceLocator.getBlockFactory().createBlock(topPlatform));
+            elements.add(serviceLocator.getBlockFactory().createBlock(topObject));
         }
     }
 
     /**
      * TODO: Add JavaDoc
      */
-    private IPlatform getTopPlatform() {
+    private IGameObject getTopObject() {
         IBlock topBlock = (IBlock) elements.iterator().next();
         for (IGameObject e : elements) {
             if (e.getYPos() < topBlock.getYPos()) {
@@ -222,9 +222,9 @@ public class World implements IScene {
             }
         }
         ArrayList<IGameObject> arr = topBlock.getContent();
-        IPlatform topPlatform = (IPlatform) arr.get(arr.size() - 1);
+        IGameObject topObject = arr.get(arr.size() - 1);
 
-        return topPlatform;
+        return topObject;
     }
 
     /**

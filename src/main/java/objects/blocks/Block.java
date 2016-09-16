@@ -3,6 +3,7 @@ package objects.blocks;
 import objects.AGameObject;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
+import objects.powerups.IPowerupFactory;
 import scenes.World;
 import system.Game;
 import system.IServiceLocator;
@@ -17,11 +18,13 @@ import objects.IGameObject;
     private static IServiceLocator serviceLocator;
     private ArrayList<IGameObject> content = new ArrayList<>();
 
-    /* package */ Block(IServiceLocator serviceLocator, IPlatform lastPlatform) {
+    /* package */ Block(IServiceLocator serviceLocator, IGameObject lastObject) {
         Block.serviceLocator = serviceLocator;
 
-        setYPos(lastPlatform.getYPos() + 800);
-        createAndPlaceObjects(lastPlatform);
+        //This is only to be sure it has a certain height, after this it will be
+        //dynamic to the last element added to the list
+        setYPos(lastObject.getYPos() + 800);
+        createAndPlaceObjects(lastObject);
     }
 
     /** {@inheritDoc} */
@@ -63,7 +66,7 @@ import objects.IGameObject;
 
     /** {@inheritDoc} */
     @Override
-    public void placePlatforms(IPlatform lastPlatform) {
+    public void placePlatforms(IGameObject lastObject) {
         int max = (Game.WIDTH + Game.HEIGHT) / 120;
         int min = 8;
         Random rand = new Random();
@@ -78,7 +81,7 @@ import objects.IGameObject;
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
             float widthDeviation = rand.nextFloat();
 
-            int yLast = (int) lastPlatform.getYPos();
+            int yLast = (int) lastObject.getYPos();
             int yLoc = (int) (yLast - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
 
 
@@ -96,10 +99,43 @@ import objects.IGameObject;
 
             content.add(platform);
 
-            lastPlatform = platform;
+            lastObject = platform;
+
+            chanceForPowerup(platform);
+
         }
 
-        this.setYPos(lastPlatform.getYPos());
+        this.setYPos(lastObject.getYPos());
+    }
+
+    /** Takes a random number between 0 and 10000 and
+     * gives the platform a powerup if it's a certain number
+     * between 0 and 10000.
+     * @param platform The platform a powerup potentially is placed on.
+     **/
+    private void chanceForPowerup(IPlatform platform) {
+        //TODO use serviceLocator
+        Random rand = new Random();
+
+        int randomNr = (int) (rand.nextFloat() * 10000);
+
+        System.out.println(randomNr);
+        if (randomNr < 9500){
+            return;
+        }
+        else if (randomNr >= 9500 && randomNr < 9900){
+            IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+            int springXLoc = (int) (rand.nextFloat() * platform.getWidth());
+            IGameObject powerup = powerupFactory.createSpring((int) platform.getXPos() + springXLoc,
+                    (int) platform.getYPos() - platform.getHeight() + 5);
+            content.add(powerup);
+        }
+        else if (randomNr >= 9900){
+            IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+            IGameObject powerup = powerupFactory.createTrampoline((int) platform.getXPos() + 20,
+                    (int) platform.getYPos() - platform.getHeight() + 5);
+            content.add(powerup);
+        }
     }
 
     /** {@inheritDoc} */
@@ -107,7 +143,7 @@ import objects.IGameObject;
     public void cleanUpPlatforms() {
         HashSet<IGameObject> toRemove = new HashSet<>();
         for (IGameObject e : content) {
-            if (e.getYPos() -50 > Game.HEIGHT) {
+            if (e.getYPos() + Game.HEIGHT * 0.01 > Game.HEIGHT) {
                 toRemove.add(e);
             }
         }
@@ -120,10 +156,10 @@ import objects.IGameObject;
     /**
      * Creates and places platforms in the block.
      *
-     * @param lastPlatform The highest platform in the previous block.
+     * @param lastObject The highest platform in the previous block.
      */
-    private void createAndPlaceObjects(IPlatform lastPlatform) {
-        placePlatforms(lastPlatform);
+    private void createAndPlaceObjects(IGameObject lastObject) {
+        placePlatforms(lastObject);
     }
 
     /**

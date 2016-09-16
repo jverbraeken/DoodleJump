@@ -17,9 +17,9 @@ public interface IBlock extends IGameObject {
     /**
      * Place platforms in the block.
      *
-     * @param last The last platform from the previous block.
+     * @param lastObject The last platform from the previous block.
      */
-    void placePlatforms(IPlatform last);
+    void placePlatforms(IGameObject lastObject);
 
     /**
      * Checks for all the Platforms if they are under over the height

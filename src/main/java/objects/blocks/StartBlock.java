@@ -56,7 +56,7 @@ public class StartBlock extends AGameObject implements IBlock {
 
     /** {@inheritDoc} */
     @Override
-    public void placePlatforms(IPlatform lastPlatform) {
+    public void placePlatforms(IGameObject lastObject) {
         int max = (int)(Game.WIDTH + Game.HEIGHT)/130;
         int min = 6;
         Random rand = new Random();
@@ -65,7 +65,7 @@ public class StartBlock extends AGameObject implements IBlock {
 
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
         IPlatform platform = platformFactory.createPlatform(Game.WIDTH/2, (int) (Game.HEIGHT/1.2));
-        lastPlatform = platform;
+        lastObject = platform;
         content.add(platform);
 
         double t = World.vSpeedLimit/World.gravityAcceleration;
@@ -76,7 +76,7 @@ public class StartBlock extends AGameObject implements IBlock {
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
             float widthDeviation = (float) (rand.nextFloat() * 0.8 + 0.1);
 
-            int yLast = (int) lastPlatform.getYPos();
+            int yLast = (int) lastObject.getYPos();
 
             int yLoc = (int) (yLast - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
 
@@ -91,10 +91,10 @@ public class StartBlock extends AGameObject implements IBlock {
             platformCollideCheck(platform);
 
             content.add(platform);
-            lastPlatform = platform;
+            lastObject = platform;
         }
 
-        this.setYPos(lastPlatform.getYPos());
+        this.setYPos(lastObject.getYPos());
     }
 
     /** {@inheritDoc} */
@@ -114,7 +114,7 @@ public class StartBlock extends AGameObject implements IBlock {
         HashSet<IGameObject> toRemove = new HashSet<>();
         for(IGameObject e : content) {
             //A marge of 50 is used
-            if(e.getYPos() -50 > Game.HEIGHT) {
+            if(e.getYPos() + Game.HEIGHT * 0.01 > Game.HEIGHT) {
                 toRemove.add(e);
             }
 
@@ -127,7 +127,6 @@ public class StartBlock extends AGameObject implements IBlock {
     /**
      * Creates and places platforms in the block.
      *
-     * @param lastPlatform The highest platform in the previous block.
      */
     private void createAndPlaceObjects() {
         placePlatforms(null);
