@@ -48,7 +48,10 @@ public final class InputManager implements IInputManager {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        for (IMouseInputObserver observer : mouseInputObservers) {
+        //TODO: Synchronize properly instead of cloning
+        HashSet<IMouseInputObserver> observers = (HashSet) mouseInputObservers;
+        observers = (HashSet) observers.clone();
+        for (IMouseInputObserver observer : observers) {
             //observer.mouseClicked(e.getX() , e.getY() );
             observer.mouseClicked((2 * e.getX() - 2 * windowLeftBorderSize), (2 * e.getY() - 2 * windowTopBorderSize));
         }
