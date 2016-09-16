@@ -1,10 +1,10 @@
 package scenes;
 
 import input.IMouseInputObserver;
-import objects.backgrounds.IBackgroundFactory;
 import objects.buttons.IButton;
 import objects.buttons.IButtonFactory;
 import rendering.IDrawable;
+import rendering.Renderer;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
@@ -15,7 +15,7 @@ public class KillScreen implements IScene, IMouseInputObserver {
 
     private final IButton playAgainButton;
     private final IButton mainMenuButton;
-    private final IDrawable background;
+    private final ISprite background;
     private final double playAgainButtonXPercentage = 0.4;
     private final double playAgainButtonYPercentage = 0.7;
     private final double mainMenuButtonXPercentage = 0.4;
@@ -27,8 +27,7 @@ public class KillScreen implements IScene, IMouseInputObserver {
     /* package */ KillScreen(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
 
-        IBackgroundFactory backgroundFactory = serviceLocator.getBackgroundFactory();
-        background = backgroundFactory.createBackground();
+       background = serviceLocator.getSpriteFactory().getBackground();
 
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
         playAgainButton = buttonFactory.createPlayAgainButton((int) (Game.WIDTH * playAgainButtonXPercentage), (int) (Game.HEIGHT * playAgainButtonYPercentage));
@@ -54,7 +53,7 @@ public class KillScreen implements IScene, IMouseInputObserver {
 
     @Override
     public void paint() {
-        background.render();
+        serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
         playAgainButton.render();
         mainMenuButton.render();
     }
