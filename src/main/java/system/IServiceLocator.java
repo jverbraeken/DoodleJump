@@ -28,7 +28,6 @@ public interface IServiceLocator {
     void provide(IPowerupFactory powerupFactory);
     void provide(IRenderer renderer);
     void provide(ISpriteFactory spriteFactory);
-    void provide(ILevelBuilder levelBuilder);
     void provide(ISceneFactory sceneFactory);
     void provide(IPlatformFactory platformFactory);
     void provide(IRes res);
@@ -45,7 +44,6 @@ public interface IServiceLocator {
     IPowerupFactory getPowerupFactory();
     IRenderer getRenderer();
     ISpriteFactory getSpriteFactory();
-    ILevelBuilder getLevelBuilder();
     ISceneFactory getSceneFactory();
     IPlatformFactory getPlatformFactory();
     IRes getRes();
