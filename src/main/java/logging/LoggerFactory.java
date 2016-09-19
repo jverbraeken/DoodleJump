@@ -4,6 +4,9 @@ import system.IServiceLocator;
 
 public class LoggerFactory implements ILoggerFactory {
 
+    /**
+     * Reference to the service locator.
+     */
     private static IServiceLocator serviceLocator;
 
     /**
@@ -24,7 +27,7 @@ public class LoggerFactory implements ILoggerFactory {
 
     /** {@inheritDoc} */
     @Override
-    public ILogger createLogger(Class cl) {
+    public ILogger createLogger(Class<?> cl) {
         return new Logger(serviceLocator, cl);
     }
 

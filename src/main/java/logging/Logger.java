@@ -7,24 +7,29 @@ import java.io.FileNotFoundException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-/* Package */ final class Logger implements ILogger {
+/* package */ final class Logger implements ILogger {
 
-    private static IServiceLocator serviceLocator;
+    /**
+     * Reference to the file system to write.
+     */
+    private static IFileSystem fileSystem;
+
+    /**
+     * Reference to the class of this logger.
+     */
     private final Class cl;
 
     /**
      * Only create Logger in LoggerFactory.
      */
-    /* package */ Logger(IServiceLocator serviceLocator, Class cl) {
-        Logger.serviceLocator = serviceLocator;
+    /* package */ Logger(IServiceLocator serviceLocator, Class<?> cl) {
+        Logger.fileSystem = serviceLocator.getFileSystem();
         this.cl = cl;
     }
 
     /** {@inheritDoc} */
     @Override
     public void log(final String msg) {
-        IFileSystem fileSystem = serviceLocator.getFileSystem();
-
         try {
             String str = this.generateMessage("LOG", msg);
             fileSystem.appendToTextFile("async.log", str);
@@ -36,8 +41,6 @@ import java.util.Date;
     /** {@inheritDoc} */
     @Override
     public void error(final String msg) {
-        IFileSystem fileSystem = serviceLocator.getFileSystem();
-
         try {
             String str = this.generateMessage("ERROR", msg);
             fileSystem.appendToTextFile("async.log", str);
@@ -49,8 +52,6 @@ import java.util.Date;
     /** {@inheritDoc} */
     @Override
     public void info(final String msg) {
-        IFileSystem fileSystem = serviceLocator.getFileSystem();
-
         try {
             String str = this.generateMessage("INFO", msg);
             fileSystem.appendToTextFile("async.log", str);
@@ -62,8 +63,6 @@ import java.util.Date;
     /** {@inheritDoc} */
     @Override
     public void warning(final String msg) {
-        IFileSystem fileSystem = serviceLocator.getFileSystem();
-
         try {
             String str = this.generateMessage("WARNING", msg);
             fileSystem.appendToTextFile("async.log", str);
