@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.Random;
 import objects.IGameObject;
 
+import javax.swing.*;
+
 /* package */ class Block extends AGameObject implements IBlock {
 
     private static IServiceLocator serviceLocator;
@@ -125,8 +127,14 @@ import objects.IGameObject;
         else if (randomNr >= 9500 && randomNr < 9900){
             IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
             int springXLoc = (int) (rand.nextFloat() * platform.getWidth());
-            IGameObject powerup = powerupFactory.createSpring((int) platform.getXPos() + springXLoc,
-                    (int) platform.getYPos() - platform.getHeight() + 5);
+            IGameObject powerup = powerupFactory.createSpring(0,0);
+
+            int xPos = (int) platform.getXPos() + springXLoc;
+            if(xPos > platform.getXPos() + platform.getWidth() - powerup.getWidth())
+                xPos = xPos - powerup.getWidth();
+            powerup.setXPos(xPos);
+            powerup.setYPos((int) platform.getYPos() - platform.getHeight() + 5);
+
             content.add(powerup);
         }
         else if (randomNr >= 9900){
