@@ -1,9 +1,10 @@
-package objects.powerups;
+package objects.enemies;
 
 import objects.AGameObject;
+import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 
-public abstract class APowerup extends AGameObject implements IPowerup {
+public abstract class AEnemy extends AGameObject implements IEnemy {
 
     /**
      * Creates a new powerup and determines its hitbox by using the sprites dimensions automatically.
@@ -11,8 +12,14 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      * @param y The Y-coordinate of the powerup
      * @param sprite The sprite of the powerup
      */
-    public APowerup(int x, int y, ISprite sprite) {
+    public AEnemy(int x, int y, ISprite sprite) {
         super(x, y, sprite);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void collidesWith(IDoodle doodle) {
+        doodle.collide(this);
     }
 
 }

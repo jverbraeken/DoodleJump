@@ -22,15 +22,13 @@ public final class BlockFactory implements IBlockFactory {
     /** {@inheritDoc} */
     @Override
     public IBlock createStartBlock() {
-        IBlock block = new StartBlock(serviceLocator);
-        return block;
+        return new StartBlock(serviceLocator);
     }
 
     /** {@inheritDoc} */
     @Override
-    public IBlock createBlock(IGameObject lastObject) {
-        Block block = new Block(serviceLocator, lastObject);
-        return block;
+    public IBlock createBlock(IPlatform lastPlatform) {
+        return new Block(serviceLocator, lastPlatform);
     }
 
 }

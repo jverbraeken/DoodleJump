@@ -1,6 +1,8 @@
 package objects;
 
+import objects.doodles.IDoodle;
 import rendering.IDrawable;
+import resources.sprites.ISprite;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -14,43 +16,32 @@ public interface IGameObject extends IDrawable {
 
     void addYPos(double yPos);
 
-    void animate();
+    ISprite getSprite();
 
-    double getBoost();
-
-    Object getSprite();
+    void setSprite(ISprite sprite);
 
     double[] getHitBox();
-
-    int getHeight();
-
-    int getWidth();
 
     double getXPos();
 
     double getYPos();
 
-    void move();
-
     void render();
-
-    void setHeight(int height);
-
-    void setWidth(int width);
 
     void setXPos(double xPos);
 
     void setYPos(double yPos);
 
-    void setHitBox(double[] hitbox);
+    void setHitBox(int left, int top, int right, int bottom);
 
     void update();
 
     /**
-     * Checks if the object collides with another {@link IGameObject game object}.
-     * @param other The {@link IGameObject game object} to check the collision with
-     * @return True if the object collides with the other game object
+     * Checks if the game object collides with another game object based on their hitboxes.
+     * @param gameObject The object that the object could collide with
+     * @return True if the game object collide with each other
      */
-    boolean collide(IGameObject other);
+    boolean checkCollission(IGameObject gameObject);
 
+    void collidesWith(IDoodle doodle);
 }

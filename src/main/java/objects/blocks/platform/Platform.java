@@ -1,6 +1,7 @@
 package objects.blocks.platform;
 
 import objects.AGameObject;
+import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -8,7 +9,6 @@ public class Platform extends AGameObject implements IPlatform {
 
     private static IServiceLocator serviceLocator;
 
-    private ISprite sprite;
     private double boost = -20;
 
     /**
@@ -19,20 +19,9 @@ public class Platform extends AGameObject implements IPlatform {
      * @param y - The Y location for the platform.
      */
     /* package */ Platform(IServiceLocator serviceLocator, int x, int y) {
-        super();
-
+        super(x, y, serviceLocator.getSpriteFactory().getPlatformSprite1());
         Platform.serviceLocator = serviceLocator;
-
-        this.setXPos(x);
-        this.setYPos(y);
-        this.sprite = serviceLocator.getSpriteFactory().getPlatformSprite1();
-        this.setHeight(sprite.getHeight());
-        this.setWidth(sprite.getWidth());
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public void animate() { }
 
     /** {@inheritDoc} */
     @Override
@@ -40,16 +29,19 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public void move() { }
-
-    /** {@inheritDoc} */
-    @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(this.sprite, (int)this.getXPos(), (int)this.getYPos());
+        serviceLocator.getRenderer().drawSprite(getSprite(), (int)this.getXPos(), (int)this.getYPos());
     }
 
     /** {@inheritDoc} */
     @Override
     public void update() { }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public void collidesWith(IDoodle doodle) {
+        doodle.collide(this);
+    }
 
 }
