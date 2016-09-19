@@ -5,8 +5,49 @@ import system.IFactory;
 
 public interface ISpriteFactory extends IFactory {
 
+    // Buttons
+    ISprite getMenuButtonSprite();
+    ISprite getPauseButtonSprite();
+    ISprite getPlayButtonSprite();
+    ISprite getPlayAgainButtonSprite();
+    ISprite getResumeButtonSprite();
+
+    // Covers
+    ISprite getBackground();
+    ISprite getPauseCoverSprite();
+    ISprite getStartCoverSprite();
+
     // Doodle
-    ISprite getDoodleSprite(IDoodle.directions direction);
+    ISprite[] getDoodleSprite(IDoodle.directions direction);
+
+    // Kill screen
+    ISprite getGameOverSprite();
+    ISprite getKillScreenBottomSprite();
+
+    // Monsters
+    ISprite getPuddingMonsterSprite1(); // By default the green monster with some blood
+    ISprite getPuddingMonsterSprite2();
+    ISprite getPuddingMonsterSprite3();
+    ISprite getPuddingMonsterSprite4();
+    ISprite getPuddingMonsterSprite5();
+    ISprite getTwinMonsterSprite(); // By default the blue twin
+    ISprite getThreeEyedMonsterSprite1(); // By default three yellow eyes
+    ISprite getThreeEyedMonsterSprite2();
+    ISprite getThreeEyedMonsterSprite3();
+    ISprite getThreeEyedMonsterSprite4();
+    ISprite getThreeEyedMonsterSprite5();
+    ISprite getVampireMonsterSprite1(); // By default a blue monster with 2 red teeth
+    ISprite getVampireMonsterSprite2();
+    ISprite getVampireMonsterSprite3();
+    ISprite getVampireMonsterSprite4();
+    ISprite getVampireMonsterSprite5();
+    ISprite getOrdinaryMonsterSprite(); // By default the purple monster with a blank head
+    ISprite getCactusMonster1Sprite(); // By default with three flaps at its left and right side and three eyes
+    ISprite getCactusMonster2Sprite();
+    ISprite getFiveFeetMonsterSprite(); // By default a blue pudding with 5 red feet
+    ISprite getLowFiveFeetMonster1Sprite(); // By default a green very low monster with 5 feet
+    ISprite getLowFiveFeetMonster2Sprite();
+    ISprite getSmallMonsterSprite(); // By default a very small three eyed red monster
 
     // Platforms
     ISprite getPlatformSprite1();
@@ -33,48 +74,30 @@ public interface ISpriteFactory extends IFactory {
     ISprite getPlatformShining2();
     ISprite getPlatformShining3();
 
-    // Monsters
-    ISprite getPuddingMonsterSprite1(); // By default the green monster with some blood
-    ISprite getPuddingMonsterSprite2();
-    ISprite getPuddingMonsterSprite3();
-    ISprite getPuddingMonsterSprite4();
-    ISprite getPuddingMonsterSprite5();
-    ISprite getTwinMonsterSprite(); // By default the blue twin
-    ISprite getThreeEyedMonsterSprite1(); // By default three yellow eyes
-    ISprite getThreeEyedMonsterSprite2();
-    ISprite getThreeEyedMonsterSprite3();
-    ISprite getThreeEyedMonsterSprite4();
-    ISprite getThreeEyedMonsterSprite5();
-    ISprite getVampireMonsterSprite1(); // By default a blue monster with 2 red teeth
-    ISprite getVampireMonsterSprite2();
-    ISprite getVampireMonsterSprite3();
-    ISprite getVampireMonsterSprite4();
-    ISprite getVampireMonsterSprite5();
-    ISprite getOrdinaryMonsterSprite(); // By default the purple monster with a blank head
-    ISprite getCactusMonster1Sprite(); // By default with three flaps at its left and right side and three eyes
-    ISprite getCactusMonster2Sprite();
-    ISprite getFiveFeetMonsterSprite(); // By default a blue pudding with 5 red feet
-    ISprite getLowFiveFeetMonster1Sprite(); // By default a green very low monster with 5 feet
-    ISprite getLowFiveFeetMonster2Sprite();
-    ISprite getSmallMonsterSprite(); // By default a very small three eyed red monster
-    ISprite getUFOSprite();
-    ISprite getUFOShiningSprite();
-
-    // Tools
+    // Powerups
     ISprite getTrampolineSprite();
+    ISprite getTrampolineUsedSprite();
     ISprite getSpringSprite();
+    ISprite getSpringUsedSprite();
     ISprite getRocketSprite();
-    ISprite getCapSprite();
+    ISprite getPropellerSprite();
     ISprite getShieldSprite();
 
     // Text
     ISprite getWaitDontShootSprite();
     ISprite getAvoidSprite();
 
-    // Buttons
-    ISprite getPlayButtonSprite();
+    // Top bar
+    ISprite getScorebarSprite();
 
-    // Background
-    ISprite getStartMenuBackground();
+    // UFO
+    ISprite getUFOSprite();
+    ISprite getUFOShiningSprite();
 
+    /**
+     * Returns a sprite of the digit specified in Doodle Jump font.
+     * @param digit Between 0 and 10
+     * @return A sprite expressing the digit
+     */
+    ISprite getDigitSprite(int digit);
 }

@@ -16,6 +16,8 @@ public interface IGameObject extends IDrawable {
 
     void animate();
 
+    double getBoost();
+
     Object getSprite();
 
     double[] getHitBox();
@@ -43,4 +45,5 @@ public interface IGameObject extends IDrawable {
     void setHitBox(double[] hitbox);
 
     void update();
+
 }

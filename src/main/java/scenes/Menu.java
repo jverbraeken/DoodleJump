@@ -1,58 +1,70 @@
 package scenes;
 
-import input.IMouseInputObserver;
-import objects.backgrounds.IBackgroundFactory;
+import input.IKeyInputObserver;
+import input.KeyCode;
+import input.Keys;
 import objects.buttons.IButton;
 import objects.buttons.IButtonFactory;
-import objects.buttons.PlayButton;
 import rendering.IDrawable;
+import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
-public class Menu implements IScene, IMouseInputObserver {
+public class Menu implements IScene, IKeyInputObserver {
 
     private final IServiceLocator serviceLocator;
 
     private final IButton playButton;
-    private final IDrawable background;
-    private final double playButtonXPercentage = 0.1;
-    private final double playButtonYPercentage = 0.3;
+    private final ISprite cover;
+    private static final double playButtonXPercentage = 0.15;
+    private static final double playButtonYPercentage = 0.25;
 
     /* package */ Menu(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
 
-        IBackgroundFactory backgroundFactory = serviceLocator.getBackgroundFactory();
-        background = backgroundFactory.createBackground();
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        cover = spriteFactory.getStartCoverSprite();
 
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
         playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * playButtonXPercentage), (int) (Game.HEIGHT * playButtonYPercentage));
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void start() {
         serviceLocator.getInputManager().addObserver(playButton);
+        serviceLocator.getInputManager().addObserver(this);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void stop() {
         serviceLocator.getInputManager().removeObserver(playButton);
+        serviceLocator.getInputManager().removeObserver(this);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void paint() {
-        background.render();
-        playButton.paint();
+        serviceLocator.getRenderer().drawSprite(this.cover, 0, 0);
+        playButton.render();
     }
 
-    @Override
-    public void update(double delta) {
-    }
-
-    @Override
     /** {@inheritDoc} */
-    public void mouseClicked(int x, int y) {
-        System.out.println("X: " + x + ", Y: " + y);
+    @Override
+    public void update(double delta) { }
+
+    /** {@inheritDoc} */
+    @Override
+    public void keyPress(int keyCode) { }
+
+    /** {@inheritDoc} */
+    @Override
+    public void keyRelease(int keyCode) {
+        if (KeyCode.getKeyCode(Keys.enter) == keyCode || KeyCode.getKeyCode(Keys.space) == keyCode) {
+            Game.setScene(serviceLocator.getSceneFactory().newWorld());
+        }
     }
+
 }

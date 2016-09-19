@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.IGameObject;
 import system.IServiceLocator;
 
 public final class PowerupFactory implements IPowerupFactory {
@@ -13,4 +14,17 @@ public final class PowerupFactory implements IPowerupFactory {
     }
 
     private PowerupFactory() { }
+
+    /** {@inheritDoc} */
+    @Override
+    public IGameObject createSpring(final int x, final int y) {
+        return new Spring(serviceLocator, x, y);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public IGameObject createTrampoline(final int x, final int y) {
+        return new Trampoline(serviceLocator, x, y);
+    }
+
 }

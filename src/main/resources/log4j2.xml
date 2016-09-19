@@ -17,5 +17,8 @@
         <Root level="info" includeLocation="false">
             <AppenderRef ref="RandomAccessFile"/>
         </Root>
+        <AsyncLogger name="rendering.Renderer" level="off">
+            <AppenderRef ref="RandomAccessFile"/>
+        </AsyncLogger>
     </Loggers>
 </Configuration>

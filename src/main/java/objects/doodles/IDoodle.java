@@ -9,5 +9,6 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     enum directions { left, right };
 
     boolean collide(IGameObject collidee);
+    void setVerticalSpeed(double vSpeed);
 
 }

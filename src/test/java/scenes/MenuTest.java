@@ -1,6 +1,5 @@
 package scenes;
 
-import objects.backgrounds.IBackgroundFactory;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.buttons.IButton;
@@ -11,6 +10,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import rendering.IDrawable;
 import resources.audio.IAudioManager;
+import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import static org.mockito.Matchers.anyInt;
@@ -20,17 +21,17 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 public class MenuTest {
     private static Menu menu;
-    private static IDrawable background;
+    private static ISprite background;
     private static IButton playButton;
 
     @BeforeClass
     public static void init() {
         // Background
 
-        background = mock(IDrawable.class);
+        background = mock(ISprite.class);
 
-        IBackgroundFactory backgroundFactory = mock(IBackgroundFactory.class);
-        when(backgroundFactory.createBackground()).thenReturn(background);
+        ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
+        when(spriteFactory.getStartCoverSprite()).thenReturn(background);
 
         // Button
 
@@ -40,7 +41,7 @@ public class MenuTest {
         when(buttonFactory.createPlayButton(anyInt(), anyInt())).thenReturn(playButton);
 
         IServiceLocator serviceLocator = mock(IServiceLocator.class);
-        when(serviceLocator.getBackgroundFactory()).thenReturn(backgroundFactory);
+        when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(serviceLocator.getButtonFactory()).thenReturn(buttonFactory);
         menu = new Menu(serviceLocator);
     }

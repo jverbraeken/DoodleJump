@@ -1,5 +1,7 @@
 package objects.blocks;
 
+import objects.IGameObject;
+import objects.blocks.platform.IPlatform;
 import system.IServiceLocator;
 
 public final class BlockFactory implements IBlockFactory {
@@ -12,19 +14,22 @@ public final class BlockFactory implements IBlockFactory {
         serviceLocator.provide(new BlockFactory());
     }
 
-    private BlockFactory() {
+    /**
+     * Prevent instantiations of BlockFactory.
+     */
+    private BlockFactory() { }
 
-    }
-
+    /** {@inheritDoc} */
     @Override
-    public IBlock createStartBlock(){
+    public IBlock createStartBlock() {
         IBlock block = new StartBlock(serviceLocator);
         return block;
     }
 
+    /** {@inheritDoc} */
     @Override
-    public IBlock createBlock(double lastPlatformHeight){
-        Block block = new Block(serviceLocator, lastPlatformHeight);
+    public IBlock createBlock(IGameObject lastObject) {
+        Block block = new Block(serviceLocator, lastObject);
         return block;
     }
 

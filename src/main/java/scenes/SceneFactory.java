@@ -24,4 +24,9 @@ public final class SceneFactory implements ISceneFactory {
         return new World(serviceLocator);
     }
 
+    @Override
+    public KillScreen newKillScreen() {
+        return new KillScreen(serviceLocator);
+    }
+
 }
