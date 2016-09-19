@@ -189,8 +189,6 @@ public final class Game {
      * TODO: Add JavaDoc
      */
     private static synchronized void loop() {
-        serviceLocator.getLogger().log("Game started");
-        
         long lastLoopTime = System.nanoTime();
         long lastFpsTime = 0;
         while (true) {

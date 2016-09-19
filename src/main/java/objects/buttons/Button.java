@@ -1,11 +1,10 @@
 package objects.buttons;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-public class Button implements IButton {
+/* package */ class Button implements IButton {
 
     private final IServiceLocator serviceLocator;
 
@@ -14,8 +13,18 @@ public class Button implements IButton {
     private final int[] topLeft = new int[2], bottomRight = new int[2];
     private final Runnable action;
     private final String name;
-    private static final Logger logger = LoggerFactory.getLogger(Button.class);
+    private final ILogger logger;
 
+    /**
+     * TODO: ADD JAVADOC
+     *
+     * @param serviceLocator
+     * @param x
+     * @param y
+     * @param sprite
+     * @param action
+     * @param name
+     */
     /* package */ Button(IServiceLocator serviceLocator, int x, int y, ISprite sprite, Runnable action, String name) {
         super();
 
@@ -23,6 +32,7 @@ public class Button implements IButton {
         assert sprite != null;
 
         this.serviceLocator = serviceLocator;
+        this.logger = serviceLocator.getLogger();
         this.sprite = sprite;
         this.width = sprite.getImage().getWidth(null);
         this.height = sprite.getImage().getHeight(null);
@@ -40,15 +50,17 @@ public class Button implements IButton {
         serviceLocator.getRenderer().drawSprite(sprite, topLeft[0], topLeft[1], width, height);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void mouseClicked(int x, int y) {
-            assert x >= 0 && y >= 0;
+        assert x >= 0 && y >= 0;
 
-            if(x > topLeft[0] && x < bottomRight[0]) {
-                if(y > topLeft[1] && y < bottomRight[1]) {
-                    logger.info("Button clicked: \"" + name + "\"");
-                    action.run();
-                }
+        if (x > topLeft[0] && x < bottomRight[0]) {
+            if(y > topLeft[1] && y < bottomRight[1]) {
+                logger.info("Button clicked: \"" + name + "\"");
+                action.run();
             }
+        }
     }
+
 }

@@ -115,8 +115,14 @@ public final class FileSystem implements IFileSystem {
 
     @Override
     /** {@inheritDoc} */
-    public void writeTextFile(final String filename, final String content) throws FileNotFoundException {
-        File file = getFile(filename);
+    public void writeTextFile(final String filename, final String content) {
+        File file;
+        try {
+            file = getFile(filename);
+        } catch(FileNotFoundException e) {
+            file = new File(filename);
+        }
+
 
         try {
             Writer fileWriter = new FileWriter(file);

@@ -1,6 +1,9 @@
 package logging;
 
+import filesystem.IFileSystem;
 import system.IServiceLocator;
+
+import java.io.FileNotFoundException;
 
 public final class Logger implements ILogger {
 
@@ -25,29 +28,48 @@ public final class Logger implements ILogger {
     /** {@inheritDoc} */
     @Override
     public void log(final String msg) {
-        Console.log(msg);
-        // TODO: Write to file
+        IFileSystem fileSystem = serviceLocator.getFileSystem();
+        try {
+            fileSystem.writeTextFile("async.log", msg);
+        } catch(FileNotFoundException e) {
+            System.out.println("Couldn't log: " + msg);
+        }
     }
 
     /** {@inheritDoc} */
     @Override
     public void error(final String msg) {
-        Console.error(msg);
-        // TODO: Write to file
+        IFileSystem fileSystem = serviceLocator.getFileSystem();
+
+        try {
+            fileSystem.writeTextFile("async.log", "ERROR: " + msg);
+        } catch(FileNotFoundException e) {
+            System.out.println("Couldn't log ERROR: " + msg);
+        }
     }
 
     /** {@inheritDoc} */
     @Override
     public void info(final String msg) {
-        Console.info(msg);
-        // TODO: Write to file
+        IFileSystem fileSystem = serviceLocator.getFileSystem();
+
+        try {
+            fileSystem.writeTextFile("async.log", "INFO: " + msg);
+        } catch(FileNotFoundException e) {
+            System.out.println("Couldn't log INFO: " + msg);
+        }
     }
 
     /** {@inheritDoc} */
     @Override
     public void warning(final String msg) {
-        Console.warning(msg);
-        // TODO: Write to file
+        IFileSystem fileSystem = serviceLocator.getFileSystem();
+
+        try {
+            fileSystem.writeTextFile("async.log", "WARNING: " + msg);
+        } catch(FileNotFoundException e) {
+            System.out.println("Couldn't log WARNING: " + msg);
+        }
     }
 
 }
