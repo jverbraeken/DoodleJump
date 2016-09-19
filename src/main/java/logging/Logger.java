@@ -1,33 +1,33 @@
 package logging;
 
-public class Console implements IConsole {
+public class Logger implements ILogger {
 
     /**
      * Hidden constructor to prevent instantiation.
      */
-    private Console() { }
+    private Logger() { }
 
     /** {@inheritDoc} */
     public static void log(final String msg) {
-        System.out.println(msg);
+        Console.log(msg);
+        // TODO: Write to file
     }
 
     /** {@inheritDoc} */
     static void error(final String msg) {
-        System.out.print("ERROR: ");
-        System.out.println(msg);
+        Console.error(msg);
+        // TODO: Write to file
     }
 
     /** {@inheritDoc} */
     static void info(final String msg) {
-        System.out.print("INFO: ");
-        System.out.println(msg);
+        Console.info(msg);
+        // TODO: Write to file
     }
 
     /** {@inheritDoc} */
     static void warning(final String msg) {
-        System.out.print("WARNING: ");
-        System.out.println(msg);
+        Console.warning(msg);
+        // TODO: Write to file
     }
-
 }
