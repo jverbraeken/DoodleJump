@@ -25,13 +25,16 @@ public final class Res implements IRes {
             sprites.put(sprite, spritepath + "unimplemented.jpg");
         }
 
-        // Background
-        sprites.put(IRes.sprites.background, spritepath + "bck@2x.png");
-
         // Buttons
-        sprites.put(IRes.sprites.playButton, spritepath + "play@2x.png");
-        sprites.put(IRes.sprites.resumeButton, spritepath + "resume@2x.png");
+        sprites.put(IRes.sprites.menu, spritepath + "menu@2x.png");
+        sprites.put(IRes.sprites.play, spritepath + "play@2x.png");
+        sprites.put(IRes.sprites.playagain, spritepath + "playagain@2x.png");
+        sprites.put(IRes.sprites.resume, spritepath + "resume@2x.png");
+
+        // Covers
+        sprites.put(IRes.sprites.background, spritepath + "bck@2x.png");
         sprites.put(IRes.sprites.pauseCover, spritepath + "pause-cover@2x.png");
+        sprites.put(IRes.sprites.startCover, spritepath + "Default@2x.png");
 
         // Doodle
         sprites.put(IRes.sprites.doodleLeftAscend, spritepath + "blue-lik-left@2x.png");
@@ -39,20 +42,12 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.doodleRightAscend, spritepath + "blue-lik-right@2x.png");
         sprites.put(IRes.sprites.doodleRightDescend, spritepath + "blue-lik-right-odskok@2x.png");
 
-        // Platforms
-        sprites.put(IRes.sprites.platform1, spritepath + "platform-green@2x.png");
+        // Kill screen
+        sprites.put(IRes.sprites.gameOver, spritepath + "gameover@2x.png");
+        sprites.put(IRes.sprites.killScreenBottom, spritepath + "kill-bottom@2x.png");
 
-        // Powerups
-        sprites.put(IRes.sprites.trampoline, spritepath + "powerup-trampoline@2x.png");
-        sprites.put(IRes.sprites.trampolineUsed, spritepath + "powerup-trampoline-used@2x.png");
-        sprites.put(IRes.sprites.spring, spritepath + "powerup-spring@2x.png");
-        sprites.put(IRes.sprites.springUsed, spritepath + "powerup-spring-used@2x.png");
-        sprites.put(IRes.sprites.rocket, spritepath + "powerup-rockets@2x.png");
-        sprites.put(IRes.sprites.propeller, spritepath + "powerup-propeller@2x.png");
-        sprites.put(IRes.sprites.shield, spritepath + "powerup-shield@2x.png");
 
-        // Top bar
-        sprites.put(IRes.sprites.scorebar, spritepath + "scorebar.png");
+        // Numbers
         sprites.put(IRes.sprites.pause, spritepath + "pause.png");
         sprites.put(IRes.sprites.zero, spritepath + "0.png");
         sprites.put(IRes.sprites.one, spritepath + "1.png");
@@ -64,6 +59,21 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.seven, spritepath + "7.png");
         sprites.put(IRes.sprites.eight, spritepath + "8.png");
         sprites.put(IRes.sprites.nine, spritepath + "9.png");
+
+        // Platforms
+        sprites.put(IRes.sprites.platform1, spritepath + "platform-green@2x.png");
+
+        // Powerups
+        sprites.put(IRes.sprites.propeller, spritepath + "powerup-propeller@2x.png");
+        sprites.put(IRes.sprites.rocket, spritepath + "powerup-rockets@2x.png");
+        sprites.put(IRes.sprites.shield, spritepath + "powerup-shield@2x.png");
+        sprites.put(IRes.sprites.spring, spritepath + "powerup-spring@2x.png");
+        sprites.put(IRes.sprites.springUsed, spritepath + "powerup-spring-used@2x.png");
+        sprites.put(IRes.sprites.trampoline, spritepath + "powerup-trampoline@2x.png");
+        sprites.put(IRes.sprites.trampolineUsed, spritepath + "powerup-trampoline-used@2x.png");
+
+        // Top bar
+        sprites.put(IRes.sprites.scorebar, spritepath + "scorebar.png");
     }
 
     private Res() { }

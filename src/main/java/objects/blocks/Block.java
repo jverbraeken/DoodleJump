@@ -114,11 +114,15 @@ import objects.IGameObject;
      * @param platform The platform a powerup potentially is placed on.
      **/
     private void chanceForPowerup(IPlatform platform) {
+        //TODO use serviceLocator
         Random rand = new Random();
 
         int randomNr = (int) (rand.nextFloat() * 10000);
 
-        if (randomNr >= 9500 && randomNr < 9900) {
+        if (randomNr < 9500){
+            return;
+        }
+        else if (randomNr >= 9500 && randomNr < 9900){
             IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
             int springXLoc = (int) (rand.nextFloat() * platform.getWidth());
             IGameObject powerup = powerupFactory.createSpring(0, 0);

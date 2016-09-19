@@ -39,7 +39,7 @@ public class World implements IScene {
     /**
      * The background of the world.
      */
-    private final IDrawable background;
+    private final ISprite background;
     /**
      * The Doodle for the world.
      */
@@ -63,6 +63,7 @@ public class World implements IScene {
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
+        Game.setAlive(true);
 
         IBlockFactory blockFactory = serviceLocator.getBlockFactory();
         IBlock lastCreatedBlock = blockFactory.createStartBlock();
@@ -73,7 +74,7 @@ public class World implements IScene {
             elements.add(lastCreatedBlock);
         }
 
-        background = serviceLocator.getBackgroundFactory().createBackground();
+        background = serviceLocator.getSpriteFactory().getBackground();
 
         scorebar = new Scorebar();
 
@@ -93,7 +94,7 @@ public class World implements IScene {
     /** {@inheritDoc} */
     @Override
     public void paint() {
-        background.render();
+        serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
 
         for (IGameObject e : elements) {
             e.render();
@@ -115,6 +116,7 @@ public class World implements IScene {
         // TODO: check if doodle is alive
 
         newBlocks();
+        Game.setAlive(doodle.getYPos() < Game.HEIGHT);
     }
 
     /**
@@ -176,7 +178,6 @@ public class World implements IScene {
         HashSet<IGameObject> toRemove = new HashSet<>();
         for (IGameObject e : elements) {
             if (e.getClass().equals(Doodle.class)) {
-                System.out.println("Dooodle " + e.getYPos());
                 if (e.getYPos() > Game.HEIGHT) {
                     toRemove.add(e);
                 }
@@ -257,7 +258,7 @@ public class World implements IScene {
             int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2);
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
 
-            ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseSprite();
+            ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseButtonSprite();
             int pauseX = (int) (Game.WIDTH - pauseSprite.getWidth() * scaling - PAUSEOFFSET);
             int pauseY = (int) (((double) Game.WIDTH / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
