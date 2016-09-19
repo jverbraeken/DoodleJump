@@ -3,8 +3,7 @@ package system;
 import filesystem.FileSystem;
 import input.IInputManager;
 import input.InputManager;
-import logging.Console;
-import logging.Logger;
+import logging.LoggerFactory;
 import math.Calc;
 import math.ICalc;
 import objects.Collisions;
@@ -72,7 +71,7 @@ public final class Game {
         Res.register(serviceLocator);
         ButtonFactory.register(serviceLocator);
         Collisions.register(serviceLocator);
-        Logger.register(serviceLocator);
+        LoggerFactory.register(serviceLocator);
     }
 
     public static void main(String[] argv) {

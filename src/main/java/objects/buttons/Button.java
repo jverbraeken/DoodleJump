@@ -32,7 +32,7 @@ import system.IServiceLocator;
         assert sprite != null;
 
         this.serviceLocator = serviceLocator;
-        this.logger = serviceLocator.getLogger();
+        this.logger = serviceLocator.getLoggerFactory().createLogger(Button.class);
         this.sprite = sprite;
         this.width = sprite.getImage().getWidth(null);
         this.height = sprite.getImage().getHeight(null);

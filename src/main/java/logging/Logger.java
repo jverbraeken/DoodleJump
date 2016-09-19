@@ -4,33 +4,30 @@ import filesystem.IFileSystem;
 import system.IServiceLocator;
 
 import java.io.FileNotFoundException;
+import java.sql.Timestamp;
+import java.util.Date;
 
-public final class Logger implements ILogger {
+/* Package */ final class Logger implements ILogger {
 
     private static IServiceLocator serviceLocator;
+    private final Class cl;
 
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
+     * Only create Logger in LoggerFactory.
      */
-    public static void register(final IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
+    /* package */ Logger(IServiceLocator serviceLocator, Class cl) {
         Logger.serviceLocator = serviceLocator;
-        serviceLocator.provide(new Logger());
+        this.cl = cl;
     }
-
-    /**
-     * Hidden constructor to prevent instantiation.
-     */
-    private Logger() { }
 
     /** {@inheritDoc} */
     @Override
     public void log(final String msg) {
         IFileSystem fileSystem = serviceLocator.getFileSystem();
+
         try {
-            fileSystem.writeTextFile("async.log", msg);
+            String str = this.generateMessage("LOG", msg);
+            fileSystem.writeTextFile("async.log", str);
         } catch(FileNotFoundException e) {
             System.out.println("Couldn't log: " + msg);
         }
@@ -42,7 +39,8 @@ public final class Logger implements ILogger {
         IFileSystem fileSystem = serviceLocator.getFileSystem();
 
         try {
-            fileSystem.writeTextFile("async.log", "ERROR: " + msg);
+            String str = this.generateMessage("ERROR", msg);
+            fileSystem.writeTextFile("async.log", str);
         } catch(FileNotFoundException e) {
             System.out.println("Couldn't log ERROR: " + msg);
         }
@@ -54,7 +52,8 @@ public final class Logger implements ILogger {
         IFileSystem fileSystem = serviceLocator.getFileSystem();
 
         try {
-            fileSystem.writeTextFile("async.log", "INFO: " + msg);
+            String str = this.generateMessage("INFO", msg);
+            fileSystem.writeTextFile("async.log", str);
         } catch(FileNotFoundException e) {
             System.out.println("Couldn't log INFO: " + msg);
         }
@@ -66,10 +65,25 @@ public final class Logger implements ILogger {
         IFileSystem fileSystem = serviceLocator.getFileSystem();
 
         try {
-            fileSystem.writeTextFile("async.log", "WARNING: " + msg);
+            String str = this.generateMessage("WARNING", msg);
+            fileSystem.writeTextFile("async.log", str);
         } catch(FileNotFoundException e) {
             System.out.println("Couldn't log WARNING: " + msg);
         }
+    }
+
+    /**
+     * Generate the full message to log.
+     *
+     * @param type The type of message.
+     * @param msg The message to log.
+     * @return The generated message.
+     */
+    private String generateMessage(final String type, final String msg) {
+        Date date = new java.util.Date();
+        return new Timestamp(date.getTime()) + " | " +
+                "ORIGIN: '" + cl.getName() + "' | " +
+                type + ": '" + msg + "'";
     }
 
 }

@@ -61,7 +61,7 @@ public class World implements IScene {
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
-        this.logger = serviceLocator.getLogger();
+        this.logger = serviceLocator.getLoggerFactory().createLogger(World.class);
 
         Game.setAlive(true);
 
@@ -82,7 +82,7 @@ public class World implements IScene {
         this.doodle = doodleFactory.createDoodle();
         this.vSpeed = -9;
 
-        serviceLocator.getLogger().log("Level started");
+        logger.log("Level started");
     }
 
     /** {@inheritDoc} */
@@ -244,7 +244,7 @@ public class World implements IScene {
         private final int scoreBarHeight;
         private final PauseButton pauseButton;
         private final ScoreText scoreText;
-        private final ILogger logger = serviceLocator.getLogger();
+        private final ILogger logger = serviceLocator.getLoggerFactory().createLogger(Scorebar.class);
 
         private Scorebar() {
             scoreBarSprite = serviceLocator.getSpriteFactory().getScorebarSprite();
