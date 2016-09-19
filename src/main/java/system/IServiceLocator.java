@@ -1,5 +1,6 @@
 package system;
 
+import logging.ILogger;
 import objects.ICollisions;
 import objects.buttons.IButtonFactory;
 import resources.IRes;
@@ -34,6 +35,7 @@ public interface IServiceLocator {
     void provide(IRes res);
     void provide(IButtonFactory buttonFactory);
     void provide(ICollisions collisions);
+    void provide(ILogger Logger);
 
     IAudioManager getAudioManager();
     IEnemyBuilder getEnemyBuilder();
@@ -51,5 +53,6 @@ public interface IServiceLocator {
     IRes getRes();
     IButtonFactory getButtonFactory();
     ICollisions getCollisions();
+    ILogger getLogger();
 
 }

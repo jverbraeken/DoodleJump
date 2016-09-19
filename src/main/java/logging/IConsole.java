@@ -1,6 +1,6 @@
 package logging;
 
-/* package */ interface IConsole {
+interface IConsole {
 
     /**
      * Log a message.

@@ -1,6 +1,21 @@
 package logging;
 
-public class Logger implements ILogger {
+import system.IServiceLocator;
+
+public final class Logger implements ILogger {
+
+    private static IServiceLocator serviceLocator;
+
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator serviceLocator) {
+        assert serviceLocator != null;
+        Logger.serviceLocator = serviceLocator;
+        serviceLocator.provide(new Logger());
+    }
 
     /**
      * Hidden constructor to prevent instantiation.
@@ -8,26 +23,31 @@ public class Logger implements ILogger {
     private Logger() { }
 
     /** {@inheritDoc} */
-    public static void log(final String msg) {
+    @Override
+    public void log(final String msg) {
         Console.log(msg);
         // TODO: Write to file
     }
 
     /** {@inheritDoc} */
-    static void error(final String msg) {
+    @Override
+    public void error(final String msg) {
         Console.error(msg);
         // TODO: Write to file
     }
 
     /** {@inheritDoc} */
-    static void info(final String msg) {
+    @Override
+    public void info(final String msg) {
         Console.info(msg);
         // TODO: Write to file
     }
 
     /** {@inheritDoc} */
-    static void warning(final String msg) {
+    @Override
+    public void warning(final String msg) {
         Console.warning(msg);
         // TODO: Write to file
     }
+
 }

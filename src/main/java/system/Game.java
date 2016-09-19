@@ -4,6 +4,7 @@ import filesystem.FileSystem;
 import input.IInputManager;
 import input.InputManager;
 import logging.Console;
+import logging.Logger;
 import math.Calc;
 import math.ICalc;
 import objects.Collisions;
@@ -71,11 +72,10 @@ public final class Game {
         Res.register(serviceLocator);
         ButtonFactory.register(serviceLocator);
         Collisions.register(serviceLocator);
+        Logger.register(serviceLocator);
     }
 
     public static void main(String[] argv) {
-        Console.log("Game started");
-
         initServices();
 
         serviceLocator.getRenderer().start();
@@ -189,6 +189,8 @@ public final class Game {
      * TODO: Add JavaDoc
      */
     private static synchronized void loop() {
+        serviceLocator.getLogger().log("Game started");
+        
         long lastLoopTime = System.nanoTime();
         long lastFpsTime = 0;
         while (true) {

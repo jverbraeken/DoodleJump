@@ -1,6 +1,6 @@
 package logging;
 
-public class Console implements IConsole {
+public final class Console implements IConsole {
 
     /**
      * Hidden constructor to prevent instantiation.
