@@ -9,7 +9,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -26,6 +25,9 @@ import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,27 +117,32 @@ public final class FileSystem implements IFileSystem {
 
     @Override
     /** {@inheritDoc} */
-    public void writeTextFile(final String filename, final String content) {
-        File file;
-        try {
-            file = getFile(filename);
-        } catch(FileNotFoundException e) {
-            file = new File(filename);
-        }
-
+    public void writeTextFile(final String filename, final String content) throws FileNotFoundException {
+        File file = getFile(filename);
 
         try {
             Writer fileWriter = new FileWriter(file);
             Writer bufferedFileWriter = new BufferedWriter(fileWriter);
             bufferedFileWriter.write(content);
             bufferedFileWriter.close();
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
+    public void appendToTextFile(String filename, String content) throws FileNotFoundException {
+        try {
+            Files.write(Paths.get(filename), content.getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public OutputStream writeBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
 
