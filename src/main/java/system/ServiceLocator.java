@@ -1,6 +1,5 @@
 package system;
 
-import objects.ICollisions;
 import objects.buttons.IButtonFactory;
 import resources.IRes;
 import resources.audio.IAudioManager;
@@ -49,7 +48,6 @@ import resources.sprites.ISpriteFactory;
     private IBlockFactory blockFactory;
     private ILevelBuilder levelBuilder;
     private IPlatformFactory platformFactory;
-    private ICollisions collisions;
 
     // scenes
     private ISceneFactory sceneFactory;
@@ -193,15 +191,6 @@ import resources.sprites.ISpriteFactory;
      * {@inheritDoc}
      */
     @Override
-    public void provide(ICollisions collisions) {
-        assert collisions != null;
-        this.collisions = collisions;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public IAudioManager getAudioManager() {
         return audioManager;
     }
@@ -315,11 +304,5 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IButtonFactory getButtonFactory() { return buttonFactory; }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ICollisions getCollisions() { return collisions; }
 
 }

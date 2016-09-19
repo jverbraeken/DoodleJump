@@ -179,6 +179,7 @@ import objects.IGameObject;
     private void platformCollideCheck(IPlatform platform) {
         HashSet<IGameObject> toRemove = new HashSet<>();
         for (IGameObject e : content){
+
             if (serviceLocator.getCollisions().collide(platform, e)){
                 toRemove.add(e);
             }

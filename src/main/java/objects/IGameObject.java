@@ -46,4 +46,11 @@ public interface IGameObject extends IDrawable {
 
     void update();
 
+    /**
+     * Checks if the object collides with another {@link IGameObject game object}.
+     * @param other The {@link IGameObject game object} to check the collision with
+     * @return True if the object collides with the other game object
+     */
+    boolean collide(IGameObject other);
+
 }
