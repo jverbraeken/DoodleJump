@@ -4,6 +4,8 @@ import objects.IGameObject;
 import objects.blocks.platform.IPlatform;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public interface IBlock extends IGameObject {
 
@@ -12,7 +14,7 @@ public interface IBlock extends IGameObject {
      *
      * @return The content of the block.
      */
-    ArrayList<IGameObject> getContent();
+    Set<IGameObject> getContent();
 
     /**
      * Place platforms in the block.

@@ -15,12 +15,12 @@ public final class SceneFactory implements ISceneFactory {
     private SceneFactory() { }
 
     @Override
-    public Menu newMenu() {
+    public IScene newMenu() {
         return new Menu(serviceLocator);
     }
 
     @Override
-    public World newWorld() {
+    public IScene newWorld() {
         return new World(serviceLocator);
     }
 

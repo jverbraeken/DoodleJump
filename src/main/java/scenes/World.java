@@ -15,10 +15,7 @@ import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 public class World implements IScene {
 
@@ -81,6 +78,8 @@ public class World implements IScene {
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
         this.vSpeed = -9;
+
+        serviceLocator.getAudioManager().playStart();
     }
 
     /** {@inheritDoc} */
@@ -119,15 +118,15 @@ public class World implements IScene {
         Game.setAlive(doodle.getYPos() < Game.HEIGHT);
     }
 
-    /**
-     * TODO: Add JavaDoc
-     */
-    private void updateSpeed() {
+    private void updateSpeed(){
         for (IGameObject e : elements) {
+            //TODO: elements should not be IGameObject but IBlock
             IBlock block = (IBlock) e;
-            ArrayList<IGameObject> inside = block.getContent();
+            Set<IGameObject> inside = block.getContent();
             for (IGameObject item : inside) {
-                if (vSpeed > 0 && this.doodle.collide(item)) {
+                //TODO: TEMP FIX to make sure the doodle doesnt hit with its "head"
+                if (vSpeed > 0 && this.doodle.collide(item) && doodle.getYPos() + doodle.getHitBox()[3] < item.getYPos() + item.getHeight()){
+
                     vSpeed = item.getBoost();
                 }
             }
@@ -214,6 +213,7 @@ public class World implements IScene {
     /**
      * TODO: Add JavaDoc
      */
+    //TODO This can be more efficient by saving this values
     private IGameObject getTopObject() {
         IBlock topBlock = (IBlock) elements.iterator().next();
         for (IGameObject e : elements) {
@@ -221,8 +221,12 @@ public class World implements IScene {
                 topBlock = (IBlock) e;
             }
         }
-        ArrayList<IGameObject> arr = topBlock.getContent();
-        IGameObject topObject = arr.get(arr.size() - 1);
+        Set<IGameObject>  content = topBlock.getContent();
+        Iterator iterator = content.iterator();
+        IGameObject topObject = (IGameObject) iterator.next();
+        while (iterator.hasNext()) {
+            IGameObject object = (IGameObject) iterator.next();
+        }
 
         return topObject;
     }

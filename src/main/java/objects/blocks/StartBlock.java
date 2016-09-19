@@ -11,12 +11,13 @@ import system.IServiceLocator;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class StartBlock extends AGameObject implements IBlock {
 
     private static IServiceLocator serviceLocator;
 
-    private ArrayList<IGameObject> content = new ArrayList<>();
+    private Set<IGameObject> content = new HashSet<>();
     private int blockNumber;
 
     /* package */ StartBlock(IServiceLocator serviceLocator) {
@@ -50,7 +51,7 @@ public class StartBlock extends AGameObject implements IBlock {
 
     /** {@inheritDoc} */
     @Override
-    public ArrayList<IGameObject> getContent() {
+    public Set<IGameObject> getContent() {
         return this.content;
     }
 

@@ -15,6 +15,7 @@ public class ButtonFactory implements IButtonFactory {
         serviceLocator.provide(new ButtonFactory());
     }
 
+    /** {@inheritDoc} */
     @Override
     public IButton createPlayButton(int x, int y) {
         assert serviceLocator != null;
@@ -24,6 +25,7 @@ public class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, playAction, "play");
     }
 
+    /** {@inheritDoc} */
     @Override
     public IButton createResumeButton(int x, int y) {
         assert serviceLocator != null;
@@ -33,6 +35,7 @@ public class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, resumeAction, "resume");
     }
 
+    /** {@inheritDoc} */
     //TODO: correct sprite to "play again" button
     @Override
     public IButton createPlayAgainButton(int x, int y) {
@@ -43,6 +46,7 @@ public class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, playAgainAction, "playAgain");
     }
 
+    /** {@inheritDoc} */
     //TODO: correct sprite to "main menu" button
     @Override
     public IButton createMainMenuButton(int x, int y) {

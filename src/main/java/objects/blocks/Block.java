@@ -11,12 +11,14 @@ import system.IServiceLocator;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
+
 import objects.IGameObject;
 
 /* package */ class Block extends AGameObject implements IBlock {
 
     private static IServiceLocator serviceLocator;
-    private ArrayList<IGameObject> content = new ArrayList<>();
+    private Set<IGameObject> content = new HashSet<>();
 
     /* package */ Block(IServiceLocator serviceLocator, IGameObject lastObject) {
         Block.serviceLocator = serviceLocator;
@@ -60,7 +62,7 @@ import objects.IGameObject;
 
     /** {@inheritDoc} */
     @Override
-    public ArrayList<IGameObject> getContent() {
+    public Set<IGameObject> getContent() {
         return this.content;
     }
 
