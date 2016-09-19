@@ -2,6 +2,14 @@ package resources;
 
 public interface IRes {
 
+    /**
+     * Returns the path to a sprite
+     *
+     * @param sprite A reference to the sprite you want the path to
+     * @return The filepath to the sprite
+     */
+    String getSpritePath(sprites sprite);
+
     enum sprites {
         // Buttons
         menu,
@@ -98,12 +106,5 @@ public interface IRes {
         ufo,
         ufoShining
     }
-
-    /**
-     * Returns the path to a sprite
-     * @param sprite A reference to the sprite you want the path to
-     * @return The filepath to the sprite
-     */
-    String getSpritePath(sprites sprite);
 
 }

@@ -28,49 +28,64 @@ public class StartBlock extends AGameObject implements IBlock {
         createAndPlaceObjects();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
-        for(IGameObject e : content){
+        for (IGameObject e : content) {
             e.render();
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void animate() { }
+    public void animate() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void move() { }
+    public void move() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update() { }
+    public void update() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ArrayList<IGameObject> getContent() {
         return this.content;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void placePlatforms(IGameObject lastObject) {
-        int max = (int)(Game.WIDTH + Game.HEIGHT)/130;
+        int max = (int) (Game.WIDTH + Game.HEIGHT) / 130;
         int min = 6;
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
-        int heightDividedPlatforms = (int) Game.HEIGHT/platformAmount;
+        int heightDividedPlatforms = (int) Game.HEIGHT / platformAmount;
 
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-        IPlatform platform = platformFactory.createPlatform(Game.WIDTH/2, (int) (Game.HEIGHT/1.2));
+        IPlatform platform = platformFactory.createPlatform(Game.WIDTH / 2, (int) (Game.HEIGHT / 1.2));
         lastObject = platform;
         content.add(platform);
 
-        double t = World.vSpeedLimit/World.gravityAcceleration;
+        double t = World.vSpeedLimit / World.gravityAcceleration;
 
-        int maxY = (int) (0.5 * World.gravityAcceleration * Math.pow(t,2));
+        int maxY = (int) (0.5 * World.gravityAcceleration * Math.pow(t, 2));
 
         for (int i = 1; i < platformAmount; i++) {
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
@@ -80,7 +95,7 @@ public class StartBlock extends AGameObject implements IBlock {
 
             int yLoc = (int) (yLast - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
 
-            if(yLoc < yLast - maxY){
+            if (yLoc < yLast - maxY) {
                 yLoc = yLast - maxY;
             }
 
@@ -97,36 +112,39 @@ public class StartBlock extends AGameObject implements IBlock {
         this.setYPos(lastObject.getYPos());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addYPos(double y) {
         double current = this.getYPos();
         this.setYPos(current + y);
 
-        for(IGameObject e : content){
+        for (IGameObject e : content) {
             e.addYPos(y);
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void cleanUpPlatforms() {
         HashSet<IGameObject> toRemove = new HashSet<>();
-        for(IGameObject e : content) {
+        for (IGameObject e : content) {
             //A marge of 50 is used
-            if(e.getYPos() + Game.HEIGHT * 0.01 > Game.HEIGHT) {
+            if (e.getYPos() + Game.HEIGHT * 0.01 > Game.HEIGHT) {
                 toRemove.add(e);
             }
 
         }
-        for(IGameObject e : toRemove) {
+        for (IGameObject e : toRemove) {
             content.remove(e);
         }
     }
 
     /**
      * Creates and places platforms in the block.
-     *
      */
     private void createAndPlaceObjects() {
         placePlatforms(null);
@@ -136,17 +154,18 @@ public class StartBlock extends AGameObject implements IBlock {
      * Checks if the platform collides with any of the platforms
      * in this Block. When there is a collision, delete the platform
      * from the list.
+     *
      * @param platform The IPlatform that has to be checked for collision.
      */
     private void platformCollideCheck(IPlatform platform) {
         HashSet<IGameObject> toRemove = new HashSet<>();
-        for(IGameObject e : content){
-            if(serviceLocator.getCollisions().collide(platform, e)){
+        for (IGameObject e : content) {
+            if (serviceLocator.getCollisions().collide(platform, e)) {
                 toRemove.add(e);
             }
         }
 
-        for(IGameObject e : toRemove) {
+        for (IGameObject e : toRemove) {
             content.remove(e);
         }
     }

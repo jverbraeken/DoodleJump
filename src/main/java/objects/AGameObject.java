@@ -1,8 +1,5 @@
 package objects;
 
-import java.util.ArrayList;
-import java.util.Set;
-
 /**
  * The super class of all classes that represents objects in the game.
  */
@@ -99,6 +96,7 @@ public abstract class AGameObject implements IGameObject {
     public void setWidth(int width) {
         this.width = width;
     }
+
     /**
      * {@inheritDoc}
      */
@@ -107,10 +105,6 @@ public abstract class AGameObject implements IGameObject {
         return this.xPos;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public abstract void render();
-
     /**
      * {@inheritDoc}
      */
@@ -118,6 +112,12 @@ public abstract class AGameObject implements IGameObject {
     public void setXPos(double xPos) {
         this.xPos = xPos;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract void render();
 
     /**
      * {@inheritDoc}

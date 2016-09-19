@@ -12,7 +12,7 @@ public interface IPowerupFactory extends IFactory {
      * @param y The Y location for the spring.
      * @return A new Spring instance.
      */
-    IGameObject createSpring(final int x ,final int y);
+    IGameObject createSpring(final int x, final int y);
 
     /**
      * Create a new Trampoline powerup.
@@ -21,6 +21,6 @@ public interface IPowerupFactory extends IFactory {
      * @param y The Y location for the trampoline.
      * @return A new Trampoline instance.
      */
-    IGameObject createTrampoline(final int x ,final int y);
+    IGameObject createTrampoline(final int x, final int y);
 
 }

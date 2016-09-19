@@ -16,7 +16,8 @@ public final class Renderer implements IRenderer {
     private static transient IServiceLocator serviceLocator;
     private Graphics graphics;
 
-    private Renderer() { }
+    private Renderer() {
+    }
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -29,7 +30,9 @@ public final class Renderer implements IRenderer {
         serviceLocator.provide(new Renderer());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void start() {
     }
@@ -39,7 +42,9 @@ public final class Renderer implements IRenderer {
         graphics.drawRect(x, y, width, height);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void drawSprite(ISprite sprite, int x, int y) {
         assert graphics != null;
@@ -51,7 +56,9 @@ public final class Renderer implements IRenderer {
         graphics.drawImage(sprite.getImage(), x, y, null);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void drawSprite(ISprite sprite, int x, int y, int width, int height) {
         assert graphics != null;
@@ -62,7 +69,10 @@ public final class Renderer implements IRenderer {
         logger.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ")");
         graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
 
     @Override
     public void setGraphicsBuffer(Graphics graphics) {

@@ -3,8 +3,6 @@ package scenes;
 import input.IMouseInputObserver;
 import objects.buttons.IButton;
 import objects.buttons.IButtonFactory;
-import rendering.IDrawable;
-import rendering.Renderer;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
@@ -27,7 +25,7 @@ public class KillScreen implements IScene, IMouseInputObserver {
     /* package */ KillScreen(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
 
-       background = serviceLocator.getSpriteFactory().getBackground();
+        background = serviceLocator.getSpriteFactory().getBackground();
         bottomKillScreen = serviceLocator.getSpriteFactory().getKillScreenBottomSprite();
         gameOverSprite = serviceLocator.getSpriteFactory().getGameOverSprite();
 
@@ -55,8 +53,8 @@ public class KillScreen implements IScene, IMouseInputObserver {
 
     @Override
     public void paint() {
-        serviceLocator.getRenderer().drawSprite(this.background, 0, 0 );
-        serviceLocator.getRenderer().drawSprite(this.gameOverSprite, (int)(Game.WIDTH * gameOverTextXPercentage), (int)(Game.HEIGHT *gameOverTextYPercentage));
+        serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
+        serviceLocator.getRenderer().drawSprite(this.gameOverSprite, (int) (Game.WIDTH * gameOverTextXPercentage), (int) (Game.HEIGHT * gameOverTextYPercentage));
         double y = (double) Game.HEIGHT - (double) bottomKillScreen.getHeight();
         serviceLocator.getRenderer().drawSprite(this.bottomKillScreen, 0, (int) y);
         playAgainButton.render();

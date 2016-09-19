@@ -8,14 +8,6 @@ import java.util.Map;
 public final class Res implements IRes {
 
     private static transient IServiceLocator serviceLocator;
-
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        Res.serviceLocator = serviceLocator;
-        serviceLocator.provide(new Res());
-    }
-
-
     private Map<IRes.sprites, String> sprites = new EnumMap<>(IRes.sprites.class);
 
     {
@@ -76,10 +68,18 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.scorebar, spritepath + "scorebar.png");
     }
 
-    private Res() { }
+    private Res() {
+    }
 
+    public static void register(IServiceLocator serviceLocator) {
+        assert serviceLocator != null;
+        Res.serviceLocator = serviceLocator;
+        serviceLocator.provide(new Res());
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSpritePath(IRes.sprites sprite) {
         return sprites.get(sprite);

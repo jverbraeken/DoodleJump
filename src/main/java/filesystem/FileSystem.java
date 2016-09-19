@@ -3,28 +3,9 @@ package filesystem;
 import system.IServiceLocator;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.awt.Image;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.io.Writer;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
-import java.io.OutputStream;
-import java.io.FileOutputStream;
-import java.io.BufferedOutputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +15,9 @@ import java.util.List;
  */
 public final class FileSystem implements IFileSystem {
     /**
-    * Used to gain access to all services.
-    */
+     * Used to gain access to all services.
+     */
     private static transient IServiceLocator serviceLocator;
-    public static void register(final IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        FileSystem.serviceLocator = serviceLocator;
-        FileSystem.serviceLocator.provide(new FileSystem());
-    }
-
     private ClassLoader classLoader = getClass().getClassLoader();
 
     /**
@@ -50,6 +25,12 @@ public final class FileSystem implements IFileSystem {
      */
     private FileSystem() {
 
+    }
+
+    public static void register(final IServiceLocator serviceLocator) {
+        assert serviceLocator != null;
+        FileSystem.serviceLocator = serviceLocator;
+        FileSystem.serviceLocator.provide(new FileSystem());
     }
 
     @Override

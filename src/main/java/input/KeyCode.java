@@ -13,7 +13,7 @@ public class KeyCode {
      */
     private static final Map<Keys, Integer> keyMap = new EnumMap<>(Keys.class);
 
-    static  {
+    static {
         // Arrows
         keyMap.put(Keys.arrowLeft, 37);
         keyMap.put(Keys.arrowRight, 39);
@@ -30,7 +30,8 @@ public class KeyCode {
     /**
      * Prevent KeyCodes instances.
      */
-    private KeyCode() { }
+    private KeyCode() {
+    }
 
     /**
      * Get the keycode given the key.

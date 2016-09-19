@@ -7,22 +7,22 @@ import system.IServiceLocator;
 
 public class Trampoline extends APowerup implements IPowerup {
 
-    private static IServiceLocator serviceLocator;
-
-    /**
-     * The sprite for the Trampoline.
-     */
-    private ISprite sprite;
     /**
      * The boost value for the Trampoline.
      */
     private static final double boost = -50;
+    private static IServiceLocator serviceLocator;
+    /**
+     * The sprite for the Trampoline.
+     */
+    private ISprite sprite;
 
     /**
      * Trampoline constructor.
+     *
      * @param serviceLocator - The Games service locator.
-     * @param x - The X location for the trampoline.
-     * @param y - The Y location for the trampoline.
+     * @param x              - The X location for the trampoline.
+     * @param y              - The Y location for the trampoline.
      */
     /* package */ Trampoline(final IServiceLocator serviceLocator, final int x, final int y) {
         Trampoline.serviceLocator = serviceLocator;
@@ -36,7 +36,9 @@ public class Trampoline extends APowerup implements IPowerup {
         this.setWidth(sprite.getWidth());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void animate() {
         int oldHeight = this.sprite.getHeight();
@@ -50,7 +52,9 @@ public class Trampoline extends APowerup implements IPowerup {
         this.sprite = newSprite;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getBoost() {
         this.animate();
@@ -59,19 +63,27 @@ public class Trampoline extends APowerup implements IPowerup {
         return this.boost;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void move() { }
+    public void move() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update() { }
+    public void update() {
+    }
 
     /**
      * Play the sound for the Trampoline.

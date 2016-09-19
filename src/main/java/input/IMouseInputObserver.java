@@ -7,6 +7,7 @@ public interface IMouseInputObserver {
      * </br>
      * Note: this method should only be called by an {@link IInputManager}.
      * </br>
+     *
      * @param x The X-position of the mouse in pixels, as seen from the left
      * @param y The Y-position of the mouse in pixels, as seen from the top
      */

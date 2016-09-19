@@ -7,14 +7,13 @@ import system.IServiceLocator;
 
 public class Button implements IButton {
 
+    private static final Logger logger = LoggerFactory.getLogger(Button.class);
     private final IServiceLocator serviceLocator;
-
     private final ISprite sprite;
     private final int width, height;
     private final int[] topLeft = new int[2], bottomRight = new int[2];
     private final Runnable action;
     private final String name;
-    private static final Logger logger = LoggerFactory.getLogger(Button.class);
 
     /* package */ Button(IServiceLocator serviceLocator, int x, int y, ISprite sprite, Runnable action, String name) {
         super();
@@ -34,7 +33,9 @@ public class Button implements IButton {
         this.name = name;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         serviceLocator.getRenderer().drawSprite(sprite, topLeft[0], topLeft[1], width, height);
@@ -42,13 +43,13 @@ public class Button implements IButton {
 
     @Override
     public void mouseClicked(int x, int y) {
-            assert x >= 0 && y >= 0;
+        assert x >= 0 && y >= 0;
 
-            if(x > topLeft[0] && x < bottomRight[0]) {
-                if(y > topLeft[1] && y < bottomRight[1]) {
-                    logger.info("Button clicked: \"" + name + "\"");
-                    action.run();
-                }
+        if (x > topLeft[0] && x < bottomRight[0]) {
+            if (y > topLeft[1] && y < bottomRight[1]) {
+                logger.info("Button clicked: \"" + name + "\"");
+                action.run();
             }
+        }
     }
 }

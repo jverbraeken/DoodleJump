@@ -36,6 +36,7 @@ public final class InputManager implements IInputManager {
     }
 
     /* MOUSE EVENTS */
+
     /**
      * {@inheritDoc}
      */

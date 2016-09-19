@@ -3,7 +3,6 @@ package scenes;
 import objects.IGameObject;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
-import objects.blocks.platform.IPlatform;
 import objects.buttons.IButton;
 import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
@@ -22,16 +21,19 @@ import java.util.Stack;
 
 public class World implements IScene {
 
+    /**
+     * The fastest the doodle can go vertically.
+     */
+    public final static double vSpeedLimit = 20;
+    /**
+     * How much the doodle is affected by gravity.
+     */
+    public static final double gravityAcceleration = .5;
     // TODO: Add JavaDoc
     private final static double SCOREMULTIPLIER = 0.15;
     private final static int PAUSEOFFSET = 38;
     private final Logger logger = LoggerFactory.getLogger(World.class);
     private final IServiceLocator serviceLocator;
-
-    /**
-     * The fastest the doodle can go vertically.
-     */
-    public final static double vSpeedLimit = 20;
     /**
      * Set of all object (excluding Doodle) in the world.
      */
@@ -52,10 +54,6 @@ public class World implements IScene {
      * The vertical speed, negative if going up and positive if going down.
      */
     private double vSpeed = -20;
-    /**
-     * How much the doodle is affected by gravity.
-     */
-    public static final double gravityAcceleration = .5;
     /**
      * The score for the world.
      */
@@ -83,15 +81,23 @@ public class World implements IScene {
         this.vSpeed = -9;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void start() { }
+    public void start() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void stop() { }
+    public void stop() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paint() {
         serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
@@ -105,7 +111,9 @@ public class World implements IScene {
         scorebar.render();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(double delta) {
         updateSpeed();
@@ -182,7 +190,7 @@ public class World implements IScene {
                     toRemove.add(e);
                 }
             } else if (e instanceof IBlock) {
-                if (e.getYPos() + Game.HEIGHT * 0.01  > Game.HEIGHT) {
+                if (e.getYPos() + Game.HEIGHT * 0.01 > Game.HEIGHT) {
                     toRemove.add(e);
                 }
             }

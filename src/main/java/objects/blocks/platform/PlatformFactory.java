@@ -6,13 +6,14 @@ public class PlatformFactory implements IPlatformFactory {
 
     private static transient IServiceLocator serviceLocator;
 
+    private PlatformFactory() {
+    }
+
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         PlatformFactory.serviceLocator = serviceLocator;
         serviceLocator.provide(new PlatformFactory());
     }
-
-    private PlatformFactory() { }
 
     @Override
     public IPlatform createPlatform(int x, int y) {

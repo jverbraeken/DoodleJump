@@ -1,20 +1,20 @@
 package system;
 
-import objects.ICollisions;
-import objects.buttons.IButtonFactory;
-import resources.IRes;
-import resources.audio.IAudioManager;
-import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
 import math.ICalc;
+import objects.ICollisions;
 import objects.blocks.IBlockFactory;
-import objects.doodles.IDoodleFactory;
 import objects.blocks.platform.IPlatformFactory;
+import objects.buttons.IButtonFactory;
+import objects.doodles.IDoodleFactory;
+import objects.enemies.IEnemyBuilder;
 import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;
-import scenes.ISceneFactory;
+import resources.IRes;
+import resources.audio.IAudioManager;
 import resources.sprites.ISpriteFactory;
+import scenes.ISceneFactory;
 
 /* package */ class ServiceLocator implements IServiceLocator {
 
@@ -314,12 +314,16 @@ import resources.sprites.ISpriteFactory;
      * {@inheritDoc}
      */
     @Override
-    public IButtonFactory getButtonFactory() { return buttonFactory; }
+    public IButtonFactory getButtonFactory() {
+        return buttonFactory;
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ICollisions getCollisions() { return collisions; }
+    public ICollisions getCollisions() {
+        return collisions;
+    }
 
 }

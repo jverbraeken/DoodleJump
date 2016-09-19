@@ -114,7 +114,7 @@ public final class Game {
                     drawPauseScreen();
                 }
 
-                if(!isAlive) {
+                if (!isAlive) {
                     setScene(serviceLocator.getSceneFactory().newKillScreen());
                     setAlive(true);
                 }

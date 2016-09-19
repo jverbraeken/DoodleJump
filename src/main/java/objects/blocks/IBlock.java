@@ -1,7 +1,6 @@
 package objects.blocks;
 
 import objects.IGameObject;
-import objects.blocks.platform.IPlatform;
 
 import java.util.ArrayList;
 

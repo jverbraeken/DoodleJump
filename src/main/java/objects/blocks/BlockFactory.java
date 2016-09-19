@@ -1,12 +1,17 @@
 package objects.blocks;
 
 import objects.IGameObject;
-import objects.blocks.platform.IPlatform;
 import system.IServiceLocator;
 
 public final class BlockFactory implements IBlockFactory {
 
     private static transient IServiceLocator serviceLocator;
+
+    /**
+     * Prevent instantiations of BlockFactory.
+     */
+    private BlockFactory() {
+    }
 
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
@@ -15,18 +20,17 @@ public final class BlockFactory implements IBlockFactory {
     }
 
     /**
-     * Prevent instantiations of BlockFactory.
+     * {@inheritDoc}
      */
-    private BlockFactory() { }
-
-    /** {@inheritDoc} */
     @Override
     public IBlock createStartBlock() {
         IBlock block = new StartBlock(serviceLocator);
         return block;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IBlock createBlock(IGameObject lastObject) {
         Block block = new Block(serviceLocator, lastObject);

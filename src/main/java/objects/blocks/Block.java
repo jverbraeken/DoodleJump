@@ -1,6 +1,7 @@
 package objects.blocks;
 
 import objects.AGameObject;
+import objects.IGameObject;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.powerups.IPowerupFactory;
@@ -11,7 +12,6 @@ import system.IServiceLocator;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
-import objects.IGameObject;
 
 /* package */ class Block extends AGameObject implements IBlock {
 
@@ -27,55 +27,72 @@ import objects.IGameObject;
         createAndPlaceObjects(lastObject);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
-        for (IGameObject e : content){
+        for (IGameObject e : content) {
             e.render();
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void animate() { }
+    public void animate() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void move() { }
+    public void move() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update() { }
+    public void update() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addYPos(double y) {
         double current = this.getYPos();
         this.setYPos(current + y);
 
-        for (IGameObject e : content){
+        for (IGameObject e : content) {
             e.addYPos(y);
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ArrayList<IGameObject> getContent() {
         return this.content;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void placePlatforms(IGameObject lastObject) {
         int max = (Game.WIDTH + Game.HEIGHT) / 120;
         int min = 8;
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
-        int heightDividedPlatforms = (int) Game.HEIGHT/platformAmount;
+        int heightDividedPlatforms = (int) Game.HEIGHT / platformAmount;
 
-        double t = World.vSpeedLimit/World.gravityAcceleration;
+        double t = World.vSpeedLimit / World.gravityAcceleration;
 
-        int maxY = (int) (0.5 * World.gravityAcceleration * Math.pow(t,2));
+        int maxY = (int) (0.5 * World.gravityAcceleration * Math.pow(t, 2));
 
         for (int i = 0; i < platformAmount; i++) {
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
@@ -85,7 +102,7 @@ import objects.IGameObject;
             int yLoc = (int) (yLast - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
 
 
-            if(yLoc < yLast - maxY){
+            if (yLoc < yLast - maxY) {
                 yLoc = yLast - maxY;
             }
 
@@ -108,9 +125,11 @@ import objects.IGameObject;
         this.setYPos(lastObject.getYPos());
     }
 
-    /** Takes a random number between 0 and 10000 and
+    /**
+     * Takes a random number between 0 and 10000 and
      * gives the platform a powerup if it's a certain number
      * between 0 and 10000.
+     *
      * @param platform The platform a powerup potentially is placed on.
      **/
     private void chanceForPowerup(IPlatform platform) {
@@ -119,17 +138,15 @@ import objects.IGameObject;
 
         int randomNr = (int) (rand.nextFloat() * 10000);
 
-        if (randomNr < 9500){
+        if (randomNr < 9500) {
             return;
-        }
-        else if (randomNr >= 9500 && randomNr < 9900){
+        } else if (randomNr >= 9500 && randomNr < 9900) {
             IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
             int springXLoc = (int) (rand.nextFloat() * platform.getWidth());
             IGameObject powerup = powerupFactory.createSpring((int) platform.getXPos() + springXLoc,
                     (int) platform.getYPos() - platform.getHeight() + 5);
             content.add(powerup);
-        }
-        else if (randomNr >= 9900){
+        } else if (randomNr >= 9900) {
             IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
             IGameObject powerup = powerupFactory.createTrampoline((int) platform.getXPos() + 20,
                     (int) platform.getYPos() - platform.getHeight() + 5);
@@ -137,7 +154,9 @@ import objects.IGameObject;
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void cleanUpPlatforms() {
         HashSet<IGameObject> toRemove = new HashSet<>();
@@ -165,12 +184,13 @@ import objects.IGameObject;
      * Checks if the platform collides with any of the platforms
      * in this Block. When there is a collision, delete the platform
      * from the list.
+     *
      * @param platform The IPlatform that has to be checked for collision.
      */
     private void platformCollideCheck(IPlatform platform) {
         HashSet<IGameObject> toRemove = new HashSet<>();
-        for (IGameObject e : content){
-            if (serviceLocator.getCollisions().collide(platform, e)){
+        for (IGameObject e : content) {
+            if (serviceLocator.getCollisions().collide(platform, e)) {
                 toRemove.add(e);
             }
         }

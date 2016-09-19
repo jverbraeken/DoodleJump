@@ -6,13 +6,14 @@ public final class SceneFactory implements ISceneFactory {
 
     private static transient IServiceLocator serviceLocator;
 
+    private SceneFactory() {
+    }
+
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         SceneFactory.serviceLocator = serviceLocator;
         serviceLocator.provide(new SceneFactory());
     }
-
-    private SceneFactory() { }
 
     @Override
     public Menu newMenu() {

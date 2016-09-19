@@ -12,12 +12,11 @@ import system.IServiceLocator;
 
 public class Menu implements IScene, IKeyInputObserver {
 
-    private final IServiceLocator serviceLocator;
-
-    private final IButton playButton;
-    private final ISprite cover;
     private static final double playButtonXPercentage = 0.15;
     private static final double playButtonYPercentage = 0.25;
+    private final IServiceLocator serviceLocator;
+    private final IButton playButton;
+    private final ISprite cover;
 
     /* package */ Menu(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
@@ -29,36 +28,50 @@ public class Menu implements IScene, IKeyInputObserver {
         playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * playButtonXPercentage), (int) (Game.HEIGHT * playButtonYPercentage));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void start() {
         serviceLocator.getInputManager().addObserver(playButton);
         serviceLocator.getInputManager().addObserver(this);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void stop() {
         serviceLocator.getInputManager().removeObserver(playButton);
         serviceLocator.getInputManager().removeObserver(this);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paint() {
         serviceLocator.getRenderer().drawSprite(this.cover, 0, 0);
         playButton.render();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update(double delta) { }
+    public void update(double delta) {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void keyPress(int keyCode) { }
+    public void keyPress(int keyCode) {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void keyRelease(int keyCode) {
         if (KeyCode.getKeyCode(Keys.enter) == keyCode || KeyCode.getKeyCode(Keys.space) == keyCode) {

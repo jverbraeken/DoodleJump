@@ -51,6 +51,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Doodle constructor.
+     *
      * @param serviceLocator The service locator.
      */
      /* package */ Doodle(IServiceLocator serviceLocator) {
@@ -72,7 +73,9 @@ public class Doodle extends AGameObject implements IDoodle {
         this.setHitBox(hit);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void animate() {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
@@ -86,7 +89,9 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean collide(IGameObject collidee) {
         if (collidee == null) {
@@ -109,17 +114,25 @@ public class Doodle extends AGameObject implements IDoodle {
         return false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void move() { this.moveHorizontally(); }
+    public void move() {
+        this.moveHorizontally();
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update() {
         this.animate();
@@ -127,7 +140,9 @@ public class Doodle extends AGameObject implements IDoodle {
         this.wrap();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void keyPress(int keyCode) {
         if (this.leftPressed(keyCode)) {
@@ -139,7 +154,9 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void keyRelease(int keyCode) {
         if (this.leftPressed(keyCode) && this.moving == directions.left) {
@@ -208,7 +225,7 @@ public class Doodle extends AGameObject implements IDoodle {
         double middle = this.getXPos() + this.getWidth() / 2;
         if (middle < 0) {
             this.addXPos(Game.WIDTH);
-        } else if(middle > Game.WIDTH) {
+        } else if (middle > Game.WIDTH) {
             this.addXPos(-Game.WIDTH);
         }
     }
