@@ -30,7 +30,7 @@ public class Platform extends AGameObject implements IPlatform {
     /** {@inheritDoc} */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(getSprite(), (int)this.getXPos(), (int)this.getYPos());
+        serviceLocator.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /** {@inheritDoc} */
