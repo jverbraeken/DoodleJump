@@ -20,7 +20,7 @@ public final class AudioManager implements IAudioManager {
      * Prevents instantiation from outside the class.
      */
     private AudioManager() {
-
+        preload();
     }
 
     private enum Sound {
