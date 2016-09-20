@@ -59,7 +59,7 @@ public class World implements IScene {
     /**
      * The score for the world.
      */
-    private double score;
+    private double score = 0;
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
@@ -263,6 +263,7 @@ public class World implements IScene {
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
 
             serviceLocator.getInputManager().addObserver(pauseButton);
+            this.render();
         }
 
         private void render() {
@@ -325,6 +326,10 @@ public class World implements IScene {
                 int roundedScore = (int) score;
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();
+
+                if(roundedScore == 0) {
+                    scoreDigits.push(0);
+                }
                 while (roundedScore != 0) {
                     digit = roundedScore % 10;
                     roundedScore = roundedScore / 10;
