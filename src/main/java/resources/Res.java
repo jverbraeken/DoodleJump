@@ -76,6 +76,9 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.scorebar, spritepath + "scorebar.png");
     }
 
+    /**
+     * Prevent instantiation of Res.
+     */
     private Res() { }
 
 

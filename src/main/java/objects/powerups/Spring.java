@@ -5,7 +5,7 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-public class Spring extends APowerup implements IPowerup {
+/* package */ class Spring extends APowerup implements IPowerup {
 
     private static IServiceLocator serviceLocator;
 
@@ -74,7 +74,7 @@ public class Spring extends APowerup implements IPowerup {
     public void update() { }
 
     /**
-     * Play the sound for the Trampoline.
+     * Play the sound for the Spring.
      */
     private void playSound() {
         IAudioManager audioManager = serviceLocator.getAudioManager();
