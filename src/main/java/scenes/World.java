@@ -263,7 +263,6 @@ public class World implements IScene {
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
 
             serviceLocator.getInputManager().addObserver(pauseButton);
-            this.render();
         }
 
         private void render() {
@@ -327,7 +326,7 @@ public class World implements IScene {
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();
 
-                if(roundedScore == 0) {
+                if (roundedScore == 0) {
                     scoreDigits.push(0);
                 }
                 while (roundedScore != 0) {
