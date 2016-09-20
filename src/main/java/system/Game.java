@@ -5,7 +5,6 @@ import input.IInputManager;
 import input.InputManager;
 import math.Calc;
 import math.ICalc;
-import objects.Collisions;
 import objects.blocks.BlockFactory;
 import objects.blocks.platform.PlatformFactory;
 import objects.buttons.ButtonFactory;
@@ -69,7 +68,6 @@ public final class Game {
         PlatformFactory.register(serviceLocator);
         Res.register(serviceLocator);
         ButtonFactory.register(serviceLocator);
-        Collisions.register(serviceLocator);
     }
 
     public static void main(String[] argv) {

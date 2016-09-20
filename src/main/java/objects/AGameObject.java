@@ -1,25 +1,40 @@
 package objects;
 
-import java.util.ArrayList;
-import java.util.Set;
+import objects.doodles.IDoodle;
+import resources.sprites.ISprite;
+import system.Game;
 
 /**
  * The super class of all classes that represents objects in the game.
  */
 public abstract class AGameObject implements IGameObject {
 
-    private int height;
-    private double[] hitBox;
-    private Object sprite;
-    private int width;
+    public static final transient int HITBOX_LEFT = 0;
+    public static final transient int HITBOX_RIGHT = 1;
+    public static final transient int HITBOX_TOP = 2;
+    public static final transient int HITBOX_BOTTOM = 3;
+    private final double[] hitBox = new double[4];
+    private ISprite sprite;
     private double xPos;
     private double yPos;
 
     /**
-     * {@inheritDoc}
+     * Creates a new game object and determines its hitbox by using the sprites dimensions automatically.
+     * @param x The X-coordinate of the game object
+     * @param y The Y-coordinate of the game object
+     * @param sprite The sprite of the game object. Can be {null} when the object is a {@link objects.blocks.IBlock block}
      */
-    @Override
-    public abstract void animate();
+    public AGameObject(int x, int y, ISprite sprite) {
+        setXPos(x);
+        setYPos(y);
+        if (sprite == null) {
+            //TODO This is not so awesome
+            setHitBox(x, y, Game.WIDTH, Integer.MAX_VALUE);
+        } else {
+            setHitBox(0, 0, sprite.getWidth(), sprite.getHeight());
+            setSprite(sprite);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -43,28 +58,23 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public double getBoost() {
-        return 0d;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public double[] getHitBox() {
         return this.hitBox;
     }
 
     @Override
-    public void setHitBox(double[] hitbox) {
-        this.hitBox = hitbox;
+    public void setHitBox(int left, int top, int right, int bottom) {
+        this.hitBox[HITBOX_LEFT] = left;
+        this.hitBox[HITBOX_TOP] = top;
+        this.hitBox[HITBOX_RIGHT] = right;
+        this.hitBox[HITBOX_BOTTOM] = bottom;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getSprite() {
+    public ISprite getSprite() {
         return this.sprite;
     }
 
@@ -72,33 +82,10 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public int getHeight() {
-        return this.height;
+    public void setSprite(ISprite sprite) {
+        this.sprite = sprite;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getWidth() {
-        return this.width;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setWidth(int width) {
-        this.width = width;
-    }
     /**
      * {@inheritDoc}
      */
@@ -107,10 +94,6 @@ public abstract class AGameObject implements IGameObject {
         return this.xPos;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public abstract void render();
-
     /**
      * {@inheritDoc}
      */
@@ -118,6 +101,12 @@ public abstract class AGameObject implements IGameObject {
     public void setXPos(double xPos) {
         this.xPos = xPos;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public abstract void render();
 
     /**
      * {@inheritDoc}
@@ -139,11 +128,23 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public abstract void move();
+    public abstract void update();
+
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract void update();
+    public boolean checkCollission(IGameObject gameObject) {
+        if (gameObject == null) {
+            throw new IllegalArgumentException("gameObject cannot be null");
+        }
+
+        // If one of these boolean turns false there is no intersection possible between 2 rectangles
+        return this.getXPos() + getHitBox()[HITBOX_LEFT] < gameObject.getXPos() + gameObject.getHitBox()[HITBOX_RIGHT]
+                && this.getXPos() + getHitBox()[HITBOX_RIGHT] > gameObject.getXPos() + gameObject.getHitBox()[HITBOX_LEFT]
+                && this.getYPos() + getHitBox()[HITBOX_TOP] < gameObject.getYPos() + gameObject.getHitBox()[HITBOX_BOTTOM]
+                && this.getYPos() + getHitBox()[HITBOX_BOTTOM] > gameObject.getYPos() + gameObject.getHitBox()[HITBOX_TOP];
+
+    }
 }

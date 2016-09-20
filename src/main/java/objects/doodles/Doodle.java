@@ -4,11 +4,11 @@ import input.IInputManager;
 import input.KeyCode;
 import input.Keys;
 import objects.AGameObject;
-import objects.IGameObject;
-import objects.blocks.platform.IPlatform;
-import objects.powerups.IPowerup;
+import objects.IJumpable;
+import objects.blocks.IBlock;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
@@ -37,10 +37,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private ISprite[] spritePack;
     /**
-     * The sprite for the Doodle.
-     */
-    private ISprite sprite;
-    /**
      * The direction the Doodle is moving towards.
      */
     private directions moving;
@@ -48,86 +44,72 @@ public class Doodle extends AGameObject implements IDoodle {
      * The direction the Doodle is facing.
      */
     private directions facing;
+    /**
+     * The height of the legs of the doodle. When this value is very large, for example 1,
+     * the doodle can jump on a platform if it only hits it with its head.
+     */
+    private final double legsHeight = 0.8;
 
     /**
      * Doodle constructor.
+     *
      * @param serviceLocator The service locator.
      */
      /* package */ Doodle(IServiceLocator serviceLocator) {
+        super(Game.WIDTH / 2, Game.HEIGHT / 2, serviceLocator.getSpriteFactory().getDoodleSprite(directions.right)[0]);
+        this.setHitBox(getSprite().getWidth() / 3, (int) (getSprite().getHeight() * 0.25), 2 * getSprite().getWidth() / 3, getSprite().getHeight());
         Doodle.serviceLocator = serviceLocator;
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(directions.right);
-        this.sprite = this.spritePack[0];
 
         IInputManager inputManager = serviceLocator.getInputManager();
         inputManager.addObserver(this);
-
-        this.setXPos(Game.WIDTH / 2);
-        this.setYPos(Game.HEIGHT / 2);
-        this.setWidth(sprite.getWidth());
-        this.setHeight(sprite.getHeight());
-
-        double[] hit = {getWidth() / 3d, 0d, 2 * getWidth() / 3d, (double) getHeight()};
-        this.setHitBox(hit);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void animate() {
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        this.spritePack = spriteFactory.getDoodleSprite(this.facing);
-
-        // If the Doodle moves up quickly shorten its legs
-        if (this.vSpeed < -15) {
-            this.sprite = this.spritePack[1];
-        } else {
-            this.sprite = this.spritePack[0];
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean collide(IGameObject collidee) {
-        if (collidee == null) {
-            throw new IllegalArgumentException("collidee cannot be null");
-        }
-
-        // If one of these boolean turns false there is no intersection possible between 2 rectangles
-        if (this.getXPos() + getHitBox()[0] < collidee.getXPos() + collidee.getWidth()
-                && this.getXPos() + getHitBox()[2] > collidee.getXPos()
-                && this.getYPos() + getHitBox()[1] < collidee.getYPos() + collidee.getHeight()
-                && this.getYPos() + getHitBox()[3] > collidee.getYPos()) {
-
-            if (collidee instanceof IPlatform || collidee instanceof IPowerup) {
-                return this.getYPos() + this.getHeight() < collidee.getYPos() + collidee.getHeight();
-            } else {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void move() { this.moveHorizontally(); }
-
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
+        serviceLocator.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update() {
         this.animate();
         this.move();
         this.wrap();
+        this.applyGravity();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collidesWith(IDoodle doodle) {
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getVSpeed() {
+        return this.vSpeed;
+    }
+
+    @Override
+    public void setVerticalSpeed(double vSpeed) {
+        this.vSpeed = vSpeed;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void keyPress(int keyCode) {
         if (this.leftPressed(keyCode)) {
@@ -139,7 +121,9 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void keyRelease(int keyCode) {
         if (this.leftPressed(keyCode) && this.moving == directions.left) {
@@ -149,11 +133,8 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    /**
-     * Set the vertical speed of the Doodle.
-     */
-    public void setVerticalSpeed(double vSpeed) {
-        this.vSpeed = vSpeed;
+    private void move() {
+        moveHorizontally();
     }
 
     /**
@@ -205,12 +186,51 @@ public class Doodle extends AGameObject implements IDoodle {
      * Wrap the Doodle around the screen.
      */
     private void wrap() {
-        double middle = this.getXPos() + this.getWidth() / 2;
+        double middle = this.getXPos() + this.getHitBox()[AGameObject.HITBOX_RIGHT] / 2;
         if (middle < 0) {
             this.addXPos(Game.WIDTH);
-        } else if(middle > Game.WIDTH) {
+        } else if (middle > Game.WIDTH) {
             this.addXPos(-Game.WIDTH);
         }
+    }
+
+    /**
+     * Applies gravity vAcceleration to the doodle.
+     */
+    private void applyGravity() {
+        this.vSpeed += World.gravityAcceleration;
+    }
+
+    private void animate() {
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        this.spritePack = spriteFactory.getDoodleSprite(this.facing);
+
+        // If the Doodle moves up quickly shorten its legs
+        if (this.vSpeed < -15) {
+            setSprite(this.spritePack[1]);
+        } else {
+            setSprite(this.spritePack[0]);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collide(IJumpable jumpable) {
+        this.vSpeed = jumpable.getBoost();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collide(IBlock block) {
+    }
+
+    @Override
+    public double getLegsHeight() {
+        return legsHeight;
     }
 
 }
