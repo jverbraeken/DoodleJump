@@ -15,7 +15,7 @@ import java.util.Set;
 
 import objects.IGameObject;
 
-/* package */ class Block extends AGameObject implements IBlock {
+public class Block extends AGameObject implements IBlock {
 
     private static IServiceLocator serviceLocator;
     private Set<IGameObject> content = new HashSet<>();

@@ -16,7 +16,7 @@ import rendering.IRenderer;
 import scenes.ISceneFactory;
 import resources.sprites.ISpriteFactory;
 
-/* package */ class ServiceLocator implements IServiceLocator {
+public class ServiceLocator implements IServiceLocator {
 
     // input
     private IInputManager inputManager;
@@ -53,6 +53,11 @@ import resources.sprites.ISpriteFactory;
 
     // scenes
     private ISceneFactory sceneFactory;
+
+    /**
+     * Prevent instantiation from outside the package.
+     */
+    /* package */ ServiceLocator() {}
 
     /**
      * {@inheritDoc}
