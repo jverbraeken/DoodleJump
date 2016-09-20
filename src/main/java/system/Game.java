@@ -55,7 +55,7 @@ public final class Game {
     }
 
     private static void initServices() {
-        FileSystem.register(serviceLocator);
+        FileSystem.register(serviceLocator); // This ine is before the audiomanager!
         AudioManager.register(serviceLocator);
         EnemyBuilder.register(serviceLocator);
         InputManager.register(serviceLocator);
