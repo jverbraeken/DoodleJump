@@ -1,6 +1,7 @@
 package objects.blocks.platform;
 
 import objects.AGameObject;
+import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -36,7 +37,10 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public double getBoost() { return this.boost; }
+    public double getBoost() {
+        this.playSound();
+        return this.boost;
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -45,11 +49,19 @@ public class Platform extends AGameObject implements IPlatform {
     /** {@inheritDoc} */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(this.sprite, (int)this.getXPos(), (int)this.getYPos());
+        serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
     }
 
     /** {@inheritDoc} */
     @Override
     public void update() { }
+
+    /**
+     * Play the sound for the Platform.
+     */
+    private void playSound() {
+        IAudioManager audioManager = serviceLocator.getAudioManager();
+        audioManager.playJump();
+    }
 
 }
