@@ -72,7 +72,7 @@ public final class AudioManager implements IAudioManager {
         Sound(String filepath) {
             try {
                 clip = serviceLocator.getFileSystem().readSound(filepath);
-            } catch (FileNotFoundException e) {
+            } catch (FileNotFoundException|NullPointerException e) {
                 // TODO log the file was not found
                 e.printStackTrace();
             }
