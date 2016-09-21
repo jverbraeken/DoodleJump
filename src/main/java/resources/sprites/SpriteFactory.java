@@ -11,13 +11,22 @@ import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Javadoc is not deemed necessary for all individual sprites to have a javadoc.
+ */
 @SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod"})
+/**
+ * This class is a factory that creates sprites.
+ */
 public final class SpriteFactory implements ISpriteFactory {
 
     /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
+    /**
+     * The cache used to load in sprites.
+     */
     private LoadingCache<IRes.Sprites, ISprite> cache;
 
 
@@ -30,7 +39,7 @@ public final class SpriteFactory implements ISpriteFactory {
                 .build(
                         new CacheLoader<IRes.Sprites, ISprite>() {
                             @Override
-                            public ISprite load(IRes.Sprites sprite) throws FileNotFoundException {
+                            public ISprite load(final IRes.Sprites sprite) throws FileNotFoundException {
                                 return loadISprite(sprite);
                             }
                         }
@@ -38,12 +47,14 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
-     * TODO: Add JavaDoc
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        SpriteFactory.serviceLocator = serviceLocator;
-        serviceLocator.provide(new SpriteFactory());
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        SpriteFactory.serviceLocator = sL;
+        SpriteFactory.serviceLocator.provide(new SpriteFactory());
     }
 
     // Buttons
@@ -122,7 +133,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite[] getDoodleSprite(IDoodle.Directions direction) {
+    public ISprite[] getDoodleSprite(final IDoodle.Directions direction) {
         ISprite[] sprites = new ISprite[2];
         if (direction == IDoodle.Directions.Left) {
             sprites[0] = this.getSprite(IRes.Sprites.doodleLeftAscend);
@@ -335,12 +346,12 @@ public final class SpriteFactory implements ISpriteFactory {
 
 
     // Numbers
-
+    @SuppressWarnings("checkstyle:magicnumber")
     /**
      * {@inheritDoc}
      */
     @Override
-    public ISprite getDigitSprite(int digit) {
+    public ISprite getDigitSprite(final int digit) {
         if (digit < 0 || digit > 9) {
             throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
         }
@@ -674,21 +685,23 @@ public final class SpriteFactory implements ISpriteFactory {
     // Miscellaneous
 
     /**
-     * Loads an ISprite with the name {@code ISpriteName}
-     *
+     * Loads an ISprite with the name {@code ISpriteName}.
+     * @param spriteName the enumerator defining the requested sprite.
      * @return The ISprite
      * @throws FileNotFoundException Thrown when the ISprite was not found
      */
-    private ISprite loadISprite(IRes.Sprites spriteName) throws FileNotFoundException {
+    private ISprite loadISprite(final IRes.Sprites spriteName) throws FileNotFoundException {
         String filepath = serviceLocator.getRes().getSpritePath(spriteName);
         BufferedImage image = serviceLocator.getFileSystem().readImage(filepath);
         return new Sprite(getFileName(filepath), image);
     }
 
     /**
-     * TODO: Add JavaDoc
+     * Return the requested sprite.
+     * @param sprite the enumerator defining the requested sprite.
+     * @return the sprite.
      */
-    private ISprite getSprite(IRes.Sprites sprite) {
+    private ISprite getSprite(final IRes.Sprites sprite) {
         try {
             return cache.get(sprite);
         } catch (ExecutionException e) {
