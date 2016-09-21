@@ -21,7 +21,6 @@ import resources.sprites.ISpriteFactory;
 
     // input
     private IInputManager inputManager;
-    private IInputManager keyInputManager;
 
     // resources.audio
     private IAudioManager audioManager;
@@ -34,7 +33,6 @@ import resources.sprites.ISpriteFactory;
     private IFileSystem fileSystem;
 
     // resources
-    private ILevelBuilder levelFactory;
     private ISpriteFactory spriteFactory;
     private IRes res;
 
@@ -48,7 +46,6 @@ import resources.sprites.ISpriteFactory;
     private IPowerupFactory powerupFactory;
     private IDoodleFactory doodleFactory;
     private IBlockFactory blockFactory;
-    private ILevelBuilder levelBuilder;
     private IPlatformFactory platformFactory;
     private ICollisions collisions;
 
@@ -146,15 +143,6 @@ import resources.sprites.ISpriteFactory;
     public void provide(ISpriteFactory spriteFactory) {
         assert spriteFactory != null;
         this.spriteFactory = spriteFactory;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void provide(ILevelBuilder levelBuilder) {
-        assert levelBuilder != null;
-        this.levelBuilder = levelBuilder;
     }
 
     /**
@@ -289,14 +277,6 @@ import resources.sprites.ISpriteFactory;
     @Override
     public ISpriteFactory getSpriteFactory() {
         return spriteFactory;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ILevelBuilder getLevelBuilder() {
-        return levelBuilder;
     }
 
     /**
