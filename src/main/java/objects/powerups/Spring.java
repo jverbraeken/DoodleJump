@@ -58,10 +58,6 @@ public class Spring extends APowerup implements IJumpable {
         serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void update() { }
-
     /**
      * Play the sound for the Trampoline.
      */

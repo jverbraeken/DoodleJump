@@ -15,7 +15,11 @@ import system.IServiceLocator;
 public class Doodle extends AGameObject implements IDoodle {
 
     private static IServiceLocator serviceLocator;
-
+    /**
+     * The height of the legs of the doodle. When this value is very large, for example 1,
+     * the doodle can jump on a platform if it only hits it with its head.
+     */
+    private final double legsHeight = 0.8;
     /**
      * Horizontal speed limit for the Doodle.
      */
@@ -44,11 +48,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * The direction the Doodle is facing.
      */
     private directions facing;
-    /**
-     * The height of the legs of the doodle. When this value is very large, for example 1,
-     * the doodle can jump on a platform if it only hits it with its head.
-     */
-    private final double legsHeight = 0.8;
 
     /**
      * Doodle constructor.
@@ -79,11 +78,11 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void update() {
-        this.animate();
-        this.move();
+    public void update(double delta) {
+        this.animate(delta);
+        this.move(delta);
         this.wrap();
-        this.applyGravity();
+        this.applyGravity(delta);
     }
 
     /**
@@ -133,14 +132,14 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    private void move() {
-        moveHorizontally();
+    private void move(double delta) {
+        moveHorizontally(delta);
     }
 
     /**
      * Move the Doodle along the X axis.
      */
-    private void moveHorizontally() {
+    private void moveHorizontally(double delta) {
         if (moving == directions.left) {
             if (this.hSpeed > -this.hSpeedLimit) {
                 this.hSpeed -= this.hAcceleration;
@@ -197,11 +196,11 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Applies gravity vAcceleration to the doodle.
      */
-    private void applyGravity() {
+    private void applyGravity(double delta) {
         this.vSpeed += World.gravityAcceleration;
     }
 
-    private void animate() {
+    private void animate(double delta) {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(this.facing);
 

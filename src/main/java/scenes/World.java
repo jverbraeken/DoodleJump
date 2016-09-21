@@ -2,11 +2,11 @@ package scenes;
 
 import objects.AGameObject;
 import objects.IGameObject;
+import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.blocks.platform.IPlatform;
 import objects.buttons.IButton;
-import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
 import org.slf4j.Logger;
@@ -15,21 +15,27 @@ import rendering.IDrawable;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
+import system.IUpdatable;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 
 public class World implements IScene {
 
+    /**
+     * How much the doodle is affected by gravity.
+     */
+    public static final double gravityAcceleration = .5;
     // TODO: Add JavaDoc
     private final static double SCOREMULTIPLIER = 0.15;
     private final static int PAUSEOFFSET = 38;
+    /**
+     * The maximum number of blocks available at a time.
+     */
+    private static final int MAXBLOCKS = 3;
     private final Logger logger = LoggerFactory.getLogger(World.class);
     private final IServiceLocator serviceLocator;
-
-    /**
-     * The fastest the doodle can go vertically.
-     */
-    public final static double vSpeedLimit = 20;
     /**
      * Set of all object (excluding Doodle) in the world.
      */
@@ -47,17 +53,9 @@ public class World implements IScene {
      */
     private final Scorebar scorebar;
     /**
-     * How much the doodle is affected by gravity.
-     */
-    public static final double gravityAcceleration = .5;
-    /**
      * The score for the world.
      */
     private double score;
-    /**
-     * The maximum number of blocks available at a time.
-     */
-    private static final int MAXBLOCKS = 3;
     /**
      * The highest (and thus latest) created block.
      */
@@ -68,12 +66,11 @@ public class World implements IScene {
         Game.setAlive(true);
 
         IBlockFactory blockFactory = serviceLocator.getBlockFactory();
-        IBlock lastCreatedBlock = blockFactory.createStartBlock();
         topBlock = blockFactory.createStartBlock();
         blocks.add(topBlock);
 
         for (int i = 1; i < 3; i++) {
-            topBlock = blockFactory.createBlock(topBlock.getTopPlatform());
+            topBlock = blockFactory.createBlock(topBlock.getTopJumpable());
             blocks.add(topBlock);
         }
 
@@ -88,20 +85,28 @@ public class World implements IScene {
         serviceLocator.getAudioManager().playStart();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void start() { }
+    public void start() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void stop() { }
+    public void stop() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void paint() {
+    public void render() {
         serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
 
-        for (IGameObject e : blocks) {
+        for (IBlock e : blocks) {
             e.render();
         }
 
@@ -110,12 +115,14 @@ public class World implements IScene {
         scorebar.render();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(double delta) {
         checkDoodleCollissions();
-        updateObjects();
-        applySpeed();
+        updateObjects(delta);
+        applySpeed(delta);
         cleanUp();
 
         // TODO: check if doodle is alive
@@ -148,9 +155,9 @@ public class World implements IScene {
     /**
      * TODO: Add JavaDoc
      */
-    private void applySpeed() {
+    private void applySpeed(double delta) {
         if (doodle.getVSpeed() < 0d && doodle.getYPos() < .5d * Game.HEIGHT - doodle.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
-            for (IGameObject e : blocks) {
+            for (IBlock e : blocks) {
                 e.addYPos(-doodle.getVSpeed());
                 score -= doodle.getVSpeed() * SCOREMULTIPLIER;
             }
@@ -162,12 +169,12 @@ public class World implements IScene {
     /**
      * TODO: Add JavaDoc
      */
-    private void updateObjects() {
-        for (IGameObject e : blocks) {
-            e.update();
+    private void updateObjects(double delta) {
+        for (IUpdatable e : blocks) {
+            e.update(delta);
         }
 
-        doodle.update();
+        doodle.update(delta);
     }
 
     /**
@@ -175,20 +182,14 @@ public class World implements IScene {
      * of the screen, if that's the case, delete that Block.
      */
     private void cleanUp() {
-        HashSet<IGameObject> toRemove = new HashSet<>();
-        for (IGameObject e : blocks) {
-            if (e.getClass().equals(Doodle.class)) {
-                if (e.getYPos() > Game.HEIGHT) {
-                    toRemove.add(e);
-                }
-            } else if (e instanceof IBlock) {
-                if (e.getYPos() > Game.HEIGHT) {
-                    toRemove.add(e);
-                }
+        HashSet<IBlock> toRemove = new HashSet<>();
+        for (IBlock e : blocks) {
+            if (e.getTopJumpable().getYPos() > Game.HEIGHT) {
+                toRemove.add(e);
             }
         }
 
-        for (IGameObject e : toRemove) {
+        for (IBlock e : toRemove) {
             blocks.remove(e);
         }
     }
@@ -198,7 +199,7 @@ public class World implements IScene {
      */
     private void newBlocks() {
         if (blocks.size() < MAXBLOCKS) {
-            IPlatform topPlatform = topBlock.getTopPlatform();
+            IJumpable topPlatform = topBlock.getTopJumpable();
             topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform);
             //TODO: implements New Block
             blocks.add(topBlock);

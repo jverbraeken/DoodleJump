@@ -1,29 +1,117 @@
 package objects.blocks;
 
+import objects.IGameObject;
+import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
-import objects.doodles.IDoodle;
 import system.Game;
 import system.IServiceLocator;
 
-/* package */ final class Block extends ABlock implements IBlock {
+import java.util.HashSet;
+import java.util.Set;
 
-    /* package */ Block(IServiceLocator serviceLocator, IPlatform lastPlatform) {
-        super(serviceLocator, (int) lastPlatform.getYPos() + 800);
+public final class Block implements IBlock {
 
-        createAndPlaceObjects(lastPlatform);
+    private static IServiceLocator serviceLocator;
+    private final Set<IGameObject> elements = new HashSet<>();
+    private IJumpable topJumpable;
+
+    /* package */ Block(IServiceLocator serviceLocator) {
+        Block.serviceLocator = serviceLocator;
     }
 
     /**
-     * Creates and places platforms in the block.
-     *
-     * @param lastPlatform The highest platform in the previous block.
+     * {@inheritDoc}
      */
-    private void createAndPlaceObjects(IPlatform lastPlatform) {
-        placePlatforms(lastPlatform, 8, (Game.WIDTH + Game.HEIGHT) / 120);
+    @Override
+    public Set<IGameObject> getElements() {
+        return this.elements;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void collidesWith(IDoodle doodle) {
-        doodle.collide(this);
+    public void addYPos(double y) {
+        for (IGameObject e : elements) {
+            e.addYPos(y);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IJumpable getTopJumpable() {
+        return topJumpable;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void render() {
+        elements.forEach(IGameObject::render);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void update(double delta) {
+        cleanUpPlatforms();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addElement(IJumpable jumpable) {
+        this.elements.add(jumpable);
+        this.topJumpable = jumpable;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addElement(IGameObject object) {
+        this.elements.add(object);
+    }
+
+    /**
+     * Checks if the platform collides with any of the platforms
+     * in this Block. When there is a collision, delete the platform
+     * from the list.
+     *
+     * @param platform The IPlatform that has to be checked for collision.
+     */
+    private void platformCollideCheck(IPlatform platform) {
+        HashSet<IGameObject> toRemove = new HashSet<>();
+        for (IGameObject e : elements) {
+            if (platform.checkCollission(e)) {
+                toRemove.add(e);
+            }
+        }
+
+        for (IGameObject e : toRemove) {
+            elements.remove(e);
+        }
+    }
+
+    /**
+     * Checks for all the Platforms if they are under over the height
+     * of the screen, if that's the case, delete that Platforms.
+     */
+    private void cleanUpPlatforms() {
+        Set<IGameObject> toRemove = new HashSet<>();
+        for (IGameObject e : elements) {
+            if (e.getYPos() - 50 > Game.HEIGHT) {
+                toRemove.add(e);
+            }
+        }
+
+        for (IGameObject e : toRemove) {
+            elements.remove(e);
+        }
     }
 }

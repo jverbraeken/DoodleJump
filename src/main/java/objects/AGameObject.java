@@ -124,12 +124,6 @@ public abstract class AGameObject implements IGameObject {
         this.yPos = yPos;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract void update();
-
 
     /**
      * {@inheritDoc}
@@ -145,6 +139,14 @@ public abstract class AGameObject implements IGameObject {
                 && this.getXPos() + getHitBox()[HITBOX_RIGHT] > gameObject.getXPos() + gameObject.getHitBox()[HITBOX_LEFT]
                 && this.getYPos() + getHitBox()[HITBOX_TOP] < gameObject.getYPos() + gameObject.getHitBox()[HITBOX_BOTTOM]
                 && this.getYPos() + getHitBox()[HITBOX_BOTTOM] > gameObject.getYPos() + gameObject.getHitBox()[HITBOX_TOP];
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update(double delta) {
 
     }
 }
