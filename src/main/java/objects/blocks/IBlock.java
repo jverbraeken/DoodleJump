@@ -4,6 +4,15 @@ import objects.IGameObject;
 
 import java.util.ArrayList;
 
+/**
+ * This class focusses on the implementation of Blocks.
+ * These blocks contain the main bulk of the game objects.
+ * This bulk contains the platforms, powerups, enemies and other interactable items.
+ * These blocks are meant to pass through our frame vertically.
+ * The player is meant to progress from one block to the next by jumping on things.
+ * These things can be anything as specified by "bulk".
+ * The choice for block was made as to make seperate sub-levels in a continuous world.
+ */
 public interface IBlock extends IGameObject {
 
     /**

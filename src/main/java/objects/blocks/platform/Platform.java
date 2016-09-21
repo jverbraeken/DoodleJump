@@ -5,24 +5,37 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+/**
+ * This class focuses on the implementation of platforms.
+ */
 public class Platform extends AGameObject implements IPlatform {
 
+    /**
+     * Used to gain access to all services.
+     */
     private static IServiceLocator serviceLocator;
 
+    /**
+     * The sprite of the platform.
+     */
     private ISprite sprite;
-    private double boost = -20;
+
+    /**
+     * The boost given by the platform.
+     */
+    private final double boostPlatform = -20;
 
     /**
      * Platform constructor.
      *
-     * @param serviceLocator - The games service locator.
+     * @param sL             - The games service locator.
      * @param x              - The X location for the platform.
      * @param y              - The Y location for the platform.
      */
-    /* package */ Platform(IServiceLocator serviceLocator, int x, int y) {
+    /* package */ Platform(final IServiceLocator sL, final int x, final int y) {
         super();
 
-        Platform.serviceLocator = serviceLocator;
+        Platform.serviceLocator = sL;
 
         this.setXPos(x);
         this.setYPos(y);
@@ -42,9 +55,9 @@ public class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public double getBoost() {
+    public final double getBoost() {
         this.playSound();
-        return this.boost;
+        return this.boostPlatform;
     }
 
     /**
@@ -58,7 +71,7 @@ public class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public void render() {
+    public final void render() {
         serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
     }
 

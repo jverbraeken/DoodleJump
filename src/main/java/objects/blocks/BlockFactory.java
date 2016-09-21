@@ -3,8 +3,15 @@ package objects.blocks;
 import objects.IGameObject;
 import system.IServiceLocator;
 
+/**
+ * This class is the factory in which seperate blocks get created.
+ * In here one can specify the type of block one wants to create.
+ */
 public final class BlockFactory implements IBlockFactory {
 
+    /**
+            * Used to gain access to all services.
+     */
     private static transient IServiceLocator serviceLocator;
 
     /**
@@ -13,10 +20,14 @@ public final class BlockFactory implements IBlockFactory {
     private BlockFactory() {
     }
 
-    public static void register(IServiceLocator serviceLocator) {
+    /**
+     * Register the block factory into the service locator.
+     * @param sL the service locator.
+     */
+    public static void register(final IServiceLocator sL) {
         assert serviceLocator != null;
-        BlockFactory.serviceLocator = serviceLocator;
-        serviceLocator.provide(new BlockFactory());
+        BlockFactory.serviceLocator = sL;
+        BlockFactory.serviceLocator.provide(new BlockFactory());
     }
 
     /**
@@ -32,7 +43,7 @@ public final class BlockFactory implements IBlockFactory {
      * {@inheritDoc}
      */
     @Override
-    public IBlock createBlock(IGameObject lastObject) {
+    public IBlock createBlock(final IGameObject lastObject) {
         Block block = new Block(serviceLocator, lastObject);
         return block;
     }

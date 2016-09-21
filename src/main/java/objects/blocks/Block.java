@@ -38,29 +38,72 @@ class Block extends AGameObject implements IBlock {
      * After this the block will be
      * dynamic to the last element added to the list
      */
-    private final static int CONSTRUCTION_OFFSET = 800;
+    private final int constructionOFFSET = 800;
 
     /**
      * The maximum amount of platforms per block.
      */
-    private int maxPlatforms = 13;
+    private final int maxPLATFORMS = 13;
 
     /**
-     * The minimum amount of platforms per block
+     * The minimum amount of platforms per block.
      */
-    private int minPlatforms = 4;
+    private final int minPLATFORMS = 4;
+
+    /**
+     * Offset to clean up platforms upon leaving the screen.
+     */
+    private final double cleanupOFFSET = 0.01;
+
+    /**
+     * Offset to place the trampoline on the proper place of a platform.
+     */
+    private final int itemYoffset = 5;
+
+    /**
+     * Offset to place the trampoline on the proper place of a platform.
+     */
+    private final int trampolineXoffset = 20;
+
+    /**
+     * Threshold in order to spawn a trampoline.
+     * random int(10.000 > 9900)
+     */
+    private final int tramolineTHRESHOLD = 9900;
+
+    /**
+     * Threshold in order to spawn a trampoline.
+     * random int(9500 < x < 9900)
+     */
+    private final int springTHRESHOLD = 9500;
+
+    /**
+     * Total threshold number for item generation.
+     * random int(10000)
+     */
+    private final int maxTHRESHOLD = 10000;
+
+    /**
+     * A multiplier to generate a proper height deviation.
+     */
+    private final double heightDeviationMultiplier = 1.7;
+
+    /**
+     * An offset to generate a minimum height deviation.
+     */
+    private final double heightDeviationOffset = 0.8;
 
     /**
      * The constructor of a block.
      * @param sL the Service locator needed for factories.
      * @param lastObject the object from where the new block should start building.
      */
-    Block(IServiceLocator sL, final IGameObject lastObject) {
+    Block(final IServiceLocator sL, final IGameObject lastObject) {
         Block.serviceLocator = sL;
 
         //This is only to be sure it has a certain height, after this it will be
         //dynamic to the last element added to the list
-        setYPos(lastObject.getYPos() + CONSTRUCTION_OFFSET);
+        setYPos(lastObject.getYPos() + constructionOFFSET);
         createAndPlaceObjects(lastObject);
     }
 
@@ -120,9 +163,9 @@ class Block extends AGameObject implements IBlock {
      * {@inheritDoc}
      */
     @Override
-    public void placePlatforms( IGameObject lastObject) {
-        int max = maxPlatforms;
-        int min = minPlatforms;
+    public void placePlatforms(IGameObject lastObject) {
+        int max = maxPLATFORMS;
+        int min = minPLATFORMS;
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
 
@@ -133,7 +176,7 @@ class Block extends AGameObject implements IBlock {
         int maxY = (int) (World.gravityAcceleration * Math.pow(t, 2) / 2);
 
         for (int i = 0; i < platformAmount; i++) {
-            float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);
+            float heightDeviation = (float) (rand.nextFloat() * heightDeviationMultiplier - heightDeviationOffset);
             float widthDeviation = rand.nextFloat();
 
             int yLast = (int) lastObject.getYPos();
@@ -170,15 +213,15 @@ class Block extends AGameObject implements IBlock {
      *
      * @param platform The platform a powerup potentially is placed on.
      **/
-    private void chanceForPowerup(IPlatform platform) {
+    private void chanceForPowerup(final IPlatform platform) {
         //TODO use serviceLocator
         Random rand = new Random();
 
-        int randomNr = (int) (rand.nextFloat() * 10000);
+        int randomNr = (int) (rand.nextFloat() * maxTHRESHOLD);
 
-        if (randomNr < 9500) {
+        if (randomNr < springTHRESHOLD) {
             return;
-        } else if (randomNr >= 9500 && randomNr < 9900) {
+        } else if (randomNr >= springTHRESHOLD && randomNr < tramolineTHRESHOLD) {
             IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
             int springXLoc = (int) (rand.nextFloat() * platform.getWidth());
             IGameObject powerup = powerupFactory.createSpring(0, 0);
@@ -188,15 +231,14 @@ class Block extends AGameObject implements IBlock {
                 xPos = xPos - powerup.getWidth();
             }
             powerup.setXPos(xPos);
-            powerup.setYPos((int) platform.getYPos() - platform.getHeight() + 5);
+            powerup.setYPos((int) platform.getYPos() - platform.getHeight() + itemYoffset);
 
             content.add(powerup);
-        }
-        else if (randomNr >= 9900) {
+        } else if (randomNr >= tramolineTHRESHOLD) {
 
             IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-            IGameObject powerup = powerupFactory.createTrampoline((int) platform.getXPos() + 20,
-                    (int) platform.getYPos() - platform.getHeight() + 5);
+            IGameObject powerup = powerupFactory.createTrampoline((int) platform.getXPos() + trampolineXoffset,
+                    (int) platform.getYPos() - platform.getHeight() + itemYoffset);
             content.add(powerup);
         }
     }
@@ -208,7 +250,7 @@ class Block extends AGameObject implements IBlock {
     public void cleanUpPlatforms() {
         HashSet<IGameObject> toRemove = new HashSet<>();
         for (IGameObject e : content) {
-            if (e.getYPos() + Game.HEIGHT * 0.01 > Game.HEIGHT) {
+            if (e.getYPos() + Game.HEIGHT * cleanupOFFSET > Game.HEIGHT) {
                 toRemove.add(e);
             }
         }
@@ -223,7 +265,7 @@ class Block extends AGameObject implements IBlock {
      *
      * @param lastObject The highest platform in the previous block.
      */
-    private void createAndPlaceObjects(IGameObject lastObject) {
+    private void createAndPlaceObjects(final IGameObject lastObject) {
         placePlatforms(lastObject);
     }
 
@@ -234,7 +276,7 @@ class Block extends AGameObject implements IBlock {
      *
      * @param platform The IPlatform that has to be checked for collision.
      */
-    private void platformCollideCheck(IPlatform platform) {
+    private void platformCollideCheck(final IPlatform platform) {
         HashSet<IGameObject> toRemove = new HashSet<>();
         for (IGameObject e : content) {
             if (serviceLocator.getCollisions().collide(platform, e)) {
