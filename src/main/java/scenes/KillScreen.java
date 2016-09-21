@@ -8,7 +8,7 @@ import system.Game;
 import system.IServiceLocator;
 
 /**
- * This class is a scene that is displayes when the doodle dies in a world.
+ * This class is a scene that is displays when the doodle dies in a world.
  */
 public class KillScreen implements IScene, IMouseInputObserver {
 
