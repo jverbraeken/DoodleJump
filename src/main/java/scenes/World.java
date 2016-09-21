@@ -35,11 +35,11 @@ public class World implements IScene {
     /**
      * Multiplier to achieve a realistic score increase.
      */
-    private final double SCOREMULTIPLIER = 0.15;
+    private final double scoremultiplier = 0.15;
     /**
      * Offset of the pausebutton.
      */
-    private final int PAUSEOFFSET = 38;
+    private final int pauseoffset = 38;
     /**
      * The logger keeps track of all interactions in the game.
      */
@@ -51,11 +51,11 @@ public class World implements IScene {
     /**
      * The amount of blocks kept in a buffer.
      */
-    private final int BLOCKBUFFER = 4;
+    private final int blockbuffer = 4;
     /**
      * The vertical starting speed.
      */
-    private final double STARTSPEED = -9;
+    private final double startspeed = -9;
     /**
      * Set of all object (excluding Doodle) in the world.
      */
@@ -107,7 +107,7 @@ public class World implements IScene {
         IBlock lastCreatedBlock = blockFactory.createStartBlock();
         elements.add(lastCreatedBlock);
 
-        for (int i = 1; i < BLOCKBUFFER; i++) {
+        for (int i = 1; i < blockbuffer; i++) {
             lastCreatedBlock = blockFactory.createBlock(getTopObject());
             elements.add(lastCreatedBlock);
         }
@@ -118,7 +118,7 @@ public class World implements IScene {
 
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
-        this.vSpeed = STARTSPEED;
+        this.vSpeed = startspeed;
     }
 
     /**
@@ -190,7 +190,7 @@ public class World implements IScene {
         if (this.vSpeed < 0 && doodle.getYPos() < Game.HEIGHT / 2 - doodle.getHeight()) {
             for (IGameObject e : elements) {
                 e.addYPos(-this.vSpeed);
-                score -= this.vSpeed * SCOREMULTIPLIER;
+                score -= this.vSpeed * scoremultiplier;
             }
         } else {
             doodle.addYPos(this.vSpeed);
@@ -243,7 +243,7 @@ public class World implements IScene {
      * Generate new blocks if there are under 3 present.
      */
     private void newBlocks() {
-        if (elements.size() < BLOCKBUFFER) {
+        if (elements.size() < blockbuffer) {
             double minY = Double.MAX_VALUE;
             for (IGameObject e : elements) {
                 if (e.getYPos() < minY) {
@@ -326,7 +326,7 @@ public class World implements IScene {
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
 
             ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseButtonSprite();
-            int pauseX = (int) (Game.WIDTH - pauseSprite.getWidth() * scaling - PAUSEOFFSET);
+            int pauseX = (int) (Game.WIDTH - pauseSprite.getWidth() * scaling - pauseoffset);
             int pauseY = (int) (((double) Game.WIDTH / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
 
