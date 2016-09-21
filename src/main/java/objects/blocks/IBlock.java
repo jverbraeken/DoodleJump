@@ -1,32 +1,37 @@
 package objects.blocks;
 
 import objects.IGameObject;
+import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
+import system.IRenderable;
+import system.IUpdatable;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
-public interface IBlock extends IGameObject {
+public interface IBlock extends IRenderable, IUpdatable {
 
     /**
-     * Get the content of the block.
+     * Get the elements of the block.
      *
-     * @return The content of the block.
+     * @return The elements of the block.
      */
-    Set<IGameObject> getContent();
+    Set<IGameObject> getElements();
 
     /**
-     * Place platforms in the block.
-     *
-     * @param lastObject The last platform from the previous block.
+     * @return The highest situated {@link IJumpable jumpable} element in the block
      */
-    void placePlatforms(IGameObject lastObject);
+    IJumpable getTopJumpable();
 
     /**
-     * Checks for all the Platforms if they are under over the height
-     * of the screen, if that's the case, delete that Platforms.
+     * Adds a new {@link IJumpable jumpable} game object to the block.
      */
-    void cleanUpPlatforms();
+    void addElement(IJumpable object);
 
+    /**
+     * Adds a new {@link IGameObject game object} to the block.
+     */
+    void addElement(IGameObject object);
+
+    void addYPos(double y);
 }

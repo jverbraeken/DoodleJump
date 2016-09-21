@@ -1,6 +1,5 @@
 package system;
 
-import objects.ICollisions;
 import objects.buttons.IButtonFactory;
 import resources.IRes;
 import resources.audio.IAudioManager;
@@ -49,7 +48,6 @@ public class ServiceLocator implements IServiceLocator {
     private IBlockFactory blockFactory;
     private ILevelBuilder levelBuilder;
     private IPlatformFactory platformFactory;
-    private ICollisions collisions;
 
     // scenes
     private ISceneFactory sceneFactory;
@@ -198,15 +196,6 @@ public class ServiceLocator implements IServiceLocator {
      * {@inheritDoc}
      */
     @Override
-    public void provide(ICollisions collisions) {
-        assert collisions != null;
-        this.collisions = collisions;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public IAudioManager getAudioManager() {
         return audioManager;
     }
@@ -320,11 +309,5 @@ public class ServiceLocator implements IServiceLocator {
      */
     @Override
     public IButtonFactory getButtonFactory() { return buttonFactory; }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ICollisions getCollisions() { return collisions; }
 
 }

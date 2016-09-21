@@ -1,11 +1,13 @@
 package objects.powerups;
 
+import objects.IJumpable;
+import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-public class Spring extends APowerup implements IPowerup {
+public class Spring extends APowerup implements IJumpable {
 
     private static IServiceLocator serviceLocator;
 
@@ -25,20 +27,11 @@ public class Spring extends APowerup implements IPowerup {
      * @param y - The Y location for the trampoline.
      */
     /* package */ Spring(final IServiceLocator serviceLocator, final int x, final int y) {
+        super(x, y, serviceLocator.getSpriteFactory().getSpringSprite());
         Spring.serviceLocator = serviceLocator;
-
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        this.sprite = spriteFactory.getSpringSprite();
-
-        this.setXPos(x);
-        this.setYPos(y);
-        this.setHeight(sprite.getHeight());
-        this.setWidth(sprite.getWidth());
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void animate() {
+    private void animate() {
         int oldHeight = this.sprite.getHeight();
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
@@ -56,22 +49,14 @@ public class Spring extends APowerup implements IPowerup {
         this.animate();
         this.playSound();
 
-        return this.boost;
+        return Spring.boost;
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public void move() { }
 
     /** {@inheritDoc} */
     @Override
     public void render() {
         serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public void update() { }
 
     /**
      * Play the sound for the Trampoline.
@@ -81,4 +66,10 @@ public class Spring extends APowerup implements IPowerup {
         audioManager.playFeder();
     }
 
+
+    /** {@inheritDoc} */
+    @Override
+    public void collidesWith(IDoodle doodle) {
+        doodle.collide(this);
+    }
 }

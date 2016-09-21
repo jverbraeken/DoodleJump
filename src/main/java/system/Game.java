@@ -5,7 +5,6 @@ import input.IInputManager;
 import input.InputManager;
 import math.Calc;
 import math.ICalc;
-import objects.Collisions;
 import objects.blocks.BlockFactory;
 import objects.blocks.platform.PlatformFactory;
 import objects.buttons.ButtonFactory;
@@ -31,8 +30,6 @@ public final class Game {
     // TODO: Remove unused and add JavaDoc
     public final static int WIDTH = 640;
     public final static int HEIGHT = 960;
-    public static final int NORMAL_WIDTH = Game.WIDTH;
-    public static final int NORMAL_HEIGHT = Game.HEIGHT;
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
     private static final double RESUMEBUTTONX = 0.55;
@@ -41,11 +38,9 @@ public final class Game {
     private static JFrame frame;
     private static JPanel panel;
     private static IScene scene;
-    private static int times = 0;
     private static boolean isPaused = false;
     private static boolean isAlive = true;
     private static IButton resumeButton;
-    private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     private static float scale = 2;
 
     /**
@@ -69,7 +64,6 @@ public final class Game {
         PlatformFactory.register(serviceLocator);
         Res.register(serviceLocator);
         ButtonFactory.register(serviceLocator);
-        Collisions.register(serviceLocator);
     }
 
     public static void main(String[] argv) {
@@ -106,7 +100,7 @@ public final class Game {
 
                 ((Graphics2D) g).scale(1 / scale, 1 / scale);
                 if (scene != null) {
-                    scene.paint();
+                    scene.render();
                 }
 
 
@@ -114,7 +108,7 @@ public final class Game {
                     drawPauseScreen();
                 }
 
-                if(!isAlive) {
+                if (!isAlive) {
                     setScene(serviceLocator.getSceneFactory().newKillScreen());
                     setAlive(true);
                 }
