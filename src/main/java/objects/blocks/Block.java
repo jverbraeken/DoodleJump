@@ -13,17 +13,54 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
-/* package */ class Block extends AGameObject implements IBlock {
+/**
+ * This class focusses on the implementation of Blocks.
+ * These blocks contain the main bulk of the game objects.
+ * This bulk contains the platforms, powerups, enemies and other interactable items.
+ * These blocks are meant to pass through our frame vertically.
+ * The player is meant to progress from one block to the next by jumping on things.
+ * These things can be anything as specified by "bulk".
+ * The choice for block was made as to make seperate sub-levels in a continuous world.
+ */
+class Block extends AGameObject implements IBlock {
 
+    /**
+     * Used to gain access to all services.
+     */
     private static IServiceLocator serviceLocator;
+    /**
+     * A sorted list of all the game objects in this block.
+     */
     private ArrayList<IGameObject> content = new ArrayList<>();
 
-    /* package */ Block(IServiceLocator serviceLocator, IGameObject lastObject) {
-        Block.serviceLocator = serviceLocator;
+    /**
+     * This is only to be sure a block has a certain height.
+     * After this the block will be
+     * dynamic to the last element added to the list
+     */
+    private final static int CONSTRUCTION_OFFSET = 800;
+
+    /**
+     * The maximum amount of platforms per block.
+     */
+    private int maxPlatforms = 13;
+
+    /**
+     * The minimum amount of platforms per block
+     */
+    private int minPlatforms = 4;
+
+    /**
+     * The constructor of a block.
+     * @param sL the Service locator needed for factories.
+     * @param lastObject the object from where the new block should start building.
+     */
+    Block(IServiceLocator sL, final IGameObject lastObject) {
+        Block.serviceLocator = sL;
 
         //This is only to be sure it has a certain height, after this it will be
         //dynamic to the last element added to the list
-        setYPos(lastObject.getYPos() + 800);
+        setYPos(lastObject.getYPos() + CONSTRUCTION_OFFSET);
         createAndPlaceObjects(lastObject);
     }
 
@@ -62,7 +99,7 @@ import java.util.Random;
      * {@inheritDoc}
      */
     @Override
-    public void addYPos(double y) {
+    public void addYPos(final double y) {
         double current = this.getYPos();
         this.setYPos(current + y);
 
@@ -83,16 +120,16 @@ import java.util.Random;
      * {@inheritDoc}
      */
     @Override
-    public void placePlatforms(IGameObject lastObject) {
-        int max = (Game.WIDTH + Game.HEIGHT) / 120;
-        int min = 8;
+    public void placePlatforms( IGameObject lastObject) {
+        int max = maxPlatforms;
+        int min = minPlatforms;
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
         int heightDividedPlatforms = (int) Game.HEIGHT / platformAmount;
 
         double t = World.vSpeedLimit / World.gravityAcceleration;
 
-        int maxY = (int) (0.5 * World.gravityAcceleration * Math.pow(t, 2));
+        int maxY = (int) (World.gravityAcceleration * Math.pow(t, 2) / 2);
 
         for (int i = 0; i < platformAmount; i++) {
             float heightDeviation = (float) (rand.nextFloat() * 1.7 - 0.8);

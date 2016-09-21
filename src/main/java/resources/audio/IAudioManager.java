@@ -1,5 +1,6 @@
 package resources.audio;
 
+@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface IAudioManager {
 
     /**

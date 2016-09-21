@@ -3,9 +3,8 @@ package resources.sprites;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-/**
- * <b>Immutable</b>
- */
+
+@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public class Sprite implements ISprite {
     private final String name;
     private final Image image;

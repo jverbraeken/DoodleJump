@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
 
+@SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod"})
 public final class SpriteFactory implements ISpriteFactory {
 
     /**

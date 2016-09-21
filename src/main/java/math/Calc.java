@@ -2,6 +2,10 @@ package math;
 
 import system.IServiceLocator;
 
+/**
+ * This class handles all advanced calculations.
+ * Examples are random integers and doubles.
+ */
 public final class Calc implements ICalc {
 
     /**
@@ -15,9 +19,13 @@ public final class Calc implements ICalc {
     private Calc() {
     }
 
-    public static void register(final IServiceLocator serviceLocator) {
+    /**
+     * Register the FileSystem into the service locator.
+     * @param sL the service locator.
+     */
+    public static void register(final IServiceLocator sL) {
         assert serviceLocator != null;
-        Calc.serviceLocator = serviceLocator;
-        serviceLocator.provide(new Calc());
+        Calc.serviceLocator = sL;
+        Calc.serviceLocator.provide(new Calc());
     }
 }

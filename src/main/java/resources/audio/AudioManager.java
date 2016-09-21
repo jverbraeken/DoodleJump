@@ -5,6 +5,7 @@ import system.IServiceLocator;
 import javax.sound.sampled.Clip;
 import java.io.FileNotFoundException;
 
+@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class AudioManager implements IAudioManager {
     /**
      * Used to gain access to all services.

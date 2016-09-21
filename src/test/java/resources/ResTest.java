@@ -5,20 +5,14 @@ import filesystem.IFileSystem;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
-import org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Multiple print statements are used. The reason we chose to use ordinary statements instead of a file logger is

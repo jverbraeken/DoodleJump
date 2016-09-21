@@ -4,7 +4,7 @@ import system.IServiceLocator;
 
 import java.util.EnumMap;
 import java.util.Map;
-
+@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class Res implements IRes {
 
     private static transient IServiceLocator serviceLocator;

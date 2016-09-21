@@ -2,7 +2,7 @@ package resources.sprites;
 
 import objects.doodles.IDoodle;
 import system.IFactory;
-
+@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface ISpriteFactory extends IFactory {
 
     // Buttons

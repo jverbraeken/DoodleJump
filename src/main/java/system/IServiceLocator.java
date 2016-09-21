@@ -16,6 +16,7 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISpriteFactory;
 import scenes.ISceneFactory;
 
+@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface IServiceLocator {
 
     void provide(IAudioManager audioManager);
