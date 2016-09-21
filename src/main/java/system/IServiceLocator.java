@@ -68,7 +68,7 @@ public interface IServiceLocator {
     IRenderer getRenderer();
 
     ISpriteFactory getSpriteFactory();
-    
+
     ISceneFactory getSceneFactory();
 
     IPlatformFactory getPlatformFactory();
