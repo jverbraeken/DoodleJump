@@ -122,9 +122,9 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite[] getDoodleSprite(IDoodle.directions direction) {
+    public ISprite[] getDoodleSprite(IDoodle.Directions direction) {
         ISprite[] sprites = new ISprite[2];
-        if (direction == IDoodle.directions.left) {
+        if (direction == IDoodle.Directions.Left) {
             sprites[0] = this.getSprite(IRes.sprites.doodleLeftAscend);
             sprites[1] = this.getSprite(IRes.sprites.doodleLeftDescend);
         } else { // Use Right by default

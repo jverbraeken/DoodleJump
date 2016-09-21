@@ -29,10 +29,10 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.startCover, spritepath + "Default@2x.png");
 
         // Doodle
-        sprites.put(IRes.sprites.doodleLeftAscend, spritepath + "blue-lik-left@2x.png");
-        sprites.put(IRes.sprites.doodleLeftDescend, spritepath + "blue-lik-left-odskok@2x.png");
-        sprites.put(IRes.sprites.doodleRightAscend, spritepath + "blue-lik-right@2x.png");
-        sprites.put(IRes.sprites.doodleRightDescend, spritepath + "blue-lik-right-odskok@2x.png");
+        sprites.put(IRes.sprites.doodleLeftAscend, spritepath + "blue-lik-Left@2x.png");
+        sprites.put(IRes.sprites.doodleLeftDescend, spritepath + "blue-lik-Left-odskok@2x.png");
+        sprites.put(IRes.sprites.doodleRightAscend, spritepath + "blue-lik-Right@2x.png");
+        sprites.put(IRes.sprites.doodleRightDescend, spritepath + "blue-lik-Right-odskok@2x.png");
 
         // Kill screen
         sprites.put(IRes.sprites.gameOver, spritepath + "gameover@2x.png");

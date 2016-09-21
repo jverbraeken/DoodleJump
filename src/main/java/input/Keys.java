@@ -11,7 +11,7 @@ public enum Keys {
      */
     arrowLeft,
     /**
-     * The right arrow key.
+     * The Right arrow key.
      */
     arrowRight,
 

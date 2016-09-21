@@ -39,6 +39,11 @@ public class StartBlock extends AGameObject implements IBlock {
     private final int constructionOffset = 800;
 
     /**
+     * Ensures there is a starting platform at an appropriate height.
+     */
+    private final int startPlatformOffset = 120;
+
+    /**
      * The maximum amount of platforms per block.
      */
     private final int maxPlatforms = 13;
@@ -129,7 +134,7 @@ public class StartBlock extends AGameObject implements IBlock {
         int heightDividedPlatforms = (int) Game.HEIGHT / platformAmount;
 
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-        IPlatform platform = platformFactory.createPlatform(Game.WIDTH / 2, (int) (Game.HEIGHT));
+        IPlatform platform = platformFactory.createPlatform(Game.WIDTH / 2, (int) (Game.HEIGHT - startPlatformOffset));
         lastObject = platform;
         content.add(platform);
 

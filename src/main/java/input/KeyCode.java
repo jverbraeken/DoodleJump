@@ -13,11 +13,11 @@ public final class KeyCode {
      */
     private static final Map<Keys, Integer> KEY_MAP = new EnumMap<>(Keys.class);
     /**
-     * The identifier of the left arrow key.
+     * The identifier of the Left arrow key.
      */
     private static final int ARROW_LEFT_KEY = 37;
     /**
-     * The identifier of the right arrow key.
+     * The identifier of the Right arrow key.
      */
     private static final int ARROW_RIGHT_KEY = 39;
     /**

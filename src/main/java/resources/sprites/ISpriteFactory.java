@@ -24,7 +24,7 @@ public interface ISpriteFactory extends IFactory {
     ISprite getStartCoverSprite();
 
     // Doodle
-    ISprite[] getDoodleSprite(IDoodle.directions direction);
+    ISprite[] getDoodleSprite(IDoodle.Directions direction);
 
     // Kill screen
     ISprite getGameOverSprite();
@@ -66,7 +66,7 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getOrdinaryMonsterSprite(); // By default the purple monster with a blank head
 
-    ISprite getCactusMonster1Sprite(); // By default with three flaps at its left and right side and three eyes
+    ISprite getCactusMonster1Sprite(); // By default with three flaps at its Left and Right side and three eyes
 
     ISprite getCactusMonster2Sprite();
 

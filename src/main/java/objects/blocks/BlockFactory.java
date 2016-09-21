@@ -10,7 +10,7 @@ import system.IServiceLocator;
 public final class BlockFactory implements IBlockFactory {
 
     /**
-            * Used to gain access to all services.
+     * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
 
