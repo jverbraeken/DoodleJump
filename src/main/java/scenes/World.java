@@ -76,7 +76,7 @@ public class World implements IScene {
     /**
      * The score for the world.
      */
-    private double score;
+    private double score = 0;
 
     /**
      * The Digitoffsetmultiplier needed for the scoretext.
@@ -435,6 +435,10 @@ public class World implements IScene {
                 int roundedScore = (int) score;
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();
+
+                if (roundedScore == 0) {
+                    scoreDigits.push(0);
+                }
                 while (roundedScore != 0) {
                     digit = roundedScore % NUMBERSYSTEM;
                     roundedScore = roundedScore / NUMBERSYSTEM;
