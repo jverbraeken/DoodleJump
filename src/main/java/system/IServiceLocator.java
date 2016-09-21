@@ -38,9 +38,7 @@ public interface IServiceLocator {
     void provide(IRenderer renderer);
 
     void provide(ISpriteFactory spriteFactory);
-
-    void provide(ILevelBuilder levelBuilder);
-
+    
     void provide(ISceneFactory sceneFactory);
 
     void provide(IPlatformFactory platformFactory);
@@ -70,9 +68,12 @@ public interface IServiceLocator {
     IRenderer getRenderer();
 
     ISpriteFactory getSpriteFactory();
+<<<<<<< HEAD
 
     ILevelBuilder getLevelBuilder();
 
+=======
+>>>>>>> origin/develop
     ISceneFactory getSceneFactory();
 
     IPlatformFactory getPlatformFactory();
