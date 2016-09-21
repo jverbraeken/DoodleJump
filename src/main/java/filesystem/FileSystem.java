@@ -11,9 +11,6 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.*;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +18,10 @@ import java.util.List;
  * The default implementation for {@link IFileSystem}. Suitable for Windows, MacOS and some Linux distributions.
  */
 public final class FileSystem implements IFileSystem {
+
     /**
-    * Used to gain access to all services.
-    */
+     * Used to gain access to all services.
+     */
     private static transient IServiceLocator serviceLocator;
     public static void register(final IServiceLocator serviceLocator) {
         assert serviceLocator != null;
@@ -40,8 +38,8 @@ public final class FileSystem implements IFileSystem {
 
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public List<String> readTextFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
 
@@ -61,8 +59,8 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public InputStream readBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
 
@@ -71,8 +69,8 @@ public final class FileSystem implements IFileSystem {
         return new BufferedInputStream(inputStream);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public BufferedImage readImage(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
 
@@ -84,8 +82,8 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public Clip readSound(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
 
@@ -101,8 +99,8 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void writeTextFile(final String filename, final String content) throws FileNotFoundException {
         File file = getFile(filename);
 
@@ -139,8 +137,8 @@ public final class FileSystem implements IFileSystem {
         return new BufferedOutputStream(outputStream);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public File getFile(final String filename) throws FileNotFoundException {
         assert filename != null;
 
@@ -150,4 +148,5 @@ public final class FileSystem implements IFileSystem {
         }
         return new File(url.getFile());
     }
+
 }
