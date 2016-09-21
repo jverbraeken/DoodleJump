@@ -12,7 +12,7 @@ public class AudioManagerTest {
 
     @BeforeClass
     public static void initialize() throws Exception {
-        audioManager = Whitebox.invokeConstructor(AudioManager.class);
+        //audioManager = Whitebox.invokeConstructor(AudioManager.class);
     }
 
     @Test

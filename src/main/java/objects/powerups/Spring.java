@@ -5,7 +5,7 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-public class Spring extends APowerup implements IPowerup {
+/* package */ class Spring extends APowerup implements IPowerup {
 
     /**
      * The boost value for the Spring.
@@ -86,7 +86,7 @@ public class Spring extends APowerup implements IPowerup {
     }
 
     /**
-     * Play the sound for the Trampoline.
+     * Play the sound for the Spring.
      */
     private void playSound() {
         IAudioManager audioManager = serviceLocator.getAudioManager();

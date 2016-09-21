@@ -16,7 +16,7 @@ public final class AudioManager implements IAudioManager {
      * Prevents instantiation from outside the class.
      */
     private AudioManager() {
-
+        preload();
     }
 
     public static void register(IServiceLocator serviceLocator_) {

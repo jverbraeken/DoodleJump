@@ -125,6 +125,7 @@ class Block extends AGameObject implements IBlock {
         int min = minPlatforms;
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
+
         int heightDividedPlatforms = (int) Game.HEIGHT / platformAmount;
 
         double t = World.vSpeedLimit / World.gravityAcceleration;
@@ -180,10 +181,19 @@ class Block extends AGameObject implements IBlock {
         } else if (randomNr >= 9500 && randomNr < 9900) {
             IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
             int springXLoc = (int) (rand.nextFloat() * platform.getWidth());
-            IGameObject powerup = powerupFactory.createSpring((int) platform.getXPos() + springXLoc,
-                    (int) platform.getYPos() - platform.getHeight() + 5);
+            IGameObject powerup = powerupFactory.createSpring(0, 0);
+
+            int xPos = (int) platform.getXPos() + springXLoc;
+            if (xPos > platform.getXPos() + platform.getWidth() - powerup.getWidth()) {
+                xPos = xPos - powerup.getWidth();
+            }
+            powerup.setXPos(xPos);
+            powerup.setYPos((int) platform.getYPos() - platform.getHeight() + 5);
+
             content.add(powerup);
-        } else if (randomNr >= 9900) {
+        }
+        else if (randomNr >= 9900) {
+
             IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
             IGameObject powerup = powerupFactory.createTrampoline((int) platform.getXPos() + 20,
                     (int) platform.getYPos() - platform.getHeight() + 5);
