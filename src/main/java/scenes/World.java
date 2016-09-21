@@ -182,6 +182,7 @@ public class World implements IScene {
                     toRemove.add(e);
                 }
             } else if (e instanceof IBlock) {
+                ((IBlock) e).cleanUpPlatforms();
                 if (e.getYPos() + Game.HEIGHT * 0.01  > Game.HEIGHT) {
                     toRemove.add(e);
                 }
