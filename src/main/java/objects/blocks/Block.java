@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public final class Block implements IBlock {
+public class Block implements IBlock {
 
 
     private static IServiceLocator serviceLocator;
