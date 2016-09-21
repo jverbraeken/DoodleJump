@@ -56,8 +56,8 @@ public class Button implements IButton {
 
         this.serviceLocator = sL;
         this.sprite = s;
-        this.width = sprite.getImage().getWidth(null);
-        this.height = sprite.getImage().getHeight(null);
+        this.width = s.getImage().getWidth(null);
+        this.height = s.getImage().getHeight(null);
         this.topLeft[0] = x;
         this.topLeft[1] = y;
         this.bottomRight[0] = x + width;

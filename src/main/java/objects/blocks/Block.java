@@ -171,9 +171,9 @@ class Block extends AGameObject implements IBlock {
 
         int heightDividedPlatforms = (int) Game.HEIGHT / platformAmount;
 
-        double t = World.vSpeedLimit / World.gravityAcceleration;
+        double t = World.V_SPEED_LIMIT / World.GRAVITY_ACCELERATION;
 
-        int maxY = (int) (World.gravityAcceleration * Math.pow(t, 2) / 2);
+        int maxY = (int) (World.GRAVITY_ACCELERATION * Math.pow(t, 2) / 2);
 
         for (int i = 0; i < platformAmount; i++) {
             float heightDeviation = (float) (rand.nextFloat() * heightDeviationMultiplier - heightDeviationOffset);
