@@ -81,11 +81,9 @@ public class Button implements IButton {
     public final void mouseClicked(final int x, final int y) {
         assert x >= 0 && y >= 0;
 
-        if (x > topLeft[0] && x < bottomRight[0]) {
-            if (y > topLeft[1] && y < bottomRight[1]) {
-                logger.info("Button clicked: \"" + name + "\"");
-                action.run();
-            }
+        if (x > topLeft[0] && x < bottomRight[0] && y > topLeft[1] && y < bottomRight[1]) {
+            logger.info("Button clicked: \"" + name + "\"");
+            action.run();
         }
     }
 }

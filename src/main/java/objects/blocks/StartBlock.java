@@ -31,12 +31,6 @@ public class StartBlock extends AGameObject implements IBlock {
      * A sorted list of all the game objects in this block.
      */
     private ArrayList<IGameObject> content = new ArrayList<>();
-    /**
-     * This is only to be sure a block has a certain height.
-     * After this the block will be
-     * dynamic to the last element added to the list
-     */
-    private final int constructionOffset = 800;
 
     /**
      * Ensures there is a starting platform at an appropriate height.

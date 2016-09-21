@@ -69,7 +69,7 @@ public final class InputManager implements IInputManager {
         observers = (HashSet) observers.clone();
         for (IMouseInputObserver observer : observers) {
             //observer.mouseClicked(e.getX() , e.getY() );
-            observer.mouseClicked((2 * e.getX() - 2 * windowLeftBorderSize), (2 * e.getY() - 2 * windowTopBorderSize));
+            observer.mouseClicked(2 * e.getX() - 2 * windowLeftBorderSize, 2 * e.getY() - 2 * windowTopBorderSize);
         }
     }
 

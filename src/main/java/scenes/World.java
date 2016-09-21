@@ -41,10 +41,6 @@ public class World implements IScene {
      */
     private final int pauseoffset = 38;
     /**
-     * The logger keeps track of all interactions in the game.
-     */
-    private final Logger logger = LoggerFactory.getLogger(World.class);
-    /**
      * Used to access all services.
      */
     private final IServiceLocator serviceLocator;
