@@ -3,6 +3,9 @@ package objects.powerups;
 import objects.IGameObject;
 import system.IFactory;
 
+/**
+ * This is a factory creating powerups.
+ */
 public interface IPowerupFactory extends IFactory {
 
     /**

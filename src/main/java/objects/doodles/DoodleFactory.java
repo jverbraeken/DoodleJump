@@ -19,7 +19,7 @@ public final class DoodleFactory implements IDoodleFactory {
     }
 
     /**
-     * Register the block factory into the service locator.
+     * Register the doodle factory into the service locator.
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
