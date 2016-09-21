@@ -43,7 +43,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private final double hAcceleration = .5d;
     /**
-     * The sprite pack for the Doodle, containing all sprites for one direction.
+     * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
     private ISprite[] spritePack;
     /**

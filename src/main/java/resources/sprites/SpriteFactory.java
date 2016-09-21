@@ -18,7 +18,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
-    private LoadingCache<IRes.sprites, ISprite> cache;
+    private LoadingCache<IRes.Sprites, ISprite> cache;
 
 
     /**
@@ -28,9 +28,9 @@ public final class SpriteFactory implements ISpriteFactory {
         cache = CacheBuilder.newBuilder()
                 .maximumSize(Long.MAX_VALUE)
                 .build(
-                        new CacheLoader<IRes.sprites, ISprite>() {
+                        new CacheLoader<IRes.Sprites, ISprite>() {
                             @Override
-                            public ISprite load(IRes.sprites sprite) throws FileNotFoundException {
+                            public ISprite load(IRes.Sprites sprite) throws FileNotFoundException {
                                 return loadISprite(sprite);
                             }
                         }
@@ -53,7 +53,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getMenuButtonSprite() {
-        return getSprite(IRes.sprites.menu);
+        return getSprite(IRes.Sprites.menu);
     }
 
     /**
@@ -61,7 +61,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPauseButtonSprite() {
-        return getSprite(IRes.sprites.pause);
+        return getSprite(IRes.Sprites.pause);
     }
 
     /**
@@ -69,7 +69,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlayButtonSprite() {
-        return getSprite(IRes.sprites.play);
+        return getSprite(IRes.Sprites.play);
     }
 
     /**
@@ -77,7 +77,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlayAgainButtonSprite() {
-        return getSprite(IRes.sprites.playagain);
+        return getSprite(IRes.Sprites.playagain);
     }
 
     /**
@@ -85,7 +85,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getResumeButtonSprite() {
-        return getSprite(IRes.sprites.resume);
+        return getSprite(IRes.Sprites.resume);
     }
 
 
@@ -96,7 +96,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getBackground() {
-        return getSprite(IRes.sprites.background);
+        return getSprite(IRes.Sprites.background);
     }
 
     /**
@@ -104,7 +104,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPauseCoverSprite() {
-        return getSprite(IRes.sprites.pauseCover);
+        return getSprite(IRes.Sprites.pauseCover);
     }
 
     /**
@@ -112,7 +112,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getStartCoverSprite() {
-        return getSprite(IRes.sprites.startCover);
+        return getSprite(IRes.Sprites.startCover);
     }
 
 
@@ -125,11 +125,11 @@ public final class SpriteFactory implements ISpriteFactory {
     public ISprite[] getDoodleSprite(IDoodle.Directions direction) {
         ISprite[] sprites = new ISprite[2];
         if (direction == IDoodle.Directions.Left) {
-            sprites[0] = this.getSprite(IRes.sprites.doodleLeftAscend);
-            sprites[1] = this.getSprite(IRes.sprites.doodleLeftDescend);
+            sprites[0] = this.getSprite(IRes.Sprites.doodleLeftAscend);
+            sprites[1] = this.getSprite(IRes.Sprites.doodleLeftDescend);
         } else { // Use Right by default
-            sprites[0] = this.getSprite(IRes.sprites.doodleRightAscend);
-            sprites[1] = this.getSprite(IRes.sprites.doodleRightDescend);
+            sprites[0] = this.getSprite(IRes.Sprites.doodleRightAscend);
+            sprites[1] = this.getSprite(IRes.Sprites.doodleRightDescend);
         }
 
         return sprites;
@@ -143,7 +143,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getGameOverSprite() {
-        return getSprite(IRes.sprites.gameOver);
+        return getSprite(IRes.Sprites.gameOver);
     }
 
     /**
@@ -151,7 +151,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getKillScreenBottomSprite() {
-        return getSprite(IRes.sprites.killScreenBottom);
+        return getSprite(IRes.Sprites.killScreenBottom);
     }
 
 
@@ -162,7 +162,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPuddingMonsterSprite2() {
-        return getSprite(IRes.sprites.puddingMonster2);
+        return getSprite(IRes.Sprites.puddingMonster2);
     }
 
     /**
@@ -170,7 +170,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPuddingMonsterSprite3() {
-        return getSprite(IRes.sprites.puddingMonster3);
+        return getSprite(IRes.Sprites.puddingMonster3);
     }
 
     /**
@@ -178,7 +178,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPuddingMonsterSprite4() {
-        return getSprite(IRes.sprites.puddingMonster4);
+        return getSprite(IRes.Sprites.puddingMonster4);
     }
 
     /**
@@ -186,7 +186,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPuddingMonsterSprite5() {
-        return getSprite(IRes.sprites.puddingMonster5);
+        return getSprite(IRes.Sprites.puddingMonster5);
     }
 
     /**
@@ -194,7 +194,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getTwinMonsterSprite() {
-        return getSprite(IRes.sprites.twinMonster);
+        return getSprite(IRes.Sprites.twinMonster);
     }
 
     /**
@@ -202,7 +202,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getThreeEyedMonsterSprite1() {
-        return getSprite(IRes.sprites.threeEyedMonster1);
+        return getSprite(IRes.Sprites.threeEyedMonster1);
     }
 
     /**
@@ -210,7 +210,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getThreeEyedMonsterSprite2() {
-        return getSprite(IRes.sprites.threeEyedMonster2);
+        return getSprite(IRes.Sprites.threeEyedMonster2);
     }
 
     /**
@@ -218,7 +218,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getThreeEyedMonsterSprite3() {
-        return getSprite(IRes.sprites.threeEyedMonster3);
+        return getSprite(IRes.Sprites.threeEyedMonster3);
     }
 
     /**
@@ -226,7 +226,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getThreeEyedMonsterSprite4() {
-        return getSprite(IRes.sprites.threeEyedMonster4);
+        return getSprite(IRes.Sprites.threeEyedMonster4);
     }
 
     /**
@@ -234,7 +234,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getThreeEyedMonsterSprite5() {
-        return getSprite(IRes.sprites.threeEyedMonster5);
+        return getSprite(IRes.Sprites.threeEyedMonster5);
     }
 
     /**
@@ -242,7 +242,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getVampireMonsterSprite1() {
-        return getSprite(IRes.sprites.vampireMonster1);
+        return getSprite(IRes.Sprites.vampireMonster1);
     }
 
     /**
@@ -250,7 +250,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getVampireMonsterSprite2() {
-        return getSprite(IRes.sprites.vampireMonster2);
+        return getSprite(IRes.Sprites.vampireMonster2);
     }
 
     /**
@@ -258,7 +258,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getVampireMonsterSprite3() {
-        return getSprite(IRes.sprites.vampireMonster3);
+        return getSprite(IRes.Sprites.vampireMonster3);
     }
 
     /**
@@ -266,7 +266,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getVampireMonsterSprite4() {
-        return getSprite(IRes.sprites.vampireMonster4);
+        return getSprite(IRes.Sprites.vampireMonster4);
     }
 
     /**
@@ -274,7 +274,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getVampireMonsterSprite5() {
-        return getSprite(IRes.sprites.vampireMonster5);
+        return getSprite(IRes.Sprites.vampireMonster5);
     }
 
     /**
@@ -282,7 +282,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getOrdinaryMonsterSprite() {
-        return getSprite(IRes.sprites.ordinaryMonster);
+        return getSprite(IRes.Sprites.ordinaryMonster);
     }
 
     /**
@@ -290,7 +290,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getCactusMonster1Sprite() {
-        return getSprite(IRes.sprites.cactusMonster1);
+        return getSprite(IRes.Sprites.cactusMonster1);
     }
 
     /**
@@ -298,7 +298,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getCactusMonster2Sprite() {
-        return getSprite(IRes.sprites.cactusMonster2);
+        return getSprite(IRes.Sprites.cactusMonster2);
     }
 
     /**
@@ -306,7 +306,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getFiveFeetMonsterSprite() {
-        return getSprite(IRes.sprites.fiveFeetMonster);
+        return getSprite(IRes.Sprites.fiveFeetMonster);
     }
 
     /**
@@ -314,7 +314,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getLowFiveFeetMonster1Sprite() {
-        return getSprite(IRes.sprites.lowFiveFeetMonster1);
+        return getSprite(IRes.Sprites.lowFiveFeetMonster1);
     }
 
     /**
@@ -322,7 +322,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getLowFiveFeetMonster2Sprite() {
-        return getSprite(IRes.sprites.lowFiveFeetMonster2);
+        return getSprite(IRes.Sprites.lowFiveFeetMonster2);
     }
 
     /**
@@ -330,7 +330,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getSmallMonsterSprite() {
-        return getSprite(IRes.sprites.smallMonster);
+        return getSprite(IRes.Sprites.smallMonster);
     }
 
 
@@ -346,25 +346,25 @@ public final class SpriteFactory implements ISpriteFactory {
         }
         switch (digit) {
             case 0:
-                return getSprite(IRes.sprites.zero);
+                return getSprite(IRes.Sprites.zero);
             case 1:
-                return getSprite(IRes.sprites.one);
+                return getSprite(IRes.Sprites.one);
             case 2:
-                return getSprite(IRes.sprites.two);
+                return getSprite(IRes.Sprites.two);
             case 3:
-                return getSprite(IRes.sprites.three);
+                return getSprite(IRes.Sprites.three);
             case 4:
-                return getSprite(IRes.sprites.four);
+                return getSprite(IRes.Sprites.four);
             case 5:
-                return getSprite(IRes.sprites.five);
+                return getSprite(IRes.Sprites.five);
             case 6:
-                return getSprite(IRes.sprites.six);
+                return getSprite(IRes.Sprites.six);
             case 7:
-                return getSprite(IRes.sprites.seven);
+                return getSprite(IRes.Sprites.seven);
             case 8:
-                return getSprite(IRes.sprites.eight);
+                return getSprite(IRes.Sprites.eight);
             case 9:
-                return getSprite(IRes.sprites.nine);
+                return getSprite(IRes.Sprites.nine);
             default:
                 return null;
         }
@@ -378,7 +378,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformSprite1() {
-        return getSprite(IRes.sprites.platform1);
+        return getSprite(IRes.Sprites.platform1);
     }
 
     /**
@@ -386,7 +386,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformSprite2() {
-        return getSprite(IRes.sprites.platform2);
+        return getSprite(IRes.Sprites.platform2);
     }
 
     /**
@@ -394,7 +394,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformSprite3() {
-        return getSprite(IRes.sprites.platform3);
+        return getSprite(IRes.Sprites.platform3);
     }
 
     /**
@@ -402,7 +402,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformSprite4() {
-        return getSprite(IRes.sprites.platform4);
+        return getSprite(IRes.Sprites.platform4);
     }
 
     /**
@@ -410,7 +410,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformSprite5() {
-        return getSprite(IRes.sprites.platform5);
+        return getSprite(IRes.Sprites.platform5);
     }
 
     /**
@@ -418,7 +418,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformSprite6() {
-        return getSprite(IRes.sprites.platform6);
+        return getSprite(IRes.Sprites.platform6);
     }
 
     /**
@@ -426,7 +426,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformSprite7() {
-        return getSprite(IRes.sprites.platform7);
+        return getSprite(IRes.Sprites.platform7);
     }
 
     /**
@@ -434,7 +434,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformSprite8() {
-        return getSprite(IRes.sprites.platform8);
+        return getSprite(IRes.Sprites.platform8);
     }
 
     /**
@@ -442,7 +442,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformSprite9() {
-        return getSprite(IRes.sprites.platform9);
+        return getSprite(IRes.Sprites.platform9);
     }
 
     /**
@@ -450,7 +450,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformBrokenSprite1() {
-        return getSprite(IRes.sprites.platformBroken1);
+        return getSprite(IRes.Sprites.platformBroken1);
     }
 
     /**
@@ -458,7 +458,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformBrokenSprite2() {
-        return getSprite(IRes.sprites.platformBroken2);
+        return getSprite(IRes.Sprites.platformBroken2);
     }
 
     /**
@@ -466,7 +466,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformBrokenSprite3() {
-        return getSprite(IRes.sprites.platformBroken3);
+        return getSprite(IRes.Sprites.platformBroken3);
     }
 
     /**
@@ -474,7 +474,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformBrokenSprite4() {
-        return getSprite(IRes.sprites.platformBroken4);
+        return getSprite(IRes.Sprites.platformBroken4);
     }
 
     /**
@@ -482,7 +482,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformExplosiveSprite1() {
-        return getSprite(IRes.sprites.platformExplosive1);
+        return getSprite(IRes.Sprites.platformExplosive1);
     }
 
     /**
@@ -490,7 +490,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformExplosiveSprite2() {
-        return getSprite(IRes.sprites.platformExplosive2);
+        return getSprite(IRes.Sprites.platformExplosive2);
     }
 
     /**
@@ -498,7 +498,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformExplosiveSprite3() {
-        return getSprite(IRes.sprites.platformExplosive3);
+        return getSprite(IRes.Sprites.platformExplosive3);
     }
 
     /**
@@ -506,7 +506,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformMovable1() {
-        return getSprite(IRes.sprites.platformMovable1);
+        return getSprite(IRes.Sprites.platformMovable1);
     }
 
     /**
@@ -514,7 +514,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformMovable2() {
-        return getSprite(IRes.sprites.platformMovable2);
+        return getSprite(IRes.Sprites.platformMovable2);
     }
 
     /**
@@ -522,7 +522,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformMovable3() {
-        return getSprite(IRes.sprites.platformMovable3);
+        return getSprite(IRes.Sprites.platformMovable3);
     }
 
     /**
@@ -530,7 +530,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformMovable4() {
-        return getSprite(IRes.sprites.platformMovable4);
+        return getSprite(IRes.Sprites.platformMovable4);
     }
 
     /**
@@ -538,7 +538,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformShining1() {
-        return getSprite(IRes.sprites.platformShining1);
+        return getSprite(IRes.Sprites.platformShining1);
     }
 
     /**
@@ -546,7 +546,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformShining2() {
-        return getSprite(IRes.sprites.platformShining2);
+        return getSprite(IRes.Sprites.platformShining2);
     }
 
     /**
@@ -554,7 +554,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlatformShining3() {
-        return getSprite(IRes.sprites.platformShining3);
+        return getSprite(IRes.Sprites.platformShining3);
     }
 
     /**
@@ -562,7 +562,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPuddingMonsterSprite1() {
-        return getSprite(IRes.sprites.puddingMonster1);
+        return getSprite(IRes.Sprites.puddingMonster1);
     }
 
 
@@ -573,7 +573,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getTrampolineSprite() {
-        return getSprite(IRes.sprites.trampoline);
+        return getSprite(IRes.Sprites.trampoline);
     }
 
     /**
@@ -581,7 +581,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getTrampolineUsedSprite() {
-        return getSprite(IRes.sprites.trampolineUsed);
+        return getSprite(IRes.Sprites.trampolineUsed);
     }
 
     /**
@@ -589,7 +589,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getSpringSprite() {
-        return getSprite(IRes.sprites.spring);
+        return getSprite(IRes.Sprites.spring);
     }
 
     /**
@@ -597,7 +597,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getSpringUsedSprite() {
-        return getSprite(IRes.sprites.springUsed);
+        return getSprite(IRes.Sprites.springUsed);
     }
 
     /**
@@ -605,7 +605,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getRocketSprite() {
-        return getSprite(IRes.sprites.rocket);
+        return getSprite(IRes.Sprites.rocket);
     }
 
     /**
@@ -613,7 +613,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPropellerSprite() {
-        return getSprite(IRes.sprites.propeller);
+        return getSprite(IRes.Sprites.propeller);
     }
 
     /**
@@ -621,7 +621,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getShieldSprite() {
-        return getSprite(IRes.sprites.shield);
+        return getSprite(IRes.Sprites.shield);
     }
 
     /**
@@ -629,7 +629,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getWaitDontShootSprite() {
-        return getSprite(IRes.sprites.waitDontShoot);
+        return getSprite(IRes.Sprites.waitDontShoot);
     }
 
     /**
@@ -637,7 +637,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getAvoidSprite() {
-        return getSprite(IRes.sprites.avoid);
+        return getSprite(IRes.Sprites.avoid);
     }
 
 
@@ -648,7 +648,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getScorebarSprite() {
-        return getSprite(IRes.sprites.scorebar);
+        return getSprite(IRes.Sprites.scorebar);
     }
 
 
@@ -659,7 +659,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getUFOSprite() {
-        return getSprite(IRes.sprites.ufo);
+        return getSprite(IRes.Sprites.ufo);
     }
 
     /**
@@ -667,7 +667,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getUFOShiningSprite() {
-        return getSprite(IRes.sprites.ufoShining);
+        return getSprite(IRes.Sprites.ufoShining);
     }
 
 
@@ -679,7 +679,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * @return The ISprite
      * @throws FileNotFoundException Thrown when the ISprite was not found
      */
-    private ISprite loadISprite(IRes.sprites spriteName) throws FileNotFoundException {
+    private ISprite loadISprite(IRes.Sprites spriteName) throws FileNotFoundException {
         String filepath = serviceLocator.getRes().getSpritePath(spriteName);
         BufferedImage image = serviceLocator.getFileSystem().readImage(filepath);
         return new Sprite(getFileName(filepath), image);
@@ -688,7 +688,7 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * TODO: Add JavaDoc
      */
-    private ISprite getSprite(IRes.sprites sprite) {
+    private ISprite getSprite(IRes.Sprites sprite) {
         try {
             return cache.get(sprite);
         } catch (ExecutionException e) {
@@ -704,7 +704,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * Example:
      * <pre>
      * {@code
-     *     getFileName("resources/sprites/sprite.png").equals("sprite.png")
+     *     getFileName("resources/Sprites/sprite.png").equals("sprite.png")
      * }
      * </pre>
      *

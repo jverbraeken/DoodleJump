@@ -4,7 +4,7 @@ package resources.audio;
 public interface IAudioManager {
 
     /**
-     * Preloads all sounds into memory
+     * Preloads all sounds into memory.
      */
     void preload();
 

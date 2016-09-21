@@ -3,14 +3,14 @@ package resources;
 public interface IRes {
 
     /**
-     * Returns the path to a sprite
+     * Returns the path to a sprite.
      *
      * @param sprite A reference to the sprite you want the path to
      * @return The filepath to the sprite
      */
-    String getSpritePath(sprites sprite);
+    String getSpritePath(Sprites sprite);
 
-    enum sprites {
+    enum Sprites {
         // Buttons
         menu,
         pause,

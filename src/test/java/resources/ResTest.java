@@ -32,9 +32,9 @@ public class ResTest {
     @Test
     public void testSpritesValid() throws FileNotFoundException {
         System.out.println("\ntestSpritesValid\n");
-        Map<IRes.sprites, String> map = Whitebox.getInternalState(res, "sprites");
+        Map<IRes.Sprites, String> map = Whitebox.getInternalState(res, "sprites");
         ClassLoader classLoader = IFileSystem.class.getClassLoader();
-        for (Map.Entry<IRes.sprites, String> entry : map.entrySet()) {
+        for (Map.Entry<IRes.Sprites, String> entry : map.entrySet()) {
             System.out.print(entry.getValue() + " - ");
             URL url = classLoader.getResource(entry.getValue());
             assertNotNull(url);
@@ -45,7 +45,7 @@ public class ResTest {
     @Test
     public void testAllSpritesImplemented() {
         System.out.println("\ntestAllSpritesImplemented\n");
-        for (IRes.sprites sprite : IRes.sprites.values()) {
+        for (IRes.Sprites sprite : IRes.Sprites.values()) {
             System.out.print(String.valueOf(sprite) + " - ");
             assertNotNull(res.getSpritePath(sprite));
             System.out.println("done");

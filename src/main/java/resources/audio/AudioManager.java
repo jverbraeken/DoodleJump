@@ -19,9 +19,14 @@ public final class AudioManager implements IAudioManager {
         preload();
     }
 
-    public static void register(IServiceLocator serviceLocator_) {
-        assert serviceLocator_ != null;
-        serviceLocator = serviceLocator_;
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        serviceLocator = sL;
         serviceLocator.provide(new AudioManager());
     }
 
@@ -329,7 +334,7 @@ public final class AudioManager implements IAudioManager {
 
         private Clip clip;
 
-        Sound(String filepath) {
+        Sound(final String filepath) {
             try {
                 clip = serviceLocator.getFileSystem().readSound(filepath);
             } catch (FileNotFoundException e) {

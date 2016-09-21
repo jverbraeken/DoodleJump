@@ -5,12 +5,18 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+/**
+ * This class describes the behaviour of the spring powerup.
+ */
 /* package */ class Spring extends APowerup implements IPowerup {
 
     /**
-     * The boost value for the Spring.
+     * The BOOST value for the Spring.
      */
-    private static final double boost = -35;
+    private static final double BOOST = -35;
+    /**
+     * Used to gain access to all services.
+     */
     private static IServiceLocator serviceLocator;
     /**
      * The sprite for the Spring.
@@ -20,12 +26,13 @@ import system.IServiceLocator;
     /**
      * Trampoline constructor.
      *
-     * @param serviceLocator - The Games service locator.
+     * @param sL - The Games service locator.
      * @param x              - The X location for the trampoline.
      * @param y              - The Y location for the trampoline.
      */
-    /* package */ Spring(final IServiceLocator serviceLocator, final int x, final int y) {
-        Spring.serviceLocator = serviceLocator;
+    /* package */ Spring(final IServiceLocator sL, final int x, final int y) {
+        assert sL != null;
+        Spring.serviceLocator = sL;
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.sprite = spriteFactory.getSpringSprite();
@@ -60,7 +67,7 @@ import system.IServiceLocator;
         this.animate();
         this.playSound();
 
-        return this.boost;
+        return this.BOOST;
     }
 
     /**
