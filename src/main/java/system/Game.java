@@ -144,6 +144,7 @@ public final class Game {
         }
 
         scene.start();
+        serviceLocator.getRenderer().getCamera().setYPos(0d);
         Game.scene = scene;
         frame.repaint();
     }

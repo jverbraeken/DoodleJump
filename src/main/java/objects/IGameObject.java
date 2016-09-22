@@ -8,7 +8,7 @@ import system.IUpdatable;
 /**
  * The interface implemented by {@link AGameObject}, the super class of all classes that represents objects in the game.
  */
-public interface IGameObject extends IDrawable, IRenderable, IUpdatable {
+public interface IGameObject extends IRenderable, IUpdatable {
 
     void addXPos(double xPos);
 

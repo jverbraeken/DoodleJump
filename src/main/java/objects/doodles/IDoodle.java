@@ -25,6 +25,11 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      */
     void setVerticalSpeed(double vSpeed);
 
+    /**
+     * @return The score of the doodle
+     */
+    double getScore();
+
     // Enum with directions for the Doodle.
     enum directions { left, right };
 

@@ -16,6 +16,8 @@ public final class Renderer implements IRenderer {
     private static transient IServiceLocator serviceLocator;
     private Graphics graphics;
 
+    private final ICamera camera = new Camera();
+
     private Renderer() { }
 
     /**
@@ -35,8 +37,8 @@ public final class Renderer implements IRenderer {
     }
 
     public void drawRectangle(int x, int y, int width, int height) {
-        logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
-        graphics.drawRect(x, y, width, height);
+        logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        graphics.drawRect(x, (int) (y - camera.getYPos()), width, height);
     }
 
     /** {@inheritDoc} */
@@ -47,8 +49,8 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        logger.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ")");
-        graphics.drawImage(sprite.getImage(), x, y, null);
+        logger.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), null);
     }
 
     /** {@inheritDoc} */
@@ -59,11 +61,11 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        logger.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ")");
-        graphics.drawImage(sprite.getImage(), x, y, width, height, null);
+        logger.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), width, height, null);
     }
-    /** {@inheritDoc} */
 
+    /** {@inheritDoc} */
     @Override
     public void setGraphicsBuffer(Graphics graphics) {
         if (graphics == null) {
@@ -72,4 +74,10 @@ public final class Renderer implements IRenderer {
         this.graphics = graphics;
     }
 
+
+    /** {@inheritDoc} */
+    @Override
+    public ICamera getCamera() {
+        return camera;
+    }
 }

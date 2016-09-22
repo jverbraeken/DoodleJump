@@ -24,8 +24,8 @@ public class World implements IScene {
      * How much the doodle is affected by gravity.
      */
     public static final double gravityAcceleration = .5;
-    // TODO: Add JavaDoc
-    private final static double SCOREMULTIPLIER = 0.15;
+    // TODO: Add JavaDoc / shouldn't be public
+    public final static double SCOREMULTIPLIER = 0.15;
     private final static int PAUSEOFFSET = 38;
     /**
      * The maximum number of blocks available at a time.
@@ -50,18 +50,12 @@ public class World implements IScene {
      */
     private final Scorebar scorebar;
     /**
-     * The score for the world.
-     */
-    private double score;
-    /**
      * The highest (and thus latest) created block.
      */
     private IBlock topBlock;
 
     private Set<IRenderable> drawables = Collections.newSetFromMap(new WeakHashMap<>());
     private Set<IUpdatable> updatables = Collections.newSetFromMap(new WeakHashMap<>());
-
-    private final ICamera camera = new Camera();
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
@@ -272,7 +266,7 @@ public class World implements IScene {
 
             @Override
             public void render() {
-                int roundedScore = (int) score;
+                int roundedScore = (int) doodle.getScore();
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();
                 while (roundedScore != 0) {

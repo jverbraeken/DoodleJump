@@ -6,14 +6,16 @@ import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
+import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
-import scenes.ICamera;
 import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
-public class Doodle extends AGameObject implements IDoodle {
+import static java.lang.Math.abs;
+
+public final class Doodle extends AGameObject implements IDoodle {
     //TODO check final/static
     private static IServiceLocator serviceLocator;
     /**
@@ -49,15 +51,17 @@ public class Doodle extends AGameObject implements IDoodle {
      * The direction the Doodle is facing.
      */
     private directions facing;
-    private final ICamera camera;
+    /**
+     * The current score of the doodle
+     */
+    private double score;
 
     /**
      * Doodle constructor.
      *
      * @param serviceLocator The service locator
-     * @param camera         The camera that moves if the doodle jumps high
      */
-     /* package */ Doodle(IServiceLocator serviceLocator, ICamera camera) {
+     /* package */ Doodle(IServiceLocator serviceLocator) {
         super(Game.WIDTH / 2, Game.HEIGHT / 2, serviceLocator.getSpriteFactory().getDoodleSprite(directions.right)[0]);
         this.setHitBox(getSprite().getWidth() / 3, (int) (getSprite().getHeight() * 0.25), 2 * getSprite().getWidth() / 3, getSprite().getHeight());
         Doodle.serviceLocator = serviceLocator;
@@ -67,8 +71,6 @@ public class Doodle extends AGameObject implements IDoodle {
 
         IInputManager inputManager = serviceLocator.getInputManager();
         inputManager.addObserver(this);
-
-        this.camera = camera;
     }
 
     /**
@@ -88,6 +90,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.move(delta);
         this.wrap();
         this.applyGravity(delta);
+        this.checkHighPosition();
         this.checkCollisions();
     }
 
@@ -110,6 +113,11 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public void setVerticalSpeed(double vSpeed) {
         this.vSpeed = vSpeed;
+    }
+
+    @Override
+    public double getScore() {
+        return score;
     }
 
     /**
@@ -250,12 +258,13 @@ public class Doodle extends AGameObject implements IDoodle {
     private void applyGravity(double delta) {
         this.vSpeed += World.gravityAcceleration;
         addYPos(this.vSpeed);
-        if (vSpeed < 0d && getYPos() < .5d * Game.HEIGHT - getHitBox()[AGameObject.HITBOX_BOTTOM]) {
+    }
 
-            for (IBlock e : blocks) {
-                e.addYPos(-doodle.getVSpeed());
-                score -= doodle.getVSpeed() * SCOREMULTIPLIER;
-            }
+    private void checkHighPosition() {
+        ICamera camera = serviceLocator.getRenderer().getCamera();
+        if (getYPos() - camera.getYPos() < 0) {
+            score += abs(getYPos() - camera.getYPos()) * World.SCOREMULTIPLIER;
+            camera.setYPos(getYPos() - camera.getYPos());
         }
     }
 

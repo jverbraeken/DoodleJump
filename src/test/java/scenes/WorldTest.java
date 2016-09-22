@@ -4,6 +4,7 @@ import objects.blocks.IBlock;
 import objects.doodles.IDoodle;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import resources.sprites.ISprite;
 
 import static org.mockito.Matchers.any;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -13,7 +14,7 @@ import static org.mockito.Mockito.verify;
 public class WorldTest {
     private static World world;
     private static IBlock block1, block2, block3;
-    private static IDrawable background;
+    private static ISprite background;
     private static IDoodle doodle;
 
     @BeforeClass
