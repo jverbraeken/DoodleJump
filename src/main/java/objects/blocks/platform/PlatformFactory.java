@@ -19,4 +19,8 @@ public class PlatformFactory implements IPlatformFactory {
         return new Platform(serviceLocator, x, y);
     }
 
+    public IServiceLocator getServicelocator () {
+        return serviceLocator;
+    }
+
 }
