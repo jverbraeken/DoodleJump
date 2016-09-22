@@ -48,6 +48,7 @@ public final class Game {
     private static boolean isAlive = true;
     private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     private static float scale = 2;
+
     /**
      * The pause screen for the game.
      */
@@ -61,7 +62,6 @@ public final class Game {
 
     public static void main(String[] argv) {
         Game.LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
-
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
         IInputManager inputManager = serviceLocator.getInputManager();
         serviceLocator.getRenderer().start();
@@ -104,7 +104,7 @@ public final class Game {
                 }
 
                 if(!isAlive) {
-                    setScene(serviceLocator.getSceneFactory().newKillScreen());
+                    setScene(serviceLocator.getSceneFactory().createKillScreen());
                     setAlive(true);
                 }
 
@@ -114,7 +114,7 @@ public final class Game {
         panel.setLayout(new GridLayout(1, 1));
         frame.setContentPane(panel);
 
-        setScene(serviceLocator.getSceneFactory().newMenu());
+        setScene(serviceLocator.getSceneFactory().createMainMenu());
         int xOffset = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
         int yOffset = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(xOffset, yOffset);

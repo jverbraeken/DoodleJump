@@ -5,7 +5,6 @@ import buttons.IButton;
 import buttons.IButtonFactory;
 import logging.ILogger;
 import rendering.IRenderer;
-import rendering.Renderer;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
@@ -95,4 +94,5 @@ import system.IServiceLocator;
     @Override
     public void mouseClicked(int x, int y) {
     }
+
 }

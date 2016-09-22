@@ -1,11 +1,12 @@
 package scenes;
 
 import system.IFactory;
+
 public interface ISceneFactory extends IFactory {
 
-    Menu newMenu();
+    IScene createMainMenu();
     World newWorld();
-    KillScreen newKillScreen();
+    IScene createKillScreen();
     IScene createPauseScreen();
 
 }

@@ -23,7 +23,7 @@ public class ButtonFactory implements IButtonFactory {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
-        Runnable mainMenu = () -> Game.setScene(serviceLocator.getSceneFactory().newMenu());
+        Runnable mainMenu = () -> Game.setScene(serviceLocator.getSceneFactory().createMainMenu());
         return new Button(serviceLocator, x, y, buttonSprite, mainMenu, "mainMenu");
     }
 
