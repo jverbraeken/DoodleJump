@@ -1,5 +1,6 @@
 package system;
 
+import logging.ILoggerFactory;
 import objects.ICollisions;
 import objects.buttons.IButtonFactory;
 import resources.IRes;
@@ -50,6 +51,9 @@ import resources.sprites.ISpriteFactory;
 
     // scenes
     private ISceneFactory sceneFactory;
+
+    // logger
+    private ILoggerFactory loggerFactory;
 
     /**
      * {@inheritDoc}
@@ -190,6 +194,15 @@ import resources.sprites.ISpriteFactory;
      * {@inheritDoc}
      */
     @Override
+    public void provide(ILoggerFactory loggerFactory) {
+        assert loggerFactory != null;
+        this.loggerFactory = loggerFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IAudioManager getAudioManager() {
         return audioManager;
     }
@@ -301,5 +314,11 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public ICollisions getCollisions() { return collisions; }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ILoggerFactory getLoggerFactory() { return loggerFactory; }
 
 }
