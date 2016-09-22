@@ -22,16 +22,4 @@ public interface IBlock extends IRenderable, IUpdatable {
      * @return The highest situated {@link IJumpable jumpable} element in the block
      */
     IJumpable getTopJumpable();
-
-    /**
-     * Adds a new {@link IJumpable jumpable} game object to the block.
-     */
-    void addElement(IJumpable object);
-
-    /**
-     * Adds a new {@link IGameObject game object} to the block.
-     */
-    void addElement(IGameObject object);
-
-    void addYPos(double y);
 }

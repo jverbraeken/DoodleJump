@@ -9,7 +9,7 @@ public class Platform extends AGameObject implements IPlatform {
 
     private static IServiceLocator serviceLocator;
 
-    private double boost = -16;
+    private static final double boost = -16;
 
     /**
      * Platform constructor.
@@ -25,7 +25,7 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public double getBoost() { return this.boost; }
+    public double getBoost() { return Platform.boost; }
 
     /** {@inheritDoc} */
     @Override

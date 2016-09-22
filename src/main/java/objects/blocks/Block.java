@@ -12,11 +12,13 @@ import java.util.Set;
 public final class Block implements IBlock {
 
     private static IServiceLocator serviceLocator;
-    private final Set<IGameObject> elements = new HashSet<>();
-    private IJumpable topJumpable;
+    private final Set<IGameObject> elements;
+    private final IJumpable topJumpable;
 
-    /* package */ Block(IServiceLocator serviceLocator) {
+    /* package */ Block(IServiceLocator serviceLocator, Set<IGameObject> elements, IJumpable topJumpable) {
         Block.serviceLocator = serviceLocator;
+        this.elements = elements;
+        this.topJumpable = topJumpable;
     }
 
     /**
@@ -25,16 +27,6 @@ public final class Block implements IBlock {
     @Override
     public Set<IGameObject> getElements() {
         return this.elements;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addYPos(double y) {
-        for (IGameObject e : elements) {
-            e.addYPos(y);
-        }
     }
 
     /**
@@ -58,40 +50,6 @@ public final class Block implements IBlock {
      */
     @Override
     public final void update(double delta) {
-        cleanUpPlatforms();
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addElement(IJumpable jumpable) {
-        this.elements.add(jumpable);
-        this.topJumpable = jumpable;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addElement(IGameObject object) {
-        this.elements.add(object);
-    }
-
-    /**
-     * Checks for all the Platforms if they are under over the height
-     * of the screen, if that's the case, delete that Platforms.
-     */
-    private void cleanUpPlatforms() {
-        Set<IGameObject> toRemove = new HashSet<>();
-        for (IGameObject e : elements) {
-            if (e.getYPos() - 50 > Game.HEIGHT) {
-                toRemove.add(e);
-            }
-        }
-
-        for (IGameObject e : toRemove) {
-            elements.remove(e);
-        }
     }
 }
