@@ -134,6 +134,19 @@ public final class FileSystem implements IFileSystem {
 
     /** {@inheritDoc} */
     @Override
+    public void log(String filename, Exception exception) throws FileNotFoundException {
+        try(FileWriter fw = new FileWriter(filename, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter writer = new PrintWriter(bw)
+        ) {
+            exception.printStackTrace(writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public OutputStream writeBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
 

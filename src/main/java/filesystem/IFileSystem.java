@@ -52,10 +52,19 @@ public interface IFileSystem {
 
     /**
      * Writes {@code content} to the end of the log file.
+     * @param filename The name of the log file.
      * @param content The text to write to the file.
      * @throws FileNotFoundException Thrown when the log file could not be found.
      */
     void log(String filename, String content) throws FileNotFoundException;
+
+    /**
+     * Writes {@code exception} to the end of the log file.
+     * @param filename The name of the log file.
+     * @param exception The exception to write to the file.
+     * @throws FileNotFoundException Thrown when the log file could not be found.
+     */
+    void log(String filename, Exception exception) throws FileNotFoundException;
 
     /**
      * Returns an {@link OutputStream} that can be used to write binary data to the binary file. The path to the file must exist.

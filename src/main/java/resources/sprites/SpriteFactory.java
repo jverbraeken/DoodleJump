@@ -523,9 +523,9 @@ public final class SpriteFactory implements ISpriteFactory {
         try {
             return cache.get(sprite);
         } catch (ExecutionException e) {
-            // TODO use e.getCause() and log that
-            e.printStackTrace();
+            LOGGER.error(e);
         }
+
         return null;
     }
 

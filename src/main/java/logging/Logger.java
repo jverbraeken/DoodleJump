@@ -51,6 +51,19 @@ import java.util.Date;
 
     /** {@inheritDoc} */
     @Override
+    public void error(final Exception exception) {
+        try {
+            String type = exception.getClass().getName();
+            String str = this.generateMessage("ERROR", "thrown of type: " + type + ", See stacktrace:");
+            fileSystem.log("async.log", str);
+            fileSystem.log("async.log", exception);
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public void info(final String msg) {
         try {
             String str = this.generateMessage("INFO", msg);

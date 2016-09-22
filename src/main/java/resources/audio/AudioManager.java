@@ -87,8 +87,7 @@ public final class AudioManager implements IAudioManager {
                 LOGGER.info("Sound loaded: \"" + filepath + "\"");
                 clip = serviceLocator.getFileSystem().readSound(filepath);
             } catch (FileNotFoundException e) {
-                // TODO log the file was not found
-                e.printStackTrace();
+                LOGGER.error(e);
             }
         }
 

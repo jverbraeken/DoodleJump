@@ -13,6 +13,7 @@ import objects.blocks.platform.PlatformFactory;
 import buttons.ButtonFactory;
 import buttons.IButton;
 import objects.doodles.DoodleFactory;
+import objects.doodles.IDoodle;
 import objects.enemies.EnemyBuilder;
 import objects.powerups.PowerupFactory;
 import rendering.Renderer;
@@ -205,7 +206,7 @@ public final class Game {
                 long gameTime = 16;
                 Thread.sleep(gameTime);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.error(e);
             }
         }
     }
