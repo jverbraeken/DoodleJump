@@ -10,7 +10,7 @@ import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
-public class Menu implements IScene, IKeyInputObserver {
+/* package */ class Menu implements IScene, IKeyInputObserver {
 
     private final IServiceLocator serviceLocator;
 

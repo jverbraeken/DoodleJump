@@ -45,12 +45,20 @@ public interface IFileSystem {
     Clip readSound(String filename) throws FileNotFoundException;
 
     /**
-     * Writes {@code content} to the text-file given by the filepath {@code filename}. The path to the file must exist.
+     * Writes {@code content} to the text-file given by the filepath {@code filename}. The file must exist.
      * @param filename The full path to the file
      * @param content The text to write to the file
      * @throws FileNotFoundException Thrown when the file could not be found
      */
     void writeTextFile(String filename, String content) throws FileNotFoundException;
+
+    /**
+     * Writes {@code content} to the end of the tixt-fiel given by the filepath {@code filenam}.
+     * @param filename The full path to the file.
+     * @param content The text to write to the file.
+     * @throws FileNotFoundException Thrown when the file could not be found.
+     */
+    void appendToTextFile(String filename, String content) throws FileNotFoundException;
 
     /**
      * Returns an {@link OutputStream} that can be used to write binary data to the binary file. The path to the file must exist.
