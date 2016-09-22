@@ -24,7 +24,7 @@ import system.IServiceLocator;
     /* package */ KillScreen(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
 
-       background = serviceLocator.getSpriteFactory().getBackground();
+        background = serviceLocator.getSpriteFactory().getBackground();
         bottomKillScreen = serviceLocator.getSpriteFactory().getKillScreenBottomSprite();
         gameOverSprite = serviceLocator.getSpriteFactory().getGameOverSprite();
 

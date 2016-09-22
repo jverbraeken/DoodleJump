@@ -6,5 +6,6 @@ public interface ISceneFactory extends IFactory {
     Menu newMenu();
     World newWorld();
     KillScreen newKillScreen();
+    IScene createPauseScreen();
 
 }

@@ -14,19 +14,36 @@ public final class SceneFactory implements ISceneFactory {
 
     private SceneFactory() { }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Menu newMenu() {
         return new Menu(serviceLocator);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public World newWorld() {
         return new World(serviceLocator);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public KillScreen newKillScreen() {
         return new KillScreen(serviceLocator);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IScene createPauseScreen() {
+        return new PauseScreen(serviceLocator);
     }
 
 }

@@ -1,5 +1,6 @@
 package buttons;
 
+import logging.Console;
 import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -17,13 +18,6 @@ import system.IServiceLocator;
 
     /**
      * TODO: ADD JAVADOC
-     *
-     * @param serviceLocator
-     * @param x
-     * @param y
-     * @param sprite
-     * @param action
-     * @param name
      */
     /* package */ Button(IServiceLocator serviceLocator, int x, int y, ISprite sprite, Runnable action, String name) {
         super();
@@ -53,6 +47,8 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public void mouseClicked(int x, int y) {
+        Console.log("X: " + x + " | Y: " + y);
+        Console.log(topLeft[0] + " - " + bottomRight[0]);
         assert x >= 0 && y >= 0;
 
         if (x > topLeft[0] && x < bottomRight[0]) {

@@ -33,8 +33,6 @@ public final class Game {
     // TODO: Remove unused and add JavaDoc
     public final static int WIDTH = 640;
     public final static int HEIGHT = 960;
-    public static final int NORMAL_WIDTH = Game.WIDTH;
-    public static final int NORMAL_HEIGHT = Game.HEIGHT;
     private static ILogger LOGGER;
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
@@ -47,9 +45,12 @@ public final class Game {
     private static int times = 0;
     private static boolean isPaused = false;
     private static boolean isAlive = true;
-    private static IButton resumeButton;
     private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     private static float scale = 2;
+    /**
+     * The pause screen for the game.
+     */
+    private static IScene pauseScreen;
 
     /**
      * Prevents the creation of a new {@code Game} object.
@@ -79,30 +80,34 @@ public final class Game {
     public static void main(String[] argv) {
         initServices();
         Game.LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
-
+        Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
+        IInputManager inputManager = serviceLocator.getInputManager();
         serviceLocator.getRenderer().start();
 
+        // Initialize frame
         frame = new JFrame("Doodle Jump");
-
-        IInputManager inputManager = serviceLocator.getInputManager();
-
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            /**
-             * Invoked when a window is in the process of being closed.
-             */
-            public void windowClosing(WindowEvent windowEvent) {
-                System.exit(0);
-            }
-        });
         frame.addMouseListener(inputManager);
         frame.addKeyListener(inputManager);
         frame.setSize(Game.WIDTH, Game.HEIGHT);
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(Game.WIDTH / 2, Game.HEIGHT / 2);
+        frame.addWindowListener(new WindowAdapter() {
+            /**
+             * Invoked when a window is in the process of being closed.
+             */
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                System.exit(0);
+            }
+        });
 
+        // Initialize panel
         panel = new JPanel() {
+            /**
+             * TODO: Add JavaDoc
+             */
             @Override
             public void paintComponent(Graphics g) {
                 serviceLocator.getRenderer().setGraphicsBuffer(g);
@@ -114,7 +119,7 @@ public final class Game {
 
 
                 if (isPaused) {
-                    drawPauseScreen();
+                    pauseScreen.paint();
                 }
 
                 if(!isAlive) {
@@ -125,18 +130,13 @@ public final class Game {
                 ((Graphics2D) g).scale(scale, scale);
             }
         };
-        frame.setSize(Game.WIDTH / 2, Game.HEIGHT / 2);
         panel.setLayout(new GridLayout(1, 1));
-
         frame.setContentPane(panel);
 
         setScene(serviceLocator.getSceneFactory().newMenu());
-        int x = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
-        int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
-        serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
-
-        resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (Game.WIDTH * RESUMEBUTTONX), (int) (Game.HEIGHT * RESUMEBUTTONY));
-        serviceLocator.getInputManager().addObserver(resumeButton);
+        int xOffset = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
+        int yOffset = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
+        serviceLocator.getInputManager().setMainWindowBorderSize(xOffset, yOffset);
 
         loop();
     }
@@ -176,8 +176,10 @@ public final class Game {
     public static void setPaused(boolean paused) {
         if (paused) {
             LOGGER.info("The game has been paused");
+            pauseScreen.start();
         } else {
             LOGGER.info("The game has been resumed");
+            pauseScreen.stop();
         }
 
         isPaused = paused;
@@ -225,16 +227,6 @@ public final class Game {
                 e.printStackTrace();
             }
         }
-    }
-
-    /**
-     * TODO: Add JavaDoc
-     */
-    private static void drawPauseScreen() {
-        ISprite pauseCover = serviceLocator.getSpriteFactory().getPauseCoverSprite();
-        double scaling = (double) WIDTH / (double) pauseCover.getWidth();
-        serviceLocator.getRenderer().drawSprite(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
-        resumeButton.render();
     }
 
 }
