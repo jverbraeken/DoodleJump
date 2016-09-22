@@ -1,5 +1,6 @@
 package input;
 
+import logging.ILogger;
 import system.IServiceLocator;
 
 import java.awt.event.KeyEvent;
@@ -13,15 +14,32 @@ public final class InputManager implements IInputManager {
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
+    /**
+     * Logger for the InputManager.
+     */
+    private static ILogger LOGGER;
+    /**
+     * Set of observers for the mouse.
+     */
     private final Set<IMouseInputObserver> mouseInputObservers = new HashSet<>();
+    /**
+     * Set of observers for the keyboard.
+     */
     private final Set<IKeyInputObserver> keyInputObservers = new HashSet<>();
-    private int windowLeftBorderSize = 0;
-    private int windowTopBorderSize = 0;
+    /**
+     * Offset for the mouse position X.
+     */
+    private int offsetX = 0;
+    /**
+     * Offset for the mouse position Y.
+     */
+    private int offsetY = 0;
 
     /**
      * Prevents instantiation from outside the class.
      */
     private InputManager() {
+        InputManager.LOGGER = serviceLocator.getLoggerFactory().createLogger(InputManager.class);
     }
 
     /**
@@ -48,11 +66,14 @@ public final class InputManager implements IInputManager {
      */
     @Override
     public void mousePressed(MouseEvent e) {
+        int x = (2 * e.getX() - 2 * offsetX), y = (2 * e.getY() - 2 * offsetY);
+        LOGGER.info("Mouse pressed, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
+
         //TODO: Synchronize properly instead of cloning
         HashSet<IMouseInputObserver> observers = (HashSet) mouseInputObservers;
         observers = (HashSet) observers.clone();
         for (IMouseInputObserver observer : observers) {
-            observer.mouseClicked((2 * e.getX() - 2 * windowLeftBorderSize), (2 * e.getY() - 2 * windowTopBorderSize));
+            observer.mouseClicked(x, y);
         }
     }
 
@@ -61,6 +82,8 @@ public final class InputManager implements IInputManager {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
+        int x = (2 * e.getX() - 2 * offsetX), y = (2 * e.getY() - 2 * offsetY);
+        LOGGER.info("Mouse released, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
     }
 
     /**
@@ -78,7 +101,6 @@ public final class InputManager implements IInputManager {
     }
 
     /* KEY EVENTS */
-
     /**
      * {@inheritDoc}
      */
@@ -91,6 +113,7 @@ public final class InputManager implements IInputManager {
      */
     @Override
     public void keyPressed(KeyEvent e) {
+        LOGGER.info("Key pressed, keyCode: " + e.getKeyCode());
         for (IKeyInputObserver observer : keyInputObservers) {
             observer.keyPress(e.getKeyCode());
         }
@@ -101,6 +124,7 @@ public final class InputManager implements IInputManager {
      */
     @Override
     public void keyReleased(KeyEvent e) {
+        LOGGER.info("Key released, keyCode: " + e.getKeyCode());
         for (IKeyInputObserver observer : keyInputObservers) {
             observer.keyRelease(e.getKeyCode());
         }
@@ -145,7 +169,8 @@ public final class InputManager implements IInputManager {
      * @param windowTopBorderSize  The size of the top border.
      */
     public void setMainWindowBorderSize(int windowLeftBorderSize, int windowTopBorderSize) {
-        this.windowLeftBorderSize = windowLeftBorderSize;
-        this.windowTopBorderSize = windowTopBorderSize;
+        this.offsetX = windowLeftBorderSize;
+        this.offsetY = windowTopBorderSize;
     }
+
 }
