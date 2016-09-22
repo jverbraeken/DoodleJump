@@ -1,7 +1,6 @@
 package objects;
 
 import objects.doodles.IDoodle;
-import rendering.IDrawable;
 import resources.sprites.ISprite;
 import system.IRenderable;
 import system.IUpdatable;

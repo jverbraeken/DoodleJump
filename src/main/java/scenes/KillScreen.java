@@ -3,8 +3,6 @@ package scenes;
 import input.IMouseInputObserver;
 import objects.buttons.IButton;
 import objects.buttons.IButtonFactory;
-import rendering.IDrawable;
-import rendering.Renderer;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;

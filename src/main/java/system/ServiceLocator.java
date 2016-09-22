@@ -1,25 +1,24 @@
 package system;
 
-import objects.buttons.IButtonFactory;
-import resources.IRes;
-import resources.audio.IAudioManager;
-import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
 import math.ICalc;
 import objects.blocks.IBlockFactory;
-import objects.doodles.IDoodleFactory;
 import objects.blocks.platform.IPlatformFactory;
+import objects.buttons.IButtonFactory;
+import objects.doodles.IDoodleFactory;
+import objects.enemies.IEnemyBuilder;
 import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;
-import scenes.ISceneFactory;
+import resources.IRes;
+import resources.audio.IAudioManager;
 import resources.sprites.ISpriteFactory;
+import scenes.ISceneFactory;
 
 /* package */ class ServiceLocator implements IServiceLocator {
 
     // input
     private IInputManager inputManager;
-    private IInputManager keyInputManager;
 
     // resources.audio
     private IAudioManager audioManager;
@@ -192,6 +191,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IAudioManager getAudioManager() {
+        assert audioManager != null;
         return audioManager;
     }
 
@@ -200,6 +200,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IEnemyBuilder getEnemyBuilder() {
+        assert enemyBuilder != null;
         return enemyBuilder;
     }
 
@@ -208,6 +209,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IFileSystem getFileSystem() {
+        assert fileSystem != null;
         return fileSystem;
     }
 
@@ -216,6 +218,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IInputManager getInputManager() {
+        assert inputManager != null;
         return inputManager;
     }
 
@@ -224,6 +227,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public ICalc getCalc() {
+        assert calc != null;
         return calc;
     }
 
@@ -232,6 +236,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IBlockFactory getBlockFactory() {
+        assert blockFactory != null;
         return blockFactory;
     }
 
@@ -240,6 +245,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IDoodleFactory getDoodleFactory() {
+        assert doodleFactory != null;
         return doodleFactory;
     }
 
@@ -248,6 +254,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IPowerupFactory getPowerupFactory() {
+        assert powerupFactory != null;
         return powerupFactory;
     }
 
@@ -256,6 +263,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IRenderer getRenderer() {
+        assert renderer != null;
         return renderer;
     }
 
@@ -264,6 +272,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public ISpriteFactory getSpriteFactory() {
+        assert spriteFactory != null;
         return spriteFactory;
     }
 
@@ -272,6 +281,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public ILevelBuilder getLevelBuilder() {
+        assert levelBuilder != null;
         return levelBuilder;
     }
 
@@ -280,6 +290,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public ISceneFactory getSceneFactory() {
+        assert sceneFactory != null;
         return sceneFactory;
     }
 
@@ -288,6 +299,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IPlatformFactory getPlatformFactory() {
+        assert platformFactory != null;
         return platformFactory;
     }
 
@@ -296,6 +308,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IRes getRes() {
+        assert res != null;
         return res;
     }
 
@@ -303,6 +316,9 @@ import resources.sprites.ISpriteFactory;
      * {@inheritDoc}
      */
     @Override
-    public IButtonFactory getButtonFactory() { return buttonFactory; }
+    public IButtonFactory getButtonFactory() {
+        assert buttonFactory != null;
+        return buttonFactory;
+    }
 
 }

@@ -1,18 +1,11 @@
 package scenes;
 
 import objects.blocks.IBlock;
-import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
-import objects.doodles.IDoodleFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import rendering.IDrawable;
-import resources.audio.IAudioManager;
-import resources.sprites.ISprite;
-import system.IServiceLocator;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.mockito.Mockito.verify;

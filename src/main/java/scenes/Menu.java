@@ -5,7 +5,6 @@ import input.KeyCode;
 import input.Keys;
 import objects.buttons.IButton;
 import objects.buttons.IButtonFactory;
-import rendering.IDrawable;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;

@@ -8,12 +8,13 @@ import objects.IJumpable;
 import objects.blocks.IBlock;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import scenes.ICamera;
 import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
 public class Doodle extends AGameObject implements IDoodle {
-
+    //TODO check final/static
     private static IServiceLocator serviceLocator;
     /**
      * The height of the legs of the doodle. When this value is very large, for example 1,
@@ -48,13 +49,15 @@ public class Doodle extends AGameObject implements IDoodle {
      * The direction the Doodle is facing.
      */
     private directions facing;
+    private final ICamera camera;
 
     /**
      * Doodle constructor.
      *
-     * @param serviceLocator The service locator.
+     * @param serviceLocator The service locator
+     * @param camera         The camera that moves if the doodle jumps high
      */
-     /* package */ Doodle(IServiceLocator serviceLocator) {
+     /* package */ Doodle(IServiceLocator serviceLocator, ICamera camera) {
         super(Game.WIDTH / 2, Game.HEIGHT / 2, serviceLocator.getSpriteFactory().getDoodleSprite(directions.right)[0]);
         this.setHitBox(getSprite().getWidth() / 3, (int) (getSprite().getHeight() * 0.25), 2 * getSprite().getWidth() / 3, getSprite().getHeight());
         Doodle.serviceLocator = serviceLocator;
@@ -64,6 +67,8 @@ public class Doodle extends AGameObject implements IDoodle {
 
         IInputManager inputManager = serviceLocator.getInputManager();
         inputManager.addObserver(this);
+
+        this.camera = camera;
     }
 
     /**
@@ -83,6 +88,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.move(delta);
         this.wrap();
         this.applyGravity(delta);
+        this.checkCollisions();
     }
 
     /**
@@ -130,6 +136,18 @@ public class Doodle extends AGameObject implements IDoodle {
         } else if (this.rightPressed(keyCode) && this.moving == directions.right) {
             this.moving = null;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collide(IBlock block) {
+    }
+
+    @Override
+    public double getLegsHeight() {
+        return legsHeight;
     }
 
     private void move(double delta) {
@@ -193,13 +211,6 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    /**
-     * Applies gravity vAcceleration to the doodle.
-     */
-    private void applyGravity(double delta) {
-        this.vSpeed += World.gravityAcceleration;
-    }
-
     private void animate(double delta) {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(this.facing);
@@ -213,23 +224,47 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * {@inheritDoc}
+     * TODO: Add JavaDoc
      */
-    @Override
-    public void collide(IJumpable jumpable) {
-        this.vSpeed = jumpable.getBoost();
+    private void checkCollisions() {
+        /*if (this.doodle.getVSpeed() > 0) {
+            for (IBlock block : blocks) {
+                //TODO check for the collision
+                //if (this.doodle.checkCollission(block)) {
+                Set<IGameObject> elements = block.getElements();
+                for (IGameObject element : elements) {
+                    if (this.doodle.checkCollission(element)) {
+                        if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()) {
+                            element.collidesWith(this.doodle);
+                        }
+                    }
+                }
+                //}
+            }
+        }*/
+    }
+
+    /**
+     * TODO: Add JavaDoc
+     */
+    private void applyGravity(double delta) {
+        this.vSpeed += World.gravityAcceleration;
+        addYPos(this.vSpeed);
+        if (vSpeed < 0d && getYPos() < .5d * Game.HEIGHT - getHitBox()[AGameObject.HITBOX_BOTTOM]) {
+
+            for (IBlock e : blocks) {
+                e.addYPos(-doodle.getVSpeed());
+                score -= doodle.getVSpeed() * SCOREMULTIPLIER;
+            }
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void collide(IBlock block) {
-    }
-
-    @Override
-    public double getLegsHeight() {
-        return legsHeight;
+    public void collide(IJumpable jumpable) {
+        this.vSpeed = jumpable.getBoost();
     }
 
 }

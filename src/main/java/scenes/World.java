@@ -5,21 +5,18 @@ import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
-import objects.blocks.platform.IPlatform;
 import objects.buttons.IButton;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rendering.IDrawable;
 import resources.sprites.ISprite;
 import system.Game;
+import system.IRenderable;
 import system.IServiceLocator;
 import system.IUpdatable;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 public class World implements IScene {
 
@@ -61,26 +58,38 @@ public class World implements IScene {
      */
     private IBlock topBlock;
 
+    private Set<IRenderable> drawables = Collections.newSetFromMap(new WeakHashMap<>());
+    private Set<IUpdatable> updatables = Collections.newSetFromMap(new WeakHashMap<>());
+
+    private final ICamera camera = new Camera();
+
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
         Game.setAlive(true);
 
         IBlockFactory blockFactory = serviceLocator.getBlockFactory();
-        topBlock = blockFactory.createStartBlock();
-        blocks.add(topBlock);
+        this.topBlock = blockFactory.createStartBlock();
+        this.blocks.add(this.topBlock);
+        this.drawables.add(this.topBlock);
+        this.updatables.add(this.topBlock);
 
         for (int i = 1; i < 3; i++) {
-            topBlock = blockFactory.createBlock(topBlock.getTopJumpable());
-            blocks.add(topBlock);
+            this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable());
+            this.blocks.add(this.topBlock);
+            this.drawables.add(this.topBlock);
+            this.updatables.add(this.topBlock);
         }
 
-        background = serviceLocator.getSpriteFactory().getBackground();
+        this.background = serviceLocator.getSpriteFactory().getBackground();
 
-        scorebar = new Scorebar();
+        this.scorebar = new Scorebar();
+        this.drawables.add(this.scorebar);
 
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
         this.doodle.setVerticalSpeed(-9);
+        drawables.add(this.doodle);
+        updatables.add(this.doodle);
 
         serviceLocator.getAudioManager().playStart();
     }
@@ -104,15 +113,12 @@ public class World implements IScene {
      */
     @Override
     public void render() {
+        //TODO maybe we should make a Background class?
         serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
 
-        for (IBlock e : blocks) {
+        for (IRenderable e : drawables) {
             e.render();
         }
-
-        this.doodle.render();
-
-        scorebar.render();
     }
 
     /**
@@ -120,9 +126,7 @@ public class World implements IScene {
      */
     @Override
     public void update(double delta) {
-        checkDoodleCollissions();
         updateObjects(delta);
-        applySpeed(delta);
         cleanUp();
 
         // TODO: check if doodle is alive
@@ -134,47 +138,10 @@ public class World implements IScene {
     /**
      * TODO: Add JavaDoc
      */
-    private void checkDoodleCollissions() {
-        if (this.doodle.getVSpeed() > 0) {
-            for (IBlock block : blocks) {
-                //TODO check for the collision
-                //if (this.doodle.checkCollission(block)) {
-                Set<IGameObject> elements = block.getElements();
-                for (IGameObject element : elements) {
-                    if (this.doodle.checkCollission(element)) {
-                        if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()) {
-                            element.collidesWith(this.doodle);
-                        }
-                    }
-                }
-                //}
-            }
-        }
-    }
-
-    /**
-     * TODO: Add JavaDoc
-     */
-    private void applySpeed(double delta) {
-        if (doodle.getVSpeed() < 0d && doodle.getYPos() < .5d * Game.HEIGHT - doodle.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
-            for (IBlock e : blocks) {
-                e.addYPos(-doodle.getVSpeed());
-                score -= doodle.getVSpeed() * SCOREMULTIPLIER;
-            }
-        } else {
-            doodle.addYPos(doodle.getVSpeed());
-        }
-    }
-
-    /**
-     * TODO: Add JavaDoc
-     */
     private void updateObjects(double delta) {
-        for (IUpdatable e : blocks) {
+        for (IUpdatable e : updatables) {
             e.update(delta);
         }
-
-        doodle.update(delta);
     }
 
     /**
@@ -201,8 +168,9 @@ public class World implements IScene {
         if (blocks.size() < MAXBLOCKS) {
             IJumpable topPlatform = topBlock.getTopJumpable();
             topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform);
-            //TODO: implements New Block
             blocks.add(topBlock);
+            drawables.add(topBlock);
+            updatables.add(topBlock);
         }
     }
 
@@ -211,7 +179,7 @@ public class World implements IScene {
      * <p>
      * The bar on top of the screen displaying the score and pause button
      */
-    private final class Scorebar {
+    private final class Scorebar implements IRenderable {
         /**
          * The transparant and black border at the bottom of the scoreBar that is not take into account when
          * drawing scoreBar content.
@@ -245,7 +213,9 @@ public class World implements IScene {
             serviceLocator.getInputManager().addObserver(pauseButton);
         }
 
-        private void render() {
+        /** {@inheritDoc} */
+        @Override
+        public void render() {
             serviceLocator.getRenderer().drawSprite(scoreBarSprite, 0, 0, Game.WIDTH, scoreBarHeight);
             scoreText.render();
             pauseButton.render();
@@ -277,7 +247,7 @@ public class World implements IScene {
             }
         }
 
-        private class ScoreText implements IDrawable {
+        private class ScoreText implements IRenderable {
             private final int x;
             private final ISprite[] digitSprites;
             /**
