@@ -1,7 +1,33 @@
 package objects.enemies;
 
-import objects.AGameObject;
+/* package */ class Enemy extends AEnemy implements IEnemy {
 
-public abstract class Enemy extends AGameObject implements IEnemy {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void animate() {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void render() {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void move() {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update() {
+    }
 
 }

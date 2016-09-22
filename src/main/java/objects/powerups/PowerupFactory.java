@@ -2,7 +2,6 @@ package objects.powerups;
 
 import logging.ILogger;
 import objects.IGameObject;
-import scenes.SceneFactory;
 import system.IServiceLocator;
 
 public final class PowerupFactory implements IPowerupFactory {
@@ -25,14 +24,18 @@ public final class PowerupFactory implements IPowerupFactory {
 
     private PowerupFactory() { }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IGameObject createSpring(final int x, final int y) {
         LOGGER.info("A new Spring has been created");
         return new Spring(serviceLocator, x, y);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IGameObject createTrampoline(final int x, final int y) {
         LOGGER.info("A new Trampoline has been created");
