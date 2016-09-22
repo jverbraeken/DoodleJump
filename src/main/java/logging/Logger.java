@@ -32,7 +32,7 @@ import java.util.Date;
     public void log(final String msg) {
         try {
             String str = this.generateMessage("LOG", msg);
-            fileSystem.appendToTextFile("async.log", str);
+            fileSystem.log("async.log", str);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -43,7 +43,7 @@ import java.util.Date;
     public void error(final String msg) {
         try {
             String str = this.generateMessage("ERROR", msg);
-            fileSystem.appendToTextFile("async.log", str);
+            fileSystem.log("async.log", str);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ import java.util.Date;
     public void info(final String msg) {
         try {
             String str = this.generateMessage("INFO", msg);
-            fileSystem.appendToTextFile("async.log", str);
+            fileSystem.log("async.log", str);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -65,7 +65,7 @@ import java.util.Date;
     public void warning(final String msg) {
         try {
             String str = this.generateMessage("WARNING", msg);
-            fileSystem.appendToTextFile("async.log", str);
+            fileSystem.log("async.log", str);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }

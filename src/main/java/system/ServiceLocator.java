@@ -1,9 +1,25 @@
 package system;
 
+import buttons.ButtonFactory;
+import filesystem.FileSystem;
+import input.InputManager;
+import logging.Console;
+import logging.ILogger;
 import logging.ILoggerFactory;
+import logging.LoggerFactory;
+import math.Calc;
+import objects.Collisions;
 import objects.ICollisions;
 import buttons.IButtonFactory;
+import objects.blocks.BlockFactory;
+import objects.blocks.platform.PlatformFactory;
+import objects.doodles.DoodleFactory;
+import objects.enemies.EnemyBuilder;
+import objects.powerups.PowerupFactory;
+import rendering.Renderer;
 import resources.IRes;
+import resources.Res;
+import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
 import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
@@ -14,10 +30,18 @@ import objects.doodles.IDoodleFactory;
 import objects.blocks.platform.IPlatformFactory;
 import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;
+import resources.sprites.SpriteFactory;
 import scenes.ISceneFactory;
 import resources.sprites.ISpriteFactory;
+import scenes.SceneFactory;
 
 /* package */ class ServiceLocator implements IServiceLocator {
+
+    /**
+     * The logger for the service locator.
+     */
+    private static ILogger LOGGER;
+
 
     // input
     private IInputManager inputManager;
@@ -54,6 +78,13 @@ import resources.sprites.ISpriteFactory;
 
     // logger
     private ILoggerFactory loggerFactory;
+
+    /**
+     * Initialize the ServiceLocator class.
+     */
+    /* package */ ServiceLocator() {
+        this.init();
+    }
 
     /**
      * {@inheritDoc}
@@ -320,5 +351,27 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public ILoggerFactory getLoggerFactory() { return loggerFactory; }
+
+    /**
+     * Initialize the ServiceLocator.
+     */
+    private void init() {
+        FileSystem.register(this);
+        LoggerFactory.register(this);
+        AudioManager.register(this);
+        EnemyBuilder.register(this);
+        InputManager.register(this);
+        Calc.register(this);
+        BlockFactory.register(this);
+        DoodleFactory.register(this);
+        PowerupFactory.register(this);
+        SpriteFactory.register(this);
+        Renderer.register(this);
+        SceneFactory.register(this);
+        PlatformFactory.register(this);
+        Res.register(this);
+        ButtonFactory.register(this);
+        Collisions.register(this);
+    }
 
 }

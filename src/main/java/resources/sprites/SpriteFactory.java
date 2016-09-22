@@ -3,6 +3,8 @@ package resources.sprites;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import logging.Console;
+import logging.ILogger;
 import objects.doodles.IDoodle;
 import resources.IRes;
 import system.IServiceLocator;
@@ -27,6 +29,10 @@ public final class SpriteFactory implements ISpriteFactory {
         serviceLocator.provide(new SpriteFactory());
     }
 
+    /**
+     * The logger for the SpriteFactory class.
+     */
+    private static ILogger LOGGER;
 
     private LoadingCache<IRes.sprites, ISprite> cache;
 
@@ -34,12 +40,15 @@ public final class SpriteFactory implements ISpriteFactory {
      * Prevents instantiation from outside the class.
      */
     private SpriteFactory() {
+        SpriteFactory.LOGGER = serviceLocator.getLoggerFactory().createLogger(SpriteFactory.class);
+
         cache = CacheBuilder.newBuilder()
                 .maximumSize(Long.MAX_VALUE)
                 .build(
                         new CacheLoader<IRes.sprites, ISprite>() {
                             @Override
                             public ISprite load(IRes.sprites sprite) throws FileNotFoundException {
+                                LOGGER.info("Sprite loaded: \"" + sprite + "\"");
                                 return loadISprite(sprite);
                             }
                         }

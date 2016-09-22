@@ -1,7 +1,6 @@
 package rendering;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -9,15 +8,11 @@ import java.awt.*;
 
 public final class Renderer implements IRenderer {
 
-    private static final Logger logger = LoggerFactory.getLogger(Renderer.class);
+
     /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
-    private Graphics graphics;
-
-    private Renderer() { }
-
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -28,6 +23,15 @@ public final class Renderer implements IRenderer {
         Renderer.serviceLocator = serviceLocator;
         serviceLocator.provide(new Renderer());
     }
+    /**
+     * The logger for the Renderer class.
+     */
+    private static ILogger LOGGER;
+    private Graphics graphics;
+
+    private Renderer() {
+        Renderer.LOGGER = serviceLocator.getLoggerFactory().createLogger(Renderer.class);
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -35,7 +39,6 @@ public final class Renderer implements IRenderer {
     }
 
     public void drawRectangle(int x, int y, int width, int height) {
-        logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
         graphics.drawRect(x, y, width, height);
     }
 
@@ -47,7 +50,6 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        logger.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ")");
         graphics.drawImage(sprite.getImage(), x, y, null);
     }
 
@@ -59,7 +61,6 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        logger.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ")");
         graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
     /** {@inheritDoc} */

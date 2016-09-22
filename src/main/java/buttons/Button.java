@@ -47,8 +47,6 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public void mouseClicked(int x, int y) {
-        Console.log("X: " + x + " | Y: " + y);
-        Console.log(topLeft[0] + " - " + bottomRight[0]);
         assert x >= 0 && y >= 0;
 
         if (x > topLeft[0] && x < bottomRight[0]) {

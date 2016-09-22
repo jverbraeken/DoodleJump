@@ -58,28 +58,9 @@ public final class Game {
     private Game() {
     }
 
-    private static void initServices() {
-        FileSystem.register(serviceLocator);
-        LoggerFactory.register(serviceLocator);
-        AudioManager.register(serviceLocator);
-        EnemyBuilder.register(serviceLocator);
-        InputManager.register(serviceLocator);
-        Calc.register(serviceLocator);
-        BlockFactory.register(serviceLocator);
-        DoodleFactory.register(serviceLocator);
-        PowerupFactory.register(serviceLocator);
-        SpriteFactory.register(serviceLocator);
-        Renderer.register(serviceLocator);
-        SceneFactory.register(serviceLocator);
-        PlatformFactory.register(serviceLocator);
-        Res.register(serviceLocator);
-        ButtonFactory.register(serviceLocator);
-        Collisions.register(serviceLocator);
-    }
-
     public static void main(String[] argv) {
-        initServices();
         Game.LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
         IInputManager inputManager = serviceLocator.getInputManager();
         serviceLocator.getRenderer().start();

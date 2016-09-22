@@ -32,10 +32,14 @@ public final class FileSystem implements IFileSystem {
     private ClassLoader classLoader = getClass().getClassLoader();
 
     /**
+     * The writer for the log file.
+     */
+    private static PrintWriter logWriter;
+
+    /**
      * Prevents instantiation from outside the class.
      */
     private FileSystem() {
-
     }
 
     /** {@inheritDoc} */
@@ -117,11 +121,11 @@ public final class FileSystem implements IFileSystem {
 
     /** {@inheritDoc} */
     @Override
-    public void appendToTextFile(String filename, String content) throws FileNotFoundException {
+    public void log(String filename, String content) throws FileNotFoundException {
         try(FileWriter fw = new FileWriter(filename, true);
             BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter writer = new PrintWriter(bw))
-        {
+            PrintWriter writer = new PrintWriter(bw)
+        ) {
             writer.println(content);
         } catch (IOException e) {
             e.printStackTrace();

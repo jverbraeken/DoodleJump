@@ -1,15 +1,22 @@
 package resources.audio;
 
+import logging.Console;
+import logging.ILogger;
 import system.IServiceLocator;
 
 import javax.sound.sampled.Clip;
 import java.io.FileNotFoundException;
 
 public final class AudioManager implements IAudioManager {
+
     /**
     * Used to gain access to all services.
     */
     private static transient IServiceLocator serviceLocator;
+
+    /**
+     * TODO: ADD JAVADCO
+     */
     public static void register(IServiceLocator serviceLocator_) {
         assert serviceLocator_ != null;
         serviceLocator = serviceLocator_;
@@ -17,9 +24,15 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
+     * The logger for the AudioManager class.
+     */
+    private static ILogger LOGGER;
+
+    /**
      * Prevents instantiation from outside the class.
      */
     private AudioManager() {
+        AudioManager.LOGGER = serviceLocator.getLoggerFactory().createLogger(AudioManager.class);
         preload();
     }
 
@@ -71,6 +84,7 @@ public final class AudioManager implements IAudioManager {
 
         Sound(String filepath) {
             try {
+                LOGGER.info("Sound loaded: \"" + filepath + "\"");
                 clip = serviceLocator.getFileSystem().readSound(filepath);
             } catch (FileNotFoundException e) {
                 // TODO log the file was not found
