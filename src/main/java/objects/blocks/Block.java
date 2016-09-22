@@ -38,22 +38,22 @@ class Block extends AGameObject implements IBlock {
      * After this the block will be
      * dynamic to the last element added to the list
      */
-    private final int constructionOFFSET = 800;
+    private final int constructionOffset = 800;
 
     /**
      * The maximum amount of platforms per block.
      */
-    private final int maxPLATFORMS = 13;
+    private final int maxPlatforms = 10;
 
     /**
      * The minimum amount of platforms per block.
      */
-    private final int minPLATFORMS = 4;
+    private final int minPlatforms = 4;
 
     /**
      * Offset to clean up platforms upon leaving the screen.
      */
-    private final double cleanupOFFSET = 0.01;
+    private final double cleanupOffset = 0.01;
 
     /**
      * Offset to place the trampoline on the proper place of a platform.
@@ -69,19 +69,19 @@ class Block extends AGameObject implements IBlock {
      * Threshold in order to spawn a trampoline.
      * random int(10.000 > 9900)
      */
-    private final int tramolineTHRESHOLD = 9900;
+    private final int tramolineThreshold = 9900;
 
     /**
      * Threshold in order to spawn a trampoline.
      * random int(9500 < x < 9900)
      */
-    private final int springTHRESHOLD = 9500;
+    private final int springThreshold = 9500;
 
     /**
      * Total threshold number for item generation.
      * random int(10000)
      */
-    private final int maxTHRESHOLD = 10000;
+    private final int maxThreshold = 10000;
 
     /**
      * A multiplier to generate a proper height deviation.
@@ -103,7 +103,7 @@ class Block extends AGameObject implements IBlock {
 
         //This is only to be sure it has a certain height, after this it will be
         //dynamic to the last element added to the list
-        setYPos(lastObject.getYPos() + constructionOFFSET);
+        setYPos(lastObject.getYPos() + constructionOffset);
         createAndPlaceObjects(lastObject);
     }
 
@@ -164,8 +164,8 @@ class Block extends AGameObject implements IBlock {
      */
     @Override
     public void placePlatforms(IGameObject lastObject) {
-        int max = maxPLATFORMS;
-        int min = minPLATFORMS;
+        int max = maxPlatforms;
+        int min = minPlatforms;
         Random rand = new Random();
         int platformAmount = rand.nextInt((max - min) + 1) + min;
 
@@ -217,11 +217,11 @@ class Block extends AGameObject implements IBlock {
         //TODO use serviceLocator
         Random rand = new Random();
 
-        int randomNr = (int) (rand.nextFloat() * maxTHRESHOLD);
+        int randomNr = (int) (rand.nextFloat() * maxThreshold);
 
-        if (randomNr < springTHRESHOLD) {
+        if (randomNr < springThreshold) {
             return;
-        } else if (randomNr >= springTHRESHOLD && randomNr < tramolineTHRESHOLD) {
+        } else if (randomNr >= springThreshold && randomNr < tramolineThreshold) {
             IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
             int springXLoc = (int) (rand.nextFloat() * platform.getWidth());
             IGameObject powerup = powerupFactory.createSpring(0, 0);
@@ -234,7 +234,7 @@ class Block extends AGameObject implements IBlock {
             powerup.setYPos((int) platform.getYPos() - platform.getHeight() + itemYoffset);
 
             content.add(powerup);
-        } else if (randomNr >= tramolineTHRESHOLD) {
+        } else if (randomNr >= tramolineThreshold) {
 
             IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
             IGameObject powerup = powerupFactory.createTrampoline((int) platform.getXPos() + trampolineXoffset,
@@ -250,7 +250,7 @@ class Block extends AGameObject implements IBlock {
     public void cleanUpPlatforms() {
         HashSet<IGameObject> toRemove = new HashSet<>();
         for (IGameObject e : content) {
-            if (e.getYPos() + Game.HEIGHT * cleanupOFFSET > Game.HEIGHT) {
+            if (e.getYPos() + Game.HEIGHT * cleanupOffset > Game.HEIGHT) {
                 toRemove.add(e);
             }
         }
