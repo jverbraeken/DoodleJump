@@ -25,6 +25,10 @@ import system.IServiceLocator;
      * The background sprite.
      */
     private final ISprite background;
+    /**
+     * Is the pause screen active, should it be displayed.
+     */
+    private boolean active = false;
 
     /**
      * Initialize the pause screen.
@@ -49,6 +53,7 @@ import system.IServiceLocator;
     @Override
     public void start() {
         serviceLocator.getInputManager().addObserver(resumeButton);
+        this.active = true;
     }
 
     /**
@@ -57,6 +62,7 @@ import system.IServiceLocator;
     @Override
     public void stop() {
         serviceLocator.getInputManager().removeObserver(resumeButton);
+        this.active = false;
     }
 
     /**
@@ -64,11 +70,16 @@ import system.IServiceLocator;
      */
     @Override
     public void paint() {
-        double scaling = (double) Game.WIDTH / (double) background.getWidth();
-        int backgroundWidth = (int) (background.getWidth() * scaling);
-        int backgroundHeight = (int) (background.getHeight() * scaling);
-        serviceLocator.getRenderer().drawSprite(background, 0, 0, backgroundWidth, backgroundHeight);
-        resumeButton.render();
+        if(this.active) {
+            // Background
+            double scaling = (double) Game.WIDTH / (double) background.getWidth();
+            int backgroundWidth = (int) (background.getWidth() * scaling);
+            int backgroundHeight = (int) (background.getHeight() * scaling);
+            serviceLocator.getRenderer().drawSprite(background, 0, 0, backgroundWidth, backgroundHeight);
+
+            // Resume button
+            resumeButton.render();
+        }
     }
 
     /**
