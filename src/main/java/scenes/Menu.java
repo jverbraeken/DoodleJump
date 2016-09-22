@@ -5,6 +5,7 @@ import input.KeyCode;
 import input.Keys;
 import buttons.IButton;
 import buttons.IButtonFactory;
+import logging.ILogger;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
@@ -12,42 +13,65 @@ import system.IServiceLocator;
 
 /* package */ class Menu implements IScene, IKeyInputObserver {
 
+    /**
+     * The service locator for the menu scene.
+     */
     private final IServiceLocator serviceLocator;
-
+    /**
+     * The logger for the PauseScreen class.
+     */
+    private static ILogger LOGGER;
+    /**
+     * The X and Y location for the play button.
+     */
+    private static final double PLAY_BUTTON_X = 0.15, PLAY_BUTTON_Y = 0.25;
+    /**
+     * The play button.
+     */
     private final IButton playButton;
-    private final ISprite cover;
-    private static final double playButtonXPercentage = 0.15;
-    private static final double playButtonYPercentage = 0.25;
+    /**
+     * The background sprite.
+     */
+    private final ISprite background;
+    /**
+     * Is the pause screen active, should it be displayed.
+     */
+    private boolean active = false;
 
-    /* package */ Menu(IServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
+    /* package */ Menu(IServiceLocator sL) {
+        serviceLocator = sL;
+        LOGGER = sL.getLoggerFactory().createLogger(Menu.class);
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        cover = spriteFactory.getStartCoverSprite();
+        background = spriteFactory.getStartCoverSprite();
 
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * playButtonXPercentage), (int) (Game.HEIGHT * playButtonYPercentage));
+        playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * PLAY_BUTTON_X), (int) (Game.HEIGHT * PLAY_BUTTON_Y));
     }
 
     /** {@inheritDoc} */
     @Override
     public void start() {
         serviceLocator.getInputManager().addObserver(playButton);
-        serviceLocator.getInputManager().addObserver(this);
+        active = true;
+        LOGGER.info("The menu scene is now displaying");
     }
 
     /** {@inheritDoc} */
     @Override
     public void stop() {
         serviceLocator.getInputManager().removeObserver(playButton);
-        serviceLocator.getInputManager().removeObserver(this);
+        active = false;
+        LOGGER.info("The menu scene is no longer displaying");
     }
 
     /** {@inheritDoc} */
     @Override
     public void paint() {
-        serviceLocator.getRenderer().drawSprite(this.cover, 0, 0);
-        playButton.render();
+        if (active) {
+            serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
+            playButton.render();
+        }
     }
 
     /** {@inheritDoc} */

@@ -3,6 +3,7 @@ package scenes;
 import buttons.IButton;
 import buttons.IButtonFactory;
 import input.IMouseInputObserver;
+import logging.ILogger;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
@@ -13,6 +14,10 @@ import system.IServiceLocator;
      * The service locator for the pause screen.
      */
     private final IServiceLocator serviceLocator;
+    /**
+     * The logger for the PauseScreen class.
+     */
+    private static ILogger LOGGER;
     /**
      * The X and Y location for the resume button.
      */
@@ -36,6 +41,7 @@ import system.IServiceLocator;
      */
     /* package */ PauseScreen(IServiceLocator sL) {
         serviceLocator = sL;
+        LOGGER = sL.getLoggerFactory().createLogger(PauseScreen.class);
 
         // Background
         background = serviceLocator.getSpriteFactory().getPauseCoverSprite();
@@ -54,6 +60,7 @@ import system.IServiceLocator;
     public void start() {
         serviceLocator.getInputManager().addObserver(resumeButton);
         this.active = true;
+        LOGGER.info("The pause scene is now displaying");
     }
 
     /**
@@ -63,6 +70,7 @@ import system.IServiceLocator;
     public void stop() {
         serviceLocator.getInputManager().removeObserver(resumeButton);
         this.active = false;
+        LOGGER.info("The pause scene is no longer displaying");
     }
 
     /**
@@ -71,13 +79,7 @@ import system.IServiceLocator;
     @Override
     public void paint() {
         if(this.active) {
-            // Background
-            double scaling = (double) Game.WIDTH / (double) background.getWidth();
-            int backgroundWidth = (int) (background.getWidth() * scaling);
-            int backgroundHeight = (int) (background.getHeight() * scaling);
-            serviceLocator.getRenderer().drawSprite(background, 0, 0, backgroundWidth, backgroundHeight);
-
-            // Resume button
+            serviceLocator.getRenderer().drawSprite(background, 0, 0);
             resumeButton.render();
         }
     }

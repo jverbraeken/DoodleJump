@@ -3,13 +3,27 @@ package scenes;
 import input.IMouseInputObserver;
 import buttons.IButton;
 import buttons.IButtonFactory;
+import logging.ILogger;
+import rendering.IRenderer;
+import rendering.Renderer;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
 /* package */ class KillScreen implements IScene, IMouseInputObserver {
 
+    /**
+     * The service locator for the menu scene.
+     */
     private final IServiceLocator serviceLocator;
+    /**
+     * The logger for the PauseScreen class.
+     */
+    private static ILogger LOGGER;
+    /**
+     * Is the pause screen active, should it be displayed.
+     */
+    private boolean active = false;
 
     private final IButton playAgainButton;
     private final IButton mainMenuButton;
@@ -21,8 +35,9 @@ import system.IServiceLocator;
     private final double gameOverTextXPercentage = 0.1;
     private final double gameOverTextYPercentage = 0.3;
 
-    /* package */ KillScreen(IServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
+    /* package */ KillScreen(IServiceLocator sL) {
+        serviceLocator = sL;
+        LOGGER = sL.getLoggerFactory().createLogger(KillScreen.class);
 
         background = serviceLocator.getSpriteFactory().getBackground();
         bottomKillScreen = serviceLocator.getSpriteFactory().getKillScreenBottomSprite();
@@ -39,6 +54,8 @@ import system.IServiceLocator;
     public void start() {
         serviceLocator.getInputManager().addObserver(playAgainButton);
         serviceLocator.getInputManager().addObserver(mainMenuButton);
+        active = true;
+        LOGGER.info("The kill screen scene is now displaying");
     }
 
     /** {@inheritDoc} */
@@ -46,16 +63,28 @@ import system.IServiceLocator;
     public void stop() {
         serviceLocator.getInputManager().removeObserver(playAgainButton);
         serviceLocator.getInputManager().removeObserver(mainMenuButton);
+        active = false;
+        LOGGER.info("The kill screen scene is no longer displaying");
     }
 
     @Override
     public void paint() {
-        serviceLocator.getRenderer().drawSprite(this.background, 0, 0 );
-        serviceLocator.getRenderer().drawSprite(this.gameOverSprite, (int)(Game.WIDTH * gameOverTextXPercentage), (int)(Game.HEIGHT *gameOverTextYPercentage));
-        double y = (double) Game.HEIGHT - (double) bottomKillScreen.getHeight();
-        serviceLocator.getRenderer().drawSprite(this.bottomKillScreen, 0, (int) y);
-        playAgainButton.render();
-        mainMenuButton.render();
+        if (active) {
+            IRenderer renderer = serviceLocator.getRenderer();
+
+            // Render background
+            renderer.drawSprite(this.background, 0, 0 );
+            renderer.drawSprite(this.bottomKillScreen, 0, Game.HEIGHT - bottomKillScreen.getHeight());
+
+            // Render misc
+            int gameOverX = (int) (Game.WIDTH * gameOverTextXPercentage);
+            int gameOverY = (int) (Game.HEIGHT * gameOverTextYPercentage);
+            renderer.drawSprite(this.gameOverSprite, gameOverX, gameOverY);
+
+            // Render buttons
+            playAgainButton.render();
+            mainMenuButton.render();
+        }
     }
 
     @Override

@@ -4,6 +4,9 @@ import system.IServiceLocator;
 
 public final class SceneFactory implements ISceneFactory {
 
+    /**
+     * The service locator for the pause screen.
+     */
     private static transient IServiceLocator serviceLocator;
 
     public static void register(IServiceLocator serviceLocator) {
