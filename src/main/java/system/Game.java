@@ -99,7 +99,6 @@ public final class Game {
                     scene.paint();
                 }
 
-
                 if (isPaused) {
                     pauseScreen.paint();
                 }
