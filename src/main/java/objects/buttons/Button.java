@@ -38,7 +38,7 @@ public class Button implements IButton {
      */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(sprite, topLeft[0], topLeft[1], width, height);
+        serviceLocator.getRenderer().drawSpriteHUD(sprite, topLeft[0], topLeft[1], width, height);
     }
 
     @Override

@@ -9,7 +9,7 @@ public class Platform extends AGameObject implements IPlatform {
 
     private static IServiceLocator serviceLocator;
 
-    private double boost = -20;
+    private double boost = -16;
 
     /**
      * Platform constructor.

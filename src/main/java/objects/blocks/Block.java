@@ -79,26 +79,6 @@ public final class Block implements IBlock {
     }
 
     /**
-     * Checks if the platform collides with any of the platforms
-     * in this Block. When there is a collision, delete the platform
-     * from the list.
-     *
-     * @param platform The IPlatform that has to be checked for collision.
-     */
-    private void platformCollideCheck(IPlatform platform) {
-        HashSet<IGameObject> toRemove = new HashSet<>();
-        for (IGameObject e : elements) {
-            if (platform.checkCollission(e)) {
-                toRemove.add(e);
-            }
-        }
-
-        for (IGameObject e : toRemove) {
-            elements.remove(e);
-        }
-    }
-
-    /**
      * Checks for all the Platforms if they are under over the height
      * of the screen, if that's the case, delete that Platforms.
      */

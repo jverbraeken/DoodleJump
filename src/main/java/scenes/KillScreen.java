@@ -53,10 +53,10 @@ public class KillScreen implements IScene, IMouseInputObserver {
 
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(this.background, 0, 0 );
-        serviceLocator.getRenderer().drawSprite(this.gameOverSprite, (int)(Game.WIDTH * gameOverTextXPercentage), (int)(Game.HEIGHT *gameOverTextYPercentage));
+        serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0 );
+        serviceLocator.getRenderer().drawSpriteHUD(this.gameOverSprite, (int)(Game.WIDTH * gameOverTextXPercentage), (int)(Game.HEIGHT *gameOverTextYPercentage));
         double y = (double) Game.HEIGHT - (double) bottomKillScreen.getHeight();
-        serviceLocator.getRenderer().drawSprite(this.bottomKillScreen, 0, (int) y);
+        serviceLocator.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
         playAgainButton.render();
         mainMenuButton.render();
     }

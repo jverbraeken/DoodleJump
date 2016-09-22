@@ -60,7 +60,7 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Places zero or more platforms before the loop placing the other platforms is processed.
      *
-     * @param block The block in which the platforms must be placed
+     * @param block        The block in which the platforms must be placed
      * @param lastJumpable The highest platform created before the block starts (normaly the latest platform created)
      * @return The last and highest platform created by this method
      */
@@ -91,7 +91,7 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Places zero or more platforms before the loop placing the other platforms is processed.
      *
-     * @param block The block in which the platforms must be placed
+     * @param block        The block in which the platforms must be placed
      * @param lastPlatform The highest platform created before the block starts (normaly the latest platform created)
      * @return The last and highest platform created by this method
      */
@@ -113,6 +113,16 @@ public final class BlockFactory implements IBlockFactory {
      * @return The last and highest platform created by this method
      */
     private IPlatform placeFollowingPlatform(final IBlock block, final IJumpable lastJumpable, final int heightDividedPlatforms) {
+        IPlatform platform;
+        do {
+            platform = makeFollowingPlatform(lastJumpable, heightDividedPlatforms);
+        } while (platformCollideCheck(platform, block));
+
+        block.addElement(platform);
+        return platform;
+    }
+
+    private IPlatform makeFollowingPlatform(final IJumpable lastJumpable, final int heightDividedPlatforms) {
         //TODO 1.7 and -0.8 are magic numbers
         double heightDeviation = serviceLocator.getCalc().getRandomDouble(1.7) - 0.8;
         double widthDeviation = serviceLocator.getCalc().getRandomDouble(1d);
@@ -133,28 +143,17 @@ public final class BlockFactory implements IBlockFactory {
         int xLoc = (int) (widthDeviation * (Game.WIDTH - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
         platform.setXPos(xLoc);
 
-        while (platformCollideCheck(block, platform)) {
-            platform = platformFactory.createPlatform(0, yLoc);
-
-            //TODO This prohibits platforms from being immutable
-            xLoc = (int) (widthDeviation * (Game.WIDTH - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
-            platform.setXPos(xLoc);
-        }
-
-        block.addElement(platform);
-
         return platform;
     }
 
     /**
-     * Checks if the platform collides with any of the platforms
-     * in this Block.
+     * Checks if the platform collides with any of the elements in the Block.
      *
-     * @param block    The {@link IBlock block} that contains the elements to check for a collision
      * @param platform The {@link IPlatform platform} that has to be checked for a collision
+     * @param block    The {@link IBlock block} that contains the elements to check for a collision
      * @return True if platformm collides with one of the elements of block
      */
-    private boolean platformCollideCheck(final IBlock block, IPlatform platform) {
+    private boolean platformCollideCheck(final IPlatform platform, final IBlock block) {
         for (IGameObject e : block.getElements()) {
             if (platform.checkCollission(e)) {
                 return true;

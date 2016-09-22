@@ -46,7 +46,7 @@ public class Menu implements IScene, IKeyInputObserver {
     /** {@inheritDoc} */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(this.cover, 0, 0);
+        serviceLocator.getRenderer().drawSpriteHUD(this.cover, 0, 0);
         playButton.render();
     }
 

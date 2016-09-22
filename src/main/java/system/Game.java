@@ -99,8 +99,8 @@ public final class Game {
                 serviceLocator.getRenderer().setGraphicsBuffer(g);
 
                 ((Graphics2D) g).scale(1 / scale, 1 / scale);
-                if (scene != null) {
-                    scene.render();
+                if (Game.scene != null) {
+                    Game.scene.render();
                 }
 
 
@@ -143,10 +143,10 @@ public final class Game {
             Game.scene.stop();
         }
 
-        scene.start();
         serviceLocator.getRenderer().getCamera().setYPos(0d);
+        scene.start();
         Game.scene = scene;
-        frame.repaint();
+        //frame.repaint();
     }
 
     /**
@@ -215,7 +215,7 @@ public final class Game {
     private static void drawPauseScreen() {
         ISprite pauseCover = serviceLocator.getSpriteFactory().getPauseCoverSprite();
         double scaling = (double) WIDTH / (double) pauseCover.getWidth();
-        serviceLocator.getRenderer().drawSprite(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
+        serviceLocator.getRenderer().drawSpriteHUD(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
         resumeButton.render();
     }
 

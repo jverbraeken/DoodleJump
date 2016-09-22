@@ -36,6 +36,8 @@ public final class Renderer implements IRenderer {
     public void start() {
     }
 
+    /** {@inheritDoc} */
+    @Override
     public void drawRectangle(int x, int y, int width, int height) {
         logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
         graphics.drawRect(x, (int) (y - camera.getYPos()), width, height);
@@ -63,6 +65,37 @@ public final class Renderer implements IRenderer {
 
         logger.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), width, height, null);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void drawRectangleHUD(int x, int y, int width, int height) {
+        logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
+        graphics.drawRect(x, y, width, height);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void drawSpriteHUD(ISprite sprite, int x, int y) {
+        assert graphics != null;
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
+
+        logger.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ")");
+        graphics.drawImage(sprite.getImage(), x, y, null);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void drawSpriteHUD(ISprite sprite, int x, int y, int width, int height) {
+        assert graphics != null;
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
+
+        logger.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ")");
+        graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
 
     /** {@inheritDoc} */

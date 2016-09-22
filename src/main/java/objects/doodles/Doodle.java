@@ -13,8 +13,6 @@ import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
-import static java.lang.Math.abs;
-
 public final class Doodle extends AGameObject implements IDoodle {
     //TODO check final/static
     private static IServiceLocator serviceLocator;
@@ -91,7 +89,7 @@ public final class Doodle extends AGameObject implements IDoodle {
         this.wrap();
         this.applyGravity(delta);
         this.checkHighPosition();
-        this.checkCollisions();
+        this.checkDeadPosition();
     }
 
     /**
@@ -234,27 +232,6 @@ public final class Doodle extends AGameObject implements IDoodle {
     /**
      * TODO: Add JavaDoc
      */
-    private void checkCollisions() {
-        /*if (this.doodle.getVSpeed() > 0) {
-            for (IBlock block : blocks) {
-                //TODO check for the collision
-                //if (this.doodle.checkCollission(block)) {
-                Set<IGameObject> elements = block.getElements();
-                for (IGameObject element : elements) {
-                    if (this.doodle.checkCollission(element)) {
-                        if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()) {
-                            element.collidesWith(this.doodle);
-                        }
-                    }
-                }
-                //}
-            }
-        }*/
-    }
-
-    /**
-     * TODO: Add JavaDoc
-     */
     private void applyGravity(double delta) {
         this.vSpeed += World.gravityAcceleration;
         addYPos(this.vSpeed);
@@ -262,9 +239,16 @@ public final class Doodle extends AGameObject implements IDoodle {
 
     private void checkHighPosition() {
         ICamera camera = serviceLocator.getRenderer().getCamera();
-        if (getYPos() - camera.getYPos() < 0) {
-            score += abs(getYPos() - camera.getYPos()) * World.SCOREMULTIPLIER;
-            camera.setYPos(getYPos() - camera.getYPos());
+        if (getYPos() < camera.getYPos() + Game.HEIGHT / 2) {
+            score += (camera.getYPos() + Game.HEIGHT / 2 - getYPos()) * World.SCOREMULTIPLIER;
+            camera.setYPos(getYPos() - Game.HEIGHT / 2);
+        }
+    }
+
+    private void checkDeadPosition() {
+        ICamera camera = serviceLocator.getRenderer().getCamera();
+        if (getYPos() > camera.getYPos() + Game.HEIGHT - getHitBox()[HITBOX_BOTTOM]) {
+            Game.setAlive(false);
         }
     }
 

@@ -54,38 +54,52 @@ public class World implements IScene {
      */
     private IBlock topBlock;
 
-    private Set<IRenderable> drawables = Collections.newSetFromMap(new WeakHashMap<>());
+    /**
+     * <p>Drawables consists of 3 sets, although this can be easily changed. The first set contains the
+     * {@link IRenderable renderables} that will be drawn first (eg platforms), the second set contains the
+     * {@link IRenderable renderables} that will be drawn secondly (eg doodles) and the third set contains the
+     * {@link IRenderable renderables} that will be drawn at last (eg HUD elements).</p>
+     *
+     * <p>The reason a list is used instead of an array is because we need to use a weak set. The only
+     * way to make it (in Java) is by using Collections.newSetFromMap that creates the set for us (and
+     * prohibits creating an array by doing that).</p>
+     */
+    private List<Set<IRenderable>> drawables = new ArrayList<>();
     private Set<IUpdatable> updatables = Collections.newSetFromMap(new WeakHashMap<>());
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
         Game.setAlive(true);
 
+        for (int i = 0; i < 3; i++) {
+            drawables.add(Collections.newSetFromMap(new WeakHashMap<>()));
+        }
+
         IBlockFactory blockFactory = serviceLocator.getBlockFactory();
         this.topBlock = blockFactory.createStartBlock();
         this.blocks.add(this.topBlock);
-        this.drawables.add(this.topBlock);
+        this.drawables.get(0).add(this.topBlock);
         this.updatables.add(this.topBlock);
 
         for (int i = 1; i < 3; i++) {
             this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable());
             this.blocks.add(this.topBlock);
-            this.drawables.add(this.topBlock);
+            this.drawables.get(0).add(this.topBlock);
             this.updatables.add(this.topBlock);
         }
 
         this.background = serviceLocator.getSpriteFactory().getBackground();
 
         this.scorebar = new Scorebar();
-        this.drawables.add(this.scorebar);
+        this.drawables.get(2).add(this.scorebar);
 
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
         this.doodle.setVerticalSpeed(-9);
-        drawables.add(this.doodle);
-        updatables.add(this.doodle);
+        this.drawables.get(1).add(this.doodle);
+        this.updatables.add(this.doodle);
 
-        serviceLocator.getAudioManager().playStart();
+        this.serviceLocator.getAudioManager().playStart();
     }
 
     /**
@@ -93,6 +107,7 @@ public class World implements IScene {
      */
     @Override
     public void start() {
+        this.serviceLocator.getRenderer().getCamera().setYPos(Game.HEIGHT / 2d);
     }
 
     /**
@@ -108,10 +123,12 @@ public class World implements IScene {
     @Override
     public void render() {
         //TODO maybe we should make a Background class?
-        serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
+        serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
 
-        for (IRenderable e : drawables) {
-            e.render();
+        for (Set<IRenderable> set : drawables) {
+            for (IRenderable e : set) {
+                e.render();
+            }
         }
     }
 
@@ -121,12 +138,9 @@ public class World implements IScene {
     @Override
     public void update(double delta) {
         updateObjects(delta);
+        checkCollisions();
         cleanUp();
-
-        // TODO: check if doodle is alive
-
         newBlocks();
-        Game.setAlive(doodle.getYPos() < Game.HEIGHT);
     }
 
     /**
@@ -139,13 +153,34 @@ public class World implements IScene {
     }
 
     /**
+     * TODO: Add JavaDoc
+     */
+    private void checkCollisions() {
+        if (this.doodle.getVSpeed() > 0) {
+            for (IBlock block : blocks) {
+                //TODO check for the collision
+                //if (this.doodle.checkCollission(block)) {
+                Set<IGameObject> elements = block.getElements();
+                for (IGameObject element : elements) {
+                    if (this.doodle.checkCollission(element)) {
+                        if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()) {
+                            element.collidesWith(this.doodle);
+                        }
+                    }
+                }
+                //}
+            }
+        }
+    }
+
+    /**
      * Checks for all the Blocks if they are under over the height
      * of the screen, if that's the case, delete that Block.
      */
     private void cleanUp() {
         HashSet<IBlock> toRemove = new HashSet<>();
         for (IBlock e : blocks) {
-            if (e.getTopJumpable().getYPos() > Game.HEIGHT) {
+            if (e.getTopJumpable().getYPos() > serviceLocator.getRenderer().getCamera().getYPos() + Game.HEIGHT) {
                 toRemove.add(e);
             }
         }
@@ -163,7 +198,7 @@ public class World implements IScene {
             IJumpable topPlatform = topBlock.getTopJumpable();
             topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform);
             blocks.add(topBlock);
-            drawables.add(topBlock);
+            drawables.get(0).add(topBlock);
             updatables.add(topBlock);
         }
     }
@@ -203,14 +238,12 @@ public class World implements IScene {
             int pauseX = (int) (Game.WIDTH - pauseSprite.getWidth() * scaling - PAUSEOFFSET);
             int pauseY = (int) (((double) Game.WIDTH / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
-
-            serviceLocator.getInputManager().addObserver(pauseButton);
         }
 
         /** {@inheritDoc} */
         @Override
         public void render() {
-            serviceLocator.getRenderer().drawSprite(scoreBarSprite, 0, 0, Game.WIDTH, scoreBarHeight);
+            serviceLocator.getRenderer().drawSpriteHUD(scoreBarSprite, 0, 0, Game.WIDTH, scoreBarHeight);
             scoreText.render();
             pauseButton.render();
         }
@@ -225,11 +258,12 @@ public class World implements IScene {
                 this.width = (int) (sprite.getWidth() * scaling);
                 this.height = (int) (sprite.getHeight() * scaling);
                 this.sprite = sprite;
+                serviceLocator.getInputManager().addObserver(this);
             }
 
             @Override
             public void render() {
-                serviceLocator.getRenderer().drawSprite(sprite, x, y, width, height);
+                serviceLocator.getRenderer().drawSpriteHUD(sprite, x, y, width, height);
             }
 
             @Override
@@ -266,6 +300,7 @@ public class World implements IScene {
 
             @Override
             public void render() {
+                assert doodle.getScore() >= 0;
                 int roundedScore = (int) doodle.getScore();
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();
@@ -280,7 +315,7 @@ public class World implements IScene {
                 while (!scoreDigits.isEmpty()) {
                     digit = scoreDigits.pop();
                     sprite = digitSprites[digit];
-                    serviceLocator.getRenderer().drawSprite(sprite, pos, digitData[digit * 3], digitData[digit * 3 + 1], digitData[digit * 3 + 2]);
+                    serviceLocator.getRenderer().drawSpriteHUD(sprite, pos, digitData[digit * 3], digitData[digit * 3 + 1], digitData[digit * 3 + 2]);
                     pos += digitData[digit * 3 + 1] + 1;
                 }
             }
