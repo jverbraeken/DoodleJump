@@ -1,15 +1,13 @@
 package scenes;
 
 import input.IMouseInputObserver;
-import objects.buttons.IButton;
-import objects.buttons.IButtonFactory;
-import rendering.IDrawable;
-import rendering.Renderer;
+import buttons.IButton;
+import buttons.IButtonFactory;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
-public class KillScreen implements IScene, IMouseInputObserver {
+/* package */ class KillScreen implements IScene, IMouseInputObserver {
 
     private final IServiceLocator serviceLocator;
 
@@ -23,7 +21,6 @@ public class KillScreen implements IScene, IMouseInputObserver {
     private final double gameOverTextXPercentage = 0.1;
     private final double gameOverTextYPercentage = 0.3;
 
-    //TODO: add game over text;
     /* package */ KillScreen(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
 
@@ -37,18 +34,16 @@ public class KillScreen implements IScene, IMouseInputObserver {
 
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void start() {
-
         serviceLocator.getInputManager().addObserver(playAgainButton);
         serviceLocator.getInputManager().addObserver(mainMenuButton);
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void stop() {
-
         serviceLocator.getInputManager().removeObserver(playAgainButton);
         serviceLocator.getInputManager().removeObserver(mainMenuButton);
     }
@@ -67,8 +62,8 @@ public class KillScreen implements IScene, IMouseInputObserver {
     public void update(double delta) {
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public void mouseClicked(int x, int y) {
     }
 }

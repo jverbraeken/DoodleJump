@@ -4,7 +4,7 @@ import logging.ILogger;
 import objects.IGameObject;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
-import objects.buttons.IButton;
+import buttons.IButton;
 import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
@@ -82,7 +82,7 @@ public class World implements IScene {
         this.doodle = doodleFactory.createDoodle();
         this.vSpeed = -9;
 
-        logger.log("Level started");
+        logger.log("World has started");
     }
 
     /** {@inheritDoc} */
@@ -294,7 +294,7 @@ public class World implements IScene {
             @Override
             public void mouseClicked(int mouseX, int mouseY) {
                 if (mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
-                    logger.info("Pause button was clicked!");
+                    logger.info("Button clicked: \"pause\"");
                     Game.setPaused(true);
                 }
             }

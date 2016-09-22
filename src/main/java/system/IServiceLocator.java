@@ -1,9 +1,8 @@
 package system;
 
-import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.ICollisions;
-import objects.buttons.IButtonFactory;
+import buttons.IButtonFactory;
 import resources.IRes;
 import resources.audio.IAudioManager;
 import objects.enemies.IEnemyBuilder;

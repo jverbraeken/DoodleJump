@@ -1,4 +1,4 @@
-package objects.buttons;
+package buttons;
 
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -33,7 +33,6 @@ public class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, resumeAction, "resume");
     }
 
-    //TODO: correct sprite to "play again" button
     @Override
     public IButton createPlayAgainButton(int x, int y) {
         assert serviceLocator != null;
@@ -43,7 +42,6 @@ public class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, playAgainAction, "playAgain");
     }
 
-    //TODO: correct sprite to "main menu" button
     @Override
     public IButton createMainMenuButton(int x, int y) {
         assert serviceLocator != null;

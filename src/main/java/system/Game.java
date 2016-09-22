@@ -3,14 +3,15 @@ package system;
 import filesystem.FileSystem;
 import input.IInputManager;
 import input.InputManager;
+import logging.ILogger;
 import logging.LoggerFactory;
 import math.Calc;
 import math.ICalc;
 import objects.Collisions;
 import objects.blocks.BlockFactory;
 import objects.blocks.platform.PlatformFactory;
-import objects.buttons.ButtonFactory;
-import objects.buttons.IButton;
+import buttons.ButtonFactory;
+import buttons.IButton;
 import objects.doodles.DoodleFactory;
 import objects.enemies.EnemyBuilder;
 import objects.powerups.PowerupFactory;
@@ -34,6 +35,7 @@ public final class Game {
     public final static int HEIGHT = 960;
     public static final int NORMAL_WIDTH = Game.WIDTH;
     public static final int NORMAL_HEIGHT = Game.HEIGHT;
+    private static ILogger LOGGER;
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
     private static final double RESUMEBUTTONX = 0.55;
@@ -56,7 +58,8 @@ public final class Game {
     }
 
     private static void initServices() {
-        FileSystem.register(serviceLocator); // This ine is before the audiomanager!
+        FileSystem.register(serviceLocator);
+        LoggerFactory.register(serviceLocator);
         AudioManager.register(serviceLocator);
         EnemyBuilder.register(serviceLocator);
         InputManager.register(serviceLocator);
@@ -71,11 +74,11 @@ public final class Game {
         Res.register(serviceLocator);
         ButtonFactory.register(serviceLocator);
         Collisions.register(serviceLocator);
-        LoggerFactory.register(serviceLocator);
     }
 
     public static void main(String[] argv) {
         initServices();
+        Game.LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
 
         serviceLocator.getRenderer().start();
 
@@ -171,6 +174,12 @@ public final class Game {
      * @param paused <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
      */
     public static void setPaused(boolean paused) {
+        if (paused) {
+            LOGGER.info("The game has been paused");
+        } else {
+            LOGGER.info("The game has been resumed");
+        }
+
         isPaused = paused;
     }
 
@@ -180,6 +189,10 @@ public final class Game {
      * @param alive <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
      */
     public static void setAlive(boolean alive) {
+        if (!alive) {
+            LOGGER.info("The Doodle died");
+        }
+
         isAlive = alive;
     }
 

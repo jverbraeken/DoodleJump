@@ -1,4 +1,4 @@
-package objects.buttons;
+package buttons;
 
 import system.IFactory;
 
