@@ -10,13 +10,13 @@ import system.IServiceLocator;
 /* package */ class PauseScreen implements IScene, IMouseInputObserver {
 
     /**
-     * The service locator for the pause screen.
+     * The service locator for the pause scene.
      */
     private final IServiceLocator serviceLocator;
     /**
      * The X and Y location for the resume button.
      */
-    private final double RESUME_BUTTON_X = 0.55, RESUME_BUTTON_Y = 0.75;
+    private static final double RESUME_BUTTON_X = 0.55, RESUME_BUTTON_Y = 0.75;
     /**
      * The resume button.
      */
@@ -26,12 +26,13 @@ import system.IServiceLocator;
      */
     private final ISprite background;
     /**
-     * Is the pause screen active, should it be displayed.
+     * Is the pause scene active, should it be displayed.
      */
     private boolean active = false;
 
     /**
      * Initialize the pause screen.
+     *
      * @param sL The games service locator.
      */
     /* package */ PauseScreen(IServiceLocator sL) {
