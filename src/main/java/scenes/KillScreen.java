@@ -12,28 +12,34 @@ import system.IServiceLocator;
 /* package */ class KillScreen implements IScene, IMouseInputObserver {
 
     /**
-     * The service locator for the menu scene.
+     * The logger for the KillScreen class.
+     */
+    private final ILogger LOGGER;
+
+    /**
+     * Used to gain access to all services.
      */
     private final IServiceLocator serviceLocator;
     /**
-     * The logger for the PauseScreen class.
-     */
-    private static ILogger LOGGER;
-    /**
-     * Is the pause screen active, should it be displayed.
+     * Is the kill screen active, should it be displayed.
      */
     private boolean active = false;
 
     private final IButton playAgainButton;
     private final IButton mainMenuButton;
     private final ISprite background, bottomKillScreen, gameOverSprite;
-    private final double playAgainButtonXPercentage = 0.3;
-    private final double playAgainButtonYPercentage = 0.6;
-    private final double mainMenuButtonXPercentage = 0.6;
-    private final double mainMenuButtonYPercentage = 0.7;
-    private final double gameOverTextXPercentage = 0.1;
-    private final double gameOverTextYPercentage = 0.3;
+    private static final double playAgainButtonXPercentage = 0.3d;
+    private static final double playAgainButtonYPercentage = 0.6d;
+    private static final double mainMenuButtonXPercentage = 0.6d;
+    private static final double mainMenuButtonYPercentage = 0.7d;
+    private static final double gameOverTextXPercentage = 0.1d;
+    private static final double gameOverTextYPercentage = 0.3d;
 
+    /**
+     * Package constructor so only the SceneFactory creates a KillScreen.
+     *
+     * @param sL The service locator.
+     */
     /* package */ KillScreen(IServiceLocator sL) {
         serviceLocator = sL;
         LOGGER = sL.getLoggerFactory().createLogger(KillScreen.class);
@@ -66,6 +72,7 @@ import system.IServiceLocator;
         LOGGER.info("The kill screen scene is no longer displaying");
     }
 
+    /** {@inheritDoc} */
     @Override
     public void paint() {
         if (active) {
@@ -86,6 +93,7 @@ import system.IServiceLocator;
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void update(double delta) {
     }

@@ -100,4 +100,5 @@ public interface ISpriteFactory extends IFactory {
      * @return A sprite expressing the digit
      */
     ISprite getDigitSprite(int digit);
+
 }

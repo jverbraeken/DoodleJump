@@ -14,17 +14,18 @@ import system.IServiceLocator;
 /* package */ class Menu implements IScene, IKeyInputObserver {
 
     /**
-     * The service locator for the menu scene.
+     * The logger for the Menu class.
+     */
+    private final ILogger LOGGER;
+
+    /**
+     * Used to gain access to all services.
      */
     private final IServiceLocator serviceLocator;
     /**
-     * The logger for the PauseScreen class.
-     */
-    private static ILogger LOGGER;
-    /**
      * The X and Y location for the play button.
      */
-    private static final double PLAY_BUTTON_X = 0.15, PLAY_BUTTON_Y = 0.25;
+    private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
     /**
      * The play button.
      */
@@ -34,7 +35,7 @@ import system.IServiceLocator;
      */
     private final ISprite background;
     /**
-     * Is the pause screen active, should it be displayed.
+     * Is the main menu active, should it be displayed.
      */
     private boolean active = false;
 

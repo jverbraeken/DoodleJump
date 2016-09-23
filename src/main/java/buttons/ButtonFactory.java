@@ -7,8 +7,15 @@ import system.IServiceLocator;
 
 public class ButtonFactory implements IButtonFactory {
 
+    /**
+     * Used to gain access to all services.
+     */
     private static transient IServiceLocator serviceLocator;
-
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
+     */
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         ButtonFactory.serviceLocator = serviceLocator;

@@ -6,22 +6,31 @@ import system.IServiceLocator;
 public final class SceneFactory implements ISceneFactory {
 
     /**
-     * The service locator for the pause screen.
+     * The logger for the SceneFactory class.
+     */
+    private final ILogger LOGGER;
+
+    /**
+     * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
     /**
-     * The logger for the SceneFactory class.
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
      */
-    private static ILogger LOGGER;
-
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         SceneFactory.serviceLocator = serviceLocator;
         serviceLocator.provide(new SceneFactory());
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(SceneFactory.class);
     }
 
-    private SceneFactory() { }
+    /**
+     * Private constructor to prevent instantiation from outside the class.
+     */
+    private SceneFactory() {
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(SceneFactory.class);
+    }
 
     /**
      * {@inheritDoc}

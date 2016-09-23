@@ -11,13 +11,25 @@ import java.util.Set;
 public final class InputManager implements IInputManager {
 
     /**
+     * Logger for the InputManager.
+     */
+    private final ILogger LOGGER;
+
+    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
     /**
-     * Logger for the InputManager.
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
      */
-    private static ILogger LOGGER;
+    public static void register(final IServiceLocator serviceLocator) {
+        assert serviceLocator != null;
+        InputManager.serviceLocator = serviceLocator;
+        serviceLocator.provide(new InputManager());
+    }
+
     /**
      * Set of observers for the mouse.
      */
@@ -39,19 +51,9 @@ public final class InputManager implements IInputManager {
      * Prevents instantiation from outside the class.
      */
     private InputManager() {
-        InputManager.LOGGER = serviceLocator.getLoggerFactory().createLogger(InputManager.class);
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(InputManager.class);
     }
 
-    /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
-     */
-    public static void register(final IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        InputManager.serviceLocator = serviceLocator;
-        serviceLocator.provide(new InputManager());
-    }
 
     /* MOUSE EVENTS */
     /**

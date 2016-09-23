@@ -2,20 +2,12 @@ package logging;
 
 import system.IServiceLocator;
 
-import java.io.IOException;
-
 public class LoggerFactory implements ILoggerFactory {
 
     /**
-     * Reference to the service locator.
+     * Used to gain access to all services.
      */
     private static IServiceLocator serviceLocator;
-
-    /**
-     * Name of the log file.
-     */
-    private static String logfile = "async.log";
-
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *

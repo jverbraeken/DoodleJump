@@ -20,6 +20,11 @@ import java.util.Date;
     private final Class cl;
 
     /**
+     * Name of the log file.
+     */
+    private static String logfile = "async.log";
+
+    /**
      * Only create Logger in LoggerFactory.
      */
     /* package */ Logger(IServiceLocator serviceLocator, Class<?> cl) {
@@ -32,7 +37,7 @@ import java.util.Date;
     public void log(final String msg) {
         try {
             String str = this.generateMessage("LOG", msg);
-            fileSystem.log("async.log", str);
+            fileSystem.log(Logger.logfile, str);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -43,7 +48,7 @@ import java.util.Date;
     public void error(final String msg) {
         try {
             String str = this.generateMessage("ERROR", msg);
-            fileSystem.log("async.log", str);
+            fileSystem.log(Logger.logfile, str);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -55,8 +60,8 @@ import java.util.Date;
         try {
             String type = exception.getClass().getName();
             String str = this.generateMessage("ERROR", "thrown of type: " + type + ", See stacktrace:");
-            fileSystem.log("async.log", str);
-            fileSystem.log("async.log", exception);
+            fileSystem.log(Logger.logfile, str);
+            fileSystem.log(Logger.logfile, exception);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -67,7 +72,7 @@ import java.util.Date;
     public void info(final String msg) {
         try {
             String str = this.generateMessage("INFO", msg);
-            fileSystem.log("async.log", str);
+            fileSystem.log(Logger.logfile, str);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -78,7 +83,7 @@ import java.util.Date;
     public void warning(final String msg) {
         try {
             String str = this.generateMessage("WARNING", msg);
-            fileSystem.log("async.log", str);
+            fileSystem.log(Logger.logfile, str);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }

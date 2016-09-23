@@ -1,13 +1,11 @@
 package rendering;
 
-import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 import java.awt.*;
 
 public final class Renderer implements IRenderer {
-
 
     /**
      * Used to gain access to all services.
@@ -23,23 +21,39 @@ public final class Renderer implements IRenderer {
         Renderer.serviceLocator = serviceLocator;
         serviceLocator.provide(new Renderer());
     }
+
     /**
-     * The logger for the Renderer class.
+     * The Graphics for the renderer.
      */
-    private static ILogger LOGGER;
     private Graphics graphics;
 
+    /**
+     * Private constructor to prevent instantiation from outside the class.
+     */
     private Renderer() {
-        Renderer.LOGGER = serviceLocator.getLoggerFactory().createLogger(Renderer.class);
+    }
+
+    /**
+     * Draw a rectangle.
+     *
+     * @param x The x coordinate for the rectangle.
+     * @param y The y coordinate for the rectangle.
+     * @param width The width for the rectangle.
+     * @param height The height for the rectangle.
+     */
+    public void drawRectangle(int x, int y, int width, int height) {
+        graphics.drawRect(x, y, width, height);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void start() {
-    }
+    public void drawSprite(ISprite sprite, int x, int y, int width, int height) {
+        assert graphics != null;
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
 
-    public void drawRectangle(int x, int y, int width, int height) {
-        graphics.drawRect(x, y, width, height);
+        graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
 
     /** {@inheritDoc} */
@@ -55,22 +69,16 @@ public final class Renderer implements IRenderer {
 
     /** {@inheritDoc} */
     @Override
-    public void drawSprite(ISprite sprite, int x, int y, int width, int height) {
-        assert graphics != null;
-        if (sprite == null) {
-            throw new IllegalArgumentException("A null image is not allowed");
-        }
-
-        graphics.drawImage(sprite.getImage(), x, y, width, height, null);
-    }
-    /** {@inheritDoc} */
-
-    @Override
     public void setGraphicsBuffer(Graphics graphics) {
         if (graphics == null) {
             throw new IllegalArgumentException("The graphics buffer cannot be null");
         }
         this.graphics = graphics;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void start() {
     }
 
 }

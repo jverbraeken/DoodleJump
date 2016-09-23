@@ -3,7 +3,6 @@ package resources.sprites;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import logging.Console;
 import logging.ILogger;
 import objects.doodles.IDoodle;
 import resources.IRes;
@@ -16,12 +15,18 @@ import java.util.concurrent.ExecutionException;
 public final class SpriteFactory implements ISpriteFactory {
 
     /**
+     * The logger for the SpriteFactory class.
+     */
+    private final ILogger LOGGER;
+
+    /**
     * Used to gain access to all services.
     */
     private static transient IServiceLocator serviceLocator;
-
     /**
-     * TODO: Add JavaDoc
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
      */
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
@@ -30,17 +35,15 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
-     * The logger for the SpriteFactory class.
+     * The cache for the SpriteFactory.
      */
-    private static ILogger LOGGER;
-
     private LoadingCache<IRes.sprites, ISprite> cache;
 
     /**
      * Prevents instantiation from outside the class.
      */
     private SpriteFactory() {
-        SpriteFactory.LOGGER = serviceLocator.getLoggerFactory().createLogger(SpriteFactory.class);
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(SpriteFactory.class);
 
         cache = CacheBuilder.newBuilder()
                 .maximumSize(Long.MAX_VALUE)
@@ -517,7 +520,10 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
-     * TODO: Add JavaDoc
+     * Get a sprite from the cache or load the sprite.
+     *
+     * @param sprite The sprites name.
+     * @return The sprite.
      */
     private ISprite getSprite(IRes.sprites sprite) {
         try {

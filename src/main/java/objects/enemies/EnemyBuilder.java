@@ -7,22 +7,31 @@ import system.IServiceLocator;
 public final class EnemyBuilder implements IEnemyBuilder {
 
     /**
-     * The service locator for the EnemyBuilder class.
+     * The logger for the EnemyBuilder class.
+     */
+    private final ILogger LOGGER;
+
+    /**
+     * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
     /**
-     * The logger for the EnemyBuilder class.
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
      */
-    private static ILogger LOGGER;
-
     public static void register(final IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         EnemyBuilder.serviceLocator = serviceLocator;
         serviceLocator.provide(new EnemyBuilder());
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(EnemyBuilder.class);
     }
 
-    private EnemyBuilder() { }
+    /**
+     * Private constructor to prevent instantiation from outside the class.
+     */
+    private EnemyBuilder() {
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(EnemyBuilder.class);
+    }
 
     /**
      * {@inheritDoc}

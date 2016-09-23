@@ -1,6 +1,5 @@
 package resources.audio;
 
-import logging.Console;
 import logging.ILogger;
 import system.IServiceLocator;
 
@@ -13,26 +12,21 @@ public final class AudioManager implements IAudioManager {
     * Used to gain access to all services.
     */
     private static transient IServiceLocator serviceLocator;
-
     /**
-     * TODO: ADD JAVADCO
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
      */
-    public static void register(IServiceLocator serviceLocator_) {
-        assert serviceLocator_ != null;
-        serviceLocator = serviceLocator_;
+    public static void register(IServiceLocator serviceLocator) {
+        assert serviceLocator != null;
+        AudioManager.serviceLocator = serviceLocator;
         serviceLocator.provide(new AudioManager());
     }
-
-    /**
-     * The logger for the AudioManager class.
-     */
-    private static ILogger LOGGER;
 
     /**
      * Prevents instantiation from outside the class.
      */
     private AudioManager() {
-        AudioManager.LOGGER = serviceLocator.getLoggerFactory().createLogger(AudioManager.class);
         preload();
     }
 
@@ -83,6 +77,7 @@ public final class AudioManager implements IAudioManager {
         private Clip clip;
 
         Sound(String filepath) {
+            ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(AudioManager.class);
             try {
                 LOGGER.info("Sound loaded: \"" + filepath + "\"");
                 clip = serviceLocator.getFileSystem().readSound(filepath);

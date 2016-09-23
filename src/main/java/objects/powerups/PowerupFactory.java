@@ -7,22 +7,31 @@ import system.IServiceLocator;
 public final class PowerupFactory implements IPowerupFactory {
 
     /**
-     * The service locator for the PowerupFactory class.
+     * The logger for the PowerupFactory class.
+     */
+    private final ILogger LOGGER;
+
+    /**
+     * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
     /**
-     * The logger for the PowerupFactory class.
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
      */
-    private static ILogger LOGGER;
-
     public static void register(IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         PowerupFactory.serviceLocator = serviceLocator;
         serviceLocator.provide(new PowerupFactory());
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(PowerupFactory.class);
     }
 
-    private PowerupFactory() { }
+    /**
+     * Private constructor to prevent instantiation from outside the class.
+     */
+    private PowerupFactory() {
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(PowerupFactory.class);
+    }
 
     /**
      * {@inheritDoc}
