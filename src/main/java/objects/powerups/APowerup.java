@@ -3,7 +3,7 @@ package objects.powerups;
 import objects.AGameObject;
 
 /**
- * Abstact implementation of a powerup.
+ * This class describes the abstract functionality of powerups.
  */
 public abstract class APowerup extends AGameObject implements IPowerup {
 

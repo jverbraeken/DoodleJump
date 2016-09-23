@@ -26,16 +26,16 @@ public final class FileSystem implements IFileSystem {
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
-     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
+     * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    public static void register(final IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        FileSystem.serviceLocator = serviceLocator;
-        FileSystem.serviceLocator.provide(new FileSystem());
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        serviceLocator = sL;
+        sL.provide(new FileSystem());
     }
 
     /**
-     * ClassLoader for the FileSystem.
+     * A classloader in order to load in resources.
      */
     private ClassLoader classLoader = getClass().getClassLoader();
 
@@ -45,9 +45,7 @@ public final class FileSystem implements IFileSystem {
     private FileSystem() {
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public List<String> readTextFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);

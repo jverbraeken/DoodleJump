@@ -3,6 +3,9 @@ package scenes;
 import logging.ILogger;
 import system.IServiceLocator;
 
+/**
+ * This class is a factory that creates scenes.
+ */
 public final class SceneFactory implements ISceneFactory {
 
     /**
@@ -19,7 +22,7 @@ public final class SceneFactory implements ISceneFactory {
      *
      * @param serviceLocator The IServiceLocator to which the class should offer its functionality
      */
-    public static void register(IServiceLocator serviceLocator) {
+    public static void register(final IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         SceneFactory.serviceLocator = serviceLocator;
         serviceLocator.provide(new SceneFactory());

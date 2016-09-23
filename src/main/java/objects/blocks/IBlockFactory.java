@@ -1,9 +1,12 @@
 package objects.blocks;
 
 import objects.IGameObject;
-import objects.blocks.platform.IPlatform;
 import system.IFactory;
 
+/**
+ * This class is the factory in which seperate blocks get created.
+ * In here one can specify the type of block one wants to create.
+ */
 public interface IBlockFactory extends IFactory {
 
     /**

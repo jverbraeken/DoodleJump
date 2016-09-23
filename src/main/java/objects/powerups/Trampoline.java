@@ -6,32 +6,33 @@ import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
- * Trampoline implementation of a powerup.
+ * This class describes the behaviour of the trampoline powerup.
  */
 public class Trampoline extends APowerup implements IPowerup {
+
+    /**
+     * The BOOST value for the Trampoline.
+     */
+    private static final double BOOST = -50;
 
     /**
      * Used to gain access to all services.
      */
     private static IServiceLocator serviceLocator;
-
     /**
      * The sprite for the Trampoline.
      */
     private ISprite sprite;
-    /**
-     * The boost value for the Trampoline.
-     */
-    private static final double boost = -50;
 
     /**
      * Trampoline constructor.
-     * @param serviceLocator - The Games service locator.
-     * @param x - The X location for the trampoline.
-     * @param y - The Y location for the trampoline.
+     *
+     * @param sL - The Games service locator.
+     * @param x  - The X location for the trampoline.
+     * @param y  - The Y location for the trampoline.
      */
-    /* package */ Trampoline(final IServiceLocator serviceLocator, final int x, final int y) {
-        Trampoline.serviceLocator = serviceLocator;
+    /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
+        Trampoline.serviceLocator = sL;
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.sprite = spriteFactory.getTrampolineSprite();
@@ -42,9 +43,11 @@ public class Trampoline extends APowerup implements IPowerup {
         this.setWidth(sprite.getWidth());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void animate() {
+    public final void animate() {
         int oldHeight = this.sprite.getHeight();
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
@@ -56,28 +59,38 @@ public class Trampoline extends APowerup implements IPowerup {
         this.sprite = newSprite;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public double getBoost() {
+    public final double getBoost() {
         this.animate();
         this.playSound();
 
-        return boost;
+        return BOOST;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void move() { }
+    public void move() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void render() {
+    public final void render() {
         serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update() { }
+    public void update() {
+    }
 
     /**
      * Play the sound for the Trampoline.

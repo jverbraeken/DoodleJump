@@ -1,18 +1,33 @@
 package objects;
 
-import java.util.ArrayList;
-import java.util.Set;
-
 /**
  * The super class of all classes that represents objects in the game.
  */
 public abstract class AGameObject implements IGameObject {
 
+    /**
+     * The height of the game object.
+     */
     private int height;
+    /**
+     * The hitbox of the game object.
+     */
     private double[] hitBox;
+    /**
+     * The sprite of the game object.
+     */
     private Object sprite;
+    /**
+     * The width of the game object.
+     */
     private int width;
+    /**
+     * The position on the x axis of the game object.
+     */
     private double xPos;
+    /**
+     * The position on the y axis of the game object.
+     */
     private double yPos;
 
     /**
@@ -25,18 +40,18 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void addXPos(double xPos) {
-        double current = this.getXPos();
-        this.setXPos(current + xPos);
+    public void addXPos(final double x) {
+        double current = getXPos();
+        this.setXPos(current + x);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void addYPos(double yPos) {
-        double current = this.getYPos();
-        this.setYPos(current + yPos);
+    public void addYPos(final double y) {
+        double current = getYPos();
+        setYPos(current + y);
     }
 
     /**
@@ -51,20 +66,20 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public double[] getHitBox() {
+    public final double[] getHitBox() {
         return this.hitBox;
     }
 
     @Override
-    public void setHitBox(double[] hitbox) {
-        this.hitBox = hitbox;
+    public final void setHitBox(final double[] hb) {
+        this.hitBox = hb;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getSprite() {
+    public final Object getSprite() {
         return this.sprite;
     }
 
@@ -72,7 +87,7 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public int getHeight() {
+    public final int getHeight() {
         return this.height;
     }
 
@@ -80,15 +95,15 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void setHeight(int height) {
-        this.height = height;
+    public final void setHeight(final int h) {
+        this.height = h;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getWidth() {
+    public final int getWidth() {
         return this.width;
     }
 
@@ -96,18 +111,29 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void setWidth(int width) {
-        this.width = width;
+    public final void setWidth(final int w) {
+        this.width = w;
     }
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public double getXPos() {
+    public final double getXPos() {
         return this.xPos;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setXPos(final double x) {
+        this.xPos = x;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public abstract void render();
 
@@ -115,15 +141,7 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void setXPos(double xPos) {
-        this.xPos = xPos;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double getYPos() {
+    public final double getYPos() {
         return this.yPos;
     }
 
@@ -131,8 +149,8 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void setYPos(double yPos) {
-        this.yPos = yPos;
+    public final void setYPos(final double y) {
+        this.yPos = y;
     }
 
     /**

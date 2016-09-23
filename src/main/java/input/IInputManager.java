@@ -4,39 +4,40 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
 /**
- * Interface for an InputManager.
+ * This class manages the user inputs given by mouse and keys.
  */
 public interface IInputManager extends MouseListener, KeyListener {
 
+    /**
+     * Set the zie of the border of the main window.
+     * @param windowLeftBorderSize Size of the left border.
+     * @param windowTopBorderSize Size of the top border.
+     */
     void setMainWindowBorderSize(int windowLeftBorderSize, int windowTopBorderSize);
 
     // MOUSE
     /**
-     * Add a mouse input observer.
-     *
-     * @param mouseInputObserver The observing object.
+     * Adds a mouse to be Observed.
+     * @param mouseInputObserver the mouse
      */
     void addObserver(IMouseInputObserver mouseInputObserver);
 
     /**
-     * Remove a mouse input observer.
-     *
-     * @param mouseInputObserver The observing object.
+     * Removes a mouse to be Observed.
+     * @param mouseInputObserver the mouse
      */
     void removeObserver(IMouseInputObserver mouseInputObserver);
 
     // KEYBOARD
     /**
-     * Add a key input observer.
-     *
-     * @param keyInputObserver The observing object.
+     * Adds a key to be Observed.
+     * @param keyInputObserver the key.
      */
     void addObserver(IKeyInputObserver keyInputObserver);
 
     /**
-     * Remove a key input observer.
-     *
-     * @param keyInputObserver The observing object.
+     * Removes a key to be Observed.
+     * @param keyInputObserver the key.
      */
     void removeObserver(IKeyInputObserver keyInputObserver);
 }

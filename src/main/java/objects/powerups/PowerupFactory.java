@@ -21,12 +21,12 @@ public final class PowerupFactory implements IPowerupFactory {
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
-     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
+     * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        PowerupFactory.serviceLocator = serviceLocator;
-        serviceLocator.provide(new PowerupFactory());
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        PowerupFactory.serviceLocator = sL;
+        sL.provide(new PowerupFactory());
     }
 
     /**

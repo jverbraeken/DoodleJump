@@ -2,6 +2,9 @@ package scenes;
 
 import system.IFactory;
 
+/**
+ * This class is a factory that creates scenes.
+ */
 public interface ISceneFactory extends IFactory {
 
     /**

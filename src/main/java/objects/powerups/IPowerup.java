@@ -1,7 +1,7 @@
 package objects.powerups;
 
 /**
- * Interface for a powerup.
+ * This class describes the abstract functionality of powerups.
  */
 public interface IPowerup {
 

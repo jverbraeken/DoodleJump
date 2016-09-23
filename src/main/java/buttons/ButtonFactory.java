@@ -8,7 +8,7 @@ import system.IServiceLocator;
 /**
  * Standard implementation of the ButtonFactory. Used to create buttons.
  */
-public class ButtonFactory implements IButtonFactory {
+public final class ButtonFactory implements IButtonFactory {
 
     /**
      * Used to gain access to all services.
@@ -17,22 +17,24 @@ public class ButtonFactory implements IButtonFactory {
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
-     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
+     * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        ButtonFactory.serviceLocator = serviceLocator;
-        serviceLocator.provide(new ButtonFactory());
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        ButtonFactory.serviceLocator = sL;
+        ButtonFactory.serviceLocator.provide(new ButtonFactory());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public IButton createMainMenuButton(int x, int y) {
+    public IButton createPlayButton(final int x, final int y) {
         assert serviceLocator != null;
+        System.out.print("play");
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        ISprite buttonSprite = spriteFactory.getPlayButtonSprite();
+        System.out.println(buttonSprite);
         Runnable mainMenu = () -> Game.setScene(serviceLocator.getSceneFactory().createMainMenu());
         return new Button(serviceLocator, x, y, buttonSprite, mainMenu, "mainMenu");
     }
@@ -41,7 +43,7 @@ public class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createPlayAgainButton(int x, int y) {
+    public IButton createResumeButton(final int x, final int y) {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayAgainButtonSprite();
@@ -53,10 +55,10 @@ public class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createPlayButton(int x, int y) {
+    public IButton createPlayAgainButton(final int x, final int y) {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getPlayButtonSprite();
+        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
         Runnable playAction = () -> Game.setScene(serviceLocator.getSceneFactory().newWorld());
         return new Button(serviceLocator, x, y, buttonSprite, playAction, "play");
     }
@@ -65,10 +67,10 @@ public class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createResumeButton(int x, int y) {
+    public IButton createMainMenuButton(final int x, final int y) {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getResumeButtonSprite();
+        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
         Runnable resumeAction = () -> Game.setPaused(false);
         return new Button(serviceLocator, x, y, buttonSprite, resumeAction, "resume");
     }

@@ -3,8 +3,8 @@ package objects.enemies;
 import objects.IGameObject;
 
 /**
- * Interface for an Enemy.
+ * This class describes the behavior of an enemy.
  */
-public interface IEnemy extends IGameObject{
+public interface IEnemy extends IGameObject {
 
 }

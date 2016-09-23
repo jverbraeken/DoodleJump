@@ -21,12 +21,12 @@ public final class EnemyBuilder implements IEnemyBuilder {
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
-     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
+     * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    public static void register(final IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        EnemyBuilder.serviceLocator = serviceLocator;
-        serviceLocator.provide(new EnemyBuilder());
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        EnemyBuilder.serviceLocator = sL;
+        sL.provide(new EnemyBuilder());
     }
 
     /**

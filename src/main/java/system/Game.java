@@ -1,15 +1,18 @@
 package system;
 
+import buttons.IButton;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
 import scenes.IScene;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * This is the main class that runs the game.
+ */
 public final class Game {
 
     /**
@@ -22,21 +25,62 @@ public final class Game {
      */
     private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
 
-    // TODO: Remove unused and add JavaDoc
-    public final static int WIDTH = 640;
-    public final static int HEIGHT = 960;
+    /*
+     * The width of the frame of the game.
+     */
+    public static final int WIDTH = 640;
+    /**
+     * The height of the frame of the game.
+     */
+    public static final int HEIGHT = 960;
+    /**
+     * The target amount of frames per second.
+     */
     private static final int TARGET_FPS = 60;
+    /**
+     * The optimal time per frame. ~16.
+     */
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
+    /**
+     * X position relative to the frame of the resume button.
+     */
     private static final double RESUMEBUTTONX = 0.55;
+    /**
+     * Y position relative to the frame of the resume button.
+     */
     private static final double RESUMEBUTTONY = 0.75;
+    /**
+     * The current frame.
+     */
     private static JFrame frame;
+    /**
+     * The current panel.
+     */
     private static JPanel panel;
+    /**
+     * The current scene.
+     */
     private static IScene scene;
-    private static int times = 0;
+    /**
+     * Track if the game is paused.
+     */
     private static boolean isPaused = false;
+    /**
+     * Track wether the doodle is alive.
+     */
     private static boolean isAlive = true;
-    private static Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+    /**
+     * The resume button for the pause screen.
+     */
+    private static IButton resumeButton;
+    /**
+     * The scale of the game.
+     */
     private static float scale = 2;
+    /**
+     * The time in miliseconds per frame.
+     */
+    private static final int FRAMETIME = 16;
 
     /**
      * The pause screen for the game.
@@ -49,6 +93,10 @@ public final class Game {
     private Game() {
     }
 
+    /**
+     * The initialization of the game.
+     * @param argv the arguments to run.
+     */
     public static void main(String[] argv) {
         LOGGER.info("The game has been launched");
 
@@ -69,8 +117,7 @@ public final class Game {
             /**
              * Invoked when a window is in the process of being closed.
              */
-            @Override
-            public void windowClosing(WindowEvent windowEvent) {
+            public void windowClosing(final WindowEvent windowEvent) {
                 System.exit(0);
             }
         });
@@ -81,7 +128,7 @@ public final class Game {
              * TODO: Add JavaDoc
              */
             @Override
-            public void paintComponent(Graphics g) {
+            public void paintComponent(final Graphics g) {
                 serviceLocator.getRenderer().setGraphicsBuffer(g);
 
                 ((Graphics2D) g).scale(1 / scale, 1 / scale);
@@ -113,30 +160,30 @@ public final class Game {
     }
 
     /**
-     * Sets the current scene to currentScene
+     * Sets the current scene to currentScene.
      *
-     * @param scene The new scene that must be visible to the user. Cannot be null
+     * @param s The new scene that must be visible to the user. Cannot be null
      */
-    public static void setScene(IScene scene) {
-        assert scene != null;
+    public static void setScene(final IScene s) {
+        assert s != null;
         if (Game.scene != null) {
             Game.scene.stop();
         }
 
+        Game.scene = s;
         scene.start();
-        Game.scene = scene;
         frame.repaint();
     }
 
     /**
-     * Returns the current FPS
+     * Returns the current FPS.
      *
      * @param threadSleep Amount of time thread has slept
      * @param renderTime  Amount of time took rendering/updating
      * @return The current Frames Per Second (FPS)
      */
-    public static double getFPS(long threadSleep, long renderTime) {
-        return 1000000000 / (threadSleep + renderTime);
+    public static double getFPS(final long threadSleep, final long renderTime) {
+        return serviceLocator.getCalc().NANOSECONDS / (threadSleep + renderTime);
     }
 
     /**
@@ -144,7 +191,7 @@ public final class Game {
      *
      * @param paused <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
      */
-    public static void setPaused(boolean paused) {
+    public static void setPaused(final boolean paused) {
         if (paused) {
             LOGGER.info("The game has been paused");
             pauseScreen.start();
@@ -161,7 +208,7 @@ public final class Game {
      *
      * @param alive <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
      */
-    public static void setAlive(boolean alive) {
+    public static void setAlive(final boolean alive) {
         if (!alive) {
             LOGGER.info("The Doodle died");
         }
@@ -171,7 +218,7 @@ public final class Game {
 
 
     /**
-     * TODO: Add JavaDoc
+     * Loop to update the game 60x per second.
      */
     private static synchronized void loop() {
         long lastLoopTime = System.nanoTime();
@@ -192,7 +239,7 @@ public final class Game {
 
             panel.repaint();
             try {
-                long gameTime = 16;
+                long gameTime = FRAMETIME;
                 Thread.sleep(gameTime);
             } catch (InterruptedException e) {
                 LOGGER.error(e);

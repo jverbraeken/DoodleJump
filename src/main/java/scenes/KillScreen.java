@@ -10,7 +10,7 @@ import system.Game;
 import system.IServiceLocator;
 
 /**
- * KillScreen implementation of a scene.
+ * This class is a scene that is displays when the doodle dies in a world.
  */
 /* package */ class KillScreen implements IScene, IMouseInputObserver {
 
@@ -28,23 +28,51 @@ import system.IServiceLocator;
      */
     private boolean active = false;
 
+    /**
+     * The button that starts a new world.
+     */
     private final IButton playAgainButton;
+    /**
+     * The button that sends you back to the main menu.
+     */
     private final IButton mainMenuButton;
+    /**
+     * Sprites to be displayed on the background of the killscreen.
+     */
     private final ISprite background, bottomKillScreen, gameOverSprite;
-    private static final double playAgainButtonXPercentage = 0.3d;
-    private static final double playAgainButtonYPercentage = 0.6d;
-    private static final double mainMenuButtonXPercentage = 0.6d;
-    private static final double mainMenuButtonYPercentage = 0.7d;
-    private static final double gameOverTextXPercentage = 0.1d;
-    private static final double gameOverTextYPercentage = 0.3d;
+    /**
+     * X location in relation to the frame of the play again button.
+     */
+    private final double playAgainButtonXPercentage = 0.3;
+    /**
+     * Y location in relation to the frame of the play again button.
+     */
+    private final double playAgainButtonYPercentage = 0.6;
+    /**
+     * X location in relation to the frame of the main menu button.
+     */
+    private final double mainMenuButtonXPercentage = 0.6;
+    /**
+     * Y location in relation to the frame of the main menu button.
+     */
+    private final double mainMenuButtonYPercentage = 0.7;
+    /**
+     * X location in relation to the frame of the game over text.
+     */
+    private final double gameOverTextXPercentage = 0.1;
+    /**
+     * Y location in relation to the frame of the game over text.
+     */
+    private final double gameOverTextYPercentage = 0.3;
 
     /**
-     * Package constructor so only the SceneFactory creates a KillScreen.
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
-     * @param sL The service locator.
+     * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    /* package */ KillScreen(IServiceLocator sL) {
-        serviceLocator = sL;
+    /* package */ KillScreen(final IServiceLocator sL) {
+        assert sL != null;
+        this.serviceLocator = sL;
         LOGGER = sL.getLoggerFactory().createLogger(KillScreen.class);
 
         background = serviceLocator.getSpriteFactory().getBackground();
@@ -59,7 +87,7 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void start() {
+    public final void start() {
         serviceLocator.getInputManager().addObserver(playAgainButton);
         serviceLocator.getInputManager().addObserver(mainMenuButton);
         active = true;
@@ -68,7 +96,7 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void stop() {
+    public final void stop() {
         serviceLocator.getInputManager().removeObserver(playAgainButton);
         serviceLocator.getInputManager().removeObserver(mainMenuButton);
         active = false;
@@ -77,7 +105,7 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void paint() {
+    public final void paint() {
         if (active) {
             IRenderer renderer = serviceLocator.getRenderer();
 
@@ -98,12 +126,11 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void update(double delta) {
+    public final void update(final double delta) {
     }
 
     /** {@inheritDoc} */
-    @Override
-    public void mouseClicked(int x, int y) {
+    public final void mouseClicked(final int x, final int y) {
     }
 
 }

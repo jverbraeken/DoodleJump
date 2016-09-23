@@ -12,7 +12,7 @@ import system.Game;
 import system.IServiceLocator;
 
 /**
- * Menu implementation of a scene. Used as main menu.
+ * This class is a scene that is displays when the game is started.
  */
 /* package */ class Menu implements IScene, IKeyInputObserver {
 
@@ -26,15 +26,15 @@ import system.IServiceLocator;
     private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
 
     /**
-     * Used to gain access to all services.
+     * Used to access all services.
      */
     private final IServiceLocator serviceLocator;
     /**
-     * The play button.
+     * The button that starts up a new world.
      */
     private final IButton playButton;
     /**
-     * The background sprite.
+     * The cover sprite of the main menu.
      */
     private final ISprite background;
     /**
@@ -42,8 +42,14 @@ import system.IServiceLocator;
      */
     private boolean active = false;
 
-    /* package */ Menu(IServiceLocator sL) {
-        serviceLocator = sL;
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    /* package */ Menu(final IServiceLocator sL) {
+        assert sL != null;
+        this.serviceLocator = sL;
         LOGGER = sL.getLoggerFactory().createLogger(Menu.class);
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
@@ -53,42 +59,56 @@ import system.IServiceLocator;
         playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * PLAY_BUTTON_X), (int) (Game.HEIGHT * PLAY_BUTTON_Y));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void start() {
+    public final void start() {
         serviceLocator.getInputManager().addObserver(playButton);
         active = true;
         LOGGER.info("The menu scene is now displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void stop() {
+    public final void stop() {
         serviceLocator.getInputManager().removeObserver(playButton);
         active = false;
         LOGGER.info("The menu scene is no longer displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void paint() {
+    public final void paint() {
         if (active) {
             serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
             playButton.render();
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update(double delta) { }
+    public void update(final double delta) {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void keyPress(int keyCode) { }
+    public void keyPress(final int keyCode) {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void keyRelease(int keyCode) {
+    public final void keyRelease(final int keyCode) {
         if (KeyCode.getKeyCode(Keys.enter) == keyCode || KeyCode.getKeyCode(Keys.space) == keyCode) {
             Game.setScene(serviceLocator.getSceneFactory().newWorld());
         }
