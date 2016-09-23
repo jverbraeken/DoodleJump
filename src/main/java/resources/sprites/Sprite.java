@@ -3,50 +3,49 @@ package resources.sprites;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-/**
- * <b>Immutable</b>
- */
+
+@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public class Sprite implements ISprite {
     private final String name;
     private final Image image;
     private final int width, height;
     private final double ratio;
 
-    /* package */ Sprite(String name, BufferedImage image) {
-        this.name = name;
-        this.image = image;
-        this.width = image.getWidth();
-        this.height = image.getHeight();
+    /* package */ Sprite(final String n, final BufferedImage i) {
+        this.name = n;
+        this.image = i;
+        this.width = i.getWidth();
+        this.height = i.getHeight();
         this.ratio = (double) height / (double) width;
     }
 
     @Override
     /** {@inheritDoc} */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
     @Override
     /** {@inheritDoc} */
-    public Image getImage() {
+    public final Image getImage() {
         return image;
     }
 
     @Override
     /** {@inheritDoc} */
-    public int getWidth() {
+    public final int getWidth() {
         return width;
     }
 
     @Override
     /** {@inheritDoc} */
-    public int getHeight() {
+    public  final int getHeight() {
         return height;
     }
 
     @Override
     /** {@inheritDoc} */
-    public double getRatio() {
+    public final double getRatio() {
         return ratio;
     }
 }

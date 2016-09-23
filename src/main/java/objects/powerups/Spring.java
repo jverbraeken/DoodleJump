@@ -5,27 +5,34 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+/**
+ * This class describes the behaviour of the spring powerup.
+ */
 /* package */ class Spring extends APowerup implements IPowerup {
 
+    /**
+     * The BOOST value for the Spring.
+     */
+    private static final double BOOST = -35;
+    /**
+     * Used to gain access to all services.
+     */
     private static IServiceLocator serviceLocator;
-
     /**
      * The sprite for the Spring.
      */
     private ISprite sprite;
-    /**
-     * The boost value for the Spring.
-     */
-    private static final double boost = -35;
 
     /**
      * Trampoline constructor.
-     * @param serviceLocator - The Games service locator.
-     * @param x - The X location for the trampoline.
-     * @param y - The Y location for the trampoline.
+     *
+     * @param sL - The Games service locator.
+     * @param x              - The X location for the trampoline.
+     * @param y              - The Y location for the trampoline.
      */
-    /* package */ Spring(final IServiceLocator serviceLocator, final int x, final int y) {
-        Spring.serviceLocator = serviceLocator;
+    /* package */ Spring(final IServiceLocator sL, final int x, final int y) {
+        assert sL != null;
+        Spring.serviceLocator = sL;
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.sprite = spriteFactory.getSpringSprite();
@@ -36,7 +43,9 @@ import system.IServiceLocator;
         this.setWidth(sprite.getWidth());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void animate() {
         int oldHeight = this.sprite.getHeight();
@@ -50,28 +59,38 @@ import system.IServiceLocator;
         this.sprite = newSprite;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getBoost() {
         this.animate();
         this.playSound();
 
-        return this.boost;
+        return this.BOOST;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void move() { }
+    public void move() {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update() { }
+    public void update() {
+    }
 
     /**
      * Play the sound for the Spring.
