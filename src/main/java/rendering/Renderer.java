@@ -1,7 +1,5 @@
 package rendering;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -13,24 +11,9 @@ import java.awt.Graphics;
 public final class Renderer implements IRenderer {
 
     /**
-     * Used to log all actions of the game.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(Renderer.class);
-    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
-    /**
-     * The graphics that are to be used by the renderer.
-     */
-    private Graphics graphics;
-
-    /**
-     * Prevent instantiations of the Renderer.
-     */
-    private Renderer() {
-    }
-
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -43,8 +26,28 @@ public final class Renderer implements IRenderer {
     }
 
     /**
-     * {@inheritDoc}
+     * The graphics that are to be used by the renderer.
      */
+    private Graphics graphics;
+
+    /**
+     * Prevent instantiations of the Renderer.
+     */
+    private Renderer() {
+    }
+
+    /**
+     * Draw a rectangle.
+     * @param x The x coordinate for the rectangle.
+     * @param y The y coordinate for the rectangle.
+     * @param width The width for the rectangle.
+     * @param height The height for the rectangle.
+     */
+    public void drawRectangle(int x, int y, int width, int height) {
+        graphics.drawRect(x, y, width, height);
+    }
+
+    /** {@inheritDoc} */
     @Override
     public void start() {
     }
@@ -59,7 +62,6 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ")");
         graphics.drawImage(sprite.getImage(), x, y, null);
     }
 
@@ -73,7 +75,6 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ")");
         graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
 

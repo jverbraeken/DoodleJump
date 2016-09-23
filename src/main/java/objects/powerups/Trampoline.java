@@ -14,6 +14,7 @@ public class Trampoline extends APowerup implements IPowerup {
      * The BOOST value for the Trampoline.
      */
     private static final double BOOST = -50;
+
     /**
      * Used to gain access to all services.
      */
@@ -27,8 +28,8 @@ public class Trampoline extends APowerup implements IPowerup {
      * Trampoline constructor.
      *
      * @param sL - The Games service locator.
-     * @param x              - The X location for the trampoline.
-     * @param y              - The Y location for the trampoline.
+     * @param x  - The X location for the trampoline.
+     * @param y  - The Y location for the trampoline.
      */
     /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
         Trampoline.serviceLocator = sL;
@@ -66,7 +67,7 @@ public class Trampoline extends APowerup implements IPowerup {
         this.animate();
         this.playSound();
 
-        return this.BOOST;
+        return BOOST;
     }
 
     /**

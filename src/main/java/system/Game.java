@@ -1,26 +1,10 @@
 package system;
 
-import filesystem.FileSystem;
+import buttons.IButton;
 import input.IInputManager;
-import input.InputManager;
-import logging.LoggerFactory;
-import math.Calc;
+import logging.ILogger;
 import math.ICalc;
-import objects.Collisions;
-import objects.blocks.BlockFactory;
-import objects.blocks.platform.PlatformFactory;
-import objects.buttons.ButtonFactory;
-import objects.buttons.IButton;
-import objects.doodles.DoodleFactory;
-import objects.enemies.EnemyBuilder;
-import objects.powerups.PowerupFactory;
-import rendering.Renderer;
-import resources.Res;
-import resources.audio.AudioManager;
-import resources.sprites.ISprite;
-import resources.sprites.SpriteFactory;
 import scenes.IScene;
-import scenes.SceneFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -32,6 +16,16 @@ import java.awt.event.WindowEvent;
 public final class Game {
 
     /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator serviceLocator = new ServiceLocator();
+
+    /**
+     * The logger for the Game class.
+     */
+    private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+
+    /*
      * The width of the frame of the game.
      */
     public static final int WIDTH = 640;
@@ -55,10 +49,6 @@ public final class Game {
      * Y position relative to the frame of the resume button.
      */
     private static final double RESUMEBUTTONY = 0.75;
-    /**
-     * Used to access all services.
-     */
-    private static IServiceLocator serviceLocator = new ServiceLocator();
     /**
      * The current frame.
      */
@@ -93,48 +83,37 @@ public final class Game {
     private static final int FRAMETIME = 16;
 
     /**
+     * The pause screen for the game.
+     */
+    private static IScene pauseScreen;
+
+    /**
      * Prevents the creation of a new {@code Game} object.
      */
     private Game() {
     }
 
     /**
-     * Initialize all services into the service locator.
-     */
-    private static void initServices() {
-        FileSystem.register(serviceLocator); // This ine is before the audiomanager!
-        AudioManager.register(serviceLocator);
-        EnemyBuilder.register(serviceLocator);
-        InputManager.register(serviceLocator);
-        Calc.register(serviceLocator);
-        BlockFactory.register(serviceLocator);
-        DoodleFactory.register(serviceLocator);
-        PowerupFactory.register(serviceLocator);
-        SpriteFactory.register(serviceLocator);
-        Renderer.register(serviceLocator);
-        SceneFactory.register(serviceLocator);
-        PlatformFactory.register(serviceLocator);
-        Res.register(serviceLocator);
-        ButtonFactory.register(serviceLocator);
-        Collisions.register(serviceLocator);
-        LoggerFactory.register(serviceLocator);
-    }
-
-    /**
      * The initialization of the game.
      * @param argv the arguments to run.
      */
-    public static void main(final String[] argv) {
-        initServices();
+    public static void main(String[] argv) {
+        LOGGER.info("The game has been launched");
 
+        Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
+        IInputManager inputManager = serviceLocator.getInputManager();
         serviceLocator.getRenderer().start();
 
+        // Initialize frame
         frame = new JFrame("Doodle Jump");
-
-        IInputManager inputManager = serviceLocator.getInputManager();
-
+        frame.addMouseListener(inputManager);
+        frame.addKeyListener(inputManager);
+        frame.setSize(Game.WIDTH, Game.HEIGHT);
+        frame.setVisible(true);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(Game.WIDTH / 2, Game.HEIGHT / 2);
         frame.addWindowListener(new WindowAdapter() {
-            @Override
             /**
              * Invoked when a window is in the process of being closed.
              */
@@ -142,14 +121,12 @@ public final class Game {
                 System.exit(0);
             }
         });
-        frame.addMouseListener(inputManager);
-        frame.addKeyListener(inputManager);
-        frame.setSize(Game.WIDTH, Game.HEIGHT);
-        frame.setVisible(true);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        // Initialize panel
         panel = new JPanel() {
+            /**
+             * TODO: Add JavaDoc
+             */
             @Override
             public void paintComponent(final Graphics g) {
                 serviceLocator.getRenderer().setGraphicsBuffer(g);
@@ -159,31 +136,25 @@ public final class Game {
                     scene.paint();
                 }
 
-
                 if (isPaused) {
-                    drawPauseScreen();
+                    pauseScreen.paint();
                 }
 
-                if (!isAlive) {
-                    setScene(serviceLocator.getSceneFactory().newKillScreen());
+                if(!isAlive) {
+                    setScene(serviceLocator.getSceneFactory().createKillScreen());
                     setAlive(true);
                 }
 
                 ((Graphics2D) g).scale(scale, scale);
             }
         };
-        frame.setSize(Game.WIDTH / 2, Game.HEIGHT / 2);
         panel.setLayout(new GridLayout(1, 1));
-
         frame.setContentPane(panel);
 
-        setScene(serviceLocator.getSceneFactory().newMenu());
-        int x = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
-        int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
-        serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
-
-        resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (Game.WIDTH * RESUMEBUTTONX), (int) (Game.HEIGHT * RESUMEBUTTONY));
-        serviceLocator.getInputManager().addObserver(resumeButton);
+        setScene(serviceLocator.getSceneFactory().createMainMenu());
+        int xOffset = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
+        int yOffset = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
+        serviceLocator.getInputManager().setMainWindowBorderSize(xOffset, yOffset);
 
         loop();
     }
@@ -221,6 +192,14 @@ public final class Game {
      * @param paused <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
      */
     public static void setPaused(final boolean paused) {
+        if (paused) {
+            LOGGER.info("The game has been paused");
+            pauseScreen.start();
+        } else {
+            LOGGER.info("The game has been resumed");
+            pauseScreen.stop();
+        }
+
         isPaused = paused;
     }
 
@@ -230,6 +209,10 @@ public final class Game {
      * @param alive <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
      */
     public static void setAlive(final boolean alive) {
+        if (!alive) {
+            LOGGER.info("The Doodle died");
+        }
+
         isAlive = alive;
     }
 
@@ -259,19 +242,9 @@ public final class Game {
                 long gameTime = FRAMETIME;
                 Thread.sleep(gameTime);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.error(e);
             }
         }
-    }
-
-    /**
-     * Draw the pause screen.
-     */
-    private static void drawPauseScreen() {
-        ISprite pauseCover = serviceLocator.getSpriteFactory().getPauseCoverSprite();
-        double scaling = (double) WIDTH / (double) pauseCover.getWidth();
-        serviceLocator.getRenderer().drawSprite(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
-        resumeButton.render();
     }
 
 }

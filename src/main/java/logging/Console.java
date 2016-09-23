@@ -1,5 +1,8 @@
 package logging;
 
+/**
+ * Standard implementation of the Console logger. Used to log to the console.
+ */
 public final class Console implements IConsole {
 
     /**

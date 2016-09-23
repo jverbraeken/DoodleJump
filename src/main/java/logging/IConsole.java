@@ -1,5 +1,8 @@
 package logging;
 
+/**
+ * Interface for a Console logger.
+ */
 /* package */ interface IConsole {
 
     /**

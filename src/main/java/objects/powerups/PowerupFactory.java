@@ -1,32 +1,39 @@
 package objects.powerups;
 
+import logging.ILogger;
 import objects.IGameObject;
 import system.IServiceLocator;
 
 /**
- * This is a factory creating powerups.
+ * Standard implementation of the PowerupFactory. Used to generate powerups.
  */
 public final class PowerupFactory implements IPowerupFactory {
+
+    /**
+     * The logger for the PowerupFactory class.
+     */
+    private final ILogger LOGGER;
 
     /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
-
     /**
-     * Prevent instantiations of PowerupFactory.
-     */
-    private PowerupFactory() {
-    }
-
-    /**
-     * Register the powerup factory into the service locator.
-     * @param sL the service locator.
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         PowerupFactory.serviceLocator = sL;
-        PowerupFactory.serviceLocator.provide(new PowerupFactory());
+        sL.provide(new PowerupFactory());
+    }
+
+    /**
+     * Private constructor to prevent instantiation from outside the class.
+     */
+    private PowerupFactory() {
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(PowerupFactory.class);
     }
 
     /**
@@ -34,6 +41,7 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createSpring(final int x, final int y) {
+        LOGGER.info("A new Spring has been created");
         return new Spring(serviceLocator, x, y);
     }
 
@@ -42,6 +50,7 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createTrampoline(final int x, final int y) {
+        LOGGER.info("A new Trampoline has been created");
         return new Trampoline(serviceLocator, x, y);
     }
 

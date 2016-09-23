@@ -14,6 +14,7 @@ import system.IServiceLocator;
      * The BOOST value for the Spring.
      */
     private static final double BOOST = -35;
+
     /**
      * Used to gain access to all services.
      */
@@ -27,8 +28,8 @@ import system.IServiceLocator;
      * Trampoline constructor.
      *
      * @param sL - The Games service locator.
-     * @param x              - The X location for the trampoline.
-     * @param y              - The Y location for the trampoline.
+     * @param x  - The X location for the trampoline.
+     * @param y  - The Y location for the trampoline.
      */
     /* package */ Spring(final IServiceLocator sL, final int x, final int y) {
         assert sL != null;
@@ -67,7 +68,7 @@ import system.IServiceLocator;
         this.animate();
         this.playSound();
 
-        return this.BOOST;
+        return BOOST;
     }
 
     /**

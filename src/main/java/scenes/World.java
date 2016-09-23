@@ -4,7 +4,7 @@ import logging.ILogger;
 import objects.IGameObject;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
-import objects.buttons.IButton;
+import buttons.IButton;
 import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
@@ -23,11 +23,15 @@ import java.util.Stack;
  */
 public class World implements IScene {
 
+    /**
+     * The logger for the World class.
+     */
+    private final ILogger LOGGER;
 
-    // TODO: Add JavaDoc
-    private final static double SCOREMULTIPLIER = 0.15;
-    private final static int PAUSEOFFSET = 38;
-    private final ILogger logger;
+    /**
+     * Used to access all services.
+     */
+    private final IServiceLocator serviceLocator;
     /**
      * The fastest the doodle can go vertically.
      */
@@ -44,10 +48,6 @@ public class World implements IScene {
      * Offset of the pausebutton.
      */
     private final int pauseoffset = 38;
-    /**
-     * Used to access all services.
-     */
-    private final IServiceLocator serviceLocator;
     /**
      * The amount of blocks kept in a buffer.
      */
@@ -75,13 +75,11 @@ public class World implements IScene {
     /**
      * The vertical speed, negative if going up and positive if going down.
      */
-
     private double vSpeed = -V_SPEED_LIMIT;
     /**
      * The score for the world.
      */
     private double score = 0;
-
     /**
      * The Digitoffsetmultiplier needed for the scoretext.
      */
@@ -101,7 +99,7 @@ public class World implements IScene {
     /* package */ World(final IServiceLocator sL) {
         assert sL != null;
         this.serviceLocator = sL;
-        this.logger = sL.getLoggerFactory().createLogger(World.class);
+        LOGGER = sL.getLoggerFactory().createLogger(World.class);
         Game.setAlive(true);
 
         IBlockFactory blockFactory = serviceLocator.getBlockFactory();
@@ -121,21 +119,23 @@ public class World implements IScene {
         this.doodle = doodleFactory.createDoodle();
         this.vSpeed = startspeed;
 
-        logger.log("Level started");
+        LOGGER.log("Level started");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void start() {
+    public final void start() {
+        LOGGER.log("World has been started");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void stop() {
+    public final void stop() {
+        LOGGER.log("World has been stopped");
     }
 
     /**
@@ -150,8 +150,7 @@ public class World implements IScene {
         }
 
         this.doodle.render();
-
-        scorebar.render();
+        this.scorebar.render();
     }
 
     /**
@@ -204,7 +203,7 @@ public class World implements IScene {
      * Applies gravity vAcceleration to the doodle.
      */
     private void applyGravity() {
-        this.vSpeed += this.GRAVITY_ACCELERATION;
+        this.vSpeed += GRAVITY_ACCELERATION;
     }
 
     /**
@@ -389,7 +388,7 @@ public class World implements IScene {
             @Override
             public void mouseClicked(final int mouseX, final int mouseY) {
                 if (mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
-                    logger.info("Pause button was clicked!");
+                    logger.info("Button clicked: \"pause\"");
                     Game.setPaused(true);
                 }
             }

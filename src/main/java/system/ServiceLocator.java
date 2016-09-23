@@ -1,9 +1,23 @@
 package system;
 
+import buttons.ButtonFactory;
+import filesystem.FileSystem;
+import input.InputManager;
 import logging.ILoggerFactory;
+import logging.LoggerFactory;
+import math.Calc;
+import objects.Collisions;
 import objects.ICollisions;
-import objects.buttons.IButtonFactory;
+import buttons.IButtonFactory;
+import objects.blocks.BlockFactory;
+import objects.blocks.platform.PlatformFactory;
+import objects.doodles.DoodleFactory;
+import objects.enemies.EnemyBuilder;
+import objects.powerups.PowerupFactory;
+import rendering.Renderer;
 import resources.IRes;
+import resources.Res;
+import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
 import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
@@ -11,54 +25,65 @@ import input.IInputManager;
 import math.ICalc;
 import objects.blocks.IBlockFactory;
 import objects.blocks.platform.IPlatformFactory;
-import objects.buttons.IButtonFactory;
 import objects.doodles.IDoodleFactory;
-import objects.enemies.IEnemyBuilder;
 import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;
-import resources.IRes;
-import resources.audio.IAudioManager;
-import resources.sprites.ISpriteFactory;
+import resources.sprites.SpriteFactory;
 import scenes.ISceneFactory;
+import resources.sprites.ISpriteFactory;
+import scenes.SceneFactory;
 
+/**
+ * Default implementation for the ServiceLocator. Used to gain access to all services.
+ */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 /* package */ class ServiceLocator implements IServiceLocator {
+
+    // audio
+    private IAudioManager audioManager;
+
+    // filesystem
+    private IFileSystem fileSystem;
 
     // input
     private IInputManager inputManager;
 
-    // resources.audio
-    private IAudioManager audioManager;
+    // logger
+    private ILoggerFactory loggerFactory;
+
+    // OBJECTS //
+    // blocks
+    private IBlockFactory blockFactory;
+    private IPlatformFactory platformFactory;
+    // collisions
+    private ICollisions collisions;
+    // doodle
+    private IDoodleFactory doodleFactory;
+    // enemies
+    private IEnemyBuilder enemyBuilder;
+    // powerup
+    private IPowerupFactory powerupFactory;
 
     // rendering
     private IRenderer renderer;
     private IButtonFactory buttonFactory;
 
-    // filesystem
-    private IFileSystem fileSystem;
-
     // resources
     private ISpriteFactory spriteFactory;
     private IRes res;
 
-    // objects.enemies
-    private IEnemyBuilder enemyBuilder;
-
-    // util
-    private ICalc calc;
-
-    // objects
-    private IPowerupFactory powerupFactory;
-    private IDoodleFactory doodleFactory;
-    private IBlockFactory blockFactory;
-    private IPlatformFactory platformFactory;
-    private ICollisions collisions;
-
     // scenes
     private ISceneFactory sceneFactory;
 
-    // logger
-    private ILoggerFactory loggerFactory;
+    // utility
+    private ICalc calc;
+
+    /**
+     * Initialize the ServiceLocator class.
+     */
+    /* package */ ServiceLocator() {
+        this.init();
+    }
 
     /**
      * {@inheritDoc}
@@ -329,5 +354,27 @@ import scenes.ISceneFactory;
      */
     @Override
     public ILoggerFactory getLoggerFactory() { return loggerFactory; }
+
+    /**
+     * Initialize the ServiceLocator.
+     */
+    private void init() {
+        FileSystem.register(this);
+        LoggerFactory.register(this);
+        AudioManager.register(this);
+        EnemyBuilder.register(this);
+        InputManager.register(this);
+        Calc.register(this);
+        BlockFactory.register(this);
+        DoodleFactory.register(this);
+        PowerupFactory.register(this);
+        SpriteFactory.register(this);
+        Renderer.register(this);
+        SceneFactory.register(this);
+        PlatformFactory.register(this);
+        Res.register(this);
+        ButtonFactory.register(this);
+        Collisions.register(this);
+    }
 
 }

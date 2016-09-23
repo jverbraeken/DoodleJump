@@ -2,6 +2,10 @@ package resources.sprites;
 
 import objects.doodles.IDoodle;
 import system.IFactory;
+
+/**
+ * Interface for a SpriteFactory.
+ */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface ISpriteFactory extends IFactory {
 
@@ -160,4 +164,5 @@ public interface ISpriteFactory extends IFactory {
      * @return A sprite expressing the digit
      */
     ISprite getDigitSprite(int digit);
+
 }

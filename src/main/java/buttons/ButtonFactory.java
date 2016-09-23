@@ -1,4 +1,4 @@
-package objects.buttons;
+package buttons;
 
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -6,7 +6,7 @@ import system.Game;
 import system.IServiceLocator;
 
 /**
- * This class is a factory that creates buttons.
+ * Standard implementation of the ButtonFactory. Used to create buttons.
  */
 public final class ButtonFactory implements IButtonFactory {
 
@@ -14,16 +14,17 @@ public final class ButtonFactory implements IButtonFactory {
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
-
     /**
-     * Register the platform factory into the service locator.
-     * @param sL the service locator.
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         ButtonFactory.serviceLocator = sL;
         ButtonFactory.serviceLocator.provide(new ButtonFactory());
     }
+
     /**
      * {@inheritDoc}
      */
@@ -32,9 +33,10 @@ public final class ButtonFactory implements IButtonFactory {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayButtonSprite();
-        Runnable playAction = () -> Game.setScene(serviceLocator.getSceneFactory().newWorld());
-        return new Button(serviceLocator, x, y, buttonSprite, playAction, "play");
+        Runnable mainMenu = () -> Game.setScene(serviceLocator.getSceneFactory().createMainMenu());
+        return new Button(serviceLocator, x, y, buttonSprite, mainMenu, "mainMenu");
     }
+
     /**
      * {@inheritDoc}
      */
@@ -43,9 +45,10 @@ public final class ButtonFactory implements IButtonFactory {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getResumeButtonSprite();
-        Runnable resumeAction = () -> Game.setPaused(false);
-        return new Button(serviceLocator, x, y, buttonSprite, resumeAction, "resume");
+        Runnable playAgainAction = () -> Game.setScene(serviceLocator.getSceneFactory().newWorld());
+        return new Button(serviceLocator, x, y, buttonSprite, playAgainAction, "playAgain");
     }
+
     /**
      * {@inheritDoc}
      */
@@ -54,8 +57,8 @@ public final class ButtonFactory implements IButtonFactory {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayAgainButtonSprite();
-        Runnable playAgainAction = () -> Game.setScene(serviceLocator.getSceneFactory().newWorld());
-        return new Button(serviceLocator, x, y, buttonSprite, playAgainAction, "playAgain");
+        Runnable playAction = () -> Game.setScene(serviceLocator.getSceneFactory().newWorld());
+        return new Button(serviceLocator, x, y, buttonSprite, playAction, "play");
     }
 
     /**
@@ -66,7 +69,8 @@ public final class ButtonFactory implements IButtonFactory {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
-        Runnable mainMenu = () -> Game.setScene(serviceLocator.getSceneFactory().newMenu());
-        return new Button(serviceLocator, x, y, buttonSprite, mainMenu, "mainMenu");
+        Runnable resumeAction = () -> Game.setPaused(false);
+        return new Button(serviceLocator, x, y, buttonSprite, resumeAction, "resume");
     }
+
 }

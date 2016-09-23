@@ -1,5 +1,8 @@
 package resources.audio;
 
+/**
+ * Interface for an AudioManager.
+ */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface IAudioManager {
 
@@ -91,4 +94,5 @@ public interface IAudioManager {
     void playUsaugateufo();
 
     void playWin();
+
 }

@@ -1,10 +1,36 @@
 package objects.enemies;
 
-import objects.AGameObject;
-
 /**
- * This class describes the behavior of an enemy.
+ * Standard implementation of the Enemy.
  */
-public abstract class Enemy extends AGameObject implements IEnemy {
+/* package */ class Enemy extends AEnemy implements IEnemy {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void animate() {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void render() {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void move() {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update() {
+    }
 
 }

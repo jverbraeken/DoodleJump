@@ -24,6 +24,17 @@ public final class FileSystem implements IFileSystem {
      */
     private static transient IServiceLocator serviceLocator;
     /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        serviceLocator = sL;
+        sL.provide(new FileSystem());
+    }
+
+    /**
      * A classloader in order to load in resources.
      */
     private ClassLoader classLoader = getClass().getClassLoader();
@@ -32,17 +43,6 @@ public final class FileSystem implements IFileSystem {
      * Prevents instantiation from outside the class.
      */
     private FileSystem() {
-
-    }
-
-    /**
-     * Register the FileSystem into the service locator.
-     * @param sL the service locator.
-     */
-    public static void register(final IServiceLocator sL) {
-        assert serviceLocator != null;
-        FileSystem.serviceLocator = sL;
-        FileSystem.serviceLocator.provide(new FileSystem());
     }
 
     /** {@inheritDoc} */
@@ -66,7 +66,9 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InputStream readBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -76,7 +78,9 @@ public final class FileSystem implements IFileSystem {
         return new BufferedInputStream(inputStream);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BufferedImage readImage(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -89,7 +93,9 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Clip readSound(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -106,7 +112,9 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void writeTextFile(final String filename, final String content) throws FileNotFoundException {
         File file = getFile(filename);
@@ -122,20 +130,39 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void appendToTextFile(String filename, String content) throws FileNotFoundException {
+    public void log(String filename, String content) throws FileNotFoundException {
         try(FileWriter fw = new FileWriter(filename, true);
             BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter writer = new PrintWriter(bw))
-        {
+            PrintWriter writer = new PrintWriter(bw)
+        ) {
             writer.println(content);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void log(String filename, Exception exception) throws FileNotFoundException {
+        try(FileWriter fw = new FileWriter(filename, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter writer = new PrintWriter(bw)
+        ) {
+            exception.printStackTrace(writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public OutputStream writeBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -144,7 +171,9 @@ public final class FileSystem implements IFileSystem {
         return new BufferedOutputStream(outputStream);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public File getFile(final String filename) throws FileNotFoundException {
         assert filename != null;

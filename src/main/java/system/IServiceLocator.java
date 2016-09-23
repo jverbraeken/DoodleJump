@@ -1,28 +1,25 @@
 package system;
 
-import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.ICollisions;
-import objects.buttons.IButtonFactory;
+import buttons.IButtonFactory;
 import resources.IRes;
 import resources.audio.IAudioManager;
 import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
 import math.ICalc;
-import objects.ICollisions;
 import objects.blocks.IBlockFactory;
 import objects.blocks.platform.IPlatformFactory;
-import objects.buttons.IButtonFactory;
 import objects.doodles.IDoodleFactory;
-import objects.enemies.IEnemyBuilder;
 import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;
-import resources.IRes;
-import resources.audio.IAudioManager;
 import resources.sprites.ISpriteFactory;
 import scenes.ISceneFactory;
 
+/**
+ * Interface for a ServiceLocator.
+ */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface IServiceLocator {
 

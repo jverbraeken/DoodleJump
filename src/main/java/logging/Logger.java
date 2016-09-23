@@ -7,6 +7,9 @@ import java.io.FileNotFoundException;
 import java.sql.Timestamp;
 import java.util.Date;
 
+/**
+ * Standard implementation of the Logger. Used to log to a file.
+ */
 /* package */ final class Logger implements ILogger {
 
     /**
@@ -18,6 +21,11 @@ import java.util.Date;
      * Reference to the class of this logger.
      */
     private final Class cl;
+
+    /**
+     * Name of the log file.
+     */
+    private static String logfile = "async.log";
 
     /**
      * Only create Logger in LoggerFactory.
@@ -32,7 +40,7 @@ import java.util.Date;
     public void log(final String msg) {
         try {
             String str = this.generateMessage("LOG", msg);
-            fileSystem.appendToTextFile("async.log", str);
+            fileSystem.log(Logger.logfile, str);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -43,7 +51,20 @@ import java.util.Date;
     public void error(final String msg) {
         try {
             String str = this.generateMessage("ERROR", msg);
-            fileSystem.appendToTextFile("async.log", str);
+            fileSystem.log(Logger.logfile, str);
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void error(final Exception exception) {
+        try {
+            String type = exception.getClass().getName();
+            String str = this.generateMessage("ERROR", "thrown of type: " + type + ", See stacktrace:");
+            fileSystem.log(Logger.logfile, str);
+            fileSystem.log(Logger.logfile, exception);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -54,7 +75,7 @@ import java.util.Date;
     public void info(final String msg) {
         try {
             String str = this.generateMessage("INFO", msg);
-            fileSystem.appendToTextFile("async.log", str);
+            fileSystem.log(Logger.logfile, str);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -65,7 +86,7 @@ import java.util.Date;
     public void warning(final String msg) {
         try {
             String str = this.generateMessage("WARNING", msg);
-            fileSystem.appendToTextFile("async.log", str);
+            fileSystem.log(Logger.logfile, str);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
         }

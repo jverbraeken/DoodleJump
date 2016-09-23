@@ -3,6 +3,7 @@ package resources.sprites;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import logging.ILogger;
 import objects.doodles.IDoodle;
 import resources.IRes;
 import system.IServiceLocator;
@@ -12,40 +13,22 @@ import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
 
 /**
+ * Standard implementation of the SpriteFactory. Used to load and get sprites.
+ *
  * Javadoc is not deemed necessary for all individual sprites to have a javadoc.
  */
 @SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod"})
-/**
- * This class is a factory that creates sprites.
- */
 public final class SpriteFactory implements ISpriteFactory {
 
     /**
-     * Used to gain access to all services.
+     * The logger for the SpriteFactory class.
      */
+    private final ILogger LOGGER;
+
+    /**
+    * Used to gain access to all services.
+    */
     private static transient IServiceLocator serviceLocator;
-    /**
-     * The cache used to load in sprites.
-     */
-    private LoadingCache<IRes.Sprites, ISprite> cache;
-
-
-    /**
-     * Prevents instantiation from outside the class.
-     */
-    private SpriteFactory() {
-        cache = CacheBuilder.newBuilder()
-                .maximumSize(Long.MAX_VALUE)
-                .build(
-                        new CacheLoader<IRes.Sprites, ISprite>() {
-                            @Override
-                            public ISprite load(final IRes.Sprites sprite) throws FileNotFoundException {
-                                return loadISprite(sprite);
-                            }
-                        }
-                );
-    }
-
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -56,6 +39,31 @@ public final class SpriteFactory implements ISpriteFactory {
         SpriteFactory.serviceLocator = sL;
         SpriteFactory.serviceLocator.provide(new SpriteFactory());
     }
+
+    /**
+     * The cache for the SpriteFactory.
+     */
+    private LoadingCache<IRes.Sprites, ISprite> cache;
+
+    /**
+     * Prevents instantiation from outside the class.
+     */
+    private SpriteFactory() {
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(SpriteFactory.class);
+
+        cache = CacheBuilder.newBuilder()
+                .maximumSize(Long.MAX_VALUE)
+                .build(
+                        new CacheLoader<IRes.Sprites, ISprite>() {
+                            @Override
+                            public ISprite load(final IRes.Sprites sprite) throws FileNotFoundException {
+                                LOGGER.info("Sprite loaded: \"" + sprite + "\"");
+                                return loadISprite(sprite);
+                            }
+                        }
+                );
+    }
+
 
     // Buttons
 
@@ -79,9 +87,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlayButtonSprite() {
-        return getSprite(IRes.Sprites.play);
-    }
+    public ISprite getPlayButtonSprite() { return getSprite(IRes.Sprites.play); }
 
     /**
      * {@inheritDoc}
@@ -346,10 +352,10 @@ public final class SpriteFactory implements ISpriteFactory {
 
 
     // Numbers
-    @SuppressWarnings("checkstyle:magicnumber")
     /**
      * {@inheritDoc}
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     @Override
     public ISprite getDigitSprite(final int digit) {
         if (digit < 0 || digit > 9) {
@@ -705,9 +711,9 @@ public final class SpriteFactory implements ISpriteFactory {
         try {
             return cache.get(sprite);
         } catch (ExecutionException e) {
-            // TODO use e.getCause() and log that
-            e.printStackTrace();
+            LOGGER.error(e);
         }
+
         return null;
     }
 

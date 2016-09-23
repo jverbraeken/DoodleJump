@@ -3,24 +3,28 @@ package scenes;
 import input.IKeyInputObserver;
 import input.KeyCode;
 import input.Keys;
-import objects.buttons.IButton;
-import objects.buttons.IButtonFactory;
+import buttons.IButton;
+import buttons.IButtonFactory;
+import logging.ILogger;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
+
 /**
  * This class is a scene that is displays when the game is started.
  */
 /* package */ class Menu implements IScene, IKeyInputObserver {
+
     /**
-     * X position relative to the frame of the play button.
+     * The logger for the Menu class.
      */
-    private static final double PLAY_BUTTON_X_PERCENTAGE = 0.15;
+    private final ILogger LOGGER;
     /**
-     * Y position relative to the frame of the play button.
+     * The X and Y location for the play button.
      */
-    private static final double PLAY_BUTTON_Y_PERCENTAGE = 0.25;
+    private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
+
     /**
      * Used to access all services.
      */
@@ -32,7 +36,11 @@ import system.IServiceLocator;
     /**
      * The cover sprite of the main menu.
      */
-    private final ISprite cover;
+    private final ISprite background;
+    /**
+     * Is the main menu active, should it be displayed.
+     */
+    private boolean active = false;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -42,12 +50,13 @@ import system.IServiceLocator;
     /* package */ Menu(final IServiceLocator sL) {
         assert sL != null;
         this.serviceLocator = sL;
+        LOGGER = sL.getLoggerFactory().createLogger(Menu.class);
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        cover = spriteFactory.getStartCoverSprite();
+        background = spriteFactory.getStartCoverSprite();
 
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * PLAY_BUTTON_X_PERCENTAGE), (int) (Game.HEIGHT * PLAY_BUTTON_Y_PERCENTAGE));
+        playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * PLAY_BUTTON_X), (int) (Game.HEIGHT * PLAY_BUTTON_Y));
     }
 
     /**
@@ -56,7 +65,8 @@ import system.IServiceLocator;
     @Override
     public final void start() {
         serviceLocator.getInputManager().addObserver(playButton);
-        serviceLocator.getInputManager().addObserver(this);
+        active = true;
+        LOGGER.info("The menu scene is now displaying");
     }
 
     /**
@@ -65,7 +75,8 @@ import system.IServiceLocator;
     @Override
     public final void stop() {
         serviceLocator.getInputManager().removeObserver(playButton);
-        serviceLocator.getInputManager().removeObserver(this);
+        active = false;
+        LOGGER.info("The menu scene is no longer displaying");
     }
 
     /**
@@ -73,8 +84,10 @@ import system.IServiceLocator;
      */
     @Override
     public final void paint() {
-        serviceLocator.getRenderer().drawSprite(this.cover, 0, 0);
-        playButton.render();
+        if (active) {
+            serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
+            playButton.render();
+        }
     }
 
     /**

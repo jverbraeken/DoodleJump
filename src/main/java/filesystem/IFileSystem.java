@@ -2,16 +2,14 @@ package filesystem;
 
 import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.List;
 
 /**
  * This interface defines a file system. All file-access should be led by an implementation of this interface.
  */
 public interface IFileSystem {
+
     /**
      * Reads a text file and returns the contents as a list of Strings.
      *
@@ -58,12 +56,20 @@ public interface IFileSystem {
     void writeTextFile(String filename, String content) throws FileNotFoundException;
 
     /**
-     * Writes {@code content} to the end of the tixt-fiel given by the filepath {@code filenam}.
-     * @param filename The full path to the file.
+     * Writes {@code content} to the end of the log file.
+     * @param filename The name of the log file.
      * @param content The text to write to the file.
-     * @throws FileNotFoundException Thrown when the file could not be found.
+     * @throws FileNotFoundException Thrown when the log file could not be found.
      */
-    void appendToTextFile(String filename, String content) throws FileNotFoundException;
+    void log(String filename, String content) throws FileNotFoundException;
+
+    /**
+     * Writes {@code exception} to the end of the log file.
+     * @param filename The name of the log file.
+     * @param exception The exception to write to the file.
+     * @throws FileNotFoundException Thrown when the log file could not be found.
+     */
+    void log(String filename, Exception exception) throws FileNotFoundException;
 
     /**
      * Returns an {@link OutputStream} that can be used to write binary data to the binary file. The path to the file must exist.
@@ -85,4 +91,5 @@ public interface IFileSystem {
      * @throws FileNotFoundException Thrown when the file specified was not found
      */
     File getFile(String filename) throws FileNotFoundException;
+
 }
