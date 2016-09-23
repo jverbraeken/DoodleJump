@@ -1,16 +1,14 @@
 package scenes;
 
+import buttons.IButton;
 import logging.ILogger;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
-import objects.buttons.IButton;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -27,7 +25,10 @@ public class World implements IScene {
     // TODO: Add JavaDoc
     private final static double SCOREMULTIPLIER = 0.15;
     private final static int PAUSEOFFSET = 38;
-    private final ILogger logger;
+    /**
+     * The logger for the World class.
+     */
+    private final ILogger LOGGER;
     /**
      * How much the doodle is affected by gravity.
      */
@@ -95,9 +96,10 @@ public class World implements IScene {
     private List<Set<IRenderable>> drawables = new ArrayList<>();
     private Set<IUpdatable> updatables = Collections.newSetFromMap(new WeakHashMap<>());
 
-    /* package */ World(IServiceLocator sL) {
+    /* package */ World(final IServiceLocator sL) {
+        assert sL != null;
         this.sL = sL;
-        this.logger = sL.getLoggerFactory().createLogger(World.class);
+        LOGGER = sL.getLoggerFactory().createLogger(World.class);
         Game.setAlive(true);
 
         for (int i = 0; i < 3; i++) {
@@ -130,22 +132,24 @@ public class World implements IScene {
 
         this.sL.getAudioManager().playStart();
 
-        logger.log("Level started");
+        LOGGER.log("Level started");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void start() {
+    public final void start() {
         this.sL.getRenderer().getCamera().setYPos(sL.getConstants().getGameHeight() / 2d);
+        LOGGER.log("World has been started");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void stop() {
+    public final void stop() {
+        LOGGER.log("World has been stopped");
     }
 
     /**
@@ -344,7 +348,7 @@ public class World implements IScene {
             @Override
             public void mouseClicked(final int mouseX, final int mouseY) {
                 if (mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
-                    logger.info("Pause button was clicked!");
+                    logger.info("Button clicked: \"pause\"");
                     Game.setPaused(true);
                 }
             }

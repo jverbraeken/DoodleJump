@@ -1,14 +1,18 @@
-package objects.buttons;
+package buttons;
 
 import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-
 /**
  * This class focuses on the implementation of button.
  */
 /* package */ class Button implements IButton {
+
+    /**
+     * The logger for the Button class.
+     */
+    private final ILogger LOGGER;
 
     /**
      * Used to gain access to all services.
@@ -19,7 +23,7 @@ import system.IServiceLocator;
      */
     private final ISprite sprite;
     /**
-     * The height and width of the button.
+     * The width and height of the button.
      */
     private final int width, height;
     /**
@@ -34,11 +38,6 @@ import system.IServiceLocator;
      * The name of the button.
      */
     private final String name;
-
-    /**
-     * The logger of the game.
-     */
-    private final ILogger logger;
 
     /**
      * Constructor of a new button.
@@ -57,7 +56,7 @@ import system.IServiceLocator;
         assert s != null;
 
         this.sL = sL;
-        this.logger = sL.getLoggerFactory().createLogger(Button.class);
+        this.LOGGER = sL.getLoggerFactory().createLogger(Button.class);
         this.sprite = s;
         this.width = s.getImage().getWidth(null);
         this.height = s.getImage().getHeight(null);
@@ -85,9 +84,8 @@ import system.IServiceLocator;
         assert x >= 0 && y >= 0;
 
         if (x > topLeft[0] && x < bottomRight[0] && y > topLeft[1] && y < bottomRight[1]) {
-            logger.info("Button clicked: \"" + name + "\"");
+            LOGGER.info("Button clicked: \"" + name + "\"");
             action.run();
-
         }
     }
 }

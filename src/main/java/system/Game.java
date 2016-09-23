@@ -1,27 +1,11 @@
 package system;
 
-import constants.Constants;
-import constants.IConstants;
-import filesystem.FileSystem;
+import buttons.IButton;
 import input.IInputManager;
-import input.InputManager;
-import logging.LoggerFactory;
-import math.Calc;
+import logging.ILogger;
 import math.ICalc;
-import objects.blocks.BlockFactory;
-import objects.blocks.platform.PlatformFactory;
-import objects.buttons.ButtonFactory;
-import objects.buttons.IButton;
-import objects.doodles.DoodleFactory;
-import objects.enemies.EnemyBuilder;
-import objects.powerups.PowerupFactory;
-import rendering.Renderer;
-import resources.Res;
-import resources.audio.AudioManager;
-import resources.sprites.ISprite;
-import resources.sprites.SpriteFactory;
 import scenes.IScene;
-import scenes.SceneFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -31,6 +15,7 @@ import java.awt.event.WindowEvent;
  * This is the main class that runs the game.
  */
 public final class Game {
+
     private static final int TARGET_FPS = 60;
     /**
      * The optimal time per frame. ~16.
@@ -45,9 +30,17 @@ public final class Game {
      */
     private static final double RESUMEBUTTONY = 0.75;
     /**
-     * Used to access all services.
+     * The time in miliseconds per frame.
      */
-    private static final IServiceLocator sL = new ServiceLocator();
+    private static final int FRAMETIME = 16;
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator sL = new ServiceLocator();
+    /**
+     * The logger for the Game class.
+     */
+    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Game.class);
     /**
      * The current frame.
      */
@@ -77,53 +70,38 @@ public final class Game {
      */
     private static float scale = 2;
     /**
-     * The time in miliseconds per frame.
+     * The pause screen for the game.
      */
-    private static final int FRAMETIME = 16;
+    private static IScene pauseScreen;
 
     /**
-     * Prevents the creation of a new {@code Game} object.
+     * Prevents instantiation from outside the Game class.
      */
     private Game() {
     }
 
     /**
-     * Initialize all services into the service locator.
-     */
-    private static void initServices() {
-        FileSystem.register(sL);
-        LoggerFactory.register(sL);
-        AudioManager.register(sL);
-        EnemyBuilder.register(sL);
-        InputManager.register(sL);
-        Calc.register(sL);
-        BlockFactory.register(sL);
-        DoodleFactory.register(sL);
-        PowerupFactory.register(sL);
-        SpriteFactory.register(sL);
-        Renderer.register(sL);
-        SceneFactory.register(sL);
-        PlatformFactory.register(sL);
-        Res.register(sL);
-        ButtonFactory.register(sL);
-        Constants.register(sL);
-    }
-
-    /**
      * The initialization of the game.
+     *
      * @param argv the arguments to run.
      */
-    public static void main(final String[] argv) {
-        initServices();
+    public static void main(String[] argv) {
+        LOGGER.info("The game has been launched");
 
+        Game.pauseScreen = sL.getSceneFactory().createPauseScreen();
+        IInputManager inputManager = sL.getInputManager();
         sL.getRenderer().start();
 
+        // Initialize frame
         frame = new JFrame("Doodle Jump");
-
-        IInputManager inputManager = sL.getInputManager();
-
+        frame.addMouseListener(inputManager);
+        frame.addKeyListener(inputManager);
+        frame.setSize(sL.getConstants().getGameWidth(), sL.getConstants().getGameHeight());
+        frame.setVisible(true);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2);
         frame.addWindowListener(new WindowAdapter() {
-            @Override
             /**
              * Invoked when a window is in the process of being closed.
              */
@@ -131,14 +109,12 @@ public final class Game {
                 System.exit(0);
             }
         });
-        frame.addMouseListener(inputManager);
-        frame.addKeyListener(inputManager);
-        frame.setSize(sL.getConstants().getGameWidth(), sL.getConstants().getGameHeight());
-        frame.setVisible(true);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        // Initialize panel
         panel = new JPanel() {
+            /**
+             * TODO: Add JavaDoc
+             */
             @Override
             public void paintComponent(final Graphics g) {
                 sL.getRenderer().setGraphicsBuffer(g);
@@ -148,25 +124,22 @@ public final class Game {
                     Game.scene.render();
                 }
 
-
                 if (isPaused) {
-                    drawPauseScreen();
+                    pauseScreen.render();
                 }
 
                 if (!isAlive) {
-                    setScene(sL.getSceneFactory().newKillScreen());
+                    setScene(sL.getSceneFactory().createKillScreen());
                     setAlive(true);
                 }
 
                 ((Graphics2D) g).scale(scale, scale);
             }
         };
-        frame.setSize(sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2);
         panel.setLayout(new GridLayout(1, 1));
-
         frame.setContentPane(panel);
 
-        setScene(sL.getSceneFactory().newMenu());
+        setScene(sL.getSceneFactory().createMainMenu());
         int x = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         sL.getInputManager().setMainWindowBorderSize(x, y);
@@ -210,6 +183,14 @@ public final class Game {
      * @param paused <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
      */
     public static void setPaused(final boolean paused) {
+        if (paused) {
+            LOGGER.info("The game has been paused");
+            pauseScreen.start();
+        } else {
+            LOGGER.info("The game has been resumed");
+            pauseScreen.stop();
+        }
+
         isPaused = paused;
     }
 
@@ -219,9 +200,12 @@ public final class Game {
      * @param alive <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
      */
     public static void setAlive(final boolean alive) {
+        if (!alive) {
+            LOGGER.info("The Doodle died");
+        }
+
         isAlive = alive;
     }
-
 
     /**
      * Loop to update the game 60x per second.
@@ -248,19 +232,9 @@ public final class Game {
                 long gameTime = FRAMETIME;
                 Thread.sleep(gameTime - (now - System.nanoTime()) / ICalc.NANOSECONDS);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.error(e);
             }
         }
-    }
-
-    /**
-     * Draw the pause screen.
-     */
-    private static void drawPauseScreen() {
-        ISprite pauseCover = sL.getSpriteFactory().getPauseCoverSprite();
-        double scaling = (double) sL.getConstants().getGameWidth() / (double) pauseCover.getWidth();
-        sL.getRenderer().drawSpriteHUD(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
-        resumeButton.render();
     }
 
 }

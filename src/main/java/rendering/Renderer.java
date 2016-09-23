@@ -21,18 +21,6 @@ public final class Renderer implements IRenderer {
     private final ILogger LOGGER;
     private final ICamera camera = new Camera();
     /**
-     * The graphics that are to be used by the renderer.
-     */
-    private Graphics graphics;
-
-    /**
-     * Prevent public instantiations of the Renderer.
-     */
-    private Renderer() {
-        LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
-    }
-
-    /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
      * @param sL The IServiceLocator to which the class should offer its functionality
@@ -44,8 +32,18 @@ public final class Renderer implements IRenderer {
     }
 
     /**
-     * {@inheritDoc}
+     * The graphics that are to be used by the renderer.
      */
+    private Graphics graphics;
+
+    /**
+     * Prevent public instantiations of the Renderer.
+     */
+    private Renderer() {
+        LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
+    }
+
+    /** {@inheritDoc} */
     @Override
     public void start() {
     }
@@ -106,7 +104,6 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ")");
         graphics.drawImage(sprite.getImage(), x, y, null);
     }
 
@@ -120,7 +117,6 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ")");
         graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
 

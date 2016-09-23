@@ -1,292 +1,384 @@
 package resources.audio;
 
+import logging.ILogger;
 import system.IServiceLocator;
 
 import javax.sound.sampled.Clip;
 import java.io.FileNotFoundException;
 
+/**
+ * Standard implementation of the AudioManager. Used to load an play audio.
+ */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class AudioManager implements IAudioManager {
+
     /**
-    * Used to gain access to all services.
-    */
+     * Used to gain access to all services.
+     */
     private static transient IServiceLocator sL;
 
     /**
      * Prevents instantiation from outside the class.
      */
     private AudioManager() {
-
+        preload();
     }
 
-        /**
+    /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
      * @param sL The IServiceLocator to which the class should offer its functionality
-         */
+     */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         AudioManager.sL = sL;
         sL.provide(new AudioManager());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void preload() {
         Sound.preload();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playBijeli() {
         Sound.BIJELI.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playBlizzard() {
         Sound.BLIZZARD.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playBubbles1() {
         Sound.BUBBLES1.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playBubbles2() {
         Sound.BUBBLES2.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playChill() {
         Sound.CHILL.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playCollect() {
         Sound.COLLECT.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playCrnarupa() {
         Sound.CRNARUPA.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playEggmonsterhit() {
         Sound.EGGMONSTERHIT.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playExplodingplatform() {
         Sound.EXPLODINGPLATFORM.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playExplodingplatform2() {
         Sound.EXPLODINGPLATFORM2.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playFeder() {
         Sound.FEDER.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playJetpack() {
         Sound.JETPACK.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playJump() {
         Sound.JUMP.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playJumponmonster() {
         Sound.JUMPONMONSTER.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playLomise() {
         Sound.LOMISE.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playMatchsound() {
         Sound.MATCHSOUND.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playMonstercrash() {
         Sound.MONSTERCRASH.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playMonsterblizu() {
         Sound.MONSTERBLIZU.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playMonsterpogodak() {
         Sound.MONSTERPOGODAK.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playOogapucanje() {
         Sound.OOGAPUCANJE.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playOogapucanje2() {
         Sound.OOGAPUCANJE2.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playPada() {
         Sound.PADA.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playPropeller() {
         Sound.PROPELLER.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playPucanje() {
         Sound.PUCANJE.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playPucanje2() {
         Sound.PUCANJE2.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playRain() {
         Sound.RAIN.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playRocket() {
         Sound.ROCKET.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playSnowballmonsterhit() {
         Sound.SNOWBALLMONSTERHIT.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playSnowballthrow() {
         Sound.SNOWBALLTHROW.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playSnowballthrow2() {
         Sound.SNOWBALLTHROW2.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playSoccermonstercrash() {
         Sound.SOCCERMONSTERCRASH.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playSoccermonsterhit() {
         Sound.SOCCERMONSTERHIT.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playSpringshoes() {
         Sound.SPRINGSHOES.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playStart() {
         Sound.START.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playThunder() {
         Sound.THUNDER.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playTrampoline() {
         Sound.TRAMPOLINE.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playUfo() {
         Sound.UFO.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playUfopogodak() {
         Sound.UFOPOGODAK.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playUnderwatershoot() {
         Sound.UNDERWATERSHOOT.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playUnderwatershoot2() {
         Sound.UNDERWATERSHOOT2.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playUsaugateufo() {
         Sound.USAUGATEUFO.play();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public void playWin() {
         Sound.WIN.play();
     }
+
 
     private enum Sound {
         BIJELI("sounds/bijeli.wav"),
@@ -334,12 +426,13 @@ public final class AudioManager implements IAudioManager {
 
         private Clip clip;
 
-        Sound(final String filepath) {
+        Sound(String filepath) {
+            ILogger LOGGER = sL.getLoggerFactory().createLogger(AudioManager.class);
             try {
+                LOGGER.info("Sound loaded: \"" + filepath + "\"");
                 clip = sL.getFileSystem().readSound(filepath);
             } catch (FileNotFoundException e) {
-                // TODO log the file was not found
-                e.printStackTrace();
+                LOGGER.error(e);
             }
         }
 
@@ -358,4 +451,5 @@ public final class AudioManager implements IAudioManager {
             clip.start();
         }
     }
+
 }

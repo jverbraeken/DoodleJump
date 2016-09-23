@@ -1,5 +1,6 @@
 package system;
 
+import buttons.IButtonFactory;
 import constants.IConstants;
 import filesystem.IFileSystem;
 import input.IInputManager;
@@ -7,7 +8,6 @@ import logging.ILoggerFactory;
 import math.ICalc;
 import objects.blocks.IBlockFactory;
 import objects.blocks.platform.IPlatformFactory;
-import objects.buttons.IButtonFactory;
 import objects.doodles.IDoodleFactory;
 import objects.enemies.IEnemyBuilder;
 import objects.powerups.IPowerupFactory;
@@ -17,6 +17,9 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISpriteFactory;
 import scenes.ISceneFactory;
 
+/**
+ * Interface for a ServiceLocator.
+ */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface IServiceLocator {
 

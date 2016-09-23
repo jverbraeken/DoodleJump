@@ -1,10 +1,11 @@
 package scenes;
 
+import buttons.IButton;
+import buttons.IButtonFactory;
 import input.IKeyInputObserver;
 import input.KeyCode;
 import input.Keys;
-import objects.buttons.IButton;
-import objects.buttons.IButtonFactory;
+import logging.ILogger;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
@@ -16,13 +17,13 @@ import system.IServiceLocator;
 public class Menu implements IScene, IKeyInputObserver {
 
     /**
-     * X position relative to the frame of the play button.
+     * The X and Y location for the play button.
      */
-    private static final double PLAY_BUTTON_X_PERCENTAGE = 0.15;
+    private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
     /**
-     * Y position relative to the frame of the play button.
+     * The logger for the Menu class.
      */
-    private static final double PLAY_BUTTON_Y_PERCENTAGE = 0.25;
+    private final ILogger LOGGER;
     /**
      * Used to access all services.
      */
@@ -50,8 +51,10 @@ public class Menu implements IScene, IKeyInputObserver {
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         playButton = buttonFactory.createPlayButton(
-                (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X_PERCENTAGE),
-                (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y_PERCENTAGE));
+                (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
+                (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y));
+
+        this.LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
     }
 
     /**
@@ -61,6 +64,7 @@ public class Menu implements IScene, IKeyInputObserver {
     public final void start() {
         sL.getInputManager().addObserver(playButton);
         sL.getInputManager().addObserver(this);
+        LOGGER.info("The menu scene is now displaying");
     }
 
     /**
@@ -70,6 +74,7 @@ public class Menu implements IScene, IKeyInputObserver {
     public final void stop() {
         sL.getInputManager().removeObserver(playButton);
         sL.getInputManager().removeObserver(this);
+        LOGGER.info("The menu scene is no longer displaying");
     }
 
     /**

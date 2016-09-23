@@ -1,16 +1,21 @@
 package scenes;
 
+import buttons.IButton;
+import buttons.IButtonFactory;
 import input.IMouseInputObserver;
-import objects.buttons.IButton;
-import objects.buttons.IButtonFactory;
+import logging.ILogger;
 import resources.sprites.ISprite;
-import system.Game;
 import system.IServiceLocator;
 
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-public class KillScreen implements IScene, IMouseInputObserver {
+/* package */ class KillScreen implements IScene, IMouseInputObserver {
+
+    /**
+     * The logger for the KillScreen class.
+     */
+    private final ILogger LOGGER;
 
     /**
      * Used to gain access to all services.
@@ -52,6 +57,10 @@ public class KillScreen implements IScene, IMouseInputObserver {
      * Y location in relation to the frame of the game over text.
      */
     private final double gameOverTextYPercentage = 0.3;
+    /**
+     * Is the kill screen active, should it be displayed.
+     */
+    private boolean active = false;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -61,8 +70,9 @@ public class KillScreen implements IScene, IMouseInputObserver {
     /* package */ KillScreen(final IServiceLocator sL) {
         assert sL != null;
         this.sL = sL;
+        LOGGER = sL.getLoggerFactory().createLogger(KillScreen.class);
 
-       background = sL.getSpriteFactory().getBackground();
+        background = sL.getSpriteFactory().getBackground();
         bottomKillScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
         gameOverSprite = sL.getSpriteFactory().getGameOverSprite();
 
@@ -72,38 +82,54 @@ public class KillScreen implements IScene, IMouseInputObserver {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public final void start() {
 
         sL.getInputManager().addObserver(playAgainButton);
         sL.getInputManager().addObserver(mainMenuButton);
+        active = true;
+        LOGGER.info("The kill screen scene is now displaying");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /** {@inheritDoc} */
     public final void stop() {
 
         sL.getInputManager().removeObserver(playAgainButton);
         sL.getInputManager().removeObserver(mainMenuButton);
+        active = false;
+        LOGGER.info("The kill screen scene is no longer displaying");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
-        sL.getRenderer().drawSpriteHUD(this.background, 0, 0 );
-        sL.getRenderer().drawSpriteHUD(this.gameOverSprite, (int)(sL.getConstants().getGameWidth() * gameOverTextXPercentage), (int)(sL.getConstants().getGameHeight() *gameOverTextYPercentage));
+        sL.getRenderer().drawSpriteHUD(this.background, 0, 0);
+        sL.getRenderer().drawSpriteHUD(this.gameOverSprite, (int) (sL.getConstants().getGameWidth() * gameOverTextXPercentage), (int) (sL.getConstants().getGameHeight() * gameOverTextYPercentage));
         double y = (double) sL.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
         sL.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
         playAgainButton.render();
         mainMenuButton.render();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update(final double delta) {
+    public final void update(final double delta) {
     }
 
-    @Override
-    /** {@inheritDoc} */
-    public void mouseClicked(final int x, final int y) {
+    /**
+     * {@inheritDoc}
+     */
+    public final void mouseClicked(final int x, final int y) {
     }
+
 }

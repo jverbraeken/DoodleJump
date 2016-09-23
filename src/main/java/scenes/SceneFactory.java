@@ -1,22 +1,22 @@
 package scenes;
 
+import logging.ILogger;
 import system.IServiceLocator;
 
 /**
  * This class is a factory that creates scenes.
  */
 public final class SceneFactory implements ISceneFactory {
+
+    /**
+     * The logger for the SceneFactory class.
+     */
+    private final ILogger LOGGER;
+
     /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator sL;
-
-    /**
-     * Prevents instantiation from outside the class.
-     */
-    private SceneFactory() {
-    }
-
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -29,10 +29,18 @@ public final class SceneFactory implements ISceneFactory {
     }
 
     /**
+     * Private constructor to prevent instantiation from outside the class.
+     */
+    private SceneFactory() {
+        LOGGER = sL.getLoggerFactory().createLogger(SceneFactory.class);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
-    public IScene newMenu() {
+    public IScene createMainMenu() {
+        LOGGER.info("A new Menu has been created");
         return new Menu(sL);
     }
 
@@ -40,16 +48,27 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
-    public IScene newWorld() {
-        return new World(sL);
+    public IScene createKillScreen() {
+        LOGGER.info("A new KillScreen has been created");
+        return new KillScreen(sL);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public KillScreen newKillScreen() {
-        return new KillScreen(sL);
+    public IScene createPauseScreen() {
+        LOGGER.info("A new PauseScreen has been created");
+        return new PauseScreen(sL);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public World newWorld() {
+        LOGGER.info("A new World has been created");
+        return new World(sL);
     }
 
 }

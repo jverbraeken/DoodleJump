@@ -1,4 +1,4 @@
-package objects.buttons;
+package buttons;
 
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -6,7 +6,7 @@ import system.Game;
 import system.IServiceLocator;
 
 /**
- * This class is a factory that creates buttons.
+ * Standard implementation of the ButtonFactory. Used to create buttons.
  */
 public final class ButtonFactory implements IButtonFactory {
 
@@ -73,7 +73,8 @@ public final class ButtonFactory implements IButtonFactory {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
-        Runnable mainMenu = () -> Game.setScene(sL.getSceneFactory().newMenu());
+        Runnable mainMenu = () -> Game.setScene(sL.getSceneFactory().createMainMenu());
         return new Button(sL, x, y, buttonSprite, mainMenu, "mainMenu");
     }
+
 }

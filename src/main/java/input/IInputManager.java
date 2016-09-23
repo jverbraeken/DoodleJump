@@ -16,7 +16,6 @@ public interface IInputManager extends MouseListener, KeyListener {
     void setMainWindowBorderSize(int windowLeftBorderSize, int windowTopBorderSize);
 
     // MOUSE
-
     /**
      * Adds a mouse to be Observed.
      * @param mouseInputObserver the mouse
@@ -30,7 +29,6 @@ public interface IInputManager extends MouseListener, KeyListener {
     void removeObserver(IMouseInputObserver mouseInputObserver);
 
     // KEYBOARD
-
     /**
      * Adds a key to be Observed.
      * @param keyInputObserver the key.

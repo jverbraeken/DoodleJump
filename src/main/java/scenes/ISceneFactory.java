@@ -7,21 +7,30 @@ import system.IFactory;
  */
 public interface ISceneFactory extends IFactory {
     /**
-     * Create a new main menu.
-     * @return a main menu
+     * Create a new kill screen.
+     *
+     * @return An IScene of the kill screen.
      */
-    IScene newMenu();
+    IScene createKillScreen();
+    /**
+     * Create a new main menu.
+     *
+     * @return An IScene of the main menu.
+     */
+    IScene createMainMenu();
+
+    /**
+     * Create a new pause screen.
+     *
+     * @return An IScene of the pause screen.
+     */
+    IScene createPauseScreen();
 
     /**
      * Create a new world.
-     * @return a world.
+     *
+     * @return The created world.
      */
-    IScene newWorld();
-
-    /**
-     * Create a new kill screen.
-     * @return a kill screen
-     */
-    IScene newKillScreen();
+    World newWorld();
 
 }

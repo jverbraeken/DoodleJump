@@ -9,12 +9,12 @@ import java.util.Random;
  * Examples are random integers and doubles.
  */
 public final class Calc implements ICalc {
+    private static transient IServiceLocator sL;
+
     /**
      * Register the FileSystem into the service locator.
      * @param sL the service locator.
      */
-    private static transient IServiceLocator sL;
-
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         Calc.sL = sL;

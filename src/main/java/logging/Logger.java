@@ -10,6 +10,9 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Standard implementation of the Logger. Used to log to a file.
+ */
 /* package */ final class Logger implements ILogger {
 
     /**
@@ -28,6 +31,11 @@ import java.util.concurrent.TimeUnit;
      * The writer to which the log data should be written
      */
     private final Writer writer;
+
+    /**
+     * Name of the log file.
+     */
+    private static String logfile = "async.log";
 
     /**
      * Only create Logger in LoggerFactory.
@@ -53,6 +61,15 @@ import java.util.concurrent.TimeUnit;
     @Override
     public void error(final String msg) {
         String str = this.generateMessage("ERROR", msg);
+        appendStringToTextFile(str);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void error(final Exception exception) {
+        String str = this.generateMessage("ERROR", exception.getMessage());
         appendStringToTextFile(str);
     }
 

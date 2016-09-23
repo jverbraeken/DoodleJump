@@ -1,14 +1,25 @@
 package objects.enemies;
 
-import objects.AGameObject;
 import resources.sprites.ISprite;
-import system.IServiceLocator;
 
-/**
- * This class describes the behavior of an enemy.
- */
-public abstract class Enemy extends AGameObject implements IEnemy {
-    public Enemy(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
-        super(sL, x, y, sprite);
+public class Enemy extends AEnemy {
+    /**
+     * Creates a new enemy and determines its hitbox by using the sprites dimensions automatically.
+     * @param x The X-coordinate of the enemy
+     * @param y The Y-coordinate of the enemy
+     * @param sprite The sprite of the enemy
+     */
+    public Enemy(final int x, final int y, final ISprite sprite) {
+        super(x, y, sprite);
+    }
+
+    @Override
+    public double getBoost() {
+        return 0;
+    }
+
+    @Override
+    public void render() {
+
     }
 }

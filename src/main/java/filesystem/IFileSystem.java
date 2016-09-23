@@ -9,6 +9,7 @@ import java.util.List;
  * This interface defines a file system. All file-access should be led by an implementation of this interface.
  */
 public interface IFileSystem {
+
     /**
      * Reads a text file and returns the contents as a list of Strings.
      *
@@ -67,15 +68,6 @@ public interface IFileSystem {
     void clearFile(String filename);
 
     /**
-     * Writes {@code content} to the end of the text-file given by the filepath {@code filename}.
-     *
-     * @param filename The full path to the file.
-     * @param content  The text to write to the file.
-     * @throws FileNotFoundException Thrown when the file could not be found.
-     */
-    void appendToTextFile(String filename, String content) throws FileNotFoundException;
-
-    /**
      * Writes {@code content} to {@code writer}..
      *
      * @param writer The writer you want to use to write the data to
@@ -103,4 +95,5 @@ public interface IFileSystem {
      * @throws FileNotFoundException Thrown when the file specified was not found
      */
     File getFile(String filename) throws FileNotFoundException;
+
 }

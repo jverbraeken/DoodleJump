@@ -20,81 +20,65 @@ public final class BlockFactory implements IBlockFactory {
      * Used to gain access to all services.
      */
     private static transient IServiceLocator sL;
-
-    /**
-     * Register the block factory into the service locator.
-     * @param sL the service locator.
-     */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        BlockFactory.sL = sL;
-        BlockFactory.sL.provide(new BlockFactory());
-    }
-
     /**
      * This is only to be sure a block has a certain height.
      * After this the block will be
      * dynamic to the last element added to the list
      */
     private final int constructionOffset = 800;
-
     /**
      * The maximum amount of platforms per block.
      */
     private final int maxPlatforms = 10;
-
     /**
      * The minimum amount of platforms per block.
      */
     private final int minPlatforms = 4;
-
     /**
      * Offset to clean up platforms upon leaving the screen.
      */
     private final double cleanupOffset = 0.01;
-
     /**
      * Offset to place the trampoline on the proper place of a platform.
      */
     private final int itemYoffset = 5;
-
     /**
      * Offset to place the trampoline on the proper place of a platform.
      */
     private final int trampolineXoffset = 20;
-
     /**
      * Threshold in order to spawn a trampoline.
      * random int(10.000 > 9900)
      */
     private final int trampolineThreshold = 9900;
-
     /**
      * Threshold in order to spawn a trampoline.
      * random int(9500 < x < 9900)
      */
     private final int springThreshold = 9500;
-
     /**
      * Total threshold number for item generation.
      * random int(10000)
      */
     private final int maxPowerupThreshold = 10000;
-
     /**
      * A multiplier to generate a proper height deviation.
      */
     private final double heightDeviationMultiplier = 1.7;
-
     /**
      * An offset to generate a minimum height deviation.
      */
     private final double heightDeviationOffset = 0.8;
 
     /**
-     * Prevent instantiations of BlockFactory.
+     * Register the block factory into the service locator.
+     *
+     * @param sL the service locator.
      */
-    private BlockFactory() {
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        BlockFactory.sL = sL;
+        BlockFactory.sL.provide(new BlockFactory());
     }
 
     /**

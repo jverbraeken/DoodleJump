@@ -20,6 +20,17 @@ public final class FileSystem implements IFileSystem {
      */
     private static transient IServiceLocator sL;
     /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        FileSystem.sL = sL;
+        sL.provide(new FileSystem());
+    }
+
+    /**
      * A classloader in order to load in resources.
      */
     private ClassLoader classLoader = getClass().getClassLoader();
@@ -29,17 +40,6 @@ public final class FileSystem implements IFileSystem {
      */
     private FileSystem() {
 
-    }
-
-    /**
-     * Register the FileSystem into the service locator.
-     *
-     * @param sL the service locator.
-     */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        FileSystem.sL = sL;
-        FileSystem.sL.provide(new FileSystem());
     }
 
     /**
@@ -147,19 +147,6 @@ public final class FileSystem implements IFileSystem {
             pw.flush();
             pw.close();
             fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void appendToTextFile(final String filename, final String content) throws FileNotFoundException {
-        try (final Writer fw = new FileWriter(filename, true);
-             final Writer bw = new BufferedWriter(fw)) {
-            bw.write(content + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
