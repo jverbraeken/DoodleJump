@@ -12,6 +12,8 @@
       <entry name="!?*.kt" />
       <entry name="!?*.clj" />
       <entry name="!?*.aj" />
+      <entry name="!?*.png" />
+      <entry name="!?*.jpg" />
     </wildcardResourcePatterns>
     <annotationProcessing>
       <profile default="true" name="Default" enabled="false">

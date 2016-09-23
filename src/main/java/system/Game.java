@@ -234,7 +234,6 @@ public final class Game {
             long updateLength = now - lastLoopTime;
             lastLoopTime = now;
             double delta = updateLength / ((double) OPTIMAL_TIME);
-            System.out.println(delta);
 
             lastFpsTime += updateLength;
             if (lastFpsTime >= ICalc.NANOSECONDS) {

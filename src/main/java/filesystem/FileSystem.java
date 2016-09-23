@@ -3,12 +3,8 @@ package filesystem;
 import system.IServiceLocator;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,6 +33,7 @@ public final class FileSystem implements IFileSystem {
 
     /**
      * Register the FileSystem into the service locator.
+     *
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
@@ -45,7 +42,9 @@ public final class FileSystem implements IFileSystem {
         FileSystem.sL.provide(new FileSystem());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String> readTextFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -66,7 +65,9 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InputStream readBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -76,7 +77,9 @@ public final class FileSystem implements IFileSystem {
         return new BufferedInputStream(inputStream);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BufferedImage readImage(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -89,7 +92,9 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Clip readSound(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -106,7 +111,9 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void writeTextFile(final String filename, final String content) throws FileNotFoundException {
         File file = getFile(filename);
@@ -122,20 +129,23 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void appendToTextFile(String filename, String content) throws FileNotFoundException {
-        try(FileWriter fw = new FileWriter(filename, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter writer = new PrintWriter(bw))
-        {
+    public void appendToTextFile(final String filename, final String content) throws FileNotFoundException {
+        try (final FileWriter fw = new FileWriter(filename, true);
+             final BufferedWriter bw = new BufferedWriter(fw);
+             final PrintWriter writer = new PrintWriter(bw)) {
             writer.println(content);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public OutputStream writeBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -144,12 +154,21 @@ public final class FileSystem implements IFileSystem {
         return new BufferedOutputStream(outputStream);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public File getFile(final String filename) throws FileNotFoundException {
-        assert filename != null;
+    public File getFile(String filename) throws FileNotFoundException {
+        if (filename == null) {
+            throw new IllegalArgumentException("filename cannot be null");
+        }
+        filename.replaceAll("\\\\", "/");
 
-        URL url = classLoader.getResource(filename);
+        if (filename.charAt(0) != '/') {
+            filename = "/" + filename;
+        }
+
+        URL url = getClass().getResource(filename);
         if (url == null) {
             throw new FileNotFoundException("The following file could not be found: \"" + filename + "\"");
         }
