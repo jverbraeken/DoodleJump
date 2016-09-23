@@ -709,7 +709,6 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     private ISprite getSprite(final IRes.Sprites sprite) {
         try {
-            System.out.println(sprite);
             return cache.get(sprite);
         } catch (ExecutionException e) {
             LOGGER.error(e);
