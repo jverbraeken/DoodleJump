@@ -3,40 +3,39 @@ package logging;
 import filesystem.IFileSystem;
 import system.IServiceLocator;
 
-import java.io.FileNotFoundException;
+import java.io.Writer;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.concurrent.*;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /* package */ final class Logger implements ILogger {
-
-    /**
-     * Reference to the file system to write.
-     */
-    private static IFileSystem fileSystem;
-
-    /**
-     * Reference to the class of this logger.
-     */
-    private final Class cl;
-
-    /**
-     * The file to which the log data should be written
-     */
-    private final String logFile;
 
     /**
      * The ThreadPoolExecutor responsible for executing all logging code on a seperate thread to prevent stalling of the game.
      */
     private static final ThreadPoolExecutor loggingThreadExecutor = new ThreadPoolExecutor(0, 50000, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());
+    /**
+     * Reference to the file system to write.
+     */
+    private static IFileSystem fileSystem;
+    /**
+     * Reference to the class of this logger.
+     */
+    private final Class cl;
+    /**
+     * The writer to which the log data should be written
+     */
+    private final Writer writer;
 
     /**
      * Only create Logger in LoggerFactory.
      */
-    /* package */ Logger(IServiceLocator sL, Class<?> cl, String logFile) {
+    /* package */ Logger(IServiceLocator sL, Class<?> cl, Writer writer) {
         Logger.fileSystem = sL.getFileSystem();
         this.cl = cl;
-        this.logFile = logFile;
+        this.writer = writer;
     }
 
     /**
@@ -78,13 +77,12 @@ import java.util.concurrent.*;
 
     private void appendStringToTextFile(final String str) {
         Runnable runnable = () -> {
-            try {
-                fileSystem.appendToTextFile(logFile, str);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            fileSystem.appendToTextFile(writer, str);
         };
-        loggingThreadExecutor.execute(runnable);
+        loggingThreadExecutor.execute(runnable);long submitted = loggingThreadExecutor.getTaskCount();
+        long completed = loggingThreadExecutor.getCompletedTaskCount();
+        long notCompleted = submitted - completed;
+        System.out.println(notCompleted);
     }
 
     /**

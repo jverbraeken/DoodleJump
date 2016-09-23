@@ -2,10 +2,7 @@ package filesystem;
 
 import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -70,13 +67,21 @@ public interface IFileSystem {
     void clearFile(String filename);
 
     /**
-     * Writes {@code content} to the end of the tixt-fiel given by the filepath {@code filenam}.
+     * Writes {@code content} to the end of the text-file given by the filepath {@code filename}.
      *
      * @param filename The full path to the file.
      * @param content  The text to write to the file.
      * @throws FileNotFoundException Thrown when the file could not be found.
      */
     void appendToTextFile(String filename, String content) throws FileNotFoundException;
+
+    /**
+     * Writes {@code content} to {@code writer}..
+     *
+     * @param writer The writer you want to use to write the data to
+     * @param content  The text to write to the file
+     */
+    void appendToTextFile(Writer writer, String content);
 
     /**
      * Returns an {@link OutputStream} that can be used to write binary data to the binary file. The path to the file must exist.

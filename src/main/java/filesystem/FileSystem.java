@@ -157,9 +157,22 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public void appendToTextFile(final String filename, final String content) throws FileNotFoundException {
-        try (final FileWriter fw = new FileWriter(filename, true);
-             final BufferedWriter bw = new BufferedWriter(fw)) {
+        try (final Writer fw = new FileWriter(filename, true);
+             final Writer bw = new BufferedWriter(fw)) {
             bw.write(content + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void appendToTextFile(final Writer writer, final String content) {
+        try {
+            writer.write(content + "\n");
+            writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
