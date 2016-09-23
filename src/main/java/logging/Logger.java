@@ -23,7 +23,7 @@ import java.util.concurrent.*;
     /**
      * The file to which the log data should be written
      */
-    private static final String LOGFILE = "async.log";
+    private final String logFile;
 
     /**
      * The ThreadPoolExecutor responsible for executing all logging code on a seperate thread to prevent stalling of the game.
@@ -33,9 +33,10 @@ import java.util.concurrent.*;
     /**
      * Only create Logger in LoggerFactory.
      */
-    /* package */ Logger(IServiceLocator sL, Class<?> cl) {
+    /* package */ Logger(IServiceLocator sL, Class<?> cl, String logFile) {
         Logger.fileSystem = sL.getFileSystem();
         this.cl = cl;
+        this.logFile = logFile;
     }
 
     /**
@@ -78,7 +79,7 @@ import java.util.concurrent.*;
     private void appendStringToTextFile(final String str) {
         Runnable runnable = () -> {
             try {
-                fileSystem.appendToTextFile(LOGFILE, str);
+                fileSystem.appendToTextFile(logFile, str);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

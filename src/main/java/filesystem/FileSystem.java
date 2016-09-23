@@ -133,11 +133,33 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
+    public void deleteFile(final String filename) {
+        (new File(filename)).delete();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clearFile(final String filename) {
+        try (final FileWriter fw = new FileWriter(filename, false);
+             final PrintWriter pw = new PrintWriter(fw, false)) {
+            pw.flush();
+            pw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void appendToTextFile(final String filename, final String content) throws FileNotFoundException {
         try (final FileWriter fw = new FileWriter(filename, true);
-             final BufferedWriter bw = new BufferedWriter(fw);
-             final PrintWriter writer = new PrintWriter(bw)) {
-            writer.println(content);
+             final BufferedWriter bw = new BufferedWriter(fw)) {
+            bw.write(content + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

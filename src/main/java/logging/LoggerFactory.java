@@ -21,14 +21,21 @@ public class LoggerFactory implements ILoggerFactory {
     }
 
     /**
+     * The file to which the log data should be written
+     */
+    private static final String LOGFILE = "async.log";
+
+    /**
      * Hidden constructor to prevent instantiation.
      */
-    private LoggerFactory() { }
+    private LoggerFactory() {
+        LoggerFactory.sL.getFileSystem().clearFile(LOGFILE);
+    }
 
     /** {@inheritDoc} */
     @Override
     public ILogger createLogger(Class<?> cl) {
-        return new Logger(sL, cl);
+        return new Logger(sL, cl, LOGFILE);
     }
 
 }
