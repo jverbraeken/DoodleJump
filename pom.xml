@@ -142,14 +142,4 @@
             </plugin>
         </plugins>
     </reporting>
-
-    <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-            <targetPath>resources</targetPath>
-            <includes>
-                <include>**/*.png</include>
-            </includes>
-        </resource>
-    </resources>
 </project>
