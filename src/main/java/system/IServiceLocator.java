@@ -1,5 +1,6 @@
 package system;
 
+import constants.IConstants;
 import objects.buttons.IButtonFactory;
 import resources.IRes;
 import resources.audio.IAudioManager;
@@ -32,6 +33,7 @@ public interface IServiceLocator {
     void provide(IPlatformFactory platformFactory);
     void provide(IRes res);
     void provide(IButtonFactory buttonFactory);
+    void provide(IConstants constants);
 
     IAudioManager getAudioManager();
     IEnemyBuilder getEnemyBuilder();
@@ -48,5 +50,6 @@ public interface IServiceLocator {
     IPlatformFactory getPlatformFactory();
     IRes getRes();
     IButtonFactory getButtonFactory();
+    IConstants getConstants();
 
 }

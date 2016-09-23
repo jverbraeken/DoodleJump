@@ -14,8 +14,6 @@ import system.Game;
 import system.IServiceLocator;
 
 public final class Doodle extends AGameObject implements IDoodle {
-    //TODO check final/static
-    private static IServiceLocator serviceLocator;
     /**
      * The height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
@@ -59,10 +57,9 @@ public final class Doodle extends AGameObject implements IDoodle {
      *
      * @param serviceLocator The service locator
      */
-     /* package */ Doodle(IServiceLocator serviceLocator) {
-        super(Game.WIDTH / 2, Game.HEIGHT / 2, serviceLocator.getSpriteFactory().getDoodleSprite(directions.right)[0]);
+     /* package */ Doodle(final IServiceLocator serviceLocator) {
+        super(serviceLocator, serviceLocator.getConstants().getGameWidth() / 2, serviceLocator.getConstants().getGameHeight() / 2, serviceLocator.getSpriteFactory().getDoodleSprite(directions.right)[0]);
         this.setHitBox(getSprite().getWidth() / 3, (int) (getSprite().getHeight() * 0.25), 2 * getSprite().getWidth() / 3, getSprite().getHeight());
-        Doodle.serviceLocator = serviceLocator;
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(directions.right);
@@ -210,10 +207,11 @@ public final class Doodle extends AGameObject implements IDoodle {
      */
     private void wrap() {
         double middle = this.getXPos() + this.getHitBox()[AGameObject.HITBOX_RIGHT] / 2;
+        final int width = serviceLocator.getConstants().getGameWidth();
         if (middle < 0) {
-            this.addXPos(Game.WIDTH);
-        } else if (middle > Game.WIDTH) {
-            this.addXPos(-Game.WIDTH);
+            this.addXPos(width);
+        } else if (middle > width) {
+            this.addXPos(-width);
         }
     }
 
@@ -239,15 +237,16 @@ public final class Doodle extends AGameObject implements IDoodle {
 
     private void checkHighPosition() {
         ICamera camera = serviceLocator.getRenderer().getCamera();
-        if (getYPos() < camera.getYPos() + Game.HEIGHT / 2) {
-            score += (camera.getYPos() + Game.HEIGHT / 2 - getYPos()) * World.SCOREMULTIPLIER;
-            camera.setYPos(getYPos() - Game.HEIGHT / 2);
+        final int height = serviceLocator.getConstants().getGameHeight();
+        if (getYPos() < camera.getYPos() + height / 2) {
+            score += (camera.getYPos() + height / 2 - getYPos()) * World.SCOREMULTIPLIER;
+            camera.setYPos(getYPos() - height / 2);
         }
     }
 
     private void checkDeadPosition() {
         ICamera camera = serviceLocator.getRenderer().getCamera();
-        if (getYPos() > camera.getYPos() + Game.HEIGHT - getHitBox()[HITBOX_BOTTOM]) {
+        if (getYPos() > camera.getYPos() + serviceLocator.getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
             Game.setAlive(false);
         }
     }

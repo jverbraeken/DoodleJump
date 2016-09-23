@@ -30,8 +30,8 @@ public class KillScreen implements IScene, IMouseInputObserver {
         gameOverSprite = serviceLocator.getSpriteFactory().getGameOverSprite();
 
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        playAgainButton = buttonFactory.createPlayAgainButton((int) (Game.WIDTH * playAgainButtonXPercentage), (int) (Game.HEIGHT * playAgainButtonYPercentage));
-        mainMenuButton = buttonFactory.createMainMenuButton((int) (Game.WIDTH * mainMenuButtonXPercentage), (int) (Game.HEIGHT * mainMenuButtonYPercentage));
+        playAgainButton = buttonFactory.createPlayAgainButton((int) (serviceLocator.getConstants().getGameWidth() * playAgainButtonXPercentage), (int) (serviceLocator.getConstants().getGameHeight() * playAgainButtonYPercentage));
+        mainMenuButton = buttonFactory.createMainMenuButton((int) (serviceLocator.getConstants().getGameWidth() * mainMenuButtonXPercentage), (int) (serviceLocator.getConstants().getGameHeight() * mainMenuButtonYPercentage));
 
     }
 
@@ -54,8 +54,8 @@ public class KillScreen implements IScene, IMouseInputObserver {
     @Override
     public void render() {
         serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0 );
-        serviceLocator.getRenderer().drawSpriteHUD(this.gameOverSprite, (int)(Game.WIDTH * gameOverTextXPercentage), (int)(Game.HEIGHT *gameOverTextYPercentage));
-        double y = (double) Game.HEIGHT - (double) bottomKillScreen.getHeight();
+        serviceLocator.getRenderer().drawSpriteHUD(this.gameOverSprite, (int)(serviceLocator.getConstants().getGameWidth() * gameOverTextXPercentage), (int)(serviceLocator.getConstants().getGameHeight() *gameOverTextYPercentage));
+        double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
         serviceLocator.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
         playAgainButton.render();
         mainMenuButton.render();

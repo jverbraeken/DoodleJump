@@ -9,8 +9,6 @@ import system.IServiceLocator;
 
 public class Trampoline extends APowerup implements IJumpable {
 
-    private static IServiceLocator serviceLocator;
-
     /**
      * The sprite for the Trampoline.
      */
@@ -27,8 +25,7 @@ public class Trampoline extends APowerup implements IJumpable {
      * @param y - The Y location for the trampoline.
      */
     /* package */ Trampoline(final IServiceLocator serviceLocator, final int x, final int y) {
-        super(x, y, serviceLocator.getSpriteFactory().getTrampolineSprite());
-        Trampoline.serviceLocator = serviceLocator;
+        super(serviceLocator, x, y, serviceLocator.getSpriteFactory().getTrampolineSprite());
     }
 
     private void animate() {

@@ -1,5 +1,7 @@
 package system;
 
+import constants.Constants;
+import constants.IConstants;
 import filesystem.FileSystem;
 import input.IInputManager;
 import input.InputManager;
@@ -28,8 +30,6 @@ import java.awt.event.WindowEvent;
 public final class Game {
 
     // TODO: Remove unused and add JavaDoc
-    public final static int WIDTH = 640;
-    public final static int HEIGHT = 960;
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
     private static final double RESUMEBUTTONX = 0.55;
@@ -64,6 +64,7 @@ public final class Game {
         PlatformFactory.register(serviceLocator);
         Res.register(serviceLocator);
         ButtonFactory.register(serviceLocator);
+        Constants.register(serviceLocator);
     }
 
     public static void main(String[] argv) {
@@ -88,7 +89,7 @@ public final class Game {
         });
         frame.addMouseListener(inputManager);
         frame.addKeyListener(inputManager);
-        frame.setSize(Game.WIDTH, Game.HEIGHT);
+        frame.setSize(serviceLocator.getConstants().getGameWidth(), serviceLocator.getConstants().getGameHeight());
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -116,7 +117,7 @@ public final class Game {
                 ((Graphics2D) g).scale(scale, scale);
             }
         };
-        frame.setSize(Game.WIDTH / 2, Game.HEIGHT / 2);
+        frame.setSize(serviceLocator.getConstants().getGameWidth() / 2, serviceLocator.getConstants().getGameHeight() / 2);
         panel.setLayout(new GridLayout(1, 1));
 
         frame.setContentPane(panel);
@@ -126,7 +127,7 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (Game.WIDTH * RESUMEBUTTONX), (int) (Game.HEIGHT * RESUMEBUTTONY));
+        resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (serviceLocator.getConstants().getGameWidth() * RESUMEBUTTONX), (int) (serviceLocator.getConstants().getGameHeight() * RESUMEBUTTONY));
         serviceLocator.getInputManager().addObserver(resumeButton);
 
         loop();
@@ -214,7 +215,7 @@ public final class Game {
      */
     private static void drawPauseScreen() {
         ISprite pauseCover = serviceLocator.getSpriteFactory().getPauseCoverSprite();
-        double scaling = (double) WIDTH / (double) pauseCover.getWidth();
+        double scaling = (double) serviceLocator.getConstants().getGameWidth() / (double) pauseCover.getWidth();
         serviceLocator.getRenderer().drawSpriteHUD(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
         resumeButton.render();
     }

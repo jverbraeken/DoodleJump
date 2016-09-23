@@ -3,11 +3,14 @@ package objects;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.Game;
+import system.IServiceLocator;
 
 /**
  * The super class of all classes that represents objects in the game.
  */
 public abstract class AGameObject implements IGameObject {
+
+    protected static IServiceLocator serviceLocator;
 
     public static final transient int HITBOX_LEFT = 0;
     public static final transient int HITBOX_RIGHT = 1;
@@ -24,12 +27,13 @@ public abstract class AGameObject implements IGameObject {
      * @param y The Y-coordinate of the game object
      * @param sprite The sprite of the game object. Can be {null} when the object is a {@link objects.blocks.IBlock block}
      */
-    public AGameObject(int x, int y, ISprite sprite) {
+    public AGameObject(final IServiceLocator serviceLocator, int x, int y, ISprite sprite) {
+        AGameObject.serviceLocator = serviceLocator;
         setXPos(x);
         setYPos(y);
         if (sprite == null) {
             //TODO This is not so awesome
-            setHitBox(x, y, Game.WIDTH, Integer.MAX_VALUE);
+            setHitBox(x, y, serviceLocator.getConstants().getGameWidth(), Integer.MAX_VALUE);
         } else {
             setHitBox(0, 0, sprite.getWidth(), sprite.getHeight());
             setSprite(sprite);

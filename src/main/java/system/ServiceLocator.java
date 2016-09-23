@@ -1,5 +1,6 @@
 package system;
 
+import constants.IConstants;
 import filesystem.IFileSystem;
 import input.IInputManager;
 import math.ICalc;
@@ -16,6 +17,9 @@ import resources.sprites.ISpriteFactory;
 import scenes.ISceneFactory;
 
 /* package */ class ServiceLocator implements IServiceLocator {
+
+    // constants
+    private IConstants constants;
 
     // input
     private IInputManager inputManager;
@@ -190,6 +194,23 @@ import scenes.ISceneFactory;
      * {@inheritDoc}
      */
     @Override
+    public void provide(IConstants constants) {
+        assert buttonFactory != null;
+        this.constants = constants;
+    }
+
+
+
+
+
+
+
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IAudioManager getAudioManager() {
         assert audioManager != null;
         return audioManager;
@@ -319,6 +340,15 @@ import scenes.ISceneFactory;
     public IButtonFactory getButtonFactory() {
         assert buttonFactory != null;
         return buttonFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IConstants getConstants() {
+        assert constants != null;
+        return constants;
     }
 
 }

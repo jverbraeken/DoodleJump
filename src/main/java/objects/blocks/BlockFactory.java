@@ -36,8 +36,8 @@ public final class BlockFactory implements IBlockFactory {
     public synchronized IBlock createStartBlock() {
         Set<IGameObject> elements = new HashSet<>();
         
-        int platformAmount = serviceLocator.getCalc().getRandomIntBetween(6, (Game.WIDTH + Game.HEIGHT) / 130);
-        int heightDividedPlatforms = Game.HEIGHT / platformAmount;
+        int platformAmount = serviceLocator.getCalc().getRandomIntBetween(6, (serviceLocator.getConstants().getGameWidth() + serviceLocator.getConstants().getGameHeight()) / 130);
+        int heightDividedPlatforms = serviceLocator.getConstants().getGameHeight() / platformAmount;
 
         IPlatform topJumpable = placeInitialStartBlockPlatforms(elements);
         topJumpable = placeStartBlockPlatforms(elements, topJumpable, platformAmount, heightDividedPlatforms);
@@ -51,8 +51,8 @@ public final class BlockFactory implements IBlockFactory {
     public synchronized IBlock createBlock(final IJumpable topJumpable) {
         Set<IGameObject> elements = new HashSet<>();
 
-        int platformAmount = serviceLocator.getCalc().getRandomIntBetween(8, (Game.WIDTH + Game.HEIGHT) / 120);
-        int heightDividedPlatforms = Game.HEIGHT / platformAmount;
+        int platformAmount = serviceLocator.getCalc().getRandomIntBetween(8, (serviceLocator.getConstants().getGameWidth() + serviceLocator.getConstants().getGameHeight()) / 120);
+        int heightDividedPlatforms = serviceLocator.getConstants().getGameHeight() / platformAmount;
 
         IJumpable newTopJumpable = placeBlockPlatforms(elements, topJumpable, platformAmount, heightDividedPlatforms);
 
@@ -87,7 +87,7 @@ public final class BlockFactory implements IBlockFactory {
     private IPlatform placeInitialStartBlockPlatforms(final Set<IGameObject> elements) {
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
         //TODO 1.2 is a magic number
-        IPlatform platform = platformFactory.createPlatform(Game.WIDTH / 2, (int) (Game.HEIGHT / 1.2));
+        IPlatform platform = platformFactory.createPlatform(serviceLocator.getConstants().getGameWidth() / 2, (int) (serviceLocator.getConstants().getGameHeight() / 1.2));
         elements.add(platform);
         return platform;
     }
@@ -144,7 +144,7 @@ public final class BlockFactory implements IBlockFactory {
         IPlatform platform = platformFactory.createPlatform(0, yLoc);
 
         //TODO This prohibits platforms from being immutable
-        int xLoc = (int) (widthDeviation * (Game.WIDTH - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
+        int xLoc = (int) (widthDeviation * (serviceLocator.getConstants().getGameWidth() - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
         platform.setXPos(xLoc);
 
         return platform;

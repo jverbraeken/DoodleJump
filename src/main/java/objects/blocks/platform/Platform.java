@@ -7,8 +7,6 @@ import system.IServiceLocator;
 
 public class Platform extends AGameObject implements IPlatform {
 
-    private static IServiceLocator serviceLocator;
-
     private static final double boost = -16;
 
     /**
@@ -19,8 +17,7 @@ public class Platform extends AGameObject implements IPlatform {
      * @param y - The Y location for the platform.
      */
     /* package */ Platform(IServiceLocator serviceLocator, int x, int y) {
-        super(x, y, serviceLocator.getSpriteFactory().getPlatformSprite1());
-        Platform.serviceLocator = serviceLocator;
+        super(serviceLocator, x, y, serviceLocator.getSpriteFactory().getPlatformSprite1());
     }
 
     /** {@inheritDoc} */

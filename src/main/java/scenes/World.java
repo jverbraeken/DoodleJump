@@ -107,7 +107,7 @@ public class World implements IScene {
      */
     @Override
     public void start() {
-        this.serviceLocator.getRenderer().getCamera().setYPos(Game.HEIGHT / 2d);
+        this.serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
     }
 
     /**
@@ -180,7 +180,7 @@ public class World implements IScene {
     private void cleanUp() {
         HashSet<IBlock> toRemove = new HashSet<>();
         for (IBlock e : blocks) {
-            if (e.getTopJumpable().getYPos() > serviceLocator.getRenderer().getCamera().getYPos() + Game.HEIGHT) {
+            if (e.getTopJumpable().getYPos() > serviceLocator.getRenderer().getCamera().getYPos() + serviceLocator.getConstants().getGameHeight()) {
                 toRemove.add(e);
             }
         }
@@ -223,7 +223,7 @@ public class World implements IScene {
 
         private Scorebar() {
             scoreBarSprite = serviceLocator.getSpriteFactory().getScorebarSprite();
-            scaling = (double) Game.WIDTH / (double) scoreBarSprite.getWidth();
+            scaling = (double) serviceLocator.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth();
             scoreBarHeight = (int) (scaling * scoreBarSprite.getHeight());
 
             ISprite[] digitSprites = new ISprite[10];
@@ -235,15 +235,15 @@ public class World implements IScene {
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
 
             ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseButtonSprite();
-            int pauseX = (int) (Game.WIDTH - pauseSprite.getWidth() * scaling - PAUSEOFFSET);
-            int pauseY = (int) (((double) Game.WIDTH / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
+            int pauseX = (int) (serviceLocator.getConstants().getGameWidth() - pauseSprite.getWidth() * scaling - PAUSEOFFSET);
+            int pauseY = (int) (((double) serviceLocator.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
         }
 
         /** {@inheritDoc} */
         @Override
         public void render() {
-            serviceLocator.getRenderer().drawSpriteHUD(scoreBarSprite, 0, 0, Game.WIDTH, scoreBarHeight);
+            serviceLocator.getRenderer().drawSpriteHUD(scoreBarSprite, 0, 0, serviceLocator.getConstants().getGameWidth(), scoreBarHeight);
             scoreText.render();
             pauseButton.render();
         }
