@@ -20,11 +20,15 @@ import java.util.Stack;
 
 public class World implements IScene {
 
+    /**
+     * The logger for the World class.
+     */
+    private final ILogger LOGGER;
+
     // TODO: Add JavaDoc
     private final static double SCOREMULTIPLIER = 0.15;
     private final static int PAUSEOFFSET = 38;
     private final IServiceLocator serviceLocator;
-    private final ILogger logger;
 
     /**
      * The fastest the doodle can go vertically.
@@ -61,7 +65,7 @@ public class World implements IScene {
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
-        this.logger = serviceLocator.getLoggerFactory().createLogger(World.class);
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(World.class);
 
         Game.setAlive(true);
 
@@ -81,17 +85,19 @@ public class World implements IScene {
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
         this.vSpeed = -9;
-
-        logger.log("World has started");
     }
 
     /** {@inheritDoc} */
     @Override
-    public void start() { }
+    public void start() {
+        LOGGER.log("World has been started");
+    }
 
     /** {@inheritDoc} */
     @Override
-    public void stop() { }
+    public void stop() {
+        LOGGER.log("World has been stopped");
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -158,7 +164,7 @@ public class World implements IScene {
      * Applies gravity vAcceleration to the doodle.
      */
     private void applyGravity() {
-        this.vSpeed += this.gravityAcceleration;
+        this.vSpeed += gravityAcceleration;
     }
 
     /**

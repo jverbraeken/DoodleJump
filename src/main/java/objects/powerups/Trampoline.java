@@ -5,8 +5,14 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+/**
+ * Trampoline implementation of a powerup.
+ */
 public class Trampoline extends APowerup implements IPowerup {
 
+    /**
+     * Used to gain access to all services.
+     */
     private static IServiceLocator serviceLocator;
 
     /**
@@ -56,7 +62,7 @@ public class Trampoline extends APowerup implements IPowerup {
         this.animate();
         this.playSound();
 
-        return this.boost;
+        return boost;
     }
 
     /** {@inheritDoc} */

@@ -3,6 +3,9 @@ package resources.sprites;
 import objects.doodles.IDoodle;
 import system.IFactory;
 
+/**
+ * Interface for a SpriteFactory.
+ */
 public interface ISpriteFactory extends IFactory {
 
     // Buttons

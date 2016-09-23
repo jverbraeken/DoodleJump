@@ -2,6 +2,9 @@ package logging;
 
 import system.IServiceLocator;
 
+/**
+ * Standard implementation of the LoggingFactory. Used to create loggers.
+ */
 public class LoggerFactory implements ILoggerFactory {
 
     /**

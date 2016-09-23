@@ -4,6 +4,9 @@ import logging.ILogger;
 import objects.IGameObject;
 import system.IServiceLocator;
 
+/**
+ * Standard implementation of the EnemyBuilder. Used to generate enemies.
+ */
 public final class EnemyBuilder implements IEnemyBuilder {
 
     /**

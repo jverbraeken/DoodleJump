@@ -45,15 +45,6 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
-    public World newWorld() {
-        LOGGER.info("A new World has been created");
-        return new World(serviceLocator);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public IScene createKillScreen() {
         LOGGER.info("A new KillScreen has been created");
         return new KillScreen(serviceLocator);
@@ -66,6 +57,15 @@ public final class SceneFactory implements ISceneFactory {
     public IScene createPauseScreen() {
         LOGGER.info("A new PauseScreen has been created");
         return new PauseScreen(serviceLocator);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public World newWorld() {
+        LOGGER.info("A new World has been created");
+        return new World(serviceLocator);
     }
 
 }

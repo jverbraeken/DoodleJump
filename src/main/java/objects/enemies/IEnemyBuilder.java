@@ -2,6 +2,9 @@ package objects.enemies;
 
 import objects.IGameObject;
 
+/**
+ * Interface for an EnemyBuilder.
+ */
 public interface IEnemyBuilder {
 
     /**

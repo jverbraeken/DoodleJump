@@ -9,6 +9,9 @@ import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
+/**
+ * KillScreen implementation of a scene.
+ */
 /* package */ class KillScreen implements IScene, IMouseInputObserver {
 
     /**

@@ -11,21 +11,24 @@ import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
+/**
+ * Menu implementation of a scene. Used as main menu.
+ */
 /* package */ class Menu implements IScene, IKeyInputObserver {
 
     /**
      * The logger for the Menu class.
      */
     private final ILogger LOGGER;
+    /**
+     * The X and Y location for the play button.
+     */
+    private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
 
     /**
      * Used to gain access to all services.
      */
     private final IServiceLocator serviceLocator;
-    /**
-     * The X and Y location for the play button.
-     */
-    private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
     /**
      * The play button.
      */

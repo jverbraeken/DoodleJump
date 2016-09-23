@@ -4,6 +4,9 @@ import logging.ILogger;
 import objects.IGameObject;
 import system.IServiceLocator;
 
+/**
+ * Standard implementation of the PowerupFactory. Used to generate powerups.
+ */
 public final class PowerupFactory implements IPowerupFactory {
 
     /**

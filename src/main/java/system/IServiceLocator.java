@@ -17,6 +17,9 @@ import rendering.IRenderer;
 import scenes.ISceneFactory;
 import resources.sprites.ISpriteFactory;
 
+/**
+ * Interface for a ServiceLocator.
+ */
 public interface IServiceLocator {
 
     void provide(IAudioManager audioManager);

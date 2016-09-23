@@ -1,28 +1,9 @@
 package system;
 
-import filesystem.FileSystem;
 import input.IInputManager;
-import input.InputManager;
 import logging.ILogger;
-import logging.LoggerFactory;
-import math.Calc;
 import math.ICalc;
-import objects.Collisions;
-import objects.blocks.BlockFactory;
-import objects.blocks.platform.PlatformFactory;
-import buttons.ButtonFactory;
-import buttons.IButton;
-import objects.doodles.DoodleFactory;
-import objects.doodles.IDoodle;
-import objects.enemies.EnemyBuilder;
-import objects.powerups.PowerupFactory;
-import rendering.Renderer;
-import resources.Res;
-import resources.audio.AudioManager;
-import resources.sprites.ISprite;
-import resources.sprites.SpriteFactory;
 import scenes.IScene;
-import scenes.SceneFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,15 +12,23 @@ import java.awt.event.WindowEvent;
 
 public final class Game {
 
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator serviceLocator = new ServiceLocator();
+
+    /**
+     * The logger for the Game class.
+     */
+    private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+
     // TODO: Remove unused and add JavaDoc
     public final static int WIDTH = 640;
     public final static int HEIGHT = 960;
-    private static ILogger LOGGER;
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
     private static final double RESUMEBUTTONX = 0.55;
     private static final double RESUMEBUTTONY = 0.75;
-    private static IServiceLocator serviceLocator = new ServiceLocator();
     private static JFrame frame;
     private static JPanel panel;
     private static IScene scene;
@@ -61,7 +50,8 @@ public final class Game {
     }
 
     public static void main(String[] argv) {
-        Game.LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+        LOGGER.info("The game has been launched");
+
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
         IInputManager inputManager = serviceLocator.getInputManager();
         serviceLocator.getRenderer().start();

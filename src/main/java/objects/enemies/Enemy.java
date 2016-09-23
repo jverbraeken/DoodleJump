@@ -1,5 +1,8 @@
 package objects.enemies;
 
+/**
+ * Standard implementation of the Enemy.
+ */
 /* package */ class Enemy extends AEnemy implements IEnemy {
 
     /**

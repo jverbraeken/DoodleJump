@@ -1,5 +1,8 @@
 package resources.audio;
 
+/**
+ * Interface for an AudioManager.
+ */
 public interface IAudioManager {
 
     /**

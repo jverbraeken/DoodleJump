@@ -6,6 +6,9 @@ import system.IServiceLocator;
 import javax.sound.sampled.Clip;
 import java.io.FileNotFoundException;
 
+/**
+ * Standard implementation of the AudioManager. Used to load an play audio.
+ */
 public final class AudioManager implements IAudioManager {
 
     /**

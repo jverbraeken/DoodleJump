@@ -5,6 +5,9 @@ import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
+/**
+ * Standard implementation of the ButtonFactory. Used to create buttons.
+ */
 public class ButtonFactory implements IButtonFactory {
 
     /**

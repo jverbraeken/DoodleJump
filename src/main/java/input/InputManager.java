@@ -8,10 +8,13 @@ import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Standard implementation of the InputManager. Used to capture and notify observers about Key and Mouse input.
+ */
 public final class InputManager implements IInputManager {
 
     /**
-     * Logger for the InputManager.
+     * The logger for the InputManager.
      */
     private final ILogger LOGGER;
 

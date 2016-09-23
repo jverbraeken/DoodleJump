@@ -1,11 +1,10 @@
 package scenes;
 
-import java.awt.*;
-
 /**
- * Created by joost on 6-9-16.
+ * Interface for a scene.
  */
 public interface IScene {
+
     /**
      * This method must be called when starting the scene.
      */
@@ -26,4 +25,5 @@ public interface IScene {
      * @param delta The time in milliseconds that has passed between the last frame and the new frame
      */
     void update(double delta);
+
 }

@@ -12,6 +12,9 @@ import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Standard implementation of the SpriteFactory. Used to load and get sprites.
+ */
 public final class SpriteFactory implements ISpriteFactory {
 
     /**

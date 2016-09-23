@@ -4,12 +4,16 @@ import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+/**
+ * Standard implementation for the Button. Can be used to create buttons with different sprites and different actions.
+ */
 /* package */ class Button implements IButton {
 
     /**
-     * The LOGGER for the button.
+     * The logger for the Button class.
      */
     private final ILogger LOGGER;
+
     /**
      * Used to gain access to all services.
      */

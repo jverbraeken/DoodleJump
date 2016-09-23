@@ -8,21 +8,24 @@ import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
+/**
+ * PauseScreen implementation of a scene.
+ */
 /* package */ class PauseScreen implements IScene, IMouseInputObserver {
 
     /**
      * The logger for the PauseScreen class.
      */
     private final ILogger LOGGER;
+    /**
+     * The X and Y location for the resume button.
+     */
+    private static final double RESUME_BUTTON_X = 0.55d, RESUME_BUTTON_Y = 0.75d;
 
     /**
      * Used to gain access to all services.
      */
     private final IServiceLocator serviceLocator;
-    /**
-     * The X and Y location for the resume button.
-     */
-    private static final double RESUME_BUTTON_X = 0.55d, RESUME_BUTTON_Y = 0.75d;
     /**
      * The resume button.
      */

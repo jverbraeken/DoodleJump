@@ -3,8 +3,6 @@ package system;
 import buttons.ButtonFactory;
 import filesystem.FileSystem;
 import input.InputManager;
-import logging.Console;
-import logging.ILogger;
 import logging.ILoggerFactory;
 import logging.LoggerFactory;
 import math.Calc;
@@ -35,49 +33,49 @@ import scenes.ISceneFactory;
 import resources.sprites.ISpriteFactory;
 import scenes.SceneFactory;
 
+/**
+ * Default implementation for the ServiceLocator. Used to gain access to all services.
+ */
 /* package */ class ServiceLocator implements IServiceLocator {
 
-    /**
-     * The logger for the service locator.
-     */
-    private static ILogger LOGGER;
+    // audio
+    private IAudioManager audioManager;
 
+    // filesystem
+    private IFileSystem fileSystem;
 
     // input
     private IInputManager inputManager;
 
-    // resources.audio
-    private IAudioManager audioManager;
+    // logger
+    private ILoggerFactory loggerFactory;
+
+    // OBJECTS //
+    // blocks
+    private IBlockFactory blockFactory;
+    private IPlatformFactory platformFactory;
+    // collisions
+    private ICollisions collisions;
+    // doodle
+    private IDoodleFactory doodleFactory;
+    // enemies
+    private IEnemyBuilder enemyBuilder;
+    // powerup
+    private IPowerupFactory powerupFactory;
 
     // rendering
     private IRenderer renderer;
     private IButtonFactory buttonFactory;
 
-    // filesystem
-    private IFileSystem fileSystem;
-
     // resources
     private ISpriteFactory spriteFactory;
     private IRes res;
 
-    // objects.enemies
-    private IEnemyBuilder enemyBuilder;
-
-    // util
-    private ICalc calc;
-
-    // objects
-    private IPowerupFactory powerupFactory;
-    private IDoodleFactory doodleFactory;
-    private IBlockFactory blockFactory;
-    private IPlatformFactory platformFactory;
-    private ICollisions collisions;
-
     // scenes
     private ISceneFactory sceneFactory;
 
-    // logger
-    private ILoggerFactory loggerFactory;
+    // utility
+    private ICalc calc;
 
     /**
      * Initialize the ServiceLocator class.

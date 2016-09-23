@@ -7,6 +7,9 @@ import java.io.FileNotFoundException;
 import java.sql.Timestamp;
 import java.util.Date;
 
+/**
+ * Standard implementation of the Logger. Used to log to a file.
+ */
 /* package */ final class Logger implements ILogger {
 
     /**

@@ -1,5 +1,8 @@
 package logging;
 
+/**
+ * Interface for a Logger.
+ */
 public interface ILogger {
 
     /**
