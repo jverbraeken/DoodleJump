@@ -5,12 +5,12 @@ import system.IServiceLocator;
 
 public class Constants implements IConstants {
 
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
 
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        Constants.serviceLocator = serviceLocator;
-        serviceLocator.provide(new Constants());
+    public static void register(IServiceLocator sL) {
+        assert sL != null;
+        Constants.sL = sL;
+        sL.provide(new Constants());
     }
 
     /**

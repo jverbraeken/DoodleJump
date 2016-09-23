@@ -14,7 +14,7 @@ public final class Renderer implements IRenderer {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
     /**
      * Used to log all actions of the game.
      */
@@ -29,7 +29,7 @@ public final class Renderer implements IRenderer {
      * Prevent public instantiations of the Renderer.
      */
     private Renderer() {
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+        LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
     }
 
     /**
@@ -39,8 +39,8 @@ public final class Renderer implements IRenderer {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        Renderer.serviceLocator = sL;
-        Renderer.serviceLocator.provide(new Renderer());
+        Renderer.sL = sL;
+        Renderer.sL.provide(new Renderer());
     }
 
     /**

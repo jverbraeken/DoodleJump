@@ -22,8 +22,8 @@ import java.util.Date;
     /**
      * Only create Logger in LoggerFactory.
      */
-    /* package */ Logger(IServiceLocator serviceLocator, Class<?> cl) {
-        Logger.fileSystem = serviceLocator.getFileSystem();
+    /* package */ Logger(IServiceLocator sL, Class<?> cl) {
+        Logger.fileSystem = sL.getFileSystem();
         this.cl = cl;
     }
 

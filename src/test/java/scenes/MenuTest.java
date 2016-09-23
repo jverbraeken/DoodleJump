@@ -30,10 +30,10 @@ public class MenuTest {
         IButtonFactory buttonFactory = mock(IButtonFactory.class);
         when(buttonFactory.createPlayButton(anyInt(), anyInt())).thenReturn(playButton);
 
-        IServiceLocator serviceLocator = mock(IServiceLocator.class);
-        when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
-        when(serviceLocator.getButtonFactory()).thenReturn(buttonFactory);
-        menu = new Menu(serviceLocator);*/
+        IServiceLocator sL = mock(IServiceLocator.class);
+        when(sL.getSpriteFactory()).thenReturn(spriteFactory);
+        when(sL.getButtonFactory()).thenReturn(buttonFactory);
+        menu = new Menu(sL);*/
     }
 
     @Test

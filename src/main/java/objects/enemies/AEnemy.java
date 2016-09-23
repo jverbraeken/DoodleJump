@@ -13,7 +13,7 @@ public abstract class AEnemy extends AGameObject implements IEnemy {
      * @param sprite The sprite of the powerup
      */
     public AEnemy(int x, int y, ISprite sprite) {
-        super(serviceLocator, x, y, sprite);
+        super(sL, x, y, sprite);
     }
 
     /** {@inheritDoc} */

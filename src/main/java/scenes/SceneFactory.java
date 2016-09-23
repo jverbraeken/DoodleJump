@@ -9,7 +9,7 @@ public final class SceneFactory implements ISceneFactory {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
 
     /**
      * Prevents instantiation from outside the class.
@@ -24,8 +24,8 @@ public final class SceneFactory implements ISceneFactory {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        SceneFactory.serviceLocator = sL;
-        SceneFactory.serviceLocator.provide(new SceneFactory());
+        SceneFactory.sL = sL;
+        SceneFactory.sL.provide(new SceneFactory());
     }
 
     /**
@@ -33,7 +33,7 @@ public final class SceneFactory implements ISceneFactory {
      */
     @Override
     public IScene newMenu() {
-        return new Menu(serviceLocator);
+        return new Menu(sL);
     }
 
     /**
@@ -41,7 +41,7 @@ public final class SceneFactory implements ISceneFactory {
      */
     @Override
     public IScene newWorld() {
-        return new World(serviceLocator);
+        return new World(sL);
     }
 
     /**
@@ -49,7 +49,7 @@ public final class SceneFactory implements ISceneFactory {
      */
     @Override
     public KillScreen newKillScreen() {
-        return new KillScreen(serviceLocator);
+        return new KillScreen(sL);
     }
 
 }

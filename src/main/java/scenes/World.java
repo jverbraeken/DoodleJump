@@ -43,7 +43,7 @@ public class World implements IScene {
     /**
      * Used to access all services.
      */
-    private final IServiceLocator serviceLocator;
+    private final IServiceLocator sL;
     /**
      * The amount of blocks kept in a buffer.
      */
@@ -95,16 +95,16 @@ public class World implements IScene {
     private List<Set<IRenderable>> drawables = new ArrayList<>();
     private Set<IUpdatable> updatables = Collections.newSetFromMap(new WeakHashMap<>());
 
-    /* package */ World(IServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
-        this.logger = serviceLocator.getLoggerFactory().createLogger(World.class);
+    /* package */ World(IServiceLocator sL) {
+        this.sL = sL;
+        this.logger = sL.getLoggerFactory().createLogger(World.class);
         Game.setAlive(true);
 
         for (int i = 0; i < 3; i++) {
             drawables.add(Collections.newSetFromMap(new WeakHashMap<>()));
         }
 
-        IBlockFactory blockFactory = serviceLocator.getBlockFactory();
+        IBlockFactory blockFactory = sL.getBlockFactory();
         this.topBlock = blockFactory.createStartBlock();
         this.blocks.add(this.topBlock);
         this.drawables.get(0).add(this.topBlock);
@@ -117,18 +117,18 @@ public class World implements IScene {
             this.updatables.add(this.topBlock);
         }
 
-        this.background = serviceLocator.getSpriteFactory().getBackground();
+        this.background = sL.getSpriteFactory().getBackground();
 
         this.scorebar = new Scorebar();
         this.drawables.get(2).add(this.scorebar);
 
-        IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
+        IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
         this.doodle.setVerticalSpeed(-9);
         this.drawables.get(1).add(this.doodle);
         this.updatables.add(this.doodle);
 
-        this.serviceLocator.getAudioManager().playStart();
+        this.sL.getAudioManager().playStart();
 
         logger.log("Level started");
     }
@@ -138,7 +138,7 @@ public class World implements IScene {
      */
     @Override
     public void start() {
-        this.serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
+        this.sL.getRenderer().getCamera().setYPos(sL.getConstants().getGameHeight() / 2d);
     }
 
     /**
@@ -154,7 +154,7 @@ public class World implements IScene {
     @Override
     public void render() {
         //TODO maybe we should make a Background class?
-        serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
+        sL.getRenderer().drawSpriteHUD(this.background, 0, 0);
 
         for (Set<IRenderable> set : drawables) {
             for (IRenderable e : set) {
@@ -210,7 +210,7 @@ public class World implements IScene {
     private void cleanUp() {
         HashSet<IBlock> toRemove = new HashSet<>();
         for (IBlock e : blocks) {
-            if (e.getTopJumpable().getYPos() > serviceLocator.getRenderer().getCamera().getYPos() + serviceLocator.getConstants().getGameHeight()) {
+            if (e.getTopJumpable().getYPos() > sL.getRenderer().getCamera().getYPos() + sL.getConstants().getGameHeight()) {
                 toRemove.add(e);
             }
         }
@@ -226,7 +226,7 @@ public class World implements IScene {
     private void newBlocks() {
         if (blocks.size() < blockBuffer) {
             IJumpable topPlatform = topBlock.getTopJumpable();
-            topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform);
+            topBlock = sL.getBlockFactory().createBlock(topPlatform);
             blocks.add(topBlock);
             drawables.get(0).add(topBlock);
             updatables.add(topBlock);
@@ -267,34 +267,34 @@ public class World implements IScene {
         /**
          * The logger is used to keep track of all the actions performed in the game.
          */
-        private final ILogger logger = serviceLocator.getLoggerFactory().createLogger(Scorebar.class);
+        private final ILogger logger = sL.getLoggerFactory().createLogger(Scorebar.class);
 
         /**
          * Create a new scorebar.
          */
         private Scorebar() {
-            scoreBarSprite = serviceLocator.getSpriteFactory().getScorebarSprite();
-            scaling = (double) serviceLocator.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth();
+            scoreBarSprite = sL.getSpriteFactory().getScorebarSprite();
+            scaling = (double) sL.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth();
             scoreBarHeight = (int) (scaling * scoreBarSprite.getHeight());
 
             ISprite[] digitSprites = new ISprite[NUMBERSYSTEM];
             for (int i = 0; i < NUMBERSYSTEM; i++) {
-                digitSprites[i] = serviceLocator.getSpriteFactory().getDigitSprite(i);
+                digitSprites[i] = sL.getSpriteFactory().getDigitSprite(i);
             }
             int scoreX = (int) (digitSprites[2].getWidth() * scaling);
             int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2);
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
 
-            ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseButtonSprite();
-            int pauseX = (int) (serviceLocator.getConstants().getGameWidth() - pauseSprite.getWidth() * scaling - PAUSEOFFSET);
-            int pauseY = (int) (((double) serviceLocator.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
+            ISprite pauseSprite = sL.getSpriteFactory().getPauseButtonSprite();
+            int pauseX = (int) (sL.getConstants().getGameWidth() - pauseSprite.getWidth() * scaling - PAUSEOFFSET);
+            int pauseY = (int) (((double) sL.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
         }
 
         /** {@inheritDoc} */
         @Override
         public void render() {
-            serviceLocator.getRenderer().drawSpriteHUD(scoreBarSprite, 0, 0, serviceLocator.getConstants().getGameWidth(), scoreBarHeight);
+            sL.getRenderer().drawSpriteHUD(scoreBarSprite, 0, 0, sL.getConstants().getGameWidth(), scoreBarHeight);
             scoreText.render();
             pauseButton.render();
         }
@@ -325,6 +325,7 @@ public class World implements IScene {
                 this.width = (int) (sp.getWidth() * sc);
                 this.height = (int) (sp.getHeight() * sc);
                 this.sprite = sp;
+                sL.getInputManager().addObserver(this);
             }
 
             /**
@@ -332,7 +333,7 @@ public class World implements IScene {
              */
             @Override
             public void render() {
-                serviceLocator.getRenderer().drawSpriteHUD(sprite, x, y, width, height);
+                sL.getRenderer().drawSpriteHUD(sprite, x, y, width, height);
             }
 
             /**
@@ -408,7 +409,7 @@ public class World implements IScene {
                 while (!scoreDigits.isEmpty()) {
                     digit = scoreDigits.pop();
                     sprite = digitSprites[digit];
-                    serviceLocator.getRenderer().drawSpriteHUD(sprite, pos, digitData[digit * DIGITMP], digitData[digit * DIGITMP + 1], digitData[digit * DIGITMP + 2]);
+                    sL.getRenderer().drawSpriteHUD(sprite, pos, digitData[digit * DIGITMP], digitData[digit * DIGITMP + 1], digitData[digit * DIGITMP + 2]);
                     pos += digitData[digit * DIGITMP + 1] + 1;
                 }
             }

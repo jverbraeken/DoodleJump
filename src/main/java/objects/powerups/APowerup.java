@@ -11,13 +11,13 @@ public abstract class APowerup extends AGameObject implements IPowerup {
 
     /**
      * Creates a new powerup and determines its hitbox by using the sprites dimensions automatically.
-     * @param serviceLocator The locator providing services to the powerup
+     * @param sL The locator providing services to the powerup
      * @param x The X-coordinate of the powerup
      * @param y The Y-coordinate of the powerup
      * @param sprite The sprite of the powerup
      */
-    public APowerup(final IServiceLocator serviceLocator, int x, int y, ISprite sprite) {
-        super(serviceLocator, x, y, sprite);
+    public APowerup(final IServiceLocator sL, int x, int y, ISprite sprite) {
+        super(sL, x, y, sprite);
     }
 
 }

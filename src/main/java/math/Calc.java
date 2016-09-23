@@ -11,14 +11,14 @@ import java.util.Random;
 public final class Calc implements ICalc {
     /**
      * Register the FileSystem into the service locator.
-     * @param serviceLocator the service locator.
+     * @param sL the service locator.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
 
-    public static void register(final IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        Calc.serviceLocator = serviceLocator;
-        serviceLocator.provide(new Calc());
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        Calc.sL = sL;
+        sL.provide(new Calc());
     }
 
 

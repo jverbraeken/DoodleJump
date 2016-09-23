@@ -10,7 +10,7 @@ public final class AudioManager implements IAudioManager {
     /**
     * Used to gain access to all services.
     */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
 
     /**
      * Prevents instantiation from outside the class.
@@ -26,8 +26,8 @@ public final class AudioManager implements IAudioManager {
          */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        serviceLocator = sL;
-        serviceLocator.provide(new AudioManager());
+        AudioManager.sL = sL;
+        sL.provide(new AudioManager());
     }
 
     @Override
@@ -336,7 +336,7 @@ public final class AudioManager implements IAudioManager {
 
         Sound(final String filepath) {
             try {
-                clip = serviceLocator.getFileSystem().readSound(filepath);
+                clip = sL.getFileSystem().readSound(filepath);
             } catch (FileNotFoundException e) {
                 // TODO log the file was not found
                 e.printStackTrace();

@@ -11,7 +11,7 @@ public final class PowerupFactory implements IPowerupFactory {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
 
     /**
      * Prevent instantiations of PowerupFactory.
@@ -25,8 +25,8 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        PowerupFactory.serviceLocator = sL;
-        PowerupFactory.serviceLocator.provide(new PowerupFactory());
+        PowerupFactory.sL = sL;
+        PowerupFactory.sL.provide(new PowerupFactory());
     }
 
     /**
@@ -34,7 +34,7 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createSpring(final int x, final int y) {
-        return new Spring(serviceLocator, x, y);
+        return new Spring(sL, x, y);
     }
 
     /**
@@ -42,7 +42,7 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createTrampoline(final int x, final int y) {
-        return new Trampoline(serviceLocator, x, y);
+        return new Trampoline(sL, x, y);
     }
 
 }

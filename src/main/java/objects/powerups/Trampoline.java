@@ -16,36 +16,26 @@ public class Trampoline extends APowerup implements IJumpable {
      * The BOOST value for the Trampoline.
      */
     private static final double BOOST = -50;
-    /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator serviceLocator;
-    /**
-     * The sprite for the Trampoline.
-     */
-    private ISprite sprite;
 
     /**
      * Trampoline constructor.
      *
-     * @param serviceLocator - The Games service locator.
+     * @param sL - The Games service locator.
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
-    /* package */ Trampoline(final IServiceLocator serviceLocator, final int x, final int y) {
-        super(serviceLocator, x, y, serviceLocator.getSpriteFactory().getTrampolineSprite());
+    /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
+        super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite());
     }
 
     private void animate() {
-        int oldHeight = this.sprite.getHeight();
+        int oldHeight = getSprite().getHeight();
 
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
         ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
 
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
-
-        this.sprite = newSprite;
     }
 
     /**
@@ -65,14 +55,14 @@ public class Trampoline extends APowerup implements IJumpable {
      */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
+        sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /**
      * Play the sound for the Trampoline.
      */
     private void playSound() {
-        IAudioManager audioManager = serviceLocator.getAudioManager();
+        IAudioManager audioManager = sL.getAudioManager();
         audioManager.playTrampoline();
     }
 

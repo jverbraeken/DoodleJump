@@ -16,12 +16,12 @@ public class Platform extends AGameObject implements IPlatform {
     /**
      * Platform constructor.
      *
-     * @param serviceLocator             - The games service locator.
+     * @param sL             - The games service locator.
      * @param x - The X location for the platform.
      * @param y - The Y location for the platform.
      */
-    /* package */ Platform(IServiceLocator serviceLocator, int x, int y) {
-        super(serviceLocator, x, y, serviceLocator.getSpriteFactory().getPlatformSprite1());
+    /* package */ Platform(IServiceLocator sL, int x, int y) {
+        super(sL, x, y, sL.getSpriteFactory().getPlatformSprite1());
     }
 
     /**
@@ -37,7 +37,7 @@ public class Platform extends AGameObject implements IPlatform {
      */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
 
@@ -51,7 +51,7 @@ public class Platform extends AGameObject implements IPlatform {
      * Play the sound for the Platform.
      */
     private void playSound() {
-        IAudioManager audioManager = serviceLocator.getAudioManager();
+        IAudioManager audioManager = sL.getAudioManager();
         audioManager.playJump();
     }
 

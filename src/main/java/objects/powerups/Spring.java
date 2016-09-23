@@ -16,36 +16,28 @@ import system.IServiceLocator;
      * The BOOST value for the Spring.
      */
     private static final double BOOST = -35;
-    /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator serviceLocator;
-    /**
-     * The sprite for the Spring.
-     */
-    private ISprite sprite;
 
     /**
      * Trampoline constructor.
      *
-     * @param serviceLocator - The Games service locator.
+     * @param sL - The Games service locator.
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
-    /* package */ Spring(final IServiceLocator serviceLocator, final int x, final int y) {
-        super(serviceLocator, x, y, serviceLocator.getSpriteFactory().getSpringSprite());
+    /* package */ Spring(final IServiceLocator sL, final int x, final int y) {
+        super(sL, x, y, sL.getSpriteFactory().getSpringSprite());
     }
 
     private void animate() {
-        int oldHeight = this.sprite.getHeight();
+        int oldHeight = getSprite().getHeight();
 
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
         ISprite newSprite = spriteFactory.getSpringUsedSprite();
 
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
 
-        this.sprite = newSprite;
+        setSprite(newSprite);
     }
 
     /**
@@ -65,14 +57,14 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
+        sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /**
      * Play the sound for the Trampoline.
      */
     private void playSound() {
-        IAudioManager audioManager = serviceLocator.getAudioManager();
+        IAudioManager audioManager = sL.getAudioManager();
         audioManager.playFeder();
     }
 

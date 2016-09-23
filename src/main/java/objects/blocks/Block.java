@@ -20,7 +20,7 @@ public final class Block implements IBlock {
     /**
      * Used to gain access to all services.
      */
-    private static IServiceLocator serviceLocator;
+    private static IServiceLocator sL;
 
     /**
      * A set of all the game objects in this block.
@@ -32,8 +32,8 @@ public final class Block implements IBlock {
      */
     private final IJumpable topJumpable;
 
-    /* package */ Block(final IServiceLocator serviceLocator, final Set<IGameObject> elements, final IJumpable topJumpable) {
-        Block.serviceLocator = serviceLocator;
+    /* package */ Block(final IServiceLocator sL, final Set<IGameObject> elements, final IJumpable topJumpable) {
+        Block.sL = sL;
         this.elements = elements;
         this.topJumpable = topJumpable;
     }

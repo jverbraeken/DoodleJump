@@ -43,12 +43,12 @@ public class SceneFactoryTest {
 
         IAudioManager audioManager = mock(IAudioManager.class);
 
-        IServiceLocator serviceLocator = mock(IServiceLocator.class);
-        when(serviceLocator.getButtonFactory()).thenReturn(buttonFactory);
-        when(serviceLocator.getBlockFactory()).thenReturn(blockFactory);
-        when(serviceLocator.getDoodleFactory()).thenReturn(doodleFactory);
-        when(serviceLocator.getAudioManager()).thenReturn(audioManager);
-        SceneFactory.register(serviceLocator);
+        IServiceLocator sL = mock(IServiceLocator.class);
+        when(sL.getButtonFactory()).thenReturn(buttonFactory);
+        when(sL.getBlockFactory()).thenReturn(blockFactory);
+        when(sL.getDoodleFactory()).thenReturn(doodleFactory);
+        when(sL.getAudioManager()).thenReturn(audioManager);
+        SceneFactory.register(sL);
         sceneFactory = Whitebox.invokeConstructor(SceneFactory.class);*/
     }
 

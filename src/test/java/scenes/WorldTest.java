@@ -46,11 +46,11 @@ public class WorldTest {
 
         IAudioManager audioManager = mock(IAudioManager.class);
 
-        IServiceLocator serviceLocator = mock(IServiceLocator.class);
-        when(serviceLocator.getBlockFactory()).thenReturn(blockFactory);
-        when(serviceLocator.getDoodleFactory()).thenReturn(doodleFactory);
-        when(serviceLocator.getAudioManager()).thenReturn(audioManager);
-        world = new World(serviceLocator);*/
+        IServiceLocator sL = mock(IServiceLocator.class);
+        when(sL.getBlockFactory()).thenReturn(blockFactory);
+        when(sL.getDoodleFactory()).thenReturn(doodleFactory);
+        when(sL.getAudioManager()).thenReturn(audioManager);
+        world = new World(sL);*/
     }
 
     @Test

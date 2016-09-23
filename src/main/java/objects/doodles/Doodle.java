@@ -23,11 +23,6 @@ public class Doodle extends AGameObject implements IDoodle {
     private final double legsHeight = 0.8;
 
     /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator serviceLocator;
-
-    /**
      * Standard speed limit for the Doodle.
      */
     private final double standardSpeedLimit = 6d;
@@ -100,16 +95,16 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Doodle constructor.
      *
-     * @param serviceLocator The service locator
+     * @param sL The service locator
      */
-     /* package */ Doodle(final IServiceLocator serviceLocator) {
-        super(serviceLocator, serviceLocator.getConstants().getGameWidth() / 2, serviceLocator.getConstants().getGameHeight() / 2, serviceLocator.getSpriteFactory().getDoodleSprite(Directions.Right)[0]);
+     /* package */ Doodle(final IServiceLocator sL) {
+        super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(Directions.Right)[0]);
         this.setHitBox((int) (getSprite().getWidth() * widthHitboxLeft), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * widthHitboxRight), getSprite().getHeight());
 
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISpriteFactory spriteFactory = super.sL.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(Directions.Right);
 
-        IInputManager inputManager = serviceLocator.getInputManager();
+        IInputManager inputManager = super.sL.getInputManager();
         inputManager.addObserver(this);
     }
 
@@ -118,7 +113,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        super.sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /**
@@ -256,7 +251,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void wrap() {
         double middle = this.getXPos() + this.getHitBox()[AGameObject.HITBOX_RIGHT] / 2;
-        final int width = serviceLocator.getConstants().getGameWidth();
+        final int width = super.sL.getConstants().getGameWidth();
         if (middle < 0) {
             this.addXPos(width);
         } else if (middle > width) {
@@ -265,7 +260,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     private void animate(double delta) {
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISpriteFactory spriteFactory = super.sL.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(this.facing);
 
         // If the Doodle moves up quickly shorten its legs
@@ -280,22 +275,22 @@ public class Doodle extends AGameObject implements IDoodle {
      * TODO: Add JavaDoc
      */
     private void applyGravity(double delta) {
-        this.vSpeed += serviceLocator.getConstants().getGravityAcceleration();
+        this.vSpeed += super.sL.getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
 
     private void checkHighPosition() {
-        ICamera camera = serviceLocator.getRenderer().getCamera();
-        final int height = serviceLocator.getConstants().getGameHeight();
+        ICamera camera = super.sL.getRenderer().getCamera();
+        final int height = super.sL.getConstants().getGameHeight();
         if (getYPos() < camera.getYPos() + height / 2) {
-            score += (camera.getYPos() + height / 2 - getYPos()) * serviceLocator.getConstants().getScoreMultiplier();
+            score += (camera.getYPos() + height / 2 - getYPos()) * super.sL.getConstants().getScoreMultiplier();
             camera.setYPos(getYPos() - height / 2);
         }
     }
 
     private void checkDeadPosition() {
-        ICamera camera = serviceLocator.getRenderer().getCamera();
-        if (getYPos() > camera.getYPos() + serviceLocator.getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
+        ICamera camera = super.sL.getRenderer().getCamera();
+        if (getYPos() > camera.getYPos() + super.sL.getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
             Game.setAlive(false);
         }
     }

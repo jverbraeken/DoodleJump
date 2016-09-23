@@ -7,7 +7,7 @@ import java.util.Map;
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class Res implements IRes {
 
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
     private Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
 
     {
@@ -76,8 +76,8 @@ public final class Res implements IRes {
 
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        Res.serviceLocator = sL;
-        Res.serviceLocator.provide(new Res());
+        Res.sL = sL;
+        Res.sL.provide(new Res());
     }
 
     /**

@@ -23,7 +23,7 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
     /**
      * The cache used to load in sprites.
      */
@@ -53,8 +53,8 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        SpriteFactory.serviceLocator = sL;
-        SpriteFactory.serviceLocator.provide(new SpriteFactory());
+        SpriteFactory.sL = sL;
+        SpriteFactory.sL.provide(new SpriteFactory());
     }
 
     // Buttons
@@ -691,8 +691,8 @@ public final class SpriteFactory implements ISpriteFactory {
      * @throws FileNotFoundException Thrown when the ISprite was not found
      */
     private ISprite loadISprite(final IRes.Sprites spriteName) throws FileNotFoundException {
-        String filepath = serviceLocator.getRes().getSpritePath(spriteName);
-        BufferedImage image = serviceLocator.getFileSystem().readImage(filepath);
+        String filepath = sL.getRes().getSpritePath(spriteName);
+        BufferedImage image = sL.getFileSystem().readImage(filepath);
         return new Sprite(getFileName(filepath), image);
     }
 

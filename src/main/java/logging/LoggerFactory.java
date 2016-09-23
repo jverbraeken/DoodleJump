@@ -7,17 +7,17 @@ public class LoggerFactory implements ILoggerFactory {
     /**
      * Reference to the service locator.
      */
-    private static IServiceLocator serviceLocator;
+    private static IServiceLocator sL;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
-     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
+     * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    public static void register(final IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        LoggerFactory.serviceLocator = serviceLocator;
-        serviceLocator.provide(new LoggerFactory());
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        LoggerFactory.sL = sL;
+        sL.provide(new LoggerFactory());
     }
 
     /**
@@ -28,7 +28,7 @@ public class LoggerFactory implements ILoggerFactory {
     /** {@inheritDoc} */
     @Override
     public ILogger createLogger(Class<?> cl) {
-        return new Logger(serviceLocator, cl);
+        return new Logger(sL, cl);
     }
 
 }

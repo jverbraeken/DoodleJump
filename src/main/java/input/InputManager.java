@@ -15,7 +15,7 @@ public final class InputManager implements IInputManager {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
     /**
      * The size of the left border of the game frame.
      */
@@ -45,9 +45,9 @@ public final class InputManager implements IInputManager {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert serviceLocator != null;
-        InputManager.serviceLocator = sL;
-        InputManager.serviceLocator.provide(new InputManager());
+        assert sL != null;
+        InputManager.sL = sL;
+        InputManager.sL.provide(new InputManager());
     }
 
     /* MOUSE EVENTS */

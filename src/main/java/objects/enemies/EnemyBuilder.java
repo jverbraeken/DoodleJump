@@ -10,7 +10,7 @@ public final class EnemyBuilder implements IEnemyBuilder {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
 
     /**
      * Prevent instantiations of EnemyBuilder.
@@ -24,8 +24,8 @@ public final class EnemyBuilder implements IEnemyBuilder {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        EnemyBuilder.serviceLocator = sL;
-        EnemyBuilder.serviceLocator.provide(new EnemyBuilder());
+        EnemyBuilder.sL = sL;
+        EnemyBuilder.sL.provide(new EnemyBuilder());
     }
 
 }
