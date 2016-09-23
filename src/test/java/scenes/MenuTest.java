@@ -1,6 +1,6 @@
 package scenes;
 
-import objects.buttons.IButton;
+import buttons.IButton;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import resources.sprites.ISprite;
