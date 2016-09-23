@@ -1,9 +1,14 @@
 package system;
 
+import logging.ILoggerFactory;
+import objects.ICollisions;
+import objects.buttons.IButtonFactory;
+import resources.IRes;
+import resources.audio.IAudioManager;
+import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
 import math.ICalc;
-import objects.ICollisions;
 import objects.blocks.IBlockFactory;
 import objects.blocks.platform.IPlatformFactory;
 import objects.buttons.IButtonFactory;
@@ -51,6 +56,9 @@ import scenes.ISceneFactory;
 
     // scenes
     private ISceneFactory sceneFactory;
+
+    // logger
+    private ILoggerFactory loggerFactory;
 
     /**
      * {@inheritDoc}
@@ -191,6 +199,15 @@ import scenes.ISceneFactory;
      * {@inheritDoc}
      */
     @Override
+    public void provide(ILoggerFactory loggerFactory) {
+        assert loggerFactory != null;
+        this.loggerFactory = loggerFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IAudioManager getAudioManager() {
         return audioManager;
     }
@@ -306,5 +323,11 @@ import scenes.ISceneFactory;
     public ICollisions getCollisions() {
         return collisions;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ILoggerFactory getLoggerFactory() { return loggerFactory; }
 
 }

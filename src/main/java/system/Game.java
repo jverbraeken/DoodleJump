@@ -3,6 +3,7 @@ package system;
 import filesystem.FileSystem;
 import input.IInputManager;
 import input.InputManager;
+import logging.LoggerFactory;
 import math.Calc;
 import math.ICalc;
 import objects.Collisions;
@@ -116,6 +117,7 @@ public final class Game {
         Res.register(serviceLocator);
         ButtonFactory.register(serviceLocator);
         Collisions.register(serviceLocator);
+        LoggerFactory.register(serviceLocator);
     }
 
     /**
@@ -123,8 +125,6 @@ public final class Game {
      * @param argv the arguments to run.
      */
     public static void main(final String[] argv) {
-        System.setProperty("Log4jContextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
-
         initServices();
 
         serviceLocator.getRenderer().start();

@@ -1,5 +1,12 @@
 package system;
 
+import logging.ILogger;
+import logging.ILoggerFactory;
+import objects.ICollisions;
+import objects.buttons.IButtonFactory;
+import resources.IRes;
+import resources.audio.IAudioManager;
+import objects.enemies.IEnemyBuilder;
 import filesystem.IFileSystem;
 import input.IInputManager;
 import math.ICalc;
@@ -48,6 +55,7 @@ public interface IServiceLocator {
     void provide(IButtonFactory buttonFactory);
 
     void provide(ICollisions collisions);
+    void provide(ILoggerFactory LoggerFactory);
 
     IAudioManager getAudioManager();
 
@@ -78,5 +86,6 @@ public interface IServiceLocator {
     IButtonFactory getButtonFactory();
 
     ICollisions getCollisions();
+    ILoggerFactory getLoggerFactory();
 
 }

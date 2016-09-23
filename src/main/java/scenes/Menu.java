@@ -12,8 +12,7 @@ import system.IServiceLocator;
 /**
  * This class is a scene that is displays when the game is started.
  */
-public class Menu implements IScene, IKeyInputObserver {
-
+/* package */ class Menu implements IScene, IKeyInputObserver {
     /**
      * X position relative to the frame of the play button.
      */

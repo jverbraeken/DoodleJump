@@ -1,5 +1,6 @@
 package scenes;
 
+import logging.ILogger;
 import objects.IGameObject;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
@@ -7,8 +8,6 @@ import objects.buttons.IButton;
 import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import rendering.IDrawable;
 import resources.sprites.ISprite;
 import system.Game;
@@ -24,6 +23,11 @@ import java.util.Stack;
  */
 public class World implements IScene {
 
+
+    // TODO: Add JavaDoc
+    private final static double SCOREMULTIPLIER = 0.15;
+    private final static int PAUSEOFFSET = 38;
+    private final ILogger logger;
     /**
      * The fastest the doodle can go vertically.
      */
@@ -97,6 +101,7 @@ public class World implements IScene {
     /* package */ World(final IServiceLocator sL) {
         assert sL != null;
         this.serviceLocator = sL;
+        this.logger = sL.getLoggerFactory().createLogger(World.class);
         Game.setAlive(true);
 
         IBlockFactory blockFactory = serviceLocator.getBlockFactory();
@@ -115,6 +120,8 @@ public class World implements IScene {
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
         this.vSpeed = startspeed;
+
+        logger.log("Level started");
     }
 
     /**
@@ -303,7 +310,7 @@ public class World implements IScene {
         /**
          * The logger is used to keep track of all the actions performed in the game.
          */
-        private final Logger logger = LoggerFactory.getLogger(Scorebar.class);
+        private final ILogger logger = serviceLocator.getLoggerFactory().createLogger(Scorebar.class);
 
         /**
          * Create a new scorebar.
