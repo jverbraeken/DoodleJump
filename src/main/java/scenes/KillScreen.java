@@ -15,7 +15,7 @@ public class KillScreen implements IScene, IMouseInputObserver {
     /**
      * Used to gain access to all services.
      */
-    private final IServiceLocator serviceLocator;
+    private final IServiceLocator sL;
     /**
      * The button that starts a new world.
      */
@@ -60,15 +60,15 @@ public class KillScreen implements IScene, IMouseInputObserver {
      */
     /* package */ KillScreen(final IServiceLocator sL) {
         assert sL != null;
-        this.serviceLocator = sL;
+        this.sL = sL;
 
-        background = serviceLocator.getSpriteFactory().getBackground();
-        bottomKillScreen = serviceLocator.getSpriteFactory().getKillScreenBottomSprite();
-        gameOverSprite = serviceLocator.getSpriteFactory().getGameOverSprite();
+       background = sL.getSpriteFactory().getBackground();
+        bottomKillScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
+        gameOverSprite = sL.getSpriteFactory().getGameOverSprite();
 
-        IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        playAgainButton = buttonFactory.createPlayAgainButton((int) (Game.WIDTH * playAgainButtonXPercentage), (int) (Game.HEIGHT * playAgainButtonYPercentage));
-        mainMenuButton = buttonFactory.createMainMenuButton((int) (Game.WIDTH * mainMenuButtonXPercentage), (int) (Game.HEIGHT * mainMenuButtonYPercentage));
+        IButtonFactory buttonFactory = sL.getButtonFactory();
+        playAgainButton = buttonFactory.createPlayAgainButton((int) (sL.getConstants().getGameWidth() * playAgainButtonXPercentage), (int) (sL.getConstants().getGameHeight() * playAgainButtonYPercentage));
+        mainMenuButton = buttonFactory.createMainMenuButton((int) (sL.getConstants().getGameWidth() * mainMenuButtonXPercentage), (int) (sL.getConstants().getGameHeight() * mainMenuButtonYPercentage));
 
     }
 
@@ -76,24 +76,24 @@ public class KillScreen implements IScene, IMouseInputObserver {
     /** {@inheritDoc} */
     public final void start() {
 
-        serviceLocator.getInputManager().addObserver(playAgainButton);
-        serviceLocator.getInputManager().addObserver(mainMenuButton);
+        sL.getInputManager().addObserver(playAgainButton);
+        sL.getInputManager().addObserver(mainMenuButton);
     }
 
     @Override
     /** {@inheritDoc} */
     public final void stop() {
 
-        serviceLocator.getInputManager().removeObserver(playAgainButton);
-        serviceLocator.getInputManager().removeObserver(mainMenuButton);
+        sL.getInputManager().removeObserver(playAgainButton);
+        sL.getInputManager().removeObserver(mainMenuButton);
     }
 
     @Override
-    public final void paint() {
-        serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
-        serviceLocator.getRenderer().drawSprite(this.gameOverSprite, (int) (Game.WIDTH * gameOverTextXPercentage), (int) (Game.HEIGHT * gameOverTextYPercentage));
-        double y = (double) Game.HEIGHT - (double) bottomKillScreen.getHeight();
-        serviceLocator.getRenderer().drawSprite(this.bottomKillScreen, 0, (int) y);
+    public void render() {
+        sL.getRenderer().drawSpriteHUD(this.background, 0, 0 );
+        sL.getRenderer().drawSpriteHUD(this.gameOverSprite, (int)(sL.getConstants().getGameWidth() * gameOverTextXPercentage), (int)(sL.getConstants().getGameHeight() *gameOverTextYPercentage));
+        double y = (double) sL.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
+        sL.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
         playAgainButton.render();
         mainMenuButton.render();
     }

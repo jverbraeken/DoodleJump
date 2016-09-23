@@ -4,7 +4,6 @@ import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.util.logging.Logger;
 
 /**
  * This class focuses on the implementation of button.
@@ -14,7 +13,7 @@ import java.util.logging.Logger;
     /**
      * Used to gain access to all services.
      */
-    private final IServiceLocator serviceLocator;
+    private final IServiceLocator sL;
     /**
      * The sprite of the button.
      */
@@ -41,24 +40,24 @@ import java.util.logging.Logger;
      */
     private final ILogger logger;
 
-        /**
-         * Constructor of a new button.
-         * @param sL the service locator.
-         * @param x the x position of the button
-         * @param y the y position of the button
-         * @param s the sprite of the button
-         * @param a the action when the button is pressed
-         * @param n the name of the button
-         */
+    /**
+     * Constructor of a new button.
+     *
+     * @param sL the service locator.
+     * @param x  the x position of the button
+     * @param y  the y position of the button
+     * @param s  the sprite of the button
+     * @param a  the action when the button is pressed
+     * @param n  the name of the button
+     */
     /* package */ Button(IServiceLocator sL, int x, int y, ISprite s, Runnable a, String n) {
-
         super();
 
         assert sL != null;
         assert s != null;
 
-        this.serviceLocator = sL;
-        this.logger = serviceLocator.getLoggerFactory().createLogger(Button.class);
+        this.sL = sL;
+        this.logger = sL.getLoggerFactory().createLogger(Button.class);
         this.sprite = s;
         this.width = s.getImage().getWidth(null);
         this.height = s.getImage().getHeight(null);
@@ -74,8 +73,8 @@ import java.util.logging.Logger;
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
-        serviceLocator.getRenderer().drawSprite(sprite, topLeft[0], topLeft[1], width, height);
+    public void render() {
+        sL.getRenderer().drawSpriteHUD(sprite, topLeft[0], topLeft[1], width, height);
     }
 
     /**
@@ -91,5 +90,4 @@ import java.util.logging.Logger;
 
         }
     }
-
 }

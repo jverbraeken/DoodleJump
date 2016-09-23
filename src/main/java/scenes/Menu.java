@@ -9,10 +9,12 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
+
 /**
  * This class is a scene that is displays when the game is started.
  */
-/* package */ class Menu implements IScene, IKeyInputObserver {
+public class Menu implements IScene, IKeyInputObserver {
+
     /**
      * X position relative to the frame of the play button.
      */
@@ -24,7 +26,7 @@ import system.IServiceLocator;
     /**
      * Used to access all services.
      */
-    private final IServiceLocator serviceLocator;
+    private final IServiceLocator sL;
     /**
      * The button that starts up a new world.
      */
@@ -41,13 +43,15 @@ import system.IServiceLocator;
      */
     /* package */ Menu(final IServiceLocator sL) {
         assert sL != null;
-        this.serviceLocator = sL;
+        this.sL = sL;
 
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
         cover = spriteFactory.getStartCoverSprite();
 
-        IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * PLAY_BUTTON_X_PERCENTAGE), (int) (Game.HEIGHT * PLAY_BUTTON_Y_PERCENTAGE));
+        IButtonFactory buttonFactory = sL.getButtonFactory();
+        playButton = buttonFactory.createPlayButton(
+                (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X_PERCENTAGE),
+                (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y_PERCENTAGE));
     }
 
     /**
@@ -55,8 +59,8 @@ import system.IServiceLocator;
      */
     @Override
     public final void start() {
-        serviceLocator.getInputManager().addObserver(playButton);
-        serviceLocator.getInputManager().addObserver(this);
+        sL.getInputManager().addObserver(playButton);
+        sL.getInputManager().addObserver(this);
     }
 
     /**
@@ -64,16 +68,16 @@ import system.IServiceLocator;
      */
     @Override
     public final void stop() {
-        serviceLocator.getInputManager().removeObserver(playButton);
-        serviceLocator.getInputManager().removeObserver(this);
+        sL.getInputManager().removeObserver(playButton);
+        sL.getInputManager().removeObserver(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void paint() {
-        serviceLocator.getRenderer().drawSprite(this.cover, 0, 0);
+    public void render() {
+        sL.getRenderer().drawSpriteHUD(this.cover, 0, 0);
         playButton.render();
     }
 
@@ -97,7 +101,7 @@ import system.IServiceLocator;
     @Override
     public final void keyRelease(final int keyCode) {
         if (KeyCode.getKeyCode(Keys.enter) == keyCode || KeyCode.getKeyCode(Keys.space) == keyCode) {
-            Game.setScene(serviceLocator.getSceneFactory().newWorld());
+            Game.setScene(sL.getSceneFactory().newWorld());
         }
     }
 

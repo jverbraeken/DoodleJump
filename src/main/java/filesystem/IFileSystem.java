@@ -58,9 +58,22 @@ public interface IFileSystem {
     void writeTextFile(String filename, String content) throws FileNotFoundException;
 
     /**
+     * Deletes the file specified by {@code filename} from the disk.
+     * @param filename The file you want to delete
+     */
+    void deleteFile(String filename);
+
+    /**
+     * Removes the content of the file specified by {@code filename} but does not delete the file itself.
+     * @param filename The file you want to clear
+     */
+    void clearFile(String filename);
+
+    /**
      * Writes {@code content} to the end of the tixt-fiel given by the filepath {@code filenam}.
+     *
      * @param filename The full path to the file.
-     * @param content The text to write to the file.
+     * @param content  The text to write to the file.
      * @throws FileNotFoundException Thrown when the file could not be found.
      */
     void appendToTextFile(String filename, String content) throws FileNotFoundException;

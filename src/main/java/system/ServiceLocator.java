@@ -1,13 +1,10 @@
 package system;
 
-import logging.ILoggerFactory;
-import objects.ICollisions;
-import objects.buttons.IButtonFactory;
-import resources.IRes;
-import resources.audio.IAudioManager;
-import objects.enemies.IEnemyBuilder;
+import constants.IConstants;
 import filesystem.IFileSystem;
 import input.IInputManager;
+import logging.ILogger;
+import logging.ILoggerFactory;
 import math.ICalc;
 import objects.blocks.IBlockFactory;
 import objects.blocks.platform.IPlatformFactory;
@@ -24,6 +21,9 @@ import scenes.ISceneFactory;
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 /* package */ class ServiceLocator implements IServiceLocator {
 
+    // constants
+    private IConstants constants;
+
     // input
     private IInputManager inputManager;
 
@@ -37,7 +37,7 @@ import scenes.ISceneFactory;
     // filesystem
     private IFileSystem fileSystem;
 
-    // resources
+    // resources\
     private ISpriteFactory spriteFactory;
     private IRes res;
 
@@ -46,19 +46,16 @@ import scenes.ISceneFactory;
 
     // util
     private ICalc calc;
+    private ILoggerFactory loggerFactory;
 
     // objects
     private IPowerupFactory powerupFactory;
     private IDoodleFactory doodleFactory;
     private IBlockFactory blockFactory;
     private IPlatformFactory platformFactory;
-    private ICollisions collisions;
 
     // scenes
     private ISceneFactory sceneFactory;
-
-    // logger
-    private ILoggerFactory loggerFactory;
 
     /**
      * {@inheritDoc}
@@ -154,6 +151,14 @@ import scenes.ISceneFactory;
      * {@inheritDoc}
      */
     @Override
+    public void provide(ILoggerFactory loggerFactory) {
+        assert loggerFactory != null;
+        this.loggerFactory = loggerFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public void provide(final ISceneFactory sF) {
         assert sF != null;
         this.sceneFactory = sF;
@@ -190,25 +195,25 @@ import scenes.ISceneFactory;
      * {@inheritDoc}
      */
     @Override
-    public void provide(final ICollisions c) {
-        assert c != null;
-        this.collisions = c;
+    public void provide(IConstants constants) {
+        assert buttonFactory != null;
+        this.constants = constants;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void provide(ILoggerFactory loggerFactory) {
-        assert loggerFactory != null;
-        this.loggerFactory = loggerFactory;
-    }
+
+
+
+
+
+
+
 
     /**
      * {@inheritDoc}
      */
     @Override
     public IAudioManager getAudioManager() {
+        assert audioManager != null;
         return audioManager;
     }
 
@@ -217,6 +222,7 @@ import scenes.ISceneFactory;
      */
     @Override
     public IEnemyBuilder getEnemyBuilder() {
+        assert enemyBuilder != null;
         return enemyBuilder;
     }
 
@@ -225,6 +231,7 @@ import scenes.ISceneFactory;
      */
     @Override
     public IFileSystem getFileSystem() {
+        assert fileSystem != null;
         return fileSystem;
     }
 
@@ -233,6 +240,7 @@ import scenes.ISceneFactory;
      */
     @Override
     public IInputManager getInputManager() {
+        assert inputManager != null;
         return inputManager;
     }
 
@@ -241,6 +249,7 @@ import scenes.ISceneFactory;
      */
     @Override
     public ICalc getCalc() {
+        assert calc != null;
         return calc;
     }
 
@@ -249,6 +258,7 @@ import scenes.ISceneFactory;
      */
     @Override
     public IBlockFactory getBlockFactory() {
+        assert blockFactory != null;
         return blockFactory;
     }
 
@@ -257,6 +267,7 @@ import scenes.ISceneFactory;
      */
     @Override
     public IDoodleFactory getDoodleFactory() {
+        assert doodleFactory != null;
         return doodleFactory;
     }
 
@@ -265,6 +276,7 @@ import scenes.ISceneFactory;
      */
     @Override
     public IPowerupFactory getPowerupFactory() {
+        assert powerupFactory != null;
         return powerupFactory;
     }
 
@@ -273,6 +285,7 @@ import scenes.ISceneFactory;
      */
     @Override
     public IRenderer getRenderer() {
+        assert renderer != null;
         return renderer;
     }
 
@@ -281,6 +294,7 @@ import scenes.ISceneFactory;
      */
     @Override
     public ISpriteFactory getSpriteFactory() {
+        assert spriteFactory != null;
         return spriteFactory;
     }
 
@@ -288,7 +302,17 @@ import scenes.ISceneFactory;
      * {@inheritDoc}
      */
     @Override
+    public ILoggerFactory getLoggerFactory() {
+        assert loggerFactory != null;
+        return loggerFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ISceneFactory getSceneFactory() {
+        assert sceneFactory != null;
         return sceneFactory;
     }
 
@@ -297,6 +321,7 @@ import scenes.ISceneFactory;
      */
     @Override
     public IPlatformFactory getPlatformFactory() {
+        assert platformFactory != null;
         return platformFactory;
     }
 
@@ -305,6 +330,7 @@ import scenes.ISceneFactory;
      */
     @Override
     public IRes getRes() {
+        assert res != null;
         return res;
     }
 
@@ -313,6 +339,7 @@ import scenes.ISceneFactory;
      */
     @Override
     public IButtonFactory getButtonFactory() {
+        assert buttonFactory != null;
         return buttonFactory;
     }
 
@@ -320,14 +347,9 @@ import scenes.ISceneFactory;
      * {@inheritDoc}
      */
     @Override
-    public ICollisions getCollisions() {
-        return collisions;
+    public IConstants getConstants() {
+        assert constants != null;
+        return constants;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ILoggerFactory getLoggerFactory() { return loggerFactory; }
 
 }

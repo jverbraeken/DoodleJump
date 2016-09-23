@@ -1,12 +1,13 @@
 package system;
 
+import constants.Constants;
+import constants.IConstants;
 import filesystem.FileSystem;
 import input.IInputManager;
 import input.InputManager;
 import logging.LoggerFactory;
 import math.Calc;
 import math.ICalc;
-import objects.Collisions;
 import objects.blocks.BlockFactory;
 import objects.blocks.platform.PlatformFactory;
 import objects.buttons.ButtonFactory;
@@ -30,18 +31,6 @@ import java.awt.event.WindowEvent;
  * This is the main class that runs the game.
  */
 public final class Game {
-
-    /**
-     * The width of the frame of the game.
-     */
-    public static final int WIDTH = 640;
-    /**
-     * The height of the frame of the game.
-     */
-    public static final int HEIGHT = 960;
-    /**
-     * The target amount of frames per second.
-     */
     private static final int TARGET_FPS = 60;
     /**
      * The optimal time per frame. ~16.
@@ -58,7 +47,7 @@ public final class Game {
     /**
      * Used to access all services.
      */
-    private static IServiceLocator serviceLocator = new ServiceLocator();
+    private static final IServiceLocator sL = new ServiceLocator();
     /**
      * The current frame.
      */
@@ -102,22 +91,22 @@ public final class Game {
      * Initialize all services into the service locator.
      */
     private static void initServices() {
-        FileSystem.register(serviceLocator); // This ine is before the audiomanager!
-        AudioManager.register(serviceLocator);
-        EnemyBuilder.register(serviceLocator);
-        InputManager.register(serviceLocator);
-        Calc.register(serviceLocator);
-        BlockFactory.register(serviceLocator);
-        DoodleFactory.register(serviceLocator);
-        PowerupFactory.register(serviceLocator);
-        SpriteFactory.register(serviceLocator);
-        Renderer.register(serviceLocator);
-        SceneFactory.register(serviceLocator);
-        PlatformFactory.register(serviceLocator);
-        Res.register(serviceLocator);
-        ButtonFactory.register(serviceLocator);
-        Collisions.register(serviceLocator);
-        LoggerFactory.register(serviceLocator);
+        FileSystem.register(sL);
+        LoggerFactory.register(sL);
+        AudioManager.register(sL);
+        EnemyBuilder.register(sL);
+        InputManager.register(sL);
+        Calc.register(sL);
+        BlockFactory.register(sL);
+        DoodleFactory.register(sL);
+        PowerupFactory.register(sL);
+        SpriteFactory.register(sL);
+        Renderer.register(sL);
+        SceneFactory.register(sL);
+        PlatformFactory.register(sL);
+        Res.register(sL);
+        ButtonFactory.register(sL);
+        Constants.register(sL);
     }
 
     /**
@@ -127,11 +116,11 @@ public final class Game {
     public static void main(final String[] argv) {
         initServices();
 
-        serviceLocator.getRenderer().start();
+        sL.getRenderer().start();
 
         frame = new JFrame("Doodle Jump");
 
-        IInputManager inputManager = serviceLocator.getInputManager();
+        IInputManager inputManager = sL.getInputManager();
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -144,7 +133,7 @@ public final class Game {
         });
         frame.addMouseListener(inputManager);
         frame.addKeyListener(inputManager);
-        frame.setSize(Game.WIDTH, Game.HEIGHT);
+        frame.setSize(sL.getConstants().getGameWidth(), sL.getConstants().getGameHeight());
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -152,11 +141,11 @@ public final class Game {
         panel = new JPanel() {
             @Override
             public void paintComponent(final Graphics g) {
-                serviceLocator.getRenderer().setGraphicsBuffer(g);
+                sL.getRenderer().setGraphicsBuffer(g);
 
                 ((Graphics2D) g).scale(1 / scale, 1 / scale);
-                if (scene != null) {
-                    scene.paint();
+                if (Game.scene != null) {
+                    Game.scene.render();
                 }
 
 
@@ -165,25 +154,25 @@ public final class Game {
                 }
 
                 if (!isAlive) {
-                    setScene(serviceLocator.getSceneFactory().newKillScreen());
+                    setScene(sL.getSceneFactory().newKillScreen());
                     setAlive(true);
                 }
 
                 ((Graphics2D) g).scale(scale, scale);
             }
         };
-        frame.setSize(Game.WIDTH / 2, Game.HEIGHT / 2);
+        frame.setSize(sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2);
         panel.setLayout(new GridLayout(1, 1));
 
         frame.setContentPane(panel);
 
-        setScene(serviceLocator.getSceneFactory().newMenu());
+        setScene(sL.getSceneFactory().newMenu());
         int x = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
-        serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
+        sL.getInputManager().setMainWindowBorderSize(x, y);
 
-        resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (Game.WIDTH * RESUMEBUTTONX), (int) (Game.HEIGHT * RESUMEBUTTONY));
-        serviceLocator.getInputManager().addObserver(resumeButton);
+        resumeButton = sL.getButtonFactory().createResumeButton((int) (sL.getConstants().getGameWidth() * RESUMEBUTTONX), (int) (sL.getConstants().getGameHeight() * RESUMEBUTTONY));
+        sL.getInputManager().addObserver(resumeButton);
 
         loop();
     }
@@ -199,9 +188,9 @@ public final class Game {
             Game.scene.stop();
         }
 
+        sL.getRenderer().getCamera().setYPos(0d);
+        s.start();
         Game.scene = s;
-        scene.start();
-        frame.repaint();
     }
 
     /**
@@ -212,7 +201,7 @@ public final class Game {
      * @return The current Frames Per Second (FPS)
      */
     public static double getFPS(final long threadSleep, final long renderTime) {
-        return serviceLocator.getCalc().NANOSECONDS / (threadSleep + renderTime);
+        return sL.getCalc().NANOSECONDS / (threadSleep + renderTime);
     }
 
     /**
@@ -257,7 +246,7 @@ public final class Game {
             panel.repaint();
             try {
                 long gameTime = FRAMETIME;
-                Thread.sleep(gameTime);
+                Thread.sleep(gameTime - (now - System.nanoTime()) / ICalc.NANOSECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -268,9 +257,9 @@ public final class Game {
      * Draw the pause screen.
      */
     private static void drawPauseScreen() {
-        ISprite pauseCover = serviceLocator.getSpriteFactory().getPauseCoverSprite();
-        double scaling = (double) WIDTH / (double) pauseCover.getWidth();
-        serviceLocator.getRenderer().drawSprite(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
+        ISprite pauseCover = sL.getSpriteFactory().getPauseCoverSprite();
+        double scaling = (double) sL.getConstants().getGameWidth() / (double) pauseCover.getWidth();
+        sL.getRenderer().drawSpriteHUD(pauseCover, 0, 0, (int) (pauseCover.getWidth() * scaling), (int) (pauseCover.getHeight() * scaling));
         resumeButton.render();
     }
 

@@ -2,30 +2,47 @@ package math;
 
 import system.IServiceLocator;
 
+import java.util.Random;
+
 /**
  * This class handles all advanced calculations.
  * Examples are random integers and doubles.
  */
 public final class Calc implements ICalc {
-
     /**
-     * Used to gain access to all services.
+     * Register the FileSystem into the service locator.
+     * @param sL the service locator.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
 
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        Calc.sL = sL;
+        sL.provide(new Calc());
+    }
+
+
+
+
+    private static final Random random = new Random();
     /**
      * Prevents instantiation from outside the class.
      */
     private Calc() {
     }
 
-    /**
-     * Register the FileSystem into the service locator.
-     * @param sL the service locator.
-     */
-    public static void register(final IServiceLocator sL) {
-        assert serviceLocator != null;
-        Calc.serviceLocator = sL;
-        Calc.serviceLocator.provide(new Calc());
+    /** {@inheritDoc} */
+    @Override
+    public int getRandomIntBetween(int lower, int upper) {
+        assert upper > lower;
+        //TODO is this + 1 really necessary?
+        return random.nextInt(upper - lower) + lower + 1;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public double getRandomDouble(double max) {
+        assert max > 0;
+        return random.nextDouble() * max;
     }
 }

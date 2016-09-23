@@ -1,11 +1,10 @@
 package rendering;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * This class is responsible for rendering all Sprites.
@@ -13,22 +12,24 @@ import java.awt.Graphics;
 public final class Renderer implements IRenderer {
 
     /**
-     * Used to log all actions of the game.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(Renderer.class);
-    /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
+    /**
+     * Used to log all actions of the game.
+     */
+    private final ILogger LOGGER;
+    private final ICamera camera = new Camera();
     /**
      * The graphics that are to be used by the renderer.
      */
     private Graphics graphics;
 
     /**
-     * Prevent instantiations of the Renderer.
+     * Prevent public instantiations of the Renderer.
      */
     private Renderer() {
+        LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
     }
 
     /**
@@ -38,8 +39,8 @@ public final class Renderer implements IRenderer {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        Renderer.serviceLocator = sL;
-        Renderer.serviceLocator.provide(new Renderer());
+        Renderer.sL = sL;
+        Renderer.sL.provide(new Renderer());
     }
 
     /**
@@ -53,7 +54,53 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawSprite(final ISprite sprite, final int x, final int y) {
+    public void drawRectangle(int x, int y, int width, int height) {
+        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        graphics.drawRect(x, (int) (y - camera.getYPos()), width, height);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawSprite(ISprite sprite, int x, int y) {
+        assert graphics != null;
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
+
+        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawSprite(ISprite sprite, int x, int y, int width, int height) {
+        assert graphics != null;
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
+
+        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), width, height, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawRectangleHUD(int x, int y, int width, int height) {
+        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
+        graphics.drawRect(x, y, width, height);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawSpriteHUD(ISprite sprite, int x, int y) {
         assert graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
@@ -67,7 +114,7 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawSprite(final ISprite sprite, final int x, final int y, final int width, final int height) {
+    public void drawSpriteHUD(final ISprite sprite, final int x, final int y, final int width, final int height) {
         assert graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
@@ -88,4 +135,12 @@ public final class Renderer implements IRenderer {
         this.graphics = g;
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ICamera getCamera() {
+        return camera;
+    }
 }

@@ -10,7 +10,7 @@ public final class DoodleFactory implements IDoodleFactory {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
 
     /**
      * Prevent instantiations of DoodleFactory.
@@ -24,8 +24,8 @@ public final class DoodleFactory implements IDoodleFactory {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        DoodleFactory.serviceLocator = sL;
-        DoodleFactory.serviceLocator.provide(new DoodleFactory());
+        DoodleFactory.sL = sL;
+        DoodleFactory.sL.provide(new DoodleFactory());
     }
 
     /**
@@ -33,7 +33,7 @@ public final class DoodleFactory implements IDoodleFactory {
      */
     @Override
     public IDoodle createDoodle() {
-        return new Doodle(serviceLocator);
+        return new Doodle(sL);
     }
 
 }

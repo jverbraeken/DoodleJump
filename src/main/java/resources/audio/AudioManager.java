@@ -8,26 +8,26 @@ import java.io.FileNotFoundException;
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class AudioManager implements IAudioManager {
     /**
-     * Used to gain access to all services.
-     */
-    private static transient IServiceLocator serviceLocator;
+    * Used to gain access to all services.
+    */
+    private static transient IServiceLocator sL;
 
     /**
      * Prevents instantiation from outside the class.
      */
     private AudioManager() {
-        preload();
+
     }
 
-    /**
+        /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
      * @param sL The IServiceLocator to which the class should offer its functionality
-     */
+         */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        serviceLocator = sL;
-        serviceLocator.provide(new AudioManager());
+        AudioManager.sL = sL;
+        sL.provide(new AudioManager());
     }
 
     @Override
@@ -336,7 +336,7 @@ public final class AudioManager implements IAudioManager {
 
         Sound(final String filepath) {
             try {
-                clip = serviceLocator.getFileSystem().readSound(filepath);
+                clip = sL.getFileSystem().readSound(filepath);
             } catch (FileNotFoundException e) {
                 // TODO log the file was not found
                 e.printStackTrace();

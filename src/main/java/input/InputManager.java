@@ -15,15 +15,7 @@ public final class InputManager implements IInputManager {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
-    /**
-     * The set of observable mouse inputs.
-     */
-    private final Set<IMouseInputObserver> mouseInputObservers = new HashSet<>();
-    /**
-     * The set of observable key inputs.
-     */
-    private final Set<IKeyInputObserver> keyInputObservers = new HashSet<>();
+    private static transient IServiceLocator sL;
     /**
      * The size of the left border of the game frame.
      */
@@ -32,6 +24,14 @@ public final class InputManager implements IInputManager {
      * The size of the top border of the game frame.
      */
     private static int windowTopBorderSize = 0;
+    /**
+     * The set of observable mouse inputs.
+     */
+    private final Set<IMouseInputObserver> mouseInputObservers = new HashSet<>();
+    /**
+     * The set of observable key inputs.
+     */
+    private final Set<IKeyInputObserver> keyInputObservers = new HashSet<>();
 
     /**
      * Prevents instantiation from outside the class.
@@ -45,9 +45,9 @@ public final class InputManager implements IInputManager {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert serviceLocator != null;
-        InputManager.serviceLocator = sL;
-        InputManager.serviceLocator.provide(new InputManager());
+        assert sL != null;
+        InputManager.sL = sL;
+        InputManager.sL.provide(new InputManager());
     }
 
     /* MOUSE EVENTS */
@@ -159,7 +159,7 @@ public final class InputManager implements IInputManager {
      * Set the main border size, used for mouse inputs.
      *
      * @param windowLBSize The size of the left border.
-     * @param windowTBSize  The size of the top border.
+     * @param windowTBSize The size of the top border.
      */
     public void setMainWindowBorderSize(final int windowLBSize, final int windowTBSize) {
         windowLeftBorderSize = windowLBSize;
