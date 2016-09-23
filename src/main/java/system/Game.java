@@ -247,7 +247,7 @@ public final class Game {
             panel.repaint();
             try {
                 long gameTime = FRAMETIME;
-                Thread.sleep(gameTime);
+                Thread.sleep(gameTime - (now - System.nanoTime()) / ICalc.NANOSECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
