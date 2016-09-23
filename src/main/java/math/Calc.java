@@ -24,7 +24,7 @@ public final class Calc implements ICalc {
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
-        assert serviceLocator != null;
+        assert sL != null;
         Calc.serviceLocator = sL;
         Calc.serviceLocator.provide(new Calc());
     }

@@ -23,7 +23,7 @@ public final class PlatformFactory implements IPlatformFactory {
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
-        assert serviceLocator != null;
+        assert sL != null;
         PlatformFactory.serviceLocator = sL;
         serviceLocator.provide(new PlatformFactory());
     }

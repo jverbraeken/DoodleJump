@@ -25,7 +25,7 @@ public final class BlockFactory implements IBlockFactory {
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
-        assert serviceLocator != null;
+        assert sL != null;
         BlockFactory.serviceLocator = sL;
         BlockFactory.serviceLocator.provide(new BlockFactory());
     }
