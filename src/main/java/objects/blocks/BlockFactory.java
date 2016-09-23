@@ -5,13 +5,10 @@ import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
-import system.Game;
 import system.IServiceLocator;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import static scenes.World.gravityAcceleration;
 
 public final class BlockFactory implements IBlockFactory {
 
@@ -35,7 +32,7 @@ public final class BlockFactory implements IBlockFactory {
     @Override
     public synchronized IBlock createStartBlock() {
         Set<IGameObject> elements = new HashSet<>();
-        
+
         int platformAmount = serviceLocator.getCalc().getRandomIntBetween(6, (serviceLocator.getConstants().getGameWidth() + serviceLocator.getConstants().getGameHeight()) / 130);
         int heightDividedPlatforms = serviceLocator.getConstants().getGameHeight() / platformAmount;
 
@@ -63,7 +60,7 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Places zero or more platforms before the loop placing the other platforms is processed.
      *
-     * @param elements      The {@link Set} in which the platforms should be placed
+     * @param elements    The {@link Set} in which the platforms should be placed
      * @param topJumpable The highest platform created before the block starts (normaly the latest platform created)
      * @return The last and highest platform created by this method
      */
@@ -95,7 +92,7 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Places zero or more platforms before the loop placing the other platforms is processed.
      *
-     * @param elements The {@link Set} in which the platforms should be placed
+     * @param elements    The {@link Set} in which the platforms should be placed
      * @param topJumpable The highest platform created before the block starts (normaly the latest platform created)
      * @return The last and highest platform created by this method
      */
@@ -112,7 +109,7 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Places a single platform part in the block specified.
      *
-     * @param topJumpable           The highest platform created before the block starts (normaly the latest platform created)
+     * @param topJumpable            The highest platform created before the block starts (normaly the latest platform created)
      * @param heightDividedPlatforms The height between the platforms
      * @return The last and highest platform created by this method
      */
@@ -134,8 +131,8 @@ public final class BlockFactory implements IBlockFactory {
         int yLast = (int) topJumpable.getYPos();
         int yLoc = (int) (yLast - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
 
-        double jumpTime = topJumpable.getBoost() / gravityAcceleration;
-        double maxDoodleJumpHeight = (int) (0.5 * gravityAcceleration * Math.pow(jumpTime, 2));
+        double jumpTime = topJumpable.getBoost() / serviceLocator.getConstants().getGravityAcceleration();
+        double maxDoodleJumpHeight = (int) (0.5 * serviceLocator.getConstants().getGravityAcceleration() * Math.pow(jumpTime, 2));
         if (yLoc < yLast - maxDoodleJumpHeight) {
             yLoc = yLast - (int) maxDoodleJumpHeight;
         }

@@ -1,6 +1,7 @@
 package system;
 
 import constants.IConstants;
+import logging.ILoggerFactory;
 import objects.buttons.IButtonFactory;
 import resources.IRes;
 import resources.audio.IAudioManager;
@@ -28,12 +29,12 @@ public interface IServiceLocator {
     void provide(IPowerupFactory powerupFactory);
     void provide(IRenderer renderer);
     void provide(ISpriteFactory spriteFactory);
-    void provide(ILevelBuilder levelBuilder);
     void provide(ISceneFactory sceneFactory);
     void provide(IPlatformFactory platformFactory);
     void provide(IRes res);
     void provide(IButtonFactory buttonFactory);
     void provide(IConstants constants);
+    void provide(ILoggerFactory LoggerFactory);
 
     IAudioManager getAudioManager();
     IEnemyBuilder getEnemyBuilder();
@@ -45,11 +46,11 @@ public interface IServiceLocator {
     IPowerupFactory getPowerupFactory();
     IRenderer getRenderer();
     ISpriteFactory getSpriteFactory();
-    ILevelBuilder getLevelBuilder();
     ISceneFactory getSceneFactory();
     IPlatformFactory getPlatformFactory();
     IRes getRes();
     IButtonFactory getButtonFactory();
     IConstants getConstants();
+    ILoggerFactory getLoggerFactory();
 
 }

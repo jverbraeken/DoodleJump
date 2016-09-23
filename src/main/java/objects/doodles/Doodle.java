@@ -9,7 +9,6 @@ import objects.blocks.IBlock;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
-import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
@@ -231,7 +230,7 @@ public final class Doodle extends AGameObject implements IDoodle {
      * TODO: Add JavaDoc
      */
     private void applyGravity(double delta) {
-        this.vSpeed += World.gravityAcceleration;
+        this.vSpeed += serviceLocator.getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
 
@@ -239,7 +238,7 @@ public final class Doodle extends AGameObject implements IDoodle {
         ICamera camera = serviceLocator.getRenderer().getCamera();
         final int height = serviceLocator.getConstants().getGameHeight();
         if (getYPos() < camera.getYPos() + height / 2) {
-            score += (camera.getYPos() + height / 2 - getYPos()) * World.SCOREMULTIPLIER;
+            score += (camera.getYPos() + height / 2 - getYPos()) * serviceLocator.getConstants().getScoreMultiplier();
             camera.setYPos(getYPos() - height / 2);
         }
     }

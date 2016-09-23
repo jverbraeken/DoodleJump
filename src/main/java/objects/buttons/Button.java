@@ -1,5 +1,6 @@
 package objects.buttons;
 
+import logging.ILogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import resources.sprites.ISprite;
@@ -7,8 +8,9 @@ import system.IServiceLocator;
 
 public class Button implements IButton {
 
-    private static final Logger logger = LoggerFactory.getLogger(Button.class);
     private final IServiceLocator serviceLocator;
+
+    private static ILogger logger;
     private final ISprite sprite;
     private final int width, height;
     private final int[] topLeft = new int[2], bottomRight = new int[2];
@@ -22,6 +24,7 @@ public class Button implements IButton {
         assert sprite != null;
 
         this.serviceLocator = serviceLocator;
+        this.logger = serviceLocator.getLoggerFactory().createLogger(Button.class);
         this.sprite = sprite;
         this.width = sprite.getImage().getWidth(null);
         this.height = sprite.getImage().getHeight(null);

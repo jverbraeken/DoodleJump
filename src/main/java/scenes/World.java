@@ -1,5 +1,6 @@
 package scenes;
 
+import logging.ILogger;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
@@ -19,19 +20,12 @@ import system.IUpdatable;
 import java.util.*;
 
 public class World implements IScene {
-
-    /**
-     * How much the doodle is affected by gravity.
-     */
-    public static final double gravityAcceleration = .5;
-    // TODO: Add JavaDoc / shouldn't be public
-    public final static double SCOREMULTIPLIER = 0.15;
     private final static int PAUSEOFFSET = 38;
     /**
      * The maximum number of blocks available at a time.
      */
     private static final int MAXBLOCKS = 3;
-    private final Logger logger = LoggerFactory.getLogger(World.class);
+    private final ILogger logger;
     private final IServiceLocator serviceLocator;
     /**
      * Set of all object (excluding Doodle) in the world.
@@ -69,6 +63,7 @@ public class World implements IScene {
 
     /* package */ World(IServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
+        this.logger = serviceLocator.getLoggerFactory().createLogger(World.class);
         Game.setAlive(true);
 
         for (int i = 0; i < 3; i++) {
@@ -100,6 +95,8 @@ public class World implements IScene {
         this.updatables.add(this.doodle);
 
         this.serviceLocator.getAudioManager().playStart();
+
+        logger.log("Level started");
     }
 
     /**
@@ -219,7 +216,7 @@ public class World implements IScene {
         private final int scoreBarHeight;
         private final PauseButton pauseButton;
         private final ScoreText scoreText;
-        private final Logger logger = LoggerFactory.getLogger(Scorebar.class);
+        private final ILogger logger = serviceLocator.getLoggerFactory().createLogger(Scorebar.class);
 
         private Scorebar() {
             scoreBarSprite = serviceLocator.getSpriteFactory().getScorebarSprite();

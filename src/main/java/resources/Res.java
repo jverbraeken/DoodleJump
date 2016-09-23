@@ -76,13 +76,18 @@ public final class Res implements IRes {
         sprites.put(IRes.sprites.scorebar, spritepath + "scorebar.png");
     }
 
-    private Res() { }
+    /**
+     * Prevent instantiation of Res.
+     */
+    private Res() {
+    }
 
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSpritePath(IRes.sprites sprite) {
         return sprites.get(sprite);
     }
-
 }

@@ -43,6 +43,7 @@ public class Spring extends APowerup implements IJumpable {
     /** {@inheritDoc} */
     @Override
     public double getBoost() {
+        //TODO very unexpected behaviour for a getter. Source of bugs as the programmer does not expect this from a getter
         this.animate();
         this.playSound();
 

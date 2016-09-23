@@ -5,6 +5,7 @@ import constants.IConstants;
 import filesystem.FileSystem;
 import input.IInputManager;
 import input.InputManager;
+import logging.LoggerFactory;
 import math.Calc;
 import math.ICalc;
 import objects.blocks.BlockFactory;
@@ -65,11 +66,10 @@ public final class Game {
         Res.register(serviceLocator);
         ButtonFactory.register(serviceLocator);
         Constants.register(serviceLocator);
+        LoggerFactory.register(serviceLocator);
     }
 
     public static void main(String[] argv) {
-        System.setProperty("Log4jContextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
-
         initServices();
 
         serviceLocator.getRenderer().start();
@@ -147,7 +147,6 @@ public final class Game {
         serviceLocator.getRenderer().getCamera().setYPos(0d);
         scene.start();
         Game.scene = scene;
-        //frame.repaint();
     }
 
     /**

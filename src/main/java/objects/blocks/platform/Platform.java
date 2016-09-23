@@ -2,6 +2,7 @@ package objects.blocks.platform;
 
 import objects.AGameObject;
 import objects.doodles.IDoodle;
+import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -22,7 +23,9 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public double getBoost() { return Platform.boost; }
+    public double getBoost() {
+        this.playSound();
+        return Platform.boost; }
 
     /** {@inheritDoc} */
     @Override
@@ -35,6 +38,14 @@ public class Platform extends AGameObject implements IPlatform {
     @Override
     public void collidesWith(IDoodle doodle) {
         doodle.collide(this);
+    }
+
+    /**
+     * Play the sound for the Platform.
+     */
+    private void playSound() {
+        IAudioManager audioManager = serviceLocator.getAudioManager();
+        audioManager.playJump();
     }
 
 }

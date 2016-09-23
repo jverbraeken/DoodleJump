@@ -3,6 +3,8 @@ package system;
 import constants.IConstants;
 import filesystem.IFileSystem;
 import input.IInputManager;
+import logging.ILogger;
+import logging.ILoggerFactory;
 import math.ICalc;
 import objects.blocks.IBlockFactory;
 import objects.blocks.platform.IPlatformFactory;
@@ -34,8 +36,7 @@ import scenes.ISceneFactory;
     // filesystem
     private IFileSystem fileSystem;
 
-    // resources
-    private ILevelBuilder levelFactory;
+    // resources\
     private ISpriteFactory spriteFactory;
     private IRes res;
 
@@ -44,12 +45,12 @@ import scenes.ISceneFactory;
 
     // util
     private ICalc calc;
+    private ILoggerFactory loggerFactory;
 
     // objects
     private IPowerupFactory powerupFactory;
     private IDoodleFactory doodleFactory;
     private IBlockFactory blockFactory;
-    private ILevelBuilder levelBuilder;
     private IPlatformFactory platformFactory;
 
     // scenes
@@ -149,9 +150,9 @@ import scenes.ISceneFactory;
      * {@inheritDoc}
      */
     @Override
-    public void provide(ILevelBuilder levelBuilder) {
-        assert levelBuilder != null;
-        this.levelBuilder = levelBuilder;
+    public void provide(ILoggerFactory loggerFactory) {
+        assert loggerFactory != null;
+        this.loggerFactory = loggerFactory;
     }
 
     /**
@@ -301,9 +302,9 @@ import scenes.ISceneFactory;
      * {@inheritDoc}
      */
     @Override
-    public ILevelBuilder getLevelBuilder() {
-        assert levelBuilder != null;
-        return levelBuilder;
+    public ILoggerFactory getLoggerFactory() {
+        assert loggerFactory != null;
+        return loggerFactory;
     }
 
     /**

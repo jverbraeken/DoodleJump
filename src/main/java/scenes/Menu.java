@@ -26,7 +26,9 @@ public class Menu implements IScene, IKeyInputObserver {
         cover = spriteFactory.getStartCoverSprite();
 
         IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        playButton = buttonFactory.createPlayButton((int) (serviceLocator.getConstants().getGameWidth() * playButtonXPercentage), (int) (serviceLocator.getConstants().getGameHeight() * playButtonYPercentage));
+        playButton = buttonFactory.createPlayButton(
+                (int) (serviceLocator.getConstants().getGameWidth() * playButtonXPercentage),
+                (int) (serviceLocator.getConstants().getGameHeight() * playButtonYPercentage));
     }
 
     /** {@inheritDoc} */
