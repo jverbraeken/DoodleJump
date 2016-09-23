@@ -5,6 +5,9 @@ import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
 
+/**
+ * This class describes the behaviour of the doodle.
+ */
 public interface IDoodle extends IGameObject, IKeyInputObserver {
 
     double getVSpeed();
@@ -21,7 +24,8 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     double getLegsHeight();
 
     /**
-     * Set the vertical speed of the Doodle.
+     * Set the vertical speed of the doodle.
+     * @param vSpeed the new speed.
      */
     void setVerticalSpeed(double vSpeed);
 
@@ -30,7 +34,18 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      */
     double getScore();
 
-    // Enum with directions for the Doodle.
-    enum directions { left, right };
+    /**
+     * Enum with Directions for the Doodle.
+     */
+     enum Directions {
+        /**
+         * The left direction.
+         */
+        Left,
+        /**
+         * The right direction.
+         */
+        Right
+    }
 
 }

@@ -12,16 +12,29 @@ import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
-public final class Doodle extends AGameObject implements IDoodle {
+/**
+ * This class describes the behaviour of the doodle.
+ */
+public class Doodle extends AGameObject implements IDoodle {
     /**
      * The height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      */
     private final double legsHeight = 0.8;
+
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator serviceLocator;
+
+    /**
+     * Standard speed limit for the Doodle.
+     */
+    private final double standardSpeedLimit = 6d;
     /**
      * Horizontal speed limit for the Doodle.
      */
-    private double hSpeedLimit = 6d;
+    private double hSpeedLimit = standardSpeedLimit;
     /**
      * Current horizontal speed for the Doodle.
      */
@@ -33,23 +46,56 @@ public final class Doodle extends AGameObject implements IDoodle {
     /**
      * Horizontal acceleration for the Doodle.
      */
-    private double hAcceleration = .5d;
+    private final double hAcceleration = .5d;
     /**
-     * The sprite pack for the Doodle, containing all sprites for one direction.
+     * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
     private ISprite[] spritePack;
     /**
      * The direction the Doodle is moving towards.
      */
-    private directions moving;
+    private Directions moving;
     /**
      * The direction the Doodle is facing.
      */
-    private directions facing;
+    private Directions facing;
     /**
      * The current score of the doodle
      */
     private double score;
+
+    /**
+     * Enumerator of the Left side of the hitbox.
+     */
+    private final int hitBoxLeft = 0;
+    /**
+     * Enumerator of the top side of the hitbox.
+     */
+    private final int hitBoxTop = 1;
+    /**
+     * Enumerator of the Right side of the hitbox.
+     */
+    private final int hitBoxRight = 2;
+    /**
+     * Enumerator of the bottom side of the hitbox.
+     */
+    private final int hitBoxBottom = 3;
+
+    /**
+     * The speed at which we know the doodle is jumping.
+     * this is used for the pulling up legs animation.
+     */
+    private final int doodleIsJumping = -15;
+
+    /**
+     * Where the hitbox of the doodle starts in relation to the sprite width.
+     */
+    private final double widthHitboxLeft = .3;
+
+    /**
+     * Where the hitbox of the doodle ends in relation to the sprite width.
+     */
+    private final double widthHitboxRight = .7;
 
     /**
      * Doodle constructor.
@@ -57,11 +103,11 @@ public final class Doodle extends AGameObject implements IDoodle {
      * @param serviceLocator The service locator
      */
      /* package */ Doodle(final IServiceLocator serviceLocator) {
-        super(serviceLocator, serviceLocator.getConstants().getGameWidth() / 2, serviceLocator.getConstants().getGameHeight() / 2, serviceLocator.getSpriteFactory().getDoodleSprite(directions.right)[0]);
-        this.setHitBox(getSprite().getWidth() / 3, (int) (getSprite().getHeight() * 0.25), 2 * getSprite().getWidth() / 3, getSprite().getHeight());
+        super(serviceLocator, serviceLocator.getConstants().getGameWidth() / 2, serviceLocator.getConstants().getGameHeight() / 2, serviceLocator.getSpriteFactory().getDoodleSprite(Directions.Right)[0]);
+        this.setHitBox((int) (getSprite().getWidth() * widthHitboxLeft), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * widthHitboxRight), getSprite().getHeight());
 
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        this.spritePack = spriteFactory.getDoodleSprite(directions.right);
+        this.spritePack = spriteFactory.getDoodleSprite(Directions.Right);
 
         IInputManager inputManager = serviceLocator.getInputManager();
         inputManager.addObserver(this);
@@ -104,6 +150,10 @@ public final class Doodle extends AGameObject implements IDoodle {
         return this.vSpeed;
     }
 
+    /**
+     * {@inheritDoc}
+     * @param vSpeed the new speed.
+     */
     @Override
     public void setVerticalSpeed(double vSpeed) {
         this.vSpeed = vSpeed;
@@ -118,13 +168,13 @@ public final class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void keyPress(int keyCode) {
+    public final void keyPress(final int keyCode) {
         if (this.leftPressed(keyCode)) {
-            this.moving = directions.left;
-            this.facing = directions.left;
+            this.moving = Directions.Left;
+            this.facing = Directions.Left;
         } else if (this.rightPressed(keyCode)) {
-            this.moving = directions.right;
-            this.facing = directions.right;
+            this.moving = Directions.Right;
+            this.facing = Directions.Right;
         }
     }
 
@@ -132,10 +182,10 @@ public final class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void keyRelease(int keyCode) {
-        if (this.leftPressed(keyCode) && this.moving == directions.left) {
+    public final void keyRelease(final int keyCode) {
+        if (this.leftPressed(keyCode) && this.moving == Directions.Left) {
             this.moving = null;
-        } else if (this.rightPressed(keyCode) && this.moving == directions.right) {
+        } else if (this.rightPressed(keyCode) && this.moving == Directions.Right) {
             this.moving = null;
         }
     }
@@ -152,19 +202,19 @@ public final class Doodle extends AGameObject implements IDoodle {
         return legsHeight;
     }
 
-    private void move(double delta) {
+    private void move(final double delta) {
         moveHorizontally(delta);
     }
 
     /**
      * Move the Doodle along the X axis.
      */
-    private void moveHorizontally(double delta) {
-        if (moving == directions.left) {
+    private void moveHorizontally(final double delta) {
+        if (moving == Directions.Left) {
             if (this.hSpeed > -this.hSpeedLimit) {
                 this.hSpeed -= this.hAcceleration;
             }
-        } else if (moving == directions.right) {
+        } else if (moving == Directions.Right) {
             if (this.hSpeed < this.hSpeedLimit) {
                 this.hSpeed += this.hAcceleration;
             }
@@ -180,25 +230,25 @@ public final class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Check if the left key for the Doodle is pressed.
+     * Check if the Left key for the Doodle is pressed.
      *
      * @param keyCode The keyCode of the key.
-     * @return A boolean indicating whether the key for left is pressed.
+     * @return A boolean indicating whether the key for Left is pressed.
      */
-    private boolean leftPressed(int keyCode) {
-        return keyCode == KeyCode.getKeyCode(Keys.arrowLeft) ||
-                keyCode == KeyCode.getKeyCode(Keys.a);
+    private boolean leftPressed(final int keyCode) {
+        return keyCode == KeyCode.getKeyCode(Keys.arrowLeft)
+                || keyCode == KeyCode.getKeyCode(Keys.a);
     }
 
     /**
-     * Check if the right key for the Doodle is pressed.
+     * Check if the Right key for the Doodle is pressed.
      *
      * @param keyCode The keyCode of the key.
-     * @return A boolean indicating whether the key for right is pressed.
+     * @return A boolean indicating whether the key for Right is pressed.
      */
-    private boolean rightPressed(int keyCode) {
-        return keyCode == KeyCode.getKeyCode(Keys.arrowRight) ||
-                keyCode == KeyCode.getKeyCode(Keys.d);
+    private boolean rightPressed(final int keyCode) {
+        return keyCode == KeyCode.getKeyCode(Keys.arrowRight)
+                || keyCode == KeyCode.getKeyCode(Keys.d);
     }
 
     /**

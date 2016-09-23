@@ -1,8 +1,6 @@
 package objects;
 
-import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
-import system.Game;
 import system.IServiceLocator;
 
 /**
@@ -18,7 +16,13 @@ public abstract class AGameObject implements IGameObject {
     public static final transient int HITBOX_BOTTOM = 3;
     private final double[] hitBox = new double[4];
     private ISprite sprite;
+    /**
+     * The position on the x axis of the game object.
+     */
     private double xPos;
+    /**
+     * The position on the y axis of the game object.
+     */
     private double yPos;
 
     /**
@@ -44,30 +48,30 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void addXPos(double xPos) {
-        double current = this.getXPos();
-        this.setXPos(current + xPos);
+    public final void addXPos(final double x) {
+        double current = getXPos();
+        this.setXPos(current + x);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void addYPos(double yPos) {
-        double current = this.getYPos();
-        this.setYPos(current + yPos);
+    public final void addYPos(final double y) {
+        double current = getYPos();
+        setYPos(current + y);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double[] getHitBox() {
+    public final double[] getHitBox() {
         return this.hitBox;
     }
 
     @Override
-    public void setHitBox(int left, int top, int right, int bottom) {
+    public final void setHitBox(int left, int top, int right, int bottom) {
         this.hitBox[HITBOX_LEFT] = left;
         this.hitBox[HITBOX_TOP] = top;
         this.hitBox[HITBOX_RIGHT] = right;
@@ -78,7 +82,7 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getSprite() {
+    public final ISprite getSprite() {
         return this.sprite;
     }
 
@@ -86,7 +90,7 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void setSprite(ISprite sprite) {
+    public final void setSprite(ISprite sprite) {
         this.sprite = sprite;
     }
 
@@ -94,7 +98,7 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public double getXPos() {
+    public final double getXPos() {
         return this.xPos;
     }
 
@@ -102,7 +106,7 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void setXPos(double xPos) {
+    public final void setXPos(double xPos) {
         this.xPos = xPos;
     }
 
@@ -116,7 +120,7 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public double getYPos() {
+    public final double getYPos() {
         return this.yPos;
     }
 
@@ -124,8 +128,8 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void setYPos(double yPos) {
-        this.yPos = yPos;
+    public final void setYPos(final double y) {
+        this.yPos = y;
     }
 
 

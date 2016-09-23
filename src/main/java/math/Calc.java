@@ -1,14 +1,17 @@
 package math;
 
-import resources.audio.IAudioManager;
 import system.IServiceLocator;
 
 import java.util.Random;
 
+/**
+ * This class handles all advanced calculations.
+ * Examples are random integers and doubles.
+ */
 public final class Calc implements ICalc {
-
     /**
-     * Used to gain access to all services.
+     * Register the FileSystem into the service locator.
+     * @param serviceLocator the service locator.
      */
     private static transient IServiceLocator serviceLocator;
 
@@ -18,8 +21,10 @@ public final class Calc implements ICalc {
         serviceLocator.provide(new Calc());
     }
 
-    private static final Random random = new Random();
 
+
+
+    private static final Random random = new Random();
     /**
      * Prevents instantiation from outside the class.
      */

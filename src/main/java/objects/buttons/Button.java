@@ -1,39 +1,72 @@
 package objects.buttons;
 
 import logging.ILogger;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-public class Button implements IButton {
 
+/**
+ * This class focuses on the implementation of button.
+ */
+/* package */ class Button implements IButton {
+
+    /**
+     * Used to gain access to all services.
+     */
     private final IServiceLocator serviceLocator;
-
-    private static ILogger logger;
+    /**
+     * The sprite of the button.
+     */
     private final ISprite sprite;
+    /**
+     * The height and width of the button.
+     */
     private final int width, height;
+    /**
+     * The hitbox of the button.
+     */
     private final int[] topLeft = new int[2], bottomRight = new int[2];
+    /**
+     * The action when the button is pressed.
+     */
     private final Runnable action;
+    /**
+     * The name of the button.
+     */
     private final String name;
 
-    /* package */ Button(IServiceLocator serviceLocator, int x, int y, ISprite sprite, Runnable action, String name) {
+    /**
+     * The logger of the game.
+     */
+    private final ILogger logger;
+
+    /**
+     * Constructor of a new button.
+     *
+     * @param sL the service locator.
+     * @param x  the x position of the button
+     * @param y  the y position of the button
+     * @param s  the sprite of the button
+     * @param a  the action when the button is pressed
+     * @param n  the name of the button
+     */
+    /* package */ Button(IServiceLocator sL, int x, int y, ISprite s, Runnable a, String n) {
         super();
 
-        assert serviceLocator != null;
-        assert sprite != null;
+        assert sL != null;
+        assert s != null;
 
-        this.serviceLocator = serviceLocator;
+        this.serviceLocator = sL;
         this.logger = serviceLocator.getLoggerFactory().createLogger(Button.class);
-        this.sprite = sprite;
-        this.width = sprite.getImage().getWidth(null);
-        this.height = sprite.getImage().getHeight(null);
+        this.sprite = s;
+        this.width = s.getImage().getWidth(null);
+        this.height = s.getImage().getHeight(null);
         this.topLeft[0] = x;
         this.topLeft[1] = y;
         this.bottomRight[0] = x + width;
         this.bottomRight[1] = y + height;
-        this.action = action;
-        this.name = name;
+        this.action = a;
+        this.name = n;
     }
 
     /**
@@ -44,15 +77,17 @@ public class Button implements IButton {
         serviceLocator.getRenderer().drawSpriteHUD(sprite, topLeft[0], topLeft[1], width, height);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void mouseClicked(int x, int y) {
+    public final void mouseClicked(final int x, final int y) {
         assert x >= 0 && y >= 0;
 
-        if (x > topLeft[0] && x < bottomRight[0]) {
-            if (y > topLeft[1] && y < bottomRight[1]) {
-                logger.info("Button clicked: \"" + name + "\"");
-                action.run();
-            }
+        if (x > topLeft[0] && x < bottomRight[0] && y > topLeft[1] && y < bottomRight[1]) {
+            logger.info("Button clicked: \"" + name + "\"");
+            action.run();
+
         }
     }
 }

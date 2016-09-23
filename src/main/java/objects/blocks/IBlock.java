@@ -2,13 +2,21 @@ package objects.blocks;
 
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.blocks.platform.IPlatform;
 import system.IRenderable;
 import system.IUpdatable;
 
 import java.util.ArrayList;
 import java.util.Set;
 
+/**
+ * This class focusses on the implementation of Blocks.
+ * These blocks contain the main bulk of the game objects.
+ * This bulk contains the platforms, powerups, enemies and other interactable items.
+ * These blocks are meant to pass through our frame vertically.
+ * The player is meant to progress from one block to the next by jumping on things.
+ * These things can be anything as specified by "bulk".
+ * The choice for block was made as to make seperate sub-levels in a continuous world.
+ */
 public interface IBlock extends IRenderable, IUpdatable {
 
     /**

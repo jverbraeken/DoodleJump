@@ -14,11 +14,11 @@ public class Constants implements IConstants {
     }
 
     /**
-     * The width of the game
+     * The width of the frame of the game
      */
     private final static int WIDTH = 640;
     /**
-     * The height of the game
+     * The height of the frame of the game
      */
     private final static int HEIGHT = 960;
     /**

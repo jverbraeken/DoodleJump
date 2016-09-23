@@ -49,7 +49,7 @@ public interface IFileSystem {
     Clip readSound(String filename) throws FileNotFoundException;
 
     /**
-     * Writes {@code content} to the text-file given by the filepath {@code filename}. The file must exist.
+     * Writes {@code content} to the text-file given by the filepath {@code filename}. The path to the file must exist.
      *
      * @param filename The full path to the file
      * @param content  The text to write to the file

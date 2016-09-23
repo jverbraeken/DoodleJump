@@ -4,6 +4,9 @@ import objects.AGameObject;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+/**
+ * This class describes the abstract functionality of powerups.
+ */
 public abstract class APowerup extends AGameObject implements IPowerup {
 
     /**

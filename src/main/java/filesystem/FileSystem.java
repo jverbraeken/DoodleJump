@@ -23,12 +23,9 @@ public final class FileSystem implements IFileSystem {
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
-    public static void register(final IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        FileSystem.serviceLocator = serviceLocator;
-        FileSystem.serviceLocator.provide(new FileSystem());
-    }
-
+    /**
+     * A classloader in order to load in resources.
+     */
     private ClassLoader classLoader = getClass().getClassLoader();
 
     /**
@@ -36,6 +33,16 @@ public final class FileSystem implements IFileSystem {
      */
     private FileSystem() {
 
+    }
+
+    /**
+     * Register the FileSystem into the service locator.
+     * @param serviceLocator the service locator.
+     */
+    public static void register(final IServiceLocator serviceLocator) {
+        assert serviceLocator != null;
+        FileSystem.serviceLocator = serviceLocator;
+        FileSystem.serviceLocator.provide(new FileSystem());
     }
 
     /** {@inheritDoc} */
