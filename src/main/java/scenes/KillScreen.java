@@ -87,7 +87,6 @@ import system.IServiceLocator;
      */
     @Override
     public final void start() {
-
         sL.getInputManager().addObserver(playAgainButton);
         sL.getInputManager().addObserver(mainMenuButton);
         active = true;
@@ -99,7 +98,6 @@ import system.IServiceLocator;
      */
     @Override
     public final void stop() {
-
         sL.getInputManager().removeObserver(playAgainButton);
         sL.getInputManager().removeObserver(mainMenuButton);
         active = false;
@@ -111,12 +109,14 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        sL.getRenderer().drawSpriteHUD(this.background, 0, 0);
-        sL.getRenderer().drawSpriteHUD(this.gameOverSprite, (int) (sL.getConstants().getGameWidth() * gameOverTextXPercentage), (int) (sL.getConstants().getGameHeight() * gameOverTextYPercentage));
-        double y = (double) sL.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
-        sL.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
-        playAgainButton.render();
-        mainMenuButton.render();
+        if (active) {
+            sL.getRenderer().drawSpriteHUD(this.background, 0, 0);
+            sL.getRenderer().drawSpriteHUD(this.gameOverSprite, (int) (sL.getConstants().getGameWidth() * gameOverTextXPercentage), (int) (sL.getConstants().getGameHeight() * gameOverTextYPercentage));
+            double y = (double) sL.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
+            sL.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
+            playAgainButton.render();
+            mainMenuButton.render();
+        }
     }
 
     /**
