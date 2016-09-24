@@ -1,70 +1,88 @@
 package objects;
 
-import java.util.ArrayList;
-import java.util.Set;
+import resources.sprites.ISprite;
+import system.IServiceLocator;
 
 /**
  * The super class of all classes that represents objects in the game.
  */
 public abstract class AGameObject implements IGameObject {
 
-    private int height;
-    private double[] hitBox;
-    private Object sprite;
-    private int width;
+    protected static IServiceLocator sL;
+
+    public static final transient int HITBOX_LEFT = 0;
+    public static final transient int HITBOX_RIGHT = 1;
+    public static final transient int HITBOX_TOP = 2;
+    public static final transient int HITBOX_BOTTOM = 3;
+    private final double[] hitBox = new double[4];
+    private ISprite sprite;
+    /**
+     * The position on the x axis of the game object.
+     */
     private double xPos;
+    /**
+     * The position on the y axis of the game object.
+     */
     private double yPos;
 
     /**
-     * {@inheritDoc}
+     * Creates a new game object and determines its hitbox by using the sprites dimensions automatically.
+     * @param x The X-coordinate of the game object
+     * @param y The Y-coordinate of the game object
+     * @param sprite The sprite of the game object. Can be {null} when the object is a {@link objects.blocks.IBlock block}
      */
-    @Override
-    public abstract void animate();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addXPos(double xPos) {
-        double current = this.getXPos();
-        this.setXPos(current + xPos);
+    public AGameObject(final IServiceLocator sL, int x, int y, ISprite sprite) {
+        AGameObject.sL = sL;
+        setXPos(x);
+        setYPos(y);
+        if (sprite == null) {
+            //TODO This is not so awesome
+            setHitBox(x, y, sL.getConstants().getGameWidth(), Integer.MAX_VALUE);
+        } else {
+            setHitBox(0, 0, sprite.getWidth(), sprite.getHeight());
+            setSprite(sprite);
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void addYPos(double yPos) {
-        double current = this.getYPos();
-        this.setYPos(current + yPos);
+    public final void addXPos(final double x) {
+        double current = getXPos();
+        this.setXPos(current + x);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double getBoost() {
-        return 0d;
+    public final void addYPos(final double y) {
+        double current = getYPos();
+        setYPos(current + y);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double[] getHitBox() {
+    public final double[] getHitBox() {
         return this.hitBox;
     }
 
     @Override
-    public void setHitBox(double[] hitbox) {
-        this.hitBox = hitbox;
+    public final void setHitBox(int left, int top, int right, int bottom) {
+        this.hitBox[HITBOX_LEFT] = left;
+        this.hitBox[HITBOX_TOP] = top;
+        this.hitBox[HITBOX_RIGHT] = right;
+        this.hitBox[HITBOX_BOTTOM] = bottom;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getSprite() {
+    public final ISprite getSprite() {
         return this.sprite;
     }
 
@@ -72,50 +90,23 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public int getHeight() {
-        return this.height;
+    public final void setSprite(ISprite sprite) {
+        this.sprite = sprite;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getWidth() {
-        return this.width;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setWidth(int width) {
-        this.width = width;
-    }
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double getXPos() {
+    public final double getXPos() {
         return this.xPos;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public abstract void render();
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setXPos(double xPos) {
+    public final void setXPos(double xPos) {
         this.xPos = xPos;
     }
 
@@ -123,7 +114,13 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public double getYPos() {
+    public abstract void render();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final double getYPos() {
         return this.yPos;
     }
 
@@ -131,19 +128,33 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void setYPos(double yPos) {
-        this.yPos = yPos;
+    public final void setYPos(final double y) {
+        this.yPos = y;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean checkCollission(IGameObject gameObject) {
+        if (gameObject == null) {
+            throw new IllegalArgumentException("gameObject cannot be null");
+        }
+
+        // If one of these boolean turns false there is no intersection possible between 2 rectangles
+        return this.getXPos() + getHitBox()[HITBOX_LEFT] < gameObject.getXPos() + gameObject.getHitBox()[HITBOX_RIGHT]
+                && this.getXPos() + getHitBox()[HITBOX_RIGHT] > gameObject.getXPos() + gameObject.getHitBox()[HITBOX_LEFT]
+                && this.getYPos() + getHitBox()[HITBOX_TOP] < gameObject.getYPos() + gameObject.getHitBox()[HITBOX_BOTTOM]
+                && this.getYPos() + getHitBox()[HITBOX_BOTTOM] > gameObject.getYPos() + gameObject.getHitBox()[HITBOX_TOP];
+
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public abstract void move();
+    public void update(double delta) {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public abstract void update();
+    }
 }

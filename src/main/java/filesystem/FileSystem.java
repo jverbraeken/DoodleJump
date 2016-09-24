@@ -3,12 +3,8 @@ package filesystem;
 import system.IServiceLocator;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,13 +18,21 @@ public final class FileSystem implements IFileSystem {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
-    public static void register(final IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        FileSystem.serviceLocator = serviceLocator;
-        FileSystem.serviceLocator.provide(new FileSystem());
+    private static transient IServiceLocator sL;
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        FileSystem.sL = sL;
+        sL.provide(new FileSystem());
     }
 
+    /**
+     * A classloader in order to load in resources.
+     */
     private ClassLoader classLoader = getClass().getClassLoader();
 
     /**
@@ -38,7 +42,9 @@ public final class FileSystem implements IFileSystem {
 
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<String> readTextFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -59,7 +65,9 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InputStream readBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -69,7 +77,9 @@ public final class FileSystem implements IFileSystem {
         return new BufferedInputStream(inputStream);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BufferedImage readImage(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -82,7 +92,9 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Clip readSound(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -99,7 +111,9 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void writeTextFile(final String filename, final String content) throws FileNotFoundException {
         File file = getFile(filename);
@@ -115,20 +129,45 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void appendToTextFile(String filename, String content) throws FileNotFoundException {
-        try(FileWriter fw = new FileWriter(filename, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter writer = new PrintWriter(bw))
-        {
-            writer.println(content);
+    public void deleteFile(final String filename) {
+        (new File(filename)).delete();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clearFile(final String filename) {
+        try (final FileWriter fw = new FileWriter(filename, false);
+             final PrintWriter pw = new PrintWriter(fw, false)) {
+            pw.flush();
+            pw.close();
+            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void appendToTextFile(final Writer writer, final String content) {
+        try {
+            writer.write(content + "\n");
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public OutputStream writeBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -137,12 +176,21 @@ public final class FileSystem implements IFileSystem {
         return new BufferedOutputStream(outputStream);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public File getFile(final String filename) throws FileNotFoundException {
-        assert filename != null;
+    public File getFile(String filename) throws FileNotFoundException {
+        if (filename == null) {
+            throw new IllegalArgumentException("filename cannot be null");
+        }
+        filename.replaceAll("\\\\", "/");
 
-        URL url = classLoader.getResource(filename);
+        if (filename.charAt(0) != '/') {
+            filename = "/" + filename;
+        }
+
+        URL url = getClass().getResource(filename);
         if (url == null) {
             throw new FileNotFoundException("The following file could not be found: \"" + filename + "\"");
         }

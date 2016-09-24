@@ -12,6 +12,8 @@
       <entry name="!?*.kt" />
       <entry name="!?*.clj" />
       <entry name="!?*.aj" />
+      <entry name="!?*.png" />
+      <entry name="!?*.jpg" />
     </wildcardResourcePatterns>
     <annotationProcessing>
       <profile default="true" name="Default" enabled="false">
@@ -22,11 +24,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="DoodleJump" />
+        <module name="none" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="DoodleJump" target="1.8" />
+      <module name="none" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

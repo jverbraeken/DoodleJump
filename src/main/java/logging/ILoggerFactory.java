@@ -1,5 +1,8 @@
 package logging;
 
+/**
+ * Interface for a LoggerFactory.
+ */
 public interface ILoggerFactory {
 
     /**

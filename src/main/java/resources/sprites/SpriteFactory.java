@@ -3,6 +3,7 @@ package resources.sprites;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import logging.ILogger;
 import objects.doodles.IDoodle;
 import resources.IRes;
 import system.IServiceLocator;
@@ -11,92 +12,141 @@ import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Standard implementation of the SpriteFactory. Used to load and get sprites.
+ * <p>
+ * Javadoc is not deemed necessary for all individual sprites to have a javadoc.
+ */
+@SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod"})
 public final class SpriteFactory implements ISpriteFactory {
 
     /**
-    * Used to gain access to all services.
-    */
-    private static transient IServiceLocator serviceLocator;
-
-    /**
-     * TODO: Add JavaDoc
+     * Used to gain access to all services.
      */
-    public static void register(IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        SpriteFactory.serviceLocator = serviceLocator;
-        serviceLocator.provide(new SpriteFactory());
-    }
-
-
-    private LoadingCache<IRes.sprites, ISprite> cache;
+    private static transient IServiceLocator sL;
+    /**
+     * The logger for the SpriteFactory class.
+     */
+    private final ILogger LOGGER;
+    /**
+     * The cache for the SpriteFactory.
+     */
+    private LoadingCache<IRes.Sprites, ISprite> cache;
 
     /**
      * Prevents instantiation from outside the class.
      */
     private SpriteFactory() {
+        LOGGER = sL.getLoggerFactory().createLogger(SpriteFactory.class);
+
         cache = CacheBuilder.newBuilder()
                 .maximumSize(Long.MAX_VALUE)
                 .build(
-                        new CacheLoader<IRes.sprites, ISprite>() {
+                        new CacheLoader<IRes.Sprites, ISprite>() {
                             @Override
-                            public ISprite load(IRes.sprites sprite) throws FileNotFoundException {
+                            public ISprite load(final IRes.Sprites sprite) throws FileNotFoundException {
+                                LOGGER.info("Sprite loaded: \"" + sprite + "\"");
                                 return loadISprite(sprite);
                             }
                         }
                 );
     }
 
-    // Buttons
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getMenuButtonSprite() { return getSprite(IRes.sprites.menu); }
-
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getPauseButtonSprite() {
-        return getSprite(IRes.sprites.pause);
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        SpriteFactory.sL = sL;
+        SpriteFactory.sL.provide(new SpriteFactory());
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getPlayButtonSprite() { return getSprite(IRes.sprites.play); }
+    // Buttons
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ISprite getPlayAgainButtonSprite() { return getSprite(IRes.sprites.playagain); }
+    public ISprite getMenuButtonSprite() {
+        return getSprite(IRes.Sprites.menu);
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getPauseButtonSprite() {
+        return getSprite(IRes.Sprites.pause);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getPlayButtonSprite() {
+        return getSprite(IRes.Sprites.play);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getPlayAgainButtonSprite() {
+        return getSprite(IRes.Sprites.playagain);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getResumeButtonSprite() {
-        return getSprite(IRes.sprites.resume);
+        return getSprite(IRes.Sprites.resume);
     }
 
 
     // Covers
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getBackground() { return getSprite(IRes.sprites.background); }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ISprite getPauseCoverSprite() { return getSprite(IRes.sprites.pauseCover); }
+    public ISprite getBackground() {
+        return getSprite(IRes.Sprites.background);
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ISprite getStartCoverSprite() { return getSprite(IRes.sprites.startCover); }
+    public ISprite getPauseCoverSprite() {
+        return getSprite(IRes.Sprites.pauseCover);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getStartCoverSprite() {
+        return getSprite(IRes.Sprites.startCover);
+    }
 
 
     // Doodle
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ISprite[] getDoodleSprite(IDoodle.directions direction) {
+    public ISprite[] getDoodleSprite(final IDoodle.Directions direction) {
         ISprite[] sprites = new ISprite[2];
-        if (direction == IDoodle.directions.left) {
-            sprites[0] = this.getSprite(IRes.sprites.doodleLeftAscend);
-            sprites[1] = this.getSprite(IRes.sprites.doodleLeftDescend);
+        if (direction == IDoodle.Directions.Left) {
+            sprites[0] = this.getSprite(IRes.Sprites.doodleLeftAscend);
+            sprites[1] = this.getSprite(IRes.Sprites.doodleLeftDescend);
         } else { // Use Right by default
-            sprites[0] = this.getSprite(IRes.sprites.doodleRightAscend);
-            sprites[1] = this.getSprite(IRes.sprites.doodleRightDescend);
+            sprites[0] = this.getSprite(IRes.Sprites.doodleRightAscend);
+            sprites[1] = this.getSprite(IRes.Sprites.doodleRightDescend);
         }
 
         return sprites;
@@ -104,429 +154,579 @@ public final class SpriteFactory implements ISpriteFactory {
 
 
     // Kill screen
-    /** {@inheritDoc} */
-    @Override
-    public ISprite getGameOverSprite() { return getSprite(IRes.sprites.gameOver); }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ISprite getKillScreenBottomSprite() { return getSprite(IRes.sprites.killScreenBottom); }
+    public ISprite getGameOverSprite() {
+        return getSprite(IRes.Sprites.gameOver);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getKillScreenBottomSprite() {
+        return getSprite(IRes.Sprites.killScreenBottom);
+    }
 
 
     // Monsters
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPuddingMonsterSprite2() {
-        return getSprite(IRes.sprites.puddingMonster2);
+        return getSprite(IRes.Sprites.puddingMonster2);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPuddingMonsterSprite3() {
-        return getSprite(IRes.sprites.puddingMonster3);
+        return getSprite(IRes.Sprites.puddingMonster3);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPuddingMonsterSprite4() {
-        return getSprite(IRes.sprites.puddingMonster4);
+        return getSprite(IRes.Sprites.puddingMonster4);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPuddingMonsterSprite5() {
-        return getSprite(IRes.sprites.puddingMonster5);
+        return getSprite(IRes.Sprites.puddingMonster5);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getTwinMonsterSprite() {
-        return getSprite(IRes.sprites.twinMonster);
+        return getSprite(IRes.Sprites.twinMonster);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getThreeEyedMonsterSprite1() {
-        return getSprite(IRes.sprites.threeEyedMonster1);
+        return getSprite(IRes.Sprites.threeEyedMonster1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getThreeEyedMonsterSprite2() {
-        return getSprite(IRes.sprites.threeEyedMonster2);
+        return getSprite(IRes.Sprites.threeEyedMonster2);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getThreeEyedMonsterSprite3() {
-        return getSprite(IRes.sprites.threeEyedMonster3);
+        return getSprite(IRes.Sprites.threeEyedMonster3);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getThreeEyedMonsterSprite4() {
-        return getSprite(IRes.sprites.threeEyedMonster4);
+        return getSprite(IRes.Sprites.threeEyedMonster4);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getThreeEyedMonsterSprite5() {
-        return getSprite(IRes.sprites.threeEyedMonster5);
+        return getSprite(IRes.Sprites.threeEyedMonster5);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getVampireMonsterSprite1() {
-        return getSprite(IRes.sprites.vampireMonster1);
+        return getSprite(IRes.Sprites.vampireMonster1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getVampireMonsterSprite2() {
-        return getSprite(IRes.sprites.vampireMonster2);
+        return getSprite(IRes.Sprites.vampireMonster2);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getVampireMonsterSprite3() {
-        return getSprite(IRes.sprites.vampireMonster3);
+        return getSprite(IRes.Sprites.vampireMonster3);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getVampireMonsterSprite4() {
-        return getSprite(IRes.sprites.vampireMonster4);
+        return getSprite(IRes.Sprites.vampireMonster4);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getVampireMonsterSprite5() {
-        return getSprite(IRes.sprites.vampireMonster5);
+        return getSprite(IRes.Sprites.vampireMonster5);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getOrdinaryMonsterSprite() {
-        return getSprite(IRes.sprites.ordinaryMonster);
+        return getSprite(IRes.Sprites.ordinaryMonster);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getCactusMonster1Sprite() {
-        return getSprite(IRes.sprites.cactusMonster1);
+        return getSprite(IRes.Sprites.cactusMonster1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getCactusMonster2Sprite() {
-        return getSprite(IRes.sprites.cactusMonster2);
+        return getSprite(IRes.Sprites.cactusMonster2);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getFiveFeetMonsterSprite() {
-        return getSprite(IRes.sprites.fiveFeetMonster);
+        return getSprite(IRes.Sprites.fiveFeetMonster);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getLowFiveFeetMonster1Sprite() {
-        return getSprite(IRes.sprites.lowFiveFeetMonster1);
+        return getSprite(IRes.Sprites.lowFiveFeetMonster1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getLowFiveFeetMonster2Sprite() {
-        return getSprite(IRes.sprites.lowFiveFeetMonster2);
+        return getSprite(IRes.Sprites.lowFiveFeetMonster2);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getSmallMonsterSprite() {
-        return getSprite(IRes.sprites.smallMonster);
+        return getSprite(IRes.Sprites.smallMonster);
     }
 
 
     // Numbers
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("checkstyle:magicnumber")
     @Override
-    public ISprite getDigitSprite(int digit) {
+    public ISprite getDigitSprite(final int digit) {
         if (digit < 0 || digit > 9) {
             throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
         }
         switch (digit) {
-            case 0: return getSprite(IRes.sprites.zero);
-            case 1: return getSprite(IRes.sprites.one);
-            case 2: return getSprite(IRes.sprites.two);
-            case 3: return getSprite(IRes.sprites.three);
-            case 4: return getSprite(IRes.sprites.four);
-            case 5: return getSprite(IRes.sprites.five);
-            case 6: return getSprite(IRes.sprites.six);
-            case 7: return getSprite(IRes.sprites.seven);
-            case 8: return getSprite(IRes.sprites.eight);
-            case 9: return getSprite(IRes.sprites.nine);
-            default: return null;
+            case 0:
+                return getSprite(IRes.Sprites.zero);
+            case 1:
+                return getSprite(IRes.Sprites.one);
+            case 2:
+                return getSprite(IRes.Sprites.two);
+            case 3:
+                return getSprite(IRes.Sprites.three);
+            case 4:
+                return getSprite(IRes.Sprites.four);
+            case 5:
+                return getSprite(IRes.Sprites.five);
+            case 6:
+                return getSprite(IRes.Sprites.six);
+            case 7:
+                return getSprite(IRes.Sprites.seven);
+            case 8:
+                return getSprite(IRes.Sprites.eight);
+            case 9:
+                return getSprite(IRes.Sprites.nine);
+            default:
+                return null;
         }
     }
 
 
     // Platform
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformSprite1() {
-        return getSprite(IRes.sprites.platform1);
+        return getSprite(IRes.Sprites.platform1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformSprite2() {
-        return getSprite(IRes.sprites.platform2);
+        return getSprite(IRes.Sprites.platform2);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformSprite3() {
-        return getSprite(IRes.sprites.platform3);
+        return getSprite(IRes.Sprites.platform3);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformSprite4() {
-        return getSprite(IRes.sprites.platform4);
+        return getSprite(IRes.Sprites.platform4);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformSprite5() {
-        return getSprite(IRes.sprites.platform5);
+        return getSprite(IRes.Sprites.platform5);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformSprite6() {
-        return getSprite(IRes.sprites.platform6);
+        return getSprite(IRes.Sprites.platform6);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformSprite7() {
-        return getSprite(IRes.sprites.platform7);
+        return getSprite(IRes.Sprites.platform7);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformSprite8() {
-        return getSprite(IRes.sprites.platform8);
+        return getSprite(IRes.Sprites.platform8);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformSprite9() {
-        return getSprite(IRes.sprites.platform9);
+        return getSprite(IRes.Sprites.platform9);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformBrokenSprite1() {
-        return getSprite(IRes.sprites.platformBroken1);
+        return getSprite(IRes.Sprites.platformBroken1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformBrokenSprite2() {
-        return getSprite(IRes.sprites.platformBroken2);
+        return getSprite(IRes.Sprites.platformBroken2);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformBrokenSprite3() {
-        return getSprite(IRes.sprites.platformBroken3);
+        return getSprite(IRes.Sprites.platformBroken3);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformBrokenSprite4() {
-        return getSprite(IRes.sprites.platformBroken4);
+        return getSprite(IRes.Sprites.platformBroken4);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformExplosiveSprite1() {
-        return getSprite(IRes.sprites.platformExplosive1);
+        return getSprite(IRes.Sprites.platformExplosive1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformExplosiveSprite2() {
-        return getSprite(IRes.sprites.platformExplosive2);
+        return getSprite(IRes.Sprites.platformExplosive2);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformExplosiveSprite3() {
-        return getSprite(IRes.sprites.platformExplosive3);
+        return getSprite(IRes.Sprites.platformExplosive3);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformMovable1() {
-        return getSprite(IRes.sprites.platformMovable1);
+        return getSprite(IRes.Sprites.platformMovable1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformMovable2() {
-        return getSprite(IRes.sprites.platformMovable2);
+        return getSprite(IRes.Sprites.platformMovable2);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformMovable3() {
-        return getSprite(IRes.sprites.platformMovable3);
+        return getSprite(IRes.Sprites.platformMovable3);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformMovable4() {
-        return getSprite(IRes.sprites.platformMovable4);
+        return getSprite(IRes.Sprites.platformMovable4);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformShining1() {
-        return getSprite(IRes.sprites.platformShining1);
+        return getSprite(IRes.Sprites.platformShining1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformShining2() {
-        return getSprite(IRes.sprites.platformShining2);
+        return getSprite(IRes.Sprites.platformShining2);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPlatformShining3() {
-        return getSprite(IRes.sprites.platformShining3);
+        return getSprite(IRes.Sprites.platformShining3);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPuddingMonsterSprite1() {
-        return getSprite(IRes.sprites.puddingMonster1);
+        return getSprite(IRes.Sprites.puddingMonster1);
     }
 
 
     // Powerups
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getTrampolineSprite() {
-        return getSprite(IRes.sprites.trampoline);
+        return getSprite(IRes.Sprites.trampoline);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getTrampolineUsedSprite() {
-        return getSprite(IRes.sprites.trampolineUsed);
+        return getSprite(IRes.Sprites.trampolineUsed);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getSpringSprite() {
-        return getSprite(IRes.sprites.spring);
+        return getSprite(IRes.Sprites.spring);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getSpringUsedSprite() {
-        return getSprite(IRes.sprites.springUsed);
+        return getSprite(IRes.Sprites.springUsed);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getRocketSprite() {
-        return getSprite(IRes.sprites.rocket);
+        return getSprite(IRes.Sprites.rocket);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getPropellerSprite() {
-        return getSprite(IRes.sprites.propeller);
+        return getSprite(IRes.Sprites.propeller);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getShieldSprite() {
-        return getSprite(IRes.sprites.shield);
+        return getSprite(IRes.Sprites.shield);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getWaitDontShootSprite() {
-        return getSprite(IRes.sprites.waitDontShoot);
+        return getSprite(IRes.Sprites.waitDontShoot);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getAvoidSprite() {
-        return getSprite(IRes.sprites.avoid);
+        return getSprite(IRes.Sprites.avoid);
     }
 
 
     // Top bar
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getScorebarSprite() {
-        return getSprite(IRes.sprites.scorebar);
+        return getSprite(IRes.Sprites.scorebar);
     }
 
 
     // UFO
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getUFOSprite() {
-        return getSprite(IRes.sprites.ufo);
+        return getSprite(IRes.Sprites.ufo);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ISprite getUFOShiningSprite() {
-        return getSprite(IRes.sprites.ufoShining);
+        return getSprite(IRes.Sprites.ufoShining);
     }
 
 
     // Miscellaneous
+
     /**
-     * Loads an ISprite with the name {@code ISpriteName}
+     * Loads an ISprite with the name {@code ISpriteName}.
      *
+     * @param spriteName the enumerator defining the requested sprite.
      * @return The ISprite
      * @throws FileNotFoundException Thrown when the ISprite was not found
      */
-    private ISprite loadISprite(IRes.sprites spriteName) throws FileNotFoundException {
-        String filepath = serviceLocator.getRes().getSpritePath(spriteName);
-        BufferedImage image = serviceLocator.getFileSystem().readImage(filepath);
+    private ISprite loadISprite(final IRes.Sprites spriteName) throws FileNotFoundException {
+        String filepath = sL.getRes().getSpritePath(spriteName);
+        BufferedImage image = sL.getFileSystem().readImage(filepath);
         return new Sprite(getFileName(filepath), image);
     }
 
     /**
-     * TODO: Add JavaDoc
+     * Return the requested sprite.
+     *
+     * @param sprite the enumerator defining the requested sprite.
+     * @return the sprite.
      */
-    private ISprite getSprite(IRes.sprites sprite) {
+    private ISprite getSprite(final IRes.Sprites sprite) {
         try {
             return cache.get(sprite);
         } catch (ExecutionException e) {
-            // TODO use e.getCause() and log that
-            e.printStackTrace();
+            LOGGER.error(e);
         }
+
         return null;
     }
 
     /**
      * Returns the filename from a filepath.
-     *
+     * <p>
      * Example:
      * <pre>
      * {@code
-     *     getFileName("resources/sprites/sprite.png").equals("sprite.png")
+     *     getFileName("resources/Sprites/sprite.png").equals("sprite.png")
      * }
      * </pre>
      *
