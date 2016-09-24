@@ -1,11 +1,14 @@
 package objects;
 
-import rendering.IDrawable;
+import objects.doodles.IDoodle;
+import resources.sprites.ISprite;
+import system.IRenderable;
+import system.IUpdatable;
 
 /**
  * The interface implemented by {@link AGameObject}, the super class of all classes that represents objects in the game.
  */
-public interface IGameObject extends IDrawable {
+public interface IGameObject extends IRenderable, IUpdatable {
 
     /**
      * Change the x position of the game object.
@@ -20,57 +23,22 @@ public interface IGameObject extends IDrawable {
     void addYPos(double yPos);
 
     /**
-     * Animate the game object.
-     */
-    void animate();
-
-    /**
-     * Retrieve the amount of boost the game object gives.
-     * @return the amount of boost.
-     */
-    double getBoost();
-
-    /**
      * Retrieve the sprite of the game object.
      * @return the sprite.
      */
-    Object getSprite();
+    ISprite getSprite();
+
+    /**
+     * Sets the sprite of the game object.
+     * @param sprite The new sprite of the game object
+     */
+    void setSprite(ISprite sprite);
 
     /**
      * Retrieve the hitbox of the game object.
      * @return the hitbox.
      */
     double[] getHitBox();
-
-    /**
-     * Set the hitbox of the game object.
-     * @param hitbox the hitbox.
-     */
-    void setHitBox(double[] hitbox);
-
-    /**
-     * Retrieve the height of the game object.
-     * @return the height
-     */
-    int getHeight();
-
-    /**
-     * Set the height of the game object.
-     * @param height the to be height.
-     */
-    void setHeight(int height);
-
-    /**
-     * Retrieve the width of the game object.
-     * @return the width.
-     */
-    int getWidth();
-
-    /**
-     * Set the width of the game object.
-     * @param width the to be width.
-     */
-    void setWidth(int width);
 
     /**
      * Retrieve the x position of the game object.
@@ -97,18 +65,21 @@ public interface IGameObject extends IDrawable {
     void setYPos(double yPos);
 
     /**
-     * Move the game object.
+     * Set the hitbox of the game object.
+     * @param left The margin between the X-coordinate and the left side of the hitbox
+     *             @param top The margin between the Y-coordinate and the top side of the hitbox
+     * @param right The distancce between the X-coordinate and the right side of the hitbox
+     *             @param bottom The distance between the Y-coordinate and the bottom side of the hitbox
      */
-    void move();
+    void setHitBox(int left, int top, int right, int bottom);
 
     /**
-     * Render the sprite of the game object.
+     * Checks if the game object collides with another game object based on their hitboxes.
+     *
+     * @param gameObject The object that the object could collide with
+     * @return True if the game object collide with each other
      */
-    void render();
+    boolean checkCollission(IGameObject gameObject);
 
-    /**
-     * Update the game object.
-     */
-    void update();
-
+    void collidesWith(IDoodle doodle);
 }

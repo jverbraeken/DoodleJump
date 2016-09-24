@@ -21,7 +21,7 @@ public final class InputManager implements IInputManager {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -29,8 +29,8 @@ public final class InputManager implements IInputManager {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        InputManager.serviceLocator = sL;
-        InputManager.serviceLocator.provide(new InputManager());
+        InputManager.sL = sL;
+        InputManager.sL.provide(new InputManager());
     }
 
     /**
@@ -48,15 +48,15 @@ public final class InputManager implements IInputManager {
     /**
      * Offset for the mouse position Y.
      */
+    private static int windowTopBorderSize = 0;
     private int offsetY = 0;
 
     /**
      * Prevents instantiation from outside the class.
      */
     private InputManager() {
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(InputManager.class);
+        LOGGER = sL.getLoggerFactory().createLogger(InputManager.class);
     }
-
 
     /* MOUSE EVENTS */
 
@@ -171,7 +171,7 @@ public final class InputManager implements IInputManager {
     /**
      * Set the main border size, used for mouse inputs.
      * @param windowLBSize The size of the left border.
-     * @param windowTBSize  The size of the top border.
+     * @param windowTBSize The size of the top border.
      */
     public void setMainWindowBorderSize(final int windowLBSize, final int windowTBSize) {
         this.offsetX = windowLBSize;

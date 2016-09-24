@@ -56,20 +56,24 @@ public interface IFileSystem {
     void writeTextFile(String filename, String content) throws FileNotFoundException;
 
     /**
-     * Writes {@code content} to the end of the log file.
-     * @param filename The name of the log file.
-     * @param content The text to write to the file.
-     * @throws FileNotFoundException Thrown when the log file could not be found.
+     * Deletes the file specified by {@code filename} from the disk.
+     * @param filename The file you want to delete
      */
-    void log(String filename, String content) throws FileNotFoundException;
+    void deleteFile(String filename);
 
     /**
-     * Writes {@code exception} to the end of the log file.
-     * @param filename The name of the log file.
-     * @param exception The exception to write to the file.
-     * @throws FileNotFoundException Thrown when the log file could not be found.
+     * Removes the content of the file specified by {@code filename} but does not delete the file itself.
+     * @param filename The file you want to clear
      */
-    void log(String filename, Exception exception) throws FileNotFoundException;
+    void clearFile(String filename);
+
+    /**
+     * Writes {@code content} to {@code writer}..
+     *
+     * @param writer The writer you want to use to write the data to
+     * @param content  The text to write to the file
+     */
+    void appendToTextFile(Writer writer, String content);
 
     /**
      * Returns an {@link OutputStream} that can be used to write binary data to the binary file. The path to the file must exist.

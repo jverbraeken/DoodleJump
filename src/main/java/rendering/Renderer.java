@@ -1,9 +1,10 @@
 package rendering;
 
+import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * This class is responsible for rendering all Sprites.
@@ -13,7 +14,12 @@ public final class Renderer implements IRenderer {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
+    /**
+     * Used to log all actions of the game.
+     */
+    private final ILogger LOGGER;
+    private final ICamera camera = new Camera();
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -21,8 +27,8 @@ public final class Renderer implements IRenderer {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        Renderer.serviceLocator = sL;
-        Renderer.serviceLocator.provide(new Renderer());
+        Renderer.sL = sL;
+        Renderer.sL.provide(new Renderer());
     }
 
     /**
@@ -31,20 +37,10 @@ public final class Renderer implements IRenderer {
     private Graphics graphics;
 
     /**
-     * Prevent instantiations of the Renderer.
+     * Prevent public instantiations of the Renderer.
      */
     private Renderer() {
-    }
-
-    /**
-     * Draw a rectangle.
-     * @param x The x coordinate for the rectangle.
-     * @param y The y coordinate for the rectangle.
-     * @param width The width for the rectangle.
-     * @param height The height for the rectangle.
-     */
-    public void drawRectangle(int x, int y, int width, int height) {
-        graphics.drawRect(x, y, width, height);
+        LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
     }
 
     /** {@inheritDoc} */
@@ -56,7 +52,53 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawSprite(final ISprite sprite, final int x, final int y) {
+    public void drawRectangle(int x, int y, int width, int height) {
+        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        graphics.drawRect(x, (int) (y - camera.getYPos()), width, height);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawSprite(ISprite sprite, int x, int y) {
+        assert graphics != null;
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
+
+        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawSprite(ISprite sprite, int x, int y, int width, int height) {
+        assert graphics != null;
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
+
+        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), width, height, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawRectangleHUD(int x, int y, int width, int height) {
+        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
+        graphics.drawRect(x, y, width, height);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawSpriteHUD(ISprite sprite, int x, int y) {
         assert graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
@@ -69,7 +111,7 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawSprite(final ISprite sprite, final int x, final int y, final int width, final int height) {
+    public void drawSpriteHUD(final ISprite sprite, final int x, final int y, final int width, final int height) {
         assert graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
@@ -89,4 +131,12 @@ public final class Renderer implements IRenderer {
         this.graphics = g;
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ICamera getCamera() {
+        return camera;
+    }
 }

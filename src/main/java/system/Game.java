@@ -5,6 +5,7 @@ import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
 import scenes.IScene;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -15,27 +16,6 @@ import java.awt.event.WindowEvent;
  */
 public final class Game {
 
-    /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator serviceLocator = new ServiceLocator();
-
-    /**
-     * The logger for the Game class.
-     */
-    private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
-
-    /*
-     * The width of the frame of the game.
-     */
-    public static final int WIDTH = 640;
-    /**
-     * The height of the frame of the game.
-     */
-    public static final int HEIGHT = 960;
-    /**
-     * The target amount of frames per second.
-     */
     private static final int TARGET_FPS = 60;
     /**
      * The optimal time per frame. ~16.
@@ -49,6 +29,18 @@ public final class Game {
      * Y position relative to the frame of the resume button.
      */
     private static final double RESUMEBUTTONY = 0.75;
+    /**
+     * The time in miliseconds per frame.
+     */
+    private static final int FRAMETIME = 16;
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator sL = new ServiceLocator();
+    /**
+     * The logger for the Game class.
+     */
+    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Game.class);
     /**
      * The current frame.
      */
@@ -78,41 +70,37 @@ public final class Game {
      */
     private static float scale = 2;
     /**
-     * The time in miliseconds per frame.
-     */
-    private static final int FRAMETIME = 16;
-
-    /**
      * The pause screen for the game.
      */
     private static IScene pauseScreen;
 
     /**
-     * Prevents the creation of a new {@code Game} object.
+     * Prevents instantiation from outside the Game class.
      */
     private Game() {
     }
 
     /**
      * The initialization of the game.
+     *
      * @param argv the arguments to run.
      */
     public static void main(String[] argv) {
         LOGGER.info("The game has been launched");
 
-        Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
-        IInputManager inputManager = serviceLocator.getInputManager();
-        serviceLocator.getRenderer().start();
+        Game.pauseScreen = sL.getSceneFactory().createPauseScreen();
+        IInputManager inputManager = sL.getInputManager();
+        sL.getRenderer().start();
 
         // Initialize frame
         frame = new JFrame("Doodle Jump");
         frame.addMouseListener(inputManager);
         frame.addKeyListener(inputManager);
-        frame.setSize(Game.WIDTH, Game.HEIGHT);
+        frame.setSize(sL.getConstants().getGameWidth(), sL.getConstants().getGameHeight());
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(Game.WIDTH / 2, Game.HEIGHT / 2);
+        frame.setSize(sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2);
         frame.addWindowListener(new WindowAdapter() {
             /**
              * Invoked when a window is in the process of being closed.
@@ -129,19 +117,19 @@ public final class Game {
              */
             @Override
             public void paintComponent(final Graphics g) {
-                serviceLocator.getRenderer().setGraphicsBuffer(g);
+                sL.getRenderer().setGraphicsBuffer(g);
 
                 ((Graphics2D) g).scale(1 / scale, 1 / scale);
-                if (scene != null) {
-                    scene.paint();
+                if (Game.scene != null) {
+                    Game.scene.render();
                 }
 
                 if (isPaused) {
-                    pauseScreen.paint();
+                    pauseScreen.render();
                 }
 
-                if(!isAlive) {
-                    setScene(serviceLocator.getSceneFactory().createKillScreen());
+                if (!isAlive) {
+                    setScene(sL.getSceneFactory().createKillScreen());
                     setAlive(true);
                 }
 
@@ -151,10 +139,13 @@ public final class Game {
         panel.setLayout(new GridLayout(1, 1));
         frame.setContentPane(panel);
 
-        setScene(serviceLocator.getSceneFactory().createMainMenu());
-        int xOffset = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
-        int yOffset = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
-        serviceLocator.getInputManager().setMainWindowBorderSize(xOffset, yOffset);
+        setScene(sL.getSceneFactory().createMainMenu());
+        int x = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
+        int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
+        sL.getInputManager().setMainWindowBorderSize(x, y);
+
+        resumeButton = sL.getButtonFactory().createResumeButton((int) (sL.getConstants().getGameWidth() * RESUMEBUTTONX), (int) (sL.getConstants().getGameHeight() * RESUMEBUTTONY));
+        sL.getInputManager().addObserver(resumeButton);
 
         loop();
     }
@@ -170,9 +161,9 @@ public final class Game {
             Game.scene.stop();
         }
 
+        sL.getRenderer().getCamera().setYPos(0d);
+        s.start();
         Game.scene = s;
-        scene.start();
-        frame.repaint();
     }
 
     /**
@@ -183,7 +174,7 @@ public final class Game {
      * @return The current Frames Per Second (FPS)
      */
     public static double getFPS(final long threadSleep, final long renderTime) {
-        return serviceLocator.getCalc().NANOSECONDS / (threadSleep + renderTime);
+        return sL.getCalc().NANOSECONDS / (threadSleep + renderTime);
     }
 
     /**
@@ -216,7 +207,6 @@ public final class Game {
         isAlive = alive;
     }
 
-
     /**
      * Loop to update the game 60x per second.
      */
@@ -240,7 +230,7 @@ public final class Game {
             panel.repaint();
             try {
                 long gameTime = FRAMETIME;
-                Thread.sleep(gameTime);
+                Thread.sleep(gameTime - (now - System.nanoTime()) / ICalc.NANOSECONDS);
             } catch (InterruptedException e) {
                 LOGGER.error(e);
             }

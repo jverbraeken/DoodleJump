@@ -1,10 +1,10 @@
 package scenes;
 
+import buttons.IButton;
+import buttons.IButtonFactory;
 import input.IKeyInputObserver;
 import input.KeyCode;
 import input.Keys;
-import buttons.IButton;
-import buttons.IButtonFactory;
 import logging.ILogger;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -14,21 +14,20 @@ import system.IServiceLocator;
 /**
  * This class is a scene that is displays when the game is started.
  */
-/* package */ class Menu implements IScene, IKeyInputObserver {
+public class Menu implements IScene, IKeyInputObserver {
 
+    /**
+     * The X and Y location for the play button.
+     */
+    private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
     /**
      * The logger for the Menu class.
      */
     private final ILogger LOGGER;
     /**
-     * The X and Y location for the play button.
-     */
-    private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
-
-    /**
      * Used to access all services.
      */
-    private final IServiceLocator serviceLocator;
+    private final IServiceLocator sL;
     /**
      * The button that starts up a new world.
      */
@@ -36,11 +35,7 @@ import system.IServiceLocator;
     /**
      * The cover sprite of the main menu.
      */
-    private final ISprite background;
-    /**
-     * Is the main menu active, should it be displayed.
-     */
-    private boolean active = false;
+    private final ISprite cover;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -49,14 +44,17 @@ import system.IServiceLocator;
      */
     /* package */ Menu(final IServiceLocator sL) {
         assert sL != null;
-        this.serviceLocator = sL;
-        LOGGER = sL.getLoggerFactory().createLogger(Menu.class);
+        this.sL = sL;
 
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        background = spriteFactory.getStartCoverSprite();
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        cover = spriteFactory.getStartCoverSprite();
 
-        IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * PLAY_BUTTON_X), (int) (Game.HEIGHT * PLAY_BUTTON_Y));
+        IButtonFactory buttonFactory = sL.getButtonFactory();
+        playButton = buttonFactory.createPlayButton(
+                (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
+                (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y));
+
+        this.LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
     }
 
     /**
@@ -64,8 +62,8 @@ import system.IServiceLocator;
      */
     @Override
     public final void start() {
-        serviceLocator.getInputManager().addObserver(playButton);
-        active = true;
+        sL.getInputManager().addObserver(playButton);
+        sL.getInputManager().addObserver(this);
         LOGGER.info("The menu scene is now displaying");
     }
 
@@ -74,8 +72,8 @@ import system.IServiceLocator;
      */
     @Override
     public final void stop() {
-        serviceLocator.getInputManager().removeObserver(playButton);
-        active = false;
+        sL.getInputManager().removeObserver(playButton);
+        sL.getInputManager().removeObserver(this);
         LOGGER.info("The menu scene is no longer displaying");
     }
 
@@ -83,11 +81,9 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void paint() {
-        if (active) {
-            serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
-            playButton.render();
-        }
+    public void render() {
+        sL.getRenderer().drawSpriteHUD(this.cover, 0, 0);
+        playButton.render();
     }
 
     /**
@@ -110,7 +106,7 @@ import system.IServiceLocator;
     @Override
     public final void keyRelease(final int keyCode) {
         if (KeyCode.getKeyCode(Keys.enter) == keyCode || KeyCode.getKeyCode(Keys.space) == keyCode) {
-            Game.setScene(serviceLocator.getSceneFactory().newWorld());
+            Game.setScene(sL.getSceneFactory().newWorld());
         }
     }
 

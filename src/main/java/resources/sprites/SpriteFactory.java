@@ -14,32 +14,20 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Standard implementation of the SpriteFactory. Used to load and get sprites.
- *
+ * <p>
  * Javadoc is not deemed necessary for all individual sprites to have a javadoc.
  */
 @SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod"})
 public final class SpriteFactory implements ISpriteFactory {
 
     /**
+     * Used to gain access to all services.
+     */
+    private static transient IServiceLocator sL;
+    /**
      * The logger for the SpriteFactory class.
      */
     private final ILogger LOGGER;
-
-    /**
-    * Used to gain access to all services.
-    */
-    private static transient IServiceLocator serviceLocator;
-    /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
-     */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        SpriteFactory.serviceLocator = sL;
-        SpriteFactory.serviceLocator.provide(new SpriteFactory());
-    }
-
     /**
      * The cache for the SpriteFactory.
      */
@@ -49,7 +37,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * Prevents instantiation from outside the class.
      */
     private SpriteFactory() {
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(SpriteFactory.class);
+        LOGGER = sL.getLoggerFactory().createLogger(SpriteFactory.class);
 
         cache = CacheBuilder.newBuilder()
                 .maximumSize(Long.MAX_VALUE)
@@ -64,6 +52,16 @@ public final class SpriteFactory implements ISpriteFactory {
                 );
     }
 
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        SpriteFactory.sL = sL;
+        SpriteFactory.sL.provide(new SpriteFactory());
+    }
 
     // Buttons
 
@@ -87,7 +85,9 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlayButtonSprite() { return getSprite(IRes.Sprites.play); }
+    public ISprite getPlayButtonSprite() {
+        return getSprite(IRes.Sprites.play);
+    }
 
     /**
      * {@inheritDoc}
@@ -352,6 +352,7 @@ public final class SpriteFactory implements ISpriteFactory {
 
 
     // Numbers
+
     /**
      * {@inheritDoc}
      */
@@ -692,18 +693,20 @@ public final class SpriteFactory implements ISpriteFactory {
 
     /**
      * Loads an ISprite with the name {@code ISpriteName}.
+     *
      * @param spriteName the enumerator defining the requested sprite.
      * @return The ISprite
      * @throws FileNotFoundException Thrown when the ISprite was not found
      */
     private ISprite loadISprite(final IRes.Sprites spriteName) throws FileNotFoundException {
-        String filepath = serviceLocator.getRes().getSpritePath(spriteName);
-        BufferedImage image = serviceLocator.getFileSystem().readImage(filepath);
+        String filepath = sL.getRes().getSpritePath(spriteName);
+        BufferedImage image = sL.getFileSystem().readImage(filepath);
         return new Sprite(getFileName(filepath), image);
     }
 
     /**
      * Return the requested sprite.
+     *
      * @param sprite the enumerator defining the requested sprite.
      * @return the sprite.
      */

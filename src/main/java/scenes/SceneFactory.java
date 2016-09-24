@@ -16,23 +16,23 @@ public final class SceneFactory implements ISceneFactory {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
-     * @param serviceLocator The IServiceLocator to which the class should offer its functionality
+     * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    public static void register(final IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        SceneFactory.serviceLocator = serviceLocator;
-        serviceLocator.provide(new SceneFactory());
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        SceneFactory.sL = sL;
+        SceneFactory.sL.provide(new SceneFactory());
     }
 
     /**
      * Private constructor to prevent instantiation from outside the class.
      */
     private SceneFactory() {
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(SceneFactory.class);
+        LOGGER = sL.getLoggerFactory().createLogger(SceneFactory.class);
     }
 
     /**
@@ -41,7 +41,7 @@ public final class SceneFactory implements ISceneFactory {
     @Override
     public IScene createMainMenu() {
         LOGGER.info("A new Menu has been created");
-        return new Menu(serviceLocator);
+        return new Menu(sL);
     }
 
     /**
@@ -50,7 +50,7 @@ public final class SceneFactory implements ISceneFactory {
     @Override
     public IScene createKillScreen() {
         LOGGER.info("A new KillScreen has been created");
-        return new KillScreen(serviceLocator);
+        return new KillScreen(sL);
     }
 
     /**
@@ -59,7 +59,7 @@ public final class SceneFactory implements ISceneFactory {
     @Override
     public IScene createPauseScreen() {
         LOGGER.info("A new PauseScreen has been created");
-        return new PauseScreen(serviceLocator);
+        return new PauseScreen(sL);
     }
 
     /**
@@ -68,7 +68,7 @@ public final class SceneFactory implements ISceneFactory {
     @Override
     public World newWorld() {
         LOGGER.info("A new World has been created");
-        return new World(serviceLocator);
+        return new World(sL);
     }
 
 }

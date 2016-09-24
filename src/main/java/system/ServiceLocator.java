@@ -1,36 +1,36 @@
 package system;
 
 import buttons.ButtonFactory;
+import buttons.IButtonFactory;
+import constants.Constants;
+import constants.IConstants;
 import filesystem.FileSystem;
+import filesystem.IFileSystem;
+import input.IInputManager;
 import input.InputManager;
 import logging.ILoggerFactory;
 import logging.LoggerFactory;
 import math.Calc;
-import objects.Collisions;
-import objects.ICollisions;
-import buttons.IButtonFactory;
+import math.ICalc;
 import objects.blocks.BlockFactory;
+import objects.blocks.IBlockFactory;
+import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.PlatformFactory;
 import objects.doodles.DoodleFactory;
+import objects.doodles.IDoodleFactory;
 import objects.enemies.EnemyBuilder;
+import objects.enemies.IEnemyBuilder;
+import objects.powerups.IPowerupFactory;
 import objects.powerups.PowerupFactory;
+import rendering.IRenderer;
 import rendering.Renderer;
 import resources.IRes;
 import resources.Res;
 import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
-import objects.enemies.IEnemyBuilder;
-import filesystem.IFileSystem;
-import input.IInputManager;
-import math.ICalc;
-import objects.blocks.IBlockFactory;
-import objects.blocks.platform.IPlatformFactory;
-import objects.doodles.IDoodleFactory;
-import objects.powerups.IPowerupFactory;
-import rendering.IRenderer;
+import resources.sprites.ISpriteFactory;
 import resources.sprites.SpriteFactory;
 import scenes.ISceneFactory;
-import resources.sprites.ISpriteFactory;
 import scenes.SceneFactory;
 
 /**
@@ -39,34 +39,32 @@ import scenes.SceneFactory;
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 /* package */ class ServiceLocator implements IServiceLocator {
 
+    // constants
+    private IConstants constants;
+
     // audio
     private IAudioManager audioManager;
 
-    // filesystem
-    private IFileSystem fileSystem;
-
     // input
     private IInputManager inputManager;
-
-    // logger
-    private ILoggerFactory loggerFactory;
-
-    // OBJECTS //
-    // blocks
-    private IBlockFactory blockFactory;
-    private IPlatformFactory platformFactory;
-    // collisions
-    private ICollisions collisions;
-    // doodle
-    private IDoodleFactory doodleFactory;
     // enemies
     private IEnemyBuilder enemyBuilder;
-    // powerup
-    private IPowerupFactory powerupFactory;
 
     // rendering
     private IRenderer renderer;
     private IButtonFactory buttonFactory;
+
+    // filesystem
+    private IFileSystem fileSystem;
+
+    // util
+    private ILoggerFactory loggerFactory;
+
+    // objects
+    private IPowerupFactory powerupFactory;
+    private IDoodleFactory doodleFactory;
+    private IBlockFactory blockFactory;
+    private IPlatformFactory platformFactory;
 
     // resources
     private ISpriteFactory spriteFactory;
@@ -179,6 +177,14 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
+    public void provide(ILoggerFactory loggerFactory) {
+        assert loggerFactory != null;
+        this.loggerFactory = loggerFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public void provide(final ISceneFactory sF) {
         assert sF != null;
         this.sceneFactory = sF;
@@ -215,25 +221,18 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
-    public void provide(final ICollisions c) {
-        assert c != null;
-        this.collisions = c;
+    public void provide(IConstants constants) {
+        assert buttonFactory != null;
+        this.constants = constants;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void provide(ILoggerFactory loggerFactory) {
-        assert loggerFactory != null;
-        this.loggerFactory = loggerFactory;
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public IAudioManager getAudioManager() {
+        assert audioManager != null;
         return audioManager;
     }
 
@@ -242,6 +241,7 @@ import scenes.SceneFactory;
      */
     @Override
     public IEnemyBuilder getEnemyBuilder() {
+        assert enemyBuilder != null;
         return enemyBuilder;
     }
 
@@ -250,6 +250,7 @@ import scenes.SceneFactory;
      */
     @Override
     public IFileSystem getFileSystem() {
+        assert fileSystem != null;
         return fileSystem;
     }
 
@@ -258,6 +259,7 @@ import scenes.SceneFactory;
      */
     @Override
     public IInputManager getInputManager() {
+        assert inputManager != null;
         return inputManager;
     }
 
@@ -266,6 +268,7 @@ import scenes.SceneFactory;
      */
     @Override
     public ICalc getCalc() {
+        assert calc != null;
         return calc;
     }
 
@@ -274,6 +277,7 @@ import scenes.SceneFactory;
      */
     @Override
     public IBlockFactory getBlockFactory() {
+        assert blockFactory != null;
         return blockFactory;
     }
 
@@ -282,6 +286,7 @@ import scenes.SceneFactory;
      */
     @Override
     public IDoodleFactory getDoodleFactory() {
+        assert doodleFactory != null;
         return doodleFactory;
     }
 
@@ -290,6 +295,7 @@ import scenes.SceneFactory;
      */
     @Override
     public IPowerupFactory getPowerupFactory() {
+        assert powerupFactory != null;
         return powerupFactory;
     }
 
@@ -298,6 +304,7 @@ import scenes.SceneFactory;
      */
     @Override
     public IRenderer getRenderer() {
+        assert renderer != null;
         return renderer;
     }
 
@@ -306,6 +313,7 @@ import scenes.SceneFactory;
      */
     @Override
     public ISpriteFactory getSpriteFactory() {
+        assert spriteFactory != null;
         return spriteFactory;
     }
 
@@ -314,6 +322,7 @@ import scenes.SceneFactory;
      */
     @Override
     public ISceneFactory getSceneFactory() {
+        assert sceneFactory != null;
         return sceneFactory;
     }
 
@@ -322,6 +331,7 @@ import scenes.SceneFactory;
      */
     @Override
     public IPlatformFactory getPlatformFactory() {
+        assert platformFactory != null;
         return platformFactory;
     }
 
@@ -330,6 +340,7 @@ import scenes.SceneFactory;
      */
     @Override
     public IRes getRes() {
+        assert res != null;
         return res;
     }
 
@@ -338,6 +349,7 @@ import scenes.SceneFactory;
      */
     @Override
     public IButtonFactory getButtonFactory() {
+        assert buttonFactory != null;
         return buttonFactory;
     }
 
@@ -345,15 +357,18 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
-    public ICollisions getCollisions() {
-        return collisions;
+    public IConstants getConstants() {
+        assert constants != null;
+        return constants;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ILoggerFactory getLoggerFactory() { return loggerFactory; }
+    public ILoggerFactory getLoggerFactory() {
+        return loggerFactory;
+    }
 
     /**
      * Initialize the ServiceLocator.
@@ -374,7 +389,6 @@ import scenes.SceneFactory;
         PlatformFactory.register(this);
         Res.register(this);
         ButtonFactory.register(this);
-        Collisions.register(this);
+        Constants.register(this);
     }
-
 }

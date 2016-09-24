@@ -2,6 +2,7 @@ package objects.enemies;
 
 import logging.ILogger;
 import objects.IGameObject;
+import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
@@ -17,7 +18,7 @@ public final class EnemyBuilder implements IEnemyBuilder {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static transient IServiceLocator sL;
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -25,24 +26,24 @@ public final class EnemyBuilder implements IEnemyBuilder {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        EnemyBuilder.serviceLocator = sL;
-        sL.provide(new EnemyBuilder());
+        EnemyBuilder.sL = sL;
+        EnemyBuilder.sL.provide(new EnemyBuilder());
     }
 
     /**
      * Private constructor to prevent instantiation from outside the class.
      */
     private EnemyBuilder() {
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(EnemyBuilder.class);
+        LOGGER = sL.getLoggerFactory().createLogger(EnemyBuilder.class);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public IGameObject createEnemy() {
-        LOGGER.info("A new Enemy has been created");
-        return new Enemy();
+    public IGameObject createEnemy(final int x, final int y, final ISprite sprite) {
+        LOGGER.info("A new Enemy has been created: x = " + x + ", y = " + y + " sprite = " + sprite.toString());
+        return new Enemy(x, y, sprite);
     }
 
 }

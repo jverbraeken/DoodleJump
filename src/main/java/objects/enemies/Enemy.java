@@ -1,36 +1,25 @@
 package objects.enemies;
 
-/**
- * Standard implementation of the Enemy.
- */
-/* package */ class Enemy extends AEnemy implements IEnemy {
+import resources.sprites.ISprite;
 
+public class Enemy extends AEnemy {
     /**
-     * {@inheritDoc}
+     * Creates a new enemy and determines its hitbox by using the sprites dimensions automatically.
+     * @param x The X-coordinate of the enemy
+     * @param y The Y-coordinate of the enemy
+     * @param sprite The sprite of the enemy
      */
-    @Override
-    public void animate() {
+    public Enemy(final int x, final int y, final ISprite sprite) {
+        super(x, y, sprite);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
+    public double getBoost() {
+        return 0;
+    }
+
     @Override
     public void render() {
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void move() {
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void update() {
-    }
-
 }

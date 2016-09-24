@@ -1,19 +1,19 @@
 package system;
 
-import logging.ILoggerFactory;
-import objects.ICollisions;
 import buttons.IButtonFactory;
-import resources.IRes;
-import resources.audio.IAudioManager;
-import objects.enemies.IEnemyBuilder;
+import constants.IConstants;
 import filesystem.IFileSystem;
 import input.IInputManager;
+import logging.ILoggerFactory;
 import math.ICalc;
 import objects.blocks.IBlockFactory;
 import objects.blocks.platform.IPlatformFactory;
 import objects.doodles.IDoodleFactory;
+import objects.enemies.IEnemyBuilder;
 import objects.powerups.IPowerupFactory;
 import rendering.IRenderer;
+import resources.IRes;
+import resources.audio.IAudioManager;
 import resources.sprites.ISpriteFactory;
 import scenes.ISceneFactory;
 
@@ -51,7 +51,8 @@ public interface IServiceLocator {
 
     void provide(IButtonFactory buttonFactory);
 
-    void provide(ICollisions collisions);
+    void provide(IConstants constants);
+
     void provide(ILoggerFactory LoggerFactory);
 
     IAudioManager getAudioManager();
@@ -82,7 +83,8 @@ public interface IServiceLocator {
 
     IButtonFactory getButtonFactory();
 
-    ICollisions getCollisions();
+    IConstants getConstants();
+
     ILoggerFactory getLoggerFactory();
 
 }
