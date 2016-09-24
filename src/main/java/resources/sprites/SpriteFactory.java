@@ -21,13 +21,25 @@ import java.util.concurrent.ExecutionException;
 public final class SpriteFactory implements ISpriteFactory {
 
     /**
+     * The logger for the SpriteFactory class.
+     */
+    private final ILogger LOGGER;
+
+    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator sL;
     /**
-     * The logger for the SpriteFactory class.
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    private final ILogger LOGGER;
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        SpriteFactory.sL = sL;
+        SpriteFactory.sL.provide(new SpriteFactory());
+    }
+
     /**
      * The cache for the SpriteFactory.
      */
@@ -50,17 +62,6 @@ public final class SpriteFactory implements ISpriteFactory {
                             }
                         }
                 );
-    }
-
-    /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
-     */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        SpriteFactory.sL = sL;
-        SpriteFactory.sL.provide(new SpriteFactory());
     }
 
     // Buttons
