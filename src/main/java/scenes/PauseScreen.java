@@ -24,7 +24,7 @@ import system.IServiceLocator;
     /**
      * Used to gain access to all services.
      */
-    private final IServiceLocator sL;
+    private final IServiceLocator serviceLocator;
     /**
      * The resume button.
      */
@@ -34,7 +34,7 @@ import system.IServiceLocator;
      */
     private final ISprite background;
     /**
-     * Is the pause screen active, should it be displayed.
+     * Is the pause scene active, should it be displayed.
      */
     private boolean active = false;
 
@@ -44,14 +44,14 @@ import system.IServiceLocator;
      * @param sL The games service locator.
      */
     /* package */ PauseScreen(IServiceLocator sL) {
-        this.sL = sL;
+        this.serviceLocator = sL;
         LOGGER = sL.getLoggerFactory().createLogger(PauseScreen.class);
 
         // Background
-        background = this.sL.getSpriteFactory().getPauseCoverSprite();
+        background = this.serviceLocator.getSpriteFactory().getPauseCoverSprite();
 
         // Resume button
-        IButtonFactory buttonFactory = this.sL.getButtonFactory();
+        IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
         int resumeButtonX = (int) (sL.getConstants().getGameWidth() * RESUME_BUTTON_X);
         int resumeButtonY = (int) (sL.getConstants().getGameHeight() * RESUME_BUTTON_Y);
         resumeButton = buttonFactory.createResumeButton(resumeButtonX, resumeButtonY);
@@ -62,7 +62,7 @@ import system.IServiceLocator;
      */
     @Override
     public void start() {
-        sL.getInputManager().addObserver(resumeButton);
+        serviceLocator.getInputManager().addObserver(resumeButton);
         this.active = true;
         LOGGER.info("The pause scene is now displaying");
     }
@@ -72,7 +72,7 @@ import system.IServiceLocator;
      */
     @Override
     public void stop() {
-        sL.getInputManager().removeObserver(resumeButton);
+        serviceLocator.getInputManager().removeObserver(resumeButton);
         this.active = false;
         LOGGER.info("The pause scene is no longer displaying");
     }
@@ -82,8 +82,8 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        if (active) {
-            sL.getRenderer().drawSprite(background, 0, 0);
+        if (this.active) {
+            serviceLocator.getRenderer().drawSprite(background, 0, 0);
             resumeButton.render();
         }
     }
