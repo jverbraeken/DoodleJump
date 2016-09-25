@@ -16,8 +16,11 @@ hs_err_pid*
 /target/
 
 # Intellij
-workspace.xml
-*.iml
+.idea/
+.settings/
+.classpath
+.project
+DoodleJump.iml
 
 # Ignore logs
 *.log
