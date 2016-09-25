@@ -6,12 +6,14 @@ import system.IFactory;
  * This class is a factory that creates scenes.
  */
 public interface ISceneFactory extends IFactory {
+
     /**
      * Create a new kill screen.
      *
      * @return An IScene of the kill screen.
      */
     IScene createKillScreen();
+
     /**
      * Create a new main menu.
      *

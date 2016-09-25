@@ -1,6 +1,7 @@
 package rendering;
 
-public final class Camera implements ICamera {
+/* package */ final class Camera implements ICamera {
+
     private static double y = 0d;
 
     /* package */ Camera() {
@@ -16,4 +17,5 @@ public final class Camera implements ICamera {
     public double getYPos() {
         return Camera.y;
     }
+
 }

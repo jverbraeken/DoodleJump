@@ -33,6 +33,7 @@ public class World implements IScene {
      * How much the doodle is affected by gravity.
      */
     public static final double GRAVITY_ACCELERATION = .5;
+
     /**
      * Multiplier to achieve a realistic score increase.
      */
