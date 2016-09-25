@@ -19,7 +19,6 @@ hs_err_pid*
 .idea/
 .settings/
 .classpath
-.project
 DoodleJump.iml
 
 # Ignore logs
