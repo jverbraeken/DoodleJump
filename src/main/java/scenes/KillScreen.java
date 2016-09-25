@@ -16,6 +16,18 @@ import system.IServiceLocator;
      * The logger for the KillScreen class.
      */
     private final ILogger LOGGER;
+    /**
+     * X & Y location in relation to the frame of the play again button.
+     */
+    private static final double PLAY_AGAIN_BUTTON_X = 0.3, PLAY_AGAIN_BUTTON_Y = 0.6;
+    /**
+     * X & Y location in relation to the frame of the main menu button.
+     */
+    private static final double MAIN_MENU_BUTTON_X = 0.6, MAIN_MENU_BUTTON_Y = 0.7;
+    /**
+     * X & Y location in relation to the frame of the game over text.
+     */
+    private static final double GAME_OVER_TEXT_X = 0.1, GAME_OVER_TEXT_Y = 0.3;
 
     /**
      * Used to gain access to all services.
@@ -33,30 +45,6 @@ import system.IServiceLocator;
      * Sprites to be displayed on the background of the killscreen.
      */
     private final ISprite background, bottomKillScreen, gameOverSprite;
-    /**
-     * X location in relation to the frame of the play again button.
-     */
-    private final double playAgainButtonXPercentage = 0.3;
-    /**
-     * Y location in relation to the frame of the play again button.
-     */
-    private final double playAgainButtonYPercentage = 0.6;
-    /**
-     * X location in relation to the frame of the main menu button.
-     */
-    private final double mainMenuButtonXPercentage = 0.6;
-    /**
-     * Y location in relation to the frame of the main menu button.
-     */
-    private final double mainMenuButtonYPercentage = 0.7;
-    /**
-     * X location in relation to the frame of the game over text.
-     */
-    private final double gameOverTextXPercentage = 0.1;
-    /**
-     * Y location in relation to the frame of the game over text.
-     */
-    private final double gameOverTextYPercentage = 0.3;
     /**
      * Is the kill screen active, should it be displayed.
      */
@@ -77,8 +65,8 @@ import system.IServiceLocator;
         gameOverSprite = sL.getSpriteFactory().getGameOverSprite();
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
-        playAgainButton = buttonFactory.createPlayAgainButton((int) (sL.getConstants().getGameWidth() * playAgainButtonXPercentage), (int) (sL.getConstants().getGameHeight() * playAgainButtonYPercentage));
-        mainMenuButton = buttonFactory.createMainMenuButton((int) (sL.getConstants().getGameWidth() * mainMenuButtonXPercentage), (int) (sL.getConstants().getGameHeight() * mainMenuButtonYPercentage));
+        playAgainButton = buttonFactory.createPlayAgainButton((int) (sL.getConstants().getGameWidth() * PLAY_AGAIN_BUTTON_X), (int) (sL.getConstants().getGameHeight() * PLAY_AGAIN_BUTTON_Y));
+        mainMenuButton = buttonFactory.createMainMenuButton((int) (sL.getConstants().getGameWidth() * MAIN_MENU_BUTTON_X), (int) (sL.getConstants().getGameHeight() * MAIN_MENU_BUTTON_Y));
 
     }
 
@@ -87,7 +75,6 @@ import system.IServiceLocator;
      */
     @Override
     public final void start() {
-
         sL.getInputManager().addObserver(playAgainButton);
         sL.getInputManager().addObserver(mainMenuButton);
         active = true;
@@ -99,7 +86,6 @@ import system.IServiceLocator;
      */
     @Override
     public final void stop() {
-
         sL.getInputManager().removeObserver(playAgainButton);
         sL.getInputManager().removeObserver(mainMenuButton);
         active = false;
@@ -111,12 +97,14 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        sL.getRenderer().drawSpriteHUD(this.background, 0, 0);
-        sL.getRenderer().drawSpriteHUD(this.gameOverSprite, (int) (sL.getConstants().getGameWidth() * gameOverTextXPercentage), (int) (sL.getConstants().getGameHeight() * gameOverTextYPercentage));
-        double y = (double) sL.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
-        sL.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
-        playAgainButton.render();
-        mainMenuButton.render();
+        if (active) {
+            sL.getRenderer().drawSpriteHUD(this.background, 0, 0);
+            sL.getRenderer().drawSpriteHUD(this.gameOverSprite, (int) (sL.getConstants().getGameWidth() * GAME_OVER_TEXT_X), (int) (sL.getConstants().getGameHeight() * GAME_OVER_TEXT_Y));
+            double y = (double) sL.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
+            sL.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
+            playAgainButton.render();
+            mainMenuButton.render();
+        }
     }
 
     /**

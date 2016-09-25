@@ -16,6 +16,22 @@ import java.awt.event.WindowEvent;
  */
 public final class Game {
 
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator sL = new ServiceLocator();
+
+    /**
+     * The time in miliseconds per frame.
+     */
+    private static final int FRAME_TIME = 16;
+    /**
+     * The logger for the Game class.
+     */
+    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Game.class);
+    /**
+     * The target FPS for the game.
+     */
     private static final int TARGET_FPS = 60;
     /**
      * The optimal time per frame. ~16.
@@ -24,23 +40,12 @@ public final class Game {
     /**
      * X position relative to the frame of the resume button.
      */
-    private static final double RESUMEBUTTONX = 0.55;
+    private static final double RESUME_BUTTON_X = 0.55;
     /**
      * Y position relative to the frame of the resume button.
      */
-    private static final double RESUMEBUTTONY = 0.75;
-    /**
-     * The time in miliseconds per frame.
-     */
-    private static final int FRAMETIME = 16;
-    /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator sL = new ServiceLocator();
-    /**
-     * The logger for the Game class.
-     */
-    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Game.class);
+    private static final double RESUME_BUTTON_Y = 0.75;
+
     /**
      * The current frame.
      */
@@ -144,7 +149,7 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         sL.getInputManager().setMainWindowBorderSize(x, y);
 
-        resumeButton = sL.getButtonFactory().createResumeButton((int) (sL.getConstants().getGameWidth() * RESUMEBUTTONX), (int) (sL.getConstants().getGameHeight() * RESUMEBUTTONY));
+        resumeButton = sL.getButtonFactory().createResumeButton((int) (sL.getConstants().getGameWidth() * RESUME_BUTTON_X), (int) (sL.getConstants().getGameHeight() * RESUME_BUTTON_Y));
         sL.getInputManager().addObserver(resumeButton);
 
         loop();
@@ -229,7 +234,7 @@ public final class Game {
 
             panel.repaint();
             try {
-                long gameTime = FRAMETIME;
+                long gameTime = FRAME_TIME;
                 Thread.sleep(gameTime - (now - System.nanoTime()) / ICalc.NANOSECONDS);
             } catch (InterruptedException e) {
                 LOGGER.error(e);
