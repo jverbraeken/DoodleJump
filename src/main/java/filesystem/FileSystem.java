@@ -37,16 +37,11 @@ public final class FileSystem implements IFileSystem {
      * A classloader in order to load in resources.
      */
     private ClassLoader classLoader = getClass().getClassLoader();
-    /**
-     * The logger for {@link FileSystem}
-     */
-    private final ILogger logger;
 
     /**
      * Prevents instantiation from outside the class.
      */
     private FileSystem() {
-        logger = FileSystem.sL.getLoggerFactory().createLogger(this.getClass());
     }
 
     /**
@@ -142,6 +137,9 @@ public final class FileSystem implements IFileSystem {
     public void deleteFile(final String filename) {
         boolean success = (new File(filename)).delete();
         if (!success) {
+            // TODO If logger is a field of FileSystem, FileSystem references LoggerFactory which is created AFTER
+            // FileSystem. Consider a two-step initialisation of dependent objects.
+            ILogger logger = FileSystem.sL.getLoggerFactory().createLogger(this.getClass());
             logger.error("The file \"" + filename + "\" could not be deleted!");
         }
     }
