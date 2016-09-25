@@ -75,6 +75,7 @@ public final class Res implements IRes {
 
         // Platforms
         sprites.put(Sprites.platform1, spritePath + "platform-green@2x.png");
+        sprites.put(Sprites.platform2, spritePath + "platform-blue@2x.png");
 
         // Powerups
         sprites.put(Sprites.propeller, spritePath + "powerup-propeller@2x.png");

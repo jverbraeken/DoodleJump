@@ -1,14 +1,17 @@
 package objects.blocks;
 
+import math.ICalc;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
+import objects.blocks.platform.Platform;
 import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -196,6 +199,10 @@ public final class BlockFactory implements IBlockFactory {
         IPlatformFactory platformFactory = sL.getPlatformFactory();
         IPlatform platform = platformFactory.createPlatform(0, yLoc);
 
+        if (sL.getCalc().getRandomDouble(1) < 0.9d) {
+            platform = platformFactory.createMovingPlatform(0, yLoc);
+        }
+
         //TODO This prohibits platforms from being immutable
         int xLoc = (int) (widthDeviation * (sL.getConstants().getGameWidth() - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
         platform.setXPos(xLoc);
@@ -227,19 +234,23 @@ public final class BlockFactory implements IBlockFactory {
      * @param platform The platform a powerup potentially is placed on.
      **/
     private void chanceForPowerup(final Set<IGameObject> elements, final IPlatform platform) {
+        ICalc calc = sL.getCalc();
+        double randomDouble = calc.getRandomDouble(maxPowerupThreshold);
+        final int randomNr = (int) (randomDouble);
 
-        final int randomNr = (int) (sL.getCalc().getRandomDouble(maxPowerupThreshold));
+        double[] hitbox = platform.getHitBox();
+        final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
+        final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
+        boolean isSpecialPlatform = isSpecialPlatform(platform);
 
-        final int platformWidth = (int) platform.getHitBox()[AGameObject.HITBOX_RIGHT];
-        final int platformHeight = (int) platform.getHitBox()[AGameObject.HITBOX_BOTTOM];
-
-        if (randomNr < springThreshold) {
+        if (randomNr < springThreshold || isSpecialPlatform) {
             return;
         } else if (randomNr >= springThreshold && randomNr < trampolineThreshold) {
             IPowerupFactory powerupFactory = sL.getPowerupFactory();
-            int springXLoc = (int) (sL.getCalc().getRandomDouble(platformWidth));
+            int springXLoc = (int) (calc.getRandomDouble(platformWidth));
             IGameObject powerup = powerupFactory.createSpring(0, 0);
-            final int powerupWidth = (int) powerup.getHitBox()[AGameObject.HITBOX_RIGHT];
+            double[] powHitbox = powerup.getHitBox();
+            final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
 
             int xPos = (int) platform.getXPos() + springXLoc;
             if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
@@ -252,10 +263,27 @@ public final class BlockFactory implements IBlockFactory {
         } else if (randomNr >= trampolineThreshold) {
 
             IPowerupFactory powerupFactory = sL.getPowerupFactory();
-            IGameObject powerup = powerupFactory.createTrampoline((int) platform.getXPos() + trampolineXoffset,
+            IGameObject powerup = powerupFactory.createTrampoline(
+                    (int) platform.getXPos() + trampolineXoffset,
                     (int) platform.getYPos() - platformHeight + itemYoffset);
             elements.add(powerup);
         }
+    }
+
+    /**
+     * Returns true if the platform has special properties, false otherwise.
+     * @param platform the platform that has to be checked.
+     * @return true or false, dependent on the properties of the platform.
+     */
+    private boolean isSpecialPlatform(IPlatform platform) {
+        Map properties = platform.getProps();
+        Platform.PlatformProperties[] keys = Platform.PlatformProperties.values();
+        for (Platform.PlatformProperties key:keys) {
+            if (properties.containsKey(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

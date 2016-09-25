@@ -1,5 +1,6 @@
 package objects.blocks.platform;
 
+import system.Game;
 import system.IServiceLocator;
 
 /**
@@ -33,7 +34,20 @@ public final class PlatformFactory implements IPlatformFactory {
      */
     @Override
     public IPlatform createPlatform(final int x, final int y) {
-        return new Platform(sL, x, y);
+        return new Platform(sL, x, y, sL.getSpriteFactory().getPlatformSprite1());
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IPlatform createMovingPlatform(int x, final int y) {
+        IPlatform platform = new Platform(sL, x, y, sL.getSpriteFactory().getPlatformSprite2());
+        platform.getProps().put(Platform.PlatformProperties.movingHorizontally, 1);
+
+        return platform;
+    }
+
+
 
 }
