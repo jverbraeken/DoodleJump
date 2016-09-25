@@ -99,7 +99,6 @@ import java.util.concurrent.TimeUnit;
         loggingThreadExecutor.execute(runnable);long submitted = loggingThreadExecutor.getTaskCount();
         long completed = loggingThreadExecutor.getCompletedTaskCount();
         long notCompleted = submitted - completed;
-        System.out.println(notCompleted);
     }
 
     /**
