@@ -13,13 +13,14 @@ import system.IServiceLocator;
 /* package */ class PauseScreen implements IScene, IMouseInputObserver {
 
     /**
-     * The X and Y location for the resume button.
-     */
-    private static final double RESUME_BUTTON_X = 0.55d, RESUME_BUTTON_Y = 0.75d;
-    /**
      * The logger for the PauseScreen class.
      */
     private final ILogger LOGGER;
+    /**
+     * The X and Y location for the resume button.
+     */
+    private static final double RESUME_BUTTON_X = 0.55d, RESUME_BUTTON_Y = 0.75d;
+
     /**
      * Used to gain access to all services.
      */

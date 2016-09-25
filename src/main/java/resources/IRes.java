@@ -1,4 +1,8 @@
 package resources;
+
+/**
+ * Interface for the resources.
+ */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface IRes {
 

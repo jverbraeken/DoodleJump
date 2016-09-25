@@ -1,8 +1,13 @@
 package resources.sprites;
 
 import java.awt.Image;
+
+/**
+ * Interface for a sprite.
+ */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface ISprite {
+
     String getName();
 
     Image getImage();
@@ -12,4 +17,5 @@ public interface ISprite {
     int getHeight();
 
     double getRatio();
+
 }
