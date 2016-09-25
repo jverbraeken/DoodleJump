@@ -1,6 +1,7 @@
 package logging;
 
 import filesystem.IFileSystem;
+import system.Game;
 import system.IServiceLocator;
 
 import java.io.BufferedWriter;
@@ -29,43 +30,13 @@ public class LoggerFactory implements ILoggerFactory {
     }
 
     /**
-     * The file to which the log data should be written
-     */
-    private static final String LOGFILE = "async.log";
-    private final Writer logWriter;
-
-    /**
      * Hidden constructor to prevent instantiation.
      */
     private LoggerFactory() {
-        IFileSystem fileSystem = LoggerFactory.sL.getFileSystem();
-        fileSystem.clearFile(LOGFILE);
-
-        // If the LOGFILE is not found, the game should either crash on the exception or not at all (so also
-        // not when something is logged. Therefore we provide an emtpy interface instead of null to prevent
-        // a {@link NullPointerException}.
-        Writer fw = new Writer() {
-            @Override
-            public void write(char[] cbuf, int off, int len) throws IOException {
-
-            }
-
-            @Override
-            public void flush() throws IOException {
-
-            }
-
-            @Override
-            public void close() throws IOException {
-
-            }
-        };
-        try {
-            fw = new FileWriter(LOGFILE, true);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (Game.CLEARLOGONSTARTUP) {
+            IFileSystem fileSystem = LoggerFactory.sL.getFileSystem();
+            fileSystem.clearFile(Game.LOGFILENAME);
         }
-        logWriter = new BufferedWriter(fw);
     }
 
     /**
@@ -73,7 +44,7 @@ public class LoggerFactory implements ILoggerFactory {
      */
     @Override
     public ILogger createLogger(Class<?> cl) {
-        return new Logger(sL, cl, logWriter);
+        return new Logger(sL, cl);
     }
 
 }

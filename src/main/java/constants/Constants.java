@@ -30,7 +30,10 @@ public class Constants implements IConstants {
      * each frame.
      */
     private final static double scoreMultiplier = 0.15;
-
+    /**
+     * True if the number of pending tasks of the logging thread executor should be logged each time something is logged.
+     */
+    private final static boolean LOGPENDINGTASKS = true;
 
     /**
      * Prevent public instantiation of Constants.
@@ -60,6 +63,12 @@ public class Constants implements IConstants {
     @Override
     public double getScoreMultiplier() {
         return scoreMultiplier;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean getLogPendingTasks() {
+        return LOGPENDINGTASKS;
     }
 
 }

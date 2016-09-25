@@ -78,6 +78,20 @@ public final class Game {
      * The pause screen for the game.
      */
     private static IScene pauseScreen;
+    /**
+     * The filepath to the logfile to which all logs will be written to.
+     * This constant is not provided by an implementation of {@link constants.IConstants} because
+     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
+     * does need the name of the log file.
+     */
+    public static final String LOGFILENAME = "async.log";
+    /**
+     * Indicates if the log file should be cleared each time the game starts.
+     * This constant is not provided by an implementation of {@link constants.IConstants} because
+     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
+     * does need to know whether is should clear the log file on startup or not.
+     */
+    public final static boolean CLEARLOGONSTARTUP = true;
 
     /**
      * Prevents instantiation from outside the Game class.
