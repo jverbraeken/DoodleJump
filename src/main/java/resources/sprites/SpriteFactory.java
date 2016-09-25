@@ -56,7 +56,7 @@ public final class SpriteFactory implements ISpriteFactory {
                 .build(
                         new CacheLoader<IRes.Sprites, ISprite>() {
                             @Override
-                            public ISprite load(final IRes.Sprites sprite) throws FileNotFoundException {
+                            public ISprite load(final IRes.Sprites sprite) {
                                 LOGGER.info("Sprite loaded: \"" + sprite + "\"");
                                 return loadISprite(sprite);
                             }
@@ -697,11 +697,16 @@ public final class SpriteFactory implements ISpriteFactory {
      *
      * @param spriteName the enumerator defining the requested sprite.
      * @return The ISprite
-     * @throws FileNotFoundException Thrown when the ISprite was not found
      */
-    private ISprite loadISprite(final IRes.Sprites spriteName) throws FileNotFoundException {
+    private ISprite loadISprite(final IRes.Sprites spriteName) {
         String filepath = sL.getRes().getSpritePath(spriteName);
-        BufferedImage image = sL.getFileSystem().readImage(filepath);
+        BufferedImage image = null;
+        try {
+            image = sL.getFileSystem().readImage(filepath);
+            LOGGER.info("Sprite loaded: \"" + filepath + "\"");
+        } catch (FileNotFoundException e) {
+            LOGGER.error(e);
+        }
         return new Sprite(getFileName(filepath), image);
     }
 
