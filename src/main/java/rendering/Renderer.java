@@ -12,14 +12,14 @@ import java.awt.*;
 public final class Renderer implements IRenderer {
 
     /**
-     * Used to gain access to all services.
-     */
-    private static transient IServiceLocator sL;
-    /**
      * Used to log all actions of the game.
      */
     private final ILogger LOGGER;
-    private final ICamera camera = new Camera();
+
+    /**
+     * Used to gain access to all services.
+     */
+    private static transient IServiceLocator sL;
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -30,6 +30,11 @@ public final class Renderer implements IRenderer {
         Renderer.sL = sL;
         Renderer.sL.provide(new Renderer());
     }
+
+    /**
+     * The camera for the renderer.
+     */
+    private final ICamera camera = new Camera();
 
     /**
      * The graphics that are to be used by the renderer.
@@ -139,4 +144,5 @@ public final class Renderer implements IRenderer {
     public ICamera getCamera() {
         return camera;
     }
+
 }
