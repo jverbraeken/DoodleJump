@@ -3,7 +3,6 @@ package objects.blocks.platform;
 import objects.AGameObject;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
-import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
@@ -11,12 +10,15 @@ import system.IServiceLocator;
  */
 public class Platform extends AGameObject implements IPlatform {
 
-    private static final double boost = -16;
+    /**
+     * The BOOST value for the Spring.
+     */
+    private static final double BOOST = -18;
 
     /**
      * Platform constructor.
      *
-     * @param sL             - The games service locator.
+     * @param sL - The games service locator.
      * @param x - The X location for the platform.
      * @param y - The Y location for the platform.
      */
@@ -29,8 +31,8 @@ public class Platform extends AGameObject implements IPlatform {
      */
     @Override
     public double getBoost() {
-        this.playSound();
-        return Platform.boost; }
+        return Platform.BOOST;
+    }
 
     /**
      * {@inheritDoc}
@@ -44,6 +46,7 @@ public class Platform extends AGameObject implements IPlatform {
     /** {@inheritDoc} */
     @Override
     public void collidesWith(IDoodle doodle) {
+        this.playSound();
         doodle.collide(this);
     }
 

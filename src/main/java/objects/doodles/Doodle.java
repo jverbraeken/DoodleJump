@@ -101,10 +101,10 @@ public class Doodle extends AGameObject implements IDoodle {
         super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(Directions.Right)[0]);
         this.setHitBox((int) (getSprite().getWidth() * widthHitboxLeft), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * widthHitboxRight), getSprite().getHeight());
 
-        ISpriteFactory spriteFactory = super.sL.getSpriteFactory();
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(Directions.Right);
 
-        IInputManager inputManager = super.sL.getInputManager();
+        IInputManager inputManager = sL.getInputManager();
         inputManager.addObserver(this);
     }
 
@@ -113,7 +113,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void render() {
-        super.sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /**
@@ -133,27 +133,21 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(IDoodle doodle) {
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double getVSpeed() {
+    public double getVerticalSpeed() {
         return this.vSpeed;
     }
 
     /**
      * {@inheritDoc}
-     * @param vSpeed the new speed.
      */
     @Override
     public void setVerticalSpeed(double vSpeed) {
         this.vSpeed = vSpeed;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getScore() {
         return score;
@@ -192,11 +186,33 @@ public class Doodle extends AGameObject implements IDoodle {
     public void collide(IBlock block) {
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collide(IJumpable jumpable) {
+        this.vSpeed = jumpable.getBoost();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collidesWith(IDoodle doodle) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getLegsHeight() {
         return legsHeight;
     }
 
+    /**
+     * TODO: ADD JAVADOC
+     * @param delta
+     */
     private void move(final double delta) {
         moveHorizontally(delta);
     }
@@ -251,7 +267,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void wrap() {
         double middle = this.getXPos() + this.getHitBox()[AGameObject.HITBOX_RIGHT] / 2;
-        final int width = super.sL.getConstants().getGameWidth();
+        final int width = sL.getConstants().getGameWidth();
         if (middle < 0) {
             this.addXPos(width);
         } else if (middle > width) {
@@ -260,7 +276,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     private void animate(double delta) {
-        ISpriteFactory spriteFactory = super.sL.getSpriteFactory();
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(this.facing);
 
         // If the Doodle moves up quickly shorten its legs
@@ -275,13 +291,13 @@ public class Doodle extends AGameObject implements IDoodle {
      * TODO: Add JavaDoc
      */
     private void applyGravity(double delta) {
-        this.vSpeed += super.sL.getConstants().getGravityAcceleration();
+        this.vSpeed += sL.getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
 
     private void checkHighPosition() {
-        ICamera camera = super.sL.getRenderer().getCamera();
-        final int height = super.sL.getConstants().getGameHeight();
+        ICamera camera = sL.getRenderer().getCamera();
+        final int height = sL.getConstants().getGameHeight();
         if (getYPos() < camera.getYPos() + height / 2) {
             score += (camera.getYPos() + height / 2 - getYPos()) * super.sL.getConstants().getScoreMultiplier();
             camera.setYPos(getYPos() - height / 2);
@@ -289,18 +305,10 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     private void checkDeadPosition() {
-        ICamera camera = super.sL.getRenderer().getCamera();
-        if (getYPos() > camera.getYPos() + super.sL.getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
+        ICamera camera = sL.getRenderer().getCamera();
+        if (getYPos() > camera.getYPos() + sL.getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
             Game.setAlive(false);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void collide(IJumpable jumpable) {
-        this.vSpeed = jumpable.getBoost();
     }
 
 }

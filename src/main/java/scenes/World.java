@@ -192,10 +192,8 @@ public class World implements IScene {
      * Apply the current speed to all objects.
      */
     private void checkCollisions() {
-        if (this.doodle.getVSpeed() > 0) {
+        if (this.doodle.getVerticalSpeed() > 0) {
             for (IBlock block : blocks) {
-                //TODO check for the collision
-                //if (this.doodle.checkCollission(block)) {
                 Set<IGameObject> elements = block.getElements();
                 for (IGameObject element : elements) {
                     if (this.doodle.checkCollission(element)) {

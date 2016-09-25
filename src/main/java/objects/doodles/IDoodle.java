@@ -10,7 +10,7 @@ import objects.blocks.IBlock;
  */
 public interface IDoodle extends IGameObject, IKeyInputObserver {
 
-    double getVSpeed();
+    double getVerticalSpeed();
 
     void collide(IJumpable jumpable);
 

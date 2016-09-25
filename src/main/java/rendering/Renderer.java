@@ -133,6 +133,7 @@ public final class Renderer implements IRenderer {
         if (g == null) {
             throw new IllegalArgumentException("The graphics buffer cannot be null");
         }
+
         this.graphics = g;
     }
 
