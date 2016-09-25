@@ -3,9 +3,12 @@ package resources.sprites;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-
+/**
+ * Class representing a sprite.
+ */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public class Sprite implements ISprite {
+
     private final String name;
     private final Image image;
     private final int width, height;
@@ -19,33 +22,32 @@ public class Sprite implements ISprite {
         this.ratio = (double) height / (double) width;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public final String getName() {
         return name;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public final Image getImage() {
         return image;
     }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public final int getWidth() {
         return width;
     }
 
-    @Override
     /** {@inheritDoc} */
-    public  final int getHeight() {
-        return height;
-    }
+    @Override
+    public  final int getHeight() { return height; }
 
-    @Override
     /** {@inheritDoc} */
+    @Override
     public final double getRatio() {
         return ratio;
     }
+
 }

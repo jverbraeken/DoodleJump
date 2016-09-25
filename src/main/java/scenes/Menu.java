@@ -17,13 +17,14 @@ import system.IServiceLocator;
 public class Menu implements IScene, IKeyInputObserver {
 
     /**
-     * The X and Y location for the play button.
-     */
-    private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
-    /**
      * The logger for the Menu class.
      */
     private final ILogger LOGGER;
+    /**
+     * The X and Y location for the play button.
+     */
+    private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
+
     /**
      * Used to access all services.
      */

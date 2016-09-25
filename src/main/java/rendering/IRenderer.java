@@ -8,6 +8,7 @@ import java.awt.Graphics;
  * This class is responsible for rendering all Sprites.
  */
 public interface IRenderer {
+
     /**
      * Start the renderer.
      */
@@ -45,8 +46,6 @@ public interface IRenderer {
      * @param image the sprite to be drawn.
      * @param x the x position of the sprite.
      * @param y the y position of the sprite.
-     * @param width the width of the sprite.
-     * @param height the height of the sprite.
      */
     void drawSpriteHUD(ISprite image, int x, int y);
 
@@ -76,7 +75,9 @@ public interface IRenderer {
     void setGraphicsBuffer(Graphics graphics);
 
     /**
+     * Get the camera used by the Renderer.
      * @return The camera the Renderer is using
      */
     ICamera getCamera();
+
 }

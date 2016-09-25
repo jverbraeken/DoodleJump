@@ -16,14 +16,6 @@ public final class AudioManager implements IAudioManager {
      * Used to gain access to all services.
      */
     private static transient IServiceLocator sL;
-
-    /**
-     * Prevents instantiation from outside the class.
-     */
-    private AudioManager() {
-        preload();
-    }
-
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -33,6 +25,13 @@ public final class AudioManager implements IAudioManager {
         assert sL != null;
         AudioManager.sL = sL;
         sL.provide(new AudioManager());
+    }
+
+    /**
+     * Prevents instantiation from outside the class.
+     */
+    private AudioManager() {
+        preload();
     }
 
     /**
