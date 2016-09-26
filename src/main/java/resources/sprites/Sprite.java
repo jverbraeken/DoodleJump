@@ -20,6 +20,8 @@ public class Sprite implements ISprite {
         this.ratio = (double) height / (double) width;
     }
 
+
+
     @Override
     /** {@inheritDoc} */
     public String getName() {
