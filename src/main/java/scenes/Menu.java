@@ -65,11 +65,12 @@ public class Menu implements IScene, IKeyInputObserver {
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         playButton = buttonFactory.createPlayButton(
-                (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y));
+            (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
+            (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y)
+        );
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
-        this.doodle = doodleFactory.createDoodle();
+        this.doodle = doodleFactory.createStartScreenDoodle();
         this.doodle.setVerticalSpeed(-1);
         this.doodle.setXPos(45);
 
