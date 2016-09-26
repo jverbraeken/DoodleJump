@@ -10,6 +10,13 @@ import java.util.Map;
 public class Constants implements IConstants {
 
     private static transient IServiceLocator sL;
+
+    public static void register(IServiceLocator sL) {
+        assert sL != null;
+        Constants.sL = sL;
+        sL.provide(new Constants());
+    }
+
     private final ILogger logger;
     /**
      * The width of the frame of the game
@@ -41,12 +48,6 @@ public class Constants implements IConstants {
             logger.error(e);
             e.printStackTrace();
         }
-    }
-
-    public static void register(IServiceLocator sL) {
-        assert sL != null;
-        Constants.sL = sL;
-        sL.provide(new Constants());
     }
 
     /**

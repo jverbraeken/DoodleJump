@@ -210,7 +210,6 @@ public final class FileSystem implements IFileSystem {
     /** {@inheritDoc} */
     @Override
     public Object parseJson(String filename, Class<?> jsonClass) throws FileNotFoundException {
-        assert jsonClass.isAnnotationPresent(JsonObject.class);
         StringBuilder sb = new StringBuilder();
         for (String string : readTextFile(filename)) {
             sb.append(string);
@@ -229,7 +228,6 @@ public final class FileSystem implements IFileSystem {
     /** {@inheritDoc} */
     @Override
     public Object parseJsonList(String filename, Class<?> jsonClass) throws FileNotFoundException {
-        assert jsonClass.isAnnotationPresent(JsonObject.class);
         StringBuilder sb = new StringBuilder();
         for (String string : readTextFile(filename)) {
             sb.append(string);
@@ -248,7 +246,6 @@ public final class FileSystem implements IFileSystem {
     /** {@inheritDoc} */
     @Override
     public Object parseJsonMap(String filename, Class<?> jsonClass) throws FileNotFoundException {
-//        assert jsonClass.isAnnotationPresent(JsonObject.class);
         StringBuilder sb = new StringBuilder();
         for (String string : readTextFile(filename)) {
             sb.append(string);

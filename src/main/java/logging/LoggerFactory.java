@@ -3,10 +3,10 @@ package logging;
 import filesystem.IFileSystem;
 import system.IServiceLocator;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Standard implementation of the LoggingFactory. Used to create loggers.
@@ -14,34 +14,38 @@ import java.io.Writer;
 public class LoggerFactory implements ILoggerFactory {
 
     /**
+     * The file to which the log data should be written.
+     */
+    private static final String LOG_IGNORE_FILE = "logIgnore.json";
+    /**
+     * The file to which the log data should be written.
+     */
+    private static final String LOG_FILE = "async.log";
+    /**
      * Used to gain access to all services.
      */
     private static IServiceLocator sL;
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
+     * The writer that's used to write to the logging file.
      */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        LoggerFactory.sL = sL;
-        sL.provide(new LoggerFactory());
-    }
-
-    /**
-     * The file to which the log data should be written
-     */
-    private static final String LOGFILE = "async.log";
     private final Writer logWriter;
+    /**
+     * The logger for LoggerFactory.
+     */
+    private final ILogger LOGGER;
+    /**
+     * A set containing the classes that should not be logged.
+     */
+    private final Set<Class<?>> logIgnore;
 
     /**
      * Hidden constructor to prevent instantiation.
      */
     private LoggerFactory() {
         IFileSystem fileSystem = LoggerFactory.sL.getFileSystem();
-        fileSystem.clearFile(LOGFILE);
+        fileSystem.clearFile(LOG_FILE);
 
-        // If the LOGFILE is not found, the game should either crash on the exception or not at all (so also
+        // If the LOG_FILE is not found, the game should either crash on the exception or not at all (so also
         // not when something is logged. Therefore we provide an emtpy interface instead of null to prevent
         // a {@link NullPointerException}.
         Writer fw = new Writer() {
@@ -61,11 +65,40 @@ public class LoggerFactory implements ILoggerFactory {
             }
         };
         try {
-            fw = new FileWriter(LOGFILE, true);
+            fw = new FileWriter(LOG_FILE, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
         logWriter = new BufferedWriter(fw);
+
+        LOGGER = new Logger(sL, this.getClass(), logWriter);
+
+        logIgnore = new HashSet<>();
+        try {
+            List<String> list = (List<String>) sL.getFileSystem().parseJsonList("logIgnore.json", String.class);
+            for (String className : list) {
+                try {
+                    logIgnore.add(Class.forName(className));
+                } catch (ClassNotFoundException e) {
+                    LOGGER.warning("LoggerFactory could not find class requested to ignore logging for: " + className);
+                    e.printStackTrace();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            LOGGER.error("The file logIgnore.json requested by LoggerFactory was not found");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        LoggerFactory.sL = sL;
+        sL.provide(new LoggerFactory());
     }
 
     /**
@@ -73,7 +106,36 @@ public class LoggerFactory implements ILoggerFactory {
      */
     @Override
     public ILogger createLogger(Class<?> cl) {
-        return new Logger(sL, cl, logWriter);
+        if (logIgnore.contains(cl)) {
+            return new ILogger() {
+                @Override
+                public void log(String msg) {
+
+                }
+
+                @Override
+                public void error(String msg) {
+
+                }
+
+                @Override
+                public void error(Exception exception) {
+
+                }
+
+                @Override
+                public void info(String msg) {
+
+                }
+
+                @Override
+                public void warning(String msg) {
+
+                }
+            };
+        } else {
+            return new Logger(sL, cl, logWriter);
+        }
     }
 
 }
