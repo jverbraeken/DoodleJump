@@ -222,7 +222,7 @@ import scenes.SceneFactory;
      */
     @Override
     public void provide(IConstants constants) {
-        assert buttonFactory != null;
+        assert constants != null;
         this.constants = constants;
     }
 
@@ -375,6 +375,7 @@ import scenes.SceneFactory;
      */
     private void init() {
         FileSystem.register(this);
+        Constants.register(this);
         LoggerFactory.register(this);
         AudioManager.register(this);
         EnemyBuilder.register(this);
@@ -389,7 +390,6 @@ import scenes.SceneFactory;
         PlatformFactory.register(this);
         Res.register(this);
         ButtonFactory.register(this);
-        Constants.register(this);
     }
 
 }
