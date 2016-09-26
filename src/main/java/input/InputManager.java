@@ -36,11 +36,11 @@ public final class InputManager implements IInputManager {
     /**
      * The set of observable mouse inputs.
      */
-    private final Set<IMouseInputObserver> mouseInputObservers = new HashSet<>();
+    private final HashSet<IMouseInputObserver> mouseInputObservers = new HashSet<>();
     /**
      * The set of observable key inputs.
      */
-    private final Set<IKeyInputObserver> keyInputObservers = new HashSet<>();
+    private final HashSet<IKeyInputObserver> keyInputObservers = new HashSet<>();
     /**
      * Offset for the mouse position X.
      */
@@ -76,8 +76,7 @@ public final class InputManager implements IInputManager {
         LOGGER.info("Mouse pressed, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
 
         //TODO: Synchronize properly instead of cloning
-        HashSet<IMouseInputObserver> observers = (HashSet) mouseInputObservers;
-        observers = (HashSet) observers.clone();
+        HashSet<IMouseInputObserver> observers = (HashSet<IMouseInputObserver>) mouseInputObservers.clone();
         for (IMouseInputObserver observer : observers) {
             observer.mouseClicked(x, y);
         }

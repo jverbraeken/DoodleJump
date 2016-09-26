@@ -1,5 +1,7 @@
 package filesystem;
 
+import com.bluelinelabs.logansquare.LoganSquare;
+import com.bluelinelabs.logansquare.annotation.JsonObject;
 import system.IServiceLocator;
 
 import javax.imageio.ImageIO;
@@ -197,4 +199,60 @@ public final class FileSystem implements IFileSystem {
         return new File(url.getFile());
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public Object parseJson(String filename, Class<?> jsonClass) throws FileNotFoundException {
+        assert jsonClass.isAnnotationPresent(JsonObject.class);
+        StringBuilder sb = new StringBuilder();
+        for (String string : readTextFile(filename)) {
+            sb.append(string);
+        }
+        String json = sb.toString();
+
+        Object result = null;
+        try {
+            result = LoganSquare.parse(json, jsonClass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Object parseJsonList(String filename, Class<?> jsonClass) throws FileNotFoundException {
+        assert jsonClass.isAnnotationPresent(JsonObject.class);
+        StringBuilder sb = new StringBuilder();
+        for (String string : readTextFile(filename)) {
+            sb.append(string);
+        }
+        String json = sb.toString();
+
+        Object result = null;
+        try {
+            result = LoganSquare.parseList(json, jsonClass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Object parseJsonMap(String filename, Class<?> jsonClass) throws FileNotFoundException {
+//        assert jsonClass.isAnnotationPresent(JsonObject.class);
+        StringBuilder sb = new StringBuilder();
+        for (String string : readTextFile(filename)) {
+            sb.append(string);
+        }
+        String json = sb.toString();
+
+        Object result = null;
+        try {
+            result = LoganSquare.parseMap(json, jsonClass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
