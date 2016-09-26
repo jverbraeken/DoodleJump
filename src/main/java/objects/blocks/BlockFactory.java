@@ -199,7 +199,7 @@ public final class BlockFactory implements IBlockFactory {
         IPlatformFactory platformFactory = sL.getPlatformFactory();
         IPlatform platform = platformFactory.createPlatform(0, yLoc);
 
-        if (sL.getCalc().getRandomDouble(1) < 0.9d) {
+        if (sL.getCalc().getRandomDouble(1) < 0.1d) {
             platform = platformFactory.createMovingPlatform(0, yLoc);
         }
 
