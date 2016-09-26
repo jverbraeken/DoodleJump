@@ -15,27 +15,27 @@ import system.IServiceLocator;
      * Boost reduction specifically for the startscreen Doodle.
      */
     private static final double BOOST_REDUCTION = 2d;
+    /**
+     * Where the hitbox of the doodle starts in relation to the sprite width.
+     */
+    private final double WIDTH_HIT_BOX_LEFT = .3;
+    /**
+     * Where the hitbox of the doodle ends in relation to the sprite width.
+     */
+    private final double WIDTH_HIT_BOX_RIGHT = .7;
 
     /**
      * Current vertical speed for the Doodle.
      */
     private double vSpeed = 0d;
-    /**
-     * Where the hitbox of the doodle starts in relation to the sprite width.
-     */
-    private final double widthHitboxLeft = .3;
-    /**
-     * Where the hitbox of the doodle ends in relation to the sprite width.
-     */
-    private final double widthHitboxRight = .7;
 
     /**
      * Doodle constructor.
      * @param sL The service locator
      */
-     /* package */ StartScreenDoodle(final IServiceLocator sL) {
+    /* package */ StartScreenDoodle(final IServiceLocator sL) {
         super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(Directions.Right)[0]);
-        this.setHitBox((int) (getSprite().getWidth() * widthHitboxLeft), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * widthHitboxRight), getSprite().getHeight());
+        this.setHitBox((int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT), getSprite().getHeight());
 
         IInputManager inputManager = sL.getInputManager();
         inputManager.addObserver(this);

@@ -18,18 +18,31 @@ import system.IServiceLocator;
 public class Doodle extends AGameObject implements IDoodle {
 
     /**
+     * Standard speed limit for the Doodle.
+     */
+    private final double STANDARD_SPEED_LIMIT = 6d;
+    /**
+     * Horizontal acceleration for the Doodle.
+     */
+    private final double HORIZONTAL_ACCELERATION = .5d;
+    /**
      * The height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      */
-    private final double legsHeight = 0.8;
-    /**
-     * Standard speed limit for the Doodle.
-     */
-    private final double standardSpeedLimit = 6d;
+    private final double LEGS_HEIGHT = 0.8;
     /**
      * Horizontal speed limit for the Doodle.
      */
-    private double hSpeedLimit = standardSpeedLimit;
+    private final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
+    /**
+     * Where the hitbox of the doodle starts in relation to the sprite width.
+     */
+    private final double WIDTH_HIT_BOX_LEFT = .3;
+    /**
+     * Where the hitbox of the doodle ends in relation to the sprite width.
+     */
+    private final double WIDTH_HIT_BOX_RIGHT = .7;
+
     /**
      * Current horizontal speed for the Doodle.
      */
@@ -38,10 +51,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * Current vertical speed for the Doodle.
      */
     private double vSpeed = 0d;
-    /**
-     * Horizontal acceleration for the Doodle.
-     */
-    private final double hAcceleration = .5d;
     /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
@@ -58,35 +67,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * The current score of the doodle
      */
     private double score;
-    /**
-     * Enumerator of the Left side of the hitbox.
-     */
-    private final int hitBoxLeft = 0;
-    /**
-     * Enumerator of the top side of the hitbox.
-     */
-    private final int hitBoxTop = 1;
-    /**
-     * Enumerator of the Right side of the hitbox.
-     */
-    private final int hitBoxRight = 2;
-    /**
-     * Enumerator of the bottom side of the hitbox.
-     */
-    private final int hitBoxBottom = 3;
-    /**
-     * The speed at which we know the doodle is jumping.
-     * this is used for the pulling up legs animation.
-     */
-    private final int doodleIsJumping = -15;
-    /**
-     * Where the hitbox of the doodle starts in relation to the sprite width.
-     */
-    private final double widthHitboxLeft = .3;
-    /**
-     * Where the hitbox of the doodle ends in relation to the sprite width.
-     */
-    private final double widthHitboxRight = .7;
 
     /**
      * Doodle constructor.
@@ -94,7 +74,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
      /* package */ Doodle(final IServiceLocator sL) {
         super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(Directions.Right)[0]);
-        this.setHitBox((int) (getSprite().getWidth() * widthHitboxLeft), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * widthHitboxRight), getSprite().getHeight());
+        this.setHitBox((int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT), getSprite().getHeight());
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(Directions.Right);
@@ -179,7 +159,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /** {@inheritDoc} */
     @Override
     public double getLegsHeight() {
-        return legsHeight;
+        return LEGS_HEIGHT;
     }
 
     /**
@@ -195,18 +175,18 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void moveHorizontally(final double delta) {
         if (moving == Directions.Left) {
-            if (this.hSpeed > -this.hSpeedLimit) {
-                this.hSpeed -= this.hAcceleration;
+            if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed -= this.HORIZONTAL_ACCELERATION;
             }
         } else if (moving == Directions.Right) {
-            if (this.hSpeed < this.hSpeedLimit) {
-                this.hSpeed += this.hAcceleration;
+            if (this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed += this.HORIZONTAL_ACCELERATION;
             }
         } else {
             if (this.hSpeed < 0) {
-                this.hSpeed += this.hAcceleration;
+                this.hSpeed += this.HORIZONTAL_ACCELERATION;
             } else if (this.hSpeed > 0) {
-                this.hSpeed -= this.hAcceleration;
+                this.hSpeed -= this.HORIZONTAL_ACCELERATION;
             }
         }
 
