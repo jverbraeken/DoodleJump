@@ -53,8 +53,6 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * {@inheritDoc}
      */
-
-    //TODO: correct sprite to "play again" button
     @Override
     public IButton createPlayAgainButton(final int x, final int y) {
         assert sL != null;
@@ -67,7 +65,6 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * {@inheritDoc}
      */
-    //TODO: correct sprite to "main menu" button
     @Override
     public IButton createMainMenuButton(final int x, final int y) {
         assert sL != null;
@@ -77,4 +74,94 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(sL, x, y, buttonSprite, mainMenu, "mainMenu");
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    //TODO: correct sprite
+    @Override
+    public IButton createChooseModeButton(final int x, final int y) {
+        assert sL != null;
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        Runnable chooseMode = () -> Game.setScene(sL.getSceneFactory().newChooseMode());
+        return new Button(sL, x, y, buttonSprite, chooseMode, "chooseMode");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    //TODO: correct sprite to "main menu" button
+    @Override
+    public IButton createRegularModeButton(final int x, final int y) {
+        assert sL != null;
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        Runnable regularMode = () -> Game.setMode("REGULAR");
+        return new Button(sL, x, y, buttonSprite, regularMode, "regularMode");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    //TODO: correct sprite to "main menu" button
+    @Override
+    public IButton createDarknessModeButton(final int x, final int y) {
+        assert sL != null;
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        Runnable darknessMode = () -> Game.setMode("DARKNESS");
+        return new Button(sL, x, y, buttonSprite, darknessMode, "darknessMode");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    //TODO: correct sprite to "main menu" button
+    @Override
+    public IButton createInvertModeButton(final int x, final int y) {
+        assert sL != null;
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        Runnable invertMode = () -> Game.setMode("INVERT");
+        return new Button(sL, x, y, buttonSprite, invertMode, "invertMode");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    //TODO: correct sprite to "main menu" button
+    @Override
+    public IButton createSpaceModeButton(final int x, final int y) {
+        assert sL != null;
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        Runnable spaceMode = () -> Game.setMode("SPACE");
+        return new Button(sL, x, y, buttonSprite, spaceMode, "spaceMode");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    //TODO: correct sprite to "main menu" button
+    @Override
+    public IButton createUnderwaterModeButton(final int x, final int y) {
+        assert sL != null;
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        Runnable underwaterMode = () -> Game.setMode("UNDERWATER");
+        return new Button(sL, x, y, buttonSprite, underwaterMode, "underwaterMode");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    //TODO: correct sprite to "main menu" button
+    @Override
+    public IButton createStoryModeButton(final int x, final int y) {
+        assert sL != null;
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        Runnable storyMode = () -> Game.setMode("STORY");
+        return new Button(sL, x, y, buttonSprite, storyMode, "storyMode");
+    }
 }
