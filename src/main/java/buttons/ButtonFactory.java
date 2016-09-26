@@ -82,7 +82,7 @@ public final class ButtonFactory implements IButtonFactory {
     public IButton createChooseModeButton(final int x, final int y) {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        ISprite buttonSprite = spriteFactory.getChooseModeButtonSprite();
         Runnable chooseMode = () -> Game.setScene(sL.getSceneFactory().newChooseMode());
         return new Button(sL, x, y, buttonSprite, chooseMode, "chooseMode");
     }
@@ -95,7 +95,7 @@ public final class ButtonFactory implements IButtonFactory {
     public IButton createRegularModeButton(final int x, final int y) {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        ISprite buttonSprite = spriteFactory.getRegularModeButton();
         Runnable regularMode = () -> Game.setMode("REGULAR");
         return new Button(sL, x, y, buttonSprite, regularMode, "regularMode");
     }
@@ -108,7 +108,7 @@ public final class ButtonFactory implements IButtonFactory {
     public IButton createDarknessModeButton(final int x, final int y) {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        ISprite buttonSprite = spriteFactory.getDarknessModeButton();
         Runnable darknessMode = () -> Game.setMode("DARKNESS");
         return new Button(sL, x, y, buttonSprite, darknessMode, "darknessMode");
     }
@@ -121,7 +121,7 @@ public final class ButtonFactory implements IButtonFactory {
     public IButton createInvertModeButton(final int x, final int y) {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        ISprite buttonSprite = spriteFactory.getInvertModeButton();
         Runnable invertMode = () -> Game.setMode("INVERT");
         return new Button(sL, x, y, buttonSprite, invertMode, "invertMode");
     }
@@ -134,7 +134,7 @@ public final class ButtonFactory implements IButtonFactory {
     public IButton createSpaceModeButton(final int x, final int y) {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        ISprite buttonSprite = spriteFactory.getSpaceModeButton();
         Runnable spaceMode = () -> Game.setMode("SPACE");
         return new Button(sL, x, y, buttonSprite, spaceMode, "spaceMode");
     }
@@ -147,7 +147,7 @@ public final class ButtonFactory implements IButtonFactory {
     public IButton createUnderwaterModeButton(final int x, final int y) {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        ISprite buttonSprite = spriteFactory.getUnderwaterModeButton();
         Runnable underwaterMode = () -> Game.setMode("UNDERWATER");
         return new Button(sL, x, y, buttonSprite, underwaterMode, "underwaterMode");
     }
@@ -160,7 +160,7 @@ public final class ButtonFactory implements IButtonFactory {
     public IButton createStoryModeButton(final int x, final int y) {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
+        ISprite buttonSprite = spriteFactory.getStoryModeButton();
         Runnable storyMode = () -> Game.setMode("STORY");
         return new Button(sL, x, y, buttonSprite, storyMode, "storyMode");
     }

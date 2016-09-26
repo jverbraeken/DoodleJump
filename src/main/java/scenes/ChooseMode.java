@@ -85,11 +85,11 @@ import system.IServiceLocator;
         IButtonFactory buttonFactory = sL.getButtonFactory();
         mainMenuButton = buttonFactory.createMainMenuButton((int) (sL.getConstants().getGameWidth() * MAIN_MENU_BUTTON_X), (int) (sL.getConstants().getGameHeight() * MAIN_MENU_BUTTON_Y));
         darknessModeButton = buttonFactory.createDarknessModeButton((int) (sL.getConstants().getGameWidth() * DARKNESS_MODE_X), (int) (sL.getConstants().getGameHeight() * DARKNESS_MODE_Y));
-        storyModeButton = buttonFactory.createDarknessModeButton((int) (sL.getConstants().getGameWidth() * STORY_MODE_X), (int) (sL.getConstants().getGameHeight() * STORY_MODE_Y));
-        spaceModeButton = buttonFactory.createDarknessModeButton((int) (sL.getConstants().getGameWidth() * SPACE_MODE_X), (int) (sL.getConstants().getGameHeight() * SPACE_MODE_Y));
-        underwaterModeButton = buttonFactory.createDarknessModeButton((int) (sL.getConstants().getGameWidth() * UNDERWATER_MODE_X), (int) (sL.getConstants().getGameHeight() * UNDERWATER_MODE_Y));
-        invertModeButton = buttonFactory.createDarknessModeButton((int) (sL.getConstants().getGameWidth() * INVERT_MODE_X), (int) (sL.getConstants().getGameHeight() * INVERT_MODE_Y));
-        regularModeButton = buttonFactory.createDarknessModeButton((int) (sL.getConstants().getGameWidth() * REGULAR_MODE_X), (int) (sL.getConstants().getGameHeight() * REGULAR_MODE_Y));
+        storyModeButton = buttonFactory.createStoryModeButton((int) (sL.getConstants().getGameWidth() * STORY_MODE_X), (int) (sL.getConstants().getGameHeight() * STORY_MODE_Y));
+        spaceModeButton = buttonFactory.createSpaceModeButton((int) (sL.getConstants().getGameWidth() * SPACE_MODE_X), (int) (sL.getConstants().getGameHeight() * SPACE_MODE_Y));
+        underwaterModeButton = buttonFactory.createUnderwaterModeButton((int) (sL.getConstants().getGameWidth() * UNDERWATER_MODE_X), (int) (sL.getConstants().getGameHeight() * UNDERWATER_MODE_Y));
+        invertModeButton = buttonFactory.createInvertModeButton((int) (sL.getConstants().getGameWidth() * INVERT_MODE_X), (int) (sL.getConstants().getGameHeight() * INVERT_MODE_Y));
+        regularModeButton = buttonFactory.createRegularModeButton((int) (sL.getConstants().getGameWidth() * REGULAR_MODE_X), (int) (sL.getConstants().getGameHeight() * REGULAR_MODE_Y));
 
     }
 

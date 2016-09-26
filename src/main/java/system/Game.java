@@ -69,6 +69,7 @@ public final class Game {
     /**
      * Track the current mode of the game.
      */
+    //TODO Actually use the current mode.
     private static String mode = "REGULAR";
     /**
      * The resume button for the pause screen.
