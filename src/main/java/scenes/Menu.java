@@ -6,6 +6,11 @@ import input.IKeyInputObserver;
 import input.KeyCode;
 import input.Keys;
 import logging.ILogger;
+import objects.AGameObject;
+import objects.blocks.platform.IPlatform;
+import objects.blocks.platform.IPlatformFactory;
+import objects.doodles.IDoodle;
+import objects.doodles.IDoodleFactory;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
@@ -37,6 +42,14 @@ public class Menu implements IScene, IKeyInputObserver {
      * The cover sprite of the main menu.
      */
     private final ISprite cover;
+    /**
+     * The Doodle for the menu.
+     */
+    private final IDoodle doodle;
+    /**
+     * The platform for the menu.
+     */
+    private final IPlatform platform;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -54,6 +67,14 @@ public class Menu implements IScene, IKeyInputObserver {
         playButton = buttonFactory.createPlayButton(
                 (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
                 (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y));
+
+        IDoodleFactory doodleFactory = sL.getDoodleFactory();
+        this.doodle = doodleFactory.createDoodle();
+        this.doodle.setVerticalSpeed(-1);
+        this.doodle.setXPos(45);
+
+        IPlatformFactory platformFactory = sL.getPlatformFactory();
+        platform = platformFactory.createPlatform(40, 700);
 
         this.LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
     }
@@ -85,6 +106,8 @@ public class Menu implements IScene, IKeyInputObserver {
     public void render() {
         sL.getRenderer().drawSpriteHUD(this.cover, 0, 0);
         playButton.render();
+        doodle.render();
+        platform.render();
     }
 
     /**
@@ -92,6 +115,13 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     @Override
     public void update(final double delta) {
+        doodle.update(delta);
+
+        if (this.doodle.checkCollission(platform)) {
+            if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < platform.getYPos()) {
+                platform.collidesWith(this.doodle);
+            }
+        }
     }
 
     /**

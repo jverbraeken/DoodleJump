@@ -58,7 +58,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * The current score of the doodle
      */
     private double score;
-
     /**
      * Enumerator of the Left side of the hitbox.
      */
@@ -75,18 +74,15 @@ public class Doodle extends AGameObject implements IDoodle {
      * Enumerator of the bottom side of the hitbox.
      */
     private final int hitBoxBottom = 3;
-
     /**
      * The speed at which we know the doodle is jumping.
      * this is used for the pulling up legs animation.
      */
     private final int doodleIsJumping = -15;
-
     /**
      * Where the hitbox of the doodle starts in relation to the sprite width.
      */
     private final double widthHitboxLeft = .3;
-
     /**
      * Where the hitbox of the doodle ends in relation to the sprite width.
      */
