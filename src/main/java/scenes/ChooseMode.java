@@ -19,32 +19,32 @@ import system.IServiceLocator;
     /**
      * X & Y location in relation to the frame of the play again button.
      */
-    private static final double REGULAR_MODE_X = 0.1, REGULAR_MODE_Y = 0.3;
+    private static final double REGULAR_MODE_X = 0.2, REGULAR_MODE_Y = 0.25;
 
     /**
      * X & Y location in relation to the frame of the play again button.
      */
-    private static final double UNDERWATER_MODE_X = 0.1, UNDERWATER_MODE_Y = 0.5;
+    private static final double UNDERWATER_MODE_X = 0.2, UNDERWATER_MODE_Y = 0.45;
 
     /**
      * X & Y location in relation to the frame of the play again button.
      */
-    private static final double SPACE_MODE_X = 0.1, SPACE_MODE_Y = 0.7;
+    private static final double SPACE_MODE_X = 0.2, SPACE_MODE_Y = 0.65;
 
     /**
      * X & Y location in relation to the frame of the play again button.
      */
-    private static final double INVERT_MODE_X = 0.6, INVERT_MODE_Y = 0.7;
+    private static final double INVERT_MODE_X = 0.6, INVERT_MODE_Y = 0.65;
 
     /**
      * X & Y location in relation to the frame of the play again button.
      */
-    private static final double STORY_MODE_X = 0.6, STORY_MODE_Y = 0.3;
+    private static final double STORY_MODE_X = 0.6, STORY_MODE_Y = 0.25;
 
     /**
      * X & Y location in relation to the frame of the play again button.
      */
-    private static final double DARKNESS_MODE_X = 0.6, DARKNESS_MODE_Y = 0.5;
+    private static final double DARKNESS_MODE_X = 0.6, DARKNESS_MODE_Y = 0.45;
 
     /**
      * X & Y location in relation to the frame of the main menu button.
