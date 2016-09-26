@@ -22,26 +22,23 @@ import java.util.*;
  */
 public class World implements IScene {
 
-    // TODO: Add JavaDoc
-    private final static double SCOREMULTIPLIER = 0.15;
-    private final static int PAUSEOFFSET = 38;
+    /**
+     * The offset of the pause button.
+     */
+    private final static int PAUSE_OFFSET = 38;
     /**
      * The logger for the World class.
      */
     private final ILogger LOGGER;
     /**
-     * How much the doodle is affected by gravity.
+     * The Digitoffsetmultiplier needed for the scoretext.
      */
-    public static final double GRAVITY_ACCELERATION = .5;
+    private static final int DIGIT_MULTIPLIER = 3;
+    /**
+     * The current number system. Standard decimal system.
+     */
+    private static final int NUMBER_SYSTEM = 10;
 
-    /**
-     * Multiplier to achieve a realistic score increase.
-     */
-    private final double scoremultiplier = 0.15;
-    /**
-     * Offset of the pausebutton.
-     */
-    private final int pauseoffset = 38;
     /**
      * Used to access all services.
      */
@@ -50,10 +47,6 @@ public class World implements IScene {
      * The amount of blocks kept in a buffer.
      */
     private final int blockBuffer = 4;
-    /**
-     * The vertical starting speed.
-     */
-    private final double startspeed = -9;
     /**
      * Set of all object (excluding Doodle) in the world.
      */
@@ -67,23 +60,9 @@ public class World implements IScene {
      */
     private final IDoodle doodle;
     /**
-     * The scorebar for the world.
-     */
-    private final Scorebar scorebar;
-    /**
      * The highest (and thus latest) created block.
      */
     private IBlock topBlock;
-    /**
-     * The Digitoffsetmultiplier needed for the scoretext.
-     */
-    private static final int DIGITMP = 3;
-
-    /**
-     * The current number system.
-     * Standard decimal system.
-     */
-    private static final int NUMBERSYSTEM = 10;
     /**
      * <p>Drawables consists of 3 sets, although this can be easily changed. The first set contains the
      * {@link IRenderable renderables} that will be drawn first (eg platforms), the second set contains the
@@ -95,8 +74,16 @@ public class World implements IScene {
      * prohibits creating an array by doing that).</p>
      */
     private List<Set<IRenderable>> drawables = new ArrayList<>();
+    /**
+     * List of game objects that should be updated every frame.
+     */
     private Set<IUpdatable> updatables = Collections.newSetFromMap(new WeakHashMap<>());
 
+    /**
+     * Package visible constructor so a World can only be created via the SceneFactory.
+     *
+     * @param sL The service locator.
+     */
     /* package */ World(final IServiceLocator sL) {
         assert sL != null;
         this.sL = sL;
@@ -122,8 +109,7 @@ public class World implements IScene {
 
         this.background = sL.getSpriteFactory().getBackground();
 
-        this.scorebar = new Scorebar();
-        this.drawables.get(2).add(this.scorebar);
+        this.drawables.get(2).add(new Scorebar());
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
@@ -136,29 +122,22 @@ public class World implements IScene {
         LOGGER.log("Level started");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void start() {
         this.sL.getRenderer().getCamera().setYPos(sL.getConstants().getGameHeight() / 2d);
         LOGGER.log("World has been started");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void stop() {
         LOGGER.log("World has been stopped");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void render() {
-        //TODO maybe we should make a Background class?
         sL.getRenderer().drawSpriteHUD(this.background, 0, 0);
 
         for (Set<IRenderable> set : drawables) {
@@ -168,9 +147,7 @@ public class World implements IScene {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void update(final double delta) {
         updateObjects(delta);
@@ -242,11 +219,13 @@ public class World implements IScene {
      * The bar on top of the screen displaying the score and pause button
      */
     private final class Scorebar implements IRenderable {
+
         /**
-         * The transparant and black border at the bottom of the scoreBar that is not take into account when
-         * drawing scoreBar content.
+         * The transparant and black border at the bottom of the scorebar that is not take into account when
+         * drawing scorebar content.
          */
-        private static final int SCOREBARDEADZONE = 28;
+        private static final int SCORE_BAR_DEAD_ZONE = 28;
+
         /**
          * The scaling of the scorebar.
          */
@@ -280,17 +259,17 @@ public class World implements IScene {
             scaling = (double) sL.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth();
             scoreBarHeight = (int) (scaling * scoreBarSprite.getHeight());
 
-            ISprite[] digitSprites = new ISprite[NUMBERSYSTEM];
-            for (int i = 0; i < NUMBERSYSTEM; i++) {
+            ISprite[] digitSprites = new ISprite[NUMBER_SYSTEM];
+            for (int i = 0; i < NUMBER_SYSTEM; i++) {
                 digitSprites[i] = sL.getSpriteFactory().getDigitSprite(i);
             }
             int scoreX = (int) (digitSprites[2].getWidth() * scaling);
-            int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2);
+            int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2);
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
 
             ISprite pauseSprite = sL.getSpriteFactory().getPauseButtonSprite();
-            int pauseX = (int) (sL.getConstants().getGameWidth() - pauseSprite.getWidth() * scaling - PAUSEOFFSET);
-            int pauseY = (int) (((double) sL.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
+            int pauseX = (int) (sL.getConstants().getGameWidth() - pauseSprite.getWidth() * scaling - PAUSE_OFFSET);
+            int pauseY = (int) (((double) sL.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2 - pauseSprite.getHeight() / 2);
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
         }
 
@@ -306,6 +285,7 @@ public class World implements IScene {
          * This class focuses on the implementation of the pause button.
          */
         private final class PauseButton implements IButton {
+
             /**
              * The position and size of the pause button.
              */
@@ -331,19 +311,13 @@ public class World implements IScene {
                 sL.getInputManager().addObserver(this);
             }
 
-            /**
-             * Render the object.
-             */
+            /** {@inheritDoc} */
             @Override
             public void render() {
                 sL.getRenderer().drawSpriteHUD(sprite, x, y, width, height);
             }
 
-            /**
-             * Interact when the mouse has been clicked.
-             * @param mouseX the x position of the mouse.
-             * @param mouseY the y position of the mouse.
-             */
+            /** {@inheritDoc} */
             @Override
             public void mouseClicked(final int mouseX, final int mouseY) {
                 if (mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
@@ -351,12 +325,14 @@ public class World implements IScene {
                     Game.setPaused(true);
                 }
             }
+
         }
 
         /**
          * This private subclass creates the text to display the curent score.
          */
         private final class ScoreText implements IRenderable {
+
             /**
              * The x position of the Score.
              */
@@ -381,20 +357,18 @@ public class World implements IScene {
              * @param dS the digit sprites.
              */
             private ScoreText(final int xPos, final int yCenter, final double s, final ISprite[] dS) {
-                assert dS.length == NUMBERSYSTEM;
+                assert dS.length == NUMBER_SYSTEM;
                 this.x = xPos;
-                digitData = new byte[DIGITMP * NUMBERSYSTEM];
-                for (int i = 0; i < NUMBERSYSTEM; i++) {
-                    digitData[i * DIGITMP] = (byte) (yCenter - dS[i].getHeight() / 2);
-                    digitData[i * DIGITMP + 1] = (byte) (dS[i].getWidth() * s);
-                    digitData[i * DIGITMP + 2] = (byte) (dS[i].getHeight() * s);
+                digitData = new byte[DIGIT_MULTIPLIER * NUMBER_SYSTEM];
+                for (int i = 0; i < NUMBER_SYSTEM; i++) {
+                    digitData[i * DIGIT_MULTIPLIER] = (byte) (yCenter - dS[i].getHeight() / 2);
+                    digitData[i * DIGIT_MULTIPLIER + 1] = (byte) (dS[i].getWidth() * s);
+                    digitData[i * DIGIT_MULTIPLIER + 2] = (byte) (dS[i].getHeight() * s);
                 }
                 this.digitSprites = dS;
             }
 
-            /**
-             * Render the score.
-             */
+            /** {@inheritDoc} */
             @Override
             public void render() {
                 assert doodle.getScore() >= 0;
@@ -402,8 +376,8 @@ public class World implements IScene {
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();
                 while (roundedScore != 0) {
-                    digit = roundedScore % NUMBERSYSTEM;
-                    roundedScore = roundedScore / NUMBERSYSTEM;
+                    digit = roundedScore % NUMBER_SYSTEM;
+                    roundedScore = roundedScore / NUMBER_SYSTEM;
                     scoreDigits.push(digit);
                 }
 
@@ -412,11 +386,13 @@ public class World implements IScene {
                 while (!scoreDigits.isEmpty()) {
                     digit = scoreDigits.pop();
                     sprite = digitSprites[digit];
-                    sL.getRenderer().drawSpriteHUD(sprite, pos, digitData[digit * DIGITMP], digitData[digit * DIGITMP + 1], digitData[digit * DIGITMP + 2]);
-                    pos += digitData[digit * DIGITMP + 1] + 1;
+                    sL.getRenderer().drawSpriteHUD(sprite, pos, digitData[digit * DIGIT_MULTIPLIER], digitData[digit * DIGIT_MULTIPLIER + 1], digitData[digit * DIGIT_MULTIPLIER + 2]);
+                    pos += digitData[digit * DIGIT_MULTIPLIER + 1] + 1;
                 }
             }
+
         }
+
     }
 
 }

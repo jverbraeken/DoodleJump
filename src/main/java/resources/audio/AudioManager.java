@@ -428,8 +428,8 @@ public final class AudioManager implements IAudioManager {
         Sound(String filepath) {
             ILogger LOGGER = sL.getLoggerFactory().createLogger(AudioManager.class);
             try {
-                LOGGER.info("Sound loaded: \"" + filepath + "\"");
                 clip = sL.getFileSystem().readSound(filepath);
+                LOGGER.info("Sound loaded: \"" + filepath + "\"");
             } catch (FileNotFoundException e) {
                 LOGGER.error(e);
             }

@@ -81,5 +81,10 @@ public interface IGameObject extends IRenderable, IUpdatable {
      */
     boolean checkCollission(IGameObject gameObject);
 
+    /**
+     * Check if the GameObjects collides with a Doodle
+     * @param doodle The doodle to check
+     */
     void collidesWith(IDoodle doodle);
+
 }
