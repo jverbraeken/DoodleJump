@@ -29,7 +29,7 @@ public final class FileSystem implements IFileSystem {
      * Prevents instantiation from outside the class.
      */
     private FileSystem() {
-        // If the LOGFILE is not found, the game should either crash on the exception or not at all (so also
+        // If the LOGFILE is not found, the game should either crash on the exception or not crash at all (so also
         // not when something is logged. Therefore we provide an emtpy interface instead of null to prevent
         // a {@link NullPointerException}.
         Writer fw = new Writer() {
@@ -49,7 +49,7 @@ public final class FileSystem implements IFileSystem {
             }
         };
         try {
-            fw = new FileWriter(Game.LOGFILENAME, true);
+            fw = new FileWriter(Game.LOGFILE_NAME, true);
         } catch (IOException e) {
             e.printStackTrace();
         }

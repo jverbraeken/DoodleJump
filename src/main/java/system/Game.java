@@ -84,14 +84,14 @@ public final class Game {
      * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
      * does need the name of the log file.
      */
-    public static final String LOGFILENAME = "async.log";
+    public static final String LOGFILE_NAME = "async.log";
     /**
      * Indicates if the log file should be cleared each time the game starts.
      * This constant is not provided by an implementation of {@link constants.IConstants} because
      * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
      * does need to know whether is should clear the log file on startup or not.
      */
-    public final static boolean CLEARLOGONSTARTUP = true;
+    public final static boolean CLEAR_LOG_ON_STARTUP = true;
 
     /**
      * Prevents instantiation from outside the Game class.

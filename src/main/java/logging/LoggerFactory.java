@@ -4,11 +4,6 @@ import filesystem.IFileSystem;
 import system.Game;
 import system.IServiceLocator;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-
 /**
  * Standard implementation of the LoggingFactory. Used to create loggers.
  */
@@ -33,9 +28,9 @@ public class LoggerFactory implements ILoggerFactory {
      * Hidden constructor to prevent instantiation.
      */
     private LoggerFactory() {
-        if (Game.CLEARLOGONSTARTUP) {
+        if (Game.CLEAR_LOG_ON_STARTUP) {
             IFileSystem fileSystem = LoggerFactory.sL.getFileSystem();
-            fileSystem.clearFile(Game.LOGFILENAME);
+            fileSystem.clearFile(Game.LOGFILE_NAME);
         }
     }
 

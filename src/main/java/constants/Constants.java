@@ -1,6 +1,5 @@
 package constants;
 
-import objects.blocks.BlockFactory;
 import system.IServiceLocator;
 
 public class Constants implements IConstants {
@@ -24,16 +23,16 @@ public class Constants implements IConstants {
     /**
      * How much the doodle is affected by gravity.
      */
-    private static final double gravityAcceleration = .5;
+    private static final double GRAVITY_ACCELERATION = .5;
     /**
      * The height the dodle jumps will be multiplied with this value to obtain the score that the player will get
      * each frame.
      */
-    private final static double scoreMultiplier = 0.15;
+    private final static double SCORE_MULTIPLIER = 0.15;
     /**
      * True if the number of pending tasks of the logging thread executor should be logged each time something is logged.
      */
-    private final static boolean LOGPENDINGTASKS = true;
+    private final static boolean LOG_PENDING_TASKS = true;
 
     /**
      * Prevent public instantiation of Constants.
@@ -56,19 +55,19 @@ public class Constants implements IConstants {
     /** {@inheritDoc} */
     @Override
     public double getGravityAcceleration() {
-        return gravityAcceleration;
+        return GRAVITY_ACCELERATION;
     }
 
     /** {@inheritDoc} */
     @Override
     public double getScoreMultiplier() {
-        return scoreMultiplier;
+        return SCORE_MULTIPLIER;
     }
 
     /** {@inheritDoc} */
     @Override
     public boolean getLogPendingTasks() {
-        return LOGPENDINGTASKS;
+        return LOG_PENDING_TASKS;
     }
 
 }
