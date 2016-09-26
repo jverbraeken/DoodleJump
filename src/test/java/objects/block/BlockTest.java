@@ -10,6 +10,7 @@ import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.Platform;
 import org.junit.Before;
 import org.junit.Test;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
 import resources.sprites.ISpriteFactory;
 import resources.sprites.SpriteFactory;
@@ -18,6 +19,7 @@ import system.ServiceLocator;
 import rendering.IRenderer;
 import rendering.Renderer;
 
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.assertTrue;
@@ -39,7 +41,7 @@ public class BlockTest {
     IServiceLocator servicelocator;
     IGameObject gameobject = Mockito.mock(AGameObject.class);
     IJumpable jumpobject = Mockito.mock(IJumpable.class);
-    ISprite sprite;
+    ISprite sprite = mock(ISprite.class);
     IBlock block;
     IPlatform platform;
 
@@ -48,7 +50,9 @@ public class BlockTest {
     public void init() throws Exception {
         servicelocator = mock(IServiceLocator.class);
         ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
-        when(spriteFactory.getPlatformSprite1()).thenReturn(mock(ISprite.class));
+        when(spriteFactory.getPlatformSprite1()).thenReturn(sprite);
+        when(sprite.getWidth()).thenReturn(30);
+        when(sprite.getHeight()).thenReturn(50);
         when(servicelocator.getSpriteFactory()).thenReturn(spriteFactory);
         SpriteFactory.register(servicelocator);
        sprite = mock(ISprite.class);
@@ -68,7 +72,7 @@ public class BlockTest {
     }
 
     @Test
-    public void testAddElement2() throws Exception {
+    public void testGetTopJumpable() throws Exception {
 
         block.addElement(jumpobject);
         assertEquals(jumpobject, block.getTopJumpable());
@@ -85,6 +89,17 @@ public class BlockTest {
         block.addYPos(i);
         System.out.println(platform.getYPos());
         assertEquals(1000.0, platform.getYPos(), 0.001);
+
+    }
+
+    @Test
+    public void testCollisionCheck() throws Exception{
+        IPlatform platform = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 400);
+        IPlatform platform2 = Whitebox.invokeConstructor(Platform.class, servicelocator, 420, 430);
+        //IBlock block2 = PowerMockito.spy(Whitebox.invokeConstructor(Block.class, servicelocator));
+        block.addElement(platform);
+        Whitebox.invokeMethod(block, "platformCollideCheck", platform2);
+        assertFalse(block.getElements().contains(platform));
 
     }
 
