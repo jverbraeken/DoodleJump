@@ -16,12 +16,12 @@ import system.IServiceLocator;
  * This class describes the behaviour of the doodle.
  */
 public class Doodle extends AGameObject implements IDoodle {
+
     /**
      * The height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      */
     private final double legsHeight = 0.8;
-
     /**
      * Standard speed limit for the Doodle.
      */
@@ -94,7 +94,6 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Doodle constructor.
-     *
      * @param sL The service locator
      */
      /* package */ Doodle(final IServiceLocator sL) {
@@ -108,17 +107,13 @@ public class Doodle extends AGameObject implements IDoodle {
         inputManager.addObserver(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void render() {
         sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void update(double delta) {
         this.animate(delta);
@@ -129,33 +124,25 @@ public class Doodle extends AGameObject implements IDoodle {
         this.checkDeadPosition();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public double getVerticalSpeed() {
         return this.vSpeed;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setVerticalSpeed(double vSpeed) {
         this.vSpeed = vSpeed;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public double getScore() {
         return score;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void keyPress(final int keyCode) {
         if (this.leftPressed(keyCode)) {
@@ -167,9 +154,7 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void keyRelease(final int keyCode) {
         if (this.leftPressed(keyCode) && this.moving == Directions.Left) {
@@ -179,39 +164,31 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void collide(IBlock block) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void collide(IJumpable jumpable) {
         this.vSpeed = jumpable.getBoost();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void collidesWith(IDoodle doodle) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public double getLegsHeight() {
         return legsHeight;
     }
 
     /**
-     * TODO: ADD JAVADOC
-     * @param delta
+     * Move the doodle.
+     * @param delta Delta time since previous animate.
      */
     private void move(final double delta) {
         moveHorizontally(delta);
@@ -275,6 +252,10 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
+    /**
+     * Animate the Doodle.
+     * @param delta Delta time since previous animate.
+     */
     private void animate(double delta) {
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(this.facing);
@@ -288,22 +269,29 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * TODO: Add JavaDoc
+     * Apply gravity to the Doodle.
+     * @param delta Delta time since previous animate.
      */
     private void applyGravity(double delta) {
         this.vSpeed += sL.getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
 
+    /**
+     * Check the height position of the Doodle.
+     */
     private void checkHighPosition() {
         ICamera camera = sL.getRenderer().getCamera();
         final int height = sL.getConstants().getGameHeight();
         if (getYPos() < camera.getYPos() + height / 2) {
-            score += (camera.getYPos() + height / 2 - getYPos()) * super.sL.getConstants().getScoreMultiplier();
+            score += (camera.getYPos() + height / 2 - getYPos()) * sL.getConstants().getScoreMultiplier();
             camera.setYPos(getYPos() - height / 2);
         }
     }
 
+    /**
+     * Check the dead position of the Doodle.
+     */
     private void checkDeadPosition() {
         ICamera camera = sL.getRenderer().getCamera();
         if (getYPos() > camera.getYPos() + sL.getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
