@@ -36,4 +36,12 @@ public final class DoodleFactory implements IDoodleFactory {
         return new Doodle(sL);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IDoodle createStartScreenDoodle() {
+        return new StartScreenDoodle(sL);
+    }
+
 }
