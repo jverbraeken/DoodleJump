@@ -1,6 +1,5 @@
 package constants;
 
-import com.bluelinelabs.logansquare.annotation.JsonObject;
 import logging.ILogger;
 import system.IServiceLocator;
 
@@ -10,7 +9,7 @@ import java.util.Map;
 public class Constants implements IConstants {
 
     private static transient IServiceLocator sL;
-    private final ILogger logger;
+    private final ILogger LOGGER;
     /**
      * The width of the frame of the game
      */
@@ -33,12 +32,12 @@ public class Constants implements IConstants {
      * Prevent public instantiation of Constants.
      */
     private Constants() {
-        logger = sL.getLoggerFactory().createLogger(this.getClass());
+        LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
         try {
             Map<String, String> json = (Map<String, String>) sL.getFileSystem().parseJsonMap("constants.json", String.class);
             interpretJson(json);
         } catch (FileNotFoundException e) {
-            logger.error(e);
+            LOGGER.error(e);
             e.printStackTrace();
         }
     }
@@ -88,7 +87,7 @@ public class Constants implements IConstants {
                     try {
                         this.width = Integer.valueOf(entry.getValue());
                     } catch (NumberFormatException e) {
-                        logger.error("The width value specified in the configuration file is not a valid integer value.");
+                        LOGGER.error("The width value specified in the configuration file is not a valid integer value.");
                         e.printStackTrace();
                     }
                     break;
@@ -96,7 +95,7 @@ public class Constants implements IConstants {
                     try {
                         this.height = Integer.valueOf(entry.getValue());
                     } catch (NumberFormatException e) {
-                        logger.error("The height value specified in the configuration file is not a valid integer value.");
+                        LOGGER.error("The height value specified in the configuration file is not a valid integer value.");
                         e.printStackTrace();
                     }
                     break;
@@ -104,7 +103,7 @@ public class Constants implements IConstants {
                     try {
                         this.gravityAcceleration = Double.valueOf(entry.getValue());
                     } catch (NumberFormatException e) {
-                        logger.error("The gravityAcceleration value specified in the configuration file is not a valid integer value.");
+                        LOGGER.error("The gravityAcceleration value specified in the configuration file is not a valid integer value.");
                         e.printStackTrace();
                     }
                     break;
@@ -112,69 +111,13 @@ public class Constants implements IConstants {
                     try {
                         this.scoreMultiplier = Double.valueOf(entry.getValue());
                     } catch (NumberFormatException e) {
-                        logger.error("The scoreMultiplier value specified in the configuration file is not a valid integer value.");
+                        LOGGER.error("The scoreMultiplier value specified in the configuration file is not a valid integer value.");
                         e.printStackTrace();
                     }
                     break;
                 default:
-                    logger.warning("The json entry \"" + entry.getKey() + "\" in the configuration file could not be identified");
+                    LOGGER.warning("The json entry \"" + entry.getKey() + "\" in the configuration file could not be identified");
             }
         }
     }
-
-    /*@JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
-    private class ConstantsJson {
-
-        private int width;
-        private int height;
-        private int gravityAcceleration;
-        private int scoreMultiplier;
-
-
-        private ConstantsJson() {
-
-        }
-
-        public int getWidth() {
-            return width;
-        }
-
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        public int getHeight() {
-            return height;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
-
-        public int getGravityAcceleration() {
-            return gravityAcceleration;
-        }
-
-        public void setGravityAcceleration(int gravityAcceleration) {
-            this.gravityAcceleration = gravityAcceleration;
-        }
-
-        public int getScoreMultiplier() {
-            return scoreMultiplier;
-        }
-
-        public void setScoreMultiplier(int scoreMultiplier) {
-            this.scoreMultiplier = scoreMultiplier;
-        }
-
-        @Override
-        public String toString() {
-            return "ConstantsJson{" +
-                    "width=" + width +
-                    ", height=" + height +
-                    ", gravityAcceleration=" + gravityAcceleration +
-                    ", scoreMultiplier=" + scoreMultiplier +
-                    '}';
-        }
-    }*/
 }
