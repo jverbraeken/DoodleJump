@@ -1,38 +1,56 @@
 package scenes;
 
+import buttons.IButton;
+import logging.ILogger;
+import objects.AGameObject;
 import objects.IGameObject;
+import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
-import objects.blocks.platform.IPlatform;
-import objects.buttons.IButton;
-import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import rendering.IDrawable;
 import resources.sprites.ISprite;
 import system.Game;
+import system.IRenderable;
 import system.IServiceLocator;
+import system.IUpdatable;
 
 import java.util.*;
 
+/**
+ * This class describes the scene in which the actual standard game is played.
+ */
 public class World implements IScene {
 
-    // TODO: Add JavaDoc
-    private final static double SCOREMULTIPLIER = 0.15;
-    private final static int PAUSEOFFSET = 38;
-    private final Logger logger = LoggerFactory.getLogger(World.class);
-    private final IServiceLocator serviceLocator;
+    /**
+     * The offset of the pause button.
+     */
+    private final static int PAUSE_OFFSET = 38;
+    /**
+     * The logger for the World class.
+     */
+    private final ILogger LOGGER;
+    /**
+     * The Digitoffsetmultiplier needed for the scoretext.
+     */
+    private static final int DIGIT_MULTIPLIER = 3;
+    /**
+     * The current number system. Standard decimal system.
+     */
+    private static final int NUMBER_SYSTEM = 10;
 
     /**
-     * The fastest the doodle can go vertically.
+     * Used to access all services.
      */
-    public final static double vSpeedLimit = 20;
+    private final IServiceLocator sL;
+    /**
+     * The amount of blocks kept in a buffer.
+     */
+    private final int blockBuffer = 4;
     /**
      * Set of all object (excluding Doodle) in the world.
      */
-    private final Set<IGameObject> elements = new HashSet<>();
+    private final Set<IBlock> blocks = new HashSet<>();
     /**
      * The background of the world.
      */
@@ -42,268 +60,286 @@ public class World implements IScene {
      */
     private final IDoodle doodle;
     /**
-     * The scorebar for the world.
+     * The highest (and thus latest) created block.
      */
-    private final Scorebar scorebar;
+    private IBlock topBlock;
     /**
-     * The vertical speed, negative if going up and positive if going down.
+     * <p>Drawables consists of 3 sets, although this can be easily changed. The first set contains the
+     * {@link IRenderable renderables} that will be drawn first (eg platforms), the second set contains the
+     * {@link IRenderable renderables} that will be drawn secondly (eg doodles) and the third set contains the
+     * {@link IRenderable renderables} that will be drawn at last (eg HUD elements).</p>
+     *
+     * <p>The reason a list is used instead of an array is because we need to use a weak set. The only
+     * way to make it (in Java) is by using Collections.newSetFromMap that creates the set for us (and
+     * prohibits creating an array by doing that).</p>
      */
-    private double vSpeed = -20;
+    private List<Set<IRenderable>> drawables = new ArrayList<>();
     /**
-     * How much the doodle is affected by gravity.
+     * List of game objects that should be updated every frame.
      */
-    public static final double gravityAcceleration = .5;
-    /**
-     * The score for the world.
-     */
-    private double score;
+    private Set<IUpdatable> updatables = Collections.newSetFromMap(new WeakHashMap<>());
 
-    /* package */ World(IServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
+    /**
+     * Package visible constructor so a World can only be created via the SceneFactory.
+     *
+     * @param sL The service locator.
+     */
+    /* package */ World(final IServiceLocator sL) {
+        assert sL != null;
+        this.sL = sL;
+        LOGGER = sL.getLoggerFactory().createLogger(World.class);
         Game.setAlive(true);
 
-        IBlockFactory blockFactory = serviceLocator.getBlockFactory();
-        IBlock lastCreatedBlock = blockFactory.createStartBlock();
-        elements.add(lastCreatedBlock);
-
-        for (int i = 1; i < 3; i++) {
-            lastCreatedBlock = blockFactory.createBlock(getTopObject());
-            elements.add(lastCreatedBlock);
+        for (int i = 0; i < 3; i++) {
+            drawables.add(Collections.newSetFromMap(new WeakHashMap<>()));
         }
 
-        background = serviceLocator.getSpriteFactory().getBackground();
+        IBlockFactory blockFactory = sL.getBlockFactory();
+        this.topBlock = blockFactory.createStartBlock();
+        this.blocks.add(this.topBlock);
+        this.drawables.get(0).add(this.topBlock);
+        this.updatables.add(this.topBlock);
 
-        scorebar = new Scorebar();
+        for (int i = 1; i < blockBuffer; i++) {
+            this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable());
+            this.blocks.add(this.topBlock);
+            this.drawables.get(0).add(this.topBlock);
+            this.updatables.add(this.topBlock);
+        }
 
-        IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
+        this.background = sL.getSpriteFactory().getBackground();
+
+        this.drawables.get(2).add(new Scorebar());
+
+        IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
-        this.vSpeed = -9;
+        this.doodle.setVerticalSpeed(-9);
+        this.drawables.get(1).add(this.doodle);
+        this.updatables.add(this.doodle);
 
-        serviceLocator.getAudioManager().playStart();
+        this.sL.getAudioManager().playStart();
+
+        LOGGER.log("Level started");
     }
 
     /** {@inheritDoc} */
     @Override
-    public void start() { }
+    public final void start() {
+        this.sL.getRenderer().getCamera().setYPos(sL.getConstants().getGameHeight() / 2d);
+        LOGGER.log("World has been started");
+    }
 
     /** {@inheritDoc} */
     @Override
-    public void stop() { }
+    public final void stop() {
+        LOGGER.log("World has been stopped");
+    }
 
     /** {@inheritDoc} */
     @Override
-    public void paint() {
-        serviceLocator.getRenderer().drawSprite(this.background, 0, 0);
+    public void render() {
+        sL.getRenderer().drawSpriteHUD(this.background, 0, 0);
 
-        for (IGameObject e : elements) {
-            e.render();
+        for (Set<IRenderable> set : drawables) {
+            for (IRenderable e : set) {
+                e.render();
+            }
         }
-
-        this.doodle.render();
-
-        scorebar.render();
     }
 
     /** {@inheritDoc} */
     @Override
-    public void update(double delta) {
-        updateSpeed();
-        updateObjects();
-        applySpeed();
+    public void update(final double delta) {
+        updateObjects(delta);
+        checkCollisions();
         cleanUp();
-
-        // TODO: check if doodle is alive
-
         newBlocks();
-        Game.setAlive(doodle.getYPos() < Game.HEIGHT);
     }
 
-    private void updateSpeed(){
-        for (IGameObject e : elements) {
-            //TODO: elements should not be IGameObject but IBlock
-            IBlock block = (IBlock) e;
-            Set<IGameObject> inside = block.getContent();
-            for (IGameObject item : inside) {
-                //TODO: TEMP FIX to make sure the doodle doesnt hit with its "head"
-                if (vSpeed > 0 && this.doodle.collide(item) && doodle.getYPos() + doodle.getHitBox()[3] < item.getYPos() + item.getHeight()){
+    /**
+     * Update the vertical speed.
+     */
+    private void updateObjects(final double delta) {
+        for (IUpdatable e : updatables) {
+            e.update(delta);
+        }
+    }
 
-                    vSpeed = item.getBoost();
+    /**
+     * Apply the current speed to all objects.
+     */
+    private void checkCollisions() {
+        if (this.doodle.getVerticalSpeed() > 0) {
+            for (IBlock block : blocks) {
+                Set<IGameObject> elements = block.getElements();
+                for (IGameObject element : elements) {
+                    if (this.doodle.checkCollission(element)) {
+                        if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()) {
+                            element.collidesWith(this.doodle);
+                        }
+                    }
                 }
             }
         }
-
-        this.applyGravity();
-
-        this.doodle.setVerticalSpeed(vSpeed);
     }
 
     /**
-     * TODO: Add JavaDoc
-     */
-    private void applySpeed() {
-        if (this.vSpeed < 0 && doodle.getYPos() < .5d * Game.HEIGHT - doodle.getHeight()) {
-            for (IGameObject e : elements) {
-                e.addYPos(-this.vSpeed);
-                score -= this.vSpeed * SCOREMULTIPLIER;
-            }
-        } else {
-            doodle.addYPos(this.vSpeed);
-        }
-    }
-
-    /**
-     * Applies gravity vAcceleration to the doodle.
-     */
-    private void applyGravity() {
-        this.vSpeed += this.gravityAcceleration;
-    }
-
-    /**
-     * TODO: Add JavaDoc
-     */
-    private void updateObjects() {
-        for (IGameObject e : elements) {
-            e.update();
-        }
-
-        doodle.update();
-    }
-
-    /**
-     * Checks for all the Blocks if they are under over the height
-     * of the screen, if that's the case, delete that Block.
+     * Checks for all the Blocks if they are under over the height of the screen.
+     * If that's the case, delete that Block.
      */
     private void cleanUp() {
-        HashSet<IGameObject> toRemove = new HashSet<>();
-        for (IGameObject e : elements) {
-            if (e.getClass().equals(Doodle.class)) {
-                if (e.getYPos() > Game.HEIGHT) {
-                    toRemove.add(e);
-                }
-            } else if (e instanceof IBlock) {
-                ((IBlock) e).cleanUpPlatforms();
-                if (e.getYPos() + Game.HEIGHT * 0.01  > Game.HEIGHT) {
-                    toRemove.add(e);
-                }
+        HashSet<IBlock> toRemove = new HashSet<>();
+        for (IBlock e : blocks) {
+            if (e.getTopJumpable().getYPos() > sL.getRenderer().getCamera().getYPos() + sL.getConstants().getGameHeight()) {
+                toRemove.add(e);
             }
         }
 
-        for (IGameObject e : toRemove) {
-            elements.remove(e);
+        for (IBlock e : toRemove) {
+            blocks.remove(e);
         }
     }
 
     /**
-     * TODO: Add JavaDoc
+     * Generate new blocks if there are under 3 present.
      */
     private void newBlocks() {
-        if (elements.size() < 3) {
-            double minY = Double.MAX_VALUE;
-            for (IGameObject e : elements) {
-                if (e.getYPos() < minY) {
-                    minY = e.getYPos();
-                }
-            }
-            IGameObject topObject = getTopObject();
-            //TODO: implements New Block
-            elements.add(serviceLocator.getBlockFactory().createBlock(topObject));
+        if (blocks.size() < blockBuffer) {
+            IJumpable topPlatform = topBlock.getTopJumpable();
+            topBlock = sL.getBlockFactory().createBlock(topPlatform);
+            blocks.add(topBlock);
+            drawables.get(0).add(topBlock);
+            updatables.add(topBlock);
         }
     }
 
     /**
-     * TODO: Add JavaDoc
-     */
-    //TODO This can be more efficient by saving this values
-    private IGameObject getTopObject() {
-        IBlock topBlock = (IBlock) elements.iterator().next();
-        for (IGameObject e : elements) {
-            if (e.getYPos() < topBlock.getYPos()) {
-                topBlock = (IBlock) e;
-            }
-        }
-        Set<IGameObject>  content = topBlock.getContent();
-        Iterator iterator = content.iterator();
-        IGameObject topObject = (IGameObject) iterator.next();
-        while (iterator.hasNext()) {
-            IGameObject object = (IGameObject) iterator.next();
-        }
-
-        return topObject;
-    }
-
-    /**
-     * IMMUTABLE
+     * IMMUTABLE.
      * <p>
      * The bar on top of the screen displaying the score and pause button
      */
-    private final class Scorebar {
-        /**
-         * The transparant and black border at the bottom of the scoreBar that is not take into account when
-         * drawing scoreBar content.
-         */
-        private static final int SCOREBARDEADZONE = 28;
-        private final double scaling;
-        private final ISprite scoreBarSprite;
-        private final int scoreBarHeight;
-        private final PauseButton pauseButton;
-        private final ScoreText scoreText;
-        private final Logger logger = LoggerFactory.getLogger(Scorebar.class);
+    private final class Scorebar implements IRenderable {
 
+        /**
+         * The transparant and black border at the bottom of the scorebar that is not take into account when
+         * drawing scorebar content.
+         */
+        private static final int SCORE_BAR_DEAD_ZONE = 28;
+
+        /**
+         * The scaling of the scorebar.
+         */
+        private final double scaling;
+        /**
+         * The sprite of the score bar.
+         */
+        private final ISprite scoreBarSprite;
+        /**
+         * The height of the score bar.
+         */
+        private final int scoreBarHeight;
+        /**
+         * The pause button.
+         */
+        private final PauseButton pauseButton;
+        /**
+         * The text display of the current score.
+         */
+        private final ScoreText scoreText;
+        /**
+         * The logger is used to keep track of all the actions performed in the game.
+         */
+        private final ILogger logger = sL.getLoggerFactory().createLogger(Scorebar.class);
+
+        /**
+         * Create a new scorebar.
+         */
         private Scorebar() {
-            scoreBarSprite = serviceLocator.getSpriteFactory().getScorebarSprite();
-            scaling = (double) Game.WIDTH / (double) scoreBarSprite.getWidth();
+            scoreBarSprite = sL.getSpriteFactory().getScorebarSprite();
+            scaling = (double) sL.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth();
             scoreBarHeight = (int) (scaling * scoreBarSprite.getHeight());
 
-            ISprite[] digitSprites = new ISprite[10];
-            for (int i = 0; i < 10; i++) {
-                digitSprites[i] = serviceLocator.getSpriteFactory().getDigitSprite(i);
+            ISprite[] digitSprites = new ISprite[NUMBER_SYSTEM];
+            for (int i = 0; i < NUMBER_SYSTEM; i++) {
+                digitSprites[i] = sL.getSpriteFactory().getDigitSprite(i);
             }
             int scoreX = (int) (digitSprites[2].getWidth() * scaling);
-            int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2);
+            int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2);
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
 
-            ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseButtonSprite();
-            int pauseX = (int) (Game.WIDTH - pauseSprite.getWidth() * scaling - PAUSEOFFSET);
-            int pauseY = (int) (((double) Game.WIDTH / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCOREBARDEADZONE) / 2 - pauseSprite.getHeight() / 2);
+            ISprite pauseSprite = sL.getSpriteFactory().getPauseButtonSprite();
+            int pauseX = (int) (sL.getConstants().getGameWidth() - pauseSprite.getWidth() * scaling - PAUSE_OFFSET);
+            int pauseY = (int) (((double) sL.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2 - pauseSprite.getHeight() / 2);
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
-
-            serviceLocator.getInputManager().addObserver(pauseButton);
         }
 
-        private void render() {
-            serviceLocator.getRenderer().drawSprite(scoreBarSprite, 0, 0, Game.WIDTH, scoreBarHeight);
+        /** {@inheritDoc} */
+        @Override
+        public void render() {
+            sL.getRenderer().drawSpriteHUD(scoreBarSprite, 0, 0, sL.getConstants().getGameWidth(), scoreBarHeight);
             scoreText.render();
             pauseButton.render();
         }
 
-        private class PauseButton implements IButton {
+        /**
+         * This class focuses on the implementation of the pause button.
+         */
+        private final class PauseButton implements IButton {
+
+            /**
+             * The position and size of the pause button.
+             */
             private final int x, y, width, height;
+            /**
+             * The sprite of the pause button.
+             */
             private final ISprite sprite;
 
-            private PauseButton(int x, int y, double scaling, ISprite sprite) {
-                this.x = x;
-                this.y = y;
-                this.width = (int) (sprite.getWidth() * scaling);
-                this.height = (int) (sprite.getHeight() * scaling);
-                this.sprite = sprite;
+            /**
+             * Construct the pause button.
+             * @param xx the x position of the pause button.
+             * @param yy the y position of the pause button.
+             * @param sc the scale of the button.
+             * @param sp the sprite of the button.
+             */
+            private PauseButton(final int xx, final int yy, final double sc, final ISprite sp) {
+                this.x = xx;
+                this.y = yy;
+                this.width = (int) (sp.getWidth() * sc);
+                this.height = (int) (sp.getHeight() * sc);
+                this.sprite = sp;
+                sL.getInputManager().addObserver(this);
             }
 
+            /** {@inheritDoc} */
             @Override
             public void render() {
-                serviceLocator.getRenderer().drawSprite(sprite, x, y, width, height);
+                sL.getRenderer().drawSpriteHUD(sprite, x, y, width, height);
             }
 
+            /** {@inheritDoc} */
             @Override
-            public void mouseClicked(int mouseX, int mouseY) {
+            public void mouseClicked(final int mouseX, final int mouseY) {
                 if (mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
-                    logger.info("Pause button was clicked!");
+                    logger.info("Button clicked: \"pause\"");
                     Game.setPaused(true);
                 }
             }
+
         }
 
-        private class ScoreText implements IDrawable {
+        /**
+         * This private subclass creates the text to display the curent score.
+         */
+        private final class ScoreText implements IRenderable {
+
+            /**
+             * The x position of the Score.
+             */
             private final int x;
+            /**
+             * The sprites of the score digits.
+             */
             private final ISprite[] digitSprites;
             /**
              * We use an array so that we get very good cache prediction and a 4 times smaller size than width
@@ -313,26 +349,35 @@ public class World implements IScene {
              */
             private final byte[] digitData;
 
-            private ScoreText(int x, int yCenter, double scaling, ISprite[] digitSprites) {
-                assert digitSprites.length == 10;
-                this.x = x;
-                digitData = new byte[30];
-                for (int i = 0; i < 10; i++) {
-                    digitData[i * 3] = (byte) (yCenter - digitSprites[i].getHeight() / 2);
-                    digitData[i * 3 + 1] = (byte) (digitSprites[i].getWidth() * scaling);
-                    digitData[i * 3 + 2] = (byte) (digitSprites[i].getHeight() * scaling);
+            /**
+             * Create the score texts.
+             * @param xPos x position.
+             * @param yCenter center y of the score text.
+             * @param s the scale.
+             * @param dS the digit sprites.
+             */
+            private ScoreText(final int xPos, final int yCenter, final double s, final ISprite[] dS) {
+                assert dS.length == NUMBER_SYSTEM;
+                this.x = xPos;
+                digitData = new byte[DIGIT_MULTIPLIER * NUMBER_SYSTEM];
+                for (int i = 0; i < NUMBER_SYSTEM; i++) {
+                    digitData[i * DIGIT_MULTIPLIER] = (byte) (yCenter - dS[i].getHeight() / 2);
+                    digitData[i * DIGIT_MULTIPLIER + 1] = (byte) (dS[i].getWidth() * s);
+                    digitData[i * DIGIT_MULTIPLIER + 2] = (byte) (dS[i].getHeight() * s);
                 }
-                this.digitSprites = digitSprites;
+                this.digitSprites = dS;
             }
 
+            /** {@inheritDoc} */
             @Override
             public void render() {
-                int roundedScore = (int) score;
+                assert doodle.getScore() >= 0;
+                int roundedScore = (int) doodle.getScore();
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();
                 while (roundedScore != 0) {
-                    digit = roundedScore % 10;
-                    roundedScore = roundedScore / 10;
+                    digit = roundedScore % NUMBER_SYSTEM;
+                    roundedScore = roundedScore / NUMBER_SYSTEM;
                     scoreDigits.push(digit);
                 }
 
@@ -341,11 +386,13 @@ public class World implements IScene {
                 while (!scoreDigits.isEmpty()) {
                     digit = scoreDigits.pop();
                     sprite = digitSprites[digit];
-                    serviceLocator.getRenderer().drawSprite(sprite, pos, digitData[digit * 3], digitData[digit * 3 + 1], digitData[digit * 3 + 2]);
-                    pos += digitData[digit * 3 + 1] + 1;
+                    sL.getRenderer().drawSpriteHUD(sprite, pos, digitData[digit * DIGIT_MULTIPLIER], digitData[digit * DIGIT_MULTIPLIER + 1], digitData[digit * DIGIT_MULTIPLIER + 2]);
+                    pos += digitData[digit * DIGIT_MULTIPLIER + 1] + 1;
                 }
             }
+
         }
+
     }
 
 }

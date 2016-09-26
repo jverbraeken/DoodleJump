@@ -1,29 +1,54 @@
 package system;
 
-import objects.ICollisions;
-import objects.buttons.IButtonFactory;
-import resources.IRes;
-import resources.audio.IAudioManager;
-import objects.enemies.IEnemyBuilder;
+import buttons.ButtonFactory;
+import buttons.IButtonFactory;
+import constants.Constants;
+import constants.IConstants;
+import filesystem.FileSystem;
 import filesystem.IFileSystem;
 import input.IInputManager;
+import input.InputManager;
+import logging.ILoggerFactory;
+import logging.LoggerFactory;
+import math.Calc;
 import math.ICalc;
+import objects.blocks.BlockFactory;
 import objects.blocks.IBlockFactory;
-import objects.doodles.IDoodleFactory;
 import objects.blocks.platform.IPlatformFactory;
+import objects.blocks.platform.PlatformFactory;
+import objects.doodles.DoodleFactory;
+import objects.doodles.IDoodleFactory;
+import objects.enemies.EnemyBuilder;
+import objects.enemies.IEnemyBuilder;
 import objects.powerups.IPowerupFactory;
+import objects.powerups.PowerupFactory;
 import rendering.IRenderer;
-import scenes.ISceneFactory;
+import rendering.Renderer;
+import resources.IRes;
+import resources.Res;
+import resources.audio.AudioManager;
+import resources.audio.IAudioManager;
 import resources.sprites.ISpriteFactory;
+import resources.sprites.SpriteFactory;
+import scenes.ISceneFactory;
+import scenes.SceneFactory;
 
+/**
+ * Default implementation for the ServiceLocator. Used to gain access to all services.
+ */
+@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 /* package */ class ServiceLocator implements IServiceLocator {
+
+    // constants
+    private IConstants constants;
+
+    // audio
+    private IAudioManager audioManager;
 
     // input
     private IInputManager inputManager;
-    private IInputManager keyInputManager;
-
-    // resources.audio
-    private IAudioManager audioManager;
+    // enemies
+    private IEnemyBuilder enemyBuilder;
 
     // rendering
     private IRenderer renderer;
@@ -32,177 +57,182 @@ import resources.sprites.ISpriteFactory;
     // filesystem
     private IFileSystem fileSystem;
 
-    // resources
-    private ILevelBuilder levelFactory;
-    private ISpriteFactory spriteFactory;
-    private IRes res;
-
-    // objects.enemies
-    private IEnemyBuilder enemyBuilder;
-
     // util
-    private ICalc calc;
+    private ILoggerFactory loggerFactory;
 
     // objects
     private IPowerupFactory powerupFactory;
     private IDoodleFactory doodleFactory;
     private IBlockFactory blockFactory;
-    private ILevelBuilder levelBuilder;
     private IPlatformFactory platformFactory;
-    private ICollisions collisions;
+
+    // resources
+    private ISpriteFactory spriteFactory;
+    private IRes res;
 
     // scenes
     private ISceneFactory sceneFactory;
 
+    // utility
+    private ICalc calc;
+
     /**
-     * {@inheritDoc}
+     * Initialize the ServiceLocator class.
      */
-    @Override
-    public void provide(IAudioManager audioManager) {
-        assert audioManager != null;
-        this.audioManager = audioManager;
+    /* package */ ServiceLocator() {
+        this.init();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(IEnemyBuilder enemyBuilder) {
-        assert enemyBuilder != null;
-        this.enemyBuilder = enemyBuilder;
+    public void provide(final IAudioManager aM) {
+        assert aM != null;
+        this.audioManager = aM;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(IFileSystem fileSystem) {
-        assert fileSystem != null;
-        this.fileSystem = fileSystem;
+    public void provide(final IEnemyBuilder eB) {
+        assert eB != null;
+        this.enemyBuilder = eB;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(IInputManager inputManager) {
-        assert inputManager != null;
-        this.inputManager = inputManager;
+    public void provide(final IFileSystem fS) {
+        assert fS != null;
+        this.fileSystem = fS;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(ICalc calc) {
-        assert calc != null;
-        this.calc = calc;
+    public void provide(final IInputManager iM) {
+        assert iM != null;
+        this.inputManager = iM;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(IBlockFactory blockFactory) {
-        assert blockFactory != null;
-        this.blockFactory = blockFactory;
+    public void provide(final ICalc c) {
+        assert c != null;
+        this.calc = c;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(IDoodleFactory doodleFactory) {
-        assert doodleFactory != null;
-        this.doodleFactory = doodleFactory;
+    public void provide(final IBlockFactory bF) {
+        assert bF != null;
+        this.blockFactory = bF;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(IPowerupFactory powerupFactory) {
-        assert powerupFactory != null;
-        this.powerupFactory = powerupFactory;
+    public void provide(final IDoodleFactory dF) {
+        assert dF != null;
+        this.doodleFactory = dF;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(IRenderer renderer) {
-        assert renderer != null;
-        this.renderer = renderer;
+    public void provide(final IPowerupFactory pF) {
+        assert pF != null;
+        this.powerupFactory = pF;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(ISpriteFactory spriteFactory) {
-        assert spriteFactory != null;
-        this.spriteFactory = spriteFactory;
+    public void provide(final IRenderer r) {
+        assert r != null;
+        this.renderer = r;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(ILevelBuilder levelBuilder) {
-        assert levelBuilder != null;
-        this.levelBuilder = levelBuilder;
+    public void provide(final ISpriteFactory sF) {
+        assert sF != null;
+        this.spriteFactory = sF;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(ISceneFactory sceneFactory) {
-        assert sceneFactory != null;
-        this.sceneFactory = sceneFactory;
+    public void provide(ILoggerFactory loggerFactory) {
+        assert loggerFactory != null;
+        this.loggerFactory = loggerFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void provide(final ISceneFactory sF) {
+        assert sF != null;
+        this.sceneFactory = sF;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(IPlatformFactory platformFactory) {
-        assert platformFactory != null;
-        this.platformFactory = platformFactory;
+    public void provide(final IPlatformFactory pF) {
+        assert pF != null;
+        this.platformFactory = pF;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(IRes res) {
-        assert res != null;
-        this.res = res;
+    public void provide(final IRes r) {
+        assert r != null;
+        this.res = r;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(IButtonFactory buttonFactory) {
-        assert buttonFactory != null;
-        this.buttonFactory = buttonFactory;
+    public void provide(final IButtonFactory bF) {
+        assert bF != null;
+        this.buttonFactory = bF;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void provide(ICollisions collisions) {
-        assert collisions != null;
-        this.collisions = collisions;
+    public void provide(IConstants constants) {
+        assert constants != null;
+        this.constants = constants;
     }
+
 
     /**
      * {@inheritDoc}
      */
     @Override
     public IAudioManager getAudioManager() {
+        assert audioManager != null;
         return audioManager;
     }
 
@@ -211,6 +241,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IEnemyBuilder getEnemyBuilder() {
+        assert enemyBuilder != null;
         return enemyBuilder;
     }
 
@@ -219,6 +250,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IFileSystem getFileSystem() {
+        assert fileSystem != null;
         return fileSystem;
     }
 
@@ -227,6 +259,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IInputManager getInputManager() {
+        assert inputManager != null;
         return inputManager;
     }
 
@@ -235,6 +268,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public ICalc getCalc() {
+        assert calc != null;
         return calc;
     }
 
@@ -243,6 +277,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IBlockFactory getBlockFactory() {
+        assert blockFactory != null;
         return blockFactory;
     }
 
@@ -251,6 +286,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IDoodleFactory getDoodleFactory() {
+        assert doodleFactory != null;
         return doodleFactory;
     }
 
@@ -259,6 +295,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IPowerupFactory getPowerupFactory() {
+        assert powerupFactory != null;
         return powerupFactory;
     }
 
@@ -267,6 +304,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IRenderer getRenderer() {
+        assert renderer != null;
         return renderer;
     }
 
@@ -275,6 +313,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public ISpriteFactory getSpriteFactory() {
+        assert spriteFactory != null;
         return spriteFactory;
     }
 
@@ -282,15 +321,8 @@ import resources.sprites.ISpriteFactory;
      * {@inheritDoc}
      */
     @Override
-    public ILevelBuilder getLevelBuilder() {
-        return levelBuilder;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public ISceneFactory getSceneFactory() {
+        assert sceneFactory != null;
         return sceneFactory;
     }
 
@@ -299,6 +331,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IPlatformFactory getPlatformFactory() {
+        assert platformFactory != null;
         return platformFactory;
     }
 
@@ -307,6 +340,7 @@ import resources.sprites.ISpriteFactory;
      */
     @Override
     public IRes getRes() {
+        assert res != null;
         return res;
     }
 
@@ -314,12 +348,48 @@ import resources.sprites.ISpriteFactory;
      * {@inheritDoc}
      */
     @Override
-    public IButtonFactory getButtonFactory() { return buttonFactory; }
+    public IButtonFactory getButtonFactory() {
+        assert buttonFactory != null;
+        return buttonFactory;
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ICollisions getCollisions() { return collisions; }
+    public IConstants getConstants() {
+        assert constants != null;
+        return constants;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ILoggerFactory getLoggerFactory() {
+        return loggerFactory;
+    }
+
+    /**
+     * Initialize the ServiceLocator.
+     */
+    private void init() {
+        FileSystem.register(this);
+        Constants.register(this);
+        LoggerFactory.register(this);
+        AudioManager.register(this);
+        EnemyBuilder.register(this);
+        InputManager.register(this);
+        Calc.register(this);
+        BlockFactory.register(this);
+        DoodleFactory.register(this);
+        PowerupFactory.register(this);
+        SpriteFactory.register(this);
+        Renderer.register(this);
+        SceneFactory.register(this);
+        PlatformFactory.register(this);
+        Res.register(this);
+        ButtonFactory.register(this);
+    }
 
 }

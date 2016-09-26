@@ -1,20 +1,8 @@
 package scenes;
 
-import objects.blocks.IBlock;
-import objects.blocks.IBlockFactory;
-import objects.buttons.IButton;
-import objects.buttons.IButtonFactory;
-import objects.doodles.IDoodle;
-import objects.doodles.IDoodleFactory;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.powermock.reflect.Whitebox;
-import rendering.IDrawable;
-import resources.audio.IAudioManager;
-import system.IServiceLocator;
 
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -55,12 +43,12 @@ public class SceneFactoryTest {
 
         IAudioManager audioManager = mock(IAudioManager.class);
 
-        IServiceLocator serviceLocator = mock(IServiceLocator.class);
-        when(serviceLocator.getButtonFactory()).thenReturn(buttonFactory);
-        when(serviceLocator.getBlockFactory()).thenReturn(blockFactory);
-        when(serviceLocator.getDoodleFactory()).thenReturn(doodleFactory);
-        when(serviceLocator.getAudioManager()).thenReturn(audioManager);
-        SceneFactory.register(serviceLocator);
+        IServiceLocator sL = mock(IServiceLocator.class);
+        when(sL.getButtonFactory()).thenReturn(buttonFactory);
+        when(sL.getBlockFactory()).thenReturn(blockFactory);
+        when(sL.getDoodleFactory()).thenReturn(doodleFactory);
+        when(sL.getAudioManager()).thenReturn(audioManager);
+        SceneFactory.register(sL);
         sceneFactory = Whitebox.invokeConstructor(SceneFactory.class);*/
     }
 

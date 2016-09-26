@@ -1,20 +1,10 @@
 package resources.audio;
 
-import filesystem.FileSystem;
-import filesystem.IFileSystem;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-import resources.IRes;
-import resources.Res;
-
-import java.io.FileNotFoundException;
-import java.net.URL;
-import java.util.Map;
-
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(PowerMockRunner.class)
 public class AudioManagerTest {
@@ -22,7 +12,7 @@ public class AudioManagerTest {
 
     @BeforeClass
     public static void initialize() throws Exception {
-        audioManager = Whitebox.invokeConstructor(AudioManager.class);
+        //audioManager = Whitebox.invokeConstructor(AudioManager.class);
     }
 
     @Test

@@ -1,8 +1,20 @@
 package resources;
 
+/**
+ * Interface for the resources.
+ */
+@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface IRes {
 
-    enum sprites {
+    /**
+     * Returns the path to a sprite.
+     *
+     * @param sprite A reference to the sprite you want the path to
+     * @return The filepath to the sprite
+     */
+    String getSpritePath(Sprites sprite);
+
+    enum Sprites {
         // Buttons
         menu,
         pause,
@@ -98,12 +110,5 @@ public interface IRes {
         ufo,
         ufoShining
     }
-
-    /**
-     * Returns the path to a sprite
-     * @param sprite A reference to the sprite you want the path to
-     * @return The filepath to the sprite
-     */
-    String getSpritePath(sprites sprite);
 
 }

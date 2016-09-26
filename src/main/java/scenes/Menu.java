@@ -1,69 +1,113 @@
 package scenes;
 
+import buttons.IButton;
+import buttons.IButtonFactory;
 import input.IKeyInputObserver;
 import input.KeyCode;
 import input.Keys;
-import objects.buttons.IButton;
-import objects.buttons.IButtonFactory;
-import rendering.IDrawable;
+import logging.ILogger;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
+/**
+ * This class is a scene that is displays when the game is started.
+ */
 public class Menu implements IScene, IKeyInputObserver {
 
-    private final IServiceLocator serviceLocator;
+    /**
+     * The logger for the Menu class.
+     */
+    private final ILogger LOGGER;
+    /**
+     * The X and Y location for the play button.
+     */
+    private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
 
+    /**
+     * Used to access all services.
+     */
+    private final IServiceLocator sL;
+    /**
+     * The button that starts up a new world.
+     */
     private final IButton playButton;
+    /**
+     * The cover sprite of the main menu.
+     */
     private final ISprite cover;
-    private static final double playButtonXPercentage = 0.15;
-    private static final double playButtonYPercentage = 0.25;
 
-    /* package */ Menu(IServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    /* package */ Menu(final IServiceLocator sL) {
+        assert sL != null;
+        this.sL = sL;
 
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
         cover = spriteFactory.getStartCoverSprite();
 
-        IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * playButtonXPercentage), (int) (Game.HEIGHT * playButtonYPercentage));
+        IButtonFactory buttonFactory = sL.getButtonFactory();
+        playButton = buttonFactory.createPlayButton(
+                (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
+                (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y));
+
+        this.LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void start() {
-        serviceLocator.getInputManager().addObserver(playButton);
-        serviceLocator.getInputManager().addObserver(this);
+    public final void start() {
+        sL.getInputManager().addObserver(playButton);
+        sL.getInputManager().addObserver(this);
+        LOGGER.info("The menu scene is now displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void stop() {
-        serviceLocator.getInputManager().removeObserver(playButton);
-        serviceLocator.getInputManager().removeObserver(this);
+    public final void stop() {
+        sL.getInputManager().removeObserver(playButton);
+        sL.getInputManager().removeObserver(this);
+        LOGGER.info("The menu scene is no longer displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void paint() {
-        serviceLocator.getRenderer().drawSprite(this.cover, 0, 0);
+    public void render() {
+        sL.getRenderer().drawSpriteHUD(this.cover, 0, 0);
         playButton.render();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update(double delta) { }
+    public void update(final double delta) {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void keyPress(int keyCode) { }
+    public void keyPress(final int keyCode) {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void keyRelease(int keyCode) {
+    public final void keyRelease(final int keyCode) {
         if (KeyCode.getKeyCode(Keys.enter) == keyCode || KeyCode.getKeyCode(Keys.space) == keyCode) {
-            Game.setScene(serviceLocator.getSceneFactory().newWorld());
+            Game.setScene(sL.getSceneFactory().newWorld());
         }
     }
 
