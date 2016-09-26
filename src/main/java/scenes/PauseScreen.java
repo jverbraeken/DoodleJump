@@ -83,7 +83,7 @@ import system.IServiceLocator;
     @Override
     public void render() {
         if (this.active) {
-            serviceLocator.getRenderer().drawSprite(background, 0, 0);
+            serviceLocator.getRenderer().drawSpriteHUD(background, 0, 0);
             resumeButton.render();
         }
     }
