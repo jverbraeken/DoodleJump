@@ -29,6 +29,14 @@ public class Menu implements IScene, IKeyInputObserver {
      * The X and Y location for the play button.
      */
     private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
+    /**
+     * The X and Y location for the startscreen platform.
+     */
+    private static final double PLATFORM_X = 0.1d, PLATFORM_Y = 0.78d;
+    /**
+     * The X and Y location for the startscreen Doodle.
+     */
+    private static final double DOODLE_X = 0.1d;
 
     /**
      * Used to access all services.
@@ -71,11 +79,14 @@ public class Menu implements IScene, IKeyInputObserver {
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createStartScreenDoodle();
+        this.doodle.setXPos((int) (sL.getConstants().getGameWidth() * DOODLE_X));
         this.doodle.setVerticalSpeed(-1);
-        this.doodle.setXPos(45);
 
         IPlatformFactory platformFactory = sL.getPlatformFactory();
-        platform = platformFactory.createPlatform(40, 700);
+        platform = platformFactory.createPlatform(
+            (int) (sL.getConstants().getGameWidth() * PLATFORM_X),
+            (int) (sL.getConstants().getGameHeight() * PLATFORM_Y)
+        );
 
         this.LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
     }

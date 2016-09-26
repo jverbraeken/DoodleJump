@@ -1,15 +1,9 @@
 package objects.doodles;
 
 import input.IInputManager;
-import input.KeyCode;
-import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
-import rendering.ICamera;
-import resources.sprites.ISprite;
-import resources.sprites.ISpriteFactory;
-import system.Game;
 import system.IServiceLocator;
 
 /**
@@ -18,17 +12,14 @@ import system.IServiceLocator;
 /* package */ class StartScreenDoodle extends AGameObject implements IDoodle {
 
     /**
-     * Standard speed limit for the Doodle.
+     * Boost reduction specifically for the startscreen Doodle.
      */
-    private final double standardSpeedLimit = 6d;
+    private static final double BOOST_REDUCTION = 2d;
+
     /**
      * Current vertical speed for the Doodle.
      */
     private double vSpeed = 0d;
-    /**
-     * The sprite pack for the Doodle, containing all Sprites for one direction.
-     */
-    private ISprite[] spritePack;
     /**
      * Where the hitbox of the doodle starts in relation to the sprite width.
      */
@@ -45,9 +36,6 @@ import system.IServiceLocator;
      /* package */ StartScreenDoodle(final IServiceLocator sL) {
         super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(Directions.Right)[0]);
         this.setHitBox((int) (getSprite().getWidth() * widthHitboxLeft), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * widthHitboxRight), getSprite().getHeight());
-
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        this.spritePack = spriteFactory.getDoodleSprite(Directions.Right);
 
         IInputManager inputManager = sL.getInputManager();
         inputManager.addObserver(this);
@@ -101,7 +89,7 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public void collide(IJumpable jumpable) {
-        this.vSpeed = jumpable.getBoost();
+        this.vSpeed = jumpable.getBoost() + BOOST_REDUCTION;
     }
 
     /** {@inheritDoc} */
