@@ -4,6 +4,7 @@ import input.Keys;
 import objects.AGameObject;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
+import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 import java.util.EnumMap;
@@ -15,14 +16,9 @@ import java.util.Map;
 public class Platform extends AGameObject implements IPlatform {
 
     /**
-<<<<<<< Updated upstream
-     * The BOOST value for the Spring.
-     */
-    private static final double BOOST = -18;
-=======
      * The boost the Doodle gets from colliding with the platform.
      */
-    private static final double BOOST = -16;
+    private static final double BOOST = -18;
 
     /**
      * An enum to define what the platform does.
@@ -46,7 +42,6 @@ public class Platform extends AGameObject implements IPlatform {
      * The properties for this platform.
      */
     private Map<PlatformProperties, Integer> props = new EnumMap<>(PlatformProperties.class);
->>>>>>> Stashed changes
 
     /**
      * Platform constructor.
@@ -64,10 +59,6 @@ public class Platform extends AGameObject implements IPlatform {
      */
     @Override
     public double getBoost() {
-<<<<<<< Updated upstream
-=======
-        this.playSound();
->>>>>>> Stashed changes
         return Platform.BOOST;
     }
 
@@ -97,12 +88,8 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-<<<<<<< Updated upstream
     public void collidesWith(IDoodle doodle) {
         this.playSound();
-=======
-    public void collidesWith(final IDoodle doodle) {
->>>>>>> Stashed changes
         doodle.collide(this);
     }
 
