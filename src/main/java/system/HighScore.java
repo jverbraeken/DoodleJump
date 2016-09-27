@@ -3,14 +3,14 @@ package system;
 /**
  * Class representing a score.
  */
-/* package */ class Score implements Comparable<Score> {
+/* package */ class HighScore implements Comparable<HighScore> {
 
     /**
-     * The name of this Score.
+     * The name of this HighScore.
      */
     private String name;
     /**
-     * The score fo this Score.
+     * The score fo this HighScore.
      */
     private double score;
 
@@ -19,14 +19,14 @@ package system;
      * @param n The name for the score.
      * @param s The actual score.
      */
-    /* package */ Score(final String n, final Double s) {
+    /* package */ HighScore(final String n, final Double s) {
         this.name = n;
         this.score = s;
     }
 
     /** {@inheritDoc} */
     @Override
-    public int compareTo(Score that) {
+    public int compareTo(HighScore that) {
         if(this.getScore() > that.getScore()) {
             return -1;
         } else if(this.getScore() < that.getScore()) {

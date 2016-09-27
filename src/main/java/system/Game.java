@@ -83,7 +83,7 @@ public final class Game {
     /**
      * A list of high scores for the game.
      */
-    private static ArrayList<Score> highScores = new ArrayList<>();
+    private static ArrayList<HighScore> highScores = new ArrayList<>();
 
     /**
      * Prevents instantiation from outside the Game class.
@@ -252,7 +252,7 @@ public final class Game {
      * @param score The score the game instance ended with.
      */
     private static void updateHighScores(final double score) {
-        Score scoreEntry = new Score("", score);
+        HighScore scoreEntry = new HighScore("", score);
         Game.highScores.add(scoreEntry);
         Collections.sort(Game.highScores);
 
