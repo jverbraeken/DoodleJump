@@ -47,6 +47,10 @@ public final class Game {
      * Y position relative to the frame of the resume button.
      */
     private static final double RESUME_BUTTON_Y = 0.75;
+    /**
+     * The maximum size of the list of high scores.
+     */
+    private static final int MAX_HIGH_SCORES = 10;
 
     /**
      * The current frame.
@@ -205,13 +209,10 @@ public final class Game {
     /**
      * End the game.
      *
-     * @param score The score the game instance ended with
+     * @param score The score the game instance ended with.
      */
     public static void endGameInstance(final double score) {
-        Score scoreEntry = new Score("", score);
-        Game.highScores.add(scoreEntry);
-        Collections.sort(Game.highScores);
-
+        updateHighScores(score);
         setScene(sL.getSceneFactory().createKillScreen());
     }
 
@@ -242,6 +243,21 @@ public final class Game {
             } catch (InterruptedException e) {
                 LOGGER.error(e);
             }
+        }
+    }
+
+    /**
+     * Update the high scores for the game.
+     *
+     * @param score The score the game instance ended with.
+     */
+    private static void updateHighScores(final double score) {
+        Score scoreEntry = new Score("", score);
+        Game.highScores.add(scoreEntry);
+        Collections.sort(Game.highScores);
+
+        for (int i = Game.highScores.size(); i > MAX_HIGH_SCORES; i--) {
+            Game.highScores.remove(i - 1);
         }
     }
 
