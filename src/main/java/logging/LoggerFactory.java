@@ -1,9 +1,9 @@
 package logging;
 
 import filesystem.IFileSystem;
+import system.Game;
 import system.IServiceLocator;
 
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -18,30 +18,19 @@ public class LoggerFactory implements ILoggerFactory {
      */
     private static IServiceLocator sL;
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
-     */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        LoggerFactory.sL = sL;
-        sL.provide(new LoggerFactory());
-    }
-
-    /**
      * The file to which the log data should be written
      */
     private final String LOG_FILE;
-    private final Writer logWriter;
-
     /**
      * Hidden constructor to prevent instantiation.
      */
     private LoggerFactory() {
         LOG_FILE = LoggerFactory.sL.getConstants().getLogFile();
 
-        IFileSystem fileSystem = LoggerFactory.sL.getFileSystem();
-        fileSystem.clearFile(LOG_FILE);
+        if (Game.CLEAR_LOG_ON_STARTUP) {
+            IFileSystem fileSystem = LoggerFactory.sL.getFileSystem();
+            fileSystem.clearFile(LOG_FILE);
+        }
 
         // If the LOG_FILE is not found, the game should either crash on the exception or not at all (so also
         // not when something is logged. Therefore we provide an emtpy interface instead of null to prevent
@@ -67,7 +56,17 @@ public class LoggerFactory implements ILoggerFactory {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logWriter = new BufferedWriter(fw);
+    }
+
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        LoggerFactory.sL = sL;
+        sL.provide(new LoggerFactory());
     }
 
     /**
@@ -75,7 +74,7 @@ public class LoggerFactory implements ILoggerFactory {
      */
     @Override
     public ILogger createLogger(Class<?> cl) {
-        return new Logger(sL, cl, logWriter);
+        return new Logger(sL, cl);
     }
 
 }
