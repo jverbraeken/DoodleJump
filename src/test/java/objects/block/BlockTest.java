@@ -8,6 +8,7 @@ import objects.blocks.IBlock;
 import objects.blocks.Block;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.Platform;
+import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
@@ -43,14 +44,18 @@ public class BlockTest {
     IGameObject gameobject = Mockito.mock(AGameObject.class);
     IJumpable jumpobject = Mockito.mock(IJumpable.class);
     ISprite sprite = mock(ISprite.class);
+    ISprite sprite2 = mock(ISprite.class);
+    IDoodle doodle = mock(IDoodle.class);
     IBlock block;
-    IPlatform platform;
+    IPlatform platform = mock(Platform.class);
+
 
 
     @Before
     public void init() throws Exception {
         servicelocator = mock(IServiceLocator.class);
         ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
+        IRenderer renderer = mock(IRenderer.class);
         when(spriteFactory.getPlatformSprite1()).thenReturn(sprite);
         when(sprite.getWidth()).thenReturn(30);
         when(sprite.getHeight()).thenReturn(50);
@@ -59,9 +64,9 @@ public class BlockTest {
        sprite = mock(ISprite.class);
 
 
-        platform = mock(Platform.class);
-        block = Whitebox.invokeConstructor(Block.class, servicelocator);
 
+        block = Whitebox.invokeConstructor(Block.class, servicelocator);
+        IDoodle doodle = mock(IDoodle.class);
     }
 
     /**
@@ -70,9 +75,9 @@ public class BlockTest {
      */
     @Test
     public void testAddElement() {
-
-        block.addElement(platform);
-        assertTrue(block.getElements().contains(platform));
+        IGameObject gObject = mock(IGameObject.class);
+        block.addElement(gObject);
+        assertTrue(block.getElements().contains(gObject));
     }
 
     /**
@@ -147,7 +152,7 @@ public class BlockTest {
 
 
     /**
-     * Tests when a platform is below the height of the game, the objects are removed from the set of IGameObjects.
+     * Tests when a GameObject is below the height of the game, the objects are removed from the set of IGameObjects.
      * @throws Exception
      *                  throws an exception when the private constructor can not be called or when an exception is thrown
      *                  in the constructor.
@@ -167,4 +172,58 @@ public class BlockTest {
 
     }
 
+    /**
+     * Tests when a GameObject is not below the screen, that object is still present in the set of IGameObjects.
+     * @throws Exception
+     *                  throws an exception when the private constructor can not be called or when an exception is thrown
+     *                  in the constructor.
+     */
+    @Test
+    public void testCleanUpPlatforms2() throws Exception {
+        IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 800);
+        IPlatform platform2 = Whitebox.invokeConstructor(Platform.class, servicelocator, 500, 1500);
+        //IBlock block2 = PowerMockito.spy(Whitebox.invokeConstructor(Block.class, servicelocator));
+        block.addElement(platform1);
+        block.addElement(platform2);
+        assertTrue(block.getElements().contains(platform1));
+        assertTrue(block.getElements().contains(platform2));
+        Whitebox.invokeMethod(block, "cleanUpPlatforms");
+        assertTrue(block.getElements().contains(platform1));
+        assertFalse(block.getElements().contains(platform2));
+    }
+
+    /**
+     * Tests when the update method is called, all objects that are below the screen are removed from the set of
+     * IGameObject.
+     * @throws Exception
+     *                  throws an exception when the private constructor can not be called or when an exception is thrown
+     *                  in the constructor.
+     */
+    @Test
+    public void testUpdate() throws Exception{
+        double delta = 1.00;
+        IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 800);
+        IPlatform platform2 = Whitebox.invokeConstructor(Platform.class, servicelocator, 500, 1500);
+        block.addElement(platform1);
+        block.addElement(platform2);
+        assertTrue(block.getElements().contains(platform1));
+        assertTrue(block.getElements().contains(platform2));
+        block.update(delta);
+        assertTrue(block.getElements().contains(platform1));
+        assertFalse(block.getElements().contains(platform2));
+    }
+
+    /**
+     * Tests that for each element in the set of IGameObjects the render in their own class is called.
+     */
+    @Test
+    public void testRender() {
+
+        block.addElement(doodle);
+        block.addElement(platform);
+        block.render();
+        verify(doodle).render();
+        verify(platform).render();
+
+    }
 }
