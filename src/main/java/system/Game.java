@@ -34,7 +34,7 @@ public final class Game {
      */
     private static final int TARGET_FPS = 60;
     /**
-     * The optimal time per frame. ~16.
+     * The optimal time per frame.
      */
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
     /**

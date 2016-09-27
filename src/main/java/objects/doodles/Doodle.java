@@ -33,11 +33,11 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Current horizontal speed for the Doodle.
      */
-    private static double hSpeed = 0d;
+    private double hSpeed = 0d;
     /**
      * Current vertical speed for the Doodle.
      */
-    private static double vSpeed = 0d;
+    private double vSpeed = 0d;
     /**
      * Horizontal acceleration for the Doodle.
      */
@@ -165,7 +165,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void collide(IJumpable jumpable) {
+    public synchronized void collide(IJumpable jumpable) {
         this.vSpeed = jumpable.getBoost();
     }
 
@@ -197,18 +197,18 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void moveHorizontally(final double delta) {
         if (moving == Directions.Left) {
-            if (this.hSpeed > -this.hSpeedLimit) {
-                this.hSpeed -= this.hAcceleration;
+            if (this.hSpeed > -Doodle.hSpeedLimit) {
+                this.hSpeed -= Doodle.hAcceleration;
             }
         } else if (moving == Directions.Right) {
-            if (this.hSpeed < this.hSpeedLimit) {
-                this.hSpeed += this.hAcceleration;
+            if (this.hSpeed < Doodle.hSpeedLimit) {
+                this.hSpeed += Doodle.hAcceleration;
             }
         } else {
             if (this.hSpeed < 0) {
-                this.hSpeed += this.hAcceleration;
+                this.hSpeed += Doodle.hAcceleration;
             } else if (this.hSpeed > 0) {
-                this.hSpeed -= this.hAcceleration;
+                this.hSpeed -= Doodle.hAcceleration;
             }
         }
 
@@ -276,7 +276,7 @@ public class Doodle extends AGameObject implements IDoodle {
         final double yThreshold = camera.getYPos() + (double) height / 2d;
         if (getYPos() < yThreshold) {
             score += (yThreshold - getYPos()) * getServiceLocator().getConstants().getScoreMultiplier();
-            camera.setYPos(getYPos() - height / 2);
+            camera.setYPos(getYPos() - height / 2d);
         }
     }
 
