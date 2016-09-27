@@ -60,7 +60,6 @@ public final class Res implements IRes {
         sprites.put(Sprites.gameOver, spritePath + "gameover@2x.png");
         sprites.put(Sprites.killScreenBottom, spritePath + "kill-bottom@2x.png");
 
-
         // Numbers
         sprites.put(Sprites.pause, spritePath + "pause.png");
         sprites.put(Sprites.zero, spritePath + "0.png");
@@ -85,6 +84,11 @@ public final class Res implements IRes {
         sprites.put(Sprites.springUsed, spritePath + "powerup-spring-used@2x.png");
         sprites.put(Sprites.trampoline, spritePath + "powerup-trampoline@2x.png");
         sprites.put(Sprites.trampolineUsed, spritePath + "powerup-trampoline-used@2x.png");
+
+        // Score screen
+        sprites.put(Sprites.scoreScreenBottom, spritePath + "high-scores-bottom@2x.png");
+        sprites.put(Sprites.scoreScreenLeft, spritePath + "high-scores-left@2x.png");
+        sprites.put(Sprites.scoreScreenTop, spritePath + "high-scores-top@2x.png");
 
         // Top bar
         sprites.put(Sprites.scorebar, spritePath + "scorebar.png");

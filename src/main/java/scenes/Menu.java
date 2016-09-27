@@ -41,7 +41,7 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     private static final double PLATFORM_X = 0.1d, PLATFORM_Y = 0.78d;
     /**
-     * The X and Y location for the startscreen Doodle.
+     * The X location for the startscreen Doodle.
      */
     private static final double DOODLE_X = 0.1d;
 

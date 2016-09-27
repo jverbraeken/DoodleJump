@@ -100,6 +100,11 @@ public interface IRes {
         propeller,
         shield,
 
+        // Score screen
+        scoreScreenBottom,
+        scoreScreenLeft,
+        scoreScreenTop,
+
         // Top bar
         scorebar,
 

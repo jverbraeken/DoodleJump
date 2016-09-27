@@ -146,6 +146,13 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getShieldSprite();
 
+    // Score screen
+    ISprite getScoreScreenBottom();
+
+    ISprite getScoreScreenLeft();
+
+    ISprite getScoreScreenTop();
+
     // Text
     ISprite getWaitDontShootSprite();
 

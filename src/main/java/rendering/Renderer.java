@@ -137,7 +137,6 @@ public final class Renderer implements IRenderer {
         this.graphics = g;
     }
 
-
     /**
      * {@inheritDoc}
      */
