@@ -1,7 +1,6 @@
 package filesystem;
 
 import com.bluelinelabs.logansquare.LoganSquare;
-import com.bluelinelabs.logansquare.annotation.JsonObject;
 import logging.ILogger;
 import system.IServiceLocator;
 
@@ -25,17 +24,6 @@ public final class FileSystem implements IFileSystem {
      */
     private static transient IServiceLocator sL;
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
-     */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        FileSystem.sL = sL;
-        sL.provide(new FileSystem());
-    }
-
-    /**
      * A classloader in order to load in resources.
      */
     private ClassLoader classLoader = getClass().getClassLoader();
@@ -44,6 +32,17 @@ public final class FileSystem implements IFileSystem {
      * Prevents instantiation from outside the class.
      */
     private FileSystem() {
+    }
+
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        FileSystem.sL = sL;
+        sL.provide(new FileSystem());
     }
 
     /**
@@ -207,7 +206,9 @@ public final class FileSystem implements IFileSystem {
         return new File(url.getFile());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object parseJson(String filename, Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
@@ -225,7 +226,9 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object parseJsonList(String filename, Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
@@ -243,7 +246,9 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object parseJsonMap(String filename, Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();

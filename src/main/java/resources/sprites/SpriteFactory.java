@@ -107,6 +107,14 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getChooseModeButtonSprite() {
+        return getSprite(IRes.Sprites.chooseMode);
+    }
+
     // Covers
 
     /**
@@ -689,6 +697,55 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.ufoShining);
     }
 
+    // Choose Mode Icons
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRegularModeButton() {
+        return getSprite(IRes.Sprites.regularMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getStoryModeButton() {
+        return getSprite(IRes.Sprites.storyMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getDarknessModeButton() {
+        return getSprite(IRes.Sprites.darknessMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getInvertModeButton() {
+        return getSprite(IRes.Sprites.invertMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getUnderwaterModeButton() {
+        return getSprite(IRes.Sprites.underwaterMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getSpaceModeButton() {
+        return getSprite(IRes.Sprites.spaceMode);
+    }
 
     // Miscellaneous
 

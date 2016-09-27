@@ -20,7 +20,7 @@ public class LoggerFactory implements ILoggerFactory {
     /**
      * The file to which the log data should be written.
      */
-    private static final String LOG_FILE = "async.log";
+    private static String LOG_FILE;
     /**
      * Used to gain access to all services.
      */
@@ -42,6 +42,8 @@ public class LoggerFactory implements ILoggerFactory {
      * Hidden constructor to prevent instantiation.
      */
     private LoggerFactory() {
+        LOG_FILE = LoggerFactory.sL.getConstants().getLogFile();
+
         IFileSystem fileSystem = LoggerFactory.sL.getFileSystem();
         fileSystem.clearFile(LOG_FILE);
 
@@ -75,7 +77,7 @@ public class LoggerFactory implements ILoggerFactory {
 
         logIgnore = new HashSet<>();
         try {
-            List<String> list = (List<String>) sL.getFileSystem().parseJsonList("logIgnore.json", String.class);
+            List<String> list = (List<String>) sL.getFileSystem().parseJsonList(LOG_IGNORE_FILE, String.class);
             for (String className : list) {
                 try {
                     logIgnore.add(Class.forName(className));

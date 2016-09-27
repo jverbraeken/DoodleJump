@@ -126,13 +126,13 @@ public class World implements IScene {
     @Override
     public final void start() {
         this.sL.getRenderer().getCamera().setYPos(sL.getConstants().getGameHeight() / 2d);
-        LOGGER.log("World has been started");
+        LOGGER.log("The world is now displaying");
     }
 
     /** {@inheritDoc} */
     @Override
     public final void stop() {
-        LOGGER.log("World has been stopped");
+        LOGGER.log("The world is no longer displaying");
     }
 
     /** {@inheritDoc} */
