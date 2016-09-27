@@ -138,5 +138,15 @@ public final class Res implements IRes {
         sprites.put(Sprites.doodleRightAscend, spritePath + "space-right@2x.png");
         sprites.put(Sprites.doodleRightDescend, spritePath + "space-right-odskok@2x.png");
 
+        // Platforms
+        sprites.put(Sprites.platform1, spritePath + "space-platform@2x.png");
+
+        // Power-ups
+        sprites.put(Sprites.trampoline, spritePath + "space-powerup-trampoline@2x.png");
+        sprites.put(Sprites.trampolineUsed, spritePath + "space-powerup-trampoline-used@2x.png");
+
+        // Top bar
+        sprites.put(Sprites.scorebar, spritePath + "space-scorebar@2x.png");
+
     }
 }

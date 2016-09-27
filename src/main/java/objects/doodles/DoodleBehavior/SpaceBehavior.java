@@ -35,7 +35,7 @@ public class SpaceBehavior implements movementBehavior{
     /**
      * Horizontal acceleration for the Doodle.
      */
-    private final double HORIZONTAL_ACCELERATION = .5d;
+    private final double HORIZONTAL_ACCELERATION = .3d;
     /**
      * Relative gravity for the Doodle.
      */
@@ -58,6 +58,7 @@ public class SpaceBehavior implements movementBehavior{
      * The direction the Doodle is facing.
      */
     private Directions facing;
+    private boolean pressed;
 
     /**
      * The constructor of the regular behavior.
@@ -67,6 +68,7 @@ public class SpaceBehavior implements movementBehavior{
     public SpaceBehavior(final IDoodle d, final IServiceLocator sL){
         serviceLocator = sL;
         doodle = d;
+        pressed = false;
     }
 
     public void move(final double delta){
@@ -78,19 +80,13 @@ public class SpaceBehavior implements movementBehavior{
      * Move the Doodle along the X axis.
      */
     private void moveHorizontally(final double delta) {
-        if (moving == Directions.Left) {
+        if (pressed && moving == Directions.Left) {
             if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
                 this.hSpeed -= this.HORIZONTAL_ACCELERATION;
             }
-        } else if (moving == Directions.Right) {
+        } else if (pressed && moving == Directions.Right) {
             if (this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
                 this.hSpeed += this.HORIZONTAL_ACCELERATION;
-            }
-        } else {
-            if (this.hSpeed < 0) {
-                this.hSpeed += this.HORIZONTAL_ACCELERATION;
-            } else if (this.hSpeed > 0) {
-                this.hSpeed -= this.HORIZONTAL_ACCELERATION;
             }
         }
 
@@ -131,15 +127,22 @@ public class SpaceBehavior implements movementBehavior{
         if (this.leftPressed(keyCode)) {
             this.moving = Directions.Left;
             this.facing = Directions.Left;
+            this.pressed = true;
         } else if (this.rightPressed(keyCode)) {
             this.moving = Directions.Right;
             this.facing = Directions.Right;
+            this.pressed = true;
         }
     }
 
     /** {@inheritDoc} */
     @Override
     public final void keyRelease(final int keyCode) {
+        if (this.leftPressed(keyCode)) {
+            this.pressed = false;
+        } else if (this.rightPressed(keyCode)) {
+            this.pressed = false;
+        }
     }
 
     /**
