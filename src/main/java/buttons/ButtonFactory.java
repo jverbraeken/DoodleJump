@@ -53,8 +53,6 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * {@inheritDoc}
      */
-
-    //TODO: correct sprite to "play again" button
     @Override
     public IButton createPlayAgainButton(final int x, final int y) {
         assert sL != null;
@@ -67,7 +65,6 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * {@inheritDoc}
      */
-    //TODO: correct sprite to "main menu" button
     @Override
     public IButton createMainMenuButton(final int x, final int y) {
         assert sL != null;
@@ -75,6 +72,18 @@ public final class ButtonFactory implements IButtonFactory {
         ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
         Runnable mainMenu = () -> Game.setScene(sL.getSceneFactory().createMainMenu());
         return new Button(sL, x, y, buttonSprite, mainMenu, "mainMenu");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createScoreButton(final int x, final int y) {
+        assert sL != null;
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getScoreButtonSprite();
+        Runnable scoreScreen = () -> Game.setScene(sL.getSceneFactory().createScoreScreen());
+        return new Button(sL, x, y, buttonSprite, scoreScreen, "scores");
     }
 
 }

@@ -43,4 +43,13 @@ public interface IButtonFactory extends IFactory {
      */
     IButton createMainMenuButton(int x, int y);
 
+    /**
+     * Create a button to go to the high scores list.
+     *
+     * @param x the x position of the button.
+     * @param y the y position of the button.
+     * @return a score button.
+     */
+    IButton createScoreButton(int x, int y);
+
 }

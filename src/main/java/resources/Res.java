@@ -43,6 +43,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.play, spritePath + "play@2x.png");
         sprites.put(Sprites.playagain, spritePath + "playagain@2x.png");
         sprites.put(Sprites.resume, spritePath + "resume@2x.png");
+        sprites.put(Sprites.scorebutton, spritePath + "scores-on@2x.png");
 
         // Covers
         sprites.put(Sprites.background, spritePath + "bck@2x.png");

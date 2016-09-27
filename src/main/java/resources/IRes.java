@@ -21,6 +21,7 @@ public interface IRes {
         play,
         playagain,
         resume,
+        scorebutton,
 
         // Covers
         background,

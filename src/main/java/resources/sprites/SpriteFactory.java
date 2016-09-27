@@ -106,6 +106,14 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.resume);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getScoreButtonSprite() {
+        return getSprite(IRes.Sprites.scorebutton);
+    }
+
 
     // Covers
 

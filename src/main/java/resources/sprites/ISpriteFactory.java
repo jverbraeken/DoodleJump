@@ -20,6 +20,8 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getResumeButtonSprite();
 
+    ISprite getScoreButtonSprite();
+
     // Covers
     ISprite getBackground();
 

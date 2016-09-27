@@ -14,7 +14,10 @@ import objects.doodles.IDoodleFactory;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
+import system.IRenderable;
 import system.IServiceLocator;
+
+import java.util.ArrayList;
 
 /**
  * This class is a scene that is displays when the game is started.
@@ -30,6 +33,10 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
     /**
+     * The X and Y location for the play button.
+     */
+    private static final double SCORE_BUTTON_X = 0.28d, SCORE_BUTTON_Y = 0.36d;
+    /**
      * The X and Y location for the startscreen platform.
      */
     private static final double PLATFORM_X = 0.1d, PLATFORM_Y = 0.78d;
@@ -43,9 +50,9 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     private final IServiceLocator sL;
     /**
-     * The button that starts up a new world.
+     * The buttons for the main enu.
      */
-    private final IButton playButton;
+    private final IButton playButton, scoreButton;
     /**
      * The cover sprite of the main menu.
      */
@@ -76,6 +83,10 @@ public class Menu implements IScene, IKeyInputObserver {
             (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
             (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y)
         );
+        scoreButton = buttonFactory.createScoreButton(
+                (int) (sL.getConstants().getGameWidth() * SCORE_BUTTON_X),
+                (int) (sL.getConstants().getGameHeight() * SCORE_BUTTON_Y)
+        );
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createStartScreenDoodle();
@@ -97,6 +108,7 @@ public class Menu implements IScene, IKeyInputObserver {
     @Override
     public final void start() {
         sL.getInputManager().addObserver(playButton);
+        sL.getInputManager().addObserver(scoreButton);
         sL.getInputManager().addObserver(this);
         LOGGER.info("The menu scene is now displaying");
     }
@@ -107,6 +119,7 @@ public class Menu implements IScene, IKeyInputObserver {
     @Override
     public final void stop() {
         sL.getInputManager().removeObserver(playButton);
+        sL.getInputManager().removeObserver(scoreButton);
         sL.getInputManager().removeObserver(this);
         LOGGER.info("The menu scene is no longer displaying");
     }
@@ -118,6 +131,7 @@ public class Menu implements IScene, IKeyInputObserver {
     public void render() {
         sL.getRenderer().drawSpriteHUD(this.cover, 0, 0);
         playButton.render();
+        scoreButton.render();
         doodle.render();
         platform.render();
     }

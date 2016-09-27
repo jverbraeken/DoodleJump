@@ -66,6 +66,15 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
+    public IScene createScoreScreen() {
+        LOGGER.info("A new ScoreScreen has been created");
+        return new ScoreScreen(sL);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public World newWorld() {
         LOGGER.info("A new World has been created");
         return new World(sL);
