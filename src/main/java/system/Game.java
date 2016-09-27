@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * This is the main class that runs the game.
@@ -78,7 +79,7 @@ public final class Game {
     /**
      * A list of high scores for the game.
      */
-    private static ArrayList<Double> highScores = new ArrayList<>();
+    private static ArrayList<Score> highScores = new ArrayList<>();
 
     /**
      * Prevents instantiation from outside the Game class.
@@ -207,7 +208,10 @@ public final class Game {
      * @param score The score the game instance ended with
      */
     public static void endGameInstance(final double score) {
-        Game.highScores.add(score);
+        Score scoreEntry = new Score("", score);
+        Game.highScores.add(scoreEntry);
+        Collections.sort(Game.highScores);
+
         setScene(sL.getSceneFactory().createKillScreen());
     }
 
