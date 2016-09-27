@@ -1,5 +1,6 @@
 package resources.sprites;
 
+import objects.doodles.DoodleBehavior.movementBehavior;
 import objects.doodles.IDoodle;
 import system.IFactory;
 
@@ -30,7 +31,7 @@ public interface ISpriteFactory extends IFactory {
     ISprite getStartCoverSprite();
 
     // Doodle
-    ISprite[] getDoodleSprite(IDoodle.Directions direction);
+    ISprite[] getDoodleSprite(movementBehavior.Directions direction);
 
     // Kill screen
     ISprite getGameOverSprite();

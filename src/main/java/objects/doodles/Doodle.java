@@ -6,6 +6,9 @@ import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
+import objects.doodles.DoodleBehavior.RegularBehavior;
+import objects.doodles.DoodleBehavior.SpaceBehavior;
+import objects.doodles.DoodleBehavior.movementBehavior;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -17,23 +20,12 @@ import system.IServiceLocator;
  */
 public class Doodle extends AGameObject implements IDoodle {
 
-    /**
-     * Standard speed limit for the Doodle.
-     */
-    private final double STANDARD_SPEED_LIMIT = 6d;
-    /**
-     * Horizontal acceleration for the Doodle.
-     */
-    private final double HORIZONTAL_ACCELERATION = .5d;
+
     /**
      * The height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      */
     private final double LEGS_HEIGHT = 0.8;
-    /**
-     * Horizontal speed limit for the Doodle.
-     */
-    private final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
     /**
      * Where the hitbox of the doodle starts in relation to the sprite width.
      */
@@ -44,40 +36,31 @@ public class Doodle extends AGameObject implements IDoodle {
     private final double WIDTH_HIT_BOX_RIGHT = .7;
 
     /**
-     * Current horizontal speed for the Doodle.
-     */
-    private double hSpeed = 0d;
-    /**
-     * Current vertical speed for the Doodle.
-     */
-    private double vSpeed = 0d;
-    /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
     private ISprite[] spritePack;
-    /**
-     * The direction the Doodle is moving towards.
-     */
-    private Directions moving;
-    /**
-     * The direction the Doodle is facing.
-     */
-    private Directions facing;
+
     /**
      * The current score of the doodle
      */
     private double score;
-
+    /**
+     *  Describes the movement behavior of the doodle.
+     */
+    private movementBehavior behavior;
     /**
      * Doodle constructor.
      * @param sL The service locator
      */
      /* package */ Doodle(final IServiceLocator sL) {
-        super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(Directions.Right)[0]);
+
+        super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(movementBehavior.Directions.Right)[0]);
         this.setHitBox((int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT), getSprite().getHeight());
 
+        behavior = new SpaceBehavior(this, sL);
+
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        this.spritePack = spriteFactory.getDoodleSprite(Directions.Right);
+        this.spritePack = spriteFactory.getDoodleSprite(movementBehavior.Directions.Right);
 
         IInputManager inputManager = sL.getInputManager();
         inputManager.addObserver(this);
@@ -93,9 +76,8 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public void update(double delta) {
         this.animate(delta);
-        this.move(delta);
+        this.applyMovementBehavior(delta);
         this.wrap();
-        this.applyGravity(delta);
         this.checkHighPosition();
         this.checkDeadPosition();
     }
@@ -103,13 +85,13 @@ public class Doodle extends AGameObject implements IDoodle {
     /** {@inheritDoc} */
     @Override
     public double getVerticalSpeed() {
-        return this.vSpeed;
+        return behavior.getVerticalSpeed();
     }
 
     /** {@inheritDoc} */
     @Override
     public void setVerticalSpeed(double vSpeed) {
-        this.vSpeed = vSpeed;
+        behavior.setVerticalSpeed(vSpeed);
     }
 
     /** {@inheritDoc} */
@@ -120,35 +102,13 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public final void keyPress(final int keyCode) {
-        if (this.leftPressed(keyCode)) {
-            this.moving = Directions.Left;
-            this.facing = Directions.Left;
-        } else if (this.rightPressed(keyCode)) {
-            this.moving = Directions.Right;
-            this.facing = Directions.Right;
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void keyRelease(final int keyCode) {
-        if (this.leftPressed(keyCode) && this.moving == Directions.Left) {
-            this.moving = null;
-        } else if (this.rightPressed(keyCode) && this.moving == Directions.Right) {
-            this.moving = null;
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public void collide(IBlock block) {
     }
 
     /** {@inheritDoc} */
     @Override
     public void collide(IJumpable jumpable) {
-        this.vSpeed = jumpable.getBoost();
+        behavior.setVerticalSpeed(jumpable.getBoost());
     }
 
     /** {@inheritDoc} */
@@ -166,53 +126,8 @@ public class Doodle extends AGameObject implements IDoodle {
      * Move the doodle.
      * @param delta Delta time since previous animate.
      */
-    private void move(final double delta) {
-        moveHorizontally(delta);
-    }
-
-    /**
-     * Move the Doodle along the X axis.
-     */
-    private void moveHorizontally(final double delta) {
-        if (moving == Directions.Left) {
-            if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed -= this.HORIZONTAL_ACCELERATION;
-            }
-        } else if (moving == Directions.Right) {
-            if (this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed += this.HORIZONTAL_ACCELERATION;
-            }
-        } else {
-            if (this.hSpeed < 0) {
-                this.hSpeed += this.HORIZONTAL_ACCELERATION;
-            } else if (this.hSpeed > 0) {
-                this.hSpeed -= this.HORIZONTAL_ACCELERATION;
-            }
-        }
-
-        this.addXPos((int) this.hSpeed);
-    }
-
-    /**
-     * Check if the Left key for the Doodle is pressed.
-     *
-     * @param keyCode The keyCode of the key.
-     * @return A boolean indicating whether the key for Left is pressed.
-     */
-    private boolean leftPressed(final int keyCode) {
-        return keyCode == KeyCode.getKeyCode(Keys.arrowLeft)
-                || keyCode == KeyCode.getKeyCode(Keys.a);
-    }
-
-    /**
-     * Check if the Right key for the Doodle is pressed.
-     *
-     * @param keyCode The keyCode of the key.
-     * @return A boolean indicating whether the key for Right is pressed.
-     */
-    private boolean rightPressed(final int keyCode) {
-        return keyCode == KeyCode.getKeyCode(Keys.arrowRight)
-                || keyCode == KeyCode.getKeyCode(Keys.d);
+    private void applyMovementBehavior(final double delta) {
+        behavior.move(delta);
     }
 
     /**
@@ -234,23 +149,14 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void animate(double delta) {
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        this.spritePack = spriteFactory.getDoodleSprite(this.facing);
+        this.spritePack = spriteFactory.getDoodleSprite(this.behavior.getFacing());
 
         // If the Doodle moves up quickly shorten its legs
-        if (this.vSpeed < -15) {
+        if (behavior.getVerticalSpeed() < -15) {
             setSprite(this.spritePack[1]);
         } else {
             setSprite(this.spritePack[0]);
         }
-    }
-
-    /**
-     * Apply gravity to the Doodle.
-     * @param delta Delta time since previous animate.
-     */
-    private void applyGravity(double delta) {
-        this.vSpeed += sL.getConstants().getGravityAcceleration();
-        addYPos(this.vSpeed);
     }
 
     /**
@@ -275,4 +181,14 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
+
+    @Override
+    public void keyPress(int keyCode) {
+        behavior.keyPress(keyCode);
+    }
+
+    @Override
+    public void keyRelease(int keyCode) {
+        behavior.keyRelease(keyCode);
+    }
 }
