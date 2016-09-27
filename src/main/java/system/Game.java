@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 /**
  * This is the main class that runs the game.
@@ -78,6 +79,10 @@ public final class Game {
      * The pause screen for the game.
      */
     private static IScene pauseScreen;
+    /**
+     * A list of high scores for the game.
+     */
+    private static ArrayList<Double> highScores = new ArrayList<>();
 
     /**
      * Prevents instantiation from outside the Game class.
@@ -208,6 +213,7 @@ public final class Game {
     }
 
     public static void endGame(final double score) {
+        Game.highScores.add(score);
         setScene(sL.getSceneFactory().createKillScreen());
     }
 
