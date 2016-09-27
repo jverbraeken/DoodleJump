@@ -77,7 +77,6 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * {@inheritDoc}
      */
-    //TODO: correct sprite
     @Override
     public IButton createChooseModeButton(final int x, final int y) {
         assert sL != null;
@@ -90,7 +89,6 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * {@inheritDoc}
      */
-    //TODO: correct sprite to "main menu" button
     @Override
     public IButton createRegularModeButton(final int x, final int y) {
         assert sL != null;
@@ -103,7 +101,6 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * {@inheritDoc}
      */
-    //TODO: correct sprite to "main menu" button
     @Override
     public IButton createDarknessModeButton(final int x, final int y) {
         assert sL != null;
@@ -116,7 +113,6 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * {@inheritDoc}
      */
-    //TODO: correct sprite to "main menu" button
     @Override
     public IButton createInvertModeButton(final int x, final int y) {
         assert sL != null;
@@ -129,7 +125,6 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * {@inheritDoc}
      */
-    //TODO: correct sprite to "main menu" button
     @Override
     public IButton createSpaceModeButton(final int x, final int y) {
         assert sL != null;
@@ -142,7 +137,6 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * {@inheritDoc}
      */
-    //TODO: correct sprite to "main menu" button
     @Override
     public IButton createUnderwaterModeButton(final int x, final int y) {
         assert sL != null;
@@ -155,7 +149,6 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * {@inheritDoc}
      */
-    //TODO: correct sprite to "main menu" button
     @Override
     public IButton createStoryModeButton(final int x, final int y) {
         assert sL != null;
