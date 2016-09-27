@@ -1,11 +1,6 @@
 package objects.doodles.DoodleBehavior;
 
 import input.IKeyInputObserver;
-import objects.IGameObject;
-import objects.IJumpable;
-import objects.blocks.IBlock;
-import objects.doodles.IDoodle;
-
 /**
  * This class describes the behaviour of the doodle.
  */

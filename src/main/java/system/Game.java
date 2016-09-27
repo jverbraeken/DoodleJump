@@ -72,7 +72,7 @@ public final class Game {
     /**
      * The enums for the mode
      */
-    public enum Modes { regular, underwater, space }
+    public enum Modes { regular, underwater, story, invert, darkness, space }
     /**
      * Track the current mode of the game.
      */
