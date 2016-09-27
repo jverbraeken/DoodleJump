@@ -6,6 +6,11 @@ import input.IKeyInputObserver;
 import input.KeyCode;
 import input.Keys;
 import logging.ILogger;
+import objects.AGameObject;
+import objects.blocks.platform.IPlatform;
+import objects.blocks.platform.IPlatformFactory;
+import objects.doodles.IDoodle;
+import objects.doodles.IDoodleFactory;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
@@ -24,6 +29,14 @@ public class Menu implements IScene, IKeyInputObserver {
      * The X and Y location for the play button.
      */
     private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
+    /**
+     * The X and Y location for the startscreen platform.
+     */
+    private static final double PLATFORM_X = 0.1d, PLATFORM_Y = 0.78d;
+    /**
+     * The X and Y location for the startscreen Doodle.
+     */
+    private static final double DOODLE_X = 0.1d;
 
 
     /**
@@ -47,6 +60,14 @@ public class Menu implements IScene, IKeyInputObserver {
      * The cover sprite of the main menu.
      */
     private final ISprite cover;
+    /**
+     * The Doodle for the menu.
+     */
+    private final IDoodle doodle;
+    /**
+     * The platform for the menu.
+     */
+    private final IPlatform platform;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -67,6 +88,17 @@ public class Menu implements IScene, IKeyInputObserver {
         chooseModeButton = buttonFactory.createChooseModeButton(
                 (int) (sL.getConstants().getGameWidth() * CHOOSE_MODE_X),
                 (int) (sL.getConstants().getGameHeight() * CHOOSE_MODE_Y));
+
+        IDoodleFactory doodleFactory = sL.getDoodleFactory();
+        this.doodle = doodleFactory.createStartScreenDoodle();
+        this.doodle.setXPos((int) (sL.getConstants().getGameWidth() * DOODLE_X));
+        this.doodle.setVerticalSpeed(-1);
+
+        IPlatformFactory platformFactory = sL.getPlatformFactory();
+        platform = platformFactory.createPlatform(
+            (int) (sL.getConstants().getGameWidth() * PLATFORM_X),
+            (int) (sL.getConstants().getGameHeight() * PLATFORM_Y)
+        );
 
         this.LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
     }
@@ -101,6 +133,8 @@ public class Menu implements IScene, IKeyInputObserver {
         sL.getRenderer().drawSpriteHUD(this.cover, 0, 0);
         playButton.render();
         chooseModeButton.render();
+        doodle.render();
+        platform.render();
     }
 
     /**
@@ -108,6 +142,13 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     @Override
     public void update(final double delta) {
+        doodle.update(delta);
+
+        if (this.doodle.checkCollission(platform)) {
+            if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < platform.getYPos()) {
+                platform.collidesWith(this.doodle);
+            }
+        }
     }
 
     /**
