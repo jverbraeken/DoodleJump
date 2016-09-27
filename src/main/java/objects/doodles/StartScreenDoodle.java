@@ -5,7 +5,7 @@ import objects.AGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.doodles.DoodleBehavior.RegularBehavior;
-import objects.doodles.DoodleBehavior.movementBehavior;
+import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IServiceLocator;
 
 /**
@@ -33,14 +33,14 @@ import system.IServiceLocator;
     /**
      *  Describes the movement behavior of the doodle.
      */
-    private movementBehavior behavior;
+    private MovementBehavior behavior;
 
     /**
      * Doodle constructor.
      * @param sL The service locator
      */
     /* package */ StartScreenDoodle(final IServiceLocator sL) {
-        super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(movementBehavior.Directions.Right)[0]);
+        super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0]);
         this.setHitBox((int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT), getSprite().getHeight());
 
         behavior = new RegularBehavior(this, sL);

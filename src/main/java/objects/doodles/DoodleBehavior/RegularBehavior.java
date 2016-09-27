@@ -6,9 +6,9 @@ import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
- * Created by Nick on 27-9-2016.
+ * This class describes the regular movement of the Doodle.
  */
-public class RegularBehavior implements movementBehavior{
+public class RegularBehavior implements MovementBehavior {
 
     /**
      * Current horizontal speed for the Doodle.
@@ -56,11 +56,12 @@ public class RegularBehavior implements movementBehavior{
      * @param d The doodle this applies to.
      * @param sL the Servicelocator
      */
-    public RegularBehavior(final IDoodle d, final IServiceLocator sL){
+    public RegularBehavior(final IDoodle d, final IServiceLocator sL) {
         serviceLocator = sL;
         doodle = d;
     }
 
+    /** {@inheritDoc} */
     public void move(final double delta){
         moveHorizontally(delta);
         applyGravity(delta);
@@ -111,6 +112,7 @@ public class RegularBehavior implements movementBehavior{
         vSpeed = v;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Directions getFacing() {
         return facing;

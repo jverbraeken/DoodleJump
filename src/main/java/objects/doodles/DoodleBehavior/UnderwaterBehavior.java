@@ -6,9 +6,9 @@ import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
- * Created by Nick on 27-9-2016.
+ * This class describes the underwater movement of the Doodle.
  */
-public class UnderwaterBehavior implements movementBehavior{
+public class UnderwaterBehavior implements MovementBehavior {
 
     /**
      * The relative speed of the doodle.
@@ -62,6 +62,9 @@ public class UnderwaterBehavior implements movementBehavior{
      * The direction the Doodle is facing.
      */
     private Directions facing;
+    /**
+     * Keep track if a useful button is pressed.
+     */
     private boolean pressed;
 
     /**
@@ -69,12 +72,13 @@ public class UnderwaterBehavior implements movementBehavior{
      * @param d The doodle this applies to.
      * @param sL the Servicelocator
      */
-    public UnderwaterBehavior(final IDoodle d, final IServiceLocator sL){
+    public UnderwaterBehavior(final IDoodle d, final IServiceLocator sL) {
         serviceLocator = sL;
         doodle = d;
         pressed = false;
     }
 
+    /** {@inheritDoc} */
     public void move(final double delta){
         moveHorizontally(delta);
         applyGravity(delta);
@@ -103,7 +107,7 @@ public class UnderwaterBehavior implements movementBehavior{
      * @param delta Delta time since previous animate.
      */
     private void applyGravity(double delta) {
-        this.vSpeed += RELATIVE_GRAVITY*serviceLocator.getConstants().getGravityAcceleration();
+        this.vSpeed += RELATIVE_GRAVITY * serviceLocator.getConstants().getGravityAcceleration();
         doodle.addYPos(this.vSpeed);
     }
 
@@ -116,9 +120,10 @@ public class UnderwaterBehavior implements movementBehavior{
     /** {@inheritDoc} */
     @Override
     public void setVerticalSpeed(final double v) {
-        vSpeed = RELATIVE_SPEED*v;
+        vSpeed = RELATIVE_SPEED * v;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Directions getFacing() {
         return facing;

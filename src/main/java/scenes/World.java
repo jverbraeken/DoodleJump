@@ -125,7 +125,6 @@ public class World implements IScene {
     /** {@inheritDoc} */
     @Override
     public final void start() {
-        serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
         this.serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
         LOGGER.log("The world is now displaying");
     }

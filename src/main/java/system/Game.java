@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import static system.Game.Modes.regular;
+
 /**
  * This is the main class that runs the game.
  */
@@ -68,10 +70,13 @@ public final class Game {
      */
     private static boolean isAlive = true;
     /**
+     * The enums for the mode
+     */
+    public enum Modes { regular, underwater, space }
+    /**
      * Track the current mode of the game.
      */
-    //TODO Actually use the current mode.
-    private static String mode = "REGULAR";
+    private static Modes mode = regular;
     /**
      * The resume button for the pause screen.
      */
@@ -218,7 +223,7 @@ public final class Game {
         isAlive = alive;
     }
 
-    public static void setMode(final String m){
+    public static void setMode(final Modes m){
         mode = m;
         sL.getRes().setSkin(m);
         SpriteFactory skin = new SpriteFactory();
@@ -262,7 +267,7 @@ public final class Game {
      * Return the current mode.
      * @return the mode
      */
-    public static String getMode() {
+    public static Modes getMode() {
         return mode;
     }
 }

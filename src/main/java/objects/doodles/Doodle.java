@@ -1,15 +1,13 @@
 package objects.doodles;
 
 import input.IInputManager;
-import input.KeyCode;
-import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.DoodleBehavior.UnderwaterBehavior;
-import objects.doodles.DoodleBehavior.movementBehavior;
+import objects.doodles.DoodleBehavior.MovementBehavior;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -51,7 +49,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      *  Describes the movement behavior of the doodle.
      */
-    private movementBehavior behavior;
+    private MovementBehavior behavior;
      /**
       * The ratio of doodle to offset the frame size vs panel size
       */
@@ -63,12 +61,12 @@ public class Doodle extends AGameObject implements IDoodle {
      */
      /* package */ Doodle(final IServiceLocator sL) {
 
-        super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(movementBehavior.Directions.Right)[0]);
+        super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0]);
         this.setHitBox((int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT), getSprite().getHeight());
 
         setBehavior(Game.getMode());
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        this.spritePack = spriteFactory.getDoodleSprite(movementBehavior.Directions.Right);
+        this.spritePack = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Right);
 
         IInputManager inputManager = sL.getInputManager();
         inputManager.addObserver(this);
@@ -204,15 +202,15 @@ public class Doodle extends AGameObject implements IDoodle {
      * Set the behavior of the doodle with respect to the mode.
      * @param mode the behavior.
      */
-    public void setBehavior(String mode) {
-        switch(mode){
-            case("REGULAR"):
+    public void setBehavior(Game.Modes mode) {
+        switch (mode) {
+            case regular:
                 behavior = new RegularBehavior(this, sL);
                 break;
-            case("SPACE"):
+            case space:
                 behavior = new SpaceBehavior(this, sL);
                 break;
-            case("UNDERWATER"):
+            case underwater:
                 behavior = new UnderwaterBehavior(this, sL);
                 break;
             default:

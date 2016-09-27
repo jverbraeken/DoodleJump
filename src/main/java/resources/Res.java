@@ -1,9 +1,12 @@
 package resources;
 
+import system.Game;
 import system.IServiceLocator;
 
 import java.util.EnumMap;
 import java.util.Map;
+
+import static system.Game.Modes.regular;
 
 /**
  * Resources class, containing information about sprites.
@@ -16,11 +19,14 @@ public final class Res implements IRes {
      */
     private static transient IServiceLocator serviceLocator;
     /**
+     * The sprite path used to find the sprites.
+     */
+    private final static String spritePath = "sprites/";
+    /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    private final static String spritePath = "sprites/";
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         Res.serviceLocator = sL;
@@ -55,15 +61,15 @@ public final class Res implements IRes {
      * @param mode
      */
     @Override
-    public void setSkin(String mode){
-        switch(mode){
-            case("REGULAR"):
+    public void setSkin(Game.Modes mode) {
+        switch (mode) {
+            case regular:
                 resetSkin();
                 break;
-            case("SPACE"):
+            case space:
                 setSpaceSkin();
                 break;
-            case("UNDERWATER"):
+            case underwater:
                 setUnderwaterSkin();
                 break;
             default:
@@ -72,6 +78,9 @@ public final class Res implements IRes {
         }
     }
 
+    /**
+     * Reset the skin to the regular settings.
+     */
     private void resetSkin(){
         // TODO this should be removed in the final version when all Sprites are ready
         for (Sprites sprite : Sprites.values()) {
@@ -138,6 +147,9 @@ public final class Res implements IRes {
         sprites.put(Sprites.underwaterMode, spritePath + "underwater-mode@4x.png");
     }
 
+    /**
+     * Set the skin to space style.
+     */
     private void setSpaceSkin(){
         resetSkin();
         // Covers
@@ -161,6 +173,9 @@ public final class Res implements IRes {
 
     }
 
+    /**
+     * Set the skin to underwater style.
+     */
     private void setUnderwaterSkin(){
         resetSkin();
         // Covers

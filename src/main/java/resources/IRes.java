@@ -1,5 +1,7 @@
 package resources;
 
+import system.Game;
+
 /**
  * Interface for the resources.
  */
@@ -18,7 +20,7 @@ public interface IRes {
      * Set the skin of the game.
      * @param mode
      */
-    void setSkin(String mode);
+    void setSkin(Game.Modes mode);
 
     enum Sprites {
         // Buttons
