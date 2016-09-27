@@ -35,4 +35,11 @@ public interface ISceneFactory extends IFactory {
      */
     World newWorld();
 
+    /**
+     * Create a choose mode screen.
+     *
+     * @return An IScene of the choose mode screen.
+     */
+    IScene newChooseMode();
+
 }

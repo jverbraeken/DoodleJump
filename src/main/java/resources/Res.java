@@ -43,6 +43,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.play, spritePath + "play@2x.png");
         sprites.put(Sprites.playagain, spritePath + "playagain@2x.png");
         sprites.put(Sprites.resume, spritePath + "resume@2x.png");
+        sprites.put(Sprites.chooseMode, spritePath + "mode-button@2x.png");
 
         // Covers
         sprites.put(Sprites.background, spritePath + "bck@2x.png");
@@ -87,6 +88,14 @@ public final class Res implements IRes {
 
         // Top bar
         sprites.put(Sprites.scorebar, spritePath + "scorebar.png");
+
+        // Choose mode icons
+        sprites.put(Sprites.storyMode, spritePath + "story-mode@4x.png");
+        sprites.put(Sprites.regularMode, spritePath + "regular-mode@4x.png");
+        sprites.put(Sprites.darknessMode, spritePath + "darkness-mode@4x.png");
+        sprites.put(Sprites.invertMode, spritePath + "invert-mode@4x.png");
+        sprites.put(Sprites.spaceMode, spritePath + "space-mode@4x.png");
+        sprites.put(Sprites.underwaterMode, spritePath + "underwater-mode@4x.png");
     }
 
     /**
