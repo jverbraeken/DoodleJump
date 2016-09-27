@@ -212,12 +212,6 @@ public final class Game {
     }
 
     /**
-     * Set the state of the game to be alive or dead and provide a score.
-     *
-     * @param alive <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
-     */
-
-    /**
      * Loop to update the game 60x per second.
      */
     private static synchronized void loop() {
