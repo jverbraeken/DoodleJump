@@ -8,6 +8,7 @@ import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
+import objects.doodles.DoodleBehavior.UnderwaterBehavior;
 import objects.doodles.DoodleBehavior.movementBehavior;
 import rendering.ICamera;
 import resources.sprites.ISprite;
@@ -55,7 +56,7 @@ public class Doodle extends AGameObject implements IDoodle {
       * The ratio of doodle to offset the frame size vs panel size
       */
     private static final double DEAD_OFFSET = 1.5d;
-    
+
     /**
      * Doodle constructor.
      * @param sL The service locator
@@ -65,8 +66,7 @@ public class Doodle extends AGameObject implements IDoodle {
         super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(movementBehavior.Directions.Right)[0]);
         this.setHitBox((int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT), getSprite().getHeight());
 
-        behavior = new SpaceBehavior(this, sL);
-
+        setBehavior(Game.getMode());
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(movementBehavior.Directions.Right);
 
@@ -198,5 +198,25 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public void keyRelease(int keyCode) {
         behavior.keyRelease(keyCode);
+    }
+
+    /**
+     * Set the behavior of the doodle with respect to the mode.
+     * @param mode the behavior.
+     */
+    public void setBehavior(String mode) {
+        switch(mode){
+            case("REGULAR"):
+                behavior = new RegularBehavior(this, sL);
+                break;
+            case("SPACE"):
+                behavior = new SpaceBehavior(this, sL);
+                break;
+            case("UNDERWATER"):
+                behavior = new UnderwaterBehavior(this, sL);
+                break;
+            default:
+                behavior = new RegularBehavior(this, sL);
+        }
     }
 }

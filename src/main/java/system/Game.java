@@ -4,6 +4,7 @@ import buttons.IButton;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
+import resources.sprites.SpriteFactory;
 import scenes.IScene;
 
 import javax.swing.*;
@@ -219,6 +220,9 @@ public final class Game {
 
     public static void setMode(final String m){
         mode = m;
+        sL.getRes().setSkin(m);
+        SpriteFactory skin = new SpriteFactory();
+        skin.register(sL);
         LOGGER.info("The mode is now " + m);
     }
 
@@ -252,4 +256,11 @@ public final class Game {
         }
     }
 
+    /**
+     * Return the current mode.
+     * @return the mode
+     */
+    public static String getMode() {
+        return mode;
+    }
 }

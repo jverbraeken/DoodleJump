@@ -8,12 +8,16 @@ import system.IServiceLocator;
 /**
  * Created by Nick on 27-9-2016.
  */
-public class SpaceBehavior implements movementBehavior{
+public class UnderwaterBehavior implements movementBehavior{
 
     /**
      * The relative speed of the doodle.
      */
     private static final double RELATIVE_SPEED = 0.5d;
+    /**
+     * The slow caused by the water.
+     */
+    private static final double SLOWING = 0.7;
     /**
      * Current horizontal speed for the Doodle.
      */
@@ -26,7 +30,7 @@ public class SpaceBehavior implements movementBehavior{
     /**
      * Standard speed limit for the Doodle.
      */
-    private final double STANDARD_SPEED_LIMIT = 20d;
+    private final double STANDARD_SPEED_LIMIT = 14d;
 
     /**
      * Horizontal speed limit for the Doodle.
@@ -35,7 +39,7 @@ public class SpaceBehavior implements movementBehavior{
     /**
      * Horizontal acceleration for the Doodle.
      */
-    private final double HORIZONTAL_ACCELERATION = 3d;
+    private final double HORIZONTAL_ACCELERATION = .2d;
     /**
      * Relative gravity for the Doodle.
      */
@@ -65,7 +69,7 @@ public class SpaceBehavior implements movementBehavior{
      * @param d The doodle this applies to.
      * @param sL the Servicelocator
      */
-    public SpaceBehavior(final IDoodle d, final IServiceLocator sL){
+    public UnderwaterBehavior(final IDoodle d, final IServiceLocator sL){
         serviceLocator = sL;
         doodle = d;
         pressed = false;
@@ -82,15 +86,11 @@ public class SpaceBehavior implements movementBehavior{
     private void moveHorizontally(final double delta) {
         if (pressed && moving == Directions.Left) {
             if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed -= RELATIVE_SPEED*RELATIVE_SPEED*this.HORIZONTAL_ACCELERATION;
-            } else if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed -= this.HORIZONTAL_ACCELERATION;
+                this.hSpeed -= RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
             }
         } else if (pressed && moving == Directions.Right) {
             if (this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed += RELATIVE_SPEED*RELATIVE_SPEED*this.HORIZONTAL_ACCELERATION;
-            } else if (this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed += this.HORIZONTAL_ACCELERATION;
+                this.hSpeed += RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
             }
         }
 
@@ -144,8 +144,11 @@ public class SpaceBehavior implements movementBehavior{
     public final void keyRelease(final int keyCode) {
         if (this.leftPressed(keyCode)) {
             this.pressed = false;
+            hSpeed = SLOWING * hSpeed;
         } else if (this.rightPressed(keyCode)) {
             this.pressed = false;
+            hSpeed = SLOWING * hSpeed;
+
         }
     }
 

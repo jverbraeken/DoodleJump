@@ -34,7 +34,6 @@ public final class Res implements IRes {
 
     {
         resetSkin();
-        setSpaceSkin();
     }
 
     /**
@@ -51,6 +50,11 @@ public final class Res implements IRes {
         return sprites.get(sprite);
     }
 
+    /**
+     * {@inheritDoc}
+     * @param mode
+     */
+    @Override
     public void setSkin(String mode){
         switch(mode){
             case("REGULAR"):
@@ -58,6 +62,13 @@ public final class Res implements IRes {
                 break;
             case("SPACE"):
                 setSpaceSkin();
+                break;
+            case("UNDERWATER"):
+                setUnderwaterSkin();
+                break;
+            default:
+                resetSkin();
+                break;
         }
     }
 
@@ -137,6 +148,29 @@ public final class Res implements IRes {
         sprites.put(Sprites.doodleLeftDescend, spritePath + "space-left-odskok@2x.png");
         sprites.put(Sprites.doodleRightAscend, spritePath + "space-right@2x.png");
         sprites.put(Sprites.doodleRightDescend, spritePath + "space-right-odskok@2x.png");
+
+        // Platforms
+        sprites.put(Sprites.platform1, spritePath + "space-platform@2x.png");
+
+        // Power-ups
+        sprites.put(Sprites.trampoline, spritePath + "space-powerup-trampoline@2x.png");
+        sprites.put(Sprites.trampolineUsed, spritePath + "space-powerup-trampoline-used@2x.png");
+
+        // Top bar
+        sprites.put(Sprites.scorebar, spritePath + "space-scorebar@2x.png");
+
+    }
+
+    private void setUnderwaterSkin(){
+        resetSkin();
+        // Covers
+        sprites.put(Sprites.background, spritePath + "underwater-bck@2x.png");
+
+        // Doodle
+        sprites.put(Sprites.doodleLeftAscend, spritePath + "underwater-left@2x.png");
+        sprites.put(Sprites.doodleLeftDescend, spritePath + "underwater-left-odskok@2x.png");
+        sprites.put(Sprites.doodleRightAscend, spritePath + "underwater-right@2x.png");
+        sprites.put(Sprites.doodleRightDescend, spritePath + "underwater-right-odskok@2x.png");
 
         // Platforms
         sprites.put(Sprites.platform1, spritePath + "space-platform@2x.png");

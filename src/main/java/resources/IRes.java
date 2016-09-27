@@ -14,6 +14,12 @@ public interface IRes {
      */
     String getSpritePath(Sprites sprite);
 
+    /**
+     * Set the skin of the game.
+     * @param mode
+     */
+    void setSkin(String mode);
+
     enum Sprites {
         // Buttons
         menu,

@@ -49,7 +49,7 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * Prevents instantiation from outside the class.
      */
-    private SpriteFactory() {
+    public SpriteFactory() {
         LOGGER = sL.getLoggerFactory().createLogger(SpriteFactory.class);
 
         cache = CacheBuilder.newBuilder()
