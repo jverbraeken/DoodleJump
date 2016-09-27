@@ -14,6 +14,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
 import resources.sprites.ISpriteFactory;
 import resources.sprites.SpriteFactory;
+import system.Game;
 import system.IServiceLocator;
 import system.ServiceLocator;
 import rendering.IRenderer;
@@ -93,13 +94,41 @@ public class BlockTest {
     }
 
     @Test
-    public void testCollisionCheck() throws Exception{
-        IPlatform platform = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 400);
+    public void testCollisionCheck() throws Exception {
+        IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 400);
         IPlatform platform2 = Whitebox.invokeConstructor(Platform.class, servicelocator, 420, 430);
         //IBlock block2 = PowerMockito.spy(Whitebox.invokeConstructor(Block.class, servicelocator));
-        block.addElement(platform);
+        block.addElement(platform1);
+        //assertTrue(block.getElements().contains(platform1));
         Whitebox.invokeMethod(block, "platformCollideCheck", platform2);
-        assertFalse(block.getElements().contains(platform));
+        assertFalse(block.getElements().contains(platform1));
+
+    }
+
+    @Test
+    public void testCollisionCheck2() throws Exception {
+        IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 400);
+        IPlatform platform2 = Whitebox.invokeConstructor(Platform.class, servicelocator, 500, 430);
+        //IBlock block2 = PowerMockito.spy(Whitebox.invokeConstructor(Block.class, servicelocator));
+        block.addElement(platform1);
+        //assertTrue(block.getElements().contains(platform1));
+        Whitebox.invokeMethod(block, "platformCollideCheck", platform2);
+        assertTrue(block.getElements().contains(platform1));
+        System.out.println(Game.HEIGHT);
+    }
+
+    @Test
+    public void testCleanUpPlatforms() throws Exception {
+        IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 1100);
+        IPlatform platform2 = Whitebox.invokeConstructor(Platform.class, servicelocator, 500, 1500);
+        //IBlock block2 = PowerMockito.spy(Whitebox.invokeConstructor(Block.class, servicelocator));
+        block.addElement(platform1);
+        block.addElement(platform2);
+        assertTrue(block.getElements().contains(platform1));
+        assertTrue(block.getElements().contains(platform2));
+        Whitebox.invokeMethod(block, "cleanUpPlatforms");
+        assertFalse(block.getElements().contains(platform1));
+        assertFalse(block.getElements().contains(platform2));
 
     }
 
