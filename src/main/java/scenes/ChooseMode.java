@@ -7,42 +7,44 @@ import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.util.ArrayList;
+
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-/* package */ class ChooseMode implements IScene, IMouseInputObserver {
+/* package */ class ChooseMode implements IScene {
 
     /**
      * The logger for the KillScreen class.
      */
     private final ILogger LOGGER;
     /**
-     * X & Y location in relation to the frame of the play again button.
+     * X & Y location in relation to the frame of the regular mode button.
      */
     private static final double REGULAR_MODE_X = 0.2, REGULAR_MODE_Y = 0.25;
 
     /**
-     * X & Y location in relation to the frame of the play again button.
+     * X & Y location in relation to the frame of the underwater mode button.
      */
     private static final double UNDERWATER_MODE_X = 0.2, UNDERWATER_MODE_Y = 0.45;
 
     /**
-     * X & Y location in relation to the frame of the play again button.
+     * X & Y location in relation to the frame of the space mode button.
      */
     private static final double SPACE_MODE_X = 0.2, SPACE_MODE_Y = 0.65;
 
     /**
-     * X & Y location in relation to the frame of the play again button.
+     * X & Y location in relation to the frame of the invert mode button.
      */
     private static final double INVERT_MODE_X = 0.6, INVERT_MODE_Y = 0.65;
 
     /**
-     * X & Y location in relation to the frame of the play again button.
+     * X & Y location in relation to the frame of the story mode button.
      */
     private static final double STORY_MODE_X = 0.6, STORY_MODE_Y = 0.25;
 
     /**
-     * X & Y location in relation to the frame of the play again button.
+     * X & Y location in relation to the frame of the darkness mode button.
      */
     private static final double DARKNESS_MODE_X = 0.6, DARKNESS_MODE_Y = 0.45;
 
@@ -67,6 +69,10 @@ import system.IServiceLocator;
      * Is the kill screen active, should it be displayed.
      */
     private boolean active = false;
+    /**
+     * an arrayList of all the buttons.
+     */
+    private ArrayList<IButton> buttons;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -90,6 +96,14 @@ import system.IServiceLocator;
         underwaterModeButton = buttonFactory.createUnderwaterModeButton((int) (sL.getConstants().getGameWidth() * UNDERWATER_MODE_X), (int) (sL.getConstants().getGameHeight() * UNDERWATER_MODE_Y));
         invertModeButton = buttonFactory.createInvertModeButton((int) (sL.getConstants().getGameWidth() * INVERT_MODE_X), (int) (sL.getConstants().getGameHeight() * INVERT_MODE_Y));
         regularModeButton = buttonFactory.createRegularModeButton((int) (sL.getConstants().getGameWidth() * REGULAR_MODE_X), (int) (sL.getConstants().getGameHeight() * REGULAR_MODE_Y));
+        buttons = new ArrayList();
+        buttons.add(mainMenuButton);
+        buttons.add(darknessModeButton);
+        buttons.add(storyModeButton);
+        buttons.add(spaceModeButton);
+        buttons.add(underwaterModeButton);
+        buttons.add(invertModeButton);
+        buttons.add(regularModeButton);
 
     }
 
@@ -98,13 +112,9 @@ import system.IServiceLocator;
      */
     @Override
     public final void start() {
-        sL.getInputManager().addObserver(mainMenuButton);
-        sL.getInputManager().addObserver(regularModeButton);
-        sL.getInputManager().addObserver(spaceModeButton);
-        sL.getInputManager().addObserver(underwaterModeButton);
-        sL.getInputManager().addObserver(invertModeButton);
-        sL.getInputManager().addObserver(storyModeButton);
-        sL.getInputManager().addObserver(darknessModeButton);
+        for(IButton b : buttons){
+            sL.getInputManager().addObserver(b);
+        }
         active = true;
         LOGGER.info("The choose mode scene is now displaying");
     }
@@ -114,13 +124,9 @@ import system.IServiceLocator;
      */
     @Override
     public final void stop() {
-        sL.getInputManager().removeObserver(mainMenuButton);
-        sL.getInputManager().removeObserver(spaceModeButton);
-        sL.getInputManager().removeObserver(underwaterModeButton);
-        sL.getInputManager().removeObserver(invertModeButton);
-        sL.getInputManager().removeObserver(storyModeButton);
-        sL.getInputManager().removeObserver(regularModeButton);
-        sL.getInputManager().removeObserver(darknessModeButton);
+        for(IButton b : buttons){
+            sL.getInputManager().removeObserver(b);
+        }
         active = false;
         LOGGER.info("The choose mode scene is no longer displaying");
     }
@@ -134,13 +140,9 @@ import system.IServiceLocator;
             sL.getRenderer().drawSpriteHUD(this.background, 0, 0);
             double y = (double) sL.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
             sL.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
-            mainMenuButton.render();
-            spaceModeButton.render();
-            underwaterModeButton.render();
-            regularModeButton.render();
-            darknessModeButton.render();
-            invertModeButton.render();
-            storyModeButton.render();
+            for(IButton b : buttons){
+                b.render();
+            }
         }
     }
 
@@ -149,12 +151,6 @@ import system.IServiceLocator;
      */
     @Override
     public final void update(final double delta) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public final void mouseClicked(final int x, final int y) {
     }
 
 }
