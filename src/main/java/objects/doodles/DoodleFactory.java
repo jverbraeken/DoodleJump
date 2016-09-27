@@ -2,21 +2,46 @@ package objects.doodles;
 
 import system.IServiceLocator;
 
+/**
+ * This is a factory creating all doodles.
+ */
 public final class DoodleFactory implements IDoodleFactory {
 
-    private static transient IServiceLocator serviceLocator;
+    /**
+     * Used to gain access to all services.
+     */
+    private static transient IServiceLocator sL;
 
-    public static void register(final IServiceLocator serviceLocator) {
-        assert serviceLocator != null;
-        DoodleFactory.serviceLocator = serviceLocator;
-        serviceLocator.provide(new DoodleFactory());
+    /**
+     * Prevent instantiations of DoodleFactory.
+     */
+    private DoodleFactory() {
     }
 
-    private DoodleFactory() { }
+    /**
+     * Register the doodle factory into the service locator.
+     * @param sL the service locator.
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        DoodleFactory.sL = sL;
+        DoodleFactory.sL.provide(new DoodleFactory());
+    }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IDoodle createDoodle() {
-        return new Doodle(serviceLocator);
+        return new Doodle(sL);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IDoodle createStartScreenDoodle() {
+        return new StartScreenDoodle(sL);
     }
 
 }

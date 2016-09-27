@@ -2,23 +2,46 @@ package objects.blocks;
 
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.blocks.platform.IPlatform;
-import system.Game;
 import system.IServiceLocator;
 
-import java.util.HashSet;
 import java.util.Set;
 
+<<<<<<< HEAD
 
 public class Block implements IBlock {
 
+=======
+/**
+ * This class focusses on the implementation of Blocks.
+ * These blocks contain the main bulk of the game objects.
+ * This bulk contains the platforms, powerups, enemies and other interactable items.
+ * These blocks are meant to pass through our frame vertically.
+ * The player is meant to progress from one block to the next by jumping on things.
+ * These things can be anything as specified by "bulk".
+ * The choice for block was made as to make seperate sub-levels in a continuous world.
+ */
+public final class Block implements IBlock {
+>>>>>>> develop
 
-    private static IServiceLocator serviceLocator;
-    private final Set<IGameObject> elements = new HashSet<>();
-    private IJumpable topJumpable;
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator sL;
 
-    /* package */ Block(IServiceLocator serviceLocator) {
-        Block.serviceLocator = serviceLocator;
+    /**
+     * A set of all the game objects in this block.
+     */
+    private final Set<IGameObject> elements;
+
+    /**
+     * The highest located jumapble in this block.
+     */
+    private final IJumpable topJumpable;
+
+    /* package */ Block(final IServiceLocator sL, final Set<IGameObject> elements, final IJumpable topJumpable) {
+        Block.sL = sL;
+        this.elements = elements;
+        this.topJumpable = topJumpable;
     }
 
     /**
@@ -27,16 +50,6 @@ public class Block implements IBlock {
     @Override
     public Set<IGameObject> getElements() {
         return this.elements;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addYPos(double y) {
-        for (IGameObject e : elements) {
-            e.addYPos(y);
-        }
     }
 
     /**
@@ -60,60 +73,6 @@ public class Block implements IBlock {
      */
     @Override
     public final void update(double delta) {
-        cleanUpPlatforms();
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addElement(IJumpable jumpable) {
-        this.elements.add(jumpable);
-        this.topJumpable = jumpable;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addElement(IGameObject object) {
-        this.elements.add(object);
-    }
-
-    /**
-     * Checks if the platform collides with any of the platforms
-     * in this Block. When there is a collision, delete the platform
-     * from the list.
-     *
-     * @param platform The IPlatform that has to be checked for collision.
-     */
-    private void platformCollideCheck(IPlatform platform) {
-        HashSet<IGameObject> toRemove = new HashSet<>();
-        for (IGameObject e : elements) {
-            if (platform.checkCollission(e)) {
-                toRemove.add(e);
-            }
-        }
-
-        for (IGameObject e : toRemove) {
-            elements.remove(e);
-        }
-    }
-
-    /**
-     * Checks for all the Platforms if they are under over the height
-     * of the screen, if that's the case, delete that Platforms.
-     */
-    private void cleanUpPlatforms() {
-        Set<IGameObject> toRemove = new HashSet<>();
-        for (IGameObject e : elements) {
-            if (e.getYPos() - 50 > Game.HEIGHT) {
-                toRemove.add(e);
-            }
-        }
-
-        for (IGameObject e : toRemove) {
-            elements.remove(e);
-        }
     }
 }

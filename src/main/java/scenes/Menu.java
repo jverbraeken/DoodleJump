@@ -1,69 +1,155 @@
 package scenes;
 
+import buttons.IButton;
+import buttons.IButtonFactory;
 import input.IKeyInputObserver;
 import input.KeyCode;
 import input.Keys;
-import objects.buttons.IButton;
-import objects.buttons.IButtonFactory;
-import rendering.IDrawable;
+import logging.ILogger;
+import objects.AGameObject;
+import objects.blocks.platform.IPlatform;
+import objects.blocks.platform.IPlatformFactory;
+import objects.doodles.IDoodle;
+import objects.doodles.IDoodleFactory;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
+/**
+ * This class is a scene that is displays when the game is started.
+ */
 public class Menu implements IScene, IKeyInputObserver {
 
-    private final IServiceLocator serviceLocator;
+    /**
+     * The logger for the Menu class.
+     */
+    private final ILogger LOGGER;
+    /**
+     * The X and Y location for the play button.
+     */
+    private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
+    /**
+     * The X and Y location for the startscreen platform.
+     */
+    private static final double PLATFORM_X = 0.1d, PLATFORM_Y = 0.78d;
+    /**
+     * The X and Y location for the startscreen Doodle.
+     */
+    private static final double DOODLE_X = 0.1d;
 
+    /**
+     * Used to access all services.
+     */
+    private final IServiceLocator sL;
+    /**
+     * The button that starts up a new world.
+     */
     private final IButton playButton;
+    /**
+     * The cover sprite of the main menu.
+     */
     private final ISprite cover;
-    private static final double playButtonXPercentage = 0.15;
-    private static final double playButtonYPercentage = 0.25;
+    /**
+     * The Doodle for the menu.
+     */
+    private final IDoodle doodle;
+    /**
+     * The platform for the menu.
+     */
+    private final IPlatform platform;
 
-    /* package */ Menu(IServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    /* package */ Menu(final IServiceLocator sL) {
+        assert sL != null;
+        this.sL = sL;
 
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
         cover = spriteFactory.getStartCoverSprite();
 
-        IButtonFactory buttonFactory = serviceLocator.getButtonFactory();
-        playButton = buttonFactory.createPlayButton((int) (Game.WIDTH * playButtonXPercentage), (int) (Game.HEIGHT * playButtonYPercentage));
+        IButtonFactory buttonFactory = sL.getButtonFactory();
+        playButton = buttonFactory.createPlayButton(
+            (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
+            (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y)
+        );
+
+        IDoodleFactory doodleFactory = sL.getDoodleFactory();
+        this.doodle = doodleFactory.createStartScreenDoodle();
+        this.doodle.setXPos((int) (sL.getConstants().getGameWidth() * DOODLE_X));
+        this.doodle.setVerticalSpeed(-1);
+
+        IPlatformFactory platformFactory = sL.getPlatformFactory();
+        platform = platformFactory.createPlatform(
+            (int) (sL.getConstants().getGameWidth() * PLATFORM_X),
+            (int) (sL.getConstants().getGameHeight() * PLATFORM_Y)
+        );
+
+        this.LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void start() {
-        serviceLocator.getInputManager().addObserver(playButton);
-        serviceLocator.getInputManager().addObserver(this);
+    public final void start() {
+        sL.getInputManager().addObserver(playButton);
+        sL.getInputManager().addObserver(this);
+        LOGGER.info("The menu scene is now displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void stop() {
-        serviceLocator.getInputManager().removeObserver(playButton);
-        serviceLocator.getInputManager().removeObserver(this);
+    public final void stop() {
+        sL.getInputManager().removeObserver(playButton);
+        sL.getInputManager().removeObserver(this);
+        LOGGER.info("The menu scene is no longer displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(this.cover, 0, 0);
+        sL.getRenderer().drawSpriteHUD(this.cover, 0, 0);
         playButton.render();
+        doodle.render();
+        platform.render();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update(double delta) { }
+    public void update(final double delta) {
+        doodle.update(delta);
 
-    /** {@inheritDoc} */
-    @Override
-    public void keyPress(int keyCode) { }
+        if (this.doodle.checkCollission(platform)) {
+            if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < platform.getYPos()) {
+                platform.collidesWith(this.doodle);
+            }
+        }
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void keyRelease(int keyCode) {
+    public void keyPress(final int keyCode) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void keyRelease(final int keyCode) {
         if (KeyCode.getKeyCode(Keys.enter) == keyCode || KeyCode.getKeyCode(Keys.space) == keyCode) {
-            Game.setScene(serviceLocator.getSceneFactory().newWorld());
+            Game.setScene(sL.getSceneFactory().newWorld());
         }
     }
 

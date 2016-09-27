@@ -1,20 +1,10 @@
 package scenes;
 
-import objects.blocks.IBlock;
-import objects.blocks.IBlockFactory;
-import objects.buttons.IButton;
-import objects.buttons.IButtonFactory;
-import objects.doodles.IDoodle;
-import objects.doodles.IDoodleFactory;
+import buttons.IButton;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import rendering.IDrawable;
-import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
-import resources.sprites.ISpriteFactory;
-import system.IServiceLocator;
 
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -40,10 +30,10 @@ public class MenuTest {
         IButtonFactory buttonFactory = mock(IButtonFactory.class);
         when(buttonFactory.createPlayButton(anyInt(), anyInt())).thenReturn(playButton);
 
-        IServiceLocator serviceLocator = mock(IServiceLocator.class);
-        when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
-        when(serviceLocator.getButtonFactory()).thenReturn(buttonFactory);
-        menu = new Menu(serviceLocator);*/
+        IServiceLocator sL = mock(IServiceLocator.class);
+        when(sL.getSpriteFactory()).thenReturn(spriteFactory);
+        when(sL.getButtonFactory()).thenReturn(buttonFactory);
+        menu = new Menu(sL);*/
     }
 
     @Test

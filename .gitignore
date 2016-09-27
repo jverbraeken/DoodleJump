@@ -16,8 +16,13 @@ hs_err_pid*
 /target/
 
 # Intellij
-workspace.xml
+.idea/
+.settings/
+.classpath
 *.iml
+
+# Target
+target/
 
 # Ignore logs
 *.log

@@ -4,36 +4,25 @@ package objects.block;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.blocks.IBlock;
 import objects.blocks.Block;
+import objects.blocks.IBlock;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.Platform;
 import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
-import org.powermock.api.mockito.PowerMockito;
+import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
+import rendering.IRenderer;
+import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import resources.sprites.SpriteFactory;
-import system.Game;
 import system.IServiceLocator;
-import system.ServiceLocator;
-import rendering.IRenderer;
-import rendering.Renderer;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.mock;
-
-import resources.sprites.ISprite;
-import resources.sprites.Sprite;
-
-import org.mockito.Mockito;
-
-import java.util.Set;
 
 /**
  * Test class for the Block class.
@@ -76,7 +65,7 @@ public class BlockTest {
     @Test
     public void testAddElement() {
         IGameObject gObject = mock(IGameObject.class);
-        block.addElement(gObject);
+        //block.addElement(gObject);
         assertTrue(block.getElements().contains(gObject));
     }
 
@@ -87,7 +76,7 @@ public class BlockTest {
     @Test
     public void testGetTopJumpable() {
 
-        block.addElement(jumpobject);
+        //block.addElement(jumpobject);
         assertEquals(jumpobject, block.getTopJumpable());
         assertTrue(block.getElements().contains(jumpobject));
     }
@@ -105,8 +94,8 @@ public class BlockTest {
        double i = 500.00;
         platform.setYPos(i);
         System.out.println(platform.getYPos());
-        block.addElement(platform);
-        block.addYPos(i);
+        //block.addElement(platform);
+        //block.addYPos(i);
         System.out.println(platform.getYPos());
         assertEquals(1000.0, platform.getYPos(), 0.001);
 
@@ -124,7 +113,7 @@ public class BlockTest {
         IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 400);
         IPlatform platform2 = Whitebox.invokeConstructor(Platform.class, servicelocator, 420, 430);
         //IBlock block2 = PowerMockito.spy(Whitebox.invokeConstructor(Block.class, servicelocator));
-        block.addElement(platform1);
+        //block.addElement(platform1);
         //assertTrue(block.getElements().contains(platform1));
         Whitebox.invokeMethod(block, "platformCollideCheck", platform2);
         assertFalse(block.getElements().contains(platform1));
@@ -143,11 +132,11 @@ public class BlockTest {
         IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 400);
         IPlatform platform2 = Whitebox.invokeConstructor(Platform.class, servicelocator, 500, 430);
         //IBlock block2 = PowerMockito.spy(Whitebox.invokeConstructor(Block.class, servicelocator));
-        block.addElement(platform1);
+       // block.addElement(platform1);
         //assertTrue(block.getElements().contains(platform1));
         Whitebox.invokeMethod(block, "platformCollideCheck", platform2);
         assertTrue(block.getElements().contains(platform1));
-        System.out.println(Game.HEIGHT);
+       // System.out.println(Game.HEIGHT);
     }
 
 
@@ -162,8 +151,8 @@ public class BlockTest {
         IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 1100);
         IPlatform platform2 = Whitebox.invokeConstructor(Platform.class, servicelocator, 500, 1500);
         //IBlock block2 = PowerMockito.spy(Whitebox.invokeConstructor(Block.class, servicelocator));
-        block.addElement(platform1);
-        block.addElement(platform2);
+        //block.addElement(platform1);
+        //block.addElement(platform2);
         assertTrue(block.getElements().contains(platform1));
         assertTrue(block.getElements().contains(platform2));
         Whitebox.invokeMethod(block, "cleanUpPlatforms");
@@ -183,8 +172,8 @@ public class BlockTest {
         IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 800);
         IPlatform platform2 = Whitebox.invokeConstructor(Platform.class, servicelocator, 500, 1500);
         //IBlock block2 = PowerMockito.spy(Whitebox.invokeConstructor(Block.class, servicelocator));
-        block.addElement(platform1);
-        block.addElement(platform2);
+       // block.addElement(platform1);
+       // block.addElement(platform2);
         assertTrue(block.getElements().contains(platform1));
         assertTrue(block.getElements().contains(platform2));
         Whitebox.invokeMethod(block, "cleanUpPlatforms");
@@ -204,8 +193,8 @@ public class BlockTest {
         double delta = 1.00;
         IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 800);
         IPlatform platform2 = Whitebox.invokeConstructor(Platform.class, servicelocator, 500, 1500);
-        block.addElement(platform1);
-        block.addElement(platform2);
+        //block.addElement(platform1);
+        //block.addElement(platform2);
         assertTrue(block.getElements().contains(platform1));
         assertTrue(block.getElements().contains(platform2));
         block.update(delta);
@@ -219,8 +208,8 @@ public class BlockTest {
     @Test
     public void testRender() {
 
-        block.addElement(doodle);
-        block.addElement(platform);
+        //block.addElement(doodle);
+       // block.addElement(platform);
         block.render();
         verify(doodle).render();
         verify(platform).render();

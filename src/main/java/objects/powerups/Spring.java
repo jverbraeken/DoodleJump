@@ -7,62 +7,64 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-public class Spring extends APowerup implements IJumpable {
-
-    private static IServiceLocator serviceLocator;
+/**
+ * This class describes the behaviour of the spring powerup.
+ */
+/* package */ class Spring extends APowerup implements IPowerup, IJumpable {
 
     /**
-     * The sprite for the Spring.
+     * The BOOST value for the Spring.
      */
-    private ISprite sprite;
-    /**
-     * The boost value for the Spring.
-     */
-    private static final double boost = -35;
+    private static final double BOOST = -35;
 
     /**
      * Trampoline constructor.
-     * @param serviceLocator - The Games service locator.
+     *
+     * @param sL - The Games service locator.
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
-    /* package */ Spring(final IServiceLocator serviceLocator, final int x, final int y) {
-        super(x, y, serviceLocator.getSpriteFactory().getSpringSprite());
-        Spring.serviceLocator = serviceLocator;
+    /* package */ Spring(final IServiceLocator sL, final int x, final int y) {
+        super(sL, x, y, sL.getSpriteFactory().getSpringSprite());
     }
 
     private void animate() {
-        int oldHeight = this.sprite.getHeight();
+        int oldHeight = getSprite().getHeight();
 
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
         ISprite newSprite = spriteFactory.getSpringUsedSprite();
 
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
 
-        this.sprite = newSprite;
+        setSprite(newSprite);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getBoost() {
+        //TODO very unexpected behaviour for a getter. Source of bugs as the programmer does not expect this from a getter
         this.animate();
         this.playSound();
 
-        return Spring.boost;
+        return Spring.BOOST;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(this.sprite, (int) this.getXPos(), (int) this.getYPos());
+        sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /**
      * Play the sound for the Trampoline.
      */
     private void playSound() {
-        IAudioManager audioManager = serviceLocator.getAudioManager();
+        IAudioManager audioManager = sL.getAudioManager();
         audioManager.playFeder();
     }
 
