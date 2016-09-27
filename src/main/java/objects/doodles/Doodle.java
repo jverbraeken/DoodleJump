@@ -20,7 +20,10 @@ import system.IServiceLocator;
  */
 public class Doodle extends AGameObject implements IDoodle {
 
-
+    /**
+     * The relative center of the camera on the y axis.
+     */
+    private static final double CAMERA_POS = 3/7d;
     /**
      * The height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
@@ -48,6 +51,11 @@ public class Doodle extends AGameObject implements IDoodle {
      *  Describes the movement behavior of the doodle.
      */
     private movementBehavior behavior;
+     /**
+      * The ratio of doodle to offset the frame size vs panel size
+      */
+    private static final double DEAD_OFFSET = 1.5d;
+    
     /**
      * Doodle constructor.
      * @param sL The service locator
@@ -165,9 +173,9 @@ public class Doodle extends AGameObject implements IDoodle {
     private void checkHighPosition() {
         ICamera camera = sL.getRenderer().getCamera();
         final int height = sL.getConstants().getGameHeight();
-        if (getYPos() < camera.getYPos() + height / 2) {
-            score += (camera.getYPos() + height / 2 - getYPos()) * sL.getConstants().getScoreMultiplier();
-            camera.setYPos(getYPos() - height / 2);
+        if (getYPos() < camera.getYPos() + height * CAMERA_POS) {
+            score += (camera.getYPos() + height * CAMERA_POS - getYPos()) * sL.getConstants().getScoreMultiplier();
+            camera.setYPos(getYPos() - height * CAMERA_POS);
         }
     }
 
@@ -176,7 +184,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void checkDeadPosition() {
         ICamera camera = sL.getRenderer().getCamera();
-        if (getYPos() > camera.getYPos() + sL.getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
+        if (getYPos() > camera.getYPos() + sL.getConstants().getGameHeight() - DEAD_OFFSET*getHitBox()[HITBOX_BOTTOM]) {
             Game.setAlive(false);
         }
     }
