@@ -7,4 +7,6 @@ public interface IConstants {
     double getGravityAcceleration();
 
     double getScoreMultiplier();
+
+    String getLogFile();
 }
