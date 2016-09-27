@@ -10,7 +10,7 @@ import system.IServiceLocator;
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-/* package */ class KillScreen implements IScene, IMouseInputObserver {
+/* package */ class KillScreen implements IScene {
 
     /**
      * The logger for the KillScreen class.
@@ -112,12 +112,6 @@ import system.IServiceLocator;
      */
     @Override
     public final void update(final double delta) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public final void mouseClicked(final int x, final int y) {
     }
 
 }
