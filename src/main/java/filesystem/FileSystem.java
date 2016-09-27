@@ -1,5 +1,6 @@
 package filesystem;
 
+import com.bluelinelabs.logansquare.LoganSquare;
 import logging.ILogger;
 import system.IServiceLocator;
 
@@ -23,17 +24,6 @@ public final class FileSystem implements IFileSystem {
      */
     private static transient IServiceLocator sL;
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
-     */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        FileSystem.sL = sL;
-        sL.provide(new FileSystem());
-    }
-
-    /**
      * A classloader in order to load in resources.
      */
     private ClassLoader classLoader = getClass().getClassLoader();
@@ -42,6 +32,17 @@ public final class FileSystem implements IFileSystem {
      * Prevents instantiation from outside the class.
      */
     private FileSystem() {
+    }
+
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        FileSystem.sL = sL;
+        sL.provide(new FileSystem());
     }
 
     /**
@@ -205,4 +206,63 @@ public final class FileSystem implements IFileSystem {
         return new File(url.getFile());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object parseJson(String filename, Class<?> jsonClass) throws FileNotFoundException {
+        StringBuilder sb = new StringBuilder();
+        for (String string : readTextFile(filename)) {
+            sb.append(string);
+        }
+        String json = sb.toString();
+
+        Object result = null;
+        try {
+            result = LoganSquare.parse(json, jsonClass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object parseJsonList(String filename, Class<?> jsonClass) throws FileNotFoundException {
+        StringBuilder sb = new StringBuilder();
+        for (String string : readTextFile(filename)) {
+            sb.append(string);
+        }
+        String json = sb.toString();
+
+        Object result = null;
+        try {
+            result = LoganSquare.parseList(json, jsonClass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object parseJsonMap(String filename, Class<?> jsonClass) throws FileNotFoundException {
+        StringBuilder sb = new StringBuilder();
+        for (String string : readTextFile(filename)) {
+            sb.append(string);
+        }
+        String json = sb.toString();
+
+        Object result = null;
+        try {
+            result = LoganSquare.parseMap(json, jsonClass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
