@@ -249,6 +249,8 @@ public final class Game {
             } catch (InterruptedException e) {
                 LOGGER.error(e);
             }
+
+            LOGGER.info("FPS is " + getFPS(updateLength, 0));
         }
     }
 
