@@ -88,7 +88,7 @@ public class World implements IScene {
         assert sL != null;
         this.sL = sL;
         LOGGER = sL.getLoggerFactory().createLogger(World.class);
-        Game.setAlive(true);
+        Game.startGame(true);
 
         for (int i = 0; i < 3; i++) {
             drawables.add(Collections.newSetFromMap(new WeakHashMap<>()));

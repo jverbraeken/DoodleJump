@@ -122,23 +122,18 @@ public final class Game {
              */
             @Override
             public void paintComponent(final Graphics g) {
-                sL.getRenderer().setGraphicsBuffer(g);
+            sL.getRenderer().setGraphicsBuffer(g);
 
-                ((Graphics2D) g).scale(1 / scale, 1 / scale);
-                if (Game.scene != null) {
-                    Game.scene.render();
-                }
+            ((Graphics2D) g).scale(1 / scale, 1 / scale);
+            if (Game.scene != null) {
+                Game.scene.render();
+            }
 
-                if (isPaused) {
-                    pauseScreen.render();
-                }
+            if (isPaused) {
+                pauseScreen.render();
+            }
 
-                if (!isAlive) {
-                    setScene(sL.getSceneFactory().createKillScreen());
-                    setAlive(true);
-                }
-
-                ((Graphics2D) g).scale(scale, scale);
+            ((Graphics2D) g).scale(scale, scale);
             }
         };
         panel.setLayout(new GridLayout(1, 1));
@@ -204,13 +199,23 @@ public final class Game {
      *
      * @param alive <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
      */
-    public static void setAlive(final boolean alive) {
+    public static void startGame(final boolean alive) {
         if (!alive) {
             LOGGER.info("The Doodle died");
         }
 
         isAlive = alive;
     }
+
+    public static void endGame(final double score) {
+        setScene(sL.getSceneFactory().createKillScreen());
+    }
+
+    /**
+     * Set the state of the game to be alive or dead and provide a score.
+     *
+     * @param alive <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
+     */
 
     /**
      * Loop to update the game 60x per second.

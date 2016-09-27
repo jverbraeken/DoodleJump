@@ -271,7 +271,7 @@ public class Doodle extends AGameObject implements IDoodle {
     private void checkDeadPosition() {
         ICamera camera = sL.getRenderer().getCamera();
         if (getYPos() > camera.getYPos() + sL.getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
-            Game.setAlive(false);
+            Game.endGame(this.score);
         }
     }
 
