@@ -25,4 +25,10 @@ public interface IConstants {
      * @return True if the number of pending tasks of the logging thread executor should be logged
      */
     boolean getLogPendingTasks();
+
+    /**
+     * @return The name of the log file
+     * @return
+     */
+    String getLogFile();
 }

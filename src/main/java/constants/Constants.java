@@ -2,9 +2,49 @@ package constants;
 
 import system.IServiceLocator;
 
+import java.io.FileNotFoundException;
+import java.util.Map;
+
 public class Constants implements IConstants {
 
     private static transient IServiceLocator sL;
+    /**
+     * The width of the frame of the game
+     */
+    private static final int width = 640;
+    /**
+     * The height of the frame of the game
+     */
+    private static final int height = 960;
+    /**
+     * How much the doodle is affected by gravity.
+     */
+    private static final double gravityAcceleration = 0.5d;
+    /**
+     * The height the dodle jumps will be multiplied with this value to obtain the score that the player will get.
+     * each frame.
+     */
+    private static final double scoreMultiplier = 0.15;
+    /**
+     * True if the number of pending tasks of the logging thread executor should be logged each time something is logged.
+     */
+    private static final boolean LOG_PENDING_TASKS = true;
+    /**
+     * The file to which the logs will be written to.
+     */
+    private static String logFile;
+
+    /**
+     * Prevent public instantiation of Constants.
+     */
+    private Constants() {
+        try {
+            Map<String, String> json = (Map<String, String>) sL.getFileSystem().parseJsonMap("constants.json", String.class);
+            interpretJson(json);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void register(IServiceLocator sL) {
         assert sL != null;
@@ -13,55 +53,35 @@ public class Constants implements IConstants {
     }
 
     /**
-     * The width of the frame of the game
+     * {@inheritDoc}
      */
-    private final static int WIDTH = 640;
-    /**
-     * The height of the frame of the game
-     */
-    private final static int HEIGHT = 960;
-    /**
-     * How much the doodle is affected by gravity.
-     */
-    private static final double GRAVITY_ACCELERATION = .5;
-    /**
-     * The height the dodle jumps will be multiplied with this value to obtain the score that the player will get
-     * each frame.
-     */
-    private final static double SCORE_MULTIPLIER = 0.15;
-    /**
-     * True if the number of pending tasks of the logging thread executor should be logged each time something is logged.
-     */
-    private final static boolean LOG_PENDING_TASKS = true;
-
-    /**
-     * Prevent public instantiation of Constants.
-     */
-    private Constants() {
-    }
-
-    /** {@inheritDoc} */
     @Override
     public int getGameWidth() {
-        return WIDTH;
+        return width;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getGameHeight() {
-        return HEIGHT;
+        return height;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getGravityAcceleration() {
-        return GRAVITY_ACCELERATION;
+        return gravityAcceleration;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getScoreMultiplier() {
-        return SCORE_MULTIPLIER;
+        return scoreMultiplier;
     }
 
     /** {@inheritDoc} */
@@ -70,4 +90,23 @@ public class Constants implements IConstants {
         return LOG_PENDING_TASKS;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getLogFile() {
+        return logFile;
+    }
+
+    private void interpretJson(Map<String, String> json) {
+        for (Map.Entry<String, String> entry : json.entrySet()) {
+            switch (entry.getKey()) {
+                case "logFile":
+                    logFile = entry.getValue();
+                    break;
+                default:
+                    System.err.println("The json entry \"" + entry.getKey() + "\" in the configuration file could not be identified");
+            }
+        }
+    }
 }

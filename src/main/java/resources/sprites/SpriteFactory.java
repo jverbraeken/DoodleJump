@@ -56,7 +56,7 @@ public final class SpriteFactory implements ISpriteFactory {
                 .build(
                         new CacheLoader<IRes.Sprites, ISprite>() {
                             @Override
-                            public ISprite load(final IRes.Sprites sprite) throws FileNotFoundException {
+                            public ISprite load(final IRes.Sprites sprite) {
                                 LOGGER.info("Sprite loaded: \"" + sprite + "\"");
                                 return loadISprite(sprite);
                             }
@@ -106,6 +106,14 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.resume);
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getChooseModeButtonSprite() {
+        return getSprite(IRes.Sprites.chooseMode);
+    }
 
     // Covers
 
@@ -689,6 +697,55 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.ufoShining);
     }
 
+    // Choose Mode Icons
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRegularModeButton() {
+        return getSprite(IRes.Sprites.regularMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getStoryModeButton() {
+        return getSprite(IRes.Sprites.storyMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getDarknessModeButton() {
+        return getSprite(IRes.Sprites.darknessMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getInvertModeButton() {
+        return getSprite(IRes.Sprites.invertMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getUnderwaterModeButton() {
+        return getSprite(IRes.Sprites.underwaterMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getSpaceModeButton() {
+        return getSprite(IRes.Sprites.spaceMode);
+    }
 
     // Miscellaneous
 
@@ -697,11 +754,16 @@ public final class SpriteFactory implements ISpriteFactory {
      *
      * @param spriteName the enumerator defining the requested sprite.
      * @return The ISprite
-     * @throws FileNotFoundException Thrown when the ISprite was not found
      */
-    private ISprite loadISprite(final IRes.Sprites spriteName) throws FileNotFoundException {
+    private ISprite loadISprite(final IRes.Sprites spriteName) {
         String filepath = sL.getRes().getSpritePath(spriteName);
-        BufferedImage image = sL.getFileSystem().readImage(filepath);
+        BufferedImage image = null;
+        try {
+            image = sL.getFileSystem().readImage(filepath);
+            LOGGER.info("Sprite loaded: \"" + filepath + "\"");
+        } catch (FileNotFoundException e) {
+            LOGGER.error(e);
+        }
         return new Sprite(getFileName(filepath), image);
     }
 

@@ -67,6 +67,11 @@ public final class Game {
      */
     private static boolean isAlive = true;
     /**
+     * Track the current mode of the game.
+     */
+    //TODO Actually use the current mode.
+    private static String mode = "REGULAR";
+    /**
      * The resume button for the pause screen.
      */
     private static IButton resumeButton;
@@ -226,6 +231,11 @@ public final class Game {
         isAlive = alive;
     }
 
+    public static void setMode(final String m){
+        mode = m;
+        LOGGER.info("The mode is now " + m);
+    }
+
     /**
      * Loop to update the game 60x per second.
      */
@@ -253,6 +263,8 @@ public final class Game {
             } catch (InterruptedException e) {
                 LOGGER.error(e);
             }
+
+            LOGGER.info("FPS is " + getFPS(updateLength, 0));
         }
     }
 
