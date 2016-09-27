@@ -76,7 +76,7 @@ public final class InputManager implements IInputManager {
         LOGGER.info("Mouse pressed, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
 
         //TODO: Synchronize properly instead of cloning
-        HashSet<IMouseInputObserver> observers = (HashSet<IMouseInputObserver>) mouseInputObservers.clone();
+        Set<IMouseInputObserver> observers = (HashSet<IMouseInputObserver>) mouseInputObservers.clone();
         for (IMouseInputObserver observer : observers) {
             observer.mouseClicked(x, y);
         }

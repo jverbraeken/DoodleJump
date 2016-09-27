@@ -9,35 +9,36 @@ import java.util.Map;
 public class Constants implements IConstants {
 
     private static transient IServiceLocator sL;
-    private final ILogger LOGGER;
     /**
      * The width of the frame of the game
      */
-    private int width;
+    private static final int width = 640;
     /**
      * The height of the frame of the game
      */
-    private int height;
+    private static final int height = 960;
     /**
      * How much the doodle is affected by gravity.
      */
-    private double gravityAcceleration;
+    private static final double gravityAcceleration = 0.5;
     /**
-     * The height the dodle jumps will be multiplied with this value to obtain the score that the player will get
+     * The height the dodle jumps will be multiplied with this value to obtain the score that the player will get.
      * each frame.
      */
-    private double scoreMultiplier;
+    private static final double scoreMultiplier = 0.15;
+    /**
+     * The file to which the logs will be written to.
+     */
+    private String logFile;
 
     /**
      * Prevent public instantiation of Constants.
      */
     private Constants() {
-        LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
         try {
             Map<String, String> json = (Map<String, String>) sL.getFileSystem().parseJsonMap("constants.json", String.class);
             interpretJson(json);
         } catch (FileNotFoundException e) {
-            LOGGER.error(e);
             e.printStackTrace();
         }
     }
@@ -80,43 +81,22 @@ public class Constants implements IConstants {
         return scoreMultiplier;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getLogFile() {
+        return logFile;
+    }
+
     private void interpretJson(Map<String, String> json) {
         for (Map.Entry<String, String> entry : json.entrySet()) {
             switch (entry.getKey()) {
-                case "width":
-                    try {
-                        this.width = Integer.valueOf(entry.getValue());
-                    } catch (NumberFormatException e) {
-                        LOGGER.error("The width value specified in the configuration file is not a valid integer value.");
-                        e.printStackTrace();
-                    }
-                    break;
-                case "height":
-                    try {
-                        this.height = Integer.valueOf(entry.getValue());
-                    } catch (NumberFormatException e) {
-                        LOGGER.error("The height value specified in the configuration file is not a valid integer value.");
-                        e.printStackTrace();
-                    }
-                    break;
-                case "gravityAcceleration":
-                    try {
-                        this.gravityAcceleration = Double.valueOf(entry.getValue());
-                    } catch (NumberFormatException e) {
-                        LOGGER.error("The gravityAcceleration value specified in the configuration file is not a valid integer value.");
-                        e.printStackTrace();
-                    }
-                    break;
-                case "scoreMultiplier":
-                    try {
-                        this.scoreMultiplier = Double.valueOf(entry.getValue());
-                    } catch (NumberFormatException e) {
-                        LOGGER.error("The scoreMultiplier value specified in the configuration file is not a valid integer value.");
-                        e.printStackTrace();
-                    }
+                case "logFile":
+                    this.logFile = entry.getValue();
                     break;
                 default:
-                    LOGGER.warning("The json entry \"" + entry.getKey() + "\" in the configuration file could not be identified");
+                    System.err.println("The json entry \"" + entry.getKey() + "\" in the configuration file could not be identified");
             }
         }
     }

@@ -1,6 +1,3 @@
 {
-  "width": "640",
-  "height": "960",
-  "gravityAcceleration": "0.5",
-  "scoreMultiplier": "0.15"
+  "logFile": "async.log"
 }
