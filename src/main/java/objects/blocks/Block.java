@@ -23,6 +23,11 @@ public final class Block implements IBlock {
     private static IServiceLocator sL;
 
     /**
+     * A lock to prevent concurrent modification of e.g. the service locator.
+     */
+    private static final Object lock = new Object();
+
+    /**
      * A set of all the game objects in this block.
      */
     private final Set<IGameObject> elements;
@@ -33,7 +38,9 @@ public final class Block implements IBlock {
     private final IJumpable topJumpable;
 
     /* package */ Block(final IServiceLocator sL, final Set<IGameObject> elements, final IJumpable topJumpable) {
-        Block.sL = sL;
+        synchronized (lock) {
+            Block.sL = sL;
+        }
         this.elements = elements;
         this.topJumpable = topJumpable;
     }

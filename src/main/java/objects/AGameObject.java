@@ -8,13 +8,30 @@ import system.IServiceLocator;
  */
 public abstract class AGameObject implements IGameObject {
 
-    protected static IServiceLocator sL;
+    /**
+     * The service locator.
+     */
+    private static IServiceLocator sL;
 
-    public static final transient int HITBOX_LEFT = 0;
-    public static final transient int HITBOX_RIGHT = 1;
-    public static final transient int HITBOX_TOP = 2;
-    public static final transient int HITBOX_BOTTOM = 3;
+    /**
+     * A lock to prevent concurrent modification of e.g. the service locator.
+     */
+    private static final Object lock = new Object();
+
+    /**
+     * Constants to prevent incorrect element acces of the {@link #hitBox} variable.
+     */
+    public static final transient int   HITBOX_LEFT = 0,
+                                        HITBOX_RIGHT = 1,
+                                        HITBOX_TOP = 2,
+                                        HITBOX_BOTTOM = 3;
+    /**
+     * Contains the margins between the left-upper corner of the sprite and the hitbox.
+     */
     private final double[] hitBox = new double[4];
+    /**
+     * The sprite used for the game object.
+     */
     private ISprite sprite;
     /**
      * The position on the x axis of the game object.
@@ -31,8 +48,10 @@ public abstract class AGameObject implements IGameObject {
      * @param y The Y-coordinate of the game object
      * @param sprite The sprite of the game object. Can be {null} when the object is a {@link objects.blocks.IBlock block}
      */
-    public AGameObject(final IServiceLocator sL, int x, int y, ISprite sprite) {
-        AGameObject.sL = sL;
+    public AGameObject(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
+        synchronized (lock) {
+            AGameObject.sL = sL;
+        }
         setXPos(x);
         setYPos(y);
         if (sprite == null) {
@@ -67,7 +86,7 @@ public abstract class AGameObject implements IGameObject {
      */
     @Override
     public final double[] getHitBox() {
-        return this.hitBox;
+        return this.hitBox.clone();
     }
 
     @Override
@@ -90,7 +109,7 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public final void setSprite(ISprite sprite) {
+    public final void setSprite(final ISprite sprite) {
         this.sprite = sprite;
     }
 
@@ -106,7 +125,7 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public final void setXPos(double xPos) {
+    public final void setXPos(final double xPos) {
         this.xPos = xPos;
     }
 
@@ -134,10 +153,17 @@ public abstract class AGameObject implements IGameObject {
 
 
     /**
+     * Returns the service locator
+     */
+    public final IServiceLocator getServiceLocator() {
+        return AGameObject.sL;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
-    public boolean checkCollission(IGameObject gameObject) {
+    public boolean checkCollission(final IGameObject gameObject) {
         if (gameObject == null) {
             throw new IllegalArgumentException("gameObject cannot be null");
         }
@@ -154,7 +180,7 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void update(double delta) {
+    public void update(final double delta) {
 
     }
 }

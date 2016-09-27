@@ -39,7 +39,7 @@ public class Platform extends AGameObject implements IPlatform {
      */
     @Override
     public void render() {
-        sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
 
@@ -54,7 +54,7 @@ public class Platform extends AGameObject implements IPlatform {
      * Play the sound for the Platform.
      */
     private void playSound() {
-        IAudioManager audioManager = sL.getAudioManager();
+        IAudioManager audioManager = getServiceLocator().getAudioManager();
         audioManager.playJump();
     }
 

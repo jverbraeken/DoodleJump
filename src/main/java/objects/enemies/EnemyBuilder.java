@@ -43,7 +43,7 @@ public final class EnemyBuilder implements IEnemyBuilder {
     @Override
     public IGameObject createEnemy(final int x, final int y, final ISprite sprite) {
         LOGGER.info("A new Enemy has been created: x = " + x + ", y = " + y + " sprite = " + sprite.toString());
-        return new Enemy(x, y, sprite);
+        return new Enemy(sL, x, y, sprite);
     }
 
 }

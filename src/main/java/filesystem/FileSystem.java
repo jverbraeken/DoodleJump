@@ -34,11 +34,6 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-     * A classloader in order to load in resources.
-     */
-    private ClassLoader classLoader = getClass().getClassLoader();
-
-    /**
      * Prevents instantiation from outside the class.
      */
     private FileSystem() {

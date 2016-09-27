@@ -20,28 +20,36 @@ public class Doodle extends AGameObject implements IDoodle {
      * The height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      */
-    private final double legsHeight = 0.8;
+    private static final double legsHeight = 0.8;
 
     /**
      * Standard speed limit for the Doodle.
      */
-    private final double standardSpeedLimit = 6d;
+    private static final double standardSpeedLimit = 6d;
     /**
      * Horizontal speed limit for the Doodle.
      */
-    private double hSpeedLimit = standardSpeedLimit;
+    private static double hSpeedLimit = standardSpeedLimit;
     /**
      * Current horizontal speed for the Doodle.
      */
-    private double hSpeed = 0d;
+    private static double hSpeed = 0d;
     /**
      * Current vertical speed for the Doodle.
      */
-    private double vSpeed = 0d;
+    private static double vSpeed = 0d;
     /**
      * Horizontal acceleration for the Doodle.
      */
-    private final double hAcceleration = .5d;
+    private static final double hAcceleration = .5d;
+    /**
+     * Where the hitbox of the doodle starts in relation to the sprite width.
+     */
+    private static final double widthHitboxLeft = .3;
+    /**
+     * Where the hitbox of the doodle ends in relation to the sprite width.
+     */
+    private static final double widthHitboxRight = .7;
     /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
@@ -58,39 +66,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * The current score of the doodle
      */
     private double score;
-
-    /**
-     * Enumerator of the Left side of the hitbox.
-     */
-    private final int hitBoxLeft = 0;
-    /**
-     * Enumerator of the top side of the hitbox.
-     */
-    private final int hitBoxTop = 1;
-    /**
-     * Enumerator of the Right side of the hitbox.
-     */
-    private final int hitBoxRight = 2;
-    /**
-     * Enumerator of the bottom side of the hitbox.
-     */
-    private final int hitBoxBottom = 3;
-
-    /**
-     * The speed at which we know the doodle is jumping.
-     * this is used for the pulling up legs animation.
-     */
-    private final int doodleIsJumping = -15;
-
-    /**
-     * Where the hitbox of the doodle starts in relation to the sprite width.
-     */
-    private final double widthHitboxLeft = .3;
-
-    /**
-     * Where the hitbox of the doodle ends in relation to the sprite width.
-     */
-    private final double widthHitboxRight = .7;
 
     /**
      * Doodle constructor.
@@ -113,7 +88,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void render() {
-        sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /**
@@ -211,7 +186,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * TODO: ADD JAVADOC
-     * @param delta
+     * @param delta The difference in time between the current frame and the last frame
      */
     private void move(final double delta) {
         moveHorizontally(delta);
@@ -267,7 +242,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void wrap() {
         double middle = this.getXPos() + this.getHitBox()[AGameObject.HITBOX_RIGHT] / 2;
-        final int width = sL.getConstants().getGameWidth();
+        final int width = getServiceLocator().getConstants().getGameWidth();
         if (middle < 0) {
             this.addXPos(width);
         } else if (middle > width) {
@@ -276,7 +251,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     private void animate(double delta) {
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(this.facing);
 
         // If the Doodle moves up quickly shorten its legs
@@ -291,22 +266,23 @@ public class Doodle extends AGameObject implements IDoodle {
      * TODO: Add JavaDoc
      */
     private void applyGravity(double delta) {
-        this.vSpeed += sL.getConstants().getGravityAcceleration();
+        this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
 
     private void checkHighPosition() {
-        ICamera camera = sL.getRenderer().getCamera();
-        final int height = sL.getConstants().getGameHeight();
-        if (getYPos() < camera.getYPos() + height / 2) {
-            score += (camera.getYPos() + height / 2 - getYPos()) * super.sL.getConstants().getScoreMultiplier();
+        ICamera camera = getServiceLocator().getRenderer().getCamera();
+        final int height = getServiceLocator().getConstants().getGameHeight();
+        final double yThreshold = camera.getYPos() + (double) height / 2d;
+        if (getYPos() < yThreshold) {
+            score += (yThreshold - getYPos()) * getServiceLocator().getConstants().getScoreMultiplier();
             camera.setYPos(getYPos() - height / 2);
         }
     }
 
     private void checkDeadPosition() {
-        ICamera camera = sL.getRenderer().getCamera();
-        if (getYPos() > camera.getYPos() + sL.getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
+        ICamera camera = getServiceLocator().getRenderer().getCamera();
+        if (getYPos() > camera.getYPos() + getServiceLocator().getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
             Game.setAlive(false);
         }
     }
