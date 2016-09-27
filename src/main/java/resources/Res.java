@@ -20,6 +20,7 @@ public final class Res implements IRes {
      *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
+    private final static String spritePath = "sprites/";
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         Res.serviceLocator = sL;
@@ -32,7 +33,35 @@ public final class Res implements IRes {
     private Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
 
     {
-        String spritePath = "sprites/";
+        resetSkin();
+        setSpaceSkin();
+    }
+
+    /**
+     * Prevent instantiation of Res.
+     */
+    private Res() {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getSpritePath(final Sprites sprite) {
+        return sprites.get(sprite);
+    }
+
+    public void setSkin(String mode){
+        switch(mode){
+            case("REGULAR"):
+                resetSkin();
+                break;
+            case("SPACE"):
+                setSpaceSkin();
+        }
+    }
+
+    private void resetSkin(){
         // TODO this should be removed in the final version when all Sprites are ready
         for (Sprites sprite : Sprites.values()) {
             sprites.put(sprite, spritePath + "unimplemented.jpg");
@@ -98,18 +127,16 @@ public final class Res implements IRes {
         sprites.put(Sprites.underwaterMode, spritePath + "underwater-mode@4x.png");
     }
 
-    /**
-     * Prevent instantiation of Res.
-     */
-    private Res() {
-    }
+    private void setSpaceSkin(){
+        resetSkin();
+        // Covers
+        sprites.put(Sprites.background, spritePath + "space-bck@2x.png");
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getSpritePath(final Sprites sprite) {
-        return sprites.get(sprite);
-    }
+        // Doodle
+        sprites.put(Sprites.doodleLeftAscend, spritePath + "space-left@2x.png");
+        sprites.put(Sprites.doodleLeftDescend, spritePath + "space-left-odskok@2x.png");
+        sprites.put(Sprites.doodleRightAscend, spritePath + "space-right@2x.png");
+        sprites.put(Sprites.doodleRightDescend, spritePath + "space-right-odskok@2x.png");
 
+    }
 }
