@@ -8,9 +8,15 @@ import system.IFactory;
 public interface IDoodleFactory extends IFactory {
 
     /**
-     * Create a new doodle.
-     * @return the new doodle.
+     * Create a new Doodle.
+     * @return The new Doodle.
      */
     IDoodle createDoodle();
+
+    /**
+     * Create a new Doodle for the startscreen.
+     * @return The new Doodle.
+     */
+    IDoodle createStartScreenDoodle();
 
 }

@@ -57,12 +57,14 @@ public interface IFileSystem {
 
     /**
      * Deletes the file specified by {@code filename} from the disk.
+     *
      * @param filename The file you want to delete
      */
     void deleteFile(String filename);
 
     /**
      * Removes the content of the file specified by {@code filename} but does not delete the file itself.
+     *
      * @param filename The file you want to clear
      */
     void clearFile(String filename);
@@ -70,8 +72,8 @@ public interface IFileSystem {
     /**
      * Writes {@code content} to {@code writer}..
      *
-     * @param writer The writer you want to use to write the data to
-     * @param content  The text to write to the file
+     * @param writer  The writer you want to use to write the data to
+     * @param content The text to write to the file
      */
     void appendToTextFile(Writer writer, String content);
 
@@ -96,4 +98,30 @@ public interface IFileSystem {
      */
     File getFile(String filename) throws FileNotFoundException;
 
+    /**
+     * Parse a JSON file consisting of a single Json item.
+     * @param filename The filepath to the Json file
+     * @param jsonClass The class of the resulting Json object
+     * @return An {@link Object} that must be upcasted to the desired Json class
+     * @throws FileNotFoundException Thrown when the Json file was not found
+     */
+    Object parseJson(String filename, Class<?> jsonClass) throws FileNotFoundException;
+
+    /**
+     * Parse a JSON file consisting of a single Json list.
+     * @param filename The filepath to the Json file
+     * @param jsonClass The class of the resulting Json object
+     * @return An {@link Object} that must be upcasted to a {@link List} containing the desired Json class
+     * @throws FileNotFoundException Thrown when the Json file was not found
+     */
+    Object parseJsonList(String filename, Class<?> jsonClass) throws FileNotFoundException;
+
+    /**
+     * Parse a JSON file consisting of a single Json item.
+     * @param filename The filepath to the Json file
+     * @param jsonClass The class of the resulting Json object
+     * @return An {@link Object} that must be upcasted to a {@link java.util.Map} containing the desired Json class
+     * @throws FileNotFoundException Thrown when the Json file was not found
+     */
+    Object parseJsonMap(String filename, Class<?> jsonClass) throws FileNotFoundException;
 }

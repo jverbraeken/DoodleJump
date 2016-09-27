@@ -16,9 +16,9 @@ import system.IServiceLocator;
  * This class describes the behaviour of the doodle.
  */
 public class Doodle extends AGameObject implements IDoodle {
+
     /**
-     * The height of the legs of the doodle. When this value is very large, for example 1,
-     * the doodle can jump on a platform if it only hits it with its head.
+     * The relative center of the camera on the y axis.
      */
     private static final double legsHeight = 0.8;
 
@@ -30,6 +30,33 @@ public class Doodle extends AGameObject implements IDoodle {
      * Horizontal speed limit for the Doodle.
      */
     private static double hSpeedLimit = standardSpeedLimit;
+
+    private static final double CAMERA_POS = 3/7d;
+    /**
+     * Standard speed limit for the Doodle.
+     */
+    private final double STANDARD_SPEED_LIMIT = 6d;
+    /**
+     * Horizontal acceleration for the Doodle.
+     */
+    private final double HORIZONTAL_ACCELERATION = .5d;
+    /**
+     * The height of the legs of the doodle. When this value is very large, for example 1,
+     * the doodle can jump on a platform if it only hits it with its head.
+     */
+    private final double LEGS_HEIGHT = 0.8;
+    /**
+     * Horizontal speed limit for the Doodle.
+     */
+    private final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
+    /**
+     * Where the hitbox of the doodle starts in relation to the sprite width.
+     */
+    private final double WIDTH_HIT_BOX_LEFT = .3;
+    /**
+     * Where the hitbox of the doodle ends in relation to the sprite width.
+     */
+    private final double WIDTH_HIT_BOX_RIGHT = .7;
     /**
      * Current horizontal speed for the Doodle.
      */
@@ -66,15 +93,18 @@ public class Doodle extends AGameObject implements IDoodle {
      * The current score of the doodle
      */
     private double score;
+    /**
+     * The ratio of doodle to offset the frame size vs panel size
+     */
+    private static final double DEAD_OFFSET = 1.5d;
 
     /**
      * Doodle constructor.
-     *
      * @param sL The service locator
      */
      /* package */ Doodle(final IServiceLocator sL) {
         super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(Directions.Right)[0]);
-        this.setHitBox((int) (getSprite().getWidth() * widthHitboxLeft), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * widthHitboxRight), getSprite().getHeight());
+        this.setHitBox((int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT), getSprite().getHeight());
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(Directions.Right);
@@ -83,17 +113,13 @@ public class Doodle extends AGameObject implements IDoodle {
         inputManager.addObserver(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void update(double delta) {
         this.animate(delta);
@@ -104,33 +130,25 @@ public class Doodle extends AGameObject implements IDoodle {
         this.checkDeadPosition();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public double getVerticalSpeed() {
         return this.vSpeed;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setVerticalSpeed(double vSpeed) {
         this.vSpeed = vSpeed;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public double getScore() {
         return score;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void keyPress(final int keyCode) {
         if (this.leftPressed(keyCode)) {
@@ -142,9 +160,7 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void keyRelease(final int keyCode) {
         if (this.leftPressed(keyCode) && this.moving == Directions.Left) {
@@ -154,38 +170,30 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void collide(IBlock block) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public synchronized void collide(IJumpable jumpable) {
         this.vSpeed = jumpable.getBoost();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void collidesWith(IDoodle doodle) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public double getLegsHeight() {
-        return legsHeight;
+        return LEGS_HEIGHT;
     }
 
     /**
-     * TODO: ADD JAVADOC
+     * Move the doodle.
      * @param delta The difference in time between the current frame and the last frame
      */
     private void move(final double delta) {
@@ -197,18 +205,18 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void moveHorizontally(final double delta) {
         if (moving == Directions.Left) {
-            if (this.hSpeed > -Doodle.hSpeedLimit) {
-                this.hSpeed -= Doodle.hAcceleration;
+            if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed -= this.HORIZONTAL_ACCELERATION;
             }
         } else if (moving == Directions.Right) {
-            if (this.hSpeed < Doodle.hSpeedLimit) {
-                this.hSpeed += Doodle.hAcceleration;
+            if (this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed += this.HORIZONTAL_ACCELERATION;
             }
         } else {
             if (this.hSpeed < 0) {
-                this.hSpeed += Doodle.hAcceleration;
+                this.hSpeed += this.HORIZONTAL_ACCELERATION;
             } else if (this.hSpeed > 0) {
-                this.hSpeed -= Doodle.hAcceleration;
+                this.hSpeed -= this.HORIZONTAL_ACCELERATION;
             }
         }
 
@@ -250,6 +258,10 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
+    /**
+     * Animate the Doodle.
+     * @param delta Delta time since previous animate.
+     */
     private void animate(double delta) {
         ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(this.facing);
@@ -263,26 +275,33 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * TODO: Add JavaDoc
+     * Apply gravity to the Doodle.
+     * @param delta Delta time since previous animate.
      */
     private void applyGravity(double delta) {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
 
+    /**
+     * Check the height position of the Doodle.
+     */
     private void checkHighPosition() {
         ICamera camera = getServiceLocator().getRenderer().getCamera();
         final int height = getServiceLocator().getConstants().getGameHeight();
-        final double yThreshold = camera.getYPos() + (double) height / 2d;
+        final double yThreshold = camera.getYPos() + height * CAMERA_POS;
         if (getYPos() < yThreshold) {
             score += (yThreshold - getYPos()) * getServiceLocator().getConstants().getScoreMultiplier();
-            camera.setYPos(getYPos() - height / 2d);
+            camera.setYPos(getYPos() - height * CAMERA_POS);
         }
     }
 
+    /**
+     * Check the dead position of the Doodle.
+     */
     private void checkDeadPosition() {
         ICamera camera = getServiceLocator().getRenderer().getCamera();
-        if (getYPos() > camera.getYPos() + getServiceLocator().getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
+        if (getYPos() > camera.getYPos() + getServiceLocator().getConstants().getGameHeight() - DEAD_OFFSET * getHitBox()[HITBOX_BOTTOM]) {
             Game.setAlive(false);
         }
     }

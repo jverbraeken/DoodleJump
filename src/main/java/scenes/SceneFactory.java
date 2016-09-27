@@ -71,4 +71,13 @@ public final class SceneFactory implements ISceneFactory {
         return new World(sL);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ChooseMode newChooseMode() {
+        LOGGER.info("A new ChooseMode screen has been created");
+        return new ChooseMode(sL);
+    }
+
 }
