@@ -128,7 +128,7 @@ public class Platform extends AGameObject implements IPlatform {
         } else if (xpos < 1) {
             this.props.replace(PlatformProperties.movingHorizontally, 1);
         }
-        double cameraYpos = sL.getRenderer().getCamera().getYPos();
+
         if (offSet > MOVINGDISTANCE) {
             this.props.replace(PlatformProperties.movingVertically, 1);
         } else if (offSet < - MOVINGDISTANCE ) {
@@ -156,6 +156,18 @@ public class Platform extends AGameObject implements IPlatform {
     @Override
     public Map getProps() {
         return props;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setOffset(int offSet) {
+        this.offSet = offSet;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int getOffset() {
+        return offSet;
     }
 
 }
