@@ -18,6 +18,10 @@ import system.IServiceLocator;
 public class Doodle extends AGameObject implements IDoodle {
 
     /**
+     * The relative center of the camera on the y axis.
+     */
+    private static final double CAMERA_POS = 3/7d;
+    /**
      * Standard speed limit for the Doodle.
      */
     private final double STANDARD_SPEED_LIMIT = 6d;
@@ -259,9 +263,9 @@ public class Doodle extends AGameObject implements IDoodle {
     private void checkHighPosition() {
         ICamera camera = sL.getRenderer().getCamera();
         final int height = sL.getConstants().getGameHeight();
-        if (getYPos() < camera.getYPos() + height / 2) {
-            score += (camera.getYPos() + height / 2 - getYPos()) * sL.getConstants().getScoreMultiplier();
-            camera.setYPos(getYPos() - height / 2);
+        if (getYPos() < camera.getYPos() + height * CAMERA_POS) {
+            score += (camera.getYPos() + height * CAMERA_POS - getYPos()) * sL.getConstants().getScoreMultiplier();
+            camera.setYPos(getYPos() - height * CAMERA_POS);
         }
     }
 
@@ -270,7 +274,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void checkDeadPosition() {
         ICamera camera = sL.getRenderer().getCamera();
-        if (getYPos() > camera.getYPos() + sL.getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
+        if (getYPos() > camera.getYPos() + sL.getConstants().getGameHeight() - (1 + 1/2)*getHitBox()[HITBOX_BOTTOM]) {
             Game.setAlive(false);
         }
     }
