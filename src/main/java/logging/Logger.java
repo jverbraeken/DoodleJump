@@ -3,7 +3,6 @@ package logging;
 import filesystem.IFileSystem;
 import system.IServiceLocator;
 
-import java.io.Writer;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.concurrent.SynchronousQueue;
@@ -22,28 +21,23 @@ import java.util.concurrent.TimeUnit;
     /**
      * Reference to the file system to write.
      */
-    private static IFileSystem fileSystem;
+    private final IFileSystem fileSystem;
     /**
      * Reference to the class of this logger.
      */
     private final Class cl;
     /**
-     * The writer to which the log data should be written
+     * True if the amount of pending logging tasks should be logged
      */
-    private final Writer writer;
-
-    /**
-     * Name of the log file.
-     */
-    private static String logfile = "async.log";
+    private final boolean logPendingTasks;
 
     /**
      * Only create Logger in LoggerFactory.
      */
-    /* package */ Logger(IServiceLocator sL, Class<?> cl, Writer writer) {
-        Logger.fileSystem = sL.getFileSystem();
+    /* package */ Logger(IServiceLocator sL, Class<?> cl) {
+        this.fileSystem = sL.getFileSystem();
         this.cl = cl;
-        this.writer = writer;
+        this.logPendingTasks = sL.getConstants().getLogPendingTasks();
     }
 
     /**
@@ -94,11 +88,15 @@ import java.util.concurrent.TimeUnit;
 
     private void appendStringToTextFile(final String str) {
         Runnable runnable = () -> {
-            fileSystem.appendToTextFile(writer, str);
+            fileSystem.log(str);
         };
-        loggingThreadExecutor.execute(runnable);long submitted = loggingThreadExecutor.getTaskCount();
-        long completed = loggingThreadExecutor.getCompletedTaskCount();
-        long notCompleted = submitted - completed;
+        loggingThreadExecutor.execute(runnable);
+        if (logPendingTasks) {
+            long submitted = loggingThreadExecutor.getTaskCount();
+            long completed = loggingThreadExecutor.getCompletedTaskCount();
+            long notCompleted = submitted - completed;
+            fileSystem.log("Pending logging tasks: " + notCompleted);
+        }
     }
 
     /**
