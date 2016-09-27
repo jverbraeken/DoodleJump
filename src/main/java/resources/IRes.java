@@ -21,6 +21,7 @@ public interface IRes {
         play,
         playagain,
         resume,
+        chooseMode,
 
         // Covers
         background,
@@ -108,7 +109,15 @@ public interface IRes {
 
         // UFO
         ufo,
-        ufoShining
+        ufoShining,
+
+        // Mode icons
+        regularMode,
+        darknessMode,
+        invertMode,
+        underwaterMode,
+        spaceMode,
+        storyMode
     }
 
 }
