@@ -12,12 +12,12 @@ public class CameraTest {
     static ICamera camera;
 
     @Before
-    public static void init() {
+    public void init() {
         camera = new Camera();
     }
 
     @Test
-    public static void testGetYPos() throws NoSuchFieldException, IllegalAccessException {
+    public void testGetYPos() throws NoSuchFieldException, IllegalAccessException {
         Field field = camera.getClass().getDeclaredField("y");
         field.setAccessible(true);
 
@@ -29,7 +29,7 @@ public class CameraTest {
     }
 
     @Test
-    public static void testSetYPos() throws NoSuchFieldException, IllegalAccessException {
+    public void testSetYPos() throws NoSuchFieldException, IllegalAccessException {
         Field field = camera.getClass().getDeclaredField("y");
         field.setAccessible(true);
 
