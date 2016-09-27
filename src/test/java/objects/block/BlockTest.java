@@ -35,7 +35,7 @@ import org.mockito.Mockito;
 import java.util.Set;
 
 /**
- * Created by Michael on 9/20/2016.
+ * Test class for the Block class.
  */
 public class BlockTest {
 
@@ -64,21 +64,35 @@ public class BlockTest {
 
     }
 
-
+    /**
+     * Tests if an element is present in the set of IGameObjects after being added.
+     *
+     */
     @Test
-    public void testAddElement() throws Exception {
+    public void testAddElement() {
 
         block.addElement(platform);
         assertTrue(block.getElements().contains(platform));
     }
 
+    /**
+     *  Test if the jumpobject is present in the set of IGameObjects after being added to that set.
+     *  It also tests if the topJumpable is indeed the jumpobject that has been added.
+     */
     @Test
-    public void testGetTopJumpable() throws Exception {
+    public void testGetTopJumpable() {
 
         block.addElement(jumpobject);
         assertEquals(jumpobject, block.getTopJumpable());
+        assertTrue(block.getElements().contains(jumpobject));
     }
 
+    /**
+     * Tests if a given double has been added to the current Y position of a GameObject.
+     * @throws Exception
+     *                  throws an exception when the private constructor can not be called or when an exception is thrown
+     *                  in the constructor.
+     */
     @Test
     public void testAddYPos() throws Exception {
       IPlatform platform = Whitebox.invokeConstructor(Platform.class, servicelocator, 0, 0);
@@ -93,6 +107,13 @@ public class BlockTest {
 
     }
 
+    /**
+     * Tests if 2 platforms truly collide with each other. If so, the platform that collides with the given platform
+     * has been removed from the set of IGameObjects.
+     * @throws Exception
+     *                  throws an exception when the private constructor can not be called or when an exception is thrown
+     *                  in the constructor.
+     */
     @Test
     public void testCollisionCheck() throws Exception {
         IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 400);
@@ -105,6 +126,13 @@ public class BlockTest {
 
     }
 
+    /**
+     * Tests that when 2 platforms do not collide with each other, the platform that is checked against the given platform
+     * will not be removed from the set of IGameObjects.
+     * @throws Exception
+     *                  throws an exception when the private constructor can not be called or when an exception is thrown
+     *                  in the constructor.
+     */
     @Test
     public void testCollisionCheck2() throws Exception {
         IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 400);
@@ -117,6 +145,13 @@ public class BlockTest {
         System.out.println(Game.HEIGHT);
     }
 
+
+    /**
+     * Tests when a platform is below the height of the game, the objects are removed from the set of IGameObjects.
+     * @throws Exception
+     *                  throws an exception when the private constructor can not be called or when an exception is thrown
+     *                  in the constructor.
+     */
     @Test
     public void testCleanUpPlatforms() throws Exception {
         IPlatform platform1 = Whitebox.invokeConstructor(Platform.class, servicelocator, 400, 1100);
