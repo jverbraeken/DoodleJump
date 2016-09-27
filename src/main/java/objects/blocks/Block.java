@@ -6,11 +6,7 @@ import system.IServiceLocator;
 
 import java.util.Set;
 
-<<<<<<< HEAD
 
-public class Block implements IBlock {
-
-=======
 /**
  * This class focusses on the implementation of Blocks.
  * These blocks contain the main bulk of the game objects.
@@ -21,7 +17,6 @@ public class Block implements IBlock {
  * The choice for block was made as to make seperate sub-levels in a continuous world.
  */
 public final class Block implements IBlock {
->>>>>>> develop
 
     /**
      * Used to gain access to all services.
