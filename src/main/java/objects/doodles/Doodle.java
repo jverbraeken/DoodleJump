@@ -3,6 +3,7 @@ package objects.doodles;
 import input.IInputManager;
 import input.KeyCode;
 import input.Keys;
+import logging.ILogger;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
@@ -16,6 +17,11 @@ import system.IServiceLocator;
  * This class describes the behaviour of the doodle.
  */
 public class Doodle extends AGameObject implements IDoodle {
+
+    /**
+     * The logger for the Game class.
+     */
+    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Doodle.class);
 
     /**
      * Standard speed limit for the Doodle.
@@ -271,7 +277,8 @@ public class Doodle extends AGameObject implements IDoodle {
     private void checkDeadPosition() {
         ICamera camera = sL.getRenderer().getCamera();
         if (getYPos() > camera.getYPos() + sL.getConstants().getGameHeight() - getHitBox()[HITBOX_BOTTOM]) {
-            Game.endGame(this.score);
+            LOGGER.info("The Doodle died with score " + this.score);
+            Game.endGameInstance(this.score);
         }
     }
 

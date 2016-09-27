@@ -64,10 +64,6 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
-     * Track wether the doodle is alive.
-     */
-    private static boolean isAlive = true;
-    /**
      * The resume button for the pause screen.
      */
     private static IButton resumeButton;
@@ -200,19 +196,17 @@ public final class Game {
     }
 
     /**
-     * Set the state of the game to be alive or dead.
-     *
-     * @param alive <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
+     * Start the game.
      */
-    public static void startGame(final boolean alive) {
-        if (!alive) {
-            LOGGER.info("The Doodle died");
-        }
-
-        isAlive = alive;
+    public static void startGameInstance() {
     }
 
-    public static void endGame(final double score) {
+    /**
+     * End the game.
+     *
+     * @param score The score the game instance ended with
+     */
+    public static void endGameInstance(final double score) {
         Game.highScores.add(score);
         setScene(sL.getSceneFactory().createKillScreen());
     }
