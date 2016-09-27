@@ -69,6 +69,11 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
+     * Track the current mode of the game.
+     */
+    //TODO Actually use the current mode.
+    private static String mode = "REGULAR";
+    /**
      * The resume button for the pause screen.
      */
     private static IButton resumeButton;
@@ -214,6 +219,11 @@ public final class Game {
     public static void endGameInstance(final double score) {
         updateHighScores(score);
         setScene(sL.getSceneFactory().createKillScreen());
+    }
+
+    public static void setMode(final String m){
+        mode = m;
+        LOGGER.info("The mode is now " + m);
     }
 
     /**
