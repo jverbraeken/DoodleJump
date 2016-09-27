@@ -1,12 +1,14 @@
 package logging;
 
 import filesystem.IFileSystem;
+import system.Game;
 import system.IServiceLocator;
 
 import java.io.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 
 /**
  * Standard implementation of the LoggingFactory. Used to create loggers.
@@ -26,10 +28,6 @@ public class LoggerFactory implements ILoggerFactory {
      */
     private static IServiceLocator sL;
     /**
-     * The writer that's used to write to the logging file.
-     */
-    private final Writer logWriter;
-    /**
      * The logger for LoggerFactory.
      */
     private final ILogger LOGGER;
@@ -37,43 +35,18 @@ public class LoggerFactory implements ILoggerFactory {
      * A set containing the classes that should not be logged.
      */
     private final Set<Class<?>> logIgnore;
-
     /**
      * Hidden constructor to prevent instantiation.
      */
     private LoggerFactory() {
         LOG_FILE = LoggerFactory.sL.getConstants().getLogFile();
 
-        IFileSystem fileSystem = LoggerFactory.sL.getFileSystem();
-        fileSystem.clearFile(LOG_FILE);
-
-        // If the LOG_FILE is not found, the game should either crash on the exception or not at all (so also
-        // not when something is logged. Therefore we provide an emtpy interface instead of null to prevent
-        // a {@link NullPointerException}.
-        Writer fw = new Writer() {
-            @Override
-            public void write(char[] cbuf, int off, int len) throws IOException {
-
-            }
-
-            @Override
-            public void flush() throws IOException {
-
-            }
-
-            @Override
-            public void close() throws IOException {
-
-            }
-        };
-        try {
-            fw = new FileWriter(LOG_FILE, true);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (Game.CLEAR_LOG_ON_STARTUP) {
+            IFileSystem fileSystem = LoggerFactory.sL.getFileSystem();
+            fileSystem.clearFile(LOG_FILE);
         }
-        logWriter = new BufferedWriter(fw);
 
-        LOGGER = new Logger(sL, this.getClass(), logWriter);
+        LOGGER = new Logger(sL, this.getClass());
 
         logIgnore = new HashSet<>();
         try {
@@ -136,7 +109,7 @@ public class LoggerFactory implements ILoggerFactory {
                 }
             };
         } else {
-            return new Logger(sL, cl, logWriter);
+            return new Logger(sL, cl);
         }
     }
 
