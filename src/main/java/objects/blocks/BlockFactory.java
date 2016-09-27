@@ -199,8 +199,10 @@ public final class BlockFactory implements IBlockFactory {
         IPlatformFactory platformFactory = sL.getPlatformFactory();
         IPlatform platform = platformFactory.createPlatform(0, yLoc);
 
-        if (sL.getCalc().getRandomDouble(1) < 0.1d) {
-            platform = platformFactory.createMovingPlatform(0, yLoc);
+        if (sL.getCalc().getRandomDouble(1) < 0.075d) {
+            platform = platformFactory.createHoriMovingPlatform(0, yLoc);
+        } else if (sL.getCalc().getRandomDouble(1) < 0.15d) {
+            platform = platformFactory.createVertMovingPlatform(0, yLoc);
         }
 
         //TODO This prohibits platforms from being immutable
@@ -275,7 +277,7 @@ public final class BlockFactory implements IBlockFactory {
      * @param platform the platform that has to be checked.
      * @return true or false, dependent on the properties of the platform.
      */
-    private boolean isSpecialPlatform(IPlatform platform) {
+    public static boolean isSpecialPlatform(IPlatform platform) {
         Map properties = platform.getProps();
         Platform.PlatformProperties[] keys = Platform.PlatformProperties.values();
         for (Platform.PlatformProperties key:keys) {

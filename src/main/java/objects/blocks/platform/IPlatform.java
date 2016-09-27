@@ -33,4 +33,11 @@ public interface IPlatform extends IGameObject, IJumpable {
      */
     Map getProps();
 
+    /**
+     * Updates the special properties of the Platform.
+     * @param xpos the x position of the platform
+     * @param ypos the y position of the platform
+     */
+    void updateEnums(double xpos, double ypos);
+
 }

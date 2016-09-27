@@ -1,7 +1,7 @@
 package objects.blocks.platform;
 
-import input.Keys;
 import objects.AGameObject;
+import objects.blocks.BlockFactory;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -19,6 +19,16 @@ public class Platform extends AGameObject implements IPlatform {
      * The boost the Doodle gets from colliding with the platform.
      */
     private static final double BOOST = -18;
+
+    /**
+     * The height of the game.
+     */
+    private static int GAME_HEIGHT;
+
+    /**
+     * One third of the game height.
+     */
+    private static double MOVINGDISTANCE;
 
     /**
      * An enum to define what the platform does.
@@ -44,6 +54,11 @@ public class Platform extends AGameObject implements IPlatform {
     private Map<PlatformProperties, Integer> props = new EnumMap<>(PlatformProperties.class);
 
     /**
+     * The start y of the platform.
+     */
+    private int offSet = 0;
+
+    /**
      * Platform constructor.
      *
      * @param sL - The games service locator.
@@ -52,6 +67,13 @@ public class Platform extends AGameObject implements IPlatform {
      */
     /* package */ Platform(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
         super(sL, x, y, sprite);
+
+        GAME_HEIGHT = sL.getConstants().getGameHeight();
+        MOVINGDISTANCE = GAME_HEIGHT * 0.20;
+
+        //int cameraYpos = (int) sL.getRenderer().getCamera().getYPos();
+        //startX = x + cameraYpos;
+        //startY = y + cameraYpos;
     }
 
     /**
@@ -68,21 +90,50 @@ public class Platform extends AGameObject implements IPlatform {
     @Override
     public void render() {
         double xpos = this.getXPos();
+        double ypos = this.getYPos();
+
+        if(BlockFactory.isSpecialPlatform(this)) {
+            updateEnums(xpos, ypos);
+        }
+
+        if (props.containsKey(PlatformProperties.movingHorizontally)) {
+            if (props.get(PlatformProperties.movingHorizontally) > 0) {
+                this.setXPos(xpos + 2);
+            } else {
+                this.setXPos(xpos - 2);
+            }
+        } else if (props.containsKey(PlatformProperties.movingVertically)) {
+            if (props.get(PlatformProperties.movingVertically) > 0) {
+                this.setYPos(ypos - 2);
+                offSet = offSet - 2;
+            } else if (props.get(PlatformProperties.movingVertically) < 0) {
+                this.setYPos(ypos + 2);
+                offSet = offSet + 2;
+            }
+        }
+
+        xpos = this.getXPos();
+        ypos = this.getYPos();
+
+        sL.getRenderer().drawSprite(getSprite(), (int) xpos, (int) ypos);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void updateEnums(double xpos, double ypos) {
+
         int gameWidth = sL.getConstants().getGameWidth();
         if (xpos > gameWidth - this.getSprite().getWidth()) {
             this.props.replace(PlatformProperties.movingHorizontally, -1);
         } else if (xpos < 1) {
             this.props.replace(PlatformProperties.movingHorizontally, 1);
         }
-
-        if (this.props.containsKey(PlatformProperties.movingHorizontally)) {
-            if (this.props.get(PlatformProperties.movingHorizontally) > 0) {
-                this.setXPos(xpos + 2);
-            } else {
-                this.setXPos(xpos - 2);
-            }
+        double cameraYpos = sL.getRenderer().getCamera().getYPos();
+        if (offSet > MOVINGDISTANCE) {
+            this.props.replace(PlatformProperties.movingVertically, 1);
+        } else if (offSet < - MOVINGDISTANCE ) {
+            this.props.replace(PlatformProperties.movingVertically, -1);
         }
-        sL.getRenderer().drawSprite(getSprite(), (int) xpos, (int) this.getYPos());
     }
 
 

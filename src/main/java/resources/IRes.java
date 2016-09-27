@@ -67,8 +67,8 @@ public interface IRes {
 
         // Platforms
         platform1,
-        platform2,
-        platform3,
+        platformHori,
+        platformVert,
         platform4,
         platform5,
         platform6,

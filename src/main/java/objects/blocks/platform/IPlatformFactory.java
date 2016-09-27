@@ -16,11 +16,27 @@ public interface IPlatformFactory extends IFactory {
     IPlatform createPlatform(int x, int y);
 
     /**
-     * Create a moving platform.
+     * Create a horizontally moving platform.
      * @param x the platform's x position
      * @param y the platform's y position
-     * @return a new moving platform
+     * @return a new horizontally moving platform
      */
-    IPlatform createMovingPlatform(int x, int y);
+    IPlatform createHoriMovingPlatform(int x, int y);
+
+    /**
+     * Create a vertically moving platform.
+     * @param x the platform's x position
+     * @param y the platform's y position
+     * @return a new vertically moving platform
+     */
+    IPlatform createVertMovingPlatform(int x, int y);
+
+    /**
+     * Create a platform that breaks.
+     * @param x the platform's x position
+     * @param y the platform's y position
+     * @return a new breaking platform
+     */
+    IPlatform createBreakPlatform(int x, int y);
 
 }

@@ -9,9 +9,7 @@ package rendering;
     }
 
     @Override
-    public void setYPos(double y) {
-        Camera.y = y;
-    }
+    public void setYPos(double y) { Camera.y = y; }
 
     @Override
     public double getYPos() {

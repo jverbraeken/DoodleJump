@@ -41,13 +41,42 @@ public final class PlatformFactory implements IPlatformFactory {
      * {@inheritDoc}
      */
     @Override
-    public IPlatform createMovingPlatform(int x, final int y) {
-        IPlatform platform = new Platform(sL, x, y, sL.getSpriteFactory().getPlatformSprite2());
+    public IPlatform createHoriMovingPlatform(int x, final int y) {
+        IPlatform platform = new Platform(sL, x, y, sL.getSpriteFactory().getPlatformSpriteHori());
         platform.getProps().put(Platform.PlatformProperties.movingHorizontally, 1);
 
         return platform;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IPlatform createVertMovingPlatform(final int x, final int y) {
+        IPlatform platform = new Platform(sL, x, y, sL.getSpriteFactory().getPlatformSpriteVert());
+
+        Platform.PlatformProperties vertical = Platform.PlatformProperties.movingVertically;
+
+
+        int upOrDown = 1;
+        if (sL.getCalc().getRandomDouble(1) < 0.50d) {
+            upOrDown = -1;
+        }
+        platform.getProps().put(vertical, upOrDown);
+
+        return platform;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IPlatform createBreakPlatform(int x, final int y) {
+        IPlatform platform = new Platform(sL, x, y, sL.getSpriteFactory().getPlatformBrokenSprite1());
+        platform.getProps().put(Platform.PlatformProperties.movingHorizontally, 1);
+
+        return platform;
+    }
 
 
 }
