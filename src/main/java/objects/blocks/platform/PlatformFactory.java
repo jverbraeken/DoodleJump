@@ -73,7 +73,7 @@ public final class PlatformFactory implements IPlatformFactory {
     @Override
     public IPlatform createBreakPlatform(int x, final int y) {
         IPlatform platform = new Platform(sL, x, y, sL.getSpriteFactory().getPlatformBrokenSprite1());
-        platform.getProps().put(Platform.PlatformProperties.movingHorizontally, 1);
+        platform.getProps().put(Platform.PlatformProperties.breaks, 1);
 
         return platform;
     }

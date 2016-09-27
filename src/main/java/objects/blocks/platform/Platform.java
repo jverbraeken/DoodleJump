@@ -115,7 +115,16 @@ public class Platform extends AGameObject implements IPlatform {
         xpos = this.getXPos();
         ypos = this.getYPos();
 
-        sL.getRenderer().drawSprite(getSprite(), (int) xpos, (int) ypos);
+        if (getProps().containsKey(PlatformProperties.breaks)) {
+            int breaks = (int) getProps().get(PlatformProperties.breaks);
+            if (breaks == 1) {
+                sL.getRenderer().drawSprite(getSprite(), (int) xpos, (int) ypos);
+            } else if (breaks < 5 && breaks > 1) {
+                sL.getRenderer().drawSprite(getBrokenSprite(breaks), (int) xpos, (int) ypos);
+            }
+        } else {
+            sL.getRenderer().drawSprite(getSprite(), (int) xpos, (int) ypos);
+        }
     }
 
     /** {@inheritDoc} */
@@ -140,8 +149,24 @@ public class Platform extends AGameObject implements IPlatform {
     /** {@inheritDoc} */
     @Override
     public void collidesWith(IDoodle doodle) {
-        this.playSound();
-        doodle.collide(this);
+        if (getProps().containsKey(PlatformProperties.breaks)) {
+            if ((int) getProps().get(PlatformProperties.breaks) == 1) {
+                getProps().replace(PlatformProperties.breaks, 2);
+                playBreakSound();
+            }
+
+        } else {
+            this.playSound();
+            doodle.collide(this);
+        }
+    }
+
+    /**
+     * Play the breaking sound for the Platform.
+     */
+    private void playBreakSound() {
+        IAudioManager audioManager = sL.getAudioManager();
+        audioManager.playLomise();
     }
 
     /**
@@ -160,7 +185,7 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public void setOffset(int offSet) {
+    public void setOffset(final int offSet) {
         this.offSet = offSet;
     }
 
@@ -168,6 +193,23 @@ public class Platform extends AGameObject implements IPlatform {
     @Override
     public int getOffset() {
         return offSet;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite getBrokenSprite(final int numberOfAnimation) {
+        if (numberOfAnimation == 2) {
+            getProps().replace(PlatformProperties.breaks, 3);
+            return sL.getSpriteFactory().getPlatformBrokenSprite2();
+        } else if (numberOfAnimation == 3) {
+            getProps().replace(PlatformProperties.breaks, 4);
+            return sL.getSpriteFactory().getPlatformBrokenSprite3();
+        } else if (numberOfAnimation == 4) {
+            getProps().replace(PlatformProperties.breaks, -1);
+            return sL.getSpriteFactory().getPlatformBrokenSprite4();
+        } else {
+            return getSprite();
+        }
     }
 
 }

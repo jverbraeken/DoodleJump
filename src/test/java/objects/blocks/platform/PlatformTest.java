@@ -99,4 +99,13 @@ public class PlatformTest {
         Mockito.verify(audioManager).playJump();
     }
 
+    @Test
+    public void collidesWithBreakPlatform(){
+        p.getProps().put(Platform.PlatformProperties.breaks, 1);
+        p.collidesWith(doodle);
+
+        Mockito.verify(doodle, Mockito.times(0)).collide(p);
+        Mockito.verify(audioManager).playLomise();
+    }
+
 }

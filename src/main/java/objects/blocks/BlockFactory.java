@@ -199,10 +199,12 @@ public final class BlockFactory implements IBlockFactory {
         IPlatformFactory platformFactory = sL.getPlatformFactory();
         IPlatform platform = platformFactory.createPlatform(0, yLoc);
 
-        if (sL.getCalc().getRandomDouble(1) < 0.075d) {
+        if (sL.getCalc().getRandomDouble(1) < 0.06d) {
             platform = platformFactory.createHoriMovingPlatform(0, yLoc);
-        } else if (sL.getCalc().getRandomDouble(1) < 0.15d) {
+        } else if (sL.getCalc().getRandomDouble(1) < 0.12d) {
             platform = platformFactory.createVertMovingPlatform(0, yLoc);
+        } else if (sL.getCalc().getRandomDouble(1) < 0.18d) {
+            platform = platformFactory.createBreakPlatform(0, yLoc);
         }
 
         //TODO This prohibits platforms from being immutable
