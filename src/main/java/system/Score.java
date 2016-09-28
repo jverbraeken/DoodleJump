@@ -3,7 +3,7 @@ package system;
 /**
  * Class representing a score.
  */
-/* package */ class Score implements Comparable<Score> {
+public class Score implements Comparable<Score> {
 
     /**
      * The name of this Score.

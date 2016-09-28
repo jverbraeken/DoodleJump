@@ -103,6 +103,14 @@ public final class Game {
         IInputManager inputManager = sL.getInputManager();
         sL.getRenderer().start();
 
+        // TEMP: test scores
+        highScores.add(new Score("Aaaaaaaaaaaaaaaaaaaa", 100000d));
+        highScores.add(new Score("Bbbbbbbbbbbbbbbbbbbb", 10000d));
+        highScores.add(new Score("Cccccccccccccccccccc", 1000d));
+        highScores.add(new Score("Dddddddddddddddddddd", 100d));
+        highScores.add(new Score("Eeeeeeeeeeeeeeeeeeee", 10d));
+        // TEMP: test scores
+
         // Initialize frame
         frame = new JFrame("Doodle Jump");
         frame.addMouseListener(inputManager);
@@ -214,6 +222,14 @@ public final class Game {
     public static void endGameInstance(final double score) {
         updateHighScores(score);
         setScene(sL.getSceneFactory().createKillScreen());
+    }
+
+    /**
+     * Get the list of highscores.
+     * @return The highscores.
+     */
+    public static ArrayList<Score> getHighScores() {
+        return Game.highScores;
     }
 
     /**

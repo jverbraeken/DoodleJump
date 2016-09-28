@@ -111,7 +111,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getScoreButtonSprite() {
-        return getSprite(IRes.Sprites.resume);
+        return getSprite(IRes.Sprites.scorebutton);
     }
 
 

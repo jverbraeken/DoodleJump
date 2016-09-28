@@ -66,6 +66,15 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
+    public void drawRectangleHUD(int x, int y, int width, int height) {
+        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
+        graphics.drawRect(x, y, width, height);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void drawSprite(ISprite sprite, int x, int y) {
         assert graphics != null;
         if (sprite == null) {
@@ -94,15 +103,6 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawRectangleHUD(int x, int y, int width, int height) {
-        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
-        graphics.drawRect(x, y, width, height);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void drawSpriteHUD(ISprite sprite, int x, int y) {
         assert graphics != null;
         if (sprite == null) {
@@ -123,6 +123,13 @@ public final class Renderer implements IRenderer {
         }
 
         graphics.drawImage(sprite.getImage(), x, y, width, height, null);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void drawText(final String msg, final int x, final int y) {
+        assert graphics != null;
+        graphics.drawString(msg, x, y);
     }
 
     /**
