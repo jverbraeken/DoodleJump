@@ -190,12 +190,13 @@ public final class BlockFactory implements IBlockFactory {
         IPlatform platform;
         boolean breaks;
         do {
-            platform = makeFollowingPlatform(topJumpable, heightDivPlatforms);
+            do {
+                platform = makeFollowingPlatform(topJumpable, heightDivPlatforms);
+            } while (platformCollideCheck(platform, elements));
+            elements.add(platform);
             Platform.PlatformProperties br = Platform.PlatformProperties.breaks;
             breaks = platform.getProps().containsKey(br);
-
-            elements.add(platform);
-        } while (platformCollideCheck(platform, elements) && breaks);
+        } while(breaks);
 
         chanceForPowerup(elements, platform);
         return platform;
@@ -299,10 +300,10 @@ public final class BlockFactory implements IBlockFactory {
      * @param platform the platform that has to be checked.
      * @return true or false, dependent on the properties of the platform.
      */
-    public static boolean isSpecialPlatform(IPlatform platform) {
-        Map properties = platform.getProps();
+    public static boolean isSpecialPlatform(final IPlatform platform) {
+        Map<Platform.PlatformProperties, Integer> properties = platform.getProps();
         Platform.PlatformProperties[] keys = Platform.PlatformProperties.values();
-        for (Platform.PlatformProperties key:keys) {
+        for (Platform.PlatformProperties key : keys) {
             if (properties.containsKey(key)) {
                 return true;
             }

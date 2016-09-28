@@ -22,11 +22,6 @@ public class Platform extends AGameObject implements IPlatform {
     private static final double BOOST = -18;
 
     /**
-     * The height of the game.
-     */
-    private static int GAME_HEIGHT;
-
-    /**
      * One third of the game height.
      */
     private static double MOVINGDISTANCE;
@@ -35,6 +30,28 @@ public class Platform extends AGameObject implements IPlatform {
      * Current vertical speed for the Doodle.
      */
     private double vSpeed = 0d;
+
+    /**
+     * An enum to define what the platform does.
+     */
+    public enum Directions {
+        /**
+         * For moving up, normally 1.
+         */
+        up,
+        /**
+         * For moving down, normally -1.
+         */
+        down,
+        /**
+         * For moving down, normally 1.
+         */
+        right,
+        /**
+         * For moving down, normally -1.
+         */
+        left
+    }
 
     /**
      * An enum to define what the platform does.
@@ -60,6 +77,11 @@ public class Platform extends AGameObject implements IPlatform {
     private Map<PlatformProperties, Integer> props = new EnumMap<>(PlatformProperties.class);
 
     /**
+     * The directions a platform can go to.
+     */
+    private Map<Directions, Integer> directions = new EnumMap<>(Directions.class);
+
+    /**
      * The start y of the platform.
      */
     private int offSet = 0;
@@ -74,12 +96,14 @@ public class Platform extends AGameObject implements IPlatform {
     /* package */ Platform(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
         super(sL, x, y, sprite);
 
-        GAME_HEIGHT = sL.getConstants().getGameHeight();
-        MOVINGDISTANCE = GAME_HEIGHT * 0.20;
+        int gameHeight = sL.getConstants().getGameHeight();
+        MOVINGDISTANCE = gameHeight * 0.20;
 
-        //int cameraYpos = (int) sL.getRenderer().getCamera().getYPos();
-        //startX = x + cameraYpos;
-        //startY = y + cameraYpos;
+        directions.put(Directions.up, 1);
+        directions.put(Directions.down, -1);
+
+        directions.put(Directions.right, 1);
+        directions.put(Directions.left, -1);
     }
 
     /**
@@ -103,16 +127,16 @@ public class Platform extends AGameObject implements IPlatform {
         }
 
         if (props.containsKey(PlatformProperties.movingHorizontally)) {
-            if (props.get(PlatformProperties.movingHorizontally) > 0) {
+            if (props.get(PlatformProperties.movingHorizontally).equals(directions.get(Directions.right))) {
                 this.setXPos(xpos + 2);
-            } else {
+            } else if (props.get(PlatformProperties.movingHorizontally).equals(directions.get(Directions.left))) {
                 this.setXPos(xpos - 2);
             }
         } else if (props.containsKey(PlatformProperties.movingVertically)) {
-            if (props.get(PlatformProperties.movingVertically) > 0) {
+            if (props.get(PlatformProperties.movingVertically).equals(directions.get(Directions.up))) {
                 this.setYPos(ypos - 2);
                 offSet = offSet - 2;
-            } else if (props.get(PlatformProperties.movingVertically) < 0) {
+            } else if (props.get(PlatformProperties.movingVertically).equals(directions.get(Directions.down))) {
                 this.setYPos(ypos + 2);
                 offSet = offSet + 2;
             }
@@ -121,8 +145,8 @@ public class Platform extends AGameObject implements IPlatform {
         xpos = this.getXPos();
         ypos = this.getYPos();
 
-        if (getProps().containsKey(PlatformProperties.breaks)) {
-            int breaks = (int) getProps().get(PlatformProperties.breaks);
+        if (props.containsKey(PlatformProperties.breaks)) {
+            int breaks = (int) props.get(PlatformProperties.breaks);
             if (breaks == 1) {
                 sL.getRenderer().drawSprite(getSprite(), (int) xpos, (int) ypos);
             } else if (breaks < 5 && breaks > 1) {
@@ -158,9 +182,9 @@ public class Platform extends AGameObject implements IPlatform {
     /** {@inheritDoc} */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        if (getProps().containsKey(PlatformProperties.breaks)) {
-            if (getProps().get(PlatformProperties.breaks) == 1) {
-                getProps().replace(PlatformProperties.breaks, 2);
+        if (props.containsKey(PlatformProperties.breaks)) {
+            if (props.get(PlatformProperties.breaks) == 1) {
+                props.replace(PlatformProperties.breaks, 2);
                 vSpeed = doodle.getVerticalSpeed() / 2;
                 playBreakSound();
             }
@@ -209,13 +233,13 @@ public class Platform extends AGameObject implements IPlatform {
     @Override
     public ISprite getBrokenSprite(final int numberOfAnimation) {
         if (numberOfAnimation == 2) {
-            getProps().replace(PlatformProperties.breaks, 3);
+            props.replace(PlatformProperties.breaks, 3);
             return sL.getSpriteFactory().getPlatformBrokenSprite2();
         } else if (numberOfAnimation == 3) {
-            getProps().replace(PlatformProperties.breaks, 4);
+            props.replace(PlatformProperties.breaks, 4);
             return sL.getSpriteFactory().getPlatformBrokenSprite3();
         } else if (numberOfAnimation == 4 || numberOfAnimation == -1) {
-            getProps().replace(PlatformProperties.breaks, -1);
+            props.replace(PlatformProperties.breaks, -1);
             return sL.getSpriteFactory().getPlatformBrokenSprite4();
         } else {
             return getSprite();
