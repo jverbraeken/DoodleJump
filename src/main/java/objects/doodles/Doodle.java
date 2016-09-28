@@ -194,16 +194,16 @@ public class Doodle extends AGameObject implements IDoodle {
     private void setBehavior(Game.Modes mode) {
         switch (mode) {
             case regular:
-                behavior = new RegularBehavior(this, sL);
+                behavior = new RegularBehavior(sL, this);
                 break;
             case space:
-                behavior = new SpaceBehavior(this, sL);
+                behavior = new SpaceBehavior(sL, this);
                 break;
             case underwater:
-                behavior = new UnderwaterBehavior(this, sL);
+                behavior = new UnderwaterBehavior(sL, this);
                 break;
             default:
-                behavior = new RegularBehavior(this, sL);
+                behavior = new RegularBehavior(sL, this);
         }
     }
 

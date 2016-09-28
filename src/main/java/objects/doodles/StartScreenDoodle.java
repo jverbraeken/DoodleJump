@@ -44,7 +44,7 @@ import system.IServiceLocator;
         super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0]);
         this.setHitBox((int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT), getSprite().getHeight());
 
-        behavior = new RegularBehavior(this, sL);
+        behavior = new RegularBehavior(sL, this);
         IInputManager inputManager = sL.getInputManager();
         inputManager.addObserver(this);
     }
