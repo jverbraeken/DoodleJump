@@ -12,7 +12,7 @@ public class Enemy extends AEnemy {
      * @param sprite The sprite of the enemy
      */
     public Enemy(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
-        super(sL, x, y, sprite);
+        super(sL, x, y, sprite, Enemy.class);
     }
 
     @Override

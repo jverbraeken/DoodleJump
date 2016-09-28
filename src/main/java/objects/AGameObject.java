@@ -1,5 +1,6 @@
 package objects;
 
+import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -9,26 +10,28 @@ import system.IServiceLocator;
 public abstract class AGameObject implements IGameObject {
 
     /**
-     * The service locator.
+     * Constants to prevent incorrect element acces of the {@link #hitBox} variable.
      */
-    private static IServiceLocator sL;
-
+    public static final transient int HITBOX_LEFT = 0,
+            HITBOX_RIGHT = 1,
+            HITBOX_TOP = 2,
+            HITBOX_BOTTOM = 3;
     /**
      * A lock to prevent concurrent modification of e.g. the service locator.
      */
     private static final Object lock = new Object();
-
     /**
-     * Constants to prevent incorrect element acces of the {@link #hitBox} variable.
+     * The service locator.
      */
-    public static final transient int   HITBOX_LEFT = 0,
-                                        HITBOX_RIGHT = 1,
-                                        HITBOX_TOP = 2,
-                                        HITBOX_BOTTOM = 3;
+    private static IServiceLocator sL;
     /**
      * Contains the margins between the left-upper corner of the sprite and the hitbox.
      */
     private final double[] hitBox = new double[4];
+    /**
+     * The logger for the class.
+     */
+    private final ILogger logger;
     /**
      * The sprite used for the game object.
      */
@@ -44,11 +47,13 @@ public abstract class AGameObject implements IGameObject {
 
     /**
      * Creates a new game object and determines its hitbox by using the sprites dimensions automatically.
-     * @param x The X-coordinate of the game object
-     * @param y The Y-coordinate of the game object
-     * @param sprite The sprite of the game object. Can be {null} when the object is a {@link objects.blocks.IBlock block}
+     *
+     * @param x           The X-coordinate of the game object
+     * @param y           The Y-coordinate of the game object
+     * @param sprite      The sprite of the game object. Can be {null} when the object is a {@link objects.blocks.IBlock block}
+     * @param objectClass The class of the object (e.g. Doodle.class)
      */
-    public AGameObject(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
+    public AGameObject(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final Class<?> objectClass) {
         synchronized (lock) {
             AGameObject.sL = sL;
         }
@@ -61,6 +66,7 @@ public abstract class AGameObject implements IGameObject {
             setHitBox(0, 0, sprite.getWidth(), sprite.getHeight());
             setSprite(sprite);
         }
+        logger = sL.getLoggerFactory().createLogger(objectClass);
     }
 
     /**
@@ -182,5 +188,12 @@ public abstract class AGameObject implements IGameObject {
     @Override
     public void update(final double delta) {
 
+    }
+
+    /**
+     * @return The logger of the object.
+     */
+    public ILogger getLogger() {
+        return logger;
     }
 }

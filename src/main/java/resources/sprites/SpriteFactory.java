@@ -4,7 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import logging.ILogger;
-import objects.doodles.IDoodle;
+import objects.doodles.DoodleBehavior.MovementBehavior;
 import resources.IRes;
 import system.IServiceLocator;
 
@@ -48,7 +48,7 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * Prevents instantiation from outside the class.
      */
-    private SpriteFactory() {
+    public SpriteFactory() {
         LOGGER = sL.getLoggerFactory().createLogger(SpriteFactory.class);
 
         cache = CacheBuilder.newBuilder()
@@ -148,9 +148,9 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite[] getDoodleSprite(final IDoodle.Directions direction) {
+    public ISprite[] getDoodleSprite(final MovementBehavior.Directions direction) {
         ISprite[] sprites = new ISprite[2];
-        if (direction == IDoodle.Directions.Left) {
+        if (direction == MovementBehavior.Directions.Left) {
             sprites[0] = this.getSprite(IRes.Sprites.doodleLeftAscend);
             sprites[1] = this.getSprite(IRes.Sprites.doodleLeftDescend);
         } else { // Use Right by default

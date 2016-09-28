@@ -1,9 +1,12 @@
 package resources;
 
+import system.Game;
 import system.IServiceLocator;
 
 import java.util.EnumMap;
 import java.util.Map;
+
+import static system.Game.Modes.regular;
 
 /**
  * Resources class, containing information about sprites.
@@ -15,6 +18,10 @@ public final class Res implements IRes {
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
+    /**
+     * The sprite path used to find the sprites.
+     */
+    private final static String spritePath = "sprites/";
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -32,7 +39,48 @@ public final class Res implements IRes {
     private Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
 
     {
-        String spritePath = "sprites/";
+        resetSkin();
+    }
+
+    /**
+     * Prevent instantiation of Res.
+     */
+    private Res() {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getSpritePath(final Sprites sprite) {
+        return sprites.get(sprite);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSkin(Game.Modes mode) {
+        switch (mode) {
+            case regular:
+                resetSkin();
+                break;
+            case space:
+                setSpaceSkin();
+                break;
+            case underwater:
+                setUnderwaterSkin();
+                break;
+            default:
+                resetSkin();
+                break;
+        }
+    }
+
+    /**
+     * Reset the skin to the regular settings.
+     */
+    private void resetSkin() {
         // TODO this should be removed in the final version when all Sprites are ready
         for (Sprites sprite : Sprites.values()) {
             sprites.put(sprite, spritePath + "unimplemented.jpg");
@@ -99,17 +147,54 @@ public final class Res implements IRes {
     }
 
     /**
-     * Prevent instantiation of Res.
+     * Set the skin to space style.
      */
-    private Res() {
+    private void setSpaceSkin() {
+        resetSkin();
+        // Covers
+        sprites.put(Sprites.background, spritePath + "space-bck@2x.png");
+
+        // Doodle
+        sprites.put(Sprites.doodleLeftAscend, spritePath + "space-left@2x.png");
+        sprites.put(Sprites.doodleLeftDescend, spritePath + "space-left-odskok@2x.png");
+        sprites.put(Sprites.doodleRightAscend, spritePath + "space-right@2x.png");
+        sprites.put(Sprites.doodleRightDescend, spritePath + "space-right-odskok@2x.png");
+
+        // Platforms
+        sprites.put(Sprites.platform1, spritePath + "space-platform@2x.png");
+
+        // Power-ups
+        sprites.put(Sprites.trampoline, spritePath + "space-powerup-trampoline@2x.png");
+        sprites.put(Sprites.trampolineUsed, spritePath + "space-powerup-trampoline-used@2x.png");
+
+        // Top bar
+        sprites.put(Sprites.scorebar, spritePath + "space-scorebar@2x.png");
+
     }
 
     /**
-     * {@inheritDoc}
+     * Set the skin to underwater style.
      */
-    @Override
-    public String getSpritePath(final Sprites sprite) {
-        return sprites.get(sprite);
-    }
+    private void setUnderwaterSkin() {
+        resetSkin();
+        // Covers
+        sprites.put(Sprites.background, spritePath + "underwater-bck@2x.png");
 
+        // Doodle
+        sprites.put(Sprites.doodleLeftAscend, spritePath + "underwater-left@2x.png");
+        sprites.put(Sprites.doodleLeftDescend, spritePath + "underwater-left-odskok@2x.png");
+        sprites.put(Sprites.doodleRightAscend, spritePath + "underwater-right@2x.png");
+        sprites.put(Sprites.doodleRightDescend, spritePath + "underwater-right-odskok@2x.png");
+
+        // Platforms
+        sprites.put(Sprites.platform1, spritePath + "space-platform@2x.png");
+
+        // Power-ups
+        sprites.put(Sprites.trampoline, spritePath + "space-powerup-trampoline@2x.png");
+        sprites.put(Sprites.trampolineUsed, spritePath + "space-powerup-trampoline-used@2x.png");
+
+        // Top bar
+        sprites.put(Sprites.scorebar, spritePath + "space-scorebar@2x.png");
+
+    }
 }

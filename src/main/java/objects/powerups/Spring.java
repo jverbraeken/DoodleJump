@@ -25,7 +25,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the trampoline.
      */
     /* package */ Spring(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getSpringSprite());
+        super(sL, x, y, sL.getSpriteFactory().getSpringSprite(), Spring.class);
     }
 
     private void animate() {

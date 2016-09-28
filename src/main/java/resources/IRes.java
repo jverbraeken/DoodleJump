@@ -1,5 +1,7 @@
 package resources;
 
+import system.Game;
+
 /**
  * Interface for the resources.
  */
@@ -13,6 +15,12 @@ public interface IRes {
      * @return The filepath to the sprite
      */
     String getSpritePath(Sprites sprite);
+
+    /**
+     * Set the skin of the game.
+     * @param mode
+     */
+    void setSkin(Game.Modes mode);
 
     enum Sprites {
         // Buttons

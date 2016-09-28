@@ -23,7 +23,7 @@ public class Platform extends AGameObject implements IPlatform {
      * @param y - The Y location for the platform.
      */
     /* package */ Platform(IServiceLocator sL, int x, int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPlatformSprite1());
+        super(sL, x, y, sL.getSpriteFactory().getPlatformSprite1(), Platform.class);
     }
 
     /**

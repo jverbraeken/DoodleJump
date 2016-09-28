@@ -25,7 +25,7 @@ public class Trampoline extends APowerup implements IJumpable {
      * @param y - The Y location for the trampoline.
      */
     /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite());
+        super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite(), Trampoline.class);
     }
 
     private void animate() {
