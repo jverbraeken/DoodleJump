@@ -2,7 +2,7 @@ package rendering;
 
 import resources.sprites.ISprite;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * This class is responsible for rendering all Sprites.
@@ -75,6 +75,16 @@ public interface IRenderer {
      * @param y the y position of the string.
      */
     void drawText(final String msg, final int x, final int y);
+
+    /**
+     * Draw a filled rectangle.
+     * @param x the x position of the rectangle.
+     * @param y the y position of the rectangle.
+     * @param width the width of the rectangle.
+     * @param height the height of the rectangle.
+     * @param color the color of the rectangle.
+     */
+    void fillRectangle(int x, int y, int width, int height, Color color);
 
     /**
      * Create a graphics buffer for smooth animations and rendering.

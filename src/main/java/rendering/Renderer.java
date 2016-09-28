@@ -125,11 +125,27 @@ public final class Renderer implements IRenderer {
         graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void drawText(final String msg, final int x, final int y) {
         assert graphics != null;
         graphics.drawString(msg, x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void fillRectangle(int x, int y, int width, int height, Color color) {
+        assert graphics != null;
+        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+
+        Color currentColor = graphics.getColor();
+        graphics.setColor(color);
+        graphics.fillRect(x, (int) (y - camera.getYPos()), width, height);
+        graphics.setColor(currentColor);
     }
 
     /**

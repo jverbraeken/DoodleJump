@@ -12,6 +12,7 @@ import system.Game;
 import system.IServiceLocator;
 import system.Score;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -27,6 +28,14 @@ import java.util.ArrayList;
      * The X and Y location for the resume button.
      */
     private static final double MENU_BUTTON_X = 0.55d, MENU_BUTTON_Y = 0.80d;
+    /**
+     * Height of a score entry.
+     */
+    private static final double ENTRY_HEIGHT = .05;
+    /**
+     * The color of score entries.
+     */
+    private static final Color COLOR_EVEN = new Color(235, 224, 206), COLOR_UNEVEN = new Color(241, 234, 224);
 
     /**
      * Used to gain access to all services.
@@ -70,11 +79,14 @@ import java.util.ArrayList;
         renderer.drawSpriteHUD(this.left, 0, this.top.getHeight());
         renderer.drawSpriteHUD(this.top, 0, 0);
 
+        int entryHeight = (int) (constants.getGameHeight() * ENTRY_HEIGHT);
         for (int i = 0; i < highScores.size(); i++) {
             Score score = highScores.get(i);
             int scoreX = this.left.getWidth();
-            int scoreY = this.top.getHeight() + i * 24;
-            renderer.drawRectangle(scoreX, scoreY, constants.getGameWidth() - scoreX, 24);
+            int scoreY = this.top.getHeight() + i * entryHeight;
+
+            Color color = i % 2 == 1 ? COLOR_EVEN : COLOR_UNEVEN;
+            renderer.fillRectangle(scoreX, scoreY, constants.getGameWidth() - scoreX, entryHeight, color);
             renderer.drawText(score.getName(), scoreX, scoreY);
         }
 
