@@ -52,8 +52,9 @@ public final class FileSystem implements IFileSystem {
 
             }
         };
+        File logFile = new File(Game.LOGFILE_NAME);
         try {
-            fw = new FileWriter(Game.LOGFILE_NAME, true);
+            fw = new FileWriter(logFile, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,8 +77,7 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public List<String> readTextFile(final String filename) throws FileNotFoundException {
-        File file = getFile(filename);
-
+        File file = getResourceFile(filename);
         List<String> result = new ArrayList<>();
 
         String line;
@@ -98,10 +98,8 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public InputStream readBinaryFile(final String filename) throws FileNotFoundException {
-        File file = getFile(filename);
-
-        InputStream inputStream = new FileInputStream(
-                file);
+        File file = getResourceFile(filename);
+        InputStream inputStream = new FileInputStream(file);
         return new BufferedInputStream(inputStream);
     }
 
@@ -110,7 +108,7 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public BufferedImage readImage(final String filename) throws FileNotFoundException {
-        File file = getFile(filename);
+        File file = getResourceFile(filename);
 
         try {
             return ImageIO.read(file);
@@ -125,7 +123,7 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public Clip readSound(final String filename) throws FileNotFoundException {
-        File file = getFile(filename);
+        File file = getResourceFile(filename);
 
         try {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(file);
@@ -144,7 +142,7 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public void writeTextFile(final String filename, final String content) throws FileNotFoundException {
-        File file = getFile(filename);
+        File file = getResourceFile(filename);
         try (final OutputStream fs = new FileOutputStream(file);
              final Writer ow = new OutputStreamWriter(fs, StandardCharsets.UTF_8);
              final Writer bufferedFileWriter = new BufferedWriter(ow)) {
@@ -161,8 +159,8 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public void deleteFile(final String filename) {
-        boolean success = (new File(filename)).delete();
+    public void deleteFile(final String filename) throws FileNotFoundException {
+        boolean success = (getResourceFile(filename)).delete();
         if (!success) {
             // TODO If logger is a field of FileSystem, FileSystem references LoggerFactory which is created AFTER
             // FileSystem. Consider a two-step initialisation of dependent objects.
@@ -175,9 +173,10 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public void clearFile(final String filename) {
-        final File file = new File(filename);
-        try (final Writer w = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
+    public void clearFile(final String filename) throws FileNotFoundException {
+        final File file = getProjectFile(filename);
+        try (final OutputStream outputStream = new FileOutputStream(file);
+             final Writer w = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
              final PrintWriter pw = new PrintWriter(w, false)) {
             pw.flush();
             pw.close();
@@ -207,8 +206,7 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public OutputStream writeBinaryFile(final String filename) throws FileNotFoundException {
-        File file = getFile(filename);
-
+        File file = getResourceFile(filename);
         OutputStream outputStream = new FileOutputStream(file);
         return new BufferedOutputStream(outputStream);
     }
@@ -217,7 +215,7 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public File getFile(final String filename) throws FileNotFoundException {
+    public File getResourceFile(final String filename) throws FileNotFoundException {
         if (filename == null) {
             throw new IllegalArgumentException("filename cannot be null");
         }
@@ -232,6 +230,14 @@ public final class FileSystem implements IFileSystem {
             throw new FileNotFoundException("The following file could not be found: \"" + newFilename + "\"");
         }
         return new File(url.getFile());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public File getProjectFile(final String filename) {
+        return new File(filename);
     }
 
     /**

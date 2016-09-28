@@ -43,7 +43,11 @@ public class LoggerFactory implements ILoggerFactory {
 
         if (Game.CLEAR_LOG_ON_STARTUP) {
             IFileSystem fileSystem = LoggerFactory.sL.getFileSystem();
-            fileSystem.clearFile(LOG_FILE);
+            try {
+                fileSystem.clearFile(LOG_FILE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
         LOGGER = new Logger(sL, this.getClass());

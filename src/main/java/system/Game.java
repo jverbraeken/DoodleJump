@@ -303,18 +303,17 @@ public final class Game {
         IConstants constants = sL.getConstants();
         try {
             List<String> content = fileSystem.readTextFile(constants.getHighScoresFile());
-            String plainHighScores = content.get(0);
-            String[] highScores = plainHighScores.split("\\s+");
-            for (int i = 0; i < highScores.length; i += 2) {
-                HighScore score = new HighScore(highScores[i], highScores[i + 1]);
-                Game.highScores.add(score);
+
+            if (content.size() > 0) {
+                String plainHighScores = content.get(0);
+                String[] highScores = plainHighScores.split("\\s+");
+                for (int i = 0; i < highScores.length; i += 2) {
+                    HighScore score = new HighScore(highScores[i], highScores[i + 1]);
+                    Game.highScores.add(score);
+                }
             }
         } catch (FileNotFoundException e) {
             LOGGER.warning("High scores file not found, starting with empty high scores list");
-        }
-
-        for (HighScore score : Game.highScores) {
-            System.out.println(score.getName() + " - " + score.getScore());
         }
     }
 
