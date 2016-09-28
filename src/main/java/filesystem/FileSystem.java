@@ -34,7 +34,7 @@ public final class FileSystem implements IFileSystem {
      */
     private FileSystem() {
         // If the LOGFILE is not found, the game should either crash on the exception or not crash at all (so also
-        // not when something is logged. Therefore we provide an emtpy interface instead of null to prevent
+        // not when something is logged. Therefore we provide an empty interface instead of null to prevent
         // a {@link NullPointerException}.
         Writer fw = new Writer() {
             @Override
@@ -240,9 +240,7 @@ public final class FileSystem implements IFileSystem {
     @Override
     public Object parseJson(String filename, Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        for (String string : readTextFile(filename)) {
-            sb.append(string);
-        }
+        readTextFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;
@@ -260,9 +258,7 @@ public final class FileSystem implements IFileSystem {
     @Override
     public Object parseJsonList(String filename, Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        for (String string : readTextFile(filename)) {
-            sb.append(string);
-        }
+        readTextFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;
@@ -280,9 +276,7 @@ public final class FileSystem implements IFileSystem {
     @Override
     public Object parseJsonMap(String filename, Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        for (String string : readTextFile(filename)) {
-            sb.append(string);
-        }
+        readTextFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;

@@ -28,7 +28,6 @@ public interface IConstants {
 
     /**
      * @return The name of the log file
-     * @return
      */
     String getLogFile();
 }

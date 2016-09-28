@@ -2,7 +2,6 @@ package scenes;
 
 import buttons.IButton;
 import buttons.IButtonFactory;
-import input.IMouseInputObserver;
 import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -32,7 +31,7 @@ import system.IServiceLocator;
     /**
      * Used to gain access to all services.
      */
-    private final IServiceLocator sL;
+    private final IServiceLocator serviceLocator;
     /**
      * The button that starts a new world.
      */
@@ -42,7 +41,7 @@ import system.IServiceLocator;
      */
     private final IButton mainMenuButton;
     /**
-     * Sprites to be displayed on the background of the killscreen.
+     * Sprites to be displayed on the background of the KillScreen.
      */
     private final ISprite background, bottomKillScreen, gameOverSprite;
     /**
@@ -57,7 +56,7 @@ import system.IServiceLocator;
      */
     /* package */ KillScreen(final IServiceLocator sL) {
         assert sL != null;
-        this.sL = sL;
+        this.serviceLocator = sL;
         LOGGER = sL.getLoggerFactory().createLogger(KillScreen.class);
 
         background = sL.getSpriteFactory().getBackground();
@@ -70,48 +69,41 @@ import system.IServiceLocator;
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void start() {
-        sL.getInputManager().addObserver(playAgainButton);
-        sL.getInputManager().addObserver(mainMenuButton);
+        serviceLocator.getInputManager().addObserver(playAgainButton);
+        serviceLocator.getInputManager().addObserver(mainMenuButton);
+
         active = true;
         LOGGER.info("The kill screen scene is now displaying");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void stop() {
-        sL.getInputManager().removeObserver(playAgainButton);
-        sL.getInputManager().removeObserver(mainMenuButton);
+        serviceLocator.getInputManager().removeObserver(playAgainButton);
+        serviceLocator.getInputManager().removeObserver(mainMenuButton);
+
         active = false;
         LOGGER.info("The kill screen scene is no longer displaying");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void render() {
         if (active) {
-            sL.getRenderer().drawSpriteHUD(this.background, 0, 0);
-            sL.getRenderer().drawSpriteHUD(this.gameOverSprite, (int) (sL.getConstants().getGameWidth() * GAME_OVER_TEXT_X), (int) (sL.getConstants().getGameHeight() * GAME_OVER_TEXT_Y));
-            double y = (double) sL.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
-            sL.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
+            serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
+            serviceLocator.getRenderer().drawSpriteHUD(this.gameOverSprite, (int) (serviceLocator.getConstants().getGameWidth() * GAME_OVER_TEXT_X), (int) (serviceLocator.getConstants().getGameHeight() * GAME_OVER_TEXT_Y));
+            double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
+            serviceLocator.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
             playAgainButton.render();
             mainMenuButton.render();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public final void update(final double delta) {
-    }
+    public final void update(final double delta) { }
 
 }

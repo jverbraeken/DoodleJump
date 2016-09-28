@@ -102,7 +102,7 @@ public final class AudioManager implements IAudioManager {
      * {@inheritDoc}
      */
     @Override
-    public void playEggmonsterhit() {
+    public void playEggMonsterHit() {
         Sound.EGGMONSTERHIT.play();
     }
 
@@ -110,16 +110,16 @@ public final class AudioManager implements IAudioManager {
      * {@inheritDoc}
      */
     @Override
-    public void playExplodingplatform() {
-        Sound.EXPLODINGPLATFORM.play();
+    public void playExplodingPlatform() {
+        Sound.EXPLODING_PLATFORM.play();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void playExplodingplatform2() {
-        Sound.EXPLODINGPLATFORM2.play();
+    public void playExplodingPlatform2() {
+        Sound.EXPLODING_PLATFORM2.play();
     }
 
     /**
@@ -150,8 +150,8 @@ public final class AudioManager implements IAudioManager {
      * {@inheritDoc}
      */
     @Override
-    public void playJumponmonster() {
-        Sound.JUMPONMONSTER.play();
+    public void playJumpOnMonster() {
+        Sound.JUMP_ON_MONSTER.play();
     }
 
     /**
@@ -166,32 +166,32 @@ public final class AudioManager implements IAudioManager {
      * {@inheritDoc}
      */
     @Override
-    public void playMatchsound() {
-        Sound.MATCHSOUND.play();
+    public void playMatchSound() {
+        Sound.MATCH_SOUND.play();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void playMonstercrash() {
-        Sound.MONSTERCRASH.play();
+    public void playMonsterCrash() {
+        Sound.MONSTER_CRASH.play();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void playMonsterblizu() {
-        Sound.MONSTERBLIZU.play();
+    public void playMonsterBlizu() {
+        Sound.MONSTER_BLIZU.play();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void playMonsterpogodak() {
-        Sound.MONSTERPOGODAK.play();
+    public void playMonsterPogodak() {
+        Sound.MONSTER_POGODAK.play();
     }
 
     /**
@@ -262,48 +262,48 @@ public final class AudioManager implements IAudioManager {
      * {@inheritDoc}
      */
     @Override
-    public void playSnowballmonsterhit() {
-        Sound.SNOWBALLMONSTERHIT.play();
+    public void playSnowballMonsterHit() {
+        Sound.SNOWBALL_MONSTER_HIT.play();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void playSnowballthrow() {
-        Sound.SNOWBALLTHROW.play();
+    public void playSnowballThrow() {
+        Sound.SNOWBALL_THROW.play();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void playSnowballthrow2() {
-        Sound.SNOWBALLTHROW2.play();
+    public void playSnowballThrow2() {
+        Sound.SNOWBALL_THROW2.play();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void playSoccermonstercrash() {
-        Sound.SOCCERMONSTERCRASH.play();
+    public void playSoccerMonsterCrash() {
+        Sound.SOCCER_MONSTER_CRASH.play();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void playSoccermonsterhit() {
-        Sound.SOCCERMONSTERHIT.play();
+    public void playSoccerMonsterHit() {
+        Sound.SOCCER_MONSTER_HIT.play();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void playSpringshoes() {
-        Sound.SPRINGSHOES.play();
+    public void playSpringShoes() {
+        Sound.SPRING_SHOES.play();
     }
 
     /**
@@ -334,7 +334,7 @@ public final class AudioManager implements IAudioManager {
      * {@inheritDoc}
      */
     @Override
-    public void playUfo() {
+    public void playUFO() {
         Sound.UFO.play();
     }
 
@@ -342,24 +342,24 @@ public final class AudioManager implements IAudioManager {
      * {@inheritDoc}
      */
     @Override
-    public void playUfopogodak() {
-        Sound.UFOPOGODAK.play();
+    public void playUFOPogodak() {
+        Sound.UFO_POGODAK.play();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void playUnderwatershoot() {
-        Sound.UNDERWATERSHOOT.play();
+    public void playUnderwaterShoot() {
+        Sound.UNDERWATER_SHOOT.play();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void playUnderwatershoot2() {
-        Sound.UNDERWATERSHOOT2.play();
+    public void playUnderwaterShoot2() {
+        Sound.UNDERWATER_SHOOT2.play();
     }
 
     /**
@@ -388,17 +388,17 @@ public final class AudioManager implements IAudioManager {
         COLLECT("sounds/collect.wav"),
         CRNARUPA("sounds/crnarupa.wav"),
         EGGMONSTERHIT("sounds/egg-monster-hit.wav"),
-        EXPLODINGPLATFORM("sounds/explodingplatform.wav"),
-        EXPLODINGPLATFORM2("sounds/explodingplatform2.wav"),
+        EXPLODING_PLATFORM("sounds/explodingplatform.wav"),
+        EXPLODING_PLATFORM2("sounds/explodingplatform2.wav"),
         FEDER("sounds/feder.wav"),
         JETPACK("sounds/jetpack.wav"),
         JUMP("sounds/jump.wav"),
-        JUMPONMONSTER("sounds/jumponmonster.wav"),
+        JUMP_ON_MONSTER("sounds/jumponmonster.wav"),
         LOMISE("sounds/lomise.wav"),
-        MATCHSOUND("sounds/match-sound.wav"),
-        MONSTERCRASH("sounds/monster-crash.wav"),
-        MONSTERBLIZU("sounds/monsterblizu.wav"),
-        MONSTERPOGODAK("sounds/monsterpogodak.wav"),
+        MATCH_SOUND("sounds/match-sound.wav"),
+        MONSTER_CRASH("sounds/monster-crash.wav"),
+        MONSTER_BLIZU("sounds/monsterblizu.wav"),
+        MONSTER_POGODAK("sounds/monsterpogodak.wav"),
         OOGAPUCANJE("sounds/ooga-pucanje.wav"),
         OOGAPUCANJE2("sounds/ooga-pucanje2.wav"),
         PADA("sounds/pada.wav"),
@@ -407,19 +407,19 @@ public final class AudioManager implements IAudioManager {
         PUCANJE2("sounds/pucanje2.wav"),
         RAIN("sounds/rain.wav"),
         ROCKET("sounds/rocket.wav"),
-        SNOWBALLMONSTERHIT("sounds/snowball-monster-hit.wav"),
-        SNOWBALLTHROW("sounds/snowball-throw.wav"),
-        SNOWBALLTHROW2("sounds/snowball-throw2.wav"),
-        SOCCERMONSTERCRASH("sounds/soccer-monster-crash.wav"),
-        SOCCERMONSTERHIT("sounds/soccer-monster-hit.wav"),
-        SPRINGSHOES("sounds/springshoes.wav"),
+        SNOWBALL_MONSTER_HIT("sounds/snowball-monster-hit.wav"),
+        SNOWBALL_THROW("sounds/snowball-throw.wav"),
+        SNOWBALL_THROW2("sounds/snowball-throw2.wav"),
+        SOCCER_MONSTER_CRASH("sounds/soccer-monster-crash.wav"),
+        SOCCER_MONSTER_HIT("sounds/soccer-monster-hit.wav"),
+        SPRING_SHOES("sounds/springshoes.wav"),
         START("sounds/start.wav"),
         THUNDER("sounds/thunder.wav"),
         TRAMPOLINE("sounds/trampoline.wav"),
         UFO("sounds/ufo.wav"),
-        UFOPOGODAK("sounds/ufopogodak.wav"),
-        UNDERWATERSHOOT("sounds/underwater-shoot.wav"),
-        UNDERWATERSHOOT2("sounds/underwater-shoot2.wav"),
+        UFO_POGODAK("sounds/ufopogodak.wav"),
+        UNDERWATER_SHOOT("sounds/underwater-shoot.wav"),
+        UNDERWATER_SHOOT2("sounds/underwater-shoot2.wav"),
         USAUGATEUFO("sounds/usaugateufo.wav"),
         WIN("sounds/win.wav");
 

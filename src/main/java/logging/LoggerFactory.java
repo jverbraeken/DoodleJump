@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
 /**
  * Standard implementation of the LoggingFactory. Used to create loggers.
  */
@@ -24,33 +23,35 @@ public class LoggerFactory implements ILoggerFactory {
      */
     private static String LOG_FILE;
     /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator sL;
-    /**
      * The logger for LoggerFactory.
      */
     private final ILogger LOGGER;
+
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator serviceLocator;
     /**
      * A set containing the classes that should not be logged.
      */
     private final Set<Class<?>> logIgnore;
+
     /**
      * Hidden constructor to prevent instantiation.
      */
     private LoggerFactory() {
-        LOG_FILE = LoggerFactory.sL.getConstants().getLogFile();
+        LOG_FILE = LoggerFactory.serviceLocator.getConstants().getLogFile();
 
         if (Game.CLEAR_LOG_ON_STARTUP) {
-            IFileSystem fileSystem = LoggerFactory.sL.getFileSystem();
+            IFileSystem fileSystem = LoggerFactory.serviceLocator.getFileSystem();
             fileSystem.clearFile(LOG_FILE);
         }
 
-        LOGGER = new Logger(sL, this.getClass());
+        LOGGER = new Logger(serviceLocator, this.getClass());
 
         logIgnore = new HashSet<>();
         try {
-            List<String> list = (List<String>) sL.getFileSystem().parseJsonList(LOG_IGNORE_FILE, String.class);
+            List<String> list = (List<String>) serviceLocator.getFileSystem().parseJsonList(LOG_IGNORE_FILE, String.class);
             for (String className : list) {
                 try {
                     logIgnore.add(Class.forName(className));
@@ -72,13 +73,11 @@ public class LoggerFactory implements ILoggerFactory {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        LoggerFactory.sL = sL;
+        LoggerFactory.serviceLocator = sL;
         sL.provide(new LoggerFactory());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public ILogger createLogger(Class<?> cl) {
         if (logIgnore.contains(cl)) {
@@ -109,7 +108,7 @@ public class LoggerFactory implements ILoggerFactory {
                 }
             };
         } else {
-            return new Logger(sL, cl);
+            return new Logger(serviceLocator, cl);
         }
     }
 

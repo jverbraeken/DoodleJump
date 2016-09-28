@@ -11,23 +11,13 @@ import system.IServiceLocator;
 public class SpaceBehavior implements MovementBehavior {
 
     /**
-     * The relative speed of the doodle.
+     * The relative speed of the Doodle.
      */
     private static final double RELATIVE_SPEED = 0.5d;
-    /**
-     * Current horizontal speed for the Doodle.
-     */
-    private double hSpeed = 0d;
-    /**
-     * Current vertical speed for the Doodle.
-     */
-    private double vSpeed = 0d;
-
     /**
      * Standard speed limit for the Doodle.
      */
     private final double STANDARD_SPEED_LIMIT = 20d;
-
     /**
      * Horizontal speed limit for the Doodle.
      */
@@ -40,20 +30,27 @@ public class SpaceBehavior implements MovementBehavior {
      * Relative gravity for the Doodle.
      */
     private final double RELATIVE_GRAVITY = .3d;
+
     /**
      * Used to access all services.
      */
     private final IServiceLocator serviceLocator;
     /**
+     * Current horizontal speed for the Doodle.
+     */
+    private double hSpeed = 0d;
+    /**
+     * Current vertical speed for the Doodle.
+     */
+    private double vSpeed = 0d;
+    /**
      * Used to access fields of the doodle this behavior describes.
      */
     private final IDoodle doodle;
-
     /**
      * The direction the Doodle is moving towards.
      */
     private Directions moving;
-
     /**
      * The direction the Doodle is facing.
      */
@@ -65,8 +62,9 @@ public class SpaceBehavior implements MovementBehavior {
 
     /**
      * The constructor of the regular behavior.
+     *
      * @param d The doodle this applies to.
-     * @param sL the Servicelocator
+     * @param sL the ServiceLocator.
      */
     public SpaceBehavior(final IDoodle d, final IServiceLocator sL) {
         serviceLocator = sL;
@@ -75,36 +73,10 @@ public class SpaceBehavior implements MovementBehavior {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void move(final double delta){
         moveHorizontally(delta);
         applyGravity(delta);
-    }
-
-    /**
-     * Move the Doodle along the X axis.
-     */
-    private void moveHorizontally(final double delta) {
-        if (pressed && moving == Directions.Left) {
-            if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed -= RELATIVE_SPEED * RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
-            }
-        } else if (pressed && moving == Directions.Right) {
-            if (this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed += RELATIVE_SPEED * RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
-            }
-        }
-
-        doodle.addXPos((int) this.hSpeed);
-    }
-
-
-    /**
-     * Apply gravity to the Doodle.
-     * @param delta Delta time since previous animate.
-     */
-    private void applyGravity(double delta) {
-        this.vSpeed += RELATIVE_GRAVITY * serviceLocator.getConstants().getGravityAcceleration();
-        doodle.addYPos(this.vSpeed);
     }
 
     /** {@inheritDoc} */
@@ -124,7 +96,6 @@ public class SpaceBehavior implements MovementBehavior {
     public Directions getFacing() {
         return facing;
     }
-
 
     /** {@inheritDoc} */
     @Override
@@ -171,4 +142,34 @@ public class SpaceBehavior implements MovementBehavior {
         return keyCode == KeyCode.getKeyCode(Keys.arrowRight)
                 || keyCode == KeyCode.getKeyCode(Keys.d);
     }
+
+    /**
+     * Move the Doodle along the X axis.
+     *
+     * @param delta The time since the previous frame.
+     */
+    private void moveHorizontally(final double delta) {
+        if (pressed && moving == Directions.Left) {
+            if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed -= RELATIVE_SPEED * RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
+            }
+        } else if (pressed && moving == Directions.Right) {
+            if (this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed += RELATIVE_SPEED * RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
+            }
+        }
+
+        doodle.addXPos((int) this.hSpeed);
+    }
+
+    /**
+     * Apply gravity to the Doodle.
+     *
+     * @param delta Delta time since previous animate.
+     */
+    private void applyGravity(final double delta) {
+        this.vSpeed += RELATIVE_GRAVITY * serviceLocator.getConstants().getGravityAcceleration();
+        doodle.addYPos(this.vSpeed);
+    }
+
 }

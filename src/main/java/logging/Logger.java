@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 /* package */ final class Logger implements ILogger {
 
     /**
-     * The ThreadPoolExecutor responsible for executing all logging code on a seperate thread to prevent stalling of the game.
+     * The ThreadPoolExecutor responsible for executing all logging code on a separate thread to prevent stalling of the game.
      */
     private static final ThreadPoolExecutor loggingThreadExecutor = new ThreadPoolExecutor(0, 50000, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());
     /**
@@ -87,9 +87,7 @@ import java.util.concurrent.TimeUnit;
 
 
     private void appendStringToTextFile(final String str) {
-        Runnable runnable = () -> {
-            fileSystem.log(str);
-        };
+        Runnable runnable = () -> fileSystem.log(str);
         loggingThreadExecutor.execute(runnable);
         if (logPendingTasks) {
             long submitted = loggingThreadExecutor.getTaskCount();

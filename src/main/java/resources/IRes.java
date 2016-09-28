@@ -14,20 +14,21 @@ public interface IRes {
      * @param sprite A reference to the sprite you want the path to
      * @return The filepath to the sprite
      */
-    String getSpritePath(Sprites sprite);
+    String getSpritePath(final Sprites sprite);
 
     /**
      * Set the skin of the game.
-     * @param mode
+     *
+     * @param mode The mode to get the skin for.
      */
-    void setSkin(Game.Modes mode);
+    void setSkin(final Game.Modes mode);
 
     enum Sprites {
         // Buttons
         menu,
         pause,
         play,
-        playagain,
+        playAgain,
         resume,
         chooseMode,
 
@@ -109,10 +110,10 @@ public interface IRes {
         shield,
 
         // Top bar
-        scorebar,
+        scoreBar,
 
-        // Miscellanous
-        waitDontShoot,
+        // Miscellaneous
+        waitDoNotShoot,
         avoid,
 
         // UFO

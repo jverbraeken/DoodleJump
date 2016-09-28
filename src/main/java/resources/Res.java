@@ -6,8 +6,6 @@ import system.IServiceLocator;
 import java.util.EnumMap;
 import java.util.Map;
 
-import static system.Game.Modes.regular;
-
 /**
  * Resources class, containing information about sprites.
  */
@@ -22,6 +20,7 @@ public final class Res implements IRes {
      * The sprite path used to find the sprites.
      */
     private final static String spritePath = "sprites/";
+
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -36,7 +35,7 @@ public final class Res implements IRes {
     /**
      * A map mapping Sprites enum to String containing the path to the sprite.
      */
-    private Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
+    private final Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
 
     {
         resetSkin();
@@ -60,7 +59,7 @@ public final class Res implements IRes {
      * {@inheritDoc}
      */
     @Override
-    public void setSkin(Game.Modes mode) {
+    public void setSkin(final Game.Modes mode) {
         switch (mode) {
             case regular:
                 resetSkin();
@@ -89,7 +88,7 @@ public final class Res implements IRes {
         // Buttons
         sprites.put(Sprites.menu, spritePath + "menu@2x.png");
         sprites.put(Sprites.play, spritePath + "play@2x.png");
-        sprites.put(Sprites.playagain, spritePath + "playagain@2x.png");
+        sprites.put(Sprites.playAgain, spritePath + "playAgain@2x.png");
         sprites.put(Sprites.resume, spritePath + "resume@2x.png");
         sprites.put(Sprites.chooseMode, spritePath + "mode-button@2x.png");
 
@@ -135,7 +134,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.trampolineUsed, spritePath + "powerup-trampoline-used@2x.png");
 
         // Top bar
-        sprites.put(Sprites.scorebar, spritePath + "scorebar.png");
+        sprites.put(Sprites.scoreBar, spritePath + "scoreBar.png");
 
         // Choose mode icons
         sprites.put(Sprites.storyMode, spritePath + "story-mode@4x.png");
@@ -168,8 +167,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.trampolineUsed, spritePath + "space-powerup-trampoline-used@2x.png");
 
         // Top bar
-        sprites.put(Sprites.scorebar, spritePath + "space-scorebar@2x.png");
-
+        sprites.put(Sprites.scoreBar, spritePath + "space-scoreBar@2x.png");
     }
 
     /**
@@ -194,7 +192,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.trampolineUsed, spritePath + "space-powerup-trampoline-used@2x.png");
 
         // Top bar
-        sprites.put(Sprites.scorebar, spritePath + "space-scorebar@2x.png");
-
+        sprites.put(Sprites.scoreBar, spritePath + "space-scoreBar@2x.png");
     }
+
 }

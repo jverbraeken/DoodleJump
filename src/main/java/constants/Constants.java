@@ -10,11 +10,16 @@ public class Constants implements IConstants {
     /**
      * The service locator for the Constants class.
      */
-    private static transient IServiceLocator sL;
+    private static transient IServiceLocator serviceLocator;
 
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
     public static void register(IServiceLocator sL) {
         assert sL != null;
-        Constants.sL = sL;
+        Constants.serviceLocator = sL;
         sL.provide(new Constants());
     }
     /**
@@ -30,8 +35,7 @@ public class Constants implements IConstants {
      */
     private static final double gravityAcceleration = 0.5d;
     /**
-     * The height the dodle jumps will be multiplied with this value to obtain the score that the player will get.
-     * each frame.
+     * The height the Doodle jumps will be multiplied with this value to obtain the score that the player will get.
      */
     private static final double scoreMultiplier = 0.15;
     /**
@@ -48,7 +52,7 @@ public class Constants implements IConstants {
      */
     private Constants() {
         try {
-            Map<String, String> json = (Map<String, String>) sL.getFileSystem().parseJsonMap("constants.json", String.class);
+            Map<String, String> json = (Map<String, String>) serviceLocator.getFileSystem().parseJsonMap("constants.json", String.class);
             interpretJson(json);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

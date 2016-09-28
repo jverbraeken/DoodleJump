@@ -9,22 +9,26 @@ import java.util.Random;
  * Examples are random integers and doubles.
  */
 public final class Calc implements ICalc {
-    private static transient IServiceLocator sL;
 
+    /**
+     * Used to gain access to all services.
+     */
+    private static transient IServiceLocator serviceLocator;
     /**
      * Register the FileSystem into the service locator.
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        Calc.sL = sL;
+        Calc.serviceLocator = sL;
         sL.provide(new Calc());
     }
 
-
-
-
+    /**
+     * Random generator.
+     */
     private static final Random random = new Random();
+
     /**
      * Prevents instantiation from outside the class.
      */
@@ -35,7 +39,6 @@ public final class Calc implements ICalc {
     @Override
     public int getRandomIntBetween(int lower, int upper) {
         assert upper > lower;
-        //TODO is this + 1 really necessary?
         return random.nextInt(upper - lower) + lower + 1;
     }
 
@@ -45,4 +48,5 @@ public final class Calc implements ICalc {
         assert max > 0;
         return random.nextDouble() * max;
     }
+
 }

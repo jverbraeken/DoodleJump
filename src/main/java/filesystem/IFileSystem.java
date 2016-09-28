@@ -101,7 +101,7 @@ public interface IFileSystem {
      * Parse a JSON file consisting of a single Json item.
      * @param filename The filepath to the Json file
      * @param jsonClass The class of the resulting Json object
-     * @return An {@link Object} that must be upcasted to the desired Json class
+     * @return An {@link Object} that must be up-casted to the desired Json class
      * @throws FileNotFoundException Thrown when the Json file was not found
      */
     Object parseJson(String filename, Class<?> jsonClass) throws FileNotFoundException;
@@ -110,7 +110,7 @@ public interface IFileSystem {
      * Parse a JSON file consisting of a single Json list.
      * @param filename The filepath to the Json file
      * @param jsonClass The class of the resulting Json object
-     * @return An {@link Object} that must be upcasted to a {@link List} containing the desired Json class
+     * @return An {@link Object} that must be up-casted to a {@link List} containing the desired Json class
      * @throws FileNotFoundException Thrown when the Json file was not found
      */
     Object parseJsonList(String filename, Class<?> jsonClass) throws FileNotFoundException;
@@ -119,7 +119,7 @@ public interface IFileSystem {
      * Parse a JSON file consisting of a single Json item.
      * @param filename The filepath to the Json file
      * @param jsonClass The class of the resulting Json object
-     * @return An {@link Object} that must be upcasted to a {@link java.util.Map} containing the desired Json class
+     * @return An {@link Object} that must be up-casted to a {@link java.util.Map} containing the desired Json class
      * @throws FileNotFoundException Thrown when the Json file was not found
      */
     Object parseJsonMap(String filename, Class<?> jsonClass) throws FileNotFoundException;

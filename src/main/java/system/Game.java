@@ -24,16 +24,16 @@ public final class Game {
     /**
      * Used to gain access to all services.
      */
-    private static IServiceLocator sL = new ServiceLocator();
+    private static IServiceLocator serviceLocator = new ServiceLocator();
 
     /**
-     * The time in miliseconds per frame.
+     * The time in milliseconds per frame.
      */
     private static final int FRAME_TIME = 16;
     /**
      * The logger for the Game class.
      */
-    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Game.class);
+    private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
     /**
      * The target FPS for the game.
      */
@@ -72,17 +72,10 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
-<<<<<<< HEAD
-     * Track wether the doodle is alive.
-     */
-    private static boolean isAlive = true;
-    /**
      * The enums for the mode
      */
     public enum Modes { regular, underwater, story, invert, darkness, space }
     /**
-=======
->>>>>>> origin/develop
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
@@ -120,8 +113,7 @@ public final class Game {
     /**
      * Prevents instantiation from outside the Game class.
      */
-    private Game() {
-    }
+    private Game() { }
 
     /**
      * The initialization of the game.
@@ -131,19 +123,18 @@ public final class Game {
     public static void main(String[] argv) {
         LOGGER.info("The game has been launched");
 
-        Game.pauseScreen = sL.getSceneFactory().createPauseScreen();
-        IInputManager inputManager = sL.getInputManager();
-        sL.getRenderer().start();
+        Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
+        IInputManager inputManager = serviceLocator.getInputManager();
 
         // Initialize frame
         frame = new JFrame("Doodle Jump");
         frame.addMouseListener(inputManager);
         frame.addKeyListener(inputManager);
-        frame.setSize(sL.getConstants().getGameWidth(), sL.getConstants().getGameHeight());
+        frame.setSize(serviceLocator.getConstants().getGameWidth(), serviceLocator.getConstants().getGameHeight());
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2);
+        frame.setSize(serviceLocator.getConstants().getGameWidth() / 2, serviceLocator.getConstants().getGameHeight() / 2);
         frame.addWindowListener(new WindowAdapter() {
             /**
              * Invoked when a window is in the process of being closed.
@@ -160,7 +151,7 @@ public final class Game {
              */
             @Override
             public void paintComponent(final Graphics g) {
-            sL.getRenderer().setGraphicsBuffer(g);
+            serviceLocator.getRenderer().setGraphicsBuffer(g);
 
             ((Graphics2D) g).scale(1 / scale, 1 / scale);
             if (Game.scene != null) {
@@ -177,13 +168,13 @@ public final class Game {
         panel.setLayout(new GridLayout(1, 1));
         frame.setContentPane(panel);
 
-        setScene(sL.getSceneFactory().createMainMenu());
+        setScene(serviceLocator.getSceneFactory().createMainMenu());
         int x = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
-        sL.getInputManager().setMainWindowBorderSize(x, y);
+        serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        resumeButton = sL.getButtonFactory().createResumeButton((int) (sL.getConstants().getGameWidth() * RESUME_BUTTON_X), (int) (sL.getConstants().getGameHeight() * RESUME_BUTTON_Y));
-        sL.getInputManager().addObserver(resumeButton);
+        resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (serviceLocator.getConstants().getGameWidth() * RESUME_BUTTON_X), (int) (serviceLocator.getConstants().getGameHeight() * RESUME_BUTTON_Y));
+        serviceLocator.getInputManager().addObserver(resumeButton);
 
         loop();
     }
@@ -199,23 +190,9 @@ public final class Game {
             Game.scene.stop();
         }
 
-        sL.getRenderer().getCamera().setYPos(0d);
+        serviceLocator.getRenderer().getCamera().setYPos(0d);
         s.start();
         Game.scene = s;
-    }
-
-    /**
-     * Returns the current FPS.
-     *
-     * @param threadSleep Amount of time thread has slept
-     * @param renderTime  Amount of time took rendering/updating
-     * @return The current Frames Per Second (FPS)
-     */
-    public static double getFPS(final long threadSleep, final long renderTime) {
-        if (threadSleep + renderTime == 0) {
-            return TARGET_FPS;
-        }
-        return ICalc.NANOSECONDS / (threadSleep + renderTime);
     }
 
     /**
@@ -236,26 +213,25 @@ public final class Game {
     }
 
     /**
-     * Start the game.
-     */
-    public static void startGameInstance() {
-    }
-
-    /**
      * End the game.
      *
      * @param score The score the game instance ended with.
      */
     public static void endGameInstance(final double score) {
         updateHighScores(score);
-        setScene(sL.getSceneFactory().createKillScreen());
+        setScene(serviceLocator.getSceneFactory().createKillScreen());
     }
 
+    /**
+     * Set the mode of the Game.
+     *
+     * @param m The mode to set.
+     */
     public static void setMode(final Modes m){
         mode = m;
-        sL.getRes().setSkin(m);
+        serviceLocator.getRes().setSkin(m);
         SpriteFactory skin = new SpriteFactory();
-        skin.register(sL);
+        SpriteFactory.register(serviceLocator);
         LOGGER.info("The mode is now " + m);
     }
 
@@ -281,8 +257,7 @@ public final class Game {
 
             panel.repaint();
             try {
-                long gameTime = FRAME_TIME;
-                Thread.sleep(gameTime - (now - System.nanoTime()) / ICalc.NANOSECONDS);
+                Thread.sleep(FRAME_TIME - (now - System.nanoTime()) / ICalc.NANOSECONDS);
             } catch (InterruptedException e) {
                 LOGGER.error(e);
             }
@@ -299,7 +274,7 @@ public final class Game {
         return mode;
     }
     
-    /*
+    /**
      * Update the high scores for the game.
      *
      * @param score The score the game instance ended with.
@@ -312,6 +287,20 @@ public final class Game {
         for (int i = Game.highScores.size(); i > MAX_HIGH_SCORES; i--) {
             Game.highScores.remove(i - 1);
         }
+    }
+
+    /**
+     * Returns the current FPS.
+     *
+     * @param threadSleep Amount of time thread has slept
+     * @param renderTime  Amount of time took rendering/updating
+     * @return The current Frames Per Second (FPS)
+     */
+    private static double getFPS(final long threadSleep, final long renderTime) {
+        if (threadSleep + renderTime == 0) {
+            return TARGET_FPS;
+        }
+        return ICalc.NANOSECONDS / (threadSleep + renderTime);
     }
 
 }

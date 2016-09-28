@@ -10,13 +10,15 @@ import system.IServiceLocator;
 public final class PowerupFactory implements IPowerupFactory {
 
     /**
-     * Used to gain access to all services.
-     */
-    private static transient IServiceLocator sL;
-    /**
      * The logger for the PowerupFactory class.
      */
     private final ILogger LOGGER;
+
+    /**
+     * Used to gain access to all services.
+     */
+    private static transient IServiceLocator serviceLocator;
+
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -24,33 +26,29 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        PowerupFactory.sL = sL;
-        PowerupFactory.sL.provide(new PowerupFactory());
+        PowerupFactory.serviceLocator = sL;
+        PowerupFactory.serviceLocator.provide(new PowerupFactory());
     }
 
     /**
      * Private constructor to prevent instantiation from outside the class.
      */
     private PowerupFactory() {
-        LOGGER = sL.getLoggerFactory().createLogger(PowerupFactory.class);
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(PowerupFactory.class);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IGameObject createSpring(final int x, final int y) {
         LOGGER.info("A new Spring has been created");
-        return new Spring(sL, x, y);
+        return new Spring(serviceLocator, x, y);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IGameObject createTrampoline(final int x, final int y) {
         LOGGER.info("A new Trampoline has been created");
-        return new Trampoline(sL, x, y);
+        return new Trampoline(serviceLocator, x, y);
     }
 
 }

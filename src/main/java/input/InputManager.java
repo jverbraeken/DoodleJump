@@ -21,18 +21,7 @@ public final class InputManager implements IInputManager {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator sL;
-    /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
-     */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        InputManager.sL = sL;
-        InputManager.sL.provide(new InputManager());
-    }
-
+    private static transient IServiceLocator serviceLocator;
     /**
      * The set of observable mouse inputs.
      */
@@ -48,14 +37,24 @@ public final class InputManager implements IInputManager {
     /**
      * Offset for the mouse position Y.
      */
-    private static int windowTopBorderSize = 0;
     private int offsetY = 0;
 
     /**
      * Prevents instantiation from outside the class.
      */
     private InputManager() {
-        LOGGER = sL.getLoggerFactory().createLogger(InputManager.class);
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(InputManager.class);
+    }
+
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        InputManager.serviceLocator = sL;
+        InputManager.serviceLocator.provide(new InputManager());
     }
 
     /* MOUSE EVENTS */
@@ -75,7 +74,6 @@ public final class InputManager implements IInputManager {
         int x = (2 * e.getX() - 2 * offsetX), y = (2 * e.getY() - 2 * offsetY);
         LOGGER.info("Mouse pressed, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
 
-        //TODO: Synchronize properly instead of cloning
         Set<IMouseInputObserver> observers = (HashSet<IMouseInputObserver>) mouseInputObservers.clone();
         for (IMouseInputObserver observer : observers) {
             observer.mouseClicked(x, y);

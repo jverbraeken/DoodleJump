@@ -16,6 +16,7 @@ import system.IServiceLocator;
 import system.IUpdatable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class describes the scene in which the actual standard game is played.
@@ -23,15 +24,15 @@ import java.util.*;
 public class World implements IScene {
 
     /**
-     * The offset of the pause button.
-     */
-    private final static int PAUSE_OFFSET = 38;
-    /**
      * The logger for the World class.
      */
     private final ILogger LOGGER;
     /**
-     * The Digitoffsetmultiplier needed for the scoretext.
+     * The offset of the pause button.
+     */
+    private final static int PAUSE_OFFSET = 38;
+    /**
+     * The digit offset multiplier needed for the ScoreText.
      */
     private static final int DIGIT_MULTIPLIER = 3;
     /**
@@ -60,10 +61,6 @@ public class World implements IScene {
      */
     private final IDoodle doodle;
     /**
-     * The highest (and thus latest) created block.
-     */
-    private IBlock topBlock;
-    /**
      * <p>Drawables consists of 3 sets, although this can be easily changed. The first set contains the
      * {@link IRenderable renderables} that will be drawn first (eg platforms), the second set contains the
      * {@link IRenderable renderables} that will be drawn secondly (eg doodles) and the third set contains the
@@ -73,11 +70,15 @@ public class World implements IScene {
      * way to make it (in Java) is by using Collections.newSetFromMap that creates the set for us (and
      * prohibits creating an array by doing that).</p>
      */
-    private List<Set<IRenderable>> drawables = new ArrayList<>();
+    private final List<Set<IRenderable>> drawables = new ArrayList<>();
     /**
      * List of game objects that should be updated every frame.
      */
-    private Set<IUpdatable> updatables = Collections.newSetFromMap(new WeakHashMap<>());
+    private final Set<IUpdatable> updatables = Collections.newSetFromMap(new WeakHashMap<>());
+    /**
+     * The highest (and thus latest) created block.
+     */
+    private IBlock topBlock;
 
     /**
      * Package visible constructor so a World can only be created via the SceneFactory.
@@ -88,7 +89,6 @@ public class World implements IScene {
         assert sL != null;
         serviceLocator = sL;
         LOGGER = sL.getLoggerFactory().createLogger(World.class);
-        Game.startGameInstance();
 
         for (int i = 0; i < 3; i++) {
             drawables.add(Collections.newSetFromMap(new WeakHashMap<>()));
@@ -109,7 +109,7 @@ public class World implements IScene {
 
         this.background = sL.getSpriteFactory().getBackground();
 
-        this.drawables.get(2).add(new Scorebar());
+        this.drawables.get(2).add(new ScoreBar());
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
@@ -141,9 +141,7 @@ public class World implements IScene {
         serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
 
         for (Set<IRenderable> set : drawables) {
-            for (IRenderable e : set) {
-                e.render();
-            }
+            set.forEach(IRenderable::render);
         }
     }
 
@@ -172,13 +170,7 @@ public class World implements IScene {
         if (this.doodle.getVerticalSpeed() > 0) {
             for (IBlock block : blocks) {
                 Set<IGameObject> elements = block.getElements();
-                for (IGameObject element : elements) {
-                    if (this.doodle.checkCollission(element)) {
-                        if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()) {
-                            element.collidesWith(this.doodle);
-                        }
-                    }
-                }
+                elements.stream().filter(this.doodle::checkCollision).filter(element -> this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()).forEachOrdered(element -> element.collidesWith(this.doodle));
             }
         }
     }
@@ -188,16 +180,9 @@ public class World implements IScene {
      * If that's the case, delete that Block.
      */
     private void cleanUp() {
-        HashSet<IBlock> toRemove = new HashSet<>();
-        for (IBlock e : blocks) {
-            if (e.getTopJumpable().getYPos() > serviceLocator.getRenderer().getCamera().getYPos() + serviceLocator.getConstants().getGameHeight()) {
-                toRemove.add(e);
-            }
-        }
+        HashSet<IBlock> toRemove = blocks.stream().filter(e -> e.getTopJumpable().getYPos() > serviceLocator.getRenderer().getCamera().getYPos() + serviceLocator.getConstants().getGameHeight()).collect(Collectors.toCollection(HashSet::new));
 
-        for (IBlock e : toRemove) {
-            blocks.remove(e);
-        }
+        toRemove.forEach(blocks::remove);
     }
 
     /**
@@ -218,16 +203,16 @@ public class World implements IScene {
      * <p>
      * The bar on top of the screen displaying the score and pause button
      */
-    private final class Scorebar implements IRenderable {
+    private final class ScoreBar implements IRenderable {
 
         /**
-         * The transparant and black border at the bottom of the scorebar that is not take into account when
-         * drawing scorebar content.
+         * The transparent and black border at the bottom of the scoreBar that is not take into account when
+         * drawing ScoreBar content.
          */
         private static final int SCORE_BAR_DEAD_ZONE = 28;
 
         /**
-         * The scaling of the scorebar.
+         * The scaling of the scoreBar.
          */
         private final double scaling;
         /**
@@ -249,13 +234,13 @@ public class World implements IScene {
         /**
          * The logger is used to keep track of all the actions performed in the game.
          */
-        private final ILogger logger = serviceLocator.getLoggerFactory().createLogger(Scorebar.class);
+        private final ILogger logger = serviceLocator.getLoggerFactory().createLogger(ScoreBar.class);
 
         /**
-         * Create a new scorebar.
+         * Create a new scoreBar.
          */
-        private Scorebar() {
-            scoreBarSprite = serviceLocator.getSpriteFactory().getScorebarSprite();
+        private ScoreBar() {
+            scoreBarSprite = serviceLocator.getSpriteFactory().getScoreBarSprite();
             scaling = (double) serviceLocator.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth();
             scoreBarHeight = (int) (scaling * scoreBarSprite.getHeight());
 
@@ -329,7 +314,7 @@ public class World implements IScene {
         }
 
         /**
-         * This private subclass creates the text to display the curent score.
+         * This private subclass creates the text to display the current score.
          */
         private final class ScoreText implements IRenderable {
 
@@ -343,7 +328,7 @@ public class World implements IScene {
             private final ISprite[] digitSprites;
             /**
              * We use an array so that we get very good cache prediction and a 4 times smaller size than width
-             * seperate (integer) variables.
+             * separate (integer) variables.
              * <br>
              * [top-Y, width, height] for each of the 10 entries -> total length = 30
              */

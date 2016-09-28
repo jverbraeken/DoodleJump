@@ -43,7 +43,7 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * The cache for the SpriteFactory.
      */
-    private LoadingCache<IRes.Sprites, ISprite> cache;
+    private final LoadingCache<IRes.Sprites, ISprite> cache;
 
     /**
      * Prevents instantiation from outside the class.
@@ -95,7 +95,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlayAgainButtonSprite() {
-        return getSprite(IRes.Sprites.playagain);
+        return getSprite(IRes.Sprites.playAgain);
     }
 
     /**
@@ -655,8 +655,8 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getWaitDontShootSprite() {
-        return getSprite(IRes.Sprites.waitDontShoot);
+    public ISprite getWaitDoNotShootSprite() {
+        return getSprite(IRes.Sprites.waitDoNotShoot);
     }
 
     /**
@@ -674,8 +674,8 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getScorebarSprite() {
-        return getSprite(IRes.Sprites.scorebar);
+    public ISprite getScoreBarSprite() {
+        return getSprite(IRes.Sprites.scoreBar);
     }
 
 
@@ -793,7 +793,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * }
      * </pre>
      *
-     * @param filepath The full path to the file, the directories seperated by '('
+     * @param filepath The full path to the file, the directories separated by '('
      * @return The name of the file
      */
     private String getFileName(final String filepath) {

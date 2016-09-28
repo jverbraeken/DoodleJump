@@ -17,7 +17,7 @@ import system.IServiceLocator;
     /**
      * Used to gain access to all services.
      */
-    private final IServiceLocator sL;
+    private final IServiceLocator serviceLocator;
     /**
      * The sprite of the button.
      */
@@ -55,7 +55,7 @@ import system.IServiceLocator;
         assert sL != null;
         assert s != null;
 
-        this.sL = sL;
+        this.serviceLocator = sL;
         this.LOGGER = sL.getLoggerFactory().createLogger(Button.class);
         this.sprite = s;
         this.width = s.getImage().getWidth(null);
@@ -73,7 +73,7 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        sL.getRenderer().drawSpriteHUD(sprite, topLeft[0], topLeft[1], width, height);
+        serviceLocator.getRenderer().drawSpriteHUD(sprite, topLeft[0], topLeft[1], width, height);
     }
 
     /**

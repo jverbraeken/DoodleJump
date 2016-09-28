@@ -8,13 +8,35 @@ import system.IServiceLocator;
  */
 public abstract class AGameObject implements IGameObject {
 
-    protected static IServiceLocator sL;
+    /**
+     * Used to gain access to all services.
+     */
+    protected static IServiceLocator serviceLocator;
 
+    /**
+     * The index for the hit box left.
+     */
     public static final transient int HITBOX_LEFT = 0;
+    /**
+     * The index for the hit box right.
+     */
     public static final transient int HITBOX_RIGHT = 1;
+    /**
+     * The index for the hit box top.
+     */
     public static final transient int HITBOX_TOP = 2;
+    /**
+     * The index for the hit box bottom.
+     */
     public static final transient int HITBOX_BOTTOM = 3;
+
+    /**
+     * The index for the Game Object.
+     */
     private final double[] hitBox = new double[4];
+    /**
+     * The sprite for the Game Object.
+     */
     private ISprite sprite;
     /**
      * The position on the x axis of the game object.
@@ -27,12 +49,13 @@ public abstract class AGameObject implements IGameObject {
 
     /**
      * Creates a new game object and determines its hitbox by using the sprites dimensions automatically.
-     * @param x The X-coordinate of the game object
-     * @param y The Y-coordinate of the game object
-     * @param sprite The sprite of the game object. Can be {null} when the object is a {@link objects.blocks.IBlock block}
+     *
+     * @param x The X-coordinate of the game object.
+     * @param y The Y-coordinate of the game object.
+     * @param sprite The sprite of the game object.
      */
     public AGameObject(final IServiceLocator sL, int x, int y, ISprite sprite) {
-        AGameObject.sL = sL;
+        AGameObject.serviceLocator = sL;
         setXPos(x);
         setYPos(y);
         if (sprite == null) {
@@ -44,100 +67,78 @@ public abstract class AGameObject implements IGameObject {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void addXPos(final double x) {
         double current = getXPos();
         this.setXPos(current + x);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void addYPos(final double y) {
         double current = getYPos();
         setYPos(current + y);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final double[] getHitBox() {
         return this.hitBox;
     }
 
+    /** {@inheritDoc} */
     @Override
-    public final void setHitBox(int left, int top, int right, int bottom) {
+    public final void setHitBox(final int left, final int top, final int right, final int bottom) {
         this.hitBox[HITBOX_LEFT] = left;
         this.hitBox[HITBOX_TOP] = top;
         this.hitBox[HITBOX_RIGHT] = right;
         this.hitBox[HITBOX_BOTTOM] = bottom;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final ISprite getSprite() {
         return this.sprite;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public final void setSprite(ISprite sprite) {
+    public final void setSprite(final ISprite sprite) {
         this.sprite = sprite;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final double getXPos() {
         return this.xPos;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void setXPos(double xPos) {
         this.xPos = xPos;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public abstract void render();
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final double getYPos() {
         return this.yPos;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void setYPos(final double y) {
         this.yPos = y;
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public boolean checkCollission(IGameObject gameObject) {
+    public boolean checkCollision(final IGameObject gameObject) {
         if (gameObject == null) {
             throw new IllegalArgumentException("gameObject cannot be null");
         }
@@ -147,14 +148,10 @@ public abstract class AGameObject implements IGameObject {
                 && this.getXPos() + getHitBox()[HITBOX_RIGHT] > gameObject.getXPos() + gameObject.getHitBox()[HITBOX_LEFT]
                 && this.getYPos() + getHitBox()[HITBOX_TOP] < gameObject.getYPos() + gameObject.getHitBox()[HITBOX_BOTTOM]
                 && this.getYPos() + getHitBox()[HITBOX_BOTTOM] > gameObject.getYPos() + gameObject.getHitBox()[HITBOX_TOP];
-
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void update(double delta) {
+    public void update(final double delta) { }
 
-    }
 }
