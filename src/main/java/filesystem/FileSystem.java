@@ -143,8 +143,9 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public void writeTextFile(final String filename, final String content) {
-        try (final OutputStream fs = new FileOutputStream(filename);
+    public void writeTextFile(final String filename, final String content) throws FileNotFoundException {
+        File file = getFile(filename);
+        try (final OutputStream fs = new FileOutputStream(file);
              final Writer ow = new OutputStreamWriter(fs, StandardCharsets.UTF_8);
              final Writer bufferedFileWriter = new BufferedWriter(ow)) {
             bufferedFileWriter.write(content);
