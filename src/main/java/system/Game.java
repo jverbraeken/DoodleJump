@@ -4,12 +4,17 @@ import buttons.IButton;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
+import resources.sprites.SpriteFactory;
 import scenes.IScene;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import static system.Game.Modes.regular;
 
 /**
  * This is the main class that runs the game.
@@ -45,6 +50,10 @@ public final class Game {
      * Y position relative to the frame of the resume button.
      */
     private static final double RESUME_BUTTON_Y = 0.75;
+    /**
+     * The maximum size of the list of high scores.
+     */
+    private static final int MAX_HIGH_SCORES = 10;
 
     /**
      * The current frame.
@@ -63,9 +72,20 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
+<<<<<<< HEAD
      * Track wether the doodle is alive.
      */
     private static boolean isAlive = true;
+    /**
+     * The enums for the mode
+     */
+    public enum Modes { regular, underwater, story, invert, darkness, space }
+    /**
+=======
+>>>>>>> origin/develop
+     * Track the current mode of the game.
+     */
+    private static Modes mode = regular;
     /**
      * The resume button for the pause screen.
      */
@@ -78,6 +98,24 @@ public final class Game {
      * The pause screen for the game.
      */
     private static IScene pauseScreen;
+    /**
+     * A list of high scores for the game.
+     */
+    private static ArrayList<HighScore> highScores = new ArrayList<>();
+    /**
+     * The filepath to the logfile to which all logs will be written to.
+     * This constant is not provided by an implementation of {@link constants.IConstants} because
+     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
+     * does need the name of the log file.
+     */
+    public static final String LOGFILE_NAME = "async.log";
+    /**
+     * Indicates if the log file should be cleared each time the game starts.
+     * This constant is not provided by an implementation of {@link constants.IConstants} because
+     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
+     * does need to know whether is should clear the log file on startup or not.
+     */
+    public final static boolean CLEAR_LOG_ON_STARTUP = true;
 
     /**
      * Prevents instantiation from outside the Game class.
@@ -122,23 +160,18 @@ public final class Game {
              */
             @Override
             public void paintComponent(final Graphics g) {
-                sL.getRenderer().setGraphicsBuffer(g);
+            sL.getRenderer().setGraphicsBuffer(g);
 
-                ((Graphics2D) g).scale(1 / scale, 1 / scale);
-                if (Game.scene != null) {
-                    Game.scene.render();
-                }
+            ((Graphics2D) g).scale(1 / scale, 1 / scale);
+            if (Game.scene != null) {
+                Game.scene.render();
+            }
 
-                if (isPaused) {
-                    pauseScreen.render();
-                }
+            if (isPaused) {
+                pauseScreen.render();
+            }
 
-                if (!isAlive) {
-                    setScene(sL.getSceneFactory().createKillScreen());
-                    setAlive(true);
-                }
-
-                ((Graphics2D) g).scale(scale, scale);
+            ((Graphics2D) g).scale(scale, scale);
             }
         };
         panel.setLayout(new GridLayout(1, 1));
@@ -179,7 +212,10 @@ public final class Game {
      * @return The current Frames Per Second (FPS)
      */
     public static double getFPS(final long threadSleep, final long renderTime) {
-        return sL.getCalc().NANOSECONDS / (threadSleep + renderTime);
+        if (threadSleep + renderTime == 0) {
+            return TARGET_FPS;
+        }
+        return ICalc.NANOSECONDS / (threadSleep + renderTime);
     }
 
     /**
@@ -200,16 +236,27 @@ public final class Game {
     }
 
     /**
-     * Set the state of the game to be alive or dead.
-     *
-     * @param alive <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
+     * Start the game.
      */
-    public static void setAlive(final boolean alive) {
-        if (!alive) {
-            LOGGER.info("The Doodle died");
-        }
+    public static void startGameInstance() {
+    }
 
-        isAlive = alive;
+    /**
+     * End the game.
+     *
+     * @param score The score the game instance ended with.
+     */
+    public static void endGameInstance(final double score) {
+        updateHighScores(score);
+        setScene(sL.getSceneFactory().createKillScreen());
+    }
+
+    public static void setMode(final Modes m){
+        mode = m;
+        sL.getRes().setSkin(m);
+        SpriteFactory skin = new SpriteFactory();
+        skin.register(sL);
+        LOGGER.info("The mode is now " + m);
     }
 
     /**
@@ -239,6 +286,31 @@ public final class Game {
             } catch (InterruptedException e) {
                 LOGGER.error(e);
             }
+
+            LOGGER.info("FPS is " + getFPS(updateLength, 0));
+        }
+    }
+
+    /**
+     * Return the current mode.
+     * @return the mode
+     */
+    public static Modes getMode() {
+        return mode;
+    }
+    
+    /*
+     * Update the high scores for the game.
+     *
+     * @param score The score the game instance ended with.
+     */
+    private static void updateHighScores(final double score) {
+        HighScore scoreEntry = new HighScore("", score);
+        Game.highScores.add(scoreEntry);
+        Collections.sort(Game.highScores);
+
+        for (int i = Game.highScores.size(); i > MAX_HIGH_SCORES; i--) {
+            Game.highScores.remove(i - 1);
         }
     }
 

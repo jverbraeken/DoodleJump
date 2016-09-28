@@ -36,7 +36,7 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * The minimum amount of platforms per block.
      */
-    private final int minPlatforms = 4;
+    private final int minPlatforms = 5;
     /**
      * Offset to clean up platforms upon leaving the screen.
      */
@@ -67,7 +67,7 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * A multiplier to generate a proper height deviation.
      */
-    private final double heightDeviationMultiplier = 1.7;
+    private final double heightDeviationMultiplier = 1.5;
     /**
      * An offset to generate a minimum height deviation.
      */

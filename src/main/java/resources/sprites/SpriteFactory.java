@@ -4,7 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import logging.ILogger;
-import objects.doodles.IDoodle;
+import objects.doodles.DoodleBehavior.MovementBehavior;
 import resources.IRes;
 import system.IServiceLocator;
 
@@ -48,7 +48,7 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * Prevents instantiation from outside the class.
      */
-    private SpriteFactory() {
+    public SpriteFactory() {
         LOGGER = sL.getLoggerFactory().createLogger(SpriteFactory.class);
 
         cache = CacheBuilder.newBuilder()
@@ -107,6 +107,14 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getChooseModeButtonSprite() {
+        return getSprite(IRes.Sprites.chooseMode);
+    }
+
     // Covers
 
     /**
@@ -140,9 +148,9 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite[] getDoodleSprite(final IDoodle.Directions direction) {
+    public ISprite[] getDoodleSprite(final MovementBehavior.Directions direction) {
         ISprite[] sprites = new ISprite[2];
-        if (direction == IDoodle.Directions.Left) {
+        if (direction == MovementBehavior.Directions.Left) {
             sprites[0] = this.getSprite(IRes.Sprites.doodleLeftAscend);
             sprites[1] = this.getSprite(IRes.Sprites.doodleLeftDescend);
         } else { // Use Right by default
@@ -689,6 +697,55 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.ufoShining);
     }
 
+    // Choose Mode Icons
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRegularModeButton() {
+        return getSprite(IRes.Sprites.regularMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getStoryModeButton() {
+        return getSprite(IRes.Sprites.storyMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getDarknessModeButton() {
+        return getSprite(IRes.Sprites.darknessMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getInvertModeButton() {
+        return getSprite(IRes.Sprites.invertMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getUnderwaterModeButton() {
+        return getSprite(IRes.Sprites.underwaterMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getSpaceModeButton() {
+        return getSprite(IRes.Sprites.spaceMode);
+    }
 
     // Miscellaneous
 

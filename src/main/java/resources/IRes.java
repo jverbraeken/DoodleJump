@@ -1,5 +1,7 @@
 package resources;
 
+import system.Game;
+
 /**
  * Interface for the resources.
  */
@@ -14,6 +16,12 @@ public interface IRes {
      */
     String getSpritePath(Sprites sprite);
 
+    /**
+     * Set the skin of the game.
+     * @param mode
+     */
+    void setSkin(Game.Modes mode);
+
     enum Sprites {
         // Buttons
         menu,
@@ -21,6 +29,7 @@ public interface IRes {
         play,
         playagain,
         resume,
+        chooseMode,
 
         // Covers
         background,
@@ -108,7 +117,15 @@ public interface IRes {
 
         // UFO
         ufo,
-        ufoShining
+        ufoShining,
+
+        // Mode icons
+        regularMode,
+        darknessMode,
+        invertMode,
+        underwaterMode,
+        spaceMode,
+        storyMode
     }
 
 }
