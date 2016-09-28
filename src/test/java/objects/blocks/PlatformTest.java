@@ -1,4 +1,4 @@
-package objects.blocks.Platform;
+package objects.blocks;
 
 import objects.blocks.platform.Platform;
 import objects.doodles.IDoodle;
@@ -33,7 +33,7 @@ public class PlatformTest {
     private IDoodle doodle;
 
     /**
-     * Initialising variables necessary for every test.
+     * Initialising variables necessary for the test cases.
      */
     @Before
     public void init() {
