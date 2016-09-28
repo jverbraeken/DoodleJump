@@ -377,6 +377,7 @@ import scenes.SceneFactory;
         FileSystem.register(this);
         Constants.register(this);
         LoggerFactory.register(this);
+
         AudioManager.register(this);
         EnemyBuilder.register(this);
         InputManager.register(this);

@@ -1,6 +1,5 @@
 package constants;
 
-import logging.ILogger;
 import system.IServiceLocator;
 
 import java.io.FileNotFoundException;
@@ -8,7 +7,16 @@ import java.util.Map;
 
 public class Constants implements IConstants {
 
+    /**
+     * The service locator for the Constants class.
+     */
     private static transient IServiceLocator sL;
+
+    public static void register(IServiceLocator sL) {
+        assert sL != null;
+        Constants.sL = sL;
+        sL.provide(new Constants());
+    }
     /**
      * The width of the frame of the game
      */
@@ -20,16 +28,20 @@ public class Constants implements IConstants {
     /**
      * How much the doodle is affected by gravity.
      */
-    private static final double gravityAcceleration = 0.5;
+    private static final double gravityAcceleration = 0.5d;
     /**
      * The height the dodle jumps will be multiplied with this value to obtain the score that the player will get.
      * each frame.
      */
     private static final double scoreMultiplier = 0.15;
     /**
+     * True if the number of pending tasks of the logging thread executor should be logged each time something is logged.
+     */
+    private static final boolean LOG_PENDING_TASKS = true;
+    /**
      * The file to which the logs will be written to.
      */
-    private String logFile;
+    private static String logFile;
 
     /**
      * Prevent public instantiation of Constants.
@@ -41,12 +53,6 @@ public class Constants implements IConstants {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void register(IServiceLocator sL) {
-        assert sL != null;
-        Constants.sL = sL;
-        sL.provide(new Constants());
     }
 
     /**
@@ -81,6 +87,12 @@ public class Constants implements IConstants {
         return scoreMultiplier;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public boolean getLogPendingTasks() {
+        return LOG_PENDING_TASKS;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -93,7 +105,7 @@ public class Constants implements IConstants {
         for (Map.Entry<String, String> entry : json.entrySet()) {
             switch (entry.getKey()) {
                 case "logFile":
-                    this.logFile = entry.getValue();
+                    logFile = entry.getValue();
                     break;
                 default:
                     System.err.println("The json entry \"" + entry.getKey() + "\" in the configuration file could not be identified");

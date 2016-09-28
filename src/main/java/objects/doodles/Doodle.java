@@ -1,6 +1,7 @@
 package objects.doodles;
 
 import input.IInputManager;
+import logging.ILogger;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
@@ -19,6 +20,10 @@ import system.IServiceLocator;
  */
 public class Doodle extends AGameObject implements IDoodle {
 
+    /**
+     * The logger for the Game class.
+     */
+    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Doodle.class);
     /**
      * The relative center of the camera on the y axis.
      */
@@ -183,7 +188,8 @@ public class Doodle extends AGameObject implements IDoodle {
     private void checkDeadPosition() {
         ICamera camera = sL.getRenderer().getCamera();
         if (getYPos() > camera.getYPos() + sL.getConstants().getGameHeight() - DEAD_OFFSET * getHitBox()[HITBOX_BOTTOM]) {
-            Game.setAlive(false);
+            LOGGER.info("The Doodle died with score " + this.score);
+            Game.endGameInstance(this.score);
         }
     }
 
