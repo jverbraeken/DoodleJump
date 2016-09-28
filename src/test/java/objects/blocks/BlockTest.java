@@ -24,9 +24,9 @@ import static org.powermock.api.mockito.PowerMockito.mock;
  */
 public class BlockTest {
 
-    private IServiceLocator servicelocator;
-    private IGameObject gameobject = Mockito.mock(AGameObject.class);
-    private IJumpable jumpobject = Mockito.mock(IJumpable.class);
+    private IServiceLocator serviceLocator;
+    private IGameObject gameObject = Mockito.mock(AGameObject.class);
+    private IJumpable jumpObject = Mockito.mock(IJumpable.class);
     private IBlock block;
     private IPlatform platform = mock(Platform.class);
     private Set<IGameObject> set = new HashSet<>();
@@ -34,7 +34,7 @@ public class BlockTest {
 
     @Before
     public void init() throws Exception {
-        servicelocator = mock(IServiceLocator.class);
+        serviceLocator = mock(IServiceLocator.class);
     }
 
     /**
@@ -45,21 +45,20 @@ public class BlockTest {
      */
     @Test
     public void testGetElements() throws Exception {
-        IGameObject gObject = mock(IGameObject.class);
-        set.add(gObject);
-        block = Whitebox.invokeConstructor(Block.class, servicelocator, set, jumpobject);
+        set.add(gameObject);
+        block = Whitebox.invokeConstructor(Block.class, serviceLocator, set, jumpObject);
         assertEquals(set, block.getElements());
     }
 
     /**
-     * Test if the jumpobject is present in the set of IGameObjects after being added to that set.
+     * Test if the jump object is present in the set of IGameObjects after being added to that set.
      * It also tests if the topJumpable is indeed the jumpobject that has been added.
      */
     @Test
     public void testGetTopJumpable() throws Exception {
 
-        block = Whitebox.invokeConstructor(Block.class, servicelocator, set, jumpobject);
-        assertEquals(jumpobject, block.getTopJumpable());
+        block = Whitebox.invokeConstructor(Block.class, serviceLocator, set, jumpObject);
+        assertEquals(jumpObject, block.getTopJumpable());
 
     }
 
@@ -72,7 +71,7 @@ public class BlockTest {
     @Test
     public void testRender() throws Exception {
         set.add(platform);
-        block = Whitebox.invokeConstructor(Block.class, servicelocator, set, jumpobject);
+        block = Whitebox.invokeConstructor(Block.class, serviceLocator, set, jumpObject);
         block.render();
 
         verify(platform).render();
