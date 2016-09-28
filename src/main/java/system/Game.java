@@ -256,6 +256,7 @@ public final class Game {
         sL.getRes().setSkin(m);
         SpriteFactory skin = new SpriteFactory();
         skin.register(sL);
+        scene.resetBackground();
         LOGGER.info("The mode is now " + m);
     }
 
@@ -298,7 +299,7 @@ public final class Game {
     public static Modes getMode() {
         return mode;
     }
-    
+
     /*
      * Update the high scores for the game.
      *

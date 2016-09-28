@@ -44,7 +44,9 @@ import system.IServiceLocator;
     /**
      * Sprites to be displayed on the background of the killscreen.
      */
-    private final ISprite background, bottomKillScreen, gameOverSprite;
+    private ISprite background;
+    private final ISprite bottomKillScreen;
+    private final ISprite gameOverSprite;
     /**
      * Is the kill screen active, should it be displayed.
      */
@@ -112,6 +114,14 @@ import system.IServiceLocator;
      */
     @Override
     public final void update(final double delta) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void resetBackground() {
+        background = sL.getSpriteFactory().getBackground();
     }
 
 }

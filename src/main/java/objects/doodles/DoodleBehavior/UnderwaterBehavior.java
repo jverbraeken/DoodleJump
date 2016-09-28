@@ -3,6 +3,7 @@ package objects.doodles.DoodleBehavior;
 import input.KeyCode;
 import input.Keys;
 import objects.doodles.IDoodle;
+import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
@@ -82,6 +83,7 @@ public class UnderwaterBehavior implements MovementBehavior {
     public void move(final double delta){
         moveHorizontally(delta);
         applyGravity(delta);
+        animate(delta);
     }
 
     /**
@@ -99,6 +101,22 @@ public class UnderwaterBehavior implements MovementBehavior {
         }
 
         doodle.addXPos((int) this.hSpeed);
+    }
+
+    /**
+     * Animate the Doodle.
+     * @param delta Delta time since previous animate.
+     */
+    private void animate(double delta) {
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        doodle.setSpritePack(spriteFactory.getDoodleSprite(getFacing()));
+
+        // If the Doodle moves up quickly shorten its legs
+        if (getVerticalSpeed() < RELATIVE_SPEED * -15) {
+            doodle.setSprite(this.doodle.getSpritePack()[1]);
+        } else {
+            doodle.setSprite(this.doodle.getSpritePack()[0]);
+        }
     }
 
 
