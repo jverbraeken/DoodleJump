@@ -143,6 +143,13 @@ public final class BlockFactory implements IBlockFactory {
         //TODO 1.2 is a magic number
         IPlatform platform = platformFactory.createPlatform(sL.getConstants().getGameWidth() / 2, (int) (sL.getConstants().getGameHeight() / 1.2));
         elements.add(platform);
+
+        IPowerupFactory powerupFactory = sL.getPowerupFactory();
+        IGameObject springShoes = powerupFactory.createSpringShoes(
+                (int) platform.getXPos() + trampolineXoffset,
+                (int) platform.getYPos() - 35 + itemYoffset
+        );
+        elements.add(springShoes);
         return platform;
     }
 
@@ -234,11 +241,6 @@ public final class BlockFactory implements IBlockFactory {
         final int platformHeight = (int) platform.getHitBox()[AGameObject.HITBOX_BOTTOM];
 
         IPowerupFactory powerupFactory = sL.getPowerupFactory();
-        IGameObject springShoes = powerupFactory.createSpringShoes(
-                (int) platform.getXPos() + trampolineXoffset,
-                (int) platform.getYPos() - platformHeight + itemYoffset
-        );
-        elements.add(springShoes);
 
         if (randomNr < springThreshold) {
             return;

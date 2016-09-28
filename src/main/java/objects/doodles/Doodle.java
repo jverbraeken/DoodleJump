@@ -6,9 +6,7 @@ import input.Keys;
 import logging.ILogger;
 import objects.AGameObject;
 import objects.IJumpable;
-import objects.blocks.IBlock;
 import objects.powerups.IPassive;
-import objects.powerups.IPowerup;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -23,7 +21,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * The logger for the Game class.
      */
-    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Doodle.class);
+    private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Doodle.class);
     /**
      * The relative center of the camera on the y axis.
      */
@@ -54,7 +52,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private final double WIDTH_HIT_BOX_RIGHT = .7;
     /**
-     * The ratio of doodle to offset the frame size vs panel size
+     * The ratio of Doodle to offset the frame size vs panel size.
      */
     private static final double DEAD_OFFSET = 1.5d;
 
@@ -79,7 +77,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private Directions facing;
     /**
-     * The current score of the doodle
+     * The current score of the doodle.
      */
     private double score;
     /**
@@ -87,12 +85,11 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private IPassive passive;
 
-
     /**
      * Doodle constructor.
      * @param sL The service locator
      */
-     /* package */ Doodle(final IServiceLocator sL) {
+    /* package */ Doodle(final IServiceLocator sL) {
         super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(Directions.Right)[0]);
         this.setHitBox((int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT), getSprite().getHeight());
 
@@ -106,12 +103,12 @@ public class Doodle extends AGameObject implements IDoodle {
     /** {@inheritDoc} */
     @Override
     public void render() {
-        sL.getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        serviceLocator.getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /** {@inheritDoc} */
     @Override
-    public void update(double delta) {
+    public void update(final double delta) {
         this.animate(delta);
         this.move(delta);
         this.wrap();
@@ -128,7 +125,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public void setVerticalSpeed(double vSpeed) {
+    public void setVerticalSpeed(final double vSpeed) {
         this.vSpeed = vSpeed;
     }
 
@@ -162,13 +159,21 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public void setPassive(IPassive item) {
+    public void setPassive(final IPassive item) {
         this.passive = item;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void collide(IJumpable jumpable) {
+    public void removePassive(final IPassive item) {
+        if (this.passive.equals(item)) {
+            this.passive = null;
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void collide(final IJumpable jumpable) {
         double newSpeed = jumpable.getBoost();
         if (this.passive != null) {
             newSpeed *= this.passive.getBoost();
@@ -179,7 +184,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public void collidesWith(IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
     }
 
     /** {@inheritDoc} */
@@ -246,7 +251,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void wrap() {
         double middle = this.getXPos() + this.getHitBox()[AGameObject.HITBOX_RIGHT] / 2;
-        final int width = sL.getConstants().getGameWidth();
+        final int width = serviceLocator.getConstants().getGameWidth();
         if (middle < 0) {
             this.addXPos(width);
         } else if (middle > width) {
@@ -258,8 +263,8 @@ public class Doodle extends AGameObject implements IDoodle {
      * Animate the Doodle.
      * @param delta Delta time since previous animate.
      */
-    private void animate(double delta) {
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+    private void animate(final double delta) {
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         this.spritePack = spriteFactory.getDoodleSprite(this.facing);
 
         // If the Doodle moves up quickly shorten its legs
@@ -274,8 +279,8 @@ public class Doodle extends AGameObject implements IDoodle {
      * Apply gravity to the Doodle.
      * @param delta Delta time since previous animate.
      */
-    private void applyGravity(double delta) {
-        this.vSpeed += sL.getConstants().getGravityAcceleration();
+    private void applyGravity(final double delta) {
+        this.vSpeed += serviceLocator.getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
 
@@ -283,10 +288,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * Check the height position of the Doodle.
      */
     private void checkHighPosition() {
-        ICamera camera = sL.getRenderer().getCamera();
-        final int height = sL.getConstants().getGameHeight();
+        ICamera camera = serviceLocator.getRenderer().getCamera();
+        final int height = serviceLocator.getConstants().getGameHeight();
         if (getYPos() < camera.getYPos() + height * CAMERA_POS) {
-            score += (camera.getYPos() + height * CAMERA_POS - getYPos()) * sL.getConstants().getScoreMultiplier();
+            score += (camera.getYPos() + height * CAMERA_POS - getYPos()) * serviceLocator.getConstants().getScoreMultiplier();
             camera.setYPos(getYPos() - height * CAMERA_POS);
         }
     }
@@ -295,8 +300,8 @@ public class Doodle extends AGameObject implements IDoodle {
      * Check the dead position of the Doodle.
      */
     private void checkDeadPosition() {
-        ICamera camera = sL.getRenderer().getCamera();
-        if (getYPos() > camera.getYPos() + sL.getConstants().getGameHeight() - DEAD_OFFSET * getHitBox()[HITBOX_BOTTOM]) {
+        ICamera camera = serviceLocator.getRenderer().getCamera();
+        if (getYPos() > camera.getYPos() + serviceLocator.getConstants().getGameHeight() - DEAD_OFFSET * getHitBox()[HITBOX_BOTTOM]) {
             LOGGER.info("The Doodle died with score " + this.score);
             Game.endGameInstance(this.score);
         }

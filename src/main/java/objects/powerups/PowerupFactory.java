@@ -50,7 +50,7 @@ public final class PowerupFactory implements IPowerupFactory {
     @Override
     public IGameObject createSpringShoes(final int x, final int y) {
         LOGGER.info("A new pair of Spring Shoes has been created");
-        return new SpringShoes(sL, x, y);
+        return new JumpBoots(sL, x, y);
     }
 
     /**

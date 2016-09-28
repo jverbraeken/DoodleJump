@@ -1,9 +1,7 @@
 package objects.blocks.platform;
 
 import objects.AGameObject;
-import objects.IGameObject;
 import objects.doodles.IDoodle;
-import objects.powerups.IPowerup;
 import resources.audio.IAudioManager;
 import system.IServiceLocator;
 
@@ -41,7 +39,7 @@ public class Platform extends AGameObject implements IPlatform {
      */
     @Override
     public void render() {
-        sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        serviceLocator.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
 
@@ -56,7 +54,7 @@ public class Platform extends AGameObject implements IPlatform {
      * Play the sound for the Platform.
      */
     private void playSound() {
-        IAudioManager audioManager = sL.getAudioManager();
+        IAudioManager audioManager = serviceLocator.getAudioManager();
         audioManager.playJump();
     }
 

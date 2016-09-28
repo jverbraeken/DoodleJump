@@ -2,11 +2,8 @@ package objects.doodles;
 
 import input.IInputManager;
 import objects.AGameObject;
-import objects.IGameObject;
 import objects.IJumpable;
-import objects.blocks.IBlock;
 import objects.powerups.IPassive;
-import objects.powerups.IPowerup;
 import system.IServiceLocator;
 
 /**
@@ -47,12 +44,12 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public void render() {
-        sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        serviceLocator.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /** {@inheritDoc} */
     @Override
-    public void update(double delta) {
+    public void update(final double delta) {
         this.applyGravity(delta);
     }
 
@@ -64,7 +61,7 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void setVerticalSpeed(double vSpeed) {
+    public void setVerticalSpeed(final double vSpeed) {
         this.vSpeed = vSpeed;
     }
 
@@ -86,18 +83,21 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void setPassive(IPassive item) {
-    }
+    public void setPassive(final IPassive item) { }
 
     /** {@inheritDoc} */
     @Override
-    public void collide(IJumpable jumpable) {
+    public void removePassive(final IPassive item) { }
+
+    /** {@inheritDoc} */
+    @Override
+    public void collide(final IJumpable jumpable) {
         this.vSpeed = jumpable.getBoost() + BOOST_REDUCTION;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void collidesWith(IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
     }
 
     /** {@inheritDoc} */
@@ -110,8 +110,8 @@ import system.IServiceLocator;
      * Apply gravity to the Doodle.
      * @param delta Delta time since previous animate.
      */
-    private void applyGravity(double delta) {
-        this.vSpeed += sL.getConstants().getGravityAcceleration();
+    private void applyGravity(final double delta) {
+        this.vSpeed += serviceLocator.getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
 
