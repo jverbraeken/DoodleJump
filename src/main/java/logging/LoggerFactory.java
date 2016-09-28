@@ -4,9 +4,11 @@ import filesystem.IFileSystem;
 import system.Game;
 import system.IServiceLocator;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 
 /**
  * Standard implementation of the LoggingFactory. Used to create loggers.
@@ -14,13 +16,25 @@ import java.io.Writer;
 public class LoggerFactory implements ILoggerFactory {
 
     /**
+     * The file to which the log data should be written.
+     */
+    private static final String LOG_IGNORE_FILE = "logIgnore.json";
+    /**
+     * The file to which the log data should be written.
+     */
+    private static String LOG_FILE;
+    /**
      * Used to gain access to all services.
      */
     private static IServiceLocator sL;
     /**
-     * The file to which the log data should be written
+     * The logger for LoggerFactory.
      */
-    private final String LOG_FILE;
+    private final ILogger LOGGER;
+    /**
+     * A set containing the classes that should not be logged.
+     */
+    private final Set<Class<?>> logIgnore;
     /**
      * Hidden constructor to prevent instantiation.
      */
@@ -32,28 +46,21 @@ public class LoggerFactory implements ILoggerFactory {
             fileSystem.clearFile(LOG_FILE);
         }
 
-        // If the LOG_FILE is not found, the game should either crash on the exception or not at all (so also
-        // not when something is logged. Therefore we provide an emtpy interface instead of null to prevent
-        // a {@link NullPointerException}.
-        Writer fw = new Writer() {
-            @Override
-            public void write(char[] cbuf, int off, int len) throws IOException {
+        LOGGER = new Logger(sL, this.getClass());
 
-            }
-
-            @Override
-            public void flush() throws IOException {
-
-            }
-
-            @Override
-            public void close() throws IOException {
-
-            }
-        };
+        logIgnore = new HashSet<>();
         try {
-            fw = new FileWriter(LOG_FILE, true);
-        } catch (IOException e) {
+            List<String> list = (List<String>) sL.getFileSystem().parseJsonList(LOG_IGNORE_FILE, String.class);
+            for (String className : list) {
+                try {
+                    logIgnore.add(Class.forName(className));
+                } catch (ClassNotFoundException e) {
+                    LOGGER.warning("LoggerFactory could not find class requested to ignore logging for: " + className);
+                    e.printStackTrace();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            LOGGER.error("The file " + LOG_IGNORE_FILE + " requested by LoggerFactory was not found");
             e.printStackTrace();
         }
     }
@@ -74,7 +81,36 @@ public class LoggerFactory implements ILoggerFactory {
      */
     @Override
     public ILogger createLogger(Class<?> cl) {
-        return new Logger(sL, cl);
+        if (logIgnore.contains(cl)) {
+            return new ILogger() {
+                @Override
+                public void log(String msg) {
+
+                }
+
+                @Override
+                public void error(String msg) {
+
+                }
+
+                @Override
+                public void error(Exception exception) {
+
+                }
+
+                @Override
+                public void info(String msg) {
+
+                }
+
+                @Override
+                public void warning(String msg) {
+
+                }
+            };
+        } else {
+            return new Logger(sL, cl);
+        }
     }
 
 }
