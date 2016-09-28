@@ -304,16 +304,13 @@ public final class Game {
         try {
             List<String> content = fileSystem.readTextFile(constants.getHighScoresFile());
             String plainHighScores = content.get(0);
+            String[] highScores = plainHighScores.split("\\s+");
+            for (int i = 0; i < highScores.length; i += 2) {
+                HighScore score = new HighScore(highScores[i], highScores[i + 1]);
+                Game.highScores.add(score);
+            }
         } catch (FileNotFoundException e) {
             LOGGER.warning("High scores file not found, starting with empty high scores list");
-        }
-
-
-        String plainHighScores = "Doodle 426 Doodle 117 Doodle 73 ";
-        String[] test = plainHighScores.split("\\s+");
-        for (int i = 0; i < test.length; i += 2) {
-            HighScore score = new HighScore(test[i], test[i + 1]);
-            Game.highScores.add(score);
         }
 
         for (HighScore score : Game.highScores) {
