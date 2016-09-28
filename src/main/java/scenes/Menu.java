@@ -14,10 +14,7 @@ import objects.doodles.IDoodleFactory;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
-import system.IRenderable;
 import system.IServiceLocator;
-
-import java.util.ArrayList;
 
 /**
  * This class is a scene that is displays when the game is started.
@@ -45,6 +42,12 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     private static final double DOODLE_X = 0.1d;
 
+
+    /**
+     * The X and Y location for the choose mode button.
+     */
+    private static final double CHOOSE_MODE_X = 0.6d, CHOOSE_MODE_Y= 0.65d;
+
     /**
      * Used to access all services.
      */
@@ -53,6 +56,10 @@ public class Menu implements IScene, IKeyInputObserver {
      * The buttons for the main enu.
      */
     private final IButton playButton, scoreButton;
+    /**
+     * The button that starts up a scene to choose mode.
+     */
+    private final IButton chooseModeButton;
     /**
      * The cover sprite of the main menu.
      */
@@ -80,13 +87,14 @@ public class Menu implements IScene, IKeyInputObserver {
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         playButton = buttonFactory.createPlayButton(
-            (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
-            (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y)
-        );
+                (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
+                (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y));
         scoreButton = buttonFactory.createScoreButton(
                 (int) (sL.getConstants().getGameWidth() * SCORE_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * SCORE_BUTTON_Y)
-        );
+                (int) (sL.getConstants().getGameHeight() * SCORE_BUTTON_Y));
+        chooseModeButton = buttonFactory.createChooseModeButton(
+                (int) (sL.getConstants().getGameWidth() * CHOOSE_MODE_X),
+                (int) (sL.getConstants().getGameHeight() * CHOOSE_MODE_Y));
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createStartScreenDoodle();
@@ -109,6 +117,7 @@ public class Menu implements IScene, IKeyInputObserver {
     public final void start() {
         sL.getInputManager().addObserver(playButton);
         sL.getInputManager().addObserver(scoreButton);
+        sL.getInputManager().addObserver(chooseModeButton);
         sL.getInputManager().addObserver(this);
         LOGGER.info("The menu scene is now displaying");
     }
@@ -120,6 +129,7 @@ public class Menu implements IScene, IKeyInputObserver {
     public final void stop() {
         sL.getInputManager().removeObserver(playButton);
         sL.getInputManager().removeObserver(scoreButton);
+        sL.getInputManager().removeObserver(chooseModeButton);
         sL.getInputManager().removeObserver(this);
         LOGGER.info("The menu scene is no longer displaying");
     }
@@ -132,6 +142,7 @@ public class Menu implements IScene, IKeyInputObserver {
         sL.getRenderer().drawSpriteHUD(this.cover, 0, 0);
         playButton.render();
         scoreButton.render();
+        chooseModeButton.render();
         doodle.render();
         platform.render();
     }

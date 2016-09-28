@@ -69,6 +69,11 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
+     * Track the current mode of the game.
+     */
+    //TODO Actually use the current mode.
+    private static String mode = "REGULAR";
+    /**
      * The resume button for the pause screen.
      */
     private static IButton resumeButton;
@@ -83,7 +88,21 @@ public final class Game {
     /**
      * A list of high scores for the game.
      */
-    private static ArrayList<Score> highScores = new ArrayList<>();
+    private static ArrayList<HighScore> highScores = new ArrayList<>();
+    /**
+     * The filepath to the logfile to which all logs will be written to.
+     * This constant is not provided by an implementation of {@link constants.IConstants} because
+     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
+     * does need the name of the log file.
+     */
+    public static final String LOGFILE_NAME = "async.log";
+    /**
+     * Indicates if the log file should be cleared each time the game starts.
+     * This constant is not provided by an implementation of {@link constants.IConstants} because
+     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
+     * does need to know whether is should clear the log file on startup or not.
+     */
+    public final static boolean CLEAR_LOG_ON_STARTUP = true;
 
     /**
      * Prevents instantiation from outside the Game class.
@@ -104,11 +123,11 @@ public final class Game {
         sL.getRenderer().start();
 
         // TEMP: test scores
-        highScores.add(new Score("Aaaaaaaaaaaaaaaaaaaa", 100000d));
-        highScores.add(new Score("Bbbbbbbbbbbbbbbbbbbb", 10000d));
-        highScores.add(new Score("Cccccccccccccccccccc", 1000d));
-        highScores.add(new Score("Dddddddddddddddddddd", 100d));
-        highScores.add(new Score("Eeeeeeeeeeeeeeeeeeee", 10d));
+        highScores.add(new HighScore("Aaaaaaaaaaaaaaaaaaaa", 100000d));
+        highScores.add(new HighScore("Bbbbbbbbbbbbbbbbbbbb", 10000d));
+        highScores.add(new HighScore("Cccccccccccccccccccc", 1000d));
+        highScores.add(new HighScore("Dddddddddddddddddddd", 100d));
+        highScores.add(new HighScore("Eeeeeeeeeeeeeeeeeeee", 10d));
         // TEMP: test scores
 
         // Initialize frame
@@ -188,7 +207,10 @@ public final class Game {
      * @return The current Frames Per Second (FPS)
      */
     public static double getFPS(final long threadSleep, final long renderTime) {
-        return sL.getCalc().NANOSECONDS / (threadSleep + renderTime);
+        if (threadSleep + renderTime == 0) {
+            return TARGET_FPS;
+        }
+        return ICalc.NANOSECONDS / (threadSleep + renderTime);
     }
 
     /**
@@ -224,11 +246,16 @@ public final class Game {
         setScene(sL.getSceneFactory().createKillScreen());
     }
 
+    public static void setMode(final String m){
+        mode = m;
+        LOGGER.info("The mode is now " + m);
+    }
+
     /**
      * Get the list of highscores.
      * @return The highscores.
      */
-    public static ArrayList<Score> getHighScores() {
+    public static ArrayList<HighScore> getHighScores() {
         return Game.highScores;
     }
 
@@ -259,6 +286,8 @@ public final class Game {
             } catch (InterruptedException e) {
                 LOGGER.error(e);
             }
+
+            LOGGER.info("FPS is " + getFPS(updateLength, 0));
         }
     }
 
@@ -268,7 +297,7 @@ public final class Game {
      * @param score The score the game instance ended with.
      */
     private static void updateHighScores(final double score) {
-        Score scoreEntry = new Score("", score);
+        HighScore scoreEntry = new HighScore("", score);
         Game.highScores.add(scoreEntry);
         Collections.sort(Game.highScores);
 

@@ -22,6 +22,9 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getScoreButtonSprite();
 
+    ISprite getChooseModeButtonSprite();
+
+
     // Covers
     ISprite getBackground();
 
@@ -165,6 +168,19 @@ public interface ISpriteFactory extends IFactory {
     ISprite getUFOSprite();
 
     ISprite getUFOShiningSprite();
+
+    // Choose mode icons
+    public ISprite getRegularModeButton();
+
+    public ISprite getStoryModeButton();
+
+    public ISprite getDarknessModeButton();
+
+    public ISprite getInvertModeButton();
+
+    public ISprite getSpaceModeButton();
+
+    public ISprite getUnderwaterModeButton();
 
     /**
      * Returns a sprite of the digit specified in Doodle Jump font.

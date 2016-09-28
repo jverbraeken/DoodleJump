@@ -9,8 +9,8 @@ import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
+import system.HighScore;
 import system.IServiceLocator;
-import system.Score;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ import java.util.ArrayList;
     /**
      * A list of high scores for the game.
      */
-    private final ArrayList<Score> highScores;
+    private final ArrayList<HighScore> highScores;
 
     /* package */ ScoreScreen(IServiceLocator sL) {
         this.serviceLocator = sL;
@@ -87,7 +87,7 @@ import java.util.ArrayList;
             renderer.fillRectangle(0, backgroundY, constants.getGameWidth(), entryHeight, color);
 
             // Entry name & value
-            Score score = highScores.get(i);
+            HighScore score = highScores.get(i);
             int entryY = scoreListTop + i * entryHeight;
             String msg = score.getName() + " - " + score.getScore();
             renderer.drawText(msg, this.left.getWidth(), entryY);
