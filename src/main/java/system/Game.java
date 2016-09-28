@@ -172,6 +172,7 @@ public final class Game {
         resumeButton = sL.getButtonFactory().createResumeButton((int) (sL.getConstants().getGameWidth() * RESUME_BUTTON_X), (int) (sL.getConstants().getGameHeight() * RESUME_BUTTON_Y));
         sL.getInputManager().addObserver(resumeButton);
 
+        initHighScores();
         loop();
     }
 
@@ -274,7 +275,14 @@ public final class Game {
             Game.highScores.remove(i - 1);
         }
 
-        // TODO: save high scores
+        // TODO: Save high scores
+    }
+
+    /**
+     * Initialize the high scores.
+     */
+    private static void initHighScores() {
+        // TODO: Read the high scores file
     }
 
     /**

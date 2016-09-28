@@ -42,6 +42,10 @@ public class Constants implements IConstants {
      * The file to which the logs will be written to.
      */
     private static String logFile;
+    /**
+     * The file to which the highscores will be written to.
+     */
+    private static String highScoresFile;
 
     /**
      * Prevent public instantiation of Constants.
@@ -101,6 +105,18 @@ public class Constants implements IConstants {
         return logFile;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getHighScoresFile() {
+        return highScoresFile;
+    }
+
+    /**
+     * Interpret the JSON for the Constants class
+     * @param json The json map.
+     */
     private void interpretJson(Map<String, String> json) {
         for (Map.Entry<String, String> entry : json.entrySet()) {
             switch (entry.getKey()) {
@@ -112,4 +128,5 @@ public class Constants implements IConstants {
             }
         }
     }
+
 }

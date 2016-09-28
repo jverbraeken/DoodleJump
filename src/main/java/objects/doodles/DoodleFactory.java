@@ -1,6 +1,5 @@
 package objects.doodles;
 
-import scenes.IScene;
 import scenes.World;
 import system.IServiceLocator;
 

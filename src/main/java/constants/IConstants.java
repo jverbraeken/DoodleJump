@@ -1,6 +1,10 @@
 package constants;
 
+/**
+ * Interface for the constants class.
+ */
 public interface IConstants {
+
     /**
      * @return The width of the frame of the game
      */
@@ -28,7 +32,12 @@ public interface IConstants {
 
     /**
      * @return The name of the log file
-     * @return
      */
     String getLogFile();
+
+    /**
+     * @return The name of the high scores file.
+     */
+    String getHighScoresFile();
+
 }
