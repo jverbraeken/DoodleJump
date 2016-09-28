@@ -34,11 +34,11 @@ public class FileSystemTest {
 
     @Test
     public void testGetFileValid() throws FileNotFoundException {
-        fileSystem.getFile("foo.bar");
+        fileSystem.getResourceFile("foo.bar");
     }
 
     @Test(expected=FileNotFoundException.class)
     public void testGetFileInvalid() throws FileNotFoundException {
-        fileSystem.getFile("qwertyuiopasdfghjklzxcvbnm");
+        fileSystem.getResourceFile("qwertyuiopasdfghjklzxcvbnm");
     }
 }

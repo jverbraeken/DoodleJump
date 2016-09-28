@@ -31,7 +31,7 @@ public class Trampoline extends APowerup implements IJumpable {
     private void animate() {
         int oldHeight = getSprite().getHeight();
 
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
 
         int newHeight = newSprite.getHeight();
@@ -55,14 +55,14 @@ public class Trampoline extends APowerup implements IJumpable {
      */
     @Override
     public void render() {
-        sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        serviceLocator.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /**
      * Play the sound for the Trampoline.
      */
     private void playSound() {
-        IAudioManager audioManager = sL.getAudioManager();
+        IAudioManager audioManager = serviceLocator.getAudioManager();
         audioManager.playTrampoline();
     }
 

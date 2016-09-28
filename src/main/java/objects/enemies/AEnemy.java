@@ -16,7 +16,7 @@ public abstract class AEnemy extends AGameObject implements IEnemy {
      * @param sprite The sprite of the enemy
      */
     public AEnemy(final int x, final int y, final ISprite sprite) {
-        super(sL, x, y, sprite);
+        super(serviceLocator, x, y, sprite);
     }
 
     /** {@inheritDoc} */

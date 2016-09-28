@@ -1,6 +1,8 @@
 package system;
 
 import buttons.IButton;
+import constants.IConstants;
+import filesystem.IFileSystem;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
@@ -11,8 +13,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.FileNotFoundException;
+import java.util.*;
+import java.util.List; // Needed to overwrite java.awt.List
 
 import static system.Game.Modes.regular;
 
@@ -72,17 +75,10 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
-<<<<<<< HEAD
-     * Track wether the doodle is alive.
-     */
-    private static boolean isAlive = true;
-    /**
      * The enums for the mode
      */
     public enum Modes { regular, underwater, story, invert, darkness, space }
     /**
-=======
->>>>>>> origin/develop
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
@@ -185,6 +181,7 @@ public final class Game {
         resumeButton = sL.getButtonFactory().createResumeButton((int) (sL.getConstants().getGameWidth() * RESUME_BUTTON_X), (int) (sL.getConstants().getGameHeight() * RESUME_BUTTON_Y));
         sL.getInputManager().addObserver(resumeButton);
 
+        initHighScores();
         loop();
     }
 
@@ -205,20 +202,6 @@ public final class Game {
     }
 
     /**
-     * Returns the current FPS.
-     *
-     * @param threadSleep Amount of time thread has slept
-     * @param renderTime  Amount of time took rendering/updating
-     * @return The current Frames Per Second (FPS)
-     */
-    public static double getFPS(final long threadSleep, final long renderTime) {
-        if (threadSleep + renderTime == 0) {
-            return TARGET_FPS;
-        }
-        return ICalc.NANOSECONDS / (threadSleep + renderTime);
-    }
-
-    /**
      * Pauses or resumes the game.
      *
      * @param paused <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
@@ -236,26 +219,15 @@ public final class Game {
     }
 
     /**
-     * Start the game.
-     */
-    public static void startGameInstance() {
-    }
-
-    /**
-     * End the game.
+     * Set the game mode.
      *
-     * @param score The score the game instance ended with.
+     * @param m The mode to use.
      */
-    public static void endGameInstance(final double score) {
-        updateHighScores(score);
-        setScene(sL.getSceneFactory().createKillScreen());
-    }
-
     public static void setMode(final Modes m){
         mode = m;
         sL.getRes().setSkin(m);
         SpriteFactory skin = new SpriteFactory();
-        skin.register(sL);
+        SpriteFactory.register(sL);
         LOGGER.info("The mode is now " + m);
     }
 
@@ -281,8 +253,7 @@ public final class Game {
 
             panel.repaint();
             try {
-                long gameTime = FRAME_TIME;
-                Thread.sleep(gameTime - (now - System.nanoTime()) / ICalc.NANOSECONDS);
+                Thread.sleep(FRAME_TIME - (now - System.nanoTime()) / ICalc.NANOSECONDS);
             } catch (InterruptedException e) {
                 LOGGER.error(e);
             }
@@ -293,25 +264,87 @@ public final class Game {
 
     /**
      * Return the current mode.
-     * @return the mode
+     * @return the mode.
      */
     public static Modes getMode() {
         return mode;
     }
     
     /*
-     * Update the high scores for the game.
-     *
-     * @param score The score the game instance ended with.
+     * Add a score to the list of highscores.
+     * @param name  The name for the score.
+     * @param score The actual score.
      */
-    private static void updateHighScores(final double score) {
-        HighScore scoreEntry = new HighScore("", score);
+    public static void addHighScore(final String name, final double score) {
+        HighScore scoreEntry = new HighScore(name, score);
         Game.highScores.add(scoreEntry);
-        Collections.sort(Game.highScores);
 
+        // Always update high scores after one has been added.
+        updateHighScores();
+    }
+
+    /**
+     * Update the high scores for the game. Makes sure the
+     * max amount of high scores is not exceeded and the high
+     * scores are saved.
+     */
+    private static void updateHighScores() {
+        // Sort and limit high scores.
+        Collections.sort(Game.highScores);
         for (int i = Game.highScores.size(); i > MAX_HIGH_SCORES; i--) {
             Game.highScores.remove(i - 1);
         }
+
+        // Convert high scores to string
+        String data = "";
+        for (HighScore score : Game.highScores) {
+            data += score.getName() + " " + score.getScore() + " ";
+        }
+
+        // Save high scores.
+        IFileSystem fileSystem = sL.getFileSystem();
+        IConstants constants = sL.getConstants();
+        try {
+            fileSystem.writeTextFile(constants.getHighScoresFilePath(), data);
+        } catch (FileNotFoundException e) {
+            LOGGER.error(e);
+        }
+    }
+
+    /**
+     * Initialize the high scores.
+     */
+    private static void initHighScores() {
+        IFileSystem fileSystem = sL.getFileSystem();
+        IConstants constants = sL.getConstants();
+        try {
+            List<String> content = fileSystem.readTextFile(constants.getHighScoresFilePath());
+
+            if (content.size() > 0) {
+                String plainHighScores = content.get(0);
+                String[] highScores = plainHighScores.split("\\s+");
+                for (int i = 0; i < highScores.length; i += 2) {
+                    HighScore score = new HighScore(highScores[i], highScores[i + 1]);
+                    Game.highScores.add(score);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            LOGGER.warning("High scores file not found, starting with empty high scores list");
+        }
+    }
+
+    /**
+     * Returns the current FPS.
+     *
+     * @param threadSleep Amount of time thread has slept
+     * @param renderTime  Amount of time took rendering/updating
+     * @return The current Frames Per Second (FPS)
+     */
+    private static double getFPS(final long threadSleep, final long renderTime) {
+        if (threadSleep + renderTime == 0) {
+            return TARGET_FPS;
+        }
+        return ICalc.NANOSECONDS / (threadSleep + renderTime);
     }
 
 }

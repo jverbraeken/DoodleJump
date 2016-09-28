@@ -5,39 +5,40 @@ import system.IServiceLocator;
 import java.io.FileNotFoundException;
 import java.util.Map;
 
+/**
+ * This class contains constants for the game.
+ */
 public class Constants implements IConstants {
 
     /**
-     * The service locator for the Constants class.
+     * True if the number of pending tasks of the logging thread executor should be logged as well.
      */
-    private static transient IServiceLocator sL;
-
-    public static void register(IServiceLocator sL) {
-        assert sL != null;
-        Constants.sL = sL;
-        sL.provide(new Constants());
-    }
+    private static final boolean LOG_PENDING_TASKS = true;
     /**
-     * The width of the frame of the game
+     * The WIDTH of the frame of the game.
      */
-    private static final int width = 640;
+    private static final int WIDTH = 640;
     /**
-     * The height of the frame of the game
+     * The height of the frame of the game.
      */
     private static final int height = 960;
     /**
      * How much the doodle is affected by gravity.
      */
-    private static final double gravityAcceleration = 0.5d;
+    private static final double GRAVITY_ACCELERATION = 0.5d;
     /**
-     * The height the dodle jumps will be multiplied with this value to obtain the score that the player will get.
-     * each frame.
+     * The height the Doodle jumps will be multiplied with this value to obtain the score that the player gets.
      */
-    private static final double scoreMultiplier = 0.15;
+    private static final double SCORE_MULTIPLIER = 0.15;
     /**
-     * True if the number of pending tasks of the logging thread executor should be logged each time something is logged.
+     * The file to which the high scores will be written to.
      */
-    private static final boolean LOG_PENDING_TASKS = true;
+    private static final String HIGHCORES_DATA = "highcores.data";
+
+    /**
+     * Used to gain access to all services.
+     */
+    private static transient IServiceLocator serviceLocator;
     /**
      * The file to which the logs will be written to.
      */
@@ -48,7 +49,8 @@ public class Constants implements IConstants {
      */
     private Constants() {
         try {
-            Map<String, String> json = (Map<String, String>) sL.getFileSystem().parseJsonMap("constants.json", String.class);
+            Object jsonObject = serviceLocator.getFileSystem().parseJsonMap("constants.json", String.class);
+            Map<String, String> json = (Map<String, String>) jsonObject;
             interpretJson(json);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -56,35 +58,38 @@ public class Constants implements IConstants {
     }
 
     /**
-     * {@inheritDoc}
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality.
      */
-    @Override
-    public int getGameWidth() {
-        return width;
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        Constants.serviceLocator = sL;
+        sL.provide(new Constants());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
+    @Override
+    public int getGameWidth() {
+        return WIDTH;
+    }
+
+    /** {@inheritDoc} */
     @Override
     public int getGameHeight() {
         return height;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public double getGravityAcceleration() {
-        return gravityAcceleration;
+        return GRAVITY_ACCELERATION;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public double getScoreMultiplier() {
-        return scoreMultiplier;
+        return SCORE_MULTIPLIER;
     }
 
     /** {@inheritDoc} */
@@ -93,14 +98,22 @@ public class Constants implements IConstants {
         return LOG_PENDING_TASKS;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getLogFile() {
         return logFile;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public String getHighScoresFilePath() {
+        return HIGHCORES_DATA;
+    }
+
+    /**
+     * Interpret the JSON for the Constants class.
+     * @param json The json map.
+     */
     private void interpretJson(Map<String, String> json) {
         for (Map.Entry<String, String> entry : json.entrySet()) {
             switch (entry.getKey()) {
@@ -108,8 +121,11 @@ public class Constants implements IConstants {
                     logFile = entry.getValue();
                     break;
                 default:
-                    System.err.println("The json entry \"" + entry.getKey() + "\" in the configuration file could not be identified");
+                    System.err.print("The json entry \"" + entry.getKey());
+                    System.err.print(entry.getKey());
+                    System.err.println("\" in the configuration file could not be identified");
             }
         }
     }
+
 }
