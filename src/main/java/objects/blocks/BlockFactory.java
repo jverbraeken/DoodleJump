@@ -143,13 +143,6 @@ public final class BlockFactory implements IBlockFactory {
         //TODO 1.2 is a magic number
         IPlatform platform = platformFactory.createPlatform(sL.getConstants().getGameWidth() / 2, (int) (sL.getConstants().getGameHeight() / 1.2));
         elements.add(platform);
-
-        IPowerupFactory powerupFactory = sL.getPowerupFactory();
-        IGameObject springShoes = powerupFactory.createSpringShoes(
-                (int) platform.getXPos() + trampolineXoffset,
-                (int) platform.getYPos() - 35 + itemYoffset
-        );
-        elements.add(springShoes);
         return platform;
     }
 
