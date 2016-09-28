@@ -23,7 +23,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * The logger for the Game class.
      */
-    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Doodle.class);
+    private final ILogger LOGGER = sL.getLoggerFactory().createLogger(getClass());
     /**
      * The relative center of the camera on the y axis.
      */

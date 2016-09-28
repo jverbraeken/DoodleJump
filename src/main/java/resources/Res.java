@@ -91,7 +91,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.play, spritePath + "play@2x.png");
         sprites.put(Sprites.playagain, spritePath + "playagain@2x.png");
         sprites.put(Sprites.resume, spritePath + "resume@2x.png");
-        sprites.put(Sprites.chooseMode, spritePath + "mode-button@2x.png");
+        sprites.put(Sprites.chooseMode, spritePath + "mode-button2@2x.png");
 
         // Covers
         sprites.put(Sprites.background, spritePath + "bck@2x.png");
@@ -152,6 +152,7 @@ public final class Res implements IRes {
     private void setSpaceSkin() {
         resetSkin();
         // Covers
+        sprites.put(Sprites.startCover, spritePath + "space-Default@2x.png");
         sprites.put(Sprites.background, spritePath + "space-bck@2x.png");
 
         // Doodle
@@ -178,6 +179,7 @@ public final class Res implements IRes {
     private void setUnderwaterSkin() {
         resetSkin();
         // Covers
+        sprites.put(Sprites.startCover, spritePath + "underwater-Default@2x.png");
         sprites.put(Sprites.background, spritePath + "underwater-bck2@2x.png");
 
         // Doodle
