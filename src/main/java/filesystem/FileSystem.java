@@ -241,7 +241,7 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public Object parseJson(String filename, Class<?> jsonClass) throws FileNotFoundException {
+    public Object parseJson(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
         readTextFile(filename).forEach(sb::append);
         String json = sb.toString();
@@ -259,7 +259,7 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public Object parseJsonList(String filename, Class<?> jsonClass) throws FileNotFoundException {
+    public Object parseJsonList(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
         readTextFile(filename).forEach(sb::append);
         String json = sb.toString();
@@ -277,7 +277,7 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public Object parseJsonMap(String filename, Class<?> jsonClass) throws FileNotFoundException {
+    public Object parseJsonMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
         readTextFile(filename).forEach(sb::append);
         String json = sb.toString();

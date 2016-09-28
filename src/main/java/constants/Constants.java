@@ -63,7 +63,7 @@ public class Constants implements IConstants {
      *
      * @param sL The IServiceLocator to which the class should offer its functionality.
      */
-    public static void register(IServiceLocator sL) {
+    public static void register(final IServiceLocator sL) {
         assert sL != null;
         Constants.serviceLocator = sL;
         sL.provide(new Constants());

@@ -103,7 +103,7 @@ public interface IFileSystem {
      * @param filename The name of the file.
      * @return A {@link File} class embedding the specified file.
      */
-    File getProjectFile(String filename);
+    File getProjectFile(final String filename);
 
     /**
      * Parse a JSON file consisting of a single Json item.
