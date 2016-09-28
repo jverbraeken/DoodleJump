@@ -1,6 +1,5 @@
 package objects.blocks;
 
-
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
@@ -31,7 +30,6 @@ public class BlockTest {
     private IBlock block;
     private IPlatform platform;
     private Set<IGameObject> set;
-
 
     @Before
     public void init() throws Exception {
@@ -81,7 +79,7 @@ public class BlockTest {
 
     @After
     public void cleanUp() {
-        for(IGameObject e : set){
+        for (IGameObject e : set) {
             set.remove(e);
         }
     }
