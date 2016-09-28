@@ -8,7 +8,7 @@ import system.IServiceLocator;
  */
 public abstract class AGameObject implements IGameObject {
 
-    protected static IServiceLocator sL;
+    protected static IServiceLocator serviceLocator;
 
     public static final transient int HITBOX_LEFT = 0;
     public static final transient int HITBOX_RIGHT = 1;
@@ -32,7 +32,7 @@ public abstract class AGameObject implements IGameObject {
      * @param sprite The sprite of the game object. Can be {null} when the object is a {@link objects.blocks.IBlock block}
      */
     public AGameObject(final IServiceLocator sL, int x, int y, ISprite sprite) {
-        AGameObject.sL = sL;
+        AGameObject.serviceLocator = sL;
         setXPos(x);
         setYPos(y);
         if (sprite == null) {
