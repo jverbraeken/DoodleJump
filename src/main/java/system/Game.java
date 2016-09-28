@@ -192,20 +192,6 @@ public final class Game {
     }
 
     /**
-     * Returns the current FPS.
-     *
-     * @param threadSleep Amount of time thread has slept
-     * @param renderTime  Amount of time took rendering/updating
-     * @return The current Frames Per Second (FPS)
-     */
-    public static double getFPS(final long threadSleep, final long renderTime) {
-        if (threadSleep + renderTime == 0) {
-            return TARGET_FPS;
-        }
-        return ICalc.NANOSECONDS / (threadSleep + renderTime);
-    }
-
-    /**
      * Pauses or resumes the game.
      *
      * @param paused <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
@@ -234,10 +220,15 @@ public final class Game {
      * @param score The score the game instance ended with.
      */
     public static void endGameInstance(final double score) {
-        updateHighScores(score);
+        addHighScore("", score);
         setScene(sL.getSceneFactory().createKillScreen());
     }
 
+    /**
+     * Set the game mode.
+     *
+     * @param m The mode to use.
+     */
     public static void setMode(final String m){
         mode = m;
         LOGGER.info("The mode is now " + m);
@@ -265,8 +256,7 @@ public final class Game {
 
             panel.repaint();
             try {
-                long gameTime = FRAME_TIME;
-                Thread.sleep(gameTime - (now - System.nanoTime()) / ICalc.NANOSECONDS);
+                Thread.sleep(FRAME_TIME - (now - System.nanoTime()) / ICalc.NANOSECONDS);
             } catch (InterruptedException e) {
                 LOGGER.error(e);
             }
@@ -276,18 +266,45 @@ public final class Game {
     }
 
     /**
-     * Update the high scores for the game.
+     * Add a score to the list of highscores.
      *
-     * @param score The score the game instance ended with.
+     * @param name  The name for the score.
+     * @param score The actual score.
      */
-    private static void updateHighScores(final double score) {
-        HighScore scoreEntry = new HighScore("", score);
+    public static void addHighScore(final String name, final double score) {
+        HighScore scoreEntry = new HighScore(name, score);
         Game.highScores.add(scoreEntry);
-        Collections.sort(Game.highScores);
 
+        // Always update high scores after one has been added.
+        updateHighScores();
+    }
+
+    /**
+     * Update the high scores for the game. Makes sure the
+     * max amount of high scores is not exceeded and the high
+     * scores are saved.
+     */
+    private static void updateHighScores() {
+        Collections.sort(Game.highScores);
         for (int i = Game.highScores.size(); i > MAX_HIGH_SCORES; i--) {
             Game.highScores.remove(i - 1);
         }
+
+        // TODO: save high scores
+    }
+
+    /**
+     * Returns the current FPS.
+     *
+     * @param threadSleep Amount of time thread has slept
+     * @param renderTime  Amount of time took rendering/updating
+     * @return The current Frames Per Second (FPS)
+     */
+    private static double getFPS(final long threadSleep, final long renderTime) {
+        if (threadSleep + renderTime == 0) {
+            return TARGET_FPS;
+        }
+        return ICalc.NANOSECONDS / (threadSleep + renderTime);
     }
 
 }
