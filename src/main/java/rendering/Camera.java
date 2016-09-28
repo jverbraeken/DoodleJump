@@ -1,5 +1,7 @@
 package rendering;
 
+import com.google.common.util.concurrent.AtomicDouble;
+
 /**
  * A standard implementation of the {@link ICamera} interface.
  */
@@ -8,7 +10,7 @@ package rendering;
     /**
      * The y-coordinate of the camera. When the doodle jumps high enough, this value decreases.
      */
-    private static double y = 0d;
+    private static AtomicDouble y = new AtomicDouble(0d);
 
     /**
      * Prevent instantiation from outside the package.
@@ -21,16 +23,16 @@ package rendering;
      * {@inheritDoc}
      */
     @Override
-    public void setYPos(final double y) {
-        Camera.y = y;
+    public double getYPos() {
+        return Camera.y.get();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double getYPos() {
-        return Camera.y;
+    public void setYPos(final double y) {
+        Camera.y.set(y);
     }
 
 }
