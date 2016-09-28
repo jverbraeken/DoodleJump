@@ -129,8 +129,6 @@ public class Platform extends AGameObject implements IPlatform {
                 sL.getRenderer().drawSprite(getBrokenSprite(breaks), (int) xpos, (int) ypos);
             } else if (breaks == -1) {
                 applyGravity();
-                //this.setYPos(ypos + 5);
-                //ypos = this.getYPos();
                 sL.getRenderer().drawSprite(getBrokenSprite(breaks), (int) xpos, (int) ypos);
             }
         } else {
@@ -161,7 +159,7 @@ public class Platform extends AGameObject implements IPlatform {
     @Override
     public void collidesWith(final IDoodle doodle) {
         if (getProps().containsKey(PlatformProperties.breaks)) {
-            if ((int) getProps().get(PlatformProperties.breaks) == 1) {
+            if (getProps().get(PlatformProperties.breaks) == 1) {
                 getProps().replace(PlatformProperties.breaks, 2);
                 vSpeed = doodle.getVerticalSpeed() / 2;
                 playBreakSound();
@@ -225,7 +223,7 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-     * Apply gravity to the Doodle.
+     * Apply gravity to the Breaking platform.
      */
     private void applyGravity() {
         vSpeed += sL.getConstants().getGravityAcceleration();

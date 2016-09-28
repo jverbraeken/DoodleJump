@@ -35,7 +35,7 @@ public interface IPlatform extends IGameObject, IJumpable {
      *
      * @return the Map with properties
      */
-    Map getProps();
+    Map<Platform.PlatformProperties, Integer> getProps();
 
     /**
      * Updates the special properties of the Platform.
