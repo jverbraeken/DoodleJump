@@ -45,7 +45,7 @@ public class Constants implements IConstants {
     /**
      * The file to which the highscores will be written to.
      */
-    private static String highScoresFile;
+    private static String highScoresFile = "highscores.data";
 
     /**
      * Prevent public instantiation of Constants.

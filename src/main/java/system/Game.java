@@ -1,6 +1,8 @@
 package system;
 
 import buttons.IButton;
+import constants.IConstants;
+import filesystem.IFileSystem;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
@@ -10,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -270,12 +273,26 @@ public final class Game {
      * scores are saved.
      */
     private static void updateHighScores() {
+        // Sort and limit high scores.
         Collections.sort(Game.highScores);
         for (int i = Game.highScores.size(); i > MAX_HIGH_SCORES; i--) {
             Game.highScores.remove(i - 1);
         }
 
-        // TODO: Save high scores
+        // Convert high scores to string
+        String data = "";
+        for (HighScore score : Game.highScores) {
+            data += score.getName() + " " + score.getScore() + " ";
+        }
+
+        // Save high scores.
+        IFileSystem fileSystem = sL.getFileSystem();
+        IConstants constants = sL.getConstants();
+        try {
+            fileSystem.writeTextFile(constants.getHighScoresFile(), data);
+        } catch (FileNotFoundException e) {
+            LOGGER.error(e);
+        }
     }
 
     /**
