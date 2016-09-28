@@ -10,6 +10,7 @@ import objects.blocks.IBlock;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
@@ -51,6 +52,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * Where the hitbox of the doodle ends in relation to the sprite width.
      */
     private final double WIDTH_HIT_BOX_RIGHT = .7;
+    /**
+     * The ratio of doodle to offset the frame size vs panel size
+     */
+    private static final double DEAD_OFFSET = 1.5d;
 
     /**
      * Current horizontal speed for the Doodle.
@@ -77,17 +82,18 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double score;
     /**
-     * The ratio of doodle to offset the frame size vs panel size
+     * The world the Doodle lives in.
      */
-    private static final double DEAD_OFFSET = 1.5d;
+    private final World world;
 
 
     /**
      * Doodle constructor.
      * @param sL The service locator
      */
-     /* package */ Doodle(final IServiceLocator sL) {
+     /* package */ Doodle(final IServiceLocator sL, final World w) {
         super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(Directions.Right)[0]);
+        this.world = w;
         this.setHitBox((int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT), getSprite().getHeight());
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
@@ -286,7 +292,7 @@ public class Doodle extends AGameObject implements IDoodle {
         ICamera camera = sL.getRenderer().getCamera();
         if (getYPos() > camera.getYPos() + sL.getConstants().getGameHeight() - DEAD_OFFSET * getHitBox()[HITBOX_BOTTOM]) {
             LOGGER.info("The Doodle died with score " + this.score);
-            Game.endGameInstance(this.score);
+            this.world.endGame(this.score);
         }
     }
 

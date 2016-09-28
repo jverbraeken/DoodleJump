@@ -209,22 +209,6 @@ public final class Game {
     }
 
     /**
-     * Start the game.
-     */
-    public static void startGameInstance() {
-    }
-
-    /**
-     * End the game.
-     *
-     * @param score The score the game instance ended with.
-     */
-    public static void endGameInstance(final double score) {
-        addHighScore("", score);
-        setScene(sL.getSceneFactory().createKillScreen());
-    }
-
-    /**
      * Set the game mode.
      *
      * @param m The mode to use.

@@ -1,5 +1,7 @@
 package objects.doodles;
 
+import scenes.IScene;
+import scenes.World;
 import system.IServiceLocator;
 
 /**
@@ -32,8 +34,8 @@ public final class DoodleFactory implements IDoodleFactory {
      * {@inheritDoc}
      */
     @Override
-    public IDoodle createDoodle() {
-        return new Doodle(sL);
+    public IDoodle createDoodle(World world) {
+        return new Doodle(sL, world);
     }
 
     /**

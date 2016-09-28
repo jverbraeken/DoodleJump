@@ -88,7 +88,6 @@ public class World implements IScene {
         assert sL != null;
         this.sL = sL;
         LOGGER = sL.getLoggerFactory().createLogger(World.class);
-        Game.startGameInstance();
 
         for (int i = 0; i < 3; i++) {
             drawables.add(Collections.newSetFromMap(new WeakHashMap<>()));
@@ -112,13 +111,14 @@ public class World implements IScene {
         this.drawables.get(2).add(new Scorebar());
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
-        this.doodle = doodleFactory.createDoodle();
+        this.doodle = doodleFactory.createDoodle(this);
         this.doodle.setVerticalSpeed(-9);
         this.drawables.get(1).add(this.doodle);
         this.updatables.add(this.doodle);
 
         this.sL.getAudioManager().playStart();
 
+        this.start();
         LOGGER.log("Level started");
     }
 
@@ -154,6 +154,16 @@ public class World implements IScene {
         checkCollisions();
         cleanUp();
         newBlocks();
+    }
+
+    /**
+     * End the game.
+     *
+     * @param score The score the player got.
+     */
+    public void endGame(final double score) {
+        Game.addHighScore("", score);
+        Game.setScene(sL.getSceneFactory().createKillScreen());
     }
 
     /**
