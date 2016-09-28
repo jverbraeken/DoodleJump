@@ -14,16 +14,10 @@ public class Constants implements IConstants {
      * True if the number of pending tasks of the logging thread executor should be logged as well.
      */
     private static final boolean LOG_PENDING_TASKS = true;
-
     /**
-     * Used to gain access to all services.
+     * The WIDTH of the frame of the game.
      */
-    private static transient IServiceLocator serviceLocator;
-
-    /**
-     * The width of the frame of the game.
-     */
-    private static final int width = 640;
+    private static final int WIDTH = 640;
     /**
      * The height of the frame of the game.
      */
@@ -31,19 +25,24 @@ public class Constants implements IConstants {
     /**
      * How much the doodle is affected by gravity.
      */
-    private static final double gravityAcceleration = 0.5d;
+    private static final double GRAVITY_ACCELERATION = 0.5d;
     /**
      * The height the Doodle jumps will be multiplied with this value to obtain the score that the player gets.
      */
-    private static final double scoreMultiplier = 0.15;
+    private static final double SCORE_MULTIPLIER = 0.15;
+    /**
+     * The file to which the high scores will be written to.
+     */
+    private static final String HIGHCORES_DATA = "highcores.data";
+
+    /**
+     * Used to gain access to all services.
+     */
+    private static transient IServiceLocator serviceLocator;
     /**
      * The file to which the logs will be written to.
      */
     private static String logFile;
-    /**
-     * The file to which the high scores will be written to.
-     */
-    private static final String highScoresFile = "highcores.data";
 
     /**
      * Prevent public instantiation of Constants.
@@ -72,7 +71,7 @@ public class Constants implements IConstants {
     /** {@inheritDoc} */
     @Override
     public int getGameWidth() {
-        return width;
+        return WIDTH;
     }
 
     /** {@inheritDoc} */
@@ -84,13 +83,13 @@ public class Constants implements IConstants {
     /** {@inheritDoc} */
     @Override
     public double getGravityAcceleration() {
-        return gravityAcceleration;
+        return GRAVITY_ACCELERATION;
     }
 
     /** {@inheritDoc} */
     @Override
     public double getScoreMultiplier() {
-        return scoreMultiplier;
+        return SCORE_MULTIPLIER;
     }
 
     /** {@inheritDoc} */
@@ -107,8 +106,8 @@ public class Constants implements IConstants {
 
     /** {@inheritDoc} */
     @Override
-    public String getHighScoresFile() {
-        return highScoresFile;
+    public String getHighScoresFilePath() {
+        return HIGHCORES_DATA;
     }
 
     /**

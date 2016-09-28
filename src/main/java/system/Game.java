@@ -305,7 +305,7 @@ public final class Game {
         IFileSystem fileSystem = sL.getFileSystem();
         IConstants constants = sL.getConstants();
         try {
-            fileSystem.writeTextFile(constants.getHighScoresFile(), data);
+            fileSystem.writeTextFile(constants.getHighScoresFilePath(), data);
         } catch (FileNotFoundException e) {
             LOGGER.error(e);
         }
@@ -318,7 +318,7 @@ public final class Game {
         IFileSystem fileSystem = sL.getFileSystem();
         IConstants constants = sL.getConstants();
         try {
-            List<String> content = fileSystem.readTextFile(constants.getHighScoresFile());
+            List<String> content = fileSystem.readTextFile(constants.getHighScoresFilePath());
 
             if (content.size() > 0) {
                 String plainHighScores = content.get(0);

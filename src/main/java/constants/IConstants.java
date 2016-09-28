@@ -51,6 +51,6 @@ public interface IConstants {
      *
      * @return The name of the high scores file.
      */
-    String getHighScoresFile();
+    String getHighScoresFilePath();
 
 }
