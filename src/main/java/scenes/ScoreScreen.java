@@ -76,23 +76,29 @@ import java.util.ArrayList;
         IConstants constants = this.serviceLocator.getConstants();
         IRenderer renderer = this.serviceLocator.getRenderer();
         renderer.clear();
+
+        // Draw the list of scores.
+        int entryHeight = (int) (constants.getGameHeight() * ENTRY_HEIGHT);
+        int scoreListTop = this.top.getHeight() + 10;
+        for (int i = 0; i < highScores.size(); i++) {
+            // Entry background.
+            int backgroundY = scoreListTop + (i - 1) * entryHeight;
+            Color color = i % 2 == 1 ? COLOR_EVEN : COLOR_UNEVEN;
+            renderer.fillRectangle(0, backgroundY, constants.getGameWidth(), entryHeight, color);
+
+            // Entry name & value
+            Score score = highScores.get(i);
+            int entryY = scoreListTop + i * entryHeight;
+            String msg = score.getName() + " - " + score.getScore();
+            renderer.drawText(msg, this.left.getWidth(), entryY);
+        }
+
+        // Draw the hud.
         renderer.drawSpriteHUD(this.bottom, 0, this.top.getHeight() + this.left.getHeight());
         renderer.drawSpriteHUD(this.left, 0, this.top.getHeight());
         renderer.drawSpriteHUD(this.top, 0, 0);
 
-        int entryHeight = (int) (constants.getGameHeight() * ENTRY_HEIGHT);
-        for (int i = 0; i < highScores.size(); i++) {
-            Score score = highScores.get(i);
-            int scoreX = this.left.getWidth();
-            int scoreY = this.top.getHeight() + i * entryHeight;
-
-            Color color = i % 2 == 1 ? COLOR_EVEN : COLOR_UNEVEN;
-            renderer.fillRectangle(scoreX, scoreY, constants.getGameWidth() - scoreX, entryHeight, color);
-
-            String msg = score.getName() + " - " + score.getScore();
-            renderer.drawText(msg, scoreX, scoreY);
-        }
-
+        // Draw the buttons.
         this.menuButton.render();
     }
 
