@@ -94,7 +94,7 @@ public final class ButtonFactory implements IButtonFactory {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getRegularModeButton();
-        Runnable regularMode = () -> Game.setMode("REGULAR");
+        Runnable regularMode = () -> Game.setMode(Game.Modes.regular);
         return new Button(sL, x, y, buttonSprite, regularMode, "regularMode");
     }
 
@@ -106,7 +106,7 @@ public final class ButtonFactory implements IButtonFactory {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getDarknessModeButton();
-        Runnable darknessMode = () -> Game.setMode("DARKNESS");
+        Runnable darknessMode = () -> Game.setMode(Game.Modes.darkness);
         return new Button(sL, x, y, buttonSprite, darknessMode, "darknessMode");
     }
 
@@ -118,7 +118,7 @@ public final class ButtonFactory implements IButtonFactory {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getInvertModeButton();
-        Runnable invertMode = () -> Game.setMode("INVERT");
+        Runnable invertMode = () -> Game.setMode(Game.Modes.invert);
         return new Button(sL, x, y, buttonSprite, invertMode, "invertMode");
     }
 
@@ -130,7 +130,7 @@ public final class ButtonFactory implements IButtonFactory {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getSpaceModeButton();
-        Runnable spaceMode = () -> Game.setMode("SPACE");
+        Runnable spaceMode = () -> Game.setMode(Game.Modes.space);
         return new Button(sL, x, y, buttonSprite, spaceMode, "spaceMode");
     }
 
@@ -142,7 +142,7 @@ public final class ButtonFactory implements IButtonFactory {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getUnderwaterModeButton();
-        Runnable underwaterMode = () -> Game.setMode("UNDERWATER");
+        Runnable underwaterMode = () -> Game.setMode(Game.Modes.underwater);
         return new Button(sL, x, y, buttonSprite, underwaterMode, "underwaterMode");
     }
 
@@ -154,7 +154,7 @@ public final class ButtonFactory implements IButtonFactory {
         assert sL != null;
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getStoryModeButton();
-        Runnable storyMode = () -> Game.setMode("STORY");
+        Runnable storyMode = () -> Game.setMode(Game.Modes.story);
         return new Button(sL, x, y, buttonSprite, storyMode, "storyMode");
     }
 }

@@ -6,6 +6,7 @@ import filesystem.IFileSystem;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
+import resources.sprites.SpriteFactory;
 import scenes.IScene;
 
 import javax.swing.*;
@@ -15,6 +16,8 @@ import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List; // Needed to overwrite java.awt.List
+
+import static system.Game.Modes.regular;
 
 /**
  * This is the main class that runs the game.
@@ -72,10 +75,13 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
+     * The enums for the mode
+     */
+    public enum Modes { regular, underwater, story, invert, darkness, space }
+    /**
      * Track the current mode of the game.
      */
-    //TODO Actually use the current mode.
-    private static String mode = "REGULAR";
+    private static Modes mode = regular;
     /**
      * The resume button for the pause screen.
      */
@@ -217,8 +223,11 @@ public final class Game {
      *
      * @param m The mode to use.
      */
-    public static void setMode(final String m){
+    public static void setMode(final Modes m){
         mode = m;
+        sL.getRes().setSkin(m);
+        SpriteFactory skin = new SpriteFactory();
+        SpriteFactory.register(sL);
         LOGGER.info("The mode is now " + m);
     }
 
@@ -254,8 +263,15 @@ public final class Game {
     }
 
     /**
+     * Return the current mode.
+     * @return the mode.
+     */
+    public static Modes getMode() {
+        return mode;
+    }
+    
+    /*
      * Add a score to the list of highscores.
-     *
      * @param name  The name for the score.
      * @param score The actual score.
      */
