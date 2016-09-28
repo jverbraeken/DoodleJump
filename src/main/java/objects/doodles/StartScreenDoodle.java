@@ -5,6 +5,7 @@ import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
+import objects.powerups.IPassive;
 import objects.powerups.IPowerup;
 import system.IServiceLocator;
 
@@ -85,12 +86,7 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void collide(IBlock block) {
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void setPassive(IPowerup item) {
+    public void setPassive(IPassive item) {
     }
 
     /** {@inheritDoc} */

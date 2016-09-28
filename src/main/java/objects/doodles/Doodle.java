@@ -7,6 +7,7 @@ import logging.ILogger;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
+import objects.powerups.IPassive;
 import objects.powerups.IPowerup;
 import rendering.ICamera;
 import resources.sprites.ISprite;
@@ -84,7 +85,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * All the passives the can Doodle have.
      */
-    private IPowerup passive;
+    private IPassive passive;
 
 
     /**
@@ -106,13 +107,6 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public void render() {
         sL.getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
-
-        if (this.passive != null) {
-            ISprite sprite = this.passive.getSprite();
-            int passiveX = (int) this.getXPos() + (this.getSprite().getWidth() / 2) - (sprite.getWidth() / 2);
-            int passiveY = (int) this.getYPos() + this.getSprite().getHeight();
-            sL.getRenderer().drawSprite(sprite, passiveX, passiveY);
-        }
     }
 
     /** {@inheritDoc} */
@@ -168,12 +162,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public void collide(IBlock block) {
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void setPassive(IPowerup item) {
+    public void setPassive(IPassive item) {
         this.passive = item;
     }
 

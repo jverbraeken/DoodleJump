@@ -7,12 +7,12 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the spring powerup.
  */
-/* package */ class SpringShoes extends APowerup implements IPowerup, IJumpable {
+/* package */ class SpringShoes extends APowerup implements IPassive, IPowerup {
 
     /**
-     * temporary attribute
+     * The doodle that owns these shoes.
      */
-    private boolean draw = true;
+    private IDoodle owner;
 
     /**
      * Trampoline constructor.
@@ -34,15 +34,21 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public void collidesWith(IDoodle doodle) {
-        doodle.setPassive(this);
-        this.draw = false;
+        if (this.owner == null) {
+            this.owner = doodle;
+            doodle.setPassive(this);
+        }
     }
 
     /** {@inheritDoc} */
     @Override
     public void render() {
-        if (this.draw) {
+        if (this.owner == null) {
             sL.getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        } else {
+            int xPos = (int) owner.getXPos() + (owner.getSprite().getWidth() / 2) - (this.getSprite().getWidth() / 2);
+            int yPos = (int) owner.getYPos() + owner.getSprite().getHeight();
+            sL.getRenderer().drawSprite(this.getSprite(), xPos, yPos);
         }
     }
 
