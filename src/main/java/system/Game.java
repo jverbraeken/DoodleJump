@@ -199,7 +199,10 @@ public final class Game {
      * @return The current Frames Per Second (FPS)
      */
     public static double getFPS(final long threadSleep, final long renderTime) {
-        return sL.getCalc().NANOSECONDS / (threadSleep + renderTime);
+        if (threadSleep + renderTime == 0) {
+            return TARGET_FPS;
+        }
+        return ICalc.NANOSECONDS / (threadSleep + renderTime);
     }
 
     /**

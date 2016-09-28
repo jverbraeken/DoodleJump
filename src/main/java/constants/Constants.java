@@ -7,7 +7,16 @@ import java.util.Map;
 
 public class Constants implements IConstants {
 
+    /**
+     * The service locator for the Constants class.
+     */
     private static transient IServiceLocator sL;
+
+    public static void register(IServiceLocator sL) {
+        assert sL != null;
+        Constants.sL = sL;
+        sL.provide(new Constants());
+    }
     /**
      * The width of the frame of the game
      */
@@ -44,12 +53,6 @@ public class Constants implements IConstants {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void register(IServiceLocator sL) {
-        assert sL != null;
-        Constants.sL = sL;
-        sL.provide(new Constants());
     }
 
     /**
