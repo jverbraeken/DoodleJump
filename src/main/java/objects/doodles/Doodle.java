@@ -233,7 +233,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * Wrap the Doodle around the screen.
      */
     private void wrap() {
-        double middle = this.getXPos() + this.getHitBox()[AGameObject.HITBOX_RIGHT] / 2;
+        double middle = this.getXPos() + (this.getSprite().getWidth() / 2);
         final int width = sL.getConstants().getGameWidth();
         if (middle < 0) {
             this.addXPos(width);
