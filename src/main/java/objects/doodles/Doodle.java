@@ -85,9 +85,9 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double score;
     /**
-     * A set of all the passives the Doodle has.
+     * All the passives the can Doodle have.
      */
-    private Set<IGameObject> passives = new HashSet<>();
+    private boolean hasSpringShoes = false;
 
 
     /**
@@ -169,14 +169,19 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public void addPassive(IGameObject item) {
-        passives.add(item);
+    public void setSpringShoes(boolean have) {
+        this.hasSpringShoes = have;
     }
 
     /** {@inheritDoc} */
     @Override
     public void collide(IJumpable jumpable) {
-        this.vSpeed = jumpable.getBoost();
+        double newSpeed = jumpable.getBoost();
+        if (this.hasSpringShoes) {
+            newSpeed *= 2;
+        }
+
+        this.vSpeed = newSpeed;
     }
 
     /** {@inheritDoc} */

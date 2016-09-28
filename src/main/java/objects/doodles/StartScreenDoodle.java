@@ -89,7 +89,7 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void addPassive(IGameObject item) {
+    public void setSpringShoes(boolean have) {
     }
 
     /** {@inheritDoc} */

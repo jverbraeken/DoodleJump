@@ -18,8 +18,10 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
 
     /**
      * Adds a passive item to the Doodle.
+     *
+     * @param have Does the doodle have spring shoes?
      */
-    void addPassive(IGameObject item);
+    void setSpringShoes(boolean have);
 
     /**
      * Returns the height of the legs of the doodle. When this value is very large, for example 1,

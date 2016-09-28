@@ -34,7 +34,7 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public void collidesWith(IDoodle doodle) {
-        doodle.addPassive(this);
+        doodle.setSpringShoes(true);
         this.draw = false;
     }
 
