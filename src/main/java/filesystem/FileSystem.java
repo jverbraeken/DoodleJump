@@ -23,7 +23,7 @@ public final class FileSystem implements IFileSystem {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator sL;
+    private static transient IServiceLocator serviceLocator;
     /**
      * The writer to the log files.
      */
@@ -34,22 +34,19 @@ public final class FileSystem implements IFileSystem {
      */
     private FileSystem() {
         // If the LOGFILE is not found, the game should either crash on the exception or not crash at all (so also
-        // not when something is logged. Therefore we provide an emtpy interface instead of null to prevent
+        // not when something is logged. Therefore we provide an empty interface instead of null to prevent
         // a {@link NullPointerException}.
         Writer fw = new Writer() {
             @Override
             public void write(char[] cbuf, int off, int len) throws IOException {
-
             }
 
             @Override
             public void flush() throws IOException {
-
             }
 
             @Override
             public void close() throws IOException {
-
             }
         };
         File logFile = new File(Game.LOGFILE_NAME);
@@ -68,7 +65,7 @@ public final class FileSystem implements IFileSystem {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        FileSystem.sL = sL;
+        FileSystem.serviceLocator = sL;
         sL.provide(new FileSystem());
     }
 
@@ -164,7 +161,7 @@ public final class FileSystem implements IFileSystem {
         if (!success) {
             // TODO If logger is a field of FileSystem, FileSystem references LoggerFactory which is created AFTER
             // FileSystem. Consider a two-step initialisation of dependent objects.
-            ILogger logger = FileSystem.sL.getLoggerFactory().createLogger(this.getClass());
+            ILogger logger = FileSystem.serviceLocator.getLoggerFactory().createLogger(this.getClass());
             logger.error("The file \"" + filename + "\" could not be deleted!");
         }
     }
@@ -173,7 +170,7 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public void clearFile(final String filename) throws FileNotFoundException {
+    public void clearFile(final String filename) {
         final File file = getProjectFile(filename);
         try (final OutputStream outputStream = new FileOutputStream(file);
              final Writer w = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
@@ -246,9 +243,7 @@ public final class FileSystem implements IFileSystem {
     @Override
     public Object parseJson(String filename, Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        for (String string : readTextFile(filename)) {
-            sb.append(string);
-        }
+        readTextFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;
@@ -266,9 +261,7 @@ public final class FileSystem implements IFileSystem {
     @Override
     public Object parseJsonList(String filename, Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        for (String string : readTextFile(filename)) {
-            sb.append(string);
-        }
+        readTextFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;
@@ -286,9 +279,7 @@ public final class FileSystem implements IFileSystem {
     @Override
     public Object parseJsonMap(String filename, Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        for (String string : readTextFile(filename)) {
-            sb.append(string);
-        }
+        readTextFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;
