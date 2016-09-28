@@ -69,7 +69,7 @@ public class SpaceBehavior implements MovementBehavior {
      * @param d The doodle this applies to.
      * @param sL the Servicelocator
      */
-    public SpaceBehavior(final IDoodle d, final IServiceLocator sL) {
+    public SpaceBehavior(final IServiceLocator sL, final IDoodle d) {
         serviceLocator = sL;
         doodle = d;
         pressed = false;
