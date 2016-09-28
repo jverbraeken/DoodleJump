@@ -2,6 +2,7 @@ package objects.blocks.platform;
 
 import objects.AGameObject;
 import objects.blocks.BlockFactory;
+import objects.doodles.Doodle;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -29,6 +30,11 @@ public class Platform extends AGameObject implements IPlatform {
      * One third of the game height.
      */
     private static double MOVINGDISTANCE;
+
+    /**
+     * Current vertical speed for the Doodle.
+     */
+    private double vSpeed = 0d;
 
     /**
      * An enum to define what the platform does.
@@ -121,6 +127,11 @@ public class Platform extends AGameObject implements IPlatform {
                 sL.getRenderer().drawSprite(getSprite(), (int) xpos, (int) ypos);
             } else if (breaks < 5 && breaks > 1) {
                 sL.getRenderer().drawSprite(getBrokenSprite(breaks), (int) xpos, (int) ypos);
+            } else if (breaks == -1) {
+                applyGravity();
+                //this.setYPos(ypos + 5);
+                //ypos = this.getYPos();
+                sL.getRenderer().drawSprite(getBrokenSprite(breaks), (int) xpos, (int) ypos);
             }
         } else {
             sL.getRenderer().drawSprite(getSprite(), (int) xpos, (int) ypos);
@@ -129,7 +140,7 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public void updateEnums(double xpos, double ypos) {
+    public void updateEnums(final double xpos, final double ypos) {
 
         int gameWidth = sL.getConstants().getGameWidth();
         if (xpos > gameWidth - this.getSprite().getWidth()) {
@@ -148,10 +159,11 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public void collidesWith(IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         if (getProps().containsKey(PlatformProperties.breaks)) {
             if ((int) getProps().get(PlatformProperties.breaks) == 1) {
                 getProps().replace(PlatformProperties.breaks, 2);
+                vSpeed = doodle.getVerticalSpeed() / 2;
                 playBreakSound();
             }
 
@@ -179,7 +191,7 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public Map getProps() {
+    public Map<PlatformProperties, Integer> getProps() {
         return props;
     }
 
@@ -204,12 +216,20 @@ public class Platform extends AGameObject implements IPlatform {
         } else if (numberOfAnimation == 3) {
             getProps().replace(PlatformProperties.breaks, 4);
             return sL.getSpriteFactory().getPlatformBrokenSprite3();
-        } else if (numberOfAnimation == 4) {
+        } else if (numberOfAnimation == 4 || numberOfAnimation == -1) {
             getProps().replace(PlatformProperties.breaks, -1);
             return sL.getSpriteFactory().getPlatformBrokenSprite4();
         } else {
             return getSprite();
         }
+    }
+
+    /**
+     * Apply gravity to the Doodle.
+     */
+    private void applyGravity() {
+        vSpeed += sL.getConstants().getGravityAcceleration();
+        addYPos(this.vSpeed);
     }
 
 }

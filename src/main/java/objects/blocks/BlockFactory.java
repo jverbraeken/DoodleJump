@@ -74,6 +74,21 @@ public final class BlockFactory implements IBlockFactory {
     private final double heightDeviationOffset = 0.8;
 
     /**
+     * The chance that a horizontal moving platform will spawn.
+     */
+    private final double horiChance = 0.05;
+
+    /**
+     * The chance that a vertical moving platform will spawn.
+     */
+    private final double vertChance = 0.05;
+
+    /**
+     * The chance that a vertical moving platform will spawn.
+     */
+    private final double breakChance = 0.1;
+
+    /**
      * Register the block factory into the service locator.
      *
      * @param sL the service locator.
@@ -168,17 +183,21 @@ public final class BlockFactory implements IBlockFactory {
      * Places a single platform part in the block specified.
      *
      * @param topJumpable            The highest platform created before the block starts (normaly the latest platform created)
-     * @param heightDividedPlatforms The height between the platforms
+     * @param heightDivPlatforms The height between the platforms
      * @return The last and highest platform created by this method
      */
-    private IPlatform placeFollowingPlatform(final Set<IGameObject> elements, final IJumpable topJumpable, final int heightDividedPlatforms) {
+    private IPlatform placeFollowingPlatform(final Set<IGameObject> elements, final IJumpable topJumpable, final int heightDivPlatforms) {
         IPlatform platform;
+        boolean breaks;
         do {
-            platform = makeFollowingPlatform(topJumpable, heightDividedPlatforms);
-        } while (platformCollideCheck(platform, elements));
+            platform = makeFollowingPlatform(topJumpable, heightDivPlatforms);
+            Platform.PlatformProperties br = Platform.PlatformProperties.breaks;
+            breaks = platform.getProps().containsKey(br);
+
+            elements.add(platform);
+        } while (platformCollideCheck(platform, elements) && breaks);
 
         chanceForPowerup(elements, platform);
-        elements.add(platform);
         return platform;
     }
 
@@ -199,11 +218,12 @@ public final class BlockFactory implements IBlockFactory {
         IPlatformFactory platformFactory = sL.getPlatformFactory();
         IPlatform platform = platformFactory.createPlatform(0, yLoc);
 
-        if (sL.getCalc().getRandomDouble(1) < 0.06d) {
+        double randDouble = sL.getCalc().getRandomDouble(1);
+        if (randDouble < horiChance) {
             platform = platformFactory.createHoriMovingPlatform(0, yLoc);
-        } else if (sL.getCalc().getRandomDouble(1) < 0.12d) {
+        } else if (randDouble < horiChance + vertChance) {
             platform = platformFactory.createVertMovingPlatform(0, yLoc);
-        } else if (sL.getCalc().getRandomDouble(1) < 0.18d) {
+        } else if (randDouble < horiChance + vertChance + breakChance) {
             platform = platformFactory.createBreakPlatform(0, yLoc);
         }
 

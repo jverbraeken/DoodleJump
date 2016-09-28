@@ -108,7 +108,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public void setVerticalSpeed(double vSpeed) {
+    public void setVerticalSpeed(final double vSpeed) {
         this.vSpeed = vSpeed;
     }
 
@@ -248,7 +248,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * Apply gravity to the Doodle.
      * @param delta Delta time since previous animate.
      */
-    private void applyGravity(double delta) {
+    private void applyGravity(final double delta) {
         this.vSpeed += sL.getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
