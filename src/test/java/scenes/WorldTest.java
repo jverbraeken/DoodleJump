@@ -19,26 +19,6 @@ public class WorldTest {
     private static ISprite background;
     private static IDoodle doodle;
 
-    @When("^I enter username as \"(.*)\"$")
-    public void enterUsername(String arg1) {
-        System.out.println("when1");
-    }
-
-    @When ("^I enter password as \"(.*)\"$")
-    public void enterPassword(String arg1) {
-        System.out.println("when2");
-    }
-
-    @Then("^Login should fail$")
-    public void checkFail() {
-        System.out.println("then1");
-    }
-
-    @Then("^Relogin option should be available$")
-    public void checkRelogin() {
-        System.out.println("then2");
-    }
-
     @BeforeClass
     public static void init() {/*
         // Blocks
