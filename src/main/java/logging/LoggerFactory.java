@@ -60,7 +60,7 @@ public class LoggerFactory implements ILoggerFactory {
                 }
             }
         } catch (FileNotFoundException e) {
-            LOGGER.error("The file logIgnore.json requested by LoggerFactory was not found");
+            LOGGER.error("The file " + LOG_IGNORE_FILE + " requested by LoggerFactory was not found");
             e.printStackTrace();
         }
     }

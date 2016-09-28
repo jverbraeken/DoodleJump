@@ -7,6 +7,9 @@ import java.util.Map;
 
 public class Constants implements IConstants {
 
+    /**
+     * The service locator for the Constants class.
+     */
     private static transient IServiceLocator sL;
 
     public static void register(IServiceLocator sL) {
