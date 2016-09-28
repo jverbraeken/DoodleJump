@@ -70,12 +70,11 @@ public interface IFileSystem {
     void clearFile(String filename);
 
     /**
-     * Writes {@code content} to {@code writer}..
+     * Writes {@code content} to the log file.
      *
-     * @param writer  The writer you want to use to write the data to
      * @param content The text to write to the file
      */
-    void appendToTextFile(Writer writer, String content);
+    void log(String content);
 
     /**
      * Returns an {@link OutputStream} that can be used to write binary data to the binary file. The path to the file must exist.

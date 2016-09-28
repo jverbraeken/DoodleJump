@@ -2,6 +2,7 @@ package filesystem;
 
 import com.bluelinelabs.logansquare.LoganSquare;
 import logging.ILogger;
+import system.Game;
 import system.IServiceLocator;
 
 import javax.imageio.ImageIO;
@@ -24,14 +25,39 @@ public final class FileSystem implements IFileSystem {
      */
     private static transient IServiceLocator sL;
     /**
-     * A classloader in order to load in resources.
+     * The writer to the log files.
      */
-    private ClassLoader classLoader = getClass().getClassLoader();
+    private final Writer logWriter;
 
     /**
      * Prevents instantiation from outside the class.
      */
     private FileSystem() {
+        // If the LOGFILE is not found, the game should either crash on the exception or not crash at all (so also
+        // not when something is logged. Therefore we provide an emtpy interface instead of null to prevent
+        // a {@link NullPointerException}.
+        Writer fw = new Writer() {
+            @Override
+            public void write(char[] cbuf, int off, int len) throws IOException {
+
+            }
+
+            @Override
+            public void flush() throws IOException {
+
+            }
+
+            @Override
+            public void close() throws IOException {
+
+            }
+        };
+        try {
+            fw = new FileWriter(Game.LOGFILE_NAME, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logWriter = new BufferedWriter(fw);
     }
 
     /**
@@ -165,10 +191,12 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public void appendToTextFile(final Writer writer, final String content) {
+    public void log(final String content) {
         try {
-            writer.write(content + "\n");
-            writer.flush();
+            logWriter.write(content + "\n");
+            // Definitely not efficient, but because an application normally crashes soon after a helpful log message
+            // is logged we want to take this performance penalty anyway.
+            logWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
