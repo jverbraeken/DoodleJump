@@ -75,6 +75,7 @@ import java.util.ArrayList;
     public void render() {
         IConstants constants = this.serviceLocator.getConstants();
         IRenderer renderer = this.serviceLocator.getRenderer();
+        renderer.clear();
         renderer.drawSpriteHUD(this.bottom, 0, this.top.getHeight() + this.left.getHeight());
         renderer.drawSpriteHUD(this.left, 0, this.top.getHeight());
         renderer.drawSpriteHUD(this.top, 0, 0);

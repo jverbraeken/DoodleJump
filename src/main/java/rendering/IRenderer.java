@@ -15,6 +15,11 @@ public interface IRenderer {
     void start();
 
     /**
+     * Clear the game screen.
+     */
+    void clear();
+
+    /**
      * Draw a rectangle relative to the camera.
      * @param x the x position of the rectangle
      * @param y the y position of the rectangle

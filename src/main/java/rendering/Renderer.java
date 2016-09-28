@@ -1,5 +1,6 @@
 package rendering;
 
+import constants.IConstants;
 import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -53,27 +54,28 @@ public final class Renderer implements IRenderer {
     public void start() {
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
+    @Override
+    public void clear() {
+        IConstants constants = sL.getConstants();
+        graphics.clearRect(1, 1, constants.getGameWidth(), constants.getGameHeight());
+    }
+
+    /** {@inheritDoc} */
     @Override
     public void drawRectangle(int x, int y, int width, int height) {
         LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
         graphics.drawRect(x, (int) (y - camera.getYPos()), width, height);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void drawRectangleHUD(int x, int y, int width, int height) {
         LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
         graphics.drawRect(x, y, width, height);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void drawSprite(ISprite sprite, int x, int y) {
         assert graphics != null;
@@ -85,9 +87,7 @@ public final class Renderer implements IRenderer {
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void drawSprite(ISprite sprite, int x, int y, int width, int height) {
         assert graphics != null;
@@ -99,9 +99,7 @@ public final class Renderer implements IRenderer {
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), width, height, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void drawSpriteHUD(ISprite sprite, int x, int y) {
         assert graphics != null;
@@ -112,9 +110,7 @@ public final class Renderer implements IRenderer {
         graphics.drawImage(sprite.getImage(), x, y, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void drawSpriteHUD(final ISprite sprite, final int x, final int y, final int width, final int height) {
         assert graphics != null;
@@ -125,18 +121,14 @@ public final class Renderer implements IRenderer {
         graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void drawText(final String msg, final int x, final int y) {
         assert graphics != null;
         graphics.drawString(msg, x, y);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void fillRectangle(int x, int y, int width, int height, Color color) {
         assert graphics != null;
@@ -148,9 +140,7 @@ public final class Renderer implements IRenderer {
         graphics.setColor(currentColor);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setGraphicsBuffer(final Graphics g) {
         if (g == null) {
@@ -161,9 +151,7 @@ public final class Renderer implements IRenderer {
         this.graphics.setFont(new Font("Comic Sans", 0, 28));
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public ICamera getCamera() {
         return camera;
