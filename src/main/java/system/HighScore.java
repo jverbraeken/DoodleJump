@@ -12,16 +12,16 @@ public class HighScore implements Comparable<HighScore> {
     /**
      * The score fo this HighScore.
      */
-    private double score;
+    private int score;
 
     /**
      * Package protected constructor so only Game can create a score.
      * @param n The name for the score.
      * @param s The actual score.
      */
-    /* package */ HighScore(final String n, final Double s) {
+    /* package */ HighScore(final String n, final double s) {
         this.name = n;
-        this.score = s;
+        this.score = (int) s;
     }
 
     /** {@inheritDoc} */
@@ -48,7 +48,7 @@ public class HighScore implements Comparable<HighScore> {
      * Get the score.
      * @return the score.
      */
-    public Double getScore() {
+    public int getScore() {
         return this.score;
     }
 
