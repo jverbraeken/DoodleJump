@@ -52,9 +52,13 @@ import java.util.ArrayList;
      */
     private final ILogger logger;
     /**
-     * Sprites to be displayed on the background of the KillScreen.
+     * Sprites of the bottom of the KillScreen.
      */
-    private final ISprite background, bottomKillScreen;
+    private final ISprite bottomKillScreen;
+    /**
+     * Sprites of the background of the KillScreen.
+     */
+    private ISprite background;
     /**
      * an arrayList of all the buttons.
      */
@@ -145,5 +149,11 @@ import java.util.ArrayList;
     /** {@inheritDoc} */
     @Override
     public final void update(final double delta) { }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void resetBackground() {
+        background = serviceLocator.getSpriteFactory().getBackground();
+    }
 
 }

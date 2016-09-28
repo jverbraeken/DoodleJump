@@ -4,6 +4,7 @@ import input.IInputManager;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
+import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
@@ -113,6 +114,17 @@ import system.IServiceLocator;
     private void applyGravity(final double delta) {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite[] getSpritePack() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSpritePack(final ISprite[] sprites) {
     }
 
 }

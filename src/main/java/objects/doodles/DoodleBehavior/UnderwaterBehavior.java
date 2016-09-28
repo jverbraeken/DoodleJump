@@ -3,6 +3,7 @@ package objects.doodles.DoodleBehavior;
 import input.KeyCode;
 import input.Keys;
 import objects.doodles.IDoodle;
+import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
@@ -34,6 +35,10 @@ public class UnderwaterBehavior implements MovementBehavior {
      * Relative gravity for the Doodle.
      */
     private static final double RELATIVE_GRAVITY = .3d;
+    /**
+     * The speed that is considered moving quick (changing the Doodle sprite).
+     */
+    private static final double QUICK_MOVING_SPEED = -15;
 
     /**
      * Used to access all services.
@@ -70,7 +75,7 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @param d The doodle this applies to.
      * @param sL the ServiceLocator.
      */
-    public UnderwaterBehavior(final IDoodle d, final IServiceLocator sL) {
+    public UnderwaterBehavior(final IServiceLocator sL, final IDoodle d) {
         serviceLocator = sL;
         doodle = d;
         pressed = false;
@@ -81,6 +86,7 @@ public class UnderwaterBehavior implements MovementBehavior {
     public final void move(final double delta) {
         moveHorizontally(delta);
         applyGravity(delta);
+        animate(delta);
     }
 
     /** {@inheritDoc} */
@@ -129,6 +135,33 @@ public class UnderwaterBehavior implements MovementBehavior {
     }
 
     /**
+     * Animate the Doodle.
+     *
+     * @param delta Delta time since previous frame.
+     */
+    private void animate(final double delta) {
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        doodle.setSpritePack(spriteFactory.getDoodleSprite(getFacing()));
+
+        // If the Doodle moves up quickly shorten its legs
+        if (getVerticalSpeed() < RELATIVE_SPEED * QUICK_MOVING_SPEED) {
+            doodle.setSprite(this.doodle.getSpritePack()[1]);
+        } else {
+            doodle.setSprite(this.doodle.getSpritePack()[0]);
+        }
+    }
+
+    /**
+     * Apply gravity to the Doodle.
+     *
+     * @param delta Delta time since previous frame.
+     */
+    private void applyGravity(final double delta) {
+        this.vSpeed += RELATIVE_GRAVITY * serviceLocator.getConstants().getGravityAcceleration();
+        doodle.addYPos(this.vSpeed);
+    }
+
+    /**
      * Check if the Left key for the Doodle is pressed.
      *
      * @param keyCode The keyCode of the key.
@@ -140,6 +173,21 @@ public class UnderwaterBehavior implements MovementBehavior {
     }
 
     /**
+     * Move the Doodle along the X axis.
+     *
+     * @param delta Delta time since previous frame.
+     */
+    private void moveHorizontally(final double delta) {
+        if (pressed && moving == Directions.Left && this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed -= RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
+        } else if (pressed && moving == Directions.Right && this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed += RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
+        }
+
+        doodle.addXPos((int) this.hSpeed);
+    }
+
+    /**
      * Check if the Right key for the Doodle is pressed.
      *
      * @param keyCode The keyCode of the key.
@@ -148,31 +196,6 @@ public class UnderwaterBehavior implements MovementBehavior {
     private boolean rightPressed(final int keyCode) {
         return keyCode == KeyCode.getKeyCode(Keys.arrowRight)
                 || keyCode == KeyCode.getKeyCode(Keys.d);
-    }
-
-    /**
-     * Move the Doodle along the X axis.
-     *
-     * @param delta The time since the previous frame.
-     */
-    private void moveHorizontally(final double delta) {
-        if (pressed && moving == Directions.Left && this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed -= RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
-        } else if (pressed && moving == Directions.Right && this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed += RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
-        }
-
-        doodle.addXPos((int) this.hSpeed);
-    }
-
-    /**
-     * Apply gravity to the Doodle.
-     *
-     * @param delta Delta time since previous animate.
-     */
-    private void applyGravity(final double delta) {
-        this.vSpeed += RELATIVE_GRAVITY * serviceLocator.getConstants().getGravityAcceleration();
-        doodle.addYPos(this.vSpeed);
     }
 
 }

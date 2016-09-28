@@ -41,9 +41,17 @@ import system.IServiceLocator;
      */
     private final IButton mainMenuButton;
     /**
+     * Sprite for the bottom of the kill screen.
+     */
+    private final ISprite bottomKillScreen;
+    /**
+     * Sprite for the game over text.
+     */
+    private final ISprite gameOverSprite;
+    /**
      * Sprites to be displayed on the background of the KillScreen.
      */
-    private final ISprite background, bottomKillScreen, gameOverSprite;
+    private ISprite background;
     /**
      * Is the kill screen active, should it be displayed.
      */
@@ -113,5 +121,13 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public final void update(final double delta) { }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void resetBackground() {
+        background = serviceLocator.getSpriteFactory().getBackground();
+    }
 
 }

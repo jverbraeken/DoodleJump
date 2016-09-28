@@ -57,7 +57,7 @@ public class Menu implements IScene, IKeyInputObserver {
     /**
      * The cover sprite of the main menu.
      */
-    private final ISprite cover;
+    private ISprite cover;
     /**
      * The Doodle for the menu.
      */
@@ -150,6 +150,12 @@ public class Menu implements IScene, IKeyInputObserver {
         if (KeyCode.getKeyCode(Keys.enter) == keyCode || KeyCode.getKeyCode(Keys.space) == keyCode) {
             Game.setScene(serviceLocator.getSceneFactory().newWorld());
         }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void resetBackground() {
+        cover = serviceLocator.getSpriteFactory().getStartCoverSprite();
     }
 
 }

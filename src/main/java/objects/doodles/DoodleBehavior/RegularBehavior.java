@@ -3,6 +3,7 @@ package objects.doodles.DoodleBehavior;
 import input.KeyCode;
 import input.Keys;
 import objects.doodles.IDoodle;
+import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
@@ -22,6 +23,10 @@ public class RegularBehavior implements MovementBehavior {
      * Horizontal acceleration for the Doodle.
      */
     private static final double HORIZONTAL_ACCELERATION = .5d;
+    /**
+     * The speed that is considered moving quick (changing the Doodle sprite).
+     */
+    private static final double QUICK_MOVING_SPEED = -15;
 
     /**
      * Used to access all services.
@@ -54,7 +59,7 @@ public class RegularBehavior implements MovementBehavior {
      * @param d The Doodle this applies to.
      * @param sL the ServiceLocator.
      */
-    public RegularBehavior(final IDoodle d, final IServiceLocator sL) {
+    public RegularBehavior(final IServiceLocator sL, final IDoodle d) {
         serviceLocator = sL;
         doodle = d;
     }
@@ -64,6 +69,7 @@ public class RegularBehavior implements MovementBehavior {
     public final void move(final double delta) {
         moveHorizontally(delta);
         applyGravity(delta);
+        animate(delta);
     }
 
     /** {@inheritDoc} */
@@ -107,6 +113,33 @@ public class RegularBehavior implements MovementBehavior {
     }
 
     /**
+     * Animate the Doodle.
+     *
+     * @param delta Delta time since previous frame.
+     */
+    private void animate(final double delta) {
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        doodle.setSpritePack(spriteFactory.getDoodleSprite(getFacing()));
+
+        // If the Doodle moves up quickly shorten its legs
+        if (getVerticalSpeed() < QUICK_MOVING_SPEED) {
+            doodle.setSprite(this.doodle.getSpritePack()[1]);
+        } else {
+            doodle.setSprite(this.doodle.getSpritePack()[0]);
+        }
+    }
+
+    /**
+     * Apply gravity to the Doodle.
+     *
+     * @param delta Delta time since previous frame.
+     */
+    private void applyGravity(final double delta) {
+        this.vSpeed += serviceLocator.getConstants().getGravityAcceleration();
+        doodle.addYPos(this.vSpeed);
+    }
+
+    /**
      * Check if the Left key for the Doodle is pressed.
      *
      * @param keyCode The keyCode of the key.
@@ -118,30 +151,15 @@ public class RegularBehavior implements MovementBehavior {
     }
 
     /**
-     * Check if the Right key for the Doodle is pressed.
-     *
-     * @param keyCode The keyCode of the key.
-     * @return A boolean indicating whether the key for Right is pressed.
-     */
-    private boolean rightPressed(final int keyCode) {
-        return keyCode == KeyCode.getKeyCode(Keys.arrowRight)
-                || keyCode == KeyCode.getKeyCode(Keys.d);
-    }
-
-    /**
      * Move the Doodle along the X axis.
      *
-     * @param delta The time since the previous frame.
+     * @param delta Delta time since previous frame.
      */
     private void moveHorizontally(final double delta) {
-        if (moving == Directions.Left) {
-            if (this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed -= HORIZONTAL_ACCELERATION;
-            }
-        } else if (moving == Directions.Right) {
-            if (this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed += HORIZONTAL_ACCELERATION;
-            }
+        if (moving == Directions.Left && this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed -= HORIZONTAL_ACCELERATION;
+        } else if (moving == Directions.Right && this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed += HORIZONTAL_ACCELERATION;
         } else {
             if (this.hSpeed < 0) {
                 this.hSpeed += HORIZONTAL_ACCELERATION;
@@ -154,13 +172,14 @@ public class RegularBehavior implements MovementBehavior {
     }
 
     /**
-     * Apply gravity to the Doodle.
+     * Check if the Right key for the Doodle is pressed.
      *
-     * @param delta Delta time since previous animate.
+     * @param keyCode The keyCode of the key.
+     * @return A boolean indicating whether the key for Right is pressed.
      */
-    private void applyGravity(final double delta) {
-        this.vSpeed += serviceLocator.getConstants().getGravityAcceleration();
-        doodle.addYPos(this.vSpeed);
+    private boolean rightPressed(final int keyCode) {
+        return keyCode == KeyCode.getKeyCode(Keys.arrowRight)
+                || keyCode == KeyCode.getKeyCode(Keys.d);
     }
 
 }

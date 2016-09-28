@@ -191,6 +191,15 @@ public final class Game {
     }
 
     /**
+     * Return the current mode.
+     *
+     * @return the mode.
+     */
+    public static Modes getMode() {
+        return mode;
+    }
+
+    /**
      * Loop to update the game 60x per second.
      */
     private static synchronized void loop() {
@@ -263,15 +272,8 @@ public final class Game {
         mode = m;
         serviceLocator.getRes().setSkin(m);
         SpriteFactory.register(serviceLocator);
+        scene.resetBackground();
         LOGGER.info("The mode is now " + m);
-    }
-
-    /**
-     * Return the current mode.
-     * @return the mode
-     */
-    public static Modes getMode() {
-        return mode;
     }
 
 

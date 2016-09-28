@@ -37,10 +37,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private static final ILogger LOGGER = getServiceLocator().getLoggerFactory().createLogger(Doodle.class);
     /**
-     * The speed that is considered moving quick (changing the Doodle sprite).
-     */
-    private static final double QUICK_MOVING_SPEED = -15;
-    /**
      * Where the hitbox of the doodle starts in relation to the sprite width.
      */
     private static final double WIDTH_HIT_BOX_LEFT = .3;
@@ -94,8 +90,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public void collidesWith(final IDoodle doodle) {
-    }
+    public void collidesWith(final IDoodle doodle) { }
 
     /** {@inheritDoc} */
     @Override
@@ -142,11 +137,22 @@ public class Doodle extends AGameObject implements IDoodle {
     /** {@inheritDoc} */
     @Override
     public final void update(final double delta) {
-        this.animate(delta);
         this.applyMovementBehavior(delta);
         this.wrap();
         this.checkHighPosition();
         this.checkDeadPosition();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final ISprite[] getSpritePack() {
+        return spritePack;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void setSpritePack(final ISprite[] sprites) {
+        this.spritePack = sprites;
     }
 
     /**
@@ -155,23 +161,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void applyMovementBehavior(final double delta) {
         behavior.move(delta);
-    }
-
-    /**
-     * Animate the Doodle.
-     *
-     * @param delta Delta time since previous animate.
-     */
-    private void animate(final double delta) {
-        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
-        this.spritePack = spriteFactory.getDoodleSprite(this.behavior.getFacing());
-
-        // If the Doodle moves up quickly shorten its legs
-        if (behavior.getVerticalSpeed() < QUICK_MOVING_SPEED) {
-            setSprite(this.spritePack[1]);
-        } else {
-            setSprite(this.spritePack[0]);
-        }
     }
 
     /**
@@ -198,22 +187,23 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Set the behavior of the doodle with respect to the mode.
-     * @param mode the behavior.
+     * Set the behaviour of the game.
+     *
+     * @param mode The game mode.
      */
     private void setBehavior(final Game.Modes mode) {
         switch (mode) {
             case regular:
-                behavior = new RegularBehavior(this, getServiceLocator());
+                behavior = new RegularBehavior(getServiceLocator(), this);
                 break;
             case space:
-                behavior = new SpaceBehavior(this, getServiceLocator());
+                behavior = new SpaceBehavior(getServiceLocator(), this);
                 break;
             case underwater:
-                behavior = new UnderwaterBehavior(this, getServiceLocator());
+                behavior = new UnderwaterBehavior(getServiceLocator(), this);
                 break;
             default:
-                behavior = new RegularBehavior(this, getServiceLocator());
+                behavior = new RegularBehavior(getServiceLocator(), this);
         }
     }
 

@@ -32,7 +32,7 @@ import system.IServiceLocator;
     /**
      * The background sprite.
      */
-    private final ISprite background;
+    private ISprite background;
     /**
      * Is the pause scene active, should it be displayed.
      */
@@ -100,6 +100,14 @@ import system.IServiceLocator;
      */
     @Override
     public void mouseClicked(final int x, final int y) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void resetBackground() {
+        background = serviceLocator.getSpriteFactory().getBackground();
     }
 
 }
