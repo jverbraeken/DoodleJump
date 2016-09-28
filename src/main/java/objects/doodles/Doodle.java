@@ -8,6 +8,7 @@ import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
+import objects.powerups.IPowerup;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -87,7 +88,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * All the passives the can Doodle have.
      */
-    private boolean hasSpringShoes = false;
+    private IPowerup passive;
 
 
     /**
@@ -169,16 +170,16 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public void setSpringShoes(boolean have) {
-        this.hasSpringShoes = have;
+    public void setPassive(IPowerup item) {
+        this.passive = item;
     }
 
     /** {@inheritDoc} */
     @Override
     public void collide(IJumpable jumpable) {
         double newSpeed = jumpable.getBoost();
-        if (this.hasSpringShoes) {
-            newSpeed *= 2;
+        if (this.passive != null) {
+            newSpeed *= this.passive.getBoost();
         }
 
         this.vSpeed = newSpeed;

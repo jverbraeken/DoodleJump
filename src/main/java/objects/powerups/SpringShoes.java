@@ -28,13 +28,13 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public double getBoost() {
-        return 0;
+        return 2;
     }
 
     /** {@inheritDoc} */
     @Override
     public void collidesWith(IDoodle doodle) {
-        doodle.setSpringShoes(true);
+        doodle.setPassive(this);
         this.draw = false;
     }
 

@@ -5,4 +5,10 @@ package objects.powerups;
  */
 public interface IPowerup {
 
+    /**
+     * Get the boost provided by the jumpable.
+     * @return The boost.
+     */
+    double getBoost();
+
 }

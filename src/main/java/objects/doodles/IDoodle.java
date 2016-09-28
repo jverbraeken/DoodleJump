@@ -4,6 +4,7 @@ import input.IKeyInputObserver;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
+import objects.powerups.IPowerup;
 
 /**
  * This class describes the behaviour of the doodle.
@@ -17,11 +18,10 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void collide(IBlock block);
 
     /**
-     * Adds a passive item to the Doodle.
-     *
-     * @param have Does the doodle have spring shoes?
+     * Add a passive item to the Doodle.
+     * @param item The item to add as powerup.
      */
-    void setSpringShoes(boolean have);
+    void setPassive(IPowerup item);
 
     /**
      * Returns the height of the legs of the doodle. When this value is very large, for example 1,

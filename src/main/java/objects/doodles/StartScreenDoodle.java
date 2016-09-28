@@ -5,6 +5,7 @@ import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
+import objects.powerups.IPowerup;
 import system.IServiceLocator;
 
 /**
@@ -89,7 +90,7 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void setSpringShoes(boolean have) {
+    public void setPassive(IPowerup item) {
     }
 
     /** {@inheritDoc} */
