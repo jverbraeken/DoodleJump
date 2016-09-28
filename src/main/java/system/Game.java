@@ -4,6 +4,7 @@ import buttons.IButton;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
+import resources.sprites.SpriteFactory;
 import scenes.IScene;
 
 import javax.swing.*;
@@ -12,6 +13,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import static system.Game.Modes.regular;
 
 /**
  * This is the main class that runs the game.
@@ -69,10 +72,20 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
+<<<<<<< HEAD
+     * Track wether the doodle is alive.
+     */
+    private static boolean isAlive = true;
+    /**
+     * The enums for the mode
+     */
+    public enum Modes { regular, underwater, story, invert, darkness, space }
+    /**
+=======
+>>>>>>> origin/develop
      * Track the current mode of the game.
      */
-    //TODO Actually use the current mode.
-    private static String mode = "REGULAR";
+    private static Modes mode = regular;
     /**
      * The resume button for the pause screen.
      */
@@ -238,8 +251,11 @@ public final class Game {
         setScene(sL.getSceneFactory().createKillScreen());
     }
 
-    public static void setMode(final String m){
+    public static void setMode(final Modes m){
         mode = m;
+        sL.getRes().setSkin(m);
+        SpriteFactory skin = new SpriteFactory();
+        skin.register(sL);
         LOGGER.info("The mode is now " + m);
     }
 
@@ -276,6 +292,14 @@ public final class Game {
     }
 
     /**
+     * Return the current mode.
+     * @return the mode
+     */
+    public static Modes getMode() {
+        return mode;
+    }
+    
+    /*
      * Update the high scores for the game.
      *
      * @param score The score the game instance ended with.

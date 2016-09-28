@@ -30,7 +30,7 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void setVerticalSpeed(double vSpeed);
 
     /**
-     * @return The score of the doodle
+     * @return The score of the doodle.
      */
     double getScore();
 
