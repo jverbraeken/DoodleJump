@@ -86,7 +86,6 @@ public class Doodle extends AGameObject implements IDoodle {
     /** {@inheritDoc} */
     @Override
     public void update(double delta) {
-        this.animate(delta);
         this.applyMovementBehavior(delta);
         this.wrap();
         this.checkHighPosition();
@@ -155,22 +154,6 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Animate the Doodle.
-     * @param delta Delta time since previous animate.
-     */
-    private void animate(double delta) {
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        this.spritePack = spriteFactory.getDoodleSprite(this.behavior.getFacing());
-
-        // If the Doodle moves up quickly shorten its legs
-        if (behavior.getVerticalSpeed() < -15) {
-            setSprite(this.spritePack[1]);
-        } else {
-            setSprite(this.spritePack[0]);
-        }
-    }
-
-    /**
      * Check the height position of the Doodle.
      */
     private void checkHighPosition() {
@@ -208,19 +191,31 @@ public class Doodle extends AGameObject implements IDoodle {
      * Set the behavior of the doodle with respect to the mode.
      * @param mode the behavior.
      */
-    public void setBehavior(Game.Modes mode) {
+    private void setBehavior(Game.Modes mode) {
         switch (mode) {
             case regular:
-                behavior = new RegularBehavior(this, sL);
+                behavior = new RegularBehavior(sL, this);
                 break;
             case space:
-                behavior = new SpaceBehavior(this, sL);
+                behavior = new SpaceBehavior(sL, this);
                 break;
             case underwater:
-                behavior = new UnderwaterBehavior(this, sL);
+                behavior = new UnderwaterBehavior(sL, this);
                 break;
             default:
-                behavior = new RegularBehavior(this, sL);
+                behavior = new RegularBehavior(sL, this);
         }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite[] getSpritePack() {
+        return spritePack;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSpritePack(ISprite[] sprites) {
+        this.spritePack = sprites;
     }
 }

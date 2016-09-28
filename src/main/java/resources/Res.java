@@ -178,7 +178,7 @@ public final class Res implements IRes {
     private void setUnderwaterSkin() {
         resetSkin();
         // Covers
-        sprites.put(Sprites.background, spritePath + "underwater-bck@2x.png");
+        sprites.put(Sprites.background, spritePath + "underwater-bck2@2x.png");
 
         // Doodle
         sprites.put(Sprites.doodleLeftAscend, spritePath + "underwater-left@2x.png");
@@ -187,14 +187,16 @@ public final class Res implements IRes {
         sprites.put(Sprites.doodleRightDescend, spritePath + "underwater-right-odskok@2x.png");
 
         // Platforms
-        sprites.put(Sprites.platform1, spritePath + "space-platform@2x.png");
+        sprites.put(Sprites.platform1, spritePath + "underwater-platform@2x.png");
 
         // Power-ups
-        sprites.put(Sprites.trampoline, spritePath + "space-powerup-trampoline@2x.png");
-        sprites.put(Sprites.trampolineUsed, spritePath + "space-powerup-trampoline-used@2x.png");
+        sprites.put(Sprites.spring, spritePath + "underwater-powerup-spring@2x.png");
+        sprites.put(Sprites.springUsed, spritePath + "underwater-powerup-spring-used@2x.png");
+        sprites.put(Sprites.trampoline, spritePath + "underwater-powerup-trampoline@2x.png");
+        sprites.put(Sprites.trampolineUsed, spritePath + "underwater-powerup-trampoline-used@2x.png");
 
         // Top bar
-        sprites.put(Sprites.scorebar, spritePath + "space-scorebar@2x.png");
+        sprites.put(Sprites.scorebar, spritePath + "underwater-scorebar@2x.png");
 
     }
 }

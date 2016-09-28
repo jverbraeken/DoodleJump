@@ -64,7 +64,8 @@ import java.util.ArrayList;
     /**
      * Sprites to be displayed on the background of the killscreen.
      */
-    private final ISprite background, bottomKillScreen, gameOverSprite;
+    private ISprite background;
+    private final ISprite bottomKillScreen;
     /**
      * Is the kill screen active, should it be displayed.
      */
@@ -86,7 +87,6 @@ import java.util.ArrayList;
 
         background = sL.getSpriteFactory().getBackground();
         bottomKillScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
-        gameOverSprite = sL.getSpriteFactory().getGameOverSprite();
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         mainMenuButton = buttonFactory.createMainMenuButton((int) (sL.getConstants().getGameWidth() * MAIN_MENU_BUTTON_X), (int) (sL.getConstants().getGameHeight() * MAIN_MENU_BUTTON_Y));
@@ -151,6 +151,14 @@ import java.util.ArrayList;
      */
     @Override
     public final void update(final double delta) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void resetBackground() {
+        background = sL.getSpriteFactory().getBackground();
     }
 
 }

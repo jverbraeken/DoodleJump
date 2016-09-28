@@ -54,7 +54,7 @@ public class World implements IScene {
     /**
      * The background of the world.
      */
-    private final ISprite background;
+    private ISprite background;
     /**
      * The Doodle for the world.
      */
@@ -211,6 +211,14 @@ public class World implements IScene {
             drawables.get(0).add(topBlock);
             updatables.add(topBlock);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void resetBackground() {
+        background = serviceLocator.getSpriteFactory().getBackground();
     }
 
     /**
