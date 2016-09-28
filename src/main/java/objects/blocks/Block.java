@@ -7,7 +7,7 @@ import system.IServiceLocator;
 import java.util.Set;
 
 /**
- * This class focusses on the implementation of Blocks.
+ * This class focuses on the implementation of Blocks.
  * These blocks contain the main bulk of the game objects.
  * This bulk contains the platforms, powerups, enemies and other interactable items.
  * These blocks are meant to pass through our frame vertically.

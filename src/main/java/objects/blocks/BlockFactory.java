@@ -5,6 +5,7 @@ import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
+import objects.powerups.IPowerup;
 import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
@@ -12,10 +13,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class is the factory in which seperate blocks get created.
+ * This class is the factory in which separate blocks get created.
  * In here one can specify the type of block one wants to create.
  */
 public final class BlockFactory implements IBlockFactory {
+
     /**
      * Used to gain access to all services.
      */
@@ -164,7 +166,7 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Places a single platform part in the block specified.
      *
-     * @param topJumpable            The highest platform created before the block starts (normaly the latest platform created)
+     * @param topJumpable            The highest platform created before the block starts (normally the latest platform created)
      * @param heightDividedPlatforms The height between the platforms
      * @return The last and highest platform created by this method
      */
@@ -180,7 +182,6 @@ public final class BlockFactory implements IBlockFactory {
     }
 
     private IPlatform makeFollowingPlatform(final IJumpable topJumpable, final int heightDividedPlatforms) {
-        //TODO 1.7 and -0.8 are magic numbers
         double heightDeviation = sL.getCalc().getRandomDouble(heightDeviationMultiplier) - heightDeviationOffset;
         double widthDeviation = sL.getCalc().getRandomDouble(1d);
 
@@ -208,7 +209,7 @@ public final class BlockFactory implements IBlockFactory {
      *
      * @param platform The {@link IPlatform platform} that has to be checked for a collision
      * @param elements The {@link Set} in which the platforms should be placed
-     * @return True if platformm collides with one of the elements of block
+     * @return True if platform collides with one of the elements of block
      */
     private boolean platformCollideCheck(final IPlatform platform, final Set<IGameObject> elements) {
         for (IGameObject e : elements) {
@@ -227,16 +228,21 @@ public final class BlockFactory implements IBlockFactory {
      * @param platform The platform a powerup potentially is placed on.
      **/
     private void chanceForPowerup(final Set<IGameObject> elements, final IPlatform platform) {
-
         final int randomNr = (int) (sL.getCalc().getRandomDouble(maxPowerupThreshold));
 
         final int platformWidth = (int) platform.getHitBox()[AGameObject.HITBOX_RIGHT];
         final int platformHeight = (int) platform.getHitBox()[AGameObject.HITBOX_BOTTOM];
 
+        IPowerupFactory powerupFactory = sL.getPowerupFactory();
+        IGameObject springShoes = powerupFactory.createSpringShoes(
+                (int) platform.getXPos() + trampolineXoffset,
+                (int) platform.getYPos() - platformHeight + itemYoffset
+        );
+        elements.add(springShoes);
+
         if (randomNr < springThreshold) {
             return;
         } else if (randomNr >= springThreshold && randomNr < trampolineThreshold) {
-            IPowerupFactory powerupFactory = sL.getPowerupFactory();
             int springXLoc = (int) (sL.getCalc().getRandomDouble(platformWidth));
             IGameObject powerup = powerupFactory.createSpring(0, 0);
             final int powerupWidth = (int) powerup.getHitBox()[AGameObject.HITBOX_RIGHT];
@@ -250,10 +256,10 @@ public final class BlockFactory implements IBlockFactory {
 
             elements.add(powerup);
         } else if (randomNr >= trampolineThreshold) {
-
-            IPowerupFactory powerupFactory = sL.getPowerupFactory();
-            IGameObject powerup = powerupFactory.createTrampoline((int) platform.getXPos() + trampolineXoffset,
-                    (int) platform.getYPos() - platformHeight + itemYoffset);
+            IGameObject powerup = powerupFactory.createTrampoline(
+                    (int) platform.getXPos() + trampolineXoffset,
+                    (int) platform.getYPos() - platformHeight + itemYoffset
+            );
             elements.add(powerup);
         }
     }

@@ -2,6 +2,7 @@ package objects.doodles;
 
 import input.IInputManager;
 import objects.AGameObject;
+import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
 import system.IServiceLocator;
@@ -84,6 +85,11 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public void collide(IBlock block) {
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void addPassive(IGameObject item) {
     }
 
     /** {@inheritDoc} */

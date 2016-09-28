@@ -5,6 +5,7 @@ import input.KeyCode;
 import input.Keys;
 import logging.ILogger;
 import objects.AGameObject;
+import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
 import rendering.ICamera;
@@ -12,6 +13,9 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class describes the behaviour of the doodle.
@@ -51,6 +55,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * Where the hitbox of the doodle ends in relation to the sprite width.
      */
     private final double WIDTH_HIT_BOX_RIGHT = .7;
+    /**
+     * The ratio of doodle to offset the frame size vs panel size
+     */
+    private static final double DEAD_OFFSET = 1.5d;
 
     /**
      * Current horizontal speed for the Doodle.
@@ -77,9 +85,9 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double score;
     /**
-     * The ratio of doodle to offset the frame size vs panel size
+     * A set of all the passives the Doodle has.
      */
-    private static final double DEAD_OFFSET = 1.5d;
+    private Set<IGameObject> passives = new HashSet<>();
 
 
     /**
@@ -157,6 +165,12 @@ public class Doodle extends AGameObject implements IDoodle {
     /** {@inheritDoc} */
     @Override
     public void collide(IBlock block) {
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void addPassive(IGameObject item) {
+        passives.add(item);
     }
 
     /** {@inheritDoc} */

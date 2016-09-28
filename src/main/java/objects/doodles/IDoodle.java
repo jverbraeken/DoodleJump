@@ -17,6 +17,11 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void collide(IBlock block);
 
     /**
+     * Adds a passive item to the Doodle.
+     */
+    void addPassive(IGameObject item);
+
+    /**
      * Returns the height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      * @return The height of the legs of the doodle
@@ -37,7 +42,7 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     /**
      * Enum with Directions for the Doodle.
      */
-     enum Directions {
+    enum Directions {
         /**
          * The left direction.
          */

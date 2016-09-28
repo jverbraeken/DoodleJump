@@ -18,11 +18,6 @@ public class Platform extends AGameObject implements IPlatform {
     private static final double BOOST = -18;
 
     /**
-     * Temporary attribute
-     */
-    private IGameObject powerup;
-
-    /**
      * Platform constructor.
      *
      * @param sL - The games service locator.
@@ -31,9 +26,6 @@ public class Platform extends AGameObject implements IPlatform {
      */
     /* package */ Platform(IServiceLocator sL, int x, int y) {
         super(sL, x, y, sL.getSpriteFactory().getPlatformSprite1());
-
-        System.out.println(x);
-        this.powerup = sL.getPowerupFactory().createSpringShoes(x, y - 20);
     }
 
     /**
@@ -50,9 +42,6 @@ public class Platform extends AGameObject implements IPlatform {
     @Override
     public void render() {
         sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
-
-        powerup.setXPos(this.getXPos());
-        powerup.render();
     }
 
 

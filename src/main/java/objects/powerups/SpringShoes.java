@@ -10,6 +10,11 @@ import system.IServiceLocator;
 /* package */ class SpringShoes extends APowerup implements IPowerup, IJumpable {
 
     /**
+     * temporary attribute
+     */
+    private boolean draw = true;
+
+    /**
      * Trampoline constructor.
      *
      * @param sL - The Games service locator.
@@ -29,13 +34,16 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public void collidesWith(IDoodle doodle) {
-
+        doodle.addPassive(this);
+        this.draw = false;
     }
 
     /** {@inheritDoc} */
     @Override
     public void render() {
-        sL.getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        if (this.draw) {
+            sL.getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        }
     }
 
 }
