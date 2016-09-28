@@ -18,4 +18,8 @@ public interface IScene extends IUpdatable, IRenderable {
      */
     void stop();
 
+    /**
+     * Reset the background of the scene.
+     */
+    void resetBackground();
 }
