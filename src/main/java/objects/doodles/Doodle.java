@@ -5,7 +5,6 @@ import input.KeyCode;
 import input.Keys;
 import logging.ILogger;
 import objects.AGameObject;
-import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.powerups.IPowerup;
@@ -14,9 +13,6 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * This class describes the behaviour of the doodle.
@@ -109,7 +105,14 @@ public class Doodle extends AGameObject implements IDoodle {
     /** {@inheritDoc} */
     @Override
     public void render() {
-        sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        sL.getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+
+        if (this.passive != null) {
+            ISprite sprite = this.passive.getSprite();
+            int passiveX = (int) this.getXPos() + (this.getSprite().getWidth() / 2) - (sprite.getWidth() / 2);
+            int passiveY = (int) this.getYPos() + this.getSprite().getHeight();
+            sL.getRenderer().drawSprite(sprite, passiveX, passiveY);
+        }
     }
 
     /** {@inheritDoc} */
