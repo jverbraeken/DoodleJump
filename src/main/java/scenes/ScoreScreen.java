@@ -87,7 +87,9 @@ import java.util.ArrayList;
 
             Color color = i % 2 == 1 ? COLOR_EVEN : COLOR_UNEVEN;
             renderer.fillRectangle(scoreX, scoreY, constants.getGameWidth() - scoreX, entryHeight, color);
-            renderer.drawText(score.getName(), scoreX, scoreY);
+
+            String msg = score.getName() + " - " + score.getScore();
+            renderer.drawText(msg, scoreX, scoreY);
         }
 
         this.menuButton.render();

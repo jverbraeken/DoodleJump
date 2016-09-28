@@ -158,6 +158,7 @@ public final class Renderer implements IRenderer {
         }
 
         this.graphics = g;
+        this.graphics.setFont(new Font("Comic Sans", 0, 28));
     }
 
     /**
