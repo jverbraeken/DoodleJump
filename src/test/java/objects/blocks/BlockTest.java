@@ -56,10 +56,8 @@ public class BlockTest {
      */
     @Test
     public void testGetTopJumpable() throws Exception {
-
         block = Whitebox.invokeConstructor(Block.class, serviceLocator, set, jumpObject);
         assertEquals(jumpObject, block.getTopJumpable());
-
     }
 
     /**
@@ -73,9 +71,7 @@ public class BlockTest {
         set.add(platform);
         block = Whitebox.invokeConstructor(Block.class, serviceLocator, set, jumpObject);
         block.render();
-
         verify(platform).render();
-
     }
 }
 
