@@ -58,7 +58,6 @@ public final class Res implements IRes {
 
     /**
      * {@inheritDoc}
-     * @param mode
      */
     @Override
     public void setSkin(Game.Modes mode) {
@@ -81,7 +80,7 @@ public final class Res implements IRes {
     /**
      * Reset the skin to the regular settings.
      */
-    private void resetSkin(){
+    private void resetSkin() {
         // TODO this should be removed in the final version when all Sprites are ready
         for (Sprites sprite : Sprites.values()) {
             sprites.put(sprite, spritePath + "unimplemented.jpg");
@@ -150,7 +149,7 @@ public final class Res implements IRes {
     /**
      * Set the skin to space style.
      */
-    private void setSpaceSkin(){
+    private void setSpaceSkin() {
         resetSkin();
         // Covers
         sprites.put(Sprites.background, spritePath + "space-bck@2x.png");
@@ -176,7 +175,7 @@ public final class Res implements IRes {
     /**
      * Set the skin to underwater style.
      */
-    private void setUnderwaterSkin(){
+    private void setUnderwaterSkin() {
         resetSkin();
         // Covers
         sprites.put(Sprites.background, spritePath + "underwater-bck@2x.png");
