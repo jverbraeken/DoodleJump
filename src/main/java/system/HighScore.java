@@ -24,6 +24,16 @@ package system;
         this.score = (int) s;
     }
 
+    /**
+     * Package protected constructor so only Game can create a score.
+     * @param n The name for the score.
+     * @param s The actual score.
+     */
+    /* package */ HighScore(final String n, final String s) {
+        this.name = n;
+        this.score = Integer.parseInt(s);
+    }
+
     /** {@inheritDoc} */
     @Override
     public int compareTo(HighScore that) {

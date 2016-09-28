@@ -13,8 +13,8 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
+import java.util.List; // Needed to overwrite java.awt.List
 
 /**
  * This is the main class that runs the game.
@@ -299,7 +299,26 @@ public final class Game {
      * Initialize the high scores.
      */
     private static void initHighScores() {
-        // TODO: Read the high scores file
+        IFileSystem fileSystem = sL.getFileSystem();
+        IConstants constants = sL.getConstants();
+        try {
+            List<String> content = fileSystem.readTextFile(constants.getHighScoresFile());
+            String plainHighScores = content.get(0);
+        } catch (FileNotFoundException e) {
+            LOGGER.warning("High scores file not found, starting with empty high scores list");
+        }
+
+
+        String plainHighScores = "Doodle 426 Doodle 117 Doodle 73 ";
+        String[] test = plainHighScores.split("\\s+");
+        for (int i = 0; i < test.length; i += 2) {
+            HighScore score = new HighScore(test[i], test[i + 1]);
+            Game.highScores.add(score);
+        }
+
+        for (HighScore score : Game.highScores) {
+            System.out.println(score.getName() + " - " + score.getScore());
+        }
     }
 
     /**
