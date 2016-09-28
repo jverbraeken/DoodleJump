@@ -31,20 +31,24 @@ public class UnderwaterBehavior implements MovementBehavior {
     /**
      * Standard speed limit for the Doodle.
      */
-    private final double STANDARD_SPEED_LIMIT = 14d;
+    private static final double STANDARD_SPEED_LIMIT = 14d;
 
     /**
      * Horizontal speed limit for the Doodle.
      */
-    private final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
+    private static final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
     /**
      * Horizontal acceleration for the Doodle.
      */
-    private final double HORIZONTAL_ACCELERATION = .2d;
+    private static final double HORIZONTAL_ACCELERATION = .2d;
+    /**
+     * Horizontal acceleration for the Doodle.
+     */
+    private static final double JUMPING_THRESHOLD = -15;
     /**
      * Relative gravity for the Doodle.
      */
-    private final double RELATIVE_GRAVITY = .3d;
+    private static final double RELATIVE_GRAVITY = .3d;
     /**
      * Used to access all services.
      */
@@ -80,7 +84,7 @@ public class UnderwaterBehavior implements MovementBehavior {
     }
 
     /** {@inheritDoc} */
-    public void move(final double delta){
+    public final void move(final double delta) {
         moveHorizontally(delta);
         applyGravity(delta);
         animate(delta);
@@ -88,8 +92,9 @@ public class UnderwaterBehavior implements MovementBehavior {
 
     /**
      * Move the Doodle along the X axis.
+     * @param delta the time used in a frame.
      */
-    private void moveHorizontally(final double delta) {
+    private final void moveHorizontally(final double delta) {
         if (pressed && moving == Directions.Left) {
             if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
                 this.hSpeed -= RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
@@ -107,12 +112,12 @@ public class UnderwaterBehavior implements MovementBehavior {
      * Animate the Doodle.
      * @param delta Delta time since previous animate.
      */
-    private void animate(double delta) {
+    private final void animate(final double delta) {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         doodle.setSpritePack(spriteFactory.getDoodleSprite(getFacing()));
 
         // If the Doodle moves up quickly shorten its legs
-        if (getVerticalSpeed() < RELATIVE_SPEED * -15) {
+        if (getVerticalSpeed() < RELATIVE_SPEED * JUMPING_THRESHOLD) {
             doodle.setSprite(this.doodle.getSpritePack()[1]);
         } else {
             doodle.setSprite(this.doodle.getSpritePack()[0]);
@@ -124,26 +129,26 @@ public class UnderwaterBehavior implements MovementBehavior {
      * Apply gravity to the Doodle.
      * @param delta Delta time since previous animate.
      */
-    private void applyGravity(double delta) {
+    private final void applyGravity(final double delta) {
         this.vSpeed += RELATIVE_GRAVITY * serviceLocator.getConstants().getGravityAcceleration();
         doodle.addYPos(this.vSpeed);
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getVerticalSpeed() {
+    public final double getVerticalSpeed() {
         return vSpeed;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setVerticalSpeed(final double v) {
+    public final void setVerticalSpeed(final double v) {
         vSpeed = RELATIVE_SPEED * v;
     }
 
     /** {@inheritDoc} */
     @Override
-    public Directions getFacing() {
+    public final Directions getFacing() {
         return facing;
     }
 

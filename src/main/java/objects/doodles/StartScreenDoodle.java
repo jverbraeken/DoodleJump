@@ -1,12 +1,6 @@
 package objects.doodles;
 
-import input.IInputManager;
-import objects.AGameObject;
 import objects.IJumpable;
-import objects.blocks.IBlock;
-import objects.doodles.DoodleBehavior.RegularBehavior;
-import objects.doodles.DoodleBehavior.MovementBehavior;
-import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
@@ -39,7 +33,7 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void collide(IJumpable jumpable) {
+    public void collide(final IJumpable jumpable) {
         setVerticalSpeed(BOOST_REDUCTION * jumpable.getBoost());
     }
 

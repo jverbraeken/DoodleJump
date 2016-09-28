@@ -23,16 +23,20 @@ public class RegularBehavior implements MovementBehavior {
     /**
      * Standard speed limit for the Doodle.
      */
-    private final double STANDARD_SPEED_LIMIT = 6d;
+    private static final double STANDARD_SPEED_LIMIT = 6d;
 
     /**
      * Horizontal speed limit for the Doodle.
      */
-    private final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
+    private static final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
     /**
      * Horizontal acceleration for the Doodle.
      */
-    private final double HORIZONTAL_ACCELERATION = .5d;
+    private static final double HORIZONTAL_ACCELERATION = .5d;
+    /**
+     * Horizontal acceleration for the Doodle.
+     */
+    private static final double JUMPING_THRESHOLD = -15;
     /**
      * Used to access all services.
      */
@@ -63,7 +67,7 @@ public class RegularBehavior implements MovementBehavior {
     }
 
     /** {@inheritDoc} */
-    public void move(final double delta){
+    public final void move(final double delta) {
         moveHorizontally(delta);
         applyGravity(delta);
         animate(delta);
@@ -71,8 +75,9 @@ public class RegularBehavior implements MovementBehavior {
 
     /**
      * Move the Doodle along the X axis.
+     * @param delta the frame duration
      */
-    private void moveHorizontally(final double delta) {
+    private final void moveHorizontally(final double delta) {
         if (moving == Directions.Left) {
             if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
                 this.hSpeed -= this.HORIZONTAL_ACCELERATION;
@@ -96,12 +101,12 @@ public class RegularBehavior implements MovementBehavior {
      * Animate the Doodle.
      * @param delta Delta time since previous animate.
      */
-    private void animate(double delta) {
+    private final void animate(final double delta) {
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         doodle.setSpritePack(spriteFactory.getDoodleSprite(getFacing()));
 
         // If the Doodle moves up quickly shorten its legs
-        if (getVerticalSpeed() < -15) {
+        if (getVerticalSpeed() < JUMPING_THRESHOLD ) {
             doodle.setSprite(this.doodle.getSpritePack()[1]);
         } else {
             doodle.setSprite(this.doodle.getSpritePack()[0]);
@@ -113,26 +118,26 @@ public class RegularBehavior implements MovementBehavior {
      * Apply gravity to the Doodle.
      * @param delta Delta time since previous animate.
      */
-    private void applyGravity(double delta) {
+    private final void applyGravity(final double delta) {
         this.vSpeed += serviceLocator.getConstants().getGravityAcceleration();
         doodle.addYPos(this.vSpeed);
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getVerticalSpeed() {
+    public final double getVerticalSpeed() {
         return vSpeed;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setVerticalSpeed(final double v) {
+    public final void setVerticalSpeed(final double v) {
         vSpeed = v;
     }
 
     /** {@inheritDoc} */
     @Override
-    public Directions getFacing() {
+    public final Directions getFacing() {
         return facing;
     }
 

@@ -72,17 +72,10 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
-<<<<<<< HEAD
-     * Track wether the doodle is alive.
-     */
-    private static boolean isAlive = true;
-    /**
-     * The enums for the mode
+     * The enums for the mode.
      */
     public enum Modes { regular, underwater, story, invert, darkness, space }
     /**
-=======
->>>>>>> origin/develop
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
@@ -115,7 +108,7 @@ public final class Game {
      * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
      * does need to know whether is should clear the log file on startup or not.
      */
-    public final static boolean CLEAR_LOG_ON_STARTUP = true;
+    public static final boolean CLEAR_LOG_ON_STARTUP = true;
 
     /**
      * Prevents instantiation from outside the Game class.
@@ -128,7 +121,7 @@ public final class Game {
      *
      * @param argv the arguments to run.
      */
-    public static void main(String[] argv) {
+    public static void main(final String[] argv) {
         LOGGER.info("The game has been launched");
 
         Game.pauseScreen = sL.getSceneFactory().createPauseScreen();
@@ -156,7 +149,8 @@ public final class Game {
         // Initialize panel
         panel = new JPanel() {
             /**
-             * TODO: Add JavaDoc
+             * Paint the component to the proper scale.
+             * @param g the graphics.
              */
             @Override
             public void paintComponent(final Graphics g) {
@@ -251,7 +245,11 @@ public final class Game {
         setScene(sL.getSceneFactory().createKillScreen());
     }
 
-    public static void setMode(final Modes m){
+    /**
+     * Set the current mode of the game.
+     * @param m the new mode.
+     */
+    public static void setMode(final Modes m) {
         mode = m;
         sL.getRes().setSkin(m);
         SpriteFactory skin = new SpriteFactory();
@@ -300,9 +298,8 @@ public final class Game {
         return mode;
     }
 
-    /*
+    /**
      * Update the high scores for the game.
-     *
      * @param score The score the game instance ended with.
      */
     private static void updateHighScores(final double score) {

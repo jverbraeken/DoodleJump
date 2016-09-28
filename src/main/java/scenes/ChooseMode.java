@@ -2,7 +2,6 @@ package scenes;
 
 import buttons.IButton;
 import buttons.IButtonFactory;
-import input.IMouseInputObserver;
 import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -65,6 +64,9 @@ import java.util.ArrayList;
      * Sprites to be displayed on the background of the killscreen.
      */
     private ISprite background;
+    /**
+     * The sprite on the bottom of the choose mode screen.
+     */
     private final ISprite bottomKillScreen;
     /**
      * Is the kill screen active, should it be displayed.
@@ -112,7 +114,7 @@ import java.util.ArrayList;
      */
     @Override
     public final void start() {
-        for(IButton b : buttons){
+        for (IButton b : buttons) {
             sL.getInputManager().addObserver(b);
         }
         active = true;
@@ -124,7 +126,7 @@ import java.util.ArrayList;
      */
     @Override
     public final void stop() {
-        for(IButton b : buttons){
+        for (IButton b : buttons) {
             sL.getInputManager().removeObserver(b);
         }
         active = false;
@@ -140,7 +142,7 @@ import java.util.ArrayList;
             sL.getRenderer().drawSpriteHUD(this.background, 0, 0);
             double y = (double) sL.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
             sL.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
-            for(IButton b : buttons){
+            for (IButton b : buttons) {
                 b.render();
             }
         }
