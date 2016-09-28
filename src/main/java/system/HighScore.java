@@ -16,6 +16,7 @@ package system;
 
     /**
      * Package protected constructor so only Game can create a score.
+     *
      * @param n The name for the score.
      * @param s The actual score.
      */
@@ -26,6 +27,7 @@ package system;
 
     /**
      * Package protected constructor so only Game can create a score.
+     *
      * @param n The name for the score.
      * @param s The actual score.
      */
@@ -36,7 +38,7 @@ package system;
 
     /** {@inheritDoc} */
     @Override
-    public int compareTo(HighScore that) {
+    public int compareTo(final HighScore that) {
         if(this.getScore() > that.getScore()) {
             return -1;
         } else if(this.getScore() < that.getScore()) {
@@ -48,6 +50,7 @@ package system;
 
     /**
      * Get the name.
+     *
      * @return the name.
      */
     public String getName() {
@@ -56,6 +59,7 @@ package system;
 
     /**
      * Get the score.
+     *
      * @return the score.
      */
     public int getScore() {
