@@ -631,6 +631,14 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
+    public ISprite getSpringShoesSprite() {
+        return getSprite(IRes.Sprites.springShoes);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ISprite getRocketSprite() {
         return getSprite(IRes.Sprites.rocket);
     }

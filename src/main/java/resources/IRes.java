@@ -96,6 +96,7 @@ public interface IRes {
         trampolineUsed,
         spring,
         springUsed,
+        springShoes,
         rocket,
         propeller,
         shield,
