@@ -17,18 +17,9 @@ import java.awt.event.WindowEvent;
 public final class Game {
 
     /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator sL = new ServiceLocator();
-
-    /**
      * The time in miliseconds per frame.
      */
     private static final int FRAME_TIME = 16;
-    /**
-     * The logger for the Game class.
-     */
-    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Game.class);
     /**
      * The target FPS for the game.
      */
@@ -45,7 +36,14 @@ public final class Game {
      * Y position relative to the frame of the resume button.
      */
     private static final double RESUME_BUTTON_Y = 0.75;
-
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator sL = new ServiceLocator();
+    /**
+     * The logger for the Game class.
+     */
+    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Game.class);
     /**
      * The current frame.
      */
@@ -184,8 +182,9 @@ public final class Game {
      * @return The current Frames Per Second (FPS)
      */
     public static double getFPS(final long threadSleep, final long renderTime) {
-        if (threadSleep + renderTime == 0)
+        if (threadSleep + renderTime == 0) {
             return TARGET_FPS;
+        }
         return sL.getCalc().NANOSECONDS / (threadSleep + renderTime);
     }
 
@@ -219,7 +218,7 @@ public final class Game {
         isAlive = alive;
     }
 
-    public static void setMode(final String m){
+    public static void setMode(final String m) {
         mode = m;
         LOGGER.info("The mode is now " + m);
     }

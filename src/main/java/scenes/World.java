@@ -27,10 +27,6 @@ public class World implements IScene {
      */
     private final static int PAUSE_OFFSET = 38;
     /**
-     * The logger for the World class.
-     */
-    private final ILogger LOGGER;
-    /**
      * The Digitoffsetmultiplier needed for the scoretext.
      */
     private static final int DIGIT_MULTIPLIER = 3;
@@ -38,7 +34,10 @@ public class World implements IScene {
      * The current number system. Standard decimal system.
      */
     private static final int NUMBER_SYSTEM = 10;
-
+    /**
+     * The logger for the World class.
+     */
+    private final ILogger LOGGER;
     /**
      * Used to access all services.
      */
@@ -68,7 +67,7 @@ public class World implements IScene {
      * {@link IRenderable renderables} that will be drawn first (eg platforms), the second set contains the
      * {@link IRenderable renderables} that will be drawn secondly (eg doodles) and the third set contains the
      * {@link IRenderable renderables} that will be drawn at last (eg HUD elements).</p>
-     *
+     * <p>
      * <p>The reason a list is used instead of an array is because we need to use a weak set. The only
      * way to make it (in Java) is by using Collections.newSetFromMap that creates the set for us (and
      * prohibits creating an array by doing that).</p>
@@ -122,20 +121,26 @@ public class World implements IScene {
         LOGGER.log("Level started");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void start() {
         this.sL.getRenderer().getCamera().setYPos(sL.getConstants().getGameHeight() / 2d);
         LOGGER.log("The world is now displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void stop() {
         LOGGER.log("The world is no longer displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         sL.getRenderer().drawSpriteHUD(this.background, 0, 0);
@@ -147,10 +152,11 @@ public class World implements IScene {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(final double delta) {
-        System.out.println("hoi");
         updateObjects(delta);
         checkCollisions();
         cleanUp();
@@ -274,7 +280,9 @@ public class World implements IScene {
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void render() {
             sL.getRenderer().drawSpriteHUD(scoreBarSprite, 0, 0, sL.getConstants().getGameWidth(), scoreBarHeight);
@@ -298,6 +306,7 @@ public class World implements IScene {
 
             /**
              * Construct the pause button.
+             *
              * @param xx the x position of the pause button.
              * @param yy the y position of the pause button.
              * @param sc the scale of the button.
@@ -312,13 +321,17 @@ public class World implements IScene {
                 sL.getInputManager().addObserver(this);
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void render() {
                 sL.getRenderer().drawSpriteHUD(sprite, x, y, width, height);
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void mouseClicked(final int mouseX, final int mouseY) {
                 if (mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
@@ -352,10 +365,11 @@ public class World implements IScene {
 
             /**
              * Create the score texts.
-             * @param xPos x position.
+             *
+             * @param xPos    x position.
              * @param yCenter center y of the score text.
-             * @param s the scale.
-             * @param dS the digit sprites.
+             * @param s       the scale.
+             * @param dS      the digit sprites.
              */
             private ScoreText(final int xPos, final int yCenter, final double s, final ISprite[] dS) {
                 assert dS.length == NUMBER_SYSTEM;
@@ -369,7 +383,9 @@ public class World implements IScene {
                 this.digitSprites = dS;
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void render() {
                 assert doodle.getScore() >= 0;
