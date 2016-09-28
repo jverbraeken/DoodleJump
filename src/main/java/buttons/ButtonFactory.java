@@ -13,7 +13,7 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator sL;
+    private static transient IServiceLocator serviceLocator;
 
     /**
      * Register the platform factory into the service locator.
@@ -22,139 +22,118 @@ public final class ButtonFactory implements IButtonFactory {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        ButtonFactory.sL = sL;
-        ButtonFactory.sL.provide(new ButtonFactory());
+        ButtonFactory.serviceLocator = sL;
+        ButtonFactory.serviceLocator.provide(new ButtonFactory());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IButton createPlayButton(final int x, final int y) {
-        assert sL != null;
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayButtonSprite();
-        Runnable playAction = () -> Game.setScene(sL.getSceneFactory().newWorld());
-        return new Button(sL, x, y, buttonSprite, playAction, "play");
+        Runnable playAction = () -> Game.setScene(serviceLocator.getSceneFactory().newWorld());
+        return new Button(serviceLocator, x, y, buttonSprite, playAction, "play");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IButton createResumeButton(final int x, final int y) {
-        assert sL != null;
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getResumeButtonSprite();
         Runnable resumeAction = () -> Game.setPaused(false);
-        return new Button(sL, x, y, buttonSprite, resumeAction, "resume");
+        return new Button(serviceLocator, x, y, buttonSprite, resumeAction, "resume");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IButton createPlayAgainButton(final int x, final int y) {
-        assert sL != null;
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayAgainButtonSprite();
-        Runnable playAgainAction = () -> Game.setScene(sL.getSceneFactory().newWorld());
-        return new Button(sL, x, y, buttonSprite, playAgainAction, "playAgain");
+        Runnable playAgainAction = () -> Game.setScene(serviceLocator.getSceneFactory().newWorld());
+        return new Button(serviceLocator, x, y, buttonSprite, playAgainAction, "playAgain");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IButton createMainMenuButton(final int x, final int y) {
-        assert sL != null;
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
-        Runnable mainMenu = () -> Game.setScene(sL.getSceneFactory().createMainMenu());
-        return new Button(sL, x, y, buttonSprite, mainMenu, "mainMenu");
+        Runnable mainMenu = () -> Game.setScene(serviceLocator.getSceneFactory().createMainMenu());
+        return new Button(serviceLocator, x, y, buttonSprite, mainMenu, "mainMenu");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IButton createChooseModeButton(final int x, final int y) {
-        assert sL != null;
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getChooseModeButtonSprite();
-        Runnable chooseMode = () -> Game.setScene(sL.getSceneFactory().newChooseMode());
-        return new Button(sL, x, y, buttonSprite, chooseMode, "chooseMode");
+        Runnable chooseMode = () -> Game.setScene(serviceLocator.getSceneFactory().newChooseMode());
+        return new Button(serviceLocator, x, y, buttonSprite, chooseMode, "chooseMode");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IButton createRegularModeButton(final int x, final int y) {
-        assert sL != null;
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getRegularModeButton();
         Runnable regularMode = () -> Game.setMode("REGULAR");
-        return new Button(sL, x, y, buttonSprite, regularMode, "regularMode");
+        return new Button(serviceLocator, x, y, buttonSprite, regularMode, "regularMode");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IButton createDarknessModeButton(final int x, final int y) {
-        assert sL != null;
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getDarknessModeButton();
         Runnable darknessMode = () -> Game.setMode("DARKNESS");
-        return new Button(sL, x, y, buttonSprite, darknessMode, "darknessMode");
+        return new Button(serviceLocator, x, y, buttonSprite, darknessMode, "darknessMode");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IButton createInvertModeButton(final int x, final int y) {
-        assert sL != null;
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getInvertModeButton();
         Runnable invertMode = () -> Game.setMode("INVERT");
-        return new Button(sL, x, y, buttonSprite, invertMode, "invertMode");
+        return new Button(serviceLocator, x, y, buttonSprite, invertMode, "invertMode");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IButton createSpaceModeButton(final int x, final int y) {
-        assert sL != null;
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getSpaceModeButton();
         Runnable spaceMode = () -> Game.setMode("SPACE");
-        return new Button(sL, x, y, buttonSprite, spaceMode, "spaceMode");
+        return new Button(serviceLocator, x, y, buttonSprite, spaceMode, "spaceMode");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IButton createUnderwaterModeButton(final int x, final int y) {
-        assert sL != null;
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getUnderwaterModeButton();
         Runnable underwaterMode = () -> Game.setMode("UNDERWATER");
-        return new Button(sL, x, y, buttonSprite, underwaterMode, "underwaterMode");
+        return new Button(serviceLocator, x, y, buttonSprite, underwaterMode, "underwaterMode");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IButton createStoryModeButton(final int x, final int y) {
-        assert sL != null;
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getStoryModeButton();
         Runnable storyMode = () -> Game.setMode("STORY");
-        return new Button(sL, x, y, buttonSprite, storyMode, "storyMode");
+        return new Button(serviceLocator, x, y, buttonSprite, storyMode, "storyMode");
     }
+
 }

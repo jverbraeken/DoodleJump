@@ -19,7 +19,7 @@ public final class Renderer implements IRenderer {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator sL;
+    private static transient IServiceLocator serviceLocator;
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -27,8 +27,8 @@ public final class Renderer implements IRenderer {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        Renderer.sL = sL;
-        Renderer.sL.provide(new Renderer());
+        Renderer.serviceLocator = sL;
+        Renderer.serviceLocator.provide(new Renderer());
     }
 
     /**
@@ -45,76 +45,79 @@ public final class Renderer implements IRenderer {
      * Prevent public instantiations of the Renderer.
      */
     private Renderer() {
-        LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }
 
     /** {@inheritDoc} */
     @Override
-    public void start() {
-    }
+    public void start() { }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void drawRectangle(int x, int y, int width, int height) {
-        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+    public void drawRectangle(final int x, final int y, final int width, final int height) {
+        assert graphics != null;
+
+        String drawMsg = "drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
+        LOGGER.info(drawMsg + cameraMsg);
+
         graphics.drawRect(x, (int) (y - camera.getYPos()), width, height);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void drawSprite(ISprite sprite, int x, int y) {
+    public void drawSprite(final ISprite sprite, final int x, final int y) {
         assert graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
+        LOGGER.info(drawMsg + cameraMsg);
+
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void drawSprite(ISprite sprite, int x, int y, int width, int height) {
+    public void drawSprite(final ISprite sprite, final int x, final int y, final int width, final int height) {
         assert graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
+        LOGGER.info(drawMsg + cameraMsg);
+
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), width, height, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void drawRectangleHUD(int x, int y, int width, int height) {
-        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
+    public void drawRectangleHUD(final int x, final int y, final int width, final int height) {
+        assert graphics != null;
+
+        LOGGER.info("drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
+
         graphics.drawRect(x, y, width, height);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void drawSpriteHUD(ISprite sprite, int x, int y) {
+    public void drawSpriteHUD(final ISprite sprite, final int x, final int y) {
         assert graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
+
+        LOGGER.info("drawImage(" + x + ", " + y + ")");
 
         graphics.drawImage(sprite.getImage(), x, y, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void drawSpriteHUD(final ISprite sprite, final int x, final int y, final int width, final int height) {
         assert graphics != null;
@@ -122,12 +125,12 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
+        LOGGER.info("drawSprite(" + x + ", " + y + ")");
+
         graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setGraphicsBuffer(final Graphics g) {
         if (g == null) {
@@ -137,10 +140,7 @@ public final class Renderer implements IRenderer {
         this.graphics = g;
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public ICamera getCamera() {
         return camera;
