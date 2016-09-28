@@ -6,6 +6,7 @@ import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.Platform;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -25,16 +26,20 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 public class BlockTest {
 
     private IServiceLocator serviceLocator;
-    private IGameObject gameObject = Mockito.mock(AGameObject.class);
-    private IJumpable jumpObject = Mockito.mock(IJumpable.class);
+    private IGameObject gameObject;
+    private IJumpable jumpObject;
     private IBlock block;
-    private IPlatform platform = mock(Platform.class);
-    private Set<IGameObject> set = new HashSet<>();
+    private IPlatform platform;
+    private Set<IGameObject> set;
 
 
     @Before
     public void init() throws Exception {
         serviceLocator = mock(IServiceLocator.class);
+        gameObject = Mockito.mock(AGameObject.class);
+        jumpObject = Mockito.mock(IJumpable.class);
+        platform = mock(Platform.class);
+        set = new HashSet<>();
     }
 
     /**
@@ -72,6 +77,13 @@ public class BlockTest {
         block = Whitebox.invokeConstructor(Block.class, serviceLocator, set, jumpObject);
         block.render();
         verify(platform).render();
+    }
+
+    @After
+    public void cleanUp() {
+        for(IGameObject e : set){
+            set.remove(e);
+        }
     }
 }
 
