@@ -18,48 +18,49 @@ import java.util.Set;
 public final class BlockFactory implements IBlockFactory {
 
     /**
-     * Used to gain access to all services.
-     */
-    private static transient IServiceLocator serviceLocator;
-    /**
      * The maximum amount of platforms per block.
      */
-    private final int maxPlatforms = 10;
+    private static final int MAX_PLATFORMS = 10;
     /**
      * The minimum amount of platforms per block.
      */
-    private final int minPlatforms = 5;
+    private static final int MIN_PLATFORMS = 5;
     /**
      * Offset to place the trampoline on the proper place of a platform.
      */
-    private final int itemYOffset = 5;
+    private static final int ITEM_Y_OFFSET = 5;
     /**
      * Offset to place the trampoline on the proper place of a platform.
      */
-    private final int trampolineXOffset = 20;
+    private static final int TRAMPOLINE_X_OFFSET = 20;
     /**
      * Threshold in order to spawn a trampoline.
      * random int(10.000 > 9900)
      */
-    private final int trampolineThreshold = 9900;
+    private static final int TRAMPOLINE_THRESHOLD = 9900;
     /**
      * Threshold in order to spawn a trampoline.
      * random int(9500 < x < 9900)
      */
-    private final int springThreshold = 9500;
+    private static final int SPRING_THRESHOLD = 9500;
     /**
      * Total threshold number for item generation.
      * random int(10000)
      */
-    private final int maxPowerupThreshold = 10000;
+    private static final int MAX_POWERUP_THRESHOLD = 10000;
     /**
      * A multiplier to generate a proper height deviation.
      */
-    private final double heightDeviationMultiplier = 1.5;
+    private static final double HEIGHT_DEVIATION_MULTIPLIER = 1.5;
     /**
      * An offset to generate a minimum height deviation.
      */
-    private final double heightDeviationOffset = 0.8;
+    private static final double HEIGHT_DEVIATION_OFFSET = 0.8;
+
+    /**
+     * Used to gain access to all services.
+     */
+    private static transient IServiceLocator serviceLocator;
 
     /**
      * Register the block factory into the service locator.
@@ -90,7 +91,7 @@ public final class BlockFactory implements IBlockFactory {
     public synchronized IBlock createBlock(final IJumpable topJumpable) {
         Set<IGameObject> elements = new HashSet<>();
 
-        int platformAmount = serviceLocator.getCalc().getRandomIntBetween(minPlatforms, maxPlatforms);
+        int platformAmount = serviceLocator.getCalc().getRandomIntBetween(MIN_PLATFORMS, MAX_PLATFORMS);
         int heightDividedPlatforms = serviceLocator.getConstants().getGameHeight() / platformAmount;
 
         IJumpable newTopJumpable = placeBlockPlatforms(elements, topJumpable, platformAmount, heightDividedPlatforms);
@@ -102,8 +103,11 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Places zero or more platforms before the loop placing the other platforms is processed.
      *
-     * @param elements    The {@link Set} in which the platforms should be placed
-     * @param topJumpable The highest platform created before the block starts (normally the latest platform created)
+     * @param elements                  The {@link Set} in which the platforms should be placed.
+     * @param topJumpable               The highest platform created before the block starts (normally the latest
+     *                                  platform created).
+     * @param platformAmount            The amount of platforms.
+     * @param heightDividedPlatforms    The height division of platforms (?).
      * @return The last and highest platform created by this method
      */
     private IJumpable placeBlockPlatforms(final Set<IGameObject> elements, final IJumpable topJumpable, final int platformAmount, final int heightDividedPlatforms) {
@@ -133,25 +137,31 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Places zero or more platforms before the loop placing the other platforms is processed.
      *
-     * @param elements    The {@link Set} in which the platforms should be placed
-     * @param topJumpable The highest platform created before the block starts (normally the latest platform created)
-     * @return The last and highest platform created by this method
+     * @param elements                  The {@link Set} in which the platforms should be placed.
+     * @param topJumpable               The highest platform created before the block starts (normally the latest
+     *                                  platform created).
+     * @param platformAmount            The amount of platforms.
+     * @param heightDividedPlatforms    The height division of platforms (?).
+     * @return The last and highest platform created.
      */
-    private IPlatform placeStartBlockPlatforms(final Set<IGameObject> elements, IPlatform topJumpable, final int platformAmount, final int heightDividedPlatforms) {
+    private IPlatform placeStartBlockPlatforms(final Set<IGameObject> elements, final IPlatform topJumpable, final int platformAmount, final int heightDividedPlatforms) {
         assert topJumpable != null;
         assert platformAmount > 0;
         assert heightDividedPlatforms > 0;
-        for (int i = 1; i < platformAmount; i++) {
-            topJumpable = placeFollowingPlatform(elements, topJumpable, heightDividedPlatforms);
+
+        IPlatform highest = placeFollowingPlatform(elements, topJumpable, heightDividedPlatforms);
+        for (int i = 2; i < platformAmount; i++) {
+            highest = placeFollowingPlatform(elements, topJumpable, heightDividedPlatforms);
         }
-        return topJumpable;
+        return highest;
     }
 
     /**
      * Places a single platform part in the block specified.
      *
-     * @param topJumpable            The highest platform created before the block starts (normally the latest platform created)
-     * @param heightDividedPlatforms The height between the platforms
+     * @param elements                  A set of elements.
+     * @param topJumpable               The highest platform created before the block starts (normally the latest platform created)
+     * @param heightDividedPlatforms    The height between the platforms
      * @return The last and highest platform created by this method
      */
     private IPlatform placeFollowingPlatform(final Set<IGameObject> elements, final IJumpable topJumpable, final int heightDividedPlatforms) {
@@ -174,7 +184,7 @@ public final class BlockFactory implements IBlockFactory {
      */
     private IPlatform makeFollowingPlatform(final IJumpable topJumpable, final int heightDividedPlatforms) {
         //TODO 1.7 and -0.8 are magic numbers
-        double heightDeviation = serviceLocator.getCalc().getRandomDouble(heightDeviationMultiplier) - heightDeviationOffset;
+        double heightDeviation = serviceLocator.getCalc().getRandomDouble(HEIGHT_DEVIATION_MULTIPLIER) - HEIGHT_DEVIATION_OFFSET;
         double widthDeviation = serviceLocator.getCalc().getRandomDouble(1d);
 
         int yLast = (int) topJumpable.getYPos();
@@ -215,15 +225,16 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Creates a random powerup.
      *
+     * @param elements                  A set of elements.
      * @param platform The platform a powerup potentially is placed on.
      **/
     private void chanceForPowerup(final Set<IGameObject> elements, final IPlatform platform) {
-        final int randomNr = (int) (serviceLocator.getCalc().getRandomDouble(maxPowerupThreshold));
+        final int randomNr = (int) (serviceLocator.getCalc().getRandomDouble(MAX_POWERUP_THRESHOLD));
         final int platformWidth = (int) platform.getHitBox()[AGameObject.HITBOX_RIGHT];
         final int platformHeight = (int) platform.getHitBox()[AGameObject.HITBOX_BOTTOM];
         IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
 
-        if (randomNr >= springThreshold && randomNr < trampolineThreshold) {
+        if (randomNr >= SPRING_THRESHOLD && randomNr < TRAMPOLINE_THRESHOLD) {
             int springXLoc = (int) (serviceLocator.getCalc().getRandomDouble(platformWidth));
             IGameObject powerup = powerupFactory.createSpring(0, 0);
             final int powerupWidth = (int) powerup.getHitBox()[AGameObject.HITBOX_RIGHT];
@@ -233,13 +244,13 @@ public final class BlockFactory implements IBlockFactory {
                 xPos = xPos - powerupWidth;
             }
             powerup.setXPos(xPos);
-            powerup.setYPos((int) platform.getYPos() - platformHeight + itemYOffset);
+            powerup.setYPos((int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
 
             elements.add(powerup);
-        } else if (randomNr >= trampolineThreshold) {
+        } else if (randomNr >= TRAMPOLINE_THRESHOLD) {
             IGameObject powerup = powerupFactory.createTrampoline(
-                    (int) platform.getXPos() + trampolineXOffset,
-                    (int) platform.getYPos() - platformHeight + itemYOffset
+                    (int) platform.getXPos() + TRAMPOLINE_X_OFFSET,
+                    (int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET
             );
             elements.add(powerup);
         }

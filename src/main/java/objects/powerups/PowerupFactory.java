@@ -10,14 +10,20 @@ import system.IServiceLocator;
 public final class PowerupFactory implements IPowerupFactory {
 
     /**
-     * The logger for the PowerupFactory class.
-     */
-    private final ILogger LOGGER;
-
-    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
+    /**
+     * The logger for the PowerupFactory class.
+     */
+    private final ILogger logger;
+
+    /**
+     * Private constructor to prevent instantiation from outside the class.
+     */
+    private PowerupFactory() {
+        logger = serviceLocator.getLoggerFactory().createLogger(PowerupFactory.class);
+    }
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -30,24 +36,17 @@ public final class PowerupFactory implements IPowerupFactory {
         PowerupFactory.serviceLocator.provide(new PowerupFactory());
     }
 
-    /**
-     * Private constructor to prevent instantiation from outside the class.
-     */
-    private PowerupFactory() {
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(PowerupFactory.class);
-    }
-
     /** {@inheritDoc} */
     @Override
     public IGameObject createSpring(final int x, final int y) {
-        LOGGER.info("A new Spring has been created");
+        logger.info("A new Spring has been created");
         return new Spring(serviceLocator, x, y);
     }
 
     /** {@inheritDoc} */
     @Override
     public IGameObject createTrampoline(final int x, final int y) {
-        LOGGER.info("A new Trampoline has been created");
+        logger.info("A new Trampoline has been created");
         return new Trampoline(serviceLocator, x, y);
     }
 

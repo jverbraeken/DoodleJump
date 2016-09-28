@@ -30,10 +30,17 @@ public final class Block implements IBlock {
      */
     private final IJumpable topJumpable;
 
-    /* package */ Block(final IServiceLocator sL, final Set<IGameObject> elements, final IJumpable topJumpable) {
+    /**
+     * Package protected constructor so only the BlockFactory can create blocks.
+     *
+     * @param sL The serviceLocator.
+     * @param e The elements for the block.
+     * @param tJ The highest jumpable object.
+     */
+    /* package */ Block(final IServiceLocator sL, final Set<IGameObject> e, final IJumpable tJ) {
         Block.serviceLocator = sL;
-        this.elements = elements;
-        this.topJumpable = topJumpable;
+        this.elements = e;
+        this.topJumpable = tJ;
     }
 
     /** {@inheritDoc} */
@@ -50,12 +57,12 @@ public final class Block implements IBlock {
 
     /** {@inheritDoc} */
     @Override
-    public final void render() {
+    public void render() {
         elements.forEach(IGameObject::render);
     }
 
     /** {@inheritDoc} */
     @Override
-    public final void update(double delta) { }
+    public void update(final double delta) { }
 
 }

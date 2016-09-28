@@ -23,6 +23,9 @@ public interface IRes {
      */
     void setSkin(final Game.Modes mode);
 
+    /**
+     * Enum containing a value for each sprite.
+     */
     enum Sprites {
         // Buttons
         menu,

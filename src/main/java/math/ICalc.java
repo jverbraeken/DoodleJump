@@ -26,7 +26,7 @@ public interface ICalc {
      * @param upper The upper bound of the range.
      * @return A random integer between lower and upper.
      */
-    int getRandomIntBetween(int lower, int upper);
+    int getRandomIntBetween(final int lower, final int upper);
 
     /**
      * Returns a random double between 0 (inclusive) and {@code max} (inclusive).
@@ -34,6 +34,6 @@ public interface ICalc {
      * @param max The maximum (inclusive) positive value the generated double may have.
      * @return A random double between 0 (inclusive) and {@code max} (inclusive).
      */
-    double getRandomDouble(double max);
+    double getRandomDouble(final double max);
 
 }

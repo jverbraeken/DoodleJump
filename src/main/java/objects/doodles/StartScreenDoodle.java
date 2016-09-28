@@ -3,7 +3,6 @@ package objects.doodles;
 import input.IInputManager;
 import objects.AGameObject;
 import objects.IJumpable;
-import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IServiceLocator;
 
@@ -19,20 +18,16 @@ import system.IServiceLocator;
     /**
      * Where the hitbox of the Doodle starts in relation to the sprite width.
      */
-    private final double WIDTH_HIT_BOX_LEFT = .3;
+    private static final double WIDTH_HIT_BOX_LEFT = .3;
     /**
      * Where the hitbox of the Doodle ends in relation to the sprite width.
      */
-    private final double WIDTH_HIT_BOX_RIGHT = .7;
+    private static final double WIDTH_HIT_BOX_RIGHT = .7;
 
     /**
      * Current vertical speed for the Doodle.
      */
     private double vSpeed = 0d;
-    /**
-     *  Describes the movement behavior of the Doodle.
-     */
-    private final MovementBehavior behavior;
 
     /**
      * Doodle constructor.
@@ -40,10 +35,17 @@ import system.IServiceLocator;
      * @param sL The ServiceLocator.
      */
     /* package */ StartScreenDoodle(final IServiceLocator sL) {
-        super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0]);
-        this.setHitBox((int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT), getSprite().getHeight());
+        super(sL,
+                sL.getConstants().getGameWidth() / 2,
+                sL.getConstants().getGameHeight() / 2,
+                sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0]);
 
-        behavior = new RegularBehavior(this, sL);
+        this.setHitBox(
+                (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
+                getSprite().getHeight(),
+                (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT),
+                getSprite().getHeight());
+
         IInputManager inputManager = sL.getInputManager();
         inputManager.addObserver(this);
     }
@@ -51,7 +53,7 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /** {@inheritDoc} */
@@ -63,13 +65,13 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public double getVerticalSpeed() {
-        return 0d;
+        return vSpeed;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setVerticalSpeed(final double vSpeed) {
-        this.vSpeed = vSpeed;
+    public void setVerticalSpeed(final double speed) {
+        this.vSpeed = speed;
     }
 
     /** {@inheritDoc} */
@@ -109,7 +111,7 @@ import system.IServiceLocator;
      * @param delta Delta time since previous animate.
      */
     private void applyGravity(final double delta) {
-        this.vSpeed += serviceLocator.getConstants().getGravityAcceleration();
+        this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
 

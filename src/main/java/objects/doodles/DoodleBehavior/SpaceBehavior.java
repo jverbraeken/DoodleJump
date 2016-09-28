@@ -17,19 +17,19 @@ public class SpaceBehavior implements MovementBehavior {
     /**
      * Standard speed limit for the Doodle.
      */
-    private final double STANDARD_SPEED_LIMIT = 20d;
+    private static final double STANDARD_SPEED_LIMIT = 20d;
     /**
      * Horizontal speed limit for the Doodle.
      */
-    private final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
+    private static final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
     /**
      * Horizontal acceleration for the Doodle.
      */
-    private final double HORIZONTAL_ACCELERATION = 3d;
+    private static final double HORIZONTAL_ACCELERATION = 3d;
     /**
      * Relative gravity for the Doodle.
      */
-    private final double RELATIVE_GRAVITY = .3d;
+    private static final double RELATIVE_GRAVITY = .3d;
 
     /**
      * Used to access all services.
@@ -74,26 +74,26 @@ public class SpaceBehavior implements MovementBehavior {
 
     /** {@inheritDoc} */
     @Override
-    public void move(final double delta){
+    public final void move(final double delta) {
         moveHorizontally(delta);
         applyGravity(delta);
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getVerticalSpeed() {
+    public final double getVerticalSpeed() {
         return vSpeed;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setVerticalSpeed(final double v) {
+    public final void setVerticalSpeed(final double v) {
         vSpeed = RELATIVE_SPEED * v;
     }
 
     /** {@inheritDoc} */
     @Override
-    public Directions getFacing() {
+    public final Directions getFacing() {
         return facing;
     }
 
@@ -149,14 +149,10 @@ public class SpaceBehavior implements MovementBehavior {
      * @param delta The time since the previous frame.
      */
     private void moveHorizontally(final double delta) {
-        if (pressed && moving == Directions.Left) {
-            if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed -= RELATIVE_SPEED * RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
-            }
-        } else if (pressed && moving == Directions.Right) {
-            if (this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed += RELATIVE_SPEED * RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
-            }
+        if (pressed && moving == Directions.Left && this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed -= RELATIVE_SPEED * RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
+        } else if (pressed && moving == Directions.Right && this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed += RELATIVE_SPEED * RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
         }
 
         doodle.addXPos((int) this.hSpeed);

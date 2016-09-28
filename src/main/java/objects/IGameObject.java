@@ -25,18 +25,19 @@ public interface IGameObject extends IRenderable, IUpdatable {
     void addYPos(final double yPos);
 
     /**
-     * Retrieve the sprite of the game object.
+     * Checks if the game object collides with another game object based on their hit boxes.
      *
-     * @return the sprite.
+     * @param gameObject The object that the object could collide with
+     * @return True if the game object collide with each other
      */
-    ISprite getSprite();
+    boolean checkCollision(final IGameObject gameObject);
 
     /**
-     * Sets the sprite of the game object.
+     * Check if the GameObjects collides with a Doodle.
      *
-     * @param sprite The new sprite of the game object
+     * @param doodle The Doodle to check.
      */
-    void setSprite(final ISprite sprite);
+    void collidesWith(final IDoodle doodle);
 
     /**
      * Retrieve the hitbox of the game object.
@@ -46,6 +47,13 @@ public interface IGameObject extends IRenderable, IUpdatable {
     double[] getHitBox();
 
     /**
+     * Retrieve the sprite of the game object.
+     *
+     * @return the sprite.
+     */
+    ISprite getSprite();
+
+    /**
      * Retrieve the x position of the game object.
      *
      * @return the x position.
@@ -53,25 +61,11 @@ public interface IGameObject extends IRenderable, IUpdatable {
     double getXPos();
 
     /**
-     * Set the x position of the game object.
-     *
-     * @param xPos the to be x position.
-     */
-    void setXPos(final double xPos);
-
-    /**
      * Retrieve the y position of the game object.
      *
      * @return the y position.
      */
     double getYPos();
-
-    /**
-     * Set the y position of the game object.
-     *
-     * @param yPos the to be y position.
-     */
-    void setYPos(final double yPos);
 
     /**
      * Set the hitbox of the game object.
@@ -84,17 +78,24 @@ public interface IGameObject extends IRenderable, IUpdatable {
     void setHitBox(final int left, final int top, final int right, final int bottom);
 
     /**
-     * Checks if the game object collides with another game object based on their hit boxes.
+     * Sets the sprite of the game object.
      *
-     * @param gameObject The object that the object could collide with
-     * @return True if the game object collide with each other
+     * @param sprite The new sprite of the game object
      */
-    boolean checkCollision(final IGameObject gameObject);
+    void setSprite(final ISprite sprite);
 
     /**
-     * Check if the GameObjects collides with a Doodle.
-     * @param doodle The Doodle to check.
+     * Set the x position of the game object.
+     *
+     * @param xPos the to be x position.
      */
-    void collidesWith(final IDoodle doodle);
+    void setXPos(final double xPos);
+
+    /**
+     * Set the y position of the game object.
+     *
+     * @param yPos the to be y position.
+     */
+    void setYPos(final double yPos);
 
 }

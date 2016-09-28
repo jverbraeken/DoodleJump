@@ -12,14 +12,13 @@ import java.awt.*;
 public final class Renderer implements IRenderer {
 
     /**
-     * Used to log all actions of the game.
-     */
-    private final ILogger LOGGER;
-
-    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
+    /**
+     * Used to log all actions of the game.
+     */
+    private final ILogger logger;
     /**
      * The camera for the renderer.
      */
@@ -33,7 +32,7 @@ public final class Renderer implements IRenderer {
      * Prevent public instantiations of the Renderer.
      */
     private Renderer() {
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+        logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }
 
     /**
@@ -44,13 +43,18 @@ public final class Renderer implements IRenderer {
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         Renderer.serviceLocator = sL;
-        Renderer.serviceLocator.provide(new Renderer());
+        sL.provide(new Renderer());
     }
 
     /** {@inheritDoc} */
     @Override
     public void drawRectangle(final int x, final int y, final int width, final int height) {
-        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        assert graphics != null;
+
+        String drawMsg = "drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
+        logger.info(drawMsg + cameraMsg);
+
         graphics.drawRect(x, (int) (y - camera.getYPos()), width, height);
     }
 
@@ -62,7 +66,10 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
+        logger.info(drawMsg + cameraMsg);
+
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), null);
     }
 
@@ -74,14 +81,20 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
+        logger.info(drawMsg + cameraMsg);
+
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), width, height, null);
     }
 
     /** {@inheritDoc} */
     @Override
     public void drawRectangleHUD(final int x, final int y, final int width, final int height) {
-        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
+        assert graphics != null;
+
+        logger.info("drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
+
         graphics.drawRect(x, y, width, height);
     }
 
@@ -93,6 +106,8 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
+        logger.info("drawImage(" + x + ", " + y + ")");
+
         graphics.drawImage(sprite.getImage(), x, y, null);
     }
 
@@ -103,6 +118,8 @@ public final class Renderer implements IRenderer {
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
+
+        logger.info("drawSprite(" + x + ", " + y + ")");
 
         graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }

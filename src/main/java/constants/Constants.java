@@ -5,43 +5,37 @@ import system.IServiceLocator;
 import java.io.FileNotFoundException;
 import java.util.Map;
 
-public class Constants implements IConstants {
+/**
+ * Class containing the main constants of the game.
+ */
+public final class Constants implements IConstants {
+
+    /**
+     * True if the number of pending tasks of the logging thread executor should be logged.
+     */
+    private static final boolean LOG_PENDING_TASKS = true;
+    /**
+     * The width of the frame of the game.
+     */
+    private static final int WIDTH = 640;
+    /**
+     * The height of the frame of the game.
+     */
+    private static final int HEIGHT = 960;
+    /**
+     * How much the doodle is affected by gravity.
+     */
+    private static final double GRAVITY_ACCELERATION = 0.5d;
+    /**
+     * The HEIGHT the Doodle jumps will be multiplied with this value to obtain the score that the player will get.
+     */
+    private static final double SCORE_MULTIPLIER = 0.15;
 
     /**
      * The service locator for the Constants class.
      */
     private static transient IServiceLocator serviceLocator;
 
-    /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
-     */
-    public static void register(IServiceLocator sL) {
-        assert sL != null;
-        Constants.serviceLocator = sL;
-        sL.provide(new Constants());
-    }
-    /**
-     * The width of the frame of the game
-     */
-    private static final int width = 640;
-    /**
-     * The height of the frame of the game
-     */
-    private static final int height = 960;
-    /**
-     * How much the doodle is affected by gravity.
-     */
-    private static final double gravityAcceleration = 0.5d;
-    /**
-     * The height the Doodle jumps will be multiplied with this value to obtain the score that the player will get.
-     */
-    private static final double scoreMultiplier = 0.15;
-    /**
-     * True if the number of pending tasks of the logging thread executor should be logged each time something is logged.
-     */
-    private static final boolean LOG_PENDING_TASKS = true;
     /**
      * The file to which the logs will be written to.
      */
@@ -60,35 +54,38 @@ public class Constants implements IConstants {
     }
 
     /**
-     * {@inheritDoc}
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
      */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        Constants.serviceLocator = sL;
+        sL.provide(new Constants());
+    }
+
+    /** {@inheritDoc} */
     @Override
     public int getGameWidth() {
-        return width;
+        return WIDTH;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int getGameHeight() {
-        return height;
+        return HEIGHT;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public double getGravityAcceleration() {
-        return gravityAcceleration;
+        return GRAVITY_ACCELERATION;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public double getScoreMultiplier() {
-        return scoreMultiplier;
+        return SCORE_MULTIPLIER;
     }
 
     /** {@inheritDoc} */
@@ -97,15 +94,18 @@ public class Constants implements IConstants {
         return LOG_PENDING_TASKS;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getLogFile() {
         return logFile;
     }
 
-    private void interpretJson(Map<String, String> json) {
+    /**
+     * Interpret JSON.
+     *
+     * @param json The JSON to interpret.
+     */
+    private void interpretJson(final Map<String, String> json) {
         for (Map.Entry<String, String> entry : json.entrySet()) {
             switch (entry.getKey()) {
                 case "logFile":
@@ -116,4 +116,5 @@ public class Constants implements IConstants {
             }
         }
     }
+
 }

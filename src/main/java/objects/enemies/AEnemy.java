@@ -17,7 +17,7 @@ import resources.sprites.ISprite;
      * @param sprite The sprite of the enemy.
      */
     /* package */ AEnemy(final int x, final int y, final ISprite sprite) {
-        super(serviceLocator, x, y, sprite);
+        super(getServiceLocator(), x, y, sprite);
     }
 
     /** {@inheritDoc} */

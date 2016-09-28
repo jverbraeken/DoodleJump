@@ -12,7 +12,7 @@ import system.IServiceLocator;
     /**
      * The logger for the Button class.
      */
-    private final ILogger LOGGER;
+    private final ILogger logger;
 
     /**
      * Used to gain access to all services.
@@ -49,14 +49,15 @@ import system.IServiceLocator;
      * @param a  the action when the button is pressed
      * @param n  the name of the button
      */
-    /* package */ Button(IServiceLocator sL, int x, int y, ISprite s, Runnable a, String n) {
+    /* package */ Button(final IServiceLocator sL, final int x, final int y,
+                         final ISprite s, final Runnable a, final String n) {
         super();
 
         assert sL != null;
         assert s != null;
 
         this.serviceLocator = sL;
-        this.LOGGER = sL.getLoggerFactory().createLogger(Button.class);
+        this.logger = sL.getLoggerFactory().createLogger(Button.class);
         this.sprite = s;
         this.width = s.getImage().getWidth(null);
         this.height = s.getImage().getHeight(null);
@@ -84,7 +85,7 @@ import system.IServiceLocator;
         assert x >= 0 && y >= 0;
 
         if (x > topLeft[0] && x < bottomRight[0] && y > topLeft[1] && y < bottomRight[1]) {
-            LOGGER.info("Button clicked: \"" + name + "\"");
+            logger.info("Button clicked: \"" + name + "\"");
             action.run();
         }
     }

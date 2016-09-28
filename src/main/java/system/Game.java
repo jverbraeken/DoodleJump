@@ -54,6 +54,13 @@ public final class Game {
      * The maximum size of the list of high scores.
      */
     private static final int MAX_HIGH_SCORES = 10;
+    /**
+     * Indicates if the log file should be cleared each time the game starts.
+     * This constant is not provided by an implementation of {@link constants.IConstants} because
+     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
+     * does need to know whether is should clear the log file on startup or not.
+     */
+    public static final boolean CLEAR_LOG_ON_STARTUP = true;
 
     /**
      * The current frame.
@@ -72,7 +79,7 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
-     * The enums for the mode
+     * The enums for the mode.
      */
     public enum Modes { regular, underwater, story, invert, darkness, space }
     /**
@@ -102,13 +109,6 @@ public final class Game {
      * does need the name of the log file.
      */
     public static final String LOGFILE_NAME = "async.log";
-    /**
-     * Indicates if the log file should be cleared each time the game starts.
-     * This constant is not provided by an implementation of {@link constants.IConstants} because
-     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
-     * does need to know whether is should clear the log file on startup or not.
-     */
-    public final static boolean CLEAR_LOG_ON_STARTUP = true;
 
     /**
      * Prevents instantiation from outside the Game class.
@@ -120,7 +120,7 @@ public final class Game {
      *
      * @param argv the arguments to run.
      */
-    public static void main(String[] argv) {
+    public static void main(final String[] argv) {
         LOGGER.info("The game has been launched");
 
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
@@ -146,23 +146,21 @@ public final class Game {
 
         // Initialize panel
         panel = new JPanel() {
-            /**
-             * TODO: Add JavaDoc
-             */
+            /** {@inheritDoc} */
             @Override
             public void paintComponent(final Graphics g) {
-            serviceLocator.getRenderer().setGraphicsBuffer(g);
+                serviceLocator.getRenderer().setGraphicsBuffer(g);
 
-            ((Graphics2D) g).scale(1 / scale, 1 / scale);
-            if (Game.scene != null) {
-                Game.scene.render();
-            }
+                ((Graphics2D) g).scale(1 / scale, 1 / scale);
+                if (Game.scene != null) {
+                    Game.scene.render();
+                }
 
-            if (isPaused) {
-                pauseScreen.render();
-            }
+                if (isPaused) {
+                    pauseScreen.render();
+                }
 
-            ((Graphics2D) g).scale(scale, scale);
+                ((Graphics2D) g).scale(scale, scale);
             }
         };
         panel.setLayout(new GridLayout(1, 1));
@@ -173,10 +171,54 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (serviceLocator.getConstants().getGameWidth() * RESUME_BUTTON_X), (int) (serviceLocator.getConstants().getGameHeight() * RESUME_BUTTON_Y));
+        resumeButton = serviceLocator.getButtonFactory().createResumeButton(
+                (int) (serviceLocator.getConstants().getGameWidth() * RESUME_BUTTON_X),
+                (int) (serviceLocator.getConstants().getGameHeight() * RESUME_BUTTON_Y));
         serviceLocator.getInputManager().addObserver(resumeButton);
 
         loop();
+    }
+
+
+    /**
+     * End the game.
+     *
+     * @param score The score the game instance ended with.
+     */
+    public static void endGameInstance(final double score) {
+        updateHighScores(score);
+        setScene(serviceLocator.getSceneFactory().createKillScreen());
+    }
+
+    /**
+     * Loop to update the game 60x per second.
+     */
+    private static synchronized void loop() {
+        long lastLoopTime = System.nanoTime();
+        long lastFpsTime = 0;
+        while (true) {
+            long now = System.nanoTime();
+            long updateLength = now - lastLoopTime;
+            lastLoopTime = now;
+            double delta = updateLength / ((double) OPTIMAL_TIME);
+
+            lastFpsTime += updateLength;
+            if (lastFpsTime >= ICalc.NANOSECONDS) {
+                lastFpsTime = 0;
+            }
+            if (!isPaused) {
+                scene.update(delta);
+            }
+
+            panel.repaint();
+            try {
+                Thread.sleep(FRAME_TIME - (now - System.nanoTime()) / ICalc.NANOSECONDS);
+            } catch (InterruptedException e) {
+                LOGGER.error(e);
+            }
+
+            LOGGER.info("FPS is " + getFPS(updateLength, 0));
+        }
     }
 
     /**
@@ -213,57 +255,15 @@ public final class Game {
     }
 
     /**
-     * End the game.
-     *
-     * @param score The score the game instance ended with.
-     */
-    public static void endGameInstance(final double score) {
-        updateHighScores(score);
-        setScene(serviceLocator.getSceneFactory().createKillScreen());
-    }
-
-    /**
      * Set the mode of the Game.
      *
      * @param m The mode to set.
      */
-    public static void setMode(final Modes m){
+    public static void setMode(final Modes m) {
         mode = m;
         serviceLocator.getRes().setSkin(m);
-        SpriteFactory skin = new SpriteFactory();
         SpriteFactory.register(serviceLocator);
         LOGGER.info("The mode is now " + m);
-    }
-
-    /**
-     * Loop to update the game 60x per second.
-     */
-    private static synchronized void loop() {
-        long lastLoopTime = System.nanoTime();
-        long lastFpsTime = 0;
-        while (true) {
-            long now = System.nanoTime();
-            long updateLength = now - lastLoopTime;
-            lastLoopTime = now;
-            double delta = updateLength / ((double) OPTIMAL_TIME);
-
-            lastFpsTime += updateLength;
-            if (lastFpsTime >= ICalc.NANOSECONDS) {
-                lastFpsTime = 0;
-            }
-            if (!isPaused) {
-                scene.update(delta);
-            }
-
-            panel.repaint();
-            try {
-                Thread.sleep(FRAME_TIME - (now - System.nanoTime()) / ICalc.NANOSECONDS);
-            } catch (InterruptedException e) {
-                LOGGER.error(e);
-            }
-
-            LOGGER.info("FPS is " + getFPS(updateLength, 0));
-        }
     }
 
     /**
@@ -273,7 +273,8 @@ public final class Game {
     public static Modes getMode() {
         return mode;
     }
-    
+
+
     /**
      * Update the high scores for the game.
      *

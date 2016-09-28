@@ -14,8 +14,20 @@ public final class Calc implements ICalc {
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
+
+    /**
+     * Random generator.
+     */
+    private static final Random RANDOM = new Random();
+
+    /**
+     * Prevents instantiation from outside the class.
+     */
+    private Calc() { }
+
     /**
      * Register the FileSystem into the service locator.
+     *
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
@@ -24,29 +36,18 @@ public final class Calc implements ICalc {
         sL.provide(new Calc());
     }
 
-    /**
-     * Random generator.
-     */
-    private static final Random random = new Random();
-
-    /**
-     * Prevents instantiation from outside the class.
-     */
-    private Calc() {
-    }
-
     /** {@inheritDoc} */
     @Override
-    public int getRandomIntBetween(int lower, int upper) {
+    public int getRandomIntBetween(final int lower, final int upper) {
         assert upper > lower;
-        return random.nextInt(upper - lower) + lower + 1;
+        return RANDOM.nextInt(upper - lower) + lower + 1;
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getRandomDouble(double max) {
+    public double getRandomDouble(final double max) {
         assert max > 0;
-        return random.nextDouble() * max;
+        return RANDOM.nextDouble() * max;
     }
 
 }

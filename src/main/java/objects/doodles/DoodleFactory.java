@@ -15,30 +15,26 @@ public final class DoodleFactory implements IDoodleFactory {
     /**
      * Prevent instantiations of DoodleFactory.
      */
-    private DoodleFactory() {
-    }
+    private DoodleFactory() { }
 
     /**
      * Register the doodle factory into the service locator.
+     *
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         DoodleFactory.serviceLocator = sL;
-        DoodleFactory.serviceLocator.provide(new DoodleFactory());
+        sL.provide(new DoodleFactory());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IDoodle createDoodle() {
         return new Doodle(serviceLocator);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IDoodle createStartScreenDoodle() {
         return new StartScreenDoodle(serviceLocator);

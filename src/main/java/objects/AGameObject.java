@@ -9,11 +9,6 @@ import system.IServiceLocator;
 public abstract class AGameObject implements IGameObject {
 
     /**
-     * Used to gain access to all services.
-     */
-    protected static IServiceLocator serviceLocator;
-
-    /**
      * The index for the hit box left.
      */
     public static final transient int HITBOX_LEFT = 0;
@@ -29,11 +24,19 @@ public abstract class AGameObject implements IGameObject {
      * The index for the hit box bottom.
      */
     public static final transient int HITBOX_BOTTOM = 3;
+    /**
+     * The size of the hitbox array.
+     */
+    private static final int HITBOX_SIZE = 4;
 
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator serviceLocator;
     /**
      * The index for the Game Object.
      */
-    private final double[] hitBox = new double[4];
+    private final double[] hitBox = new double[HITBOX_SIZE];
     /**
      * The sprite for the Game Object.
      */
@@ -50,20 +53,22 @@ public abstract class AGameObject implements IGameObject {
     /**
      * Creates a new game object and determines its hitbox by using the sprites dimensions automatically.
      *
+     * @param sL The serviceLocator.
      * @param x The X-coordinate of the game object.
      * @param y The Y-coordinate of the game object.
-     * @param sprite The sprite of the game object.
+     * @param s The sprite of the game object.
      */
-    public AGameObject(final IServiceLocator sL, int x, int y, ISprite sprite) {
-        AGameObject.serviceLocator = sL;
-        setXPos(x);
-        setYPos(y);
-        if (sprite == null) {
-            //TODO This is not so awesome
-            setHitBox(x, y, sL.getConstants().getGameWidth(), Integer.MAX_VALUE);
+    public AGameObject(final IServiceLocator sL, final int x, final int y, final ISprite s) {
+        serviceLocator = sL;
+
+        this.setXPos(x);
+        this.setYPos(y);
+
+        if (s == null) {
+            this.setHitBox(x, y, sL.getConstants().getGameWidth(), Integer.MAX_VALUE);
         } else {
-            setHitBox(0, 0, sprite.getWidth(), sprite.getHeight());
-            setSprite(sprite);
+            this.setHitBox(0, 0, s.getWidth(), s.getHeight());
+            this.setSprite(s);
         }
     }
 
@@ -83,62 +88,7 @@ public abstract class AGameObject implements IGameObject {
 
     /** {@inheritDoc} */
     @Override
-    public final double[] getHitBox() {
-        return this.hitBox;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void setHitBox(final int left, final int top, final int right, final int bottom) {
-        this.hitBox[HITBOX_LEFT] = left;
-        this.hitBox[HITBOX_TOP] = top;
-        this.hitBox[HITBOX_RIGHT] = right;
-        this.hitBox[HITBOX_BOTTOM] = bottom;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final ISprite getSprite() {
-        return this.sprite;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void setSprite(final ISprite sprite) {
-        this.sprite = sprite;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final double getXPos() {
-        return this.xPos;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void setXPos(double xPos) {
-        this.xPos = xPos;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public abstract void render();
-
-    /** {@inheritDoc} */
-    @Override
-    public final double getYPos() {
-        return this.yPos;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void setYPos(final double y) {
-        this.yPos = y;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean checkCollision(final IGameObject gameObject) {
+    public final boolean checkCollision(final IGameObject gameObject) {
         if (gameObject == null) {
             throw new IllegalArgumentException("gameObject cannot be null");
         }
@@ -152,6 +102,71 @@ public abstract class AGameObject implements IGameObject {
 
     /** {@inheritDoc} */
     @Override
+    public final double[] getHitBox() {
+        return this.hitBox.clone();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final ISprite getSprite() {
+        return this.sprite;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final double getXPos() {
+        return this.xPos;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final double getYPos() {
+        return this.yPos;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public abstract void render();
+
+    /** {@inheritDoc} */
+    @Override
+    public final void setHitBox(final int left, final int top, final int right, final int bottom) {
+        this.hitBox[HITBOX_LEFT] = left;
+        this.hitBox[HITBOX_TOP] = top;
+        this.hitBox[HITBOX_RIGHT] = right;
+        this.hitBox[HITBOX_BOTTOM] = bottom;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void setSprite(final ISprite s) {
+        this.sprite = s;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void setXPos(final double x) {
+        this.xPos = x;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void setYPos(final double y) {
+        this.yPos = y;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public void update(final double delta) { }
+
+    /**
+     * Get the serviceLocator.
+     *
+     * @return The serviceLocator.
+     */
+    protected static IServiceLocator getServiceLocator() {
+        assert serviceLocator != null;
+        return serviceLocator;
+    }
 
 }

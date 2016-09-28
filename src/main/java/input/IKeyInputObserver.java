@@ -3,7 +3,6 @@ package input;
 /**
  * This Class is called when the user interacts with a key.
  * Note: this method should only be called by an {@link IInputManager}.
- *
  */
 public interface IKeyInputObserver {
 

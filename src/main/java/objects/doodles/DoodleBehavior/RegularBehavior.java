@@ -13,15 +13,15 @@ public class RegularBehavior implements MovementBehavior {
     /**
      * Standard speed limit for the Doodle.
      */
-    private final double STANDARD_SPEED_LIMIT = 6d;
+    private static final double STANDARD_SPEED_LIMIT = 6d;
     /**
      * Horizontal speed limit for the Doodle.
      */
-    private final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
+    private static final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
     /**
      * Horizontal acceleration for the Doodle.
      */
-    private final double HORIZONTAL_ACCELERATION = .5d;
+    private static final double HORIZONTAL_ACCELERATION = .5d;
 
     /**
      * Used to access all services.
@@ -61,26 +61,26 @@ public class RegularBehavior implements MovementBehavior {
 
     /** {@inheritDoc} */
     @Override
-    public void move(final double delta){
+    public final void move(final double delta) {
         moveHorizontally(delta);
         applyGravity(delta);
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getVerticalSpeed() {
+    public final double getVerticalSpeed() {
         return vSpeed;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setVerticalSpeed(final double v) {
+    public final void setVerticalSpeed(final double v) {
         vSpeed = v;
     }
 
     /** {@inheritDoc} */
     @Override
-    public Directions getFacing() {
+    public final Directions getFacing() {
         return facing;
     }
 
@@ -135,18 +135,18 @@ public class RegularBehavior implements MovementBehavior {
      */
     private void moveHorizontally(final double delta) {
         if (moving == Directions.Left) {
-            if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed -= this.HORIZONTAL_ACCELERATION;
+            if (this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed -= HORIZONTAL_ACCELERATION;
             }
         } else if (moving == Directions.Right) {
-            if (this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed += this.HORIZONTAL_ACCELERATION;
+            if (this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed += HORIZONTAL_ACCELERATION;
             }
         } else {
             if (this.hSpeed < 0) {
-                this.hSpeed += this.HORIZONTAL_ACCELERATION;
+                this.hSpeed += HORIZONTAL_ACCELERATION;
             } else if (this.hSpeed > 0) {
-                this.hSpeed -= this.HORIZONTAL_ACCELERATION;
+                this.hSpeed -= HORIZONTAL_ACCELERATION;
             }
         }
 

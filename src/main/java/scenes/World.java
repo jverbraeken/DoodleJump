@@ -24,13 +24,9 @@ import java.util.stream.Collectors;
 public class World implements IScene {
 
     /**
-     * The logger for the World class.
-     */
-    private final ILogger LOGGER;
-    /**
      * The offset of the pause button.
      */
-    private final static int PAUSE_OFFSET = 38;
+    private static final int PAUSE_OFFSET = 38;
     /**
      * The digit offset multiplier needed for the ScoreText.
      */
@@ -39,15 +35,27 @@ public class World implements IScene {
      * The current number system. Standard decimal system.
      */
     private static final int NUMBER_SYSTEM = 10;
+    /**
+     * The amount of blocks kept in a buffer.
+     */
+    private static final int BLOCK_BUFFER = 4;
+    /**
+     * Initial vertical speed for the Doodle.
+     */
+    private static final int DOODLE_INITIAL_SPEED = -9;
+    /**
+     * Maximum amount of drawables.
+     */
+    private static final int MAX_DRAWABLES = 3;
 
     /**
      * Used to access all services.
      */
     private final IServiceLocator serviceLocator;
     /**
-     * The amount of blocks kept in a buffer.
+     * The logger for the World class.
      */
-    private final int blockBuffer = 4;
+    private final ILogger logger;
     /**
      * Set of all object (excluding Doodle) in the world.
      */
@@ -88,9 +96,9 @@ public class World implements IScene {
     /* package */ World(final IServiceLocator sL) {
         assert sL != null;
         serviceLocator = sL;
-        LOGGER = sL.getLoggerFactory().createLogger(World.class);
+        logger = sL.getLoggerFactory().createLogger(World.class);
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < MAX_DRAWABLES; i++) {
             drawables.add(Collections.newSetFromMap(new WeakHashMap<>()));
         }
 
@@ -100,7 +108,7 @@ public class World implements IScene {
         this.drawables.get(0).add(this.topBlock);
         this.updatables.add(this.topBlock);
 
-        for (int i = 1; i < blockBuffer; i++) {
+        for (int i = 1; i < BLOCK_BUFFER; i++) {
             this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable());
             this.blocks.add(this.topBlock);
             this.drawables.get(0).add(this.topBlock);
@@ -113,31 +121,31 @@ public class World implements IScene {
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
-        this.doodle.setVerticalSpeed(-9);
+        this.doodle.setVerticalSpeed(DOODLE_INITIAL_SPEED);
         this.drawables.get(1).add(this.doodle);
         this.updatables.add(this.doodle);
 
         serviceLocator.getAudioManager().playStart();
 
-        LOGGER.log("Level started");
+        logger.log("Level started");
     }
 
     /** {@inheritDoc} */
     @Override
     public final void start() {
         this.serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
-        LOGGER.log("The world is now displaying");
+        logger.log("The world is now displaying");
     }
 
     /** {@inheritDoc} */
     @Override
     public final void stop() {
-        LOGGER.log("The world is no longer displaying");
+        logger.log("The world is no longer displaying");
     }
 
     /** {@inheritDoc} */
     @Override
-    public void render() {
+    public final void render() {
         serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
 
         for (Set<IRenderable> set : drawables) {
@@ -147,7 +155,7 @@ public class World implements IScene {
 
     /** {@inheritDoc} */
     @Override
-    public void update(final double delta) {
+    public final void update(final double delta) {
         updateObjects(delta);
         checkCollisions();
         cleanUp();
@@ -156,6 +164,8 @@ public class World implements IScene {
 
     /**
      * Update the vertical speed.
+     *
+     * @param delta The time since the previous update.
      */
     private void updateObjects(final double delta) {
         for (IUpdatable e : updatables) {
@@ -189,7 +199,7 @@ public class World implements IScene {
      * Generate new blocks if there are under 3 present.
      */
     private void newBlocks() {
-        if (blocks.size() < blockBuffer) {
+        if (blocks.size() < BLOCK_BUFFER) {
             IJumpable topPlatform = topBlock.getTopJumpable();
             topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform);
             blocks.add(topBlock);

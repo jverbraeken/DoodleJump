@@ -22,10 +22,6 @@ import system.IServiceLocator;
 public class Menu implements IScene, IKeyInputObserver {
 
     /**
-     * The logger for the Menu class.
-     */
-    private final ILogger LOGGER;
-    /**
      * The X and Y location for the play button.
      */
     private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
@@ -40,12 +36,16 @@ public class Menu implements IScene, IKeyInputObserver {
     /**
      * The X and Y location for the choose mode button.
      */
-    private static final double CHOOSE_MODE_X = 0.6d, CHOOSE_MODE_Y= 0.65d;
+    private static final double CHOOSE_MODE_X = 0.6d, CHOOSE_MODE_Y = 0.65d;
 
     /**
      * Used to access all services.
      */
     private final IServiceLocator serviceLocator;
+    /**
+     * The logger for the Menu class.
+     */
+    private final ILogger logger;
     /**
      * The button that starts up a new world.
      */
@@ -98,7 +98,7 @@ public class Menu implements IScene, IKeyInputObserver {
             (int) (sL.getConstants().getGameHeight() * PLATFORM_Y)
         );
 
-        this.LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
+        this.logger = sL.getLoggerFactory().createLogger(this.getClass());
     }
 
     /** {@inheritDoc} */
@@ -107,7 +107,7 @@ public class Menu implements IScene, IKeyInputObserver {
         serviceLocator.getInputManager().addObserver(playButton);
         serviceLocator.getInputManager().addObserver(chooseModeButton);
         serviceLocator.getInputManager().addObserver(this);
-        LOGGER.info("The menu scene is now displaying");
+        logger.info("The menu scene is now displaying");
     }
 
     /** {@inheritDoc} */
@@ -116,12 +116,12 @@ public class Menu implements IScene, IKeyInputObserver {
         serviceLocator.getInputManager().removeObserver(playButton);
         serviceLocator.getInputManager().removeObserver(chooseModeButton);
         serviceLocator.getInputManager().removeObserver(this);
-        LOGGER.info("The menu scene is no longer displaying");
+        logger.info("The menu scene is no longer displaying");
     }
 
     /** {@inheritDoc} */
     @Override
-    public void render() {
+    public final void render() {
         serviceLocator.getRenderer().drawSpriteHUD(this.cover, 0, 0);
         playButton.render();
         chooseModeButton.render();
@@ -131,13 +131,12 @@ public class Menu implements IScene, IKeyInputObserver {
 
     /** {@inheritDoc} */
     @Override
-    public void update(final double delta) {
+    public final void update(final double delta) {
         doodle.update(delta);
 
-        if (this.doodle.checkCollision(platform)) {
-            if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < platform.getYPos()) {
-                platform.collidesWith(this.doodle);
-            }
+        double doodleY = doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight();
+        if (doodle.checkCollision(platform) && doodleY < platform.getYPos()) {
+            platform.collidesWith(this.doodle);
         }
     }
 

@@ -15,10 +15,6 @@ import java.util.ArrayList;
 /* package */ class ChooseMode implements IScene {
 
     /**
-     * The logger for the KillScreen class.
-     */
-    private final ILogger LOGGER;
-    /**
      * X & Y location in relation to the frame of the regular mode button.
      */
     private static final double REGULAR_MODE_X = 0.2, REGULAR_MODE_Y = 0.25;
@@ -52,6 +48,10 @@ import java.util.ArrayList;
      */
     private final IServiceLocator serviceLocator;
     /**
+     * The logger for the KillScreen class.
+     */
+    private final ILogger logger;
+    /**
      * Sprites to be displayed on the background of the KillScreen.
      */
     private final ISprite background, bottomKillScreen;
@@ -72,19 +72,33 @@ import java.util.ArrayList;
     /* package */ ChooseMode(final IServiceLocator sL) {
         assert sL != null;
         this.serviceLocator = sL;
-        LOGGER = sL.getLoggerFactory().createLogger(ChooseMode.class);
+        logger = sL.getLoggerFactory().createLogger(ChooseMode.class);
 
         background = sL.getSpriteFactory().getBackground();
         bottomKillScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
-        IButton mainMenuButton = buttonFactory.createMainMenuButton((int) (sL.getConstants().getGameWidth() * MAIN_MENU_BUTTON_X), (int) (sL.getConstants().getGameHeight() * MAIN_MENU_BUTTON_Y));
-        IButton darknessModeButton = buttonFactory.createDarknessModeButton((int) (sL.getConstants().getGameWidth() * DARKNESS_MODE_X), (int) (sL.getConstants().getGameHeight() * DARKNESS_MODE_Y));
-        IButton storyModeButton = buttonFactory.createStoryModeButton((int) (sL.getConstants().getGameWidth() * STORY_MODE_X), (int) (sL.getConstants().getGameHeight() * STORY_MODE_Y));
-        IButton spaceModeButton = buttonFactory.createSpaceModeButton((int) (sL.getConstants().getGameWidth() * SPACE_MODE_X), (int) (sL.getConstants().getGameHeight() * SPACE_MODE_Y));
-        IButton underwaterModeButton = buttonFactory.createUnderwaterModeButton((int) (sL.getConstants().getGameWidth() * UNDERWATER_MODE_X), (int) (sL.getConstants().getGameHeight() * UNDERWATER_MODE_Y));
-        IButton invertModeButton = buttonFactory.createInvertModeButton((int) (sL.getConstants().getGameWidth() * INVERT_MODE_X), (int) (sL.getConstants().getGameHeight() * INVERT_MODE_Y));
-        IButton regularModeButton = buttonFactory.createRegularModeButton((int) (sL.getConstants().getGameWidth() * REGULAR_MODE_X), (int) (sL.getConstants().getGameHeight() * REGULAR_MODE_Y));
+        IButton mainMenuButton = buttonFactory.createMainMenuButton(
+                (int) (sL.getConstants().getGameWidth() * MAIN_MENU_BUTTON_X),
+                (int) (sL.getConstants().getGameHeight() * MAIN_MENU_BUTTON_Y));
+        IButton darknessModeButton = buttonFactory.createDarknessModeButton(
+                (int) (sL.getConstants().getGameWidth() * DARKNESS_MODE_X),
+                (int) (sL.getConstants().getGameHeight() * DARKNESS_MODE_Y));
+        IButton storyModeButton = buttonFactory.createStoryModeButton(
+                (int) (sL.getConstants().getGameWidth() * STORY_MODE_X),
+                (int) (sL.getConstants().getGameHeight() * STORY_MODE_Y));
+        IButton spaceModeButton = buttonFactory.createSpaceModeButton(
+                (int) (sL.getConstants().getGameWidth() * SPACE_MODE_X),
+                (int) (sL.getConstants().getGameHeight() * SPACE_MODE_Y));
+        IButton underwaterModeButton = buttonFactory.createUnderwaterModeButton(
+                (int) (sL.getConstants().getGameWidth() * UNDERWATER_MODE_X),
+                (int) (sL.getConstants().getGameHeight() * UNDERWATER_MODE_Y));
+        IButton invertModeButton = buttonFactory.createInvertModeButton(
+                (int) (sL.getConstants().getGameWidth() * INVERT_MODE_X),
+                (int) (sL.getConstants().getGameHeight() * INVERT_MODE_Y));
+        IButton regularModeButton = buttonFactory.createRegularModeButton(
+                (int) (sL.getConstants().getGameWidth() * REGULAR_MODE_X),
+                (int) (sL.getConstants().getGameHeight() * REGULAR_MODE_Y));
         buttons.add(mainMenuButton);
         buttons.add(darknessModeButton);
         buttons.add(storyModeButton);
@@ -98,23 +112,23 @@ import java.util.ArrayList;
     /** {@inheritDoc} */
     @Override
     public final void start() {
-        for(IButton b : buttons){
+        for (IButton b : buttons) {
             serviceLocator.getInputManager().addObserver(b);
         }
 
         active = true;
-        LOGGER.info("The choose mode scene is now displaying");
+        logger.info("The choose mode scene is now displaying");
     }
 
     /** {@inheritDoc} */
     @Override
     public final void stop() {
-        for(IButton b : buttons){
+        for (IButton b : buttons) {
             serviceLocator.getInputManager().removeObserver(b);
         }
 
         active = false;
-        LOGGER.info("The choose mode scene is no longer displaying");
+        logger.info("The choose mode scene is no longer displaying");
     }
 
     /** {@inheritDoc} */

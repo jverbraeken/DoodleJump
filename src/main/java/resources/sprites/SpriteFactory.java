@@ -14,31 +14,21 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Standard implementation of the SpriteFactory. Used to load and get sprites.
- * <p>
+ * <br>
  * Javadoc is not deemed necessary for all individual sprites to have a javadoc.
  */
 @SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod"})
 public final class SpriteFactory implements ISpriteFactory {
 
     /**
-     * The logger for the SpriteFactory class.
-     */
-    private final ILogger LOGGER;
-
-    /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator sL;
+    private static transient IServiceLocator serviceLocator;
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
+     * The logger for the SpriteFactory class.
      */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        SpriteFactory.sL = sL;
-        SpriteFactory.sL.provide(new SpriteFactory());
-    }
+    private final ILogger logger;
+
 
     /**
      * The cache for the SpriteFactory.
@@ -49,7 +39,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * Prevents instantiation from outside the class.
      */
     public SpriteFactory() {
-        LOGGER = sL.getLoggerFactory().createLogger(SpriteFactory.class);
+        logger = serviceLocator.getLoggerFactory().createLogger(SpriteFactory.class);
 
         cache = CacheBuilder.newBuilder()
                 .maximumSize(Long.MAX_VALUE)
@@ -57,11 +47,22 @@ public final class SpriteFactory implements ISpriteFactory {
                         new CacheLoader<IRes.Sprites, ISprite>() {
                             @Override
                             public ISprite load(final IRes.Sprites sprite) {
-                                LOGGER.info("Sprite loaded: \"" + sprite + "\"");
+                                logger.info("Sprite loaded: \"" + sprite + "\"");
                                 return loadISprite(sprite);
                             }
                         }
                 );
+    }
+
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        SpriteFactory.serviceLocator = sL;
+        sL.provide(new SpriteFactory());
     }
 
     // Buttons
@@ -756,13 +757,13 @@ public final class SpriteFactory implements ISpriteFactory {
      * @return The ISprite
      */
     private ISprite loadISprite(final IRes.Sprites spriteName) {
-        String filepath = sL.getRes().getSpritePath(spriteName);
+        String filepath = serviceLocator.getRes().getSpritePath(spriteName);
         BufferedImage image = null;
         try {
-            image = sL.getFileSystem().readImage(filepath);
-            LOGGER.info("Sprite loaded: \"" + filepath + "\"");
+            image = serviceLocator.getFileSystem().readImage(filepath);
+            logger.info("Sprite loaded: \"" + filepath + "\"");
         } catch (FileNotFoundException e) {
-            LOGGER.error(e);
+            logger.error(e);
         }
         return new Sprite(getFileName(filepath), image);
     }
@@ -777,7 +778,7 @@ public final class SpriteFactory implements ISpriteFactory {
         try {
             return cache.get(sprite);
         } catch (ExecutionException e) {
-            LOGGER.error(e);
+            logger.error(e);
         }
 
         return null;
