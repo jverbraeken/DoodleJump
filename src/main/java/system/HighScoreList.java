@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * The class for the high scores of the game.
  */
-public final class HighScoreList {
+public class HighScoreList {
 
     /**
      * Used to gain access to all services.
@@ -25,7 +25,7 @@ public final class HighScoreList {
     /**
      * A list of high scores for the game.
      */
-    private static ArrayList<HighScore> highScores = new ArrayList<>();
+    private ArrayList<HighScore> highScores = new ArrayList<>();
 
     /**
      * Package protected constructor allowing Game to make an instance.
@@ -83,10 +83,10 @@ public final class HighScoreList {
      * @param plain The plaintext string.
      */
     private void parseHighScoreString(final String plain) {
-        String[] highScores = plain.split("\\s+");
-        for (int i = 0; i < highScores.length; i += 2) {
-            HighScore score = new HighScore(highScores[i], highScores[i + 1]);
-            HighScoreList.highScores.add(score);
+        String[] scores = plain.split("\\s+");
+        for (int i = 0; i < scores.length; i += 2) {
+            HighScore score = new HighScore(scores[i], scores[i + 1]);
+            highScores.add(score);
         }
     }
 
@@ -123,6 +123,5 @@ public final class HighScoreList {
 
         saveHighScores();
     }
-
 
 }
