@@ -180,7 +180,13 @@ public class World implements IScene {
         if (this.doodle.getVerticalSpeed() > 0) {
             for (IBlock block : blocks) {
                 Set<IGameObject> elements = block.getElements();
-                elements.stream().filter(this.doodle::checkCollision).filter(element -> this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()).forEachOrdered(element -> element.collidesWith(this.doodle));
+                for (IGameObject element : elements) {
+                    if (this.doodle.checkCollision(element)) {
+                        if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()) {
+                            element.collidesWith(this.doodle);
+                        }
+                    }
+                }
             }
         }
     }

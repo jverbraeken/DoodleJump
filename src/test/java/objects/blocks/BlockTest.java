@@ -71,10 +71,7 @@ public class BlockTest {
      */
     @Test
     public void testRender() throws Exception {
-        /*set.add(platform);
-        block = Whitebox.invokeConstructor(Block.class, serviceLocator, set, jumpObject);
-        block.render();
-        verify(platform).render();*/
+        // TODO: Re-add test
     }
 
     @After
