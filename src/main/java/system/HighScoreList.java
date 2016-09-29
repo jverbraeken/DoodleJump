@@ -42,7 +42,7 @@ public class HighScoreList {
      * @param name  The name for the score.
      * @param score The actual score.
      */
-    public void addHighScore(final String name, final double score) {
+    public final void addHighScore(final String name, final double score) {
         HighScore scoreEntry = new HighScore(name, score);
         highScores.add(scoreEntry);
         updateHighScores();
@@ -51,7 +51,7 @@ public class HighScoreList {
     /**
      * Initialize the high scores when the program is launched.
      */
-    /* package */ void initHighScores() {
+    /* package */ final void initHighScores() {
         String plain = this.loadFromFile();
         if (plain != null) {
             this.parseHighScoreString(plain);

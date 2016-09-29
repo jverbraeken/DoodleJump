@@ -39,9 +39,9 @@ package system;
     /** {@inheritDoc} */
     @Override
     public int compareTo(final HighScore that) {
-        if(this.getScore() > that.getScore()) {
+        if (this.getScore() > that.getScore()) {
             return -1;
-        } else if(this.getScore() < that.getScore()) {
+        } else if (this.getScore() < that.getScore()) {
             return 1;
         } else {
             return 0;
