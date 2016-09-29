@@ -23,7 +23,7 @@ public final class FileSystem implements IFileSystem {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator sL;
+    private static transient IServiceLocator serviceLocator;
     /**
      * The writer to the log files.
      */
@@ -34,29 +34,25 @@ public final class FileSystem implements IFileSystem {
      */
     private FileSystem() {
         // If the LOGFILE is not found, the game should either crash on the exception or not crash at all (so also
-        // not when something is logged. Therefore we provide an emtpy interface instead of null to prevent
+        // not when something is logged. Therefore we provide an empty interface instead of null to prevent
         // a {@link NullPointerException}.
         Writer fw = new Writer() {
             @Override
-            public void write(char[] cbuf, int off, int len) throws IOException {
-
-            }
+            public void write(final char[] cbuf, final int off, final int len) throws IOException { }
 
             @Override
-            public void flush() throws IOException {
-
-            }
+            public void flush() throws IOException { }
 
             @Override
-            public void close() throws IOException {
-
-            }
+            public void close() throws IOException { }
         };
+
         try {
             fw = new FileWriter(Game.LOGFILE_NAME, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         logWriter = new BufferedWriter(fw);
     }
 
@@ -67,13 +63,11 @@ public final class FileSystem implements IFileSystem {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        FileSystem.sL = sL;
+        FileSystem.serviceLocator = sL;
         sL.provide(new FileSystem());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public List<String> readTextFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -93,9 +87,7 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public InputStream readBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -105,9 +97,7 @@ public final class FileSystem implements IFileSystem {
         return new BufferedInputStream(inputStream);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public BufferedImage readImage(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -120,9 +110,7 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public Clip readSound(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -139,9 +127,7 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void writeTextFile(final String filename, final String content) throws FileNotFoundException {
         File file = getFile(filename);
@@ -157,23 +143,20 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void deleteFile(final String filename) {
-        boolean success = (new File(filename)).delete();
+        File file = new File(filename);
+        boolean success = file.delete();
         if (!success) {
             // TODO If logger is a field of FileSystem, FileSystem references LoggerFactory which is created AFTER
             // FileSystem. Consider a two-step initialisation of dependent objects.
-            ILogger logger = FileSystem.sL.getLoggerFactory().createLogger(this.getClass());
+            ILogger logger = FileSystem.serviceLocator.getLoggerFactory().createLogger(this.getClass());
             logger.error("The file \"" + filename + "\" could not be deleted!");
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void clearFile(final String filename) {
         final File file = new File(filename);
@@ -187,9 +170,7 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void log(final String content) {
         try {
@@ -202,9 +183,7 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public OutputStream writeBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -213,9 +192,7 @@ public final class FileSystem implements IFileSystem {
         return new BufferedOutputStream(outputStream);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public File getFile(final String filename) throws FileNotFoundException {
         if (filename == null) {
@@ -234,15 +211,11 @@ public final class FileSystem implements IFileSystem {
         return new File(url.getFile());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public Object parseJson(String filename, Class<?> jsonClass) throws FileNotFoundException {
+    public Object parseJson(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        for (String string : readTextFile(filename)) {
-            sb.append(string);
-        }
+        readTextFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;
@@ -254,15 +227,11 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public Object parseJsonList(String filename, Class<?> jsonClass) throws FileNotFoundException {
+    public Object parseJsonList(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        for (String string : readTextFile(filename)) {
-            sb.append(string);
-        }
+        readTextFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;
@@ -274,15 +243,11 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public Object parseJsonMap(String filename, Class<?> jsonClass) throws FileNotFoundException {
+    public Object parseJsonMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        for (String string : readTextFile(filename)) {
-            sb.append(string);
-        }
+        readTextFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;
@@ -293,4 +258,5 @@ public final class FileSystem implements IFileSystem {
         }
         return result;
     }
+
 }

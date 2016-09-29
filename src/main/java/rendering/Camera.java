@@ -12,12 +12,11 @@ import com.google.common.util.concurrent.AtomicDouble;
      */
     private static AtomicDouble y = new AtomicDouble(0d);
 
-    /**
-     * Prevent instantiation from outside the package.
-     */
-    /* package */ Camera() {
 
-    }
+    /**
+     * Package constructor to prevent instantiation from outside the package.
+     */
+    /* package */ Camera() { }
 
     /**
      * {@inheritDoc}
@@ -31,8 +30,8 @@ import com.google.common.util.concurrent.AtomicDouble;
      * {@inheritDoc}
      */
     @Override
-    public void setYPos(final double y) {
-        Camera.y.set(y);
+    public void setYPos(final double yPos) {
+        Camera.y.set(yPos);
     }
 
 }

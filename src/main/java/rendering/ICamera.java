@@ -7,12 +7,15 @@ public interface ICamera {
 
     /**
      * Sets the y-position of the camera to the value specified.
-     * @param y The new y-value of the camera
+     *
+     * @param yPos The new y-value of the camera
      */
-    void setYPos(final double y);
+    void setYPos(final double yPos);
 
     /**
-     * @return The y-position of the camera
+     * Get the Y position of the camera.
+     *
+     * @return The Y position.
      */
     double getYPos();
 

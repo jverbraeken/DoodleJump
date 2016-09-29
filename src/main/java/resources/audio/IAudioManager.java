@@ -7,7 +7,7 @@ package resources.audio;
 public interface IAudioManager {
 
     /**
-     * Preloads all sounds into memory.
+     * Loads all sounds into memory.
      */
     void preload();
 
@@ -25,11 +25,11 @@ public interface IAudioManager {
 
     void playCrnarupa();
 
-    void playEggmonsterhit();
+    void playEggMonsterHit();
 
-    void playExplodingplatform();
+    void playExplodingPlatform();
 
-    void playExplodingplatform2();
+    void playExplodingPlatform2();
 
     void playFeder();
 
@@ -37,17 +37,17 @@ public interface IAudioManager {
 
     void playJump();
 
-    void playJumponmonster();
+    void playJumpOnMonster();
 
     void playLomise();
 
-    void playMatchsound();
+    void playMatchSound();
 
-    void playMonstercrash();
+    void playMonsterCrash();
 
-    void playMonsterblizu();
+    void playMonsterBlizu();
 
-    void playMonsterpogodak();
+    void playMonsterPogodak();
 
     void playOogapucanje();
 
@@ -65,17 +65,17 @@ public interface IAudioManager {
 
     void playRocket();
 
-    void playSnowballmonsterhit();
+    void playSnowballMonsterHit();
 
-    void playSnowballthrow();
+    void playSnowballThrow();
 
-    void playSnowballthrow2();
+    void playSnowballThrow2();
 
-    void playSoccermonstercrash();
+    void playSoccerMonsterCrash();
 
-    void playSoccermonsterhit();
+    void playSoccerMonsterHit();
 
-    void playSpringshoes();
+    void playSpringShoes();
 
     void playStart();
 
@@ -83,13 +83,13 @@ public interface IAudioManager {
 
     void playTrampoline();
 
-    void playUfo();
+    void playUFO();
 
-    void playUfopogodak();
+    void playUFOPogodak();
 
-    void playUnderwatershoot();
+    void playUnderwaterShoot();
 
-    void playUnderwatershoot2();
+    void playUnderwaterShoot2();
 
     void playUsaugateufo();
 
