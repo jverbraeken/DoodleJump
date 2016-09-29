@@ -33,7 +33,7 @@ public class Constants implements IConstants {
     /**
      * The file to which the high scores will be written to.
      */
-    private static final String HIGHCORES_DATA = "highcores.data";
+    private static final String HIGHCORES_DATA = "highScores.data";
 
     /**
      * Used to gain access to all services.

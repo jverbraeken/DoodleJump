@@ -73,8 +73,29 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public List<String> readTextFile(final String filename) throws FileNotFoundException {
+    public List<String> readResourceFile(final String filename) throws FileNotFoundException {
         File file = getResourceFile(filename);
+        List<String> result = new ArrayList<>();
+
+        String line;
+        try (BufferedReader br = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8)) {
+            while ((line = br.readLine()) != null) {
+                result.add(line);
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> readProjectFile(final String filename) throws FileNotFoundException {
+        File file = getProjectFile(filename);
         List<String> result = new ArrayList<>();
 
         String line;
@@ -138,8 +159,26 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public void writeTextFile(final String filename, final String content) throws FileNotFoundException {
+    public void writeResourceFile(final String filename, final String content) throws FileNotFoundException {
         File file = getResourceFile(filename);
+        try (final OutputStream fs = new FileOutputStream(file);
+             final Writer ow = new OutputStreamWriter(fs, StandardCharsets.UTF_8);
+             final Writer bufferedFileWriter = new BufferedWriter(ow)) {
+            bufferedFileWriter.write(content);
+            bufferedFileWriter.close();
+            ow.close();
+            fs.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeProjectFile(final String filename, final String content) throws FileNotFoundException {
+        File file = getProjectFile(filename);
         try (final OutputStream fs = new FileOutputStream(file);
              final Writer ow = new OutputStreamWriter(fs, StandardCharsets.UTF_8);
              final Writer bufferedFileWriter = new BufferedWriter(ow)) {
@@ -243,7 +282,7 @@ public final class FileSystem implements IFileSystem {
     @Override
     public Object parseJson(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        readTextFile(filename).forEach(sb::append);
+        readResourceFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;
@@ -261,7 +300,7 @@ public final class FileSystem implements IFileSystem {
     @Override
     public Object parseJsonList(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        readTextFile(filename).forEach(sb::append);
+        readResourceFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;
@@ -279,7 +318,7 @@ public final class FileSystem implements IFileSystem {
     @Override
     public Object parseJsonMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        readTextFile(filename).forEach(sb::append);
+        readResourceFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;

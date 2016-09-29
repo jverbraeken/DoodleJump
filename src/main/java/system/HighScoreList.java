@@ -72,9 +72,8 @@ public class HighScoreList {
         IFileSystem fileSystem = serviceLocator.getFileSystem();
         IConstants constants = serviceLocator.getConstants();
         try {
-            List<String> content = fileSystem.readTextFile(constants.getHighScoresFilePath());
+            List<String> content = fileSystem.readProjectFile(constants.getHighScoresFilePath());
 
-            System.out.println(content.size());
             if (content.size() > 0 && !content.get(0).equals("")) {
                 return content.get(0);
             }
@@ -116,7 +115,7 @@ public class HighScoreList {
         IFileSystem fileSystem = serviceLocator.getFileSystem();
         IConstants constants = serviceLocator.getConstants();
         try {
-            fileSystem.writeTextFile(constants.getHighScoresFilePath(), data);
+            fileSystem.writeProjectFile(constants.getHighScoresFilePath(), data);
         } catch (FileNotFoundException e) {
             logger.error(e);
         }

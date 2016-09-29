@@ -103,7 +103,7 @@ public class HighScoreListTest {
 
     @Test
     public void testInitHighScores1() throws FileNotFoundException {
-        when(fileSystem.readTextFile(constants.getHighScoresFilePath())).thenReturn(INIT_FILE_CONTENT_1);
+        when(fileSystem.readResourceFile(constants.getHighScoresFilePath())).thenReturn(INIT_FILE_CONTENT_1);
         highScores.initHighScores();
 
         expected.add(SCORE_1);
@@ -124,7 +124,7 @@ public class HighScoreListTest {
 
     @Test
     public void testInitHighScores2() throws FileNotFoundException {
-        when(fileSystem.readTextFile(constants.getHighScoresFilePath())).thenReturn(INIT_FILE_CONTENT_2);
+        when(fileSystem.readResourceFile(constants.getHighScoresFilePath())).thenReturn(INIT_FILE_CONTENT_2);
         highScores.initHighScores();
 
         expected.add(SCORE_1);
@@ -141,7 +141,7 @@ public class HighScoreListTest {
 
     @Test
     public void testInitHighScores3() throws FileNotFoundException {
-        when(fileSystem.readTextFile(constants.getHighScoresFilePath())).thenReturn(INIT_FILE_CONTENT_3);
+        when(fileSystem.readResourceFile(constants.getHighScoresFilePath())).thenReturn(INIT_FILE_CONTENT_3);
         highScores.initHighScores();
 
         Object temp = Whitebox.getInternalState(highScores, "highScores");
