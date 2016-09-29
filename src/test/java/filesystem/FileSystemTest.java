@@ -17,6 +17,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 public class FileSystemTest {
+
     private static FileSystem fileSystem;
 
     @BeforeClass
@@ -41,4 +42,5 @@ public class FileSystemTest {
     public void testGetFileInvalid() throws FileNotFoundException {
         fileSystem.getFile("qwertyuiopasdfghjklzxcvbnm");
     }
+
 }

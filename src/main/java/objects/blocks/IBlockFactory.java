@@ -4,7 +4,7 @@ import objects.IJumpable;
 import system.IFactory;
 
 /**
- * This class is the factory in which seperate blocks get created.
+ * This class is the factory in which separate blocks get created.
  * In here one can specify the type of block one wants to create.
  */
 public interface IBlockFactory extends IFactory {
@@ -18,8 +18,7 @@ public interface IBlockFactory extends IFactory {
     IBlock createBlock(IJumpable lastPlatform);
 
     /**
-     * Create a initial block for the game. Which
-     * always has enough platforms to get started.
+     * Create a initial block for the game. Which always has enough platforms to get started.
      *
      * @return The new block.
      */
