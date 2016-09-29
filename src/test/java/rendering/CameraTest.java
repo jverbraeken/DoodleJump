@@ -1,7 +1,9 @@
 package rendering;
 
+import com.google.common.util.concurrent.AtomicDouble;
 import org.junit.Before;
 import org.junit.Test;
+import org.powermock.reflect.Whitebox;
 
 import java.lang.reflect.Field;
 
@@ -9,7 +11,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CameraTest {
-    static ICamera camera;
+    private ICamera camera;
 
     @Before
     public void init() {
@@ -18,25 +20,23 @@ public class CameraTest {
 
     @Test
     public void testGetYPos() throws NoSuchFieldException, IllegalAccessException {
-        Field field = camera.getClass().getDeclaredField("y");
-        field.setAccessible(true);
+        Object y = Whitebox.getInternalState(Camera.class, "y");
 
-        field.set(camera, 2d);
+        ((AtomicDouble) y).set(2d);
         assertThat(camera.getYPos(), is(2d));
 
-        field.set(camera, 3d);
+        ((AtomicDouble) y).set(3d);
         assertThat(camera.getYPos(), is(3d));
     }
 
     @Test
     public void testSetYPos() throws NoSuchFieldException, IllegalAccessException {
-        Field field = camera.getClass().getDeclaredField("y");
-        field.setAccessible(true);
+        Object y = Whitebox.getInternalState(Camera.class, "y");
 
         camera.setYPos(2d);
-        assertThat(field.get(camera), is(2d));
+        assertThat(((AtomicDouble) y).get(), is(2d));
 
         camera.setYPos(3d);
-        assertThat(field.get(camera), is(3d));
+        assertThat(((AtomicDouble) y).get(), is(3d));
     }
 }
