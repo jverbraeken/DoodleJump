@@ -270,7 +270,7 @@ public final class Game {
         return mode;
     }
     
-    /*
+    /**
      * Add a score to the list of highscores.
      * @param name  The name for the score.
      * @param score The actual score.
