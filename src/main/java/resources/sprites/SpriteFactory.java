@@ -21,30 +21,22 @@ import java.util.concurrent.ExecutionException;
 public final class SpriteFactory implements ISpriteFactory {
 
     /**
-     * The logger for the SpriteFactory class.
-     */
-    private final ILogger LOGGER;
-
-    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator sL;
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
+     * The logger for the SpriteFactory class.
      */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        SpriteFactory.sL = sL;
-        SpriteFactory.sL.provide(new SpriteFactory());
-    }
-
+    private final ILogger LOGGER;
     /**
      * The cache for the SpriteFactory.
      */
     private LoadingCache<IRes.Sprites, ISprite> cache;
 
+    /**
+     * Used for sprites for which the image could not be found.
+     */
+    //private final ISprite unimplementedSprite;
     /**
      * Prevents instantiation from outside the class.
      */
@@ -62,6 +54,19 @@ public final class SpriteFactory implements ISpriteFactory {
                             }
                         }
                 );
+
+        //unimplementedSprite = loadISprite(IRes.Sprites.unimplemented);
+    }
+
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        SpriteFactory.sL = sL;
+        SpriteFactory.sL.provide(new SpriteFactory());
     }
 
     // Buttons
@@ -763,8 +768,14 @@ public final class SpriteFactory implements ISpriteFactory {
             LOGGER.info("Sprite loaded: \"" + filepath + "\"");
         } catch (FileNotFoundException e) {
             LOGGER.error(e);
+            e.printStackTrace();
         }
-        return new Sprite(getFileName(filepath), image);
+        if (image == null) {
+            LOGGER.error("CRITICAL ERROR: the sprite \"" + spriteName.toString() + "\" could not be found!");
+            return null;
+        } else {
+            return new Sprite(getFileName(filepath), image);
+        }
     }
 
     /**
