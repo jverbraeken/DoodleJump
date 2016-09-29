@@ -72,17 +72,10 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
-<<<<<<< HEAD
-     * Track wether the doodle is alive.
-     */
-    private static boolean isAlive = true;
-    /**
      * The enums for the mode
      */
     public enum Modes { regular, underwater, story, invert, darkness, space }
     /**
-=======
->>>>>>> origin/develop
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
@@ -256,6 +249,7 @@ public final class Game {
         sL.getRes().setSkin(m);
         SpriteFactory skin = new SpriteFactory();
         skin.register(sL);
+        scene.resetBackground();
         LOGGER.info("The mode is now " + m);
     }
 
@@ -298,7 +292,7 @@ public final class Game {
     public static Modes getMode() {
         return mode;
     }
-    
+
     /*
      * Update the high scores for the game.
      *
