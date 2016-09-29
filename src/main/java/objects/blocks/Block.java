@@ -7,21 +7,20 @@ import system.IServiceLocator;
 import java.util.Set;
 
 /**
- * This class focusses on the implementation of Blocks.
+ * This class focuses on the implementation of Blocks.
  * These blocks contain the main bulk of the game objects.
  * This bulk contains the platforms, powerups, enemies and other interactable items.
  * These blocks are meant to pass through our frame vertically.
  * The player is meant to progress from one block to the next by jumping on things.
  * These things can be anything as specified by "bulk".
- * The choice for block was made as to make seperate sub-levels in a continuous world.
+ * The choice for block was made as to make separate sub-levels in a continuous world.
  */
 public final class Block implements IBlock {
 
     /**
      * Used to gain access to all services.
      */
-    private static IServiceLocator sL;
-
+    private static IServiceLocator serviceLocator;
     /**
      * A lock to prevent concurrent modification of e.g. the service locator.
      */
@@ -31,49 +30,47 @@ public final class Block implements IBlock {
      * A set of all the game objects in this block.
      */
     private final Set<IGameObject> elements;
-
     /**
-     * The highest located jumapble in this block.
+     * The highest located jumpable in this block.
      */
     private final IJumpable topJumpable;
 
-    /* package */ Block(final IServiceLocator sL, final Set<IGameObject> elements, final IJumpable topJumpable) {
+    /**
+     * Package protected constructor so only the BlockFactory can create blocks.
+     *
+     * @param sL The serviceLocator.
+     * @param e The elements for the block.
+     * @param tJ The highest jumpable object.
+     */
+    /* package */ Block(final IServiceLocator sL, final Set<IGameObject> e, final IJumpable tJ) {
         synchronized (lock) {
-            Block.sL = sL;
+            Block.serviceLocator = sL;
         }
-        this.elements = elements;
-        this.topJumpable = topJumpable;
+
+        this.elements = e;
+        this.topJumpable = tJ;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public Set<IGameObject> getElements() {
         return this.elements;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IJumpable getTopJumpable() {
         return topJumpable;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public final void render() {
+    public void render() {
         elements.forEach(IGameObject::render);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public final void update(double delta) {
+    public void update(final double delta) { }
 
-    }
 }

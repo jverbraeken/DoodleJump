@@ -1,11 +1,17 @@
 package objects.enemies;
 
+import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+/**
+ * A sample enemy class.
+ */
 public class Enemy extends AEnemy {
+
     /**
      * Creates a new enemy and determines its hitbox by using the sprites dimensions automatically.
+     *
      * @param sL The service locator
      * @param x The X-coordinate of the enemy
      * @param y The Y-coordinate of the enemy
@@ -15,13 +21,18 @@ public class Enemy extends AEnemy {
         super(sL, x, y, sprite, Enemy.class);
     }
 
+    /** {@inheritDoc} */
     @Override
-    public double getBoost() {
+    public final double getBoost() {
         return 0;
     }
 
+    /** {@inheritDoc} */
     @Override
-    public void render() {
+    public void render() { }
 
-    }
+    /** {@inheritDoc} */
+    @Override
+    public void collidesWith(IDoodle doodle) { }
+
 }
