@@ -67,7 +67,7 @@ public class HighScoreList {
         try {
             List<String> content = fileSystem.readTextFile(constants.getHighScoresFilePath());
 
-            if (content.size() > 0) {
+            if (content.size() > 0 && !content.get(0).equals("")) {
                 return content.get(0);
             }
         } catch (FileNotFoundException e) {
