@@ -25,25 +25,26 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
     /**
-     * The X and Y location for the startscreen platform.
+     * The X and Y location for the StartScreen platform.
      */
     private static final double PLATFORM_X = 0.1d, PLATFORM_Y = 0.78d;
     /**
-     * The X and Y location for the startscreen Doodle.
+     * The X and Y location for the StartScreen Doodle.
      */
     private static final double DOODLE_X = 0.1d;
     /**
      * The X and Y location for the choose mode button.
      */
     private static final double CHOOSE_MODE_X = 0.6d, CHOOSE_MODE_Y = 0.65d;
-    /**
-     * The logger for the Menu class.
-     */
-    private final ILogger LOGGER;
+
     /**
      * Used to access all services.
      */
-    private final IServiceLocator sL;
+    private final IServiceLocator serviceLocator;
+    /**
+     * The logger for the Menu class.
+     */
+    private final ILogger logger;
     /**
      * The button that starts up a new world.
      */
@@ -72,7 +73,7 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     /* package */ Menu(final IServiceLocator sL) {
         assert sL != null;
-        this.sL = sL;
+        this.serviceLocator = sL;
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         cover = spriteFactory.getStartCoverSprite();
@@ -96,80 +97,64 @@ public class Menu implements IScene, IKeyInputObserver {
                 (int) (sL.getConstants().getGameHeight() * PLATFORM_Y)
         );
 
-        this.LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
+        this.logger = sL.getLoggerFactory().createLogger(this.getClass());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void start() {
-        sL.getInputManager().addObserver(playButton);
-        sL.getInputManager().addObserver(chooseModeButton);
-        sL.getInputManager().addObserver(this);
-        LOGGER.info("The menu scene is now displaying");
+        serviceLocator.getInputManager().addObserver(playButton);
+        serviceLocator.getInputManager().addObserver(chooseModeButton);
+        serviceLocator.getInputManager().addObserver(this);
+        logger.info("The menu scene is now displaying");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void stop() {
-        sL.getInputManager().removeObserver(playButton);
-        sL.getInputManager().removeObserver(chooseModeButton);
-        sL.getInputManager().removeObserver(this);
-        LOGGER.info("The menu scene is no longer displaying");
+        serviceLocator.getInputManager().removeObserver(playButton);
+        serviceLocator.getInputManager().removeObserver(chooseModeButton);
+        serviceLocator.getInputManager().removeObserver(this);
+        logger.info("The menu scene is no longer displaying");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void render() {
-        sL.getRenderer().drawSpriteHUD(this.cover, 0, 0);
+    public final void render() {
+        serviceLocator.getRenderer().drawSpriteHUD(this.cover, 0, 0);
         playButton.render();
         chooseModeButton.render();
         doodle.render();
         platform.render();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void update(final double delta) {
+    public final void update(final double delta) {
         doodle.update(delta);
 
-        if (this.doodle.checkCollission(platform)) {
-            if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < platform.getYPos()) {
-                platform.collidesWith(this.doodle);
-            }
+        double doodleY = doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight();
+        if (doodle.checkCollision(platform) && doodleY < platform.getYPos()) {
+            platform.collidesWith(this.doodle);
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void keyPress(final Keys key) {
-    }
+    public void keyPress(final Keys key) { }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void keyRelease(final Keys key) {
         if (key == Keys.enter || key == Keys.space) {
-            Game.setScene(sL.getSceneFactory().newWorld());
+            Game.setScene(serviceLocator.getSceneFactory().newWorld());
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void resetBackground() {
-        cover = sL.getSpriteFactory().getStartCoverSprite();
+        cover = serviceLocator.getSpriteFactory().getStartCoverSprite();
     }
 
 }

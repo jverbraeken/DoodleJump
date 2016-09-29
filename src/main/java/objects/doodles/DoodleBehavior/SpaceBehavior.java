@@ -11,25 +11,30 @@ import system.IServiceLocator;
 public class SpaceBehavior implements MovementBehavior {
 
     /**
-     * The relative speed of the doodle.
+     * The relative speed of the Doodle.
      */
     private static final double RELATIVE_SPEED = 0.5d;
     /**
      * Standard speed limit for the Doodle.
      */
-    private final double STANDARD_SPEED_LIMIT = 20d;
+    private static final double STANDARD_SPEED_LIMIT = 20d;
     /**
      * Horizontal speed limit for the Doodle.
      */
-    private final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
+    private static final double HORIZONTAL_SPEED_LIMIT = STANDARD_SPEED_LIMIT;
     /**
      * Horizontal acceleration for the Doodle.
      */
-    private final double HORIZONTAL_ACCELERATION = 3d;
+    private static final double HORIZONTAL_ACCELERATION = 3d;
     /**
      * Relative gravity for the Doodle.
      */
-    private final double RELATIVE_GRAVITY = .3d;
+    private static final double RELATIVE_GRAVITY = .3d;
+    /**
+     * The speed that is considered moving quick (changing the Doodle sprite).
+     */
+    private static final double QUICK_MOVING_SPEED = -15;
+
     /**
      * Used to access all services.
      */
@@ -50,7 +55,6 @@ public class SpaceBehavior implements MovementBehavior {
      * The direction the Doodle is moving towards.
      */
     private Directions moving;
-
     /**
      * The direction the Doodle is facing.
      */
@@ -63,8 +67,8 @@ public class SpaceBehavior implements MovementBehavior {
     /**
      * The constructor of the regular behavior.
      *
-     * @param d  The doodle this applies to.
-     * @param sL the Servicelocator
+     * @param d The doodle this applies to.
+     * @param sL the ServiceLocator.
      */
     public SpaceBehavior(final IServiceLocator sL, final IDoodle d) {
         serviceLocator = sL;
@@ -75,62 +79,18 @@ public class SpaceBehavior implements MovementBehavior {
     /**
      * {@inheritDoc}
      */
-    public void move(final double delta) {
+    @Override
+    public final void move(final double delta) {
         moveHorizontally(delta);
         applyGravity(delta);
         animate(delta);
     }
 
     /**
-     * Move the Doodle along the X axis.
-     */
-    private void moveHorizontally(final double delta) {
-        if (pressed && moving == Directions.Left) {
-            if (this.hSpeed > -this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed -= RELATIVE_SPEED * RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
-            }
-        } else if (pressed && moving == Directions.Right) {
-            if (this.hSpeed < this.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed += RELATIVE_SPEED * RELATIVE_SPEED * this.HORIZONTAL_ACCELERATION;
-            }
-        }
-
-        doodle.addXPos((int) this.hSpeed);
-    }
-
-    /**
-     * Animate the Doodle.
-     *
-     * @param delta Delta time since previous animate.
-     */
-    private void animate(double delta) {
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        doodle.setSpritePack(spriteFactory.getDoodleSprite(getFacing()));
-
-        // If the Doodle moves up quickly shorten its legs
-        if (getVerticalSpeed() < RELATIVE_SPEED * -15) {
-            doodle.setSprite(this.doodle.getSpritePack()[1]);
-        } else {
-            doodle.setSprite(this.doodle.getSpritePack()[0]);
-        }
-    }
-
-
-    /**
-     * Apply gravity to the Doodle.
-     *
-     * @param delta Delta time since previous animate.
-     */
-    private void applyGravity(double delta) {
-        this.vSpeed += RELATIVE_GRAVITY * serviceLocator.getConstants().getGravityAcceleration();
-        doodle.addYPos(this.vSpeed);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
-    public double getVerticalSpeed() {
+    public final double getVerticalSpeed() {
         return vSpeed;
     }
 
@@ -138,7 +98,7 @@ public class SpaceBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public void setVerticalSpeed(final double v) {
+    public final void setVerticalSpeed(final double v) {
         vSpeed = RELATIVE_SPEED * v;
     }
 
@@ -146,10 +106,9 @@ public class SpaceBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public Directions getFacing() {
+    public final Directions getFacing() {
         return facing;
     }
-
 
     /**
      * {@inheritDoc}
@@ -180,6 +139,33 @@ public class SpaceBehavior implements MovementBehavior {
     }
 
     /**
+     * Animate the Doodle.
+     *
+     * @param delta Delta time since previous frame.
+     */
+    private void animate(final double delta) {
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        doodle.setSpritePack(spriteFactory.getDoodleSprite(getFacing()));
+
+        // If the Doodle moves up quickly shorten its legs
+        if (getVerticalSpeed() < RELATIVE_SPEED * QUICK_MOVING_SPEED) {
+            doodle.setSprite(this.doodle.getSpritePack()[1]);
+        } else {
+            doodle.setSprite(this.doodle.getSpritePack()[0]);
+        }
+    }
+
+    /**
+     * Apply gravity to the Doodle.
+     *
+     * @param delta Delta time since previous frame.
+     */
+    private void applyGravity(final double delta) {
+        this.vSpeed += RELATIVE_GRAVITY * serviceLocator.getConstants().getGravityAcceleration();
+        doodle.addYPos(this.vSpeed);
+    }
+
+    /**
      * Check if the Left key for the Doodle is pressed.
      *
      * @param key The key that's pressed
@@ -188,6 +174,21 @@ public class SpaceBehavior implements MovementBehavior {
     private boolean leftPressed(final Keys key) {
         return key == Keys.arrowLeft
                 || key == Keys.a;
+    }
+
+    /**
+     * Move the Doodle along the X axis.
+     *
+     * @param delta Delta time since previous frame.
+     */
+    private void moveHorizontally(final double delta) {
+        if (pressed && moving == Directions.Left && this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed -= RELATIVE_SPEED * RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
+        } else if (pressed && moving == Directions.Right && this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed += RELATIVE_SPEED * RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
+        }
+
+        doodle.addXPos((int) this.hSpeed);
     }
 
     /**
@@ -200,4 +201,5 @@ public class SpaceBehavior implements MovementBehavior {
         return key == Keys.arrowRight
                 || key == Keys.d;
     }
+
 }

@@ -3,7 +3,6 @@ package objects.doodles;
 import input.IKeyInputObserver;
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.blocks.IBlock;
 import resources.sprites.ISprite;
 
 /**
@@ -12,20 +11,18 @@ import resources.sprites.ISprite;
 public interface IDoodle extends IGameObject, IKeyInputObserver {
 
     /**
-     * @return The vertical speed of the doodle
+     * Get the vertical speed of the Doodle.
+     *
+     * @return The vertical speed.
      */
     double getVerticalSpeed();
 
     /**
-     * Set the vertical speed of the doodle.
+     * The Doodle collides with a jumpable object.
      *
-     * @param vSpeed the new speed.
+     * @param jumpable The jumpable object.
      */
-    void setVerticalSpeed(double vSpeed);
-
-    void collide(IJumpable jumpable);
-
-    void collide(IBlock block);
+    void collide(final IJumpable jumpable);
 
     /**
      * Returns the height of the legs of the doodle. When this value is very large, for example 1,
@@ -36,9 +33,16 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     double getLegsHeight();
 
     /**
-     * Get the spritepack of the doodle.
+     * Get the score for this Doodle.
      *
-     * @return rhe spritepack
+     * @return The score.
+     */
+    double getScore();
+
+    /**
+     * Get the sprite pack of the doodle.
+     *
+     * @return the sprite pack.
      */
     ISprite[] getSpritePack();
 
@@ -47,11 +51,13 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      *
      * @param doodleSprite the sprites.
      */
-    void setSpritePack(ISprite[] doodleSprite);
+    void setSpritePack(final ISprite[] doodleSprite);
 
     /**
-     * @return The score of the doodle.
+     * Set the vertical speed of the doodle.
+     *
+     * @param vSpeed the new speed.
      */
-    double getScore();
+    void setVerticalSpeed(final double vSpeed);
 
 }

@@ -1,7 +1,8 @@
 package input;
 
 /**
- * This class is used to define a class that observes an {@link IInputManager} to get a signal when a key is pressed.
+ * This Class is called when the user interacts with a key.
+ * Note: this method should only be called by an {@link IInputManager}.
  */
 public interface IKeyInputObserver {
 
