@@ -1,6 +1,7 @@
 package objects.doodles;
 
 import input.IInputManager;
+import input.Keys;
 import logging.ILogger;
 import objects.AGameObject;
 import objects.IJumpable;
@@ -178,13 +179,13 @@ public class Doodle extends AGameObject implements IDoodle {
 
 
     @Override
-    public void keyPress(int keyCode) {
-        behavior.keyPress(keyCode);
+    public void keyPress(final Keys key) {
+        behavior.keyPress(key);
     }
 
     @Override
-    public void keyRelease(int keyCode) {
-        behavior.keyRelease(keyCode);
+    public void keyRelease(final Keys key) {
+        behavior.keyRelease(key);
     }
 
     /**

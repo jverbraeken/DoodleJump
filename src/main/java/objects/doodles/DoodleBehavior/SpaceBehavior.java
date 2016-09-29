@@ -1,6 +1,5 @@
 package objects.doodles.DoodleBehavior;
 
-import input.KeyCode;
 import input.Keys;
 import objects.doodles.IDoodle;
 import resources.sprites.ISpriteFactory;
@@ -16,19 +15,9 @@ public class SpaceBehavior implements MovementBehavior {
      */
     private static final double RELATIVE_SPEED = 0.5d;
     /**
-     * Current horizontal speed for the Doodle.
-     */
-    private double hSpeed = 0d;
-    /**
-     * Current vertical speed for the Doodle.
-     */
-    private double vSpeed = 0d;
-
-    /**
      * Standard speed limit for the Doodle.
      */
     private final double STANDARD_SPEED_LIMIT = 20d;
-
     /**
      * Horizontal speed limit for the Doodle.
      */
@@ -49,7 +38,14 @@ public class SpaceBehavior implements MovementBehavior {
      * Used to access fields of the doodle this behavior describes.
      */
     private final IDoodle doodle;
-
+    /**
+     * Current horizontal speed for the Doodle.
+     */
+    private double hSpeed = 0d;
+    /**
+     * Current vertical speed for the Doodle.
+     */
+    private double vSpeed = 0d;
     /**
      * The direction the Doodle is moving towards.
      */
@@ -66,7 +62,8 @@ public class SpaceBehavior implements MovementBehavior {
 
     /**
      * The constructor of the regular behavior.
-     * @param d The doodle this applies to.
+     *
+     * @param d  The doodle this applies to.
      * @param sL the Servicelocator
      */
     public SpaceBehavior(final IServiceLocator sL, final IDoodle d) {
@@ -75,8 +72,10 @@ public class SpaceBehavior implements MovementBehavior {
         pressed = false;
     }
 
-    /** {@inheritDoc} */
-    public void move(final double delta){
+    /**
+     * {@inheritDoc}
+     */
+    public void move(final double delta) {
         moveHorizontally(delta);
         applyGravity(delta);
         animate(delta);
@@ -98,8 +97,10 @@ public class SpaceBehavior implements MovementBehavior {
 
         doodle.addXPos((int) this.hSpeed);
     }
+
     /**
      * Animate the Doodle.
+     *
      * @param delta Delta time since previous animate.
      */
     private void animate(double delta) {
@@ -117,6 +118,7 @@ public class SpaceBehavior implements MovementBehavior {
 
     /**
      * Apply gravity to the Doodle.
+     *
      * @param delta Delta time since previous animate.
      */
     private void applyGravity(double delta) {
@@ -124,45 +126,55 @@ public class SpaceBehavior implements MovementBehavior {
         doodle.addYPos(this.vSpeed);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getVerticalSpeed() {
         return vSpeed;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVerticalSpeed(final double v) {
         vSpeed = RELATIVE_SPEED * v;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Directions getFacing() {
         return facing;
     }
 
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final void keyPress(final int keyCode) {
-        if (this.leftPressed(keyCode)) {
+    public final void keyPress(final Keys key) {
+        if (this.leftPressed(key)) {
             this.moving = Directions.Left;
             this.facing = Directions.Left;
             this.pressed = true;
-        } else if (this.rightPressed(keyCode)) {
+        } else if (this.rightPressed(key)) {
             this.moving = Directions.Right;
             this.facing = Directions.Right;
             this.pressed = true;
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final void keyRelease(final int keyCode) {
-        if (this.leftPressed(keyCode)) {
+    public final void keyRelease(final Keys key) {
+        if (this.leftPressed(key)) {
             this.pressed = false;
-        } else if (this.rightPressed(keyCode)) {
+        } else if (this.rightPressed(key)) {
             this.pressed = false;
         }
     }
@@ -170,22 +182,22 @@ public class SpaceBehavior implements MovementBehavior {
     /**
      * Check if the Left key for the Doodle is pressed.
      *
-     * @param keyCode The keyCode of the key.
+     * @param key The key that's pressed
      * @return A boolean indicating whether the key for Left is pressed.
      */
-    private boolean leftPressed(final int keyCode) {
-        return keyCode == KeyCode.getKeyCode(Keys.arrowLeft)
-                || keyCode == KeyCode.getKeyCode(Keys.a);
+    private boolean leftPressed(final Keys key) {
+        return key == Keys.arrowLeft
+                || key == Keys.a;
     }
 
     /**
      * Check if the Right key for the Doodle is pressed.
      *
-     * @param keyCode The keyCode of the key.
+     * @param key The key that's released
      * @return A boolean indicating whether the key for Right is pressed.
      */
-    private boolean rightPressed(final int keyCode) {
-        return keyCode == KeyCode.getKeyCode(Keys.arrowRight)
-                || keyCode == KeyCode.getKeyCode(Keys.d);
+    private boolean rightPressed(final Keys key) {
+        return key == Keys.arrowRight
+                || key == Keys.d;
     }
 }

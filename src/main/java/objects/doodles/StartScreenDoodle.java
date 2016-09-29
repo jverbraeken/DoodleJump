@@ -1,6 +1,7 @@
 package objects.doodles;
 
 import input.IInputManager;
+import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
@@ -81,12 +82,12 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public final void keyPress(final int keyCode) {
+    public final void keyPress(final Keys key) {
     }
 
     /** {@inheritDoc} */
     @Override
-    public final void keyRelease(final int keyCode) {
+    public final void keyRelease(final Keys key) {
     }
 
     /** {@inheritDoc} */
