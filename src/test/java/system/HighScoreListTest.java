@@ -27,10 +27,13 @@ public class HighScoreListTest {
 
     private final static HighScore SCORE_1 = new HighScore("Foo", 10);
     private final static HighScore SCORE_2 = new HighScore("bar", 5);
+    private final static HighScore SCORE_3 = new HighScore("Hello", 2);
+    private final static HighScore SCORE_4 = new HighScore("World", 1);
 
-    private final static List<String> INIT_FILE_CONTENT_1 = new ArrayList<String>(){{ add("Foo 10 bar 5"); }};
-    private final static List<String> INIT_FILE_CONTENT_2 = new ArrayList<String>(){{ add("Foo 10"); }};
-    private final static List<String> INIT_FILE_CONTENT_3 = new ArrayList<String>(){{ add(""); }};
+    private final static List<String> INIT_FILE_CONTENT_1 = new ArrayList<String>() {{ add("Foo 10 bar 5"); }};
+    private final static List<String> INIT_FILE_CONTENT_2 = new ArrayList<String>() {{ add("Foo 10"); }};
+    private final static List<String> INIT_FILE_CONTENT_3 = new ArrayList<String>() {{ add(""); }};
+
 
     @Before
     public void init() {
@@ -52,6 +55,7 @@ public class HighScoreListTest {
         highScores = null;
         expected = null;
     }
+
 
     @Test
     public void testNoHighScore() {
@@ -99,7 +103,7 @@ public class HighScoreListTest {
 
     @Test
     public void testInitHighScores1() throws FileNotFoundException {
-        when(fileSystem.readTextFile(constants.getHighScoresFilePath())).thenReturn(this.INIT_FILE_CONTENT_1);
+        when(fileSystem.readTextFile(constants.getHighScoresFilePath())).thenReturn(INIT_FILE_CONTENT_1);
         highScores.initHighScores();
 
         expected.add(SCORE_1);
@@ -120,7 +124,7 @@ public class HighScoreListTest {
 
     @Test
     public void testInitHighScores2() throws FileNotFoundException {
-        when(fileSystem.readTextFile(constants.getHighScoresFilePath())).thenReturn(this.INIT_FILE_CONTENT_2);
+        when(fileSystem.readTextFile(constants.getHighScoresFilePath())).thenReturn(INIT_FILE_CONTENT_2);
         highScores.initHighScores();
 
         expected.add(SCORE_1);
@@ -137,7 +141,7 @@ public class HighScoreListTest {
 
     @Test
     public void testInitHighScores3() throws FileNotFoundException {
-        when(fileSystem.readTextFile(constants.getHighScoresFilePath())).thenReturn(this.INIT_FILE_CONTENT_3);
+        when(fileSystem.readTextFile(constants.getHighScoresFilePath())).thenReturn(INIT_FILE_CONTENT_3);
         highScores.initHighScores();
 
         Object temp = Whitebox.getInternalState(highScores, "highScores");
@@ -147,4 +151,47 @@ public class HighScoreListTest {
         assertThat(actual.size() == expected.size(), is(true));
     }
 
+    @Test
+    public void testUpdateHighScores_CorrectOrder() {
+        highScores.addHighScore(SCORE_2.getName(), SCORE_2.getScore());
+        highScores.addHighScore(SCORE_4.getName(), SCORE_4.getScore());
+        highScores.addHighScore(SCORE_3.getName(), SCORE_3.getScore());
+        highScores.addHighScore(SCORE_1.getName(), SCORE_1.getScore());
+
+        // Actual order
+        expected.add(SCORE_1);
+        expected.add(SCORE_2);
+        expected.add(SCORE_3);
+        expected.add(SCORE_4);
+
+        Object temp = Whitebox.getInternalState(highScores, "highScores");
+        ArrayList<HighScore> actual = (ArrayList<HighScore>) temp;
+
+        assertThat(actual.get(0).getName().equals(expected.get(0).getName()), is(true));
+        assertThat(actual.get(0).getScore() == expected.get(0).getScore(), is(true));
+
+        assertThat(actual.get(1).getName().equals(expected.get(1).getName()), is(true));
+        assertThat(actual.get(1).getScore() == expected.get(1).getScore(), is(true));
+
+        assertThat(actual.get(2).getName().equals(expected.get(2).getName()), is(true));
+        assertThat(actual.get(2).getScore() == expected.get(2).getScore(), is(true));
+
+        assertThat(actual.get(3).getName().equals(expected.get(3).getName()), is(true));
+        assertThat(actual.get(3).getScore() == expected.get(3).getScore(), is(true));
+    }
+
+    @Test
+    public void testUpdateHighScores_MaxHighScores() {
+        Object temp = Whitebox.getInternalState(HighScoreList.class, "MAX_ENTRIES");
+        int maxEntries = (int) temp;
+
+        for (int i = 0; i < maxEntries + 1; i++) {
+            highScores.addHighScore(SCORE_1.getName(), SCORE_1.getScore());
+        }
+
+        temp = Whitebox.getInternalState(highScores, "highScores");
+        ArrayList<HighScore> actual = (ArrayList<HighScore>) temp;
+
+        assertThat(actual.size() == maxEntries, is(true));
+    }
 }

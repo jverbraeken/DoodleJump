@@ -15,13 +15,18 @@ import java.util.List;
 public class HighScoreList {
 
     /**
+     * The maximum amount of entries in a HighScoresList.
+     */
+    private static final int MAX_ENTRIES = 10;
+
+    /**
      * Used to gain access to all services.
      */
-    private static IServiceLocator serviceLocator;
+    private IServiceLocator serviceLocator;
     /**
      * The logger for the HighScoreList class.
      */
-    private static ILogger logger;
+    private ILogger logger;
     /**
      * A list of high scores for the game.
      */
@@ -60,6 +65,8 @@ public class HighScoreList {
 
     /**
      * Get the high scores from the high scores file.
+     *
+     * @return The relevant content of the file.
      */
     private String loadFromFile() {
         IFileSystem fileSystem = serviceLocator.getFileSystem();
@@ -67,6 +74,7 @@ public class HighScoreList {
         try {
             List<String> content = fileSystem.readTextFile(constants.getHighScoresFilePath());
 
+            System.out.println(content.size());
             if (content.size() > 0 && !content.get(0).equals("")) {
                 return content.get(0);
             }
@@ -95,10 +103,14 @@ public class HighScoreList {
      */
     private void saveHighScores() {
         // Convert high scores to string
-        String data = "";
+        StringBuilder buf = new StringBuilder();
         for (HighScore score : highScores) {
-            data += score.getName() + " " + score.getScore() + " ";
+            buf.append(score.getName());
+            buf.append(" ");
+            buf.append(score.getScore());
+            buf.append(" ");
         }
+        String data = buf.toString();
 
         // Save high scores.
         IFileSystem fileSystem = serviceLocator.getFileSystem();
@@ -117,7 +129,7 @@ public class HighScoreList {
      */
     private void updateHighScores() {
         Collections.sort(highScores);
-        for (int i = highScores.size(); i > highScores.size(); i--) {
+        for (int i = highScores.size(); i > MAX_ENTRIES; i--) {
             highScores.remove(i - 1);
         }
 
