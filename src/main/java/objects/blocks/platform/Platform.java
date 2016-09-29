@@ -24,7 +24,7 @@ public class Platform extends AGameObject implements IPlatform {
     /**
      * One third of the game height.
      */
-    private static double MOVINGDISTANCE;
+    private static double MOVING_DISTANCE;
 
     /**
      * Current vertical speed for the Doodle.
@@ -97,7 +97,7 @@ public class Platform extends AGameObject implements IPlatform {
         super(sL, x, y, sprite);
 
         int gameHeight = sL.getConstants().getGameHeight();
-        MOVINGDISTANCE = gameHeight * 0.20;
+        MOVING_DISTANCE = gameHeight * 0.20;
 
         directions.put(Directions.up, 1);
         directions.put(Directions.down, -1);
@@ -171,9 +171,9 @@ public class Platform extends AGameObject implements IPlatform {
             this.props.replace(PlatformProperties.movingHorizontally, 1);
         }
 
-        if (offSet > MOVINGDISTANCE) {
+        if (offSet > MOVING_DISTANCE) {
             this.props.replace(PlatformProperties.movingVertically, 1);
-        } else if (offSet < - MOVINGDISTANCE ) {
+        } else if (offSet < - MOVING_DISTANCE ) {
             this.props.replace(PlatformProperties.movingVertically, -1);
         }
     }

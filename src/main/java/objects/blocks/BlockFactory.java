@@ -196,7 +196,7 @@ public final class BlockFactory implements IBlockFactory {
             elements.add(platform);
             Platform.PlatformProperties br = Platform.PlatformProperties.breaks;
             breaks = platform.getProps().containsKey(br);
-        } while(breaks);
+        } while (breaks);
 
         chanceForPowerup(elements, platform);
         return platform;
