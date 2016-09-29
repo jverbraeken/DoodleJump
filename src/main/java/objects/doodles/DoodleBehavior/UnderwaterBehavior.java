@@ -77,7 +77,7 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @param d The doodle this applies to.
      * @param sL the Servicelocator
      */
-    public UnderwaterBehavior(final IDoodle d, final IServiceLocator sL) {
+    public UnderwaterBehavior(final IServiceLocator sL, final IDoodle d) {
         serviceLocator = sL;
         doodle = d;
         pressed = false;

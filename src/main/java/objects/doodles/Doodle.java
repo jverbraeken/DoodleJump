@@ -144,7 +144,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * Wrap the Doodle around the screen.
      */
     private void wrap() {
-        double middle = this.getXPos() + this.getHitBox()[AGameObject.HITBOX_RIGHT] / 2;
+        double middle = this.getXPos() + ((this.getHitBox()[AGameObject.HITBOX_LEFT] + this.getHitBox()[AGameObject.HITBOX_RIGHT]) / 2);
         final int width = sL.getConstants().getGameWidth();
         if (middle < 0) {
             this.addXPos(width);
@@ -194,16 +194,16 @@ public class Doodle extends AGameObject implements IDoodle {
     private void setBehavior(Game.Modes mode) {
         switch (mode) {
             case regular:
-                behavior = new RegularBehavior(this, sL);
+                behavior = new RegularBehavior(sL, this);
                 break;
             case space:
-                behavior = new SpaceBehavior(this, sL);
+                behavior = new SpaceBehavior(sL, this);
                 break;
             case underwater:
-                behavior = new UnderwaterBehavior(this, sL);
+                behavior = new UnderwaterBehavior(sL, this);
                 break;
             default:
-                behavior = new RegularBehavior(this, sL);
+                behavior = new RegularBehavior(sL, this);
         }
     }
 

@@ -61,7 +61,7 @@ public class RegularBehavior implements MovementBehavior {
      * @param d The doodle this applies to.
      * @param sL the Servicelocator
      */
-    public RegularBehavior(final IDoodle d, final IServiceLocator sL) {
+    public RegularBehavior(final IServiceLocator sL, final IDoodle d) {
         serviceLocator = sL;
         doodle = d;
     }
