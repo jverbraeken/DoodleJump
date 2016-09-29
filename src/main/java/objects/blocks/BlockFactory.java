@@ -82,8 +82,8 @@ public final class BlockFactory implements IBlockFactory {
         int heightDividedPlatforms = serviceLocator.getConstants().getGameHeight() / platformAmount;
 
         IPlatform topJumpable = placeInitialStartBlockPlatforms(elements);
-        topJumpable = placeStartBlockPlatforms(elements, topJumpable, platformAmount, heightDividedPlatforms);
-        return new Block(serviceLocator, elements, topJumpable);
+        IPlatform nowHighest = placeStartBlockPlatforms(elements, topJumpable, platformAmount, heightDividedPlatforms);
+        return new Block(serviceLocator, elements, nowHighest);
     }
 
     /** {@inheritDoc} */
@@ -151,7 +151,7 @@ public final class BlockFactory implements IBlockFactory {
 
         IPlatform highest = placeFollowingPlatform(elements, topJumpable, heightDividedPlatforms);
         for (int i = 2; i < platformAmount; i++) {
-            highest = placeFollowingPlatform(elements, topJumpable, heightDividedPlatforms);
+            highest = placeFollowingPlatform(elements, highest, heightDividedPlatforms);
         }
         return highest;
     }
