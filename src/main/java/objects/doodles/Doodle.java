@@ -20,6 +20,10 @@ import system.IServiceLocator;
 public class Doodle extends AGameObject implements IDoodle {
 
     /**
+     * The logger for the Game class.
+     */
+    private static final ILogger LOGGER = getServiceLocator().getLoggerFactory().createLogger(Doodle.class);
+    /**
      * The relative center of the camera on the y axis.
      */
     private static final double CAMERA_POS = 3 / 7d;
@@ -33,21 +37,14 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private static final double LEGS_HEIGHT = 0.8;
     /**
-     * The logger for the Game class.
-     */
-    private static final ILogger LOGGER = getServiceLocator().getLoggerFactory().createLogger(Doodle.class);
-    /**
      * Where the hitbox of the doodle starts in relation to the sprite width.
      */
     private static final double WIDTH_HIT_BOX_LEFT = .3;
     /**
      * Where the hitbox of the doodle ends in relation to the sprite width.
      */
-    private final double WIDTH_HIT_BOX_RIGHT = .7;
-    /**
-     * Current vertical speed for the Doodle.
-     */
-    private double vSpeed = 0d;
+    private static final double WIDTH_HIT_BOX_RIGHT = .7;
+
     /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
      */

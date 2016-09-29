@@ -20,6 +20,10 @@ public abstract class AGameObject implements IGameObject {
      * The size of the hitbox array.
      */
     private static final int HITBOX_SIZE = 4;
+    /**
+     * A LOCK to prevent concurrent modification of e.g. the service locator.
+     */
+    private static final Object LOCK = new Object();
 
     /**
      * Used to gain access to all services.
@@ -29,10 +33,6 @@ public abstract class AGameObject implements IGameObject {
      * The logger for the class.
      */
     private final ILogger logger;
-    /**
-     * A lock to prevent concurrent modification of e.g. the service locator.
-     */
-    private static final Object lock = new Object();
     /**
      * The hitbox for the Game Object.
      */
@@ -56,22 +56,22 @@ public abstract class AGameObject implements IGameObject {
      * @param sL            The serviceLocator.
      * @param x             The X-coordinate of the game object.
      * @param y             The Y-coordinate of the game object.
-     * @param sprite        The sprite of the game object.
+     * @param s             The sprite of the game object.
      * @param objectClass   The class of the object (e.g. Doodle.class)
      */
-    public AGameObject(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final Class<?> objectClass) {
-        synchronized (lock) {
+    public AGameObject(final IServiceLocator sL, final int x, final int y, final ISprite s, final Class<?> objectClass) {
+        synchronized (LOCK) {
             AGameObject.serviceLocator = sL;
         }
 
         this.setXPos(x);
         this.setYPos(y);
 
-        if (sprite == null) {
+        if (s == null) {
             this.setHitBox(x, y, sL.getConstants().getGameWidth(), Integer.MAX_VALUE);
         } else {
-            this.setHitBox(0, 0, sprite.getWidth(), sprite.getHeight());
-            this.setSprite(sprite);
+            this.setHitBox(0, 0, s.getWidth(), s.getHeight());
+            this.setSprite(s);
         }
         logger = sL.getLoggerFactory().createLogger(objectClass);
     }
@@ -162,7 +162,7 @@ public abstract class AGameObject implements IGameObject {
     /**
      * @return The logger of the object.
      */
-    public ILogger getLogger() {
+    public final ILogger getLogger() {
         return logger;
     }
 
