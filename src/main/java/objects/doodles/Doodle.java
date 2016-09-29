@@ -114,13 +114,13 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public void keyPress(final Keys key) {
+    public final void keyPress(final Keys key) {
         behavior.keyPress(key);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void keyRelease(final Keys key) {
+    public final void keyRelease(final Keys key) {
         behavior.keyRelease(key);
     }
 

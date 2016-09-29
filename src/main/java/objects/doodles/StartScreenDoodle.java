@@ -4,7 +4,6 @@ import input.IInputManager;
 import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
-import objects.blocks.IBlock;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -112,11 +111,11 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void keyPress(Keys key) { }
+    public void keyPress(final Keys key) { }
 
     /** {@inheritDoc} */
     @Override
-    public void keyRelease(Keys key) { }
+    public void keyRelease(final Keys key) { }
 
     /**
      * Apply gravity to the Doodle.
