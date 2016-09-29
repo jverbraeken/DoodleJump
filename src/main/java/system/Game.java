@@ -72,17 +72,10 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
-<<<<<<< HEAD
-     * Track wether the doodle is alive.
-     */
-    private static boolean isAlive = true;
-    /**
      * The enums for the mode
      */
     public enum Modes { regular, underwater, story, invert, darkness, space }
     /**
-=======
->>>>>>> origin/develop
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
