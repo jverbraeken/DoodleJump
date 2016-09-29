@@ -28,7 +28,7 @@ public class GameTest {
 
     @Test
     public void testNoHighScore() {
-        Object temp = Whitebox.getInternalState(Game.class, "highScores");
+        Object temp = Whitebox.getInternalState(Game.HIGH_SCORES, "highScores");
         ArrayList<HighScore> actual = (ArrayList<HighScore>) temp;
 
         assertThat(actual.size() == 0, is(true));
@@ -37,10 +37,10 @@ public class GameTest {
 
     @Test
     public void testAdd1HighScore() {
-        Game.addHighScore(score1.getName(), score1.getScore());
+        Game.HIGH_SCORES.addHighScore(score1.getName(), score1.getScore());
         expected.add(score1);
 
-        Object temp = Whitebox.getInternalState(Game.class, "highScores");
+        Object temp = Whitebox.getInternalState(Game.HIGH_SCORES, "highScores");
         ArrayList<HighScore> actual = (ArrayList<HighScore>) temp;
 
         assertThat(actual.size() == expected.size(), is(true));
@@ -50,12 +50,12 @@ public class GameTest {
 
     @Test
     public void testAdd2HighScores() {
-        Game.addHighScore(score1.getName(), score1.getScore());
-        Game.addHighScore(score2.getName(), score2.getScore());
+        Game.HIGH_SCORES.addHighScore(score1.getName(), score1.getScore());
+        Game.HIGH_SCORES.addHighScore(score2.getName(), score2.getScore());
         expected.add(score1);
         expected.add(score2);
 
-        Object temp = Whitebox.getInternalState(Game.class, "highScores");
+        Object temp = Whitebox.getInternalState(Game.HIGH_SCORES, "highScores");
         ArrayList<HighScore> actual = (ArrayList<HighScore>) temp;
 
         assertThat(actual.size() == expected.size(), is(true));

@@ -15,7 +15,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.List; // Needed to overwrite java.awt.List
 
 import static system.Game.Modes.regular;
 
@@ -27,7 +26,7 @@ public final class Game {
     /**
      * Used to gain access to all services.
      */
-    private static IServiceLocator sL = new ServiceLocator();
+    private static IServiceLocator serviceLocator = new ServiceLocator();
 
     /**
      * The time in miliseconds per frame.
@@ -36,7 +35,7 @@ public final class Game {
     /**
      * The logger for the Game class.
      */
-    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Game.class);
+    private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
     /**
      * The target FPS for the game.
      */
@@ -57,6 +56,10 @@ public final class Game {
      * The maximum size of the list of high scores.
      */
     private static final int MAX_HIGH_SCORES = 10;
+    /**
+     * The high scores list for the Game.
+     */
+    public static final HighScoreList HIGH_SCORES = new HighScoreList(serviceLocator);
 
     /**
      * The current frame.
@@ -95,10 +98,6 @@ public final class Game {
      */
     private static IScene pauseScreen;
     /**
-     * A list of high scores for the game.
-     */
-    private static ArrayList<HighScore> highScores = new ArrayList<>();
-    /**
      * The filepath to the logfile to which all logs will be written to.
      * This constant is not provided by an implementation of {@link constants.IConstants} because
      * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
@@ -127,19 +126,19 @@ public final class Game {
     public static void main(String[] argv) {
         LOGGER.info("The game has been launched");
 
-        Game.pauseScreen = sL.getSceneFactory().createPauseScreen();
-        IInputManager inputManager = sL.getInputManager();
-        sL.getRenderer().start();
+        Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
+        IInputManager inputManager = serviceLocator.getInputManager();
+        serviceLocator.getRenderer().start();
 
         // Initialize frame
         frame = new JFrame("Doodle Jump");
         frame.addMouseListener(inputManager);
         frame.addKeyListener(inputManager);
-        frame.setSize(sL.getConstants().getGameWidth(), sL.getConstants().getGameHeight());
+        frame.setSize(serviceLocator.getConstants().getGameWidth(), serviceLocator.getConstants().getGameHeight());
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2);
+        frame.setSize(serviceLocator.getConstants().getGameWidth() / 2, serviceLocator.getConstants().getGameHeight() / 2);
         frame.addWindowListener(new WindowAdapter() {
             /**
              * Invoked when a window is in the process of being closed.
@@ -156,7 +155,7 @@ public final class Game {
              */
             @Override
             public void paintComponent(final Graphics g) {
-            sL.getRenderer().setGraphicsBuffer(g);
+            serviceLocator.getRenderer().setGraphicsBuffer(g);
 
             ((Graphics2D) g).scale(1 / scale, 1 / scale);
             if (Game.scene != null) {
@@ -173,15 +172,15 @@ public final class Game {
         panel.setLayout(new GridLayout(1, 1));
         frame.setContentPane(panel);
 
-        setScene(sL.getSceneFactory().createMainMenu());
+        setScene(serviceLocator.getSceneFactory().createMainMenu());
         int x = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
-        sL.getInputManager().setMainWindowBorderSize(x, y);
+        serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        resumeButton = sL.getButtonFactory().createResumeButton((int) (sL.getConstants().getGameWidth() * RESUME_BUTTON_X), (int) (sL.getConstants().getGameHeight() * RESUME_BUTTON_Y));
-        sL.getInputManager().addObserver(resumeButton);
+        resumeButton = serviceLocator.getButtonFactory().createResumeButton((int) (serviceLocator.getConstants().getGameWidth() * RESUME_BUTTON_X), (int) (serviceLocator.getConstants().getGameHeight() * RESUME_BUTTON_Y));
+        serviceLocator.getInputManager().addObserver(resumeButton);
 
-        initHighScores();
+        HIGH_SCORES.initHighScores();
         loop();
     }
 
@@ -196,7 +195,7 @@ public final class Game {
             Game.scene.stop();
         }
 
-        sL.getRenderer().getCamera().setYPos(0d);
+        serviceLocator.getRenderer().getCamera().setYPos(0d);
         s.start();
         Game.scene = s;
     }
@@ -225,9 +224,9 @@ public final class Game {
      */
     public static void setMode(final Modes m){
         mode = m;
-        sL.getRes().setSkin(m);
+        serviceLocator.getRes().setSkin(m);
         SpriteFactory skin = new SpriteFactory();
-        SpriteFactory.register(sL);
+        SpriteFactory.register(serviceLocator);
         LOGGER.info("The mode is now " + m);
     }
 
@@ -269,69 +268,7 @@ public final class Game {
     public static Modes getMode() {
         return mode;
     }
-    
-    /**
-     * Add a score to the list of highscores.
-     * @param name  The name for the score.
-     * @param score The actual score.
-     */
-    public static void addHighScore(final String name, final double score) {
-        HighScore scoreEntry = new HighScore(name, score);
-        Game.highScores.add(scoreEntry);
 
-        // Always update high scores after one has been added.
-        updateHighScores();
-    }
-
-    /**
-     * Update the high scores for the game. Makes sure the
-     * max amount of high scores is not exceeded and the high
-     * scores are saved.
-     */
-    private static void updateHighScores() {
-        // Sort and limit high scores.
-        Collections.sort(Game.highScores);
-        for (int i = Game.highScores.size(); i > MAX_HIGH_SCORES; i--) {
-            Game.highScores.remove(i - 1);
-        }
-
-        // Convert high scores to string
-        String data = "";
-        for (HighScore score : Game.highScores) {
-            data += score.getName() + " " + score.getScore() + " ";
-        }
-
-        // Save high scores.
-        IFileSystem fileSystem = sL.getFileSystem();
-        IConstants constants = sL.getConstants();
-        try {
-            fileSystem.writeTextFile(constants.getHighScoresFilePath(), data);
-        } catch (FileNotFoundException e) {
-            LOGGER.error(e);
-        }
-    }
-
-    /**
-     * Initialize the high scores.
-     */
-    private static void initHighScores() {
-        IFileSystem fileSystem = sL.getFileSystem();
-        IConstants constants = sL.getConstants();
-        try {
-            List<String> content = fileSystem.readTextFile(constants.getHighScoresFilePath());
-
-            if (content.size() > 0) {
-                String plainHighScores = content.get(0);
-                String[] highScores = plainHighScores.split("\\s+");
-                for (int i = 0; i < highScores.length; i += 2) {
-                    HighScore score = new HighScore(highScores[i], highScores[i + 1]);
-                    Game.highScores.add(score);
-                }
-            }
-        } catch (FileNotFoundException e) {
-            LOGGER.warning("High scores file not found, starting with empty high scores list");
-        }
-    }
 
     /**
      * Returns the current FPS.

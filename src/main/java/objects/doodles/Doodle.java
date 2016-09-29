@@ -213,7 +213,7 @@ public class Doodle extends AGameObject implements IDoodle {
         double bottom = camera.getYPos() + serviceLocator.getConstants().getGameHeight() - DEAD_OFFSET * getHitBox()[HITBOX_BOTTOM];
         if (this.getYPos() > bottom) {
             LOGGER.info("The Doodle died with score " + this.score);
-            this.world.endGame(this.score);
+            this.world.endGameInstance(this.score);
         }
     }
 
