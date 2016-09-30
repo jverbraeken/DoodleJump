@@ -1,6 +1,5 @@
 package objects.doodles;
 
-import input.IInputManager;
 import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
@@ -13,12 +12,14 @@ import objects.powerups.PassiveType;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
 /**
  * This class describes the behaviour of the Doodle.
  */
+@SuppressWarnings({"checkstyle:designforextension"})
 public class Doodle extends AGameObject implements IDoodle {
 
     /**
@@ -46,7 +47,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
-    private ISprite[] spritePack;
+    private ISprite[][] spritePack;
     /**
      * The current score of the doodle.
      */
@@ -55,6 +56,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * All the passives the can Doodle have.
      */
     private IPassive passive;
+    /**
+     * The world the Doodle lives in.
+     */
+    private final World world;
     /**
      * Describes the movement behavior of the doodle.
      */
@@ -67,9 +72,10 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Doodle constructor.
      *
-     * @param sL The service locator
+     * @param sL The service locator.
+     * @param w The world the Doodle lives in.
      */
-     /* package */ Doodle(final IServiceLocator sL) {
+     /* package */ Doodle(final IServiceLocator sL, final World w) {
         super(sL,
                 sL.getConstants().getGameWidth() / 2,
                 sL.getConstants().getGameHeight() / 2,
@@ -82,19 +88,19 @@ public class Doodle extends AGameObject implements IDoodle {
                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT),
                 getSprite().getHeight());
 
+        this.world = w;
         setBehavior(Game.getMode());
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        this.spritePack = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Right);
-
-        IInputManager inputManager = sL.getInputManager();
-        inputManager.addObserver(this);
+        this.spritePack = new ISprite[2][2];
+        this.spritePack[0] = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Left);
+        this.spritePack[1] = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Right);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void collide(final IJumpable jumpable) {
+    public void collide(final IJumpable jumpable) {
         double boost = jumpable.getBoost();
         if (this.passive != null && this.passive.getType() == PassiveType.collision) {
             boost *= this.passive.getBoost();
@@ -115,7 +121,8 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) { }
+    public void collidesWith(final IDoodle doodle) {
+    }
 
     /**
      * {@inheritDoc}
@@ -151,6 +158,19 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
+    public final void setSprite(final MovementBehavior.Directions direction, final boolean falling) {
+        if (direction == MovementBehavior.Directions.Left) {
+            setSprite(this.spritePack[0][falling ? 1 : 0]);
+        }
+        if (direction == MovementBehavior.Directions.Right) {
+            setSprite(this.spritePack[1][falling ? 1 : 0]);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final double getVerticalSpeed() {
         return behavior.getVerticalSpeed();
     }
@@ -159,7 +179,15 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void keyPress(final Keys key) {
+    public final void setVerticalSpeed(final double vSpeed) {
+        behavior.setVerticalSpeed(vSpeed);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void keyPress(final Keys key) {
         behavior.keyPress(key);
     }
 
@@ -167,7 +195,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void keyRelease(final Keys key) {
+    public void keyRelease(final Keys key) {
         behavior.keyRelease(key);
     }
 
@@ -192,14 +220,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void setVerticalSpeed(final double vSpeed) {
-        behavior.setVerticalSpeed(vSpeed);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final void update(final double delta) {
         this.applyMovementBehavior(delta);
         this.wrap();
@@ -207,13 +227,18 @@ public class Doodle extends AGameObject implements IDoodle {
         this.checkDeadPosition();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final ISprite[] getSpritePack() {
-        return spritePack;
+    public final void register() {
+        getServiceLocator().getInputManager().addObserver(this);
+        getLogger().info("The doodle registered itself as an observer of the input manager");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void increaseSpriteScalar(final double inc) {
         this.spriteScalar += inc;
@@ -224,14 +249,18 @@ public class Doodle extends AGameObject implements IDoodle {
         this.setHitBox(0, 0, width, height);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final void setSpritePack(final ISprite[] doodleSprite) {
-        this.spritePack = doodleSprite;
+    public final void deregister() {
+        getServiceLocator().getInputManager().removeObserver(this);
+        getLogger().info("The doodle removed itself as an observer from the input manager");
     }
 
     /**
      * Move the doodle.
+     *
      * @param delta Delta time since previous animate.
      */
     private void applyMovementBehavior(final double delta) {
@@ -259,14 +288,14 @@ public class Doodle extends AGameObject implements IDoodle {
         ICamera camera = getServiceLocator().getRenderer().getCamera();
         if (getYPos() > camera.getYPos() + getServiceLocator().getConstants().getGameHeight() - DEAD_OFFSET * getHitBox()[HITBOX_BOTTOM]) {
             getLogger().info("The Doodle died with score " + this.score);
-            Game.endGameInstance(this.score);
+            this.world.endGameInstance(this.score);
         }
     }
 
     /**
-     * Set the behavior of the doodle with respect to the mode.
+     * Set the behavior of the Doodle with respect to the mode.
      *
-     * @param mode The game mode.
+     * @param mode the behavior mode.
      */
     private void setBehavior(final Game.Modes mode) {
         switch (mode) {

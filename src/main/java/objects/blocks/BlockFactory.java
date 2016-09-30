@@ -1,14 +1,17 @@
 package objects.blocks;
 
+import math.ICalc;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
+import objects.blocks.platform.Platform;
 import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -56,6 +59,19 @@ public final class BlockFactory implements IBlockFactory {
      * An offset to generate a minimum height deviation.
      */
     private static final double HEIGHT_DEVIATION_OFFSET = 0.8;
+    /**
+     * The chance that a horizontal moving platform will spawn.
+     */
+    private static final double HORIZONTAL_CHANCE = 0.05;
+
+    /**
+     * The chance that a vertical moving platform will spawn.
+     */
+    private static final double VERTICAL_CHANCE = 0.05;
+    /**
+     * The chance that a vertical moving platform will spawn.
+     */
+    private static final double BREAK_CHANCE = 0.1;
 
     /**
      * Used to gain access to all services.
@@ -76,9 +92,11 @@ public final class BlockFactory implements IBlockFactory {
     /** {@inheritDoc} */
     @Override
     public synchronized IBlock createStartBlock() {
+        final int minPlatforms = 6;
+        final int maxPlatforms = (serviceLocator.getConstants().getGameWidth() + serviceLocator.getConstants().getGameHeight()) / 130;
         Set<IGameObject> elements = new HashSet<>();
 
-        int platformAmount = serviceLocator.getCalc().getRandomIntBetween(6, (serviceLocator.getConstants().getGameWidth() + serviceLocator.getConstants().getGameHeight()) / 130);
+        int platformAmount = serviceLocator.getCalc().getRandomIntBetween(minPlatforms, maxPlatforms);
         int heightDividedPlatforms = serviceLocator.getConstants().getGameHeight() / platformAmount;
 
         IPlatform topJumpable = placeInitialStartBlockPlatforms(elements);
@@ -127,9 +145,10 @@ public final class BlockFactory implements IBlockFactory {
      * @return The last and highest platform created by this method
      */
     private IPlatform placeInitialStartBlockPlatforms(final Set<IGameObject> elements) {
+        final double initialPlatformHeightDivider = 1.2d;
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
         int xPos = serviceLocator.getConstants().getGameWidth() / 2;
-        int yPos = (int) (serviceLocator.getConstants().getGameHeight() / 1.2);
+        int yPos = (int) (serviceLocator.getConstants().getGameHeight() / initialPlatformHeightDivider);
         IPlatform platform = platformFactory.createPlatform(xPos, yPos);
         elements.add(platform);
         return platform;
@@ -160,19 +179,24 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Places a single platform part in the block specified.
      *
-     * @param elements                  A set of elements.
-     * @param topJumpable               The highest platform created before the block starts (normally the latest platform created).
-     * @param heightDividedPlatforms    The height between the platforms.
-     * @return The last and highest platform created by this method.
+     * @param elements              A set of elements.
+     * @param topJumpable           The highest platform created before the block starts (normally the latest platform created)
+     * @param heightDivPlatforms    The height between the platforms
+     * @return The last and highest platform created by this method
      */
-    private IPlatform placeFollowingPlatform(final Set<IGameObject> elements, final IJumpable topJumpable, final int heightDividedPlatforms) {
+    private IPlatform placeFollowingPlatform(final Set<IGameObject> elements, final IJumpable topJumpable, final int heightDivPlatforms) {
         IPlatform platform;
+        boolean breaks;
         do {
-            platform = makeFollowingPlatform(topJumpable, heightDividedPlatforms);
-        } while (platformCollideCheck(platform, elements));
+            do {
+                platform = makeFollowingPlatform(topJumpable, heightDivPlatforms);
+            } while (platformCollideCheck(platform, elements));
+            elements.add(platform);
+            Platform.PlatformProperties br = Platform.PlatformProperties.breaks;
+            breaks = platform.getProps().containsKey(br);
+        } while (breaks);
 
         chanceForPowerup(elements, platform);
-        elements.add(platform);
         return platform;
     }
 
@@ -200,6 +224,15 @@ public final class BlockFactory implements IBlockFactory {
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
         IPlatform platform = platformFactory.createPlatform(0, yLoc);
 
+        double randDouble = serviceLocator.getCalc().getRandomDouble(1);
+        if (randDouble < HORIZONTAL_CHANCE) {
+            platform = platformFactory.createHoriMovingPlatform(0, yLoc);
+        } else if (randDouble < HORIZONTAL_CHANCE + VERTICAL_CHANCE) {
+            platform = platformFactory.createVertMovingPlatform(0, yLoc);
+        } else if (randDouble < HORIZONTAL_CHANCE + VERTICAL_CHANCE + BREAK_CHANCE) {
+            platform = platformFactory.createBreakPlatform(0, yLoc);
+        }
+
         //TODO This prohibits platforms from being immutable
         int xLoc = (int) (widthDeviation * (serviceLocator.getConstants().getGameWidth() - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
         platform.setXPos(xLoc);
@@ -220,25 +253,32 @@ public final class BlockFactory implements IBlockFactory {
                 return true;
             }
         }
+
         return false;
     }
 
     /**
      * Creates a random powerup.
      *
-     * @param elements                  A set of elements.
+     * @param elements A set of elements.
      * @param platform The platform a powerup potentially is placed on.
      **/
     private void chanceForPowerup(final Set<IGameObject> elements, final IPlatform platform) {
-        final int randomNr = (int) (serviceLocator.getCalc().getRandomDouble(MAX_POWERUP_THRESHOLD));
-        final int platformWidth = (int) platform.getHitBox()[AGameObject.HITBOX_RIGHT];
-        final int platformHeight = (int) platform.getHitBox()[AGameObject.HITBOX_BOTTOM];
-        IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+        ICalc calc = serviceLocator.getCalc();
+        double randomDouble = calc.getRandomDouble(MAX_POWERUP_THRESHOLD);
+        final int randomNr = (int) (randomDouble);
+
+        double[] hitbox = platform.getHitBox();
+        final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
+        final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
+        boolean isSpecialPlatform = isSpecialPlatform(platform);
 
         if (randomNr >= SPRING_THRESHOLD && randomNr < TRAMPOLINE_THRESHOLD) {
-            int springXLoc = (int) (serviceLocator.getCalc().getRandomDouble(platformWidth));
+            IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+            int springXLoc = (int) (calc.getRandomDouble(platformWidth));
             IGameObject powerup = powerupFactory.createSpring(0, 0);
-            final int powerupWidth = (int) powerup.getHitBox()[AGameObject.HITBOX_RIGHT];
+            double[] powHitbox = powerup.getHitBox();
+            final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
 
             int xPos = (int) platform.getXPos() + springXLoc;
             if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
@@ -249,12 +289,30 @@ public final class BlockFactory implements IBlockFactory {
 
             elements.add(powerup);
         } else if (randomNr >= TRAMPOLINE_THRESHOLD) {
+
+            IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
             IGameObject powerup = powerupFactory.createTrampoline(
                     (int) platform.getXPos() + TRAMPOLINE_X_OFFSET,
-                    (int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET
-            );
+                    (int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
             elements.add(powerup);
         }
+    }
+
+    /**
+     * Returns true if the platform has special properties, false otherwise.
+     *
+     * @param platform the platform that has to be checked.
+     * @return true or false, dependent on the properties of the platform.
+     */
+    public static boolean isSpecialPlatform(final IPlatform platform) {
+        Map<Platform.PlatformProperties, Integer> properties = platform.getProps();
+        Platform.PlatformProperties[] keys = Platform.PlatformProperties.values();
+        for (Platform.PlatformProperties key : keys) {
+            if (properties.containsKey(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

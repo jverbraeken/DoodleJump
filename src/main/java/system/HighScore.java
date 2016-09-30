@@ -1,9 +1,12 @@
 package system;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 /**
- * Class representing a score.
+ * Class representing a score. <b>Is immutable</b>.
  */
-/* package */ class HighScore implements Comparable<HighScore> {
+/* package */ final class HighScore implements Comparable<HighScore> {
 
     /**
      * The name of this HighScore.
@@ -12,7 +15,7 @@ package system;
     /**
      * The score fo this HighScore.
      */
-    private final double score;
+    private final int score;
 
     /**
      * Package protected constructor so only Game can create a score.
@@ -20,12 +23,25 @@ package system;
      * @param n The name for the score.
      * @param s The actual score.
      */
-    /* package */ HighScore(final String n, final Double s) {
+    /* package */ HighScore(final String n, final double s) {
         this.name = n;
-        this.score = s;
+        this.score = (int) s;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Package protected constructor so only Game can create a score.
+     *
+     * @param n The name for the score.
+     * @param s The actual score.
+     */
+    /* package */ HighScore(final String n, final String s) {
+        this.name = n;
+        this.score = Integer.parseInt(s);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int compareTo(final HighScore that) {
         if (this.getScore() > that.getScore()) {
@@ -35,6 +51,40 @@ package system;
         } else {
             return 0;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        HighScore highScore = (HighScore) o;
+
+        return new EqualsBuilder()
+                .append(score, highScore.score)
+                .append(name, highScore.name)
+                .isEquals();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int hash1 = 17;
+        final int hash2 = 37;
+        return new HashCodeBuilder(hash1, hash2)
+                .append(name)
+                .append(score)
+                .toHashCode();
     }
 
     /**
@@ -51,7 +101,7 @@ package system;
      *
      * @return the score.
      */
-    public Double getScore() {
+    public int getScore() {
         return this.score;
     }
 

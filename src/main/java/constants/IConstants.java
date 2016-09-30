@@ -1,37 +1,57 @@
 package constants;
 
 /**
- * Interface for the Constants class.
+ * Interface for the constants class.
  */
 public interface IConstants {
 
     /**
-     * @return The width of the frame of the game
+     * Get the width of the game window.
+     *
+     * @return The width of the frame of the game.
      */
     int getGameWidth();
 
     /**
-     * @return The height of the frame of the game
+     * Get the height of the game window.
+     *
+     * @return The height of the frame of the game.
      */
     int getGameHeight();
 
     /**
-     * @return The acceleration of the gravity for the doodle
+     * Get the gravity acceleration.
+     *
+     * @return The acceleration of the gravity for the doodle.
      */
     double getGravityAcceleration();
 
     /**
-     * @return The amount of which the y position of the doodle should get multiplied to obtain the score
+     * Get the score multiplier.
+     *
+     * @return The amount of which the y position of the doodle should get multiplied to obtain the score.
      */
     double getScoreMultiplier();
 
     /**
-     * @return True if the number of pending tasks of the logging thread executor should be logged
+     * Get the pending tasks for the logger.
+     *
+     * @return True if the number of pending tasks of the logging thread executor should be logged.
      */
     boolean getLogPendingTasks();
 
     /**
-     * @return The name of the log file
+     * Get the log file.
+     *
+     * @return The name of the log file.
      */
     String getLogFile();
+
+    /**
+     * Get the file where the high scores are saved.
+     *
+     * @return The name of the high scores file.
+     */
+    String getHighScoresFilePath();
+
 }

@@ -4,6 +4,7 @@ import system.IServiceLocator;
 
 import java.io.FileNotFoundException;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Class containing the main constants of the game.
@@ -27,9 +28,13 @@ public final class Constants implements IConstants {
      */
     private static final double GRAVITY_ACCELERATION = 0.5d;
     /**
-     * The HEIGHT the Doodle jumps will be multiplied with this value to obtain the score that the player will get.
+     * The height the Doodle jumps will be multiplied with this value to obtain the score that the player gets.
      */
     private static final double SCORE_MULTIPLIER = 0.15;
+    /**
+     * The file to which the high scores will be written to.
+     */
+    private static final String HIGHCORES_DATA = "highScores.data";
 
     /**
      * The service locator for the Constants class.
@@ -39,14 +44,15 @@ public final class Constants implements IConstants {
     /**
      * The file to which the logs will be written to.
      */
-    private static String logFile;
+    private static AtomicReference<String> logFile = new AtomicReference<>();
 
     /**
      * Prevent public instantiation of Constants.
      */
     private Constants() {
         try {
-            Map<String, String> json = (Map<String, String>) serviceLocator.getFileSystem().parseJsonMap("constants.json", String.class);
+            Object jsonObject = serviceLocator.getFileSystem().parseJsonMap("constants.json", String.class);
+            Map<String, String> json = (Map<String, String>) jsonObject;
             interpretJson(json);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -56,7 +62,7 @@ public final class Constants implements IConstants {
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
-     * @param sL The IServiceLocator to which the class should offer its functionality
+     * @param sL The IServiceLocator to which the class should offer its functionality.
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
@@ -97,7 +103,13 @@ public final class Constants implements IConstants {
     /** {@inheritDoc} */
     @Override
     public String getLogFile() {
-        return logFile;
+        return logFile.get();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getHighScoresFilePath() {
+        return HIGHCORES_DATA;
     }
 
     /**
@@ -109,10 +121,12 @@ public final class Constants implements IConstants {
         for (Map.Entry<String, String> entry : json.entrySet()) {
             switch (entry.getKey()) {
                 case "logFile":
-                    logFile = entry.getValue();
+                    logFile.set(entry.getValue());
                     break;
                 default:
-                    System.err.println("The json entry \"" + entry.getKey() + "\" in the configuration file could not be identified");
+                    String msg = "The json entry \"" + entry.getKey()
+                            + "\" in the configuration file could not be identified";
+                    System.err.print(msg);
             }
         }
     }

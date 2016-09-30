@@ -412,16 +412,16 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSprite2() {
-        return getSprite(IRes.Sprites.platform2);
+    public ISprite getPlatformSpriteHori() {
+        return getSprite(IRes.Sprites.platformHorizontal);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSprite3() {
-        return getSprite(IRes.Sprites.platform3);
+    public ISprite getPlatformSpriteVert() {
+        return getSprite(IRes.Sprites.platformVertical);
     }
 
     /**
@@ -778,8 +778,8 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * Loads an ISprite with the name {@code ISpriteName}.
      *
-     * @param spriteName the enumerator defining the requested sprite.
-     * @return The ISprite
+     * @param spriteName the enumerator defining the requested sprite
+     * @return The {@link ISprite sprite} if it was found. null otherwise
      */
     private ISprite loadISprite(final IRes.Sprites spriteName) {
         String filepath = serviceLocator.getRes().getSpritePath(spriteName);
@@ -787,10 +787,11 @@ public final class SpriteFactory implements ISpriteFactory {
         try {
             image = serviceLocator.getFileSystem().readImage(filepath);
             logger.info("Sprite loaded: \"" + filepath + "\"");
+            return new Sprite(getFileName(filepath), image);
         } catch (FileNotFoundException e) {
             logger.error(e);
         }
-        return new Sprite(getFileName(filepath), image);
+        return null;
     }
 
     /**

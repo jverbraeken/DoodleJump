@@ -4,7 +4,7 @@ import input.IKeyInputObserver;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.powerups.IPassive;
-import resources.sprites.ISprite;
+import objects.doodles.DoodleBehavior.MovementBehavior;
 
 /**
  * This class describes the behaviour of the doodle.
@@ -14,14 +14,21 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     /**
      * Get the vertical speed of the Doodle.
      *
-     * @return The vertical speed.
+     * @return The vertical speed
      */
     double getVerticalSpeed();
 
     /**
+     * Set the vertical speed of the doodle.
+     *
+     * @param vSpeed the new speed
+     */
+    void setVerticalSpeed(final double vSpeed);
+
+    /**
      * The Doodle collides with a jumpable object.
      *
-     * @param jumpable The jumpable object.
+     * @param jumpable The jumpable object
      */
     void collide(final IJumpable jumpable);
 
@@ -57,16 +64,17 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     /**
      * Get the score for this Doodle.
      *
-     * @return The score.
+     * @return The score
      */
     double getScore();
 
     /**
-     * Get the sprite pack of the doodle.
+     * Set the sprite pack of the doodle.
      *
-     * @return the sprite pack.
+     * @param direction The direction is Doodle is going to
+     * @param falling   True if the doodle is going down
      */
-    ISprite[] getSpritePack();
+    void setSprite(final MovementBehavior.Directions direction, final boolean falling);
 
     /**
      * Increase the sprite scalar for the Doodle.
@@ -76,17 +84,13 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void increaseSpriteScalar(final double inc);
 
     /**
-     * Set the sprite pack of the Doodle.
-     *
-     * @param doodleSprite the sprites.
+     * Registers its button to the {@link input.IInputManager input manager}.
      */
-    void setSpritePack(final ISprite[] doodleSprite);
+    void register();
 
     /**
-     * Set the vertical speed of the doodle.
-     *
-     * @param vSpeed the new speed.
+     * Deregisters its button from the {@link input.IInputManager input manager}.
      */
-    void setVerticalSpeed(final double vSpeed);
+    void deregister();
 
 }

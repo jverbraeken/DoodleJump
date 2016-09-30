@@ -48,23 +48,23 @@ import java.util.ArrayList;
      */
     private final IServiceLocator serviceLocator;
     /**
-     * The logger for the KillScreen class.
+     * The logger for the ChooseMode class.
      */
     private final ILogger logger;
     /**
-     * Sprites of the bottom of the KillScreen.
+     * The sprite on the bottom of the choose mode screen.
      */
-    private final ISprite bottomKillScreen;
+    private final ISprite bottomChooseModeScreen;
     /**
-     * Sprites of the background of the KillScreen.
+     * Sprites of the background of the ChooseMode.
      */
     private ISprite background;
     /**
-     * an arrayList of all the buttons.
+     * An ArrayList of all the buttons.
      */
     private final ArrayList<IButton> buttons = new ArrayList<>();
     /**
-     * Is the kill screen active, should it be displayed.
+     * Is the choose mode screen active, should it be displayed.
      */
     private boolean active = false;
 
@@ -79,7 +79,7 @@ import java.util.ArrayList;
         logger = sL.getLoggerFactory().createLogger(ChooseMode.class);
 
         background = sL.getSpriteFactory().getBackground();
-        bottomKillScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
+        bottomChooseModeScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         IButton mainMenuButton = buttonFactory.createMainMenuButton(
@@ -116,8 +116,8 @@ import java.util.ArrayList;
     /** {@inheritDoc} */
     @Override
     public final void start() {
-        for (IButton b : buttons) {
-            serviceLocator.getInputManager().addObserver(b);
+        for (IButton button : buttons) {
+            button.register();
         }
 
         active = true;
@@ -127,8 +127,8 @@ import java.util.ArrayList;
     /** {@inheritDoc} */
     @Override
     public final void stop() {
-        for (IButton b : buttons) {
-            serviceLocator.getInputManager().removeObserver(b);
+        for (IButton button : buttons) {
+            button.deregister();
         }
 
         active = false;
@@ -138,22 +138,14 @@ import java.util.ArrayList;
     /** {@inheritDoc} */
     @Override
     public void render() {
-        if (active) {
-            serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
-            double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
-            serviceLocator.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
-            buttons.forEach(IRenderable::render);
-        }
+        serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
+        double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomChooseModeScreen.getHeight();
+        serviceLocator.getRenderer().drawSpriteHUD(this.bottomChooseModeScreen, 0, (int) y);
+        buttons.forEach(IRenderable::render);
     }
 
     /** {@inheritDoc} */
     @Override
     public final void update(final double delta) { }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void resetBackground() {
-        background = serviceLocator.getSpriteFactory().getBackground();
-    }
 
 }

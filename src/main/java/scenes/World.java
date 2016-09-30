@@ -15,7 +15,13 @@ import system.IRenderable;
 import system.IServiceLocator;
 import system.IUpdatable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Stack;
+import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -61,10 +67,6 @@ public class World implements IScene {
      */
     private final Set<IBlock> blocks = new HashSet<>();
     /**
-     * The background of the world.
-     */
-    private ISprite background;
-    /**
      * The Doodle for the world.
      */
     private final IDoodle doodle;
@@ -83,6 +85,14 @@ public class World implements IScene {
      * List of game objects that should be updated every frame.
      */
     private final Set<IUpdatable> updatables = Collections.newSetFromMap(new WeakHashMap<>());
+    /**
+     * The background of the world.
+     */
+    private final ISprite background;
+    /**
+     * The top bar displaying the score and a pause button.
+     */
+    private final ScoreBar scoreBar;
     /**
      * The highest (and thus latest) created block.
      */
@@ -116,18 +126,20 @@ public class World implements IScene {
         }
 
         this.background = sL.getSpriteFactory().getBackground();
+        this.scoreBar = new ScoreBar();
 
-        this.drawables.get(2).add(new ScoreBar());
+        this.drawables.get(2).add(this.scoreBar);
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
-        this.doodle = doodleFactory.createDoodle();
+        this.doodle = doodleFactory.createDoodle(this);
         this.doodle.setVerticalSpeed(DOODLE_INITIAL_SPEED);
         this.drawables.get(1).add(this.doodle);
         this.updatables.add(this.doodle);
 
         serviceLocator.getAudioManager().playStart();
 
-        logger.log("Level started");
+        this.start();
+        logger.info("Level started");
     }
 
     /**
@@ -136,7 +148,9 @@ public class World implements IScene {
     @Override
     public final void start() {
         this.serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
-        logger.log("The world is now displaying");
+        this.scoreBar.register();
+        this.doodle.register();
+        logger.info("The world is now displaying");
     }
 
     /**
@@ -144,7 +158,9 @@ public class World implements IScene {
      */
     @Override
     public final void stop() {
-        logger.log("The world is no longer displaying");
+        this.scoreBar.deregister();
+        this.doodle.deregister();
+        logger.info("The world scene is stopped");
     }
 
     /**
@@ -168,6 +184,16 @@ public class World implements IScene {
         checkCollisions();
         cleanUp();
         newBlocks();
+    }
+
+    /**
+     * End the game.
+     *
+     * @param score The score the player got.
+     */
+    public final void endGameInstance(final double score) {
+        Game.HIGH_SCORES.addHighScore("Doodle", score);
+        Game.setScene(serviceLocator.getSceneFactory().createKillScreen());
     }
 
     /**
@@ -204,7 +230,8 @@ public class World implements IScene {
      * If that's the case, delete that Block.
      */
     private void cleanUp() {
-        HashSet<IBlock> toRemove = blocks.stream().filter(e -> e.getTopJumpable().getYPos() > serviceLocator.getRenderer().getCamera().getYPos() + serviceLocator.getConstants().getGameHeight()).collect(Collectors.toCollection(HashSet::new));
+        final double yThreshold = serviceLocator.getRenderer().getCamera().getYPos() + serviceLocator.getConstants().getGameHeight();
+        HashSet<IBlock> toRemove = blocks.stream().filter(e -> e.getTopJumpable().getYPos() > yThreshold).collect(Collectors.toCollection(HashSet::new));
 
         toRemove.forEach(blocks::remove);
     }
@@ -220,14 +247,6 @@ public class World implements IScene {
             drawables.get(0).add(topBlock);
             updatables.add(topBlock);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void resetBackground() {
-        background = serviceLocator.getSpriteFactory().getBackground();
     }
 
     /**
@@ -281,12 +300,13 @@ public class World implements IScene {
                 digitSprites[i] = serviceLocator.getSpriteFactory().getDigitSprite(i);
             }
             int scoreX = (int) (digitSprites[2].getWidth() * scaling);
-            int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2);
+            int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2d);
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
 
             ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseButtonSprite();
-            int pauseX = (int) (serviceLocator.getConstants().getGameWidth() - pauseSprite.getWidth() * scaling - PAUSE_OFFSET);
-            int pauseY = (int) (((double) serviceLocator.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2 - pauseSprite.getHeight() / 2);
+            final int gameWidth = serviceLocator.getConstants().getGameWidth();
+            int pauseX = (int) (gameWidth - pauseSprite.getWidth() * scaling - PAUSE_OFFSET);
+            int pauseY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2d - (double) pauseSprite.getHeight() / 2d);
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
         }
 
@@ -298,6 +318,20 @@ public class World implements IScene {
             serviceLocator.getRenderer().drawSpriteHUD(scoreBarSprite, 0, 0, serviceLocator.getConstants().getGameWidth(), scoreBarHeight);
             scoreText.render();
             pauseButton.render();
+        }
+
+        /**
+         * Registers its button to the {@link input.IInputManager input manager}.
+         */
+        private void register() {
+            pauseButton.register();
+        }
+
+        /**
+         * Deregisters its button from the {@link input.IInputManager input manager}.
+         */
+        private void deregister() {
+            pauseButton.deregister();
         }
 
         /**
@@ -328,7 +362,6 @@ public class World implements IScene {
                 this.width = (int) (sp.getWidth() * sc);
                 this.height = (int) (sp.getHeight() * sc);
                 this.sprite = sp;
-                serviceLocator.getInputManager().addObserver(this);
             }
 
             /**
@@ -350,6 +383,23 @@ public class World implements IScene {
                 }
             }
 
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void register() {
+                serviceLocator.getInputManager().addObserver(this);
+                logger.info("The button \"PauseButton\" registered itself as an observer of the input manager");
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void deregister() {
+                serviceLocator.getInputManager().removeObserver(this);
+                logger.info("The button \"PauseButton\" removed itself as an observer from the input manager");
+            }
         }
 
         /**
@@ -413,7 +463,10 @@ public class World implements IScene {
                 while (!scoreDigits.isEmpty()) {
                     digit = scoreDigits.pop();
                     sprite = digitSprites[digit];
-                    serviceLocator.getRenderer().drawSpriteHUD(sprite, pos, digitData[digit * DIGIT_MULTIPLIER], digitData[digit * DIGIT_MULTIPLIER + 1], digitData[digit * DIGIT_MULTIPLIER + 2]);
+                    serviceLocator.getRenderer().drawSpriteHUD(sprite, pos,
+                            digitData[digit * DIGIT_MULTIPLIER],
+                            digitData[digit * DIGIT_MULTIPLIER + 1],
+                            digitData[digit * DIGIT_MULTIPLIER + 2]);
                     pos += digitData[digit * DIGIT_MULTIPLIER + 1] + 1;
                 }
             }

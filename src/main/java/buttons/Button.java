@@ -89,4 +89,22 @@ import system.IServiceLocator;
             action.run();
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register() {
+        serviceLocator.getInputManager().addObserver(this);
+        logger.info("The button \"" + this.name + "\" registered itself as an observer of the input manager");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deregister() {
+        serviceLocator.getInputManager().removeObserver(this);
+        logger.info("The button \"" + this.name + "\" removed itself as an observer from the input manager");
+    }
 }
