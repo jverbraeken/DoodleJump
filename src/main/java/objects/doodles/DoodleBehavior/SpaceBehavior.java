@@ -114,6 +114,21 @@ public class SpaceBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
+    public final Directions getMoving() {
+        return moving;
+    }
+
+    /**
+     * Returns if a key is pressed.
+     */
+    public final boolean getPressed() {
+        return pressed;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final void keyPress(final Keys key) {
         if (this.leftPressed(key)) {
             this.moving = Directions.Left;
