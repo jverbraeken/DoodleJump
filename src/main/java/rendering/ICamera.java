@@ -1,14 +1,14 @@
 package rendering;
 
 /**
- * Interface for the camera class.
+ * Provides a public interface for camera implementations.
  */
 public interface ICamera {
 
     /**
-     * Set the Y position of the camera.
+     * Sets the y-position of the camera to the value specified.
      *
-     * @param yPos the new Y position.
+     * @param yPos The new y-value of the camera
      */
     void setYPos(final double yPos);
 
