@@ -16,7 +16,9 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
- * Created by Michael on 9/30/2016.
+ * Test class to test the methods in Trampoline.java.
+ *
+ * ]Created by Michael on 9/30/2016.
  */
 @SuppressWarnings("magicnumber")
 public class TrampolineTest {
@@ -76,7 +78,7 @@ public class TrampolineTest {
     }
 
     /**
-     * Tests if the collide method of the doodle s called when the method collidesWith of the trampoline is called.
+     * Tests if the collide method of the doodle is called when the method collidesWith of the trampoline is called.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
