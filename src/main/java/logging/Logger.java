@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 /* package */ final class Logger implements ILogger {
 
     /**
-     * The ThreadPoolExecutor responsible for executing all logging code on a separate thread.
+     * The ThreadPoolExecutor responsible for executing all logging code on a separate thread to prevent stalling.
      */
     private static final ThreadPoolExecutor LOGGING_THREAD_EXECUTOR = new ThreadPoolExecutor(
             0, 50000, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());

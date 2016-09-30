@@ -4,9 +4,9 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * Class representing a score.
+ * Class representing a score. <b>Is immutable</b>.
  */
-/* package */ class HighScore implements Comparable<HighScore> {
+/* package */ final class HighScore implements Comparable<HighScore> {
 
     /**
      * The name of this HighScore.
@@ -15,7 +15,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
     /**
      * The score fo this HighScore.
      */
-    private final double score;
+    private final int score;
 
     /**
      * Package protected constructor so only Game can create a score.
@@ -23,9 +23,20 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
      * @param n The name for the score.
      * @param s The actual score.
      */
-    /* package */ HighScore(final String n, final Double s) {
+    /* package */ HighScore(final String n, final double s) {
         this.name = n;
-        this.score = s;
+        this.score = (int) s;
+    }
+
+    /**
+     * Package protected constructor so only Game can create a score.
+     *
+     * @param n The name for the score.
+     * @param s The actual score.
+     */
+    /* package */ HighScore(final String n, final String s) {
+        this.name = n;
+        this.score = Integer.parseInt(s);
     }
 
     /**
@@ -42,6 +53,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -60,6 +74,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
                 .isEquals();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int hash1 = 17;
@@ -84,7 +101,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
      *
      * @return the score.
      */
-    public double getScore() {
+    public int getScore() {
         return this.score;
     }
 

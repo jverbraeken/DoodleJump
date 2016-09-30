@@ -69,7 +69,7 @@ public final class LoggerFactory implements ILoggerFactory {
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
-     * @param sL The IServiceLocator to which the class should offer its functionality
+     * @param sL The IServiceLocator to which the class should offer its functionality.
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;

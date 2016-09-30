@@ -24,5 +24,6 @@ hs_err_pid*
 # Target
 target/
 
-# Ignore logs
+# Generated files
 *.log
+*.data
