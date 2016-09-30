@@ -2,6 +2,7 @@ package objects.doodles.DoodleBehavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
+import objects.powerups.IPassive;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
@@ -69,9 +70,17 @@ public class RegularBehavior implements MovementBehavior {
     @Override
     public final void move(final double delta) {
         moveHorizontally(delta);
+        applyPassive();
         applyGravity(delta);
         animate(delta);
     }
+    private void applyPassive() {
+        IPassive passive = this.doodle.getPassive();
+        if (passive != null) {
+            passive.applyBoost();
+        }
+    }
+
 
     /**
      * {@inheritDoc}

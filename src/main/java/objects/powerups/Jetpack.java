@@ -9,6 +9,11 @@ import system.IServiceLocator;
 /* package */ class Jetpack extends APowerup implements IPassive, IPowerup {
 
     /**
+     * The boost the Jetpack gives.
+     */
+    private static final int BOOST = -10;
+
+    /**
      * The Doodle that owns these boots.
      */
     private IDoodle owner;
@@ -26,8 +31,8 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public double getBoost() {
-        return 0;
+    public void applyBoost() {
+        this.owner.setVerticalSpeed(BOOST);
     }
 
     /** {@inheritDoc} */

@@ -9,8 +9,9 @@ public interface IPassive extends IGameObject {
 
     /**
      * Get the boost provided by the jumpable.
+     *
      * @return The boost.
      */
-    double getBoost();
+    void applyBoost();
 
 }
