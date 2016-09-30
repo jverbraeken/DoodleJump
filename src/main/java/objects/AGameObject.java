@@ -1,5 +1,6 @@
 package objects;
 
+import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -9,32 +10,31 @@ import system.IServiceLocator;
 public abstract class AGameObject implements IGameObject {
 
     /**
-     * The index for the hit box left.
+     * Constants to prevent incorrect element access of the {@link #hitBox} variable.
      */
-    public static final transient int HITBOX_LEFT = 0;
-    /**
-     * The index for the hit box right.
-     */
-    public static final transient int HITBOX_RIGHT = 1;
-    /**
-     * The index for the hit box top.
-     */
-    public static final transient int HITBOX_TOP = 2;
-    /**
-     * The index for the hit box bottom.
-     */
-    public static final transient int HITBOX_BOTTOM = 3;
+    public static final transient int HITBOX_LEFT = 0,
+            HITBOX_RIGHT = 1,
+            HITBOX_TOP = 2,
+            HITBOX_BOTTOM = 3;
     /**
      * The size of the hitbox array.
      */
     private static final int HITBOX_SIZE = 4;
+    /**
+     * A LOCK to prevent concurrent modification of e.g. the service locator.
+     */
+    private static final Object LOCK = new Object();
 
     /**
      * Used to gain access to all services.
      */
     private static IServiceLocator serviceLocator;
     /**
-     * The index for the Game Object.
+     * The logger for the class.
+     */
+    private final ILogger logger;
+    /**
+     * The hitbox for the Game Object.
      */
     private final double[] hitBox = new double[HITBOX_SIZE];
     /**
@@ -53,13 +53,16 @@ public abstract class AGameObject implements IGameObject {
     /**
      * Creates a new game object and determines its hitbox by using the sprites dimensions automatically.
      *
-     * @param sL The serviceLocator.
-     * @param x The X-coordinate of the game object.
-     * @param y The Y-coordinate of the game object.
-     * @param s The sprite of the game object.
+     * @param sL            The serviceLocator.
+     * @param x             The X-coordinate of the game object.
+     * @param y             The Y-coordinate of the game object.
+     * @param s             The sprite of the game object.
+     * @param objectClass   The class of the object (e.g. Doodle.class)
      */
-    public AGameObject(final IServiceLocator sL, final int x, final int y, final ISprite s) {
-        serviceLocator = sL;
+    public AGameObject(final IServiceLocator sL, final int x, final int y, final ISprite s, final Class<?> objectClass) {
+        synchronized (LOCK) {
+            AGameObject.serviceLocator = sL;
+        }
 
         this.setXPos(x);
         this.setYPos(y);
@@ -70,6 +73,7 @@ public abstract class AGameObject implements IGameObject {
             this.setHitBox(0, 0, s.getWidth(), s.getHeight());
             this.setSprite(s);
         }
+        logger = sL.getLoggerFactory().createLogger(objectClass);
     }
 
     /** {@inheritDoc} */
@@ -153,6 +157,13 @@ public abstract class AGameObject implements IGameObject {
     @Override
     public final void setYPos(final double y) {
         this.yPos = y;
+    }
+
+    /**
+     * @return The logger of the object.
+     */
+    public final ILogger getLogger() {
+        return logger;
     }
 
     /** {@inheritDoc} */
