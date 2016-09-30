@@ -22,10 +22,6 @@ import system.IServiceLocator;
 public class Doodle extends AGameObject implements IDoodle {
 
     /**
-     * The logger for the Game class.
-     */
-    private static final ILogger LOGGER = getServiceLocator().getLoggerFactory().createLogger(Doodle.class);
-    /**
      * The relative center of the camera on the y axis.
      */
     private static final double CAMERA_POS = 3 / 7d;

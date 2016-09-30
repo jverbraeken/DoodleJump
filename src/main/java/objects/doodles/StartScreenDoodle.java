@@ -2,6 +2,7 @@ package objects.doodles;
 
 import input.Keys;
 import objects.IJumpable;
+import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IServiceLocator;
 
 /**
