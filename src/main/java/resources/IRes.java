@@ -112,6 +112,8 @@ public interface IRes {
         jetpack,
         propeller,
         shield,
+        sizeUp,
+        sizeDown,
 
         // Top bar
         scoreBar,

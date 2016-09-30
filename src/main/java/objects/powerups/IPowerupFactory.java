@@ -27,6 +27,15 @@ public interface IPowerupFactory extends IFactory {
     IGameObject createPropeller(final int x, final int y);
 
     /**
+     * Create a new SizeUp powerup.
+     *
+     * @param x The X location for the SizeUp.
+     * @param y The Y location for the SizeUp.
+     * @return A new SizeUp instance.
+     */
+    IGameObject createSizeUp(final int x, final int y);
+
+    /**
      * Create a new Spring powerup.
      *
      * @param x The X location for the Spring.

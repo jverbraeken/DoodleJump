@@ -107,7 +107,6 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.resume);
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -659,6 +658,16 @@ public final class SpriteFactory implements ISpriteFactory {
     public ISprite getShieldSprite() {
         return getSprite(IRes.Sprites.shield);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getSizeUpSprite() {
+        return getSprite(IRes.Sprites.sizeUp);
+    }
+
+    // Misc
 
     /**
      * {@inheritDoc}
