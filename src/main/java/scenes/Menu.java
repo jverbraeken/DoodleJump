@@ -3,7 +3,6 @@ package scenes;
 import buttons.IButton;
 import buttons.IButtonFactory;
 import input.IKeyInputObserver;
-import input.KeyCode;
 import input.Keys;
 import logging.ILogger;
 import objects.AGameObject;
@@ -55,10 +54,6 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     private final IButton chooseModeButton;
     /**
-     * The cover sprite of the main menu.
-     */
-    private ISprite cover;
-    /**
      * The Doodle for the menu.
      */
     private final IDoodle doodle;
@@ -66,6 +61,10 @@ public class Menu implements IScene, IKeyInputObserver {
      * The platform for the menu.
      */
     private final IPlatform platform;
+    /**
+     * The cover sprite of the main menu.
+     */
+    private ISprite cover;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -94,8 +93,8 @@ public class Menu implements IScene, IKeyInputObserver {
 
         IPlatformFactory platformFactory = sL.getPlatformFactory();
         platform = platformFactory.createPlatform(
-            (int) (sL.getConstants().getGameWidth() * PLATFORM_X),
-            (int) (sL.getConstants().getGameHeight() * PLATFORM_Y)
+                (int) (sL.getConstants().getGameWidth() * PLATFORM_X),
+                (int) (sL.getConstants().getGameHeight() * PLATFORM_Y)
         );
 
         this.logger = sL.getLoggerFactory().createLogger(this.getClass());
@@ -142,12 +141,12 @@ public class Menu implements IScene, IKeyInputObserver {
 
     /** {@inheritDoc} */
     @Override
-    public void keyPress(final int keyCode) { }
+    public void keyPress(final Keys key) { }
 
     /** {@inheritDoc} */
     @Override
-    public final void keyRelease(final int keyCode) {
-        if (KeyCode.getKeyCode(Keys.enter) == keyCode || KeyCode.getKeyCode(Keys.space) == keyCode) {
+    public final void keyRelease(final Keys key) {
+        if (key == Keys.enter || key == Keys.space) {
             Game.setScene(serviceLocator.getSceneFactory().newWorld());
         }
     }

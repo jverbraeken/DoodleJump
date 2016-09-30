@@ -88,7 +88,7 @@ public class Platform extends AGameObject implements IPlatform {
      * @param sprite - The sprite for the platform.
      */
     /* package */ Platform(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
-        super(sL, x, y, sprite);
+        super(sL, x, y, sprite, Platform.class);
 
         int gameHeight = sL.getConstants().getGameHeight();
         movingDistance = gameHeight * 0.20;

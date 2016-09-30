@@ -100,7 +100,7 @@ public final class InputManager implements IInputManager {
     public void keyPressed(final KeyEvent e) {
         logger.info("Key pressed, keyCode: " + e.getKeyCode());
         for (IKeyInputObserver observer : keyInputObservers) {
-            observer.keyPress(e.getKeyCode());
+            observer.keyPress(KeyCode.getKey(e.getKeyCode()));
         }
     }
 
@@ -109,7 +109,7 @@ public final class InputManager implements IInputManager {
     public void keyReleased(final KeyEvent e) {
         logger.info("Key released, keyCode: " + e.getKeyCode());
         for (IKeyInputObserver observer : keyInputObservers) {
-            observer.keyRelease(e.getKeyCode());
+            observer.keyRelease(KeyCode.getKey(e.getKeyCode()));
         }
     }
 
