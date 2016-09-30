@@ -1,0 +1,93 @@
+******
+
+Possible modes.
+
+A: Most likely to choose implement.
+B: Likely to choose to implement.
+C: Unlikely to choose to implement.
+D: Highly unlikely to choose to implement.
+
+******
+
+multiplayer mode: D
+	-lot of platforms
+	-no powerups
+	-low jump height
+	-first to die loses.
+	
+underwater/space mode: A
+	-instead of absolute movement acceleration
+	-when not pressing a button slow to halt
+	-slower max speed
+	-lower max jump speed
+	-only rocket/scuba powerups
+	-low gravity
+	-skin
+	
+time attack mode: B
+	-score as many points as possible within a set time.
+	-extend time by jumping on platforms
+	-extend time by passing benchmarks
+	
+upside down mode: B
+	-regular game upside down.
+	
+story/tutorial mode: A
+	-complete missions to advance the story.
+	
+explorer mode: B
+	-collect artifacts to unlock new skins
+
+3d cube mode: D
+	-move to next field upon touching the side of the screen.
+
+invert mode: A
+	- have both regular and inverted platforms
+	- inverted platforms can only be jumped on in "inverted state"
+	- switch betweeen regular and inverted by pressing a button.
+	
+space invaders:
+	- stand on a line of platforms as doodle;
+	- low max jump speed
+	- enemies slowly moving down
+	- shoot automatically straight up.
+	
+random jump height mode: C
+	- randomize jump height.
+	
+arcade mode: C
+	- good amount of platforms
+	- no automatic adjustment for doodle height
+	- platforms move down at increasing speed
+	
+walls mode: C
+	- instead of wrapping at the screen sides have walls
+	
+only left/right mode: C
+	- disable moving left/right
+	
+frogger mode: C
+	- disable automatic jumping
+	- stick on platform
+	- jump upon button press
+	- aim using left/right
+	- no steering mid jump
+	
+darkness mode: A
+	- platform invisible until jumped upon.
+	
+stick mode: C
+	- have just the starting platform
+	- start platform randomly moving up and sideways
+	
+low density mode: C
+	- high jump speed
+	- very low amount of platforms
+
+breakout mode: C
+	- have the doodle jump around uncontrollably
+	- move the platform to keep the doodle bouncing.
+
+upgradable powerups: B
+	- collect things
+	- use things to upgrade powerups
