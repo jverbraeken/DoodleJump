@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
@@ -25,6 +26,7 @@ public class SpringTest {
     private ISprite sprite;
     private IRenderer renderer;
     private Spring spring;
+    private IDoodle doodle;
 
     @Before
     public void init() {
@@ -33,6 +35,7 @@ public class SpringTest {
         sprite = mock(ISprite.class);
         audioManager = mock(IAudioManager.class);
         renderer = mock(IRenderer.class);
+        doodle = mock(IDoodle.class);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(spriteFactory.getSpringSprite()).thenReturn(sprite);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
@@ -51,6 +54,13 @@ public class SpringTest {
         spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
         spring.render();
         verify(renderer).drawSprite(sprite, (int) spring.getXPos(), (int) spring.getYPos());
+    }
+
+    @Test
+    public void testCollidesWith() throws Exception {
+        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
+        spring.collidesWith(doodle);
+        verify(doodle).collide(spring);
     }
 
 }
