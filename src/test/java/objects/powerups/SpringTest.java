@@ -21,6 +21,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
  *
  * Created by Michael on 9/30/2016.
  */
+@SuppressWarnings("magicnumber")
 public class SpringTest {
 
     private IAudioManager audioManager;
@@ -108,7 +109,7 @@ public class SpringTest {
 
     /**
      * Tests if the getBoost method fo the spring object properly returns the value of BOOST.
-     * 
+     *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
      */
