@@ -1,7 +1,6 @@
 package scenes;
 
 import buttons.IButton;
-import input.IInputManager;
 import logging.ILogger;
 import objects.AGameObject;
 import objects.IGameObject;
@@ -16,7 +15,13 @@ import system.IRenderable;
 import system.IServiceLocator;
 import system.IUpdatable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Stack;
+import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -85,13 +90,13 @@ public class World implements IScene {
      */
     private final ISprite background;
     /**
+     * The top bar displaying the score and a pause button.
+     */
+    private final ScoreBar scoreBar;
+    /**
      * The highest (and thus latest) created block.
      */
     private IBlock topBlock;
-    /**
-     * The top bar displaying the score and a pause button
-     */
-    private final ScoreBar scoreBar;
 
     /**
      * Package visible constructor so a World can only be created via the SceneFactory.
@@ -214,7 +219,8 @@ public class World implements IScene {
      * If that's the case, delete that Block.
      */
     private void cleanUp() {
-        HashSet<IBlock> toRemove = blocks.stream().filter(e -> e.getTopJumpable().getYPos() > serviceLocator.getRenderer().getCamera().getYPos() + serviceLocator.getConstants().getGameHeight()).collect(Collectors.toCollection(HashSet::new));
+        final double yThreshold = serviceLocator.getRenderer().getCamera().getYPos() + serviceLocator.getConstants().getGameHeight();
+        HashSet<IBlock> toRemove = blocks.stream().filter(e -> e.getTopJumpable().getYPos() > yThreshold).collect(Collectors.toCollection(HashSet::new));
 
         toRemove.forEach(blocks::remove);
     }
@@ -304,14 +310,14 @@ public class World implements IScene {
         }
 
         /**
-         * Registers its button to the {@link IInputManager input manager}.
+         * Registers its button to the {@link input.IInputManager input manager}.
          */
         private void register() {
             pauseButton.register();
         }
 
         /**
-         * Deregisters its button from the {@link IInputManager input manager}.
+         * Deregisters its button from the {@link input.IInputManager input manager}.
          */
         private void deregister() {
             pauseButton.deregister();
@@ -446,7 +452,10 @@ public class World implements IScene {
                 while (!scoreDigits.isEmpty()) {
                     digit = scoreDigits.pop();
                     sprite = digitSprites[digit];
-                    serviceLocator.getRenderer().drawSpriteHUD(sprite, pos, digitData[digit * DIGIT_MULTIPLIER], digitData[digit * DIGIT_MULTIPLIER + 1], digitData[digit * DIGIT_MULTIPLIER + 2]);
+                    serviceLocator.getRenderer().drawSpriteHUD(sprite, pos,
+                            digitData[digit * DIGIT_MULTIPLIER],
+                            digitData[digit * DIGIT_MULTIPLIER + 1],
+                            digitData[digit * DIGIT_MULTIPLIER + 2]);
                     pos += digitData[digit * DIGIT_MULTIPLIER + 1] + 1;
                 }
             }

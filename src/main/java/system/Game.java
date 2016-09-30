@@ -1,14 +1,17 @@
 package system;
 
-import buttons.IButton;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -59,7 +62,10 @@ public final class Game {
      * The maximum size of the list of high scores.
      */
     private static final int MAX_HIGH_SCORES = 10;
-    private static final transient Object lock = new Object();
+    /**
+     * A LOCK to avoid threading issues.
+     */
+    private static final transient Object LOCK = new Object();
     /**
      * Used to gain access to all services.
      */
@@ -236,7 +242,7 @@ public final class Game {
     public static void setScene(final IScene scene) {
         assert scene != null;
         if (Game.scene == null) {
-            synchronized (lock) {
+            synchronized (LOCK) {
                 if (Game.scene == null) {
                     startScene(scene);
                 }
@@ -309,7 +315,30 @@ public final class Game {
      * The enums for the mode.
      */
     public enum Modes {
-        regular, underwater, story, invert, darkness, space
+        /**
+         * As usual.
+         */
+        regular,
+        /**
+         * Underwater -> slow moving.
+         */
+        underwater,
+        /**
+         * Accompanied with a story.
+         */
+        story,
+        /**
+         * Everything upside-down.
+         */
+        invert,
+        /**
+         * You don't see any platforms except for the ones you jumped on.
+         */
+        darkness,
+        /**
+         * Fast acceleration, slow deceleration.
+         */
+        space
     }
 
 }

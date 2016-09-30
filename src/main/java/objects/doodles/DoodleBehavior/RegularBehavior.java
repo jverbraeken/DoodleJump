@@ -2,7 +2,6 @@ package objects.doodles.DoodleBehavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
-import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
@@ -55,7 +54,7 @@ public class RegularBehavior implements MovementBehavior {
     /**
      * The constructor of the regular behavior.
      *
-     * @param d The Doodle this applies to.
+     * @param d  The Doodle this applies to.
      * @param sL the ServiceLocator.
      */
     public RegularBehavior(final IServiceLocator sL, final IDoodle d) {

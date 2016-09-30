@@ -2,7 +2,6 @@ package objects.doodles.DoodleBehavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
-import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
