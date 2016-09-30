@@ -26,6 +26,11 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void collide(final IJumpable jumpable);
 
     /**
+     * Get the passive of the Doodle.
+     */
+    IPassive getPassive();
+
+    /**
      * Add a passive item to the Doodle.
      *
      * @param item The item to add as passive.

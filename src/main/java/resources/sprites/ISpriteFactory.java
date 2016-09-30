@@ -142,7 +142,7 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getSpringShoesSprite();
 
-    ISprite getRocketSprite();
+    ISprite getJetpackSprite();
 
     ISprite getPropellerSprite();
 

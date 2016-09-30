@@ -92,6 +92,12 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
+    public IPassive getPassive() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public void setPassive(final IPassive item) { }
 
     /** {@inheritDoc} */

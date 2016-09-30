@@ -8,9 +8,20 @@ import objects.IGameObject;
 public interface IPassive extends IGameObject {
 
     /**
-     * Get the boost provided by the jumpable.
-     * @return The boost.
+     * Apply a constant boost provided by the passive.
+     */
+    void applyBoost();
+
+    /**
+     * Get the boost provided by the passive.
      */
     double getBoost();
+
+    /**
+     * Get the type of the passive.
+     *
+     * @return A PassiveType.
+     */
+    PassiveType getType();
 
 }
