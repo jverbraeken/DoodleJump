@@ -3,12 +3,14 @@ package objects.powerups;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
 import resources.audio.IAudioManager;
-import resources.sprites.ISpriteFactory;
 import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import static org.junit.Assert.assertEquals;
@@ -33,6 +35,9 @@ public class SpringTest {
     private Spring spring;
     private IDoodle doodle;
     private ILoggerFactory loggerFactory;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     /**
      * Initialisation of variables for the test cases.
@@ -97,6 +102,19 @@ public class SpringTest {
     }
 
     /**
+     * Tests if the method returns a NullPointerException when the parameter is null.
+     *
+     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
+     *                   in the constructor.
+     */
+    @Test
+    public void testCollidesWith2() throws Exception {
+        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
+        thrown.expect(NullPointerException.class);
+        spring.collidesWith(null);
+    }
+
+    /**
      * Tests is the Y position of the spring is properly adjusted when the animate method is called.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
@@ -121,6 +139,5 @@ public class SpringTest {
         spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
         assertEquals(-35, spring.getBoost(), 0.001);
     }
-
 
 }
