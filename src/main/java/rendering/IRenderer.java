@@ -79,7 +79,7 @@ public interface IRenderer {
     /**
      * Get the camera used by the Renderer.
      *
-     * @return The camera the Renderer is using.
+     * @return The camera the Renderer is using
      */
     ICamera getCamera();
 

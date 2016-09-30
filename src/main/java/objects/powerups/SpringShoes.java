@@ -4,25 +4,25 @@ import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
- * This class describes the behaviour of the Jump boots powerup.
+ * This class describes the behaviour of the SpringShoes powerup.
  */
-/* package */ class JumpBoots extends APowerup implements IPassive, IPowerup {
+/* package */ class SpringShoes extends APowerup implements IPassive, IPowerup {
 
     /**
-     * The maximum amount of times Jump boots can be used.
+     * The maximum amount of times SpringShoes can be used.
      */
     private static final int MAX_USES = 3;
     /**
-     * The boost provided by the boots.
+     * The boost provided by the SpringShoes.
      */
     private static final double BOOST = 2d;
 
     /**
-     * The Doodle that owns these boots.
+     * The Doodle that owns these SpringShoes.
      */
     private IDoodle owner;
     /**
-     * The amount of times the boots are used.
+     * The amount of times the SpringShoes are used.
      */
     private int uses = 0;
 
@@ -30,11 +30,11 @@ import system.IServiceLocator;
      * Jump boots constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the boots.
-     * @param y - The Y location for the boots.
+     * @param x - The X location for the SpringShoes.
+     * @param y - The Y location for the SpringShoes.
      */
-    /* package */ JumpBoots(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getSpringShoesSprite(), JumpBoots.class);
+    /* package */ SpringShoes(final IServiceLocator sL, final int x, final int y) {
+        super(sL, x, y, sL.getSpriteFactory().getSpringShoesSprite(), SpringShoes.class);
     }
 
     /** {@inheritDoc} */

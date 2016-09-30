@@ -26,7 +26,9 @@ public final class ButtonFactory implements IButtonFactory {
         ButtonFactory.serviceLocator.provide(new ButtonFactory());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IButton createPlayButton(final int x, final int y) {
         assert serviceLocator != null;
@@ -36,7 +38,9 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, playAction, "play");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IButton createResumeButton(final int x, final int y) {
         assert serviceLocator != null;
@@ -46,7 +50,9 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, resumeAction, "resume");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IButton createPlayAgainButton(final int x, final int y) {
         assert serviceLocator != null;
@@ -56,7 +62,9 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, playAgainAction, "playAgain");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IButton createMainMenuButton(final int x, final int y) {
         assert serviceLocator != null;
@@ -66,7 +74,9 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, mainMenu, "mainMenu");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IButton createChooseModeButton(final int x, final int y) {
         assert serviceLocator != null;
@@ -76,7 +86,9 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, chooseMode, "chooseMode");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IButton createRegularModeButton(final int x, final int y) {
         assert serviceLocator != null;
@@ -86,7 +98,9 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, regularMode, "regularMode");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IButton createDarknessModeButton(final int x, final int y) {
         assert serviceLocator != null;
@@ -96,7 +110,9 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, darknessMode, "darknessMode");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IButton createInvertModeButton(final int x, final int y) {
         assert serviceLocator != null;
@@ -106,7 +122,9 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, invertMode, "invertMode");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IButton createSpaceModeButton(final int x, final int y) {
         assert serviceLocator != null;
@@ -116,7 +134,9 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, spaceMode, "spaceMode");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IButton createUnderwaterModeButton(final int x, final int y) {
         assert serviceLocator != null;
@@ -126,7 +146,9 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(serviceLocator, x, y, buttonSprite, underwaterMode, "underwaterMode");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IButton createStoryModeButton(final int x, final int y) {
         assert serviceLocator != null;

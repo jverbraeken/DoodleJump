@@ -140,13 +140,17 @@ public class Doodle extends AGameObject implements IDoodle {
         return score;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void setPassive(final IPassive item) {
         this.passive = item;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void removePassive(final IPassive item) {
         if (this.passive.equals(item)) {

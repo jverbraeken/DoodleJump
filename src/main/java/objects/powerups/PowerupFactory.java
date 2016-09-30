@@ -85,9 +85,9 @@ public final class PowerupFactory implements IPowerupFactory {
      * {@inheritDoc}
      */
     @Override
-    public IGameObject createJumpBoots(final int x, final int y) {
+    public IGameObject createSpringShoes(final int x, final int y) {
         logger.info("A new pair of Spring Shoes has been created");
-        return new JumpBoots(serviceLocator, x, y);
+        return new SpringShoes(serviceLocator, x, y);
     }
 
     /**

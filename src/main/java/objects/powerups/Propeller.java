@@ -33,25 +33,33 @@ import system.IServiceLocator;
         super(sL, x, y, sL.getSpriteFactory().getPropellerSprite(), Jetpack.class);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void applyBoost() {
         this.owner.setVerticalSpeed(BOOST);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getBoost() {
         return 0;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PassiveType getType() {
         return PassiveType.constant;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
@@ -60,7 +68,9 @@ import system.IServiceLocator;
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         if (this.owner == null) {

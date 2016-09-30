@@ -147,9 +147,9 @@ public final class BlockFactory implements IBlockFactory {
     private IPlatform placeInitialStartBlockPlatforms(final Set<IGameObject> elements) {
         final double initialPlatformHeightDivider = 1.2d;
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-        int xPos = serviceLocator.getConstants().getGameWidth() / 2;
-        int yPos = (int) (serviceLocator.getConstants().getGameHeight() / initialPlatformHeightDivider);
-        IPlatform platform = platformFactory.createPlatform(xPos, yPos);
+        IPlatform platform = platformFactory.createPlatform(
+                serviceLocator.getConstants().getGameWidth() / 2,
+                (int) (serviceLocator.getConstants().getGameHeight() / initialPlatformHeightDivider));
         elements.add(platform);
         return platform;
     }
