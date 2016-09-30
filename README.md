@@ -20,6 +20,8 @@ Import as a Maven project in Intellij Idea and build with Maven (3.0.4).
 - Mockito 1.6.5
 - Powermockito 1.6.5
 
+## Code Quality
+
 To ensure the code quality 3 additional frameworks are used:
 - PMD 4.3
 - CheckStyle 7.0
