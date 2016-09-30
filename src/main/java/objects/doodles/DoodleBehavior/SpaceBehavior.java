@@ -2,7 +2,6 @@ package objects.doodles.DoodleBehavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
-import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
@@ -67,7 +66,7 @@ public class SpaceBehavior implements MovementBehavior {
     /**
      * The constructor of the regular behavior.
      *
-     * @param d The doodle this applies to.
+     * @param d  The doodle this applies to.
      * @param sL the ServiceLocator.
      */
     public SpaceBehavior(final IServiceLocator sL, final IDoodle d) {

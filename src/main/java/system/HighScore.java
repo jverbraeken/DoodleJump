@@ -28,7 +28,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
         this.score = s;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int compareTo(final HighScore that) {
         if (this.getScore() > that.getScore()) {
@@ -41,10 +43,14 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         HighScore highScore = (HighScore) o;
 
@@ -56,7 +62,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37)
+        final int hash1 = 17;
+        final int hash2 = 37;
+        return new HashCodeBuilder(hash1, hash2)
                 .append(name)
                 .append(score)
                 .toHashCode();
