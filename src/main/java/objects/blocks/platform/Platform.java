@@ -22,30 +22,25 @@ public class Platform extends AGameObject implements IPlatform {
      * @param x - The X location for the platform.
      * @param y - The Y location for the platform.
      */
-    /* package */ Platform(IServiceLocator sL, int x, int y) {
+    /* package */ Platform(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getPlatformSprite1(), Platform.class);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public double getBoost() {
+    public final double getBoost() {
         return Platform.BOOST;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void render() {
+    public final void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
-
     /** {@inheritDoc} */
     @Override
-    public void collidesWith(IDoodle doodle) {
+    public final void collidesWith(final IDoodle doodle) {
         this.playSound();
         doodle.collide(this);
     }

@@ -22,10 +22,21 @@ import static system.Game.Modes.regular;
 public final class Game {
 
     /**
-     * The time in miliseconds per frame.
+=======
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator serviceLocator = new ServiceLocator();
+
+    /**
+     * The time in milliseconds per frame.
      */
     private static final int FRAME_TIME = 16;
     /**
+     * The logger for the Game class.
+     */
+    private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+    /**
+>>>>>>> develop
      * The target FPS for the game.
      */
     private static final int TARGET_FPS = 60;
@@ -42,17 +53,17 @@ public final class Game {
      */
     private static final double RESUME_BUTTON_Y = 0.75;
     /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator sL = new ServiceLocator();
-    /**
-     * The logger for the Game class.
-     */
-    private static final ILogger LOGGER = sL.getLoggerFactory().createLogger(Game.class);
-    /**
      * The maximum size of the list of high scores.
      */
     private static final int MAX_HIGH_SCORES = 10;
+    /**
+     * Indicates if the log file should be cleared each time the game starts.
+     * This constant is not provided by an implementation of {@link constants.IConstants} because
+     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
+     * does need to know whether is should clear the log file on startup or not.
+     */
+    public static final boolean CLEAR_LOG_ON_STARTUP = true;
+
     /**
      * The current frame.
      */
@@ -70,11 +81,10 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
-     * Track wether the doodle is alive.
-     */
-    private static boolean isAlive = true;
-    /**
      * The enums for the mode
+=======
+     * The enums for the mode.
+>>>>>>> develop
      */
     public enum Modes { regular, underwater, story, invert, darkness, space }
     /**
@@ -104,41 +114,32 @@ public final class Game {
      * does need the name of the log file.
      */
     public static final String LOGFILE_NAME = "async.log";
-    /**
-     * Indicates if the log file should be cleared each time the game starts.
-     * This constant is not provided by an implementation of {@link constants.IConstants} because
-     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
-     * does need to know whether is should clear the log file on startup or not.
-     */
-    public final static boolean CLEAR_LOG_ON_STARTUP = true;
 
     /**
      * Prevents instantiation from outside the Game class.
      */
-    private Game() {
-    }
+    private Game() { }
 
     /**
      * The initialization of the game.
      *
      * @param argv the arguments to run.
      */
-    public static void main(String[] argv) {
+    public static void main(final String[] argv) {
         LOGGER.info("The game has been launched");
 
-        Game.pauseScreen = sL.getSceneFactory().createPauseScreen();
-        IInputManager inputManager = sL.getInputManager();
-        sL.getRenderer().start();
+        Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
+        IInputManager inputManager = serviceLocator.getInputManager();
 
         // Initialize frame
         frame = new JFrame("Doodle Jump");
         frame.addMouseListener(inputManager);
         frame.addKeyListener(inputManager);
-        frame.setSize(sL.getConstants().getGameWidth(), sL.getConstants().getGameHeight());
+        frame.setSize(serviceLocator.getConstants().getGameWidth(), serviceLocator.getConstants().getGameHeight());
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2);
+        frame.setSize(serviceLocator.getConstants().getGameWidth() / 2, serviceLocator.getConstants().getGameHeight() / 2);
         frame.addWindowListener(new WindowAdapter() {
             /**
              * Invoked when a window is in the process of being closed.
@@ -150,91 +151,39 @@ public final class Game {
 
         // Initialize panel
         panel = new JPanel() {
-            /**
-             * TODO: Add JavaDoc
-             */
+            /** {@inheritDoc} */
             @Override
             public void paintComponent(final Graphics g) {
-            sL.getRenderer().setGraphicsBuffer(g);
+                serviceLocator.getRenderer().setGraphicsBuffer(g);
 
-            ((Graphics2D) g).scale(1 / scale, 1 / scale);
-            if (Game.scene != null) {
-                Game.scene.render();
-            }
+                ((Graphics2D) g).scale(1 / scale, 1 / scale);
+                if (Game.scene != null) {
+                    Game.scene.render();
+                }
 
-            if (isPaused) {
-                pauseScreen.render();
-            }
+                if (isPaused) {
+                    pauseScreen.render();
+                }
 
-            ((Graphics2D) g).scale(scale, scale);
+                ((Graphics2D) g).scale(scale, scale);
             }
         };
         panel.setLayout(new GridLayout(1, 1));
         frame.setContentPane(panel);
 
-        setScene(sL.getSceneFactory().createMainMenu());
+        setScene(serviceLocator.getSceneFactory().createMainMenu());
         int x = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
-        sL.getInputManager().setMainWindowBorderSize(x, y);
+        serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        resumeButton = sL.getButtonFactory().createResumeButton((int) (sL.getConstants().getGameWidth() * RESUME_BUTTON_X), (int) (sL.getConstants().getGameHeight() * RESUME_BUTTON_Y));
-        sL.getInputManager().addObserver(resumeButton);
+        resumeButton = serviceLocator.getButtonFactory().createResumeButton(
+                (int) (serviceLocator.getConstants().getGameWidth() * RESUME_BUTTON_X),
+                (int) (serviceLocator.getConstants().getGameHeight() * RESUME_BUTTON_Y));
+        serviceLocator.getInputManager().addObserver(resumeButton);
 
         loop();
     }
 
-    /**
-     * Sets the current scene to currentScene.
-     *
-     * @param s The new scene that must be visible to the user. Cannot be null
-     */
-    public static void setScene(final IScene s) {
-        assert s != null;
-        if (Game.scene != null) {
-            Game.scene.stop();
-        }
-
-        sL.getRenderer().getCamera().setYPos(0d);
-        s.start();
-        Game.scene = s;
-    }
-
-    /**
-     * Returns the current FPS.
-     *
-     * @param threadSleep Amount of time thread has slept
-     * @param renderTime  Amount of time took rendering/updating
-     * @return The current Frames Per Second (FPS)
-     */
-    public static double getFPS(final long threadSleep, final long renderTime) {
-        if (threadSleep + renderTime == 0) {
-            return TARGET_FPS;
-        }
-        return ICalc.NANOSECONDS / (threadSleep + renderTime);
-    }
-
-    /**
-     * Pauses or resumes the game.
-     *
-     * @param paused <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
-     */
-    public static void setPaused(final boolean paused) {
-        if (paused) {
-            LOGGER.info("The game has been paused");
-            pauseScreen.start();
-        } else {
-            LOGGER.info("The game has been resumed");
-            pauseScreen.stop();
-        }
-
-        isPaused = paused;
-    }
-
-    /**
-     * Start the game.
-     */
-    public static void startGameInstance() {
-    }
 
     /**
      * End the game.
@@ -243,16 +192,16 @@ public final class Game {
      */
     public static void endGameInstance(final double score) {
         updateHighScores(score);
-        setScene(sL.getSceneFactory().createKillScreen());
+        setScene(serviceLocator.getSceneFactory().createKillScreen());
     }
 
-    public static void setMode(final Modes m){
-        mode = m;
-        sL.getRes().setSkin(m);
-        SpriteFactory skin = new SpriteFactory();
-        skin.register(sL);
-        scene.resetBackground();
-        LOGGER.info("The mode is now " + m);
+    /**
+     * Return the current mode.
+     *
+     * @return the mode.
+     */
+    public static Modes getMode() {
+        return mode;
     }
 
     /**
@@ -277,8 +226,7 @@ public final class Game {
 
             panel.repaint();
             try {
-                long gameTime = FRAME_TIME;
-                Thread.sleep(gameTime - (now - System.nanoTime()) / ICalc.NANOSECONDS);
+                Thread.sleep(FRAME_TIME - (now - System.nanoTime()) / ICalc.NANOSECONDS);
             } catch (InterruptedException e) {
                 LOGGER.error(e);
             }
@@ -288,14 +236,53 @@ public final class Game {
     }
 
     /**
-     * Return the current mode.
-     * @return the mode
+     * Sets the current scene to currentScene.
+     *
+     * @param s The new scene that must be visible to the user. Cannot be null
      */
-    public static Modes getMode() {
-        return mode;
+    public static void setScene(final IScene s) {
+        assert s != null;
+        if (Game.scene != null) {
+            Game.scene.stop();
+        }
+
+        serviceLocator.getRenderer().getCamera().setYPos(0d);
+        s.start();
+        Game.scene = s;
     }
 
-    /*
+    /**
+     * Pauses or resumes the game.
+     *
+     * @param paused <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
+     */
+    public static void setPaused(final boolean paused) {
+        if (paused) {
+            LOGGER.info("The game has been paused");
+            pauseScreen.start();
+        } else {
+            LOGGER.info("The game has been resumed");
+            pauseScreen.stop();
+        }
+
+        isPaused = paused;
+    }
+
+    /**
+     * Set the mode of the Game.
+     *
+     * @param m The mode to set.
+     */
+    public static void setMode(final Modes m) {
+        mode = m;
+        serviceLocator.getRes().setSkin(m);
+        SpriteFactory.register(serviceLocator);
+        scene.resetBackground();
+        LOGGER.info("The mode is now " + m);
+    }
+
+
+    /**
      * Update the high scores for the game.
      *
      * @param score The score the game instance ended with.
@@ -308,6 +295,20 @@ public final class Game {
         for (int i = Game.highScores.size(); i > MAX_HIGH_SCORES; i--) {
             Game.highScores.remove(i - 1);
         }
+    }
+
+    /**
+     * Returns the current FPS.
+     *
+     * @param threadSleep Amount of time thread has slept
+     * @param renderTime  Amount of time took rendering/updating
+     * @return The current Frames Per Second (FPS)
+     */
+    private static double getFPS(final long threadSleep, final long renderTime) {
+        if (threadSleep + renderTime == 0) {
+            return TARGET_FPS;
+        }
+        return ICalc.NANOSECONDS / (threadSleep + renderTime);
     }
 
 }

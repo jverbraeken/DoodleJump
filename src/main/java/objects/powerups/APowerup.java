@@ -16,10 +16,10 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      * @param x            The X-coordinate of the powerup
      * @param y            The Y-coordinate of the powerup
      * @param sprite       The sprite of the powerup
-     * @param powerupClass The class of the powerup
+     * @param powerup      The class of the powerup
      */
-    public APowerup(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final Class<?> powerupClass) {
-        super(sL, x, y, sprite, powerupClass);
+    public APowerup(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final Class<?> powerup) {
+        super(sL, x, y, sprite, powerup);
     }
 
 }

@@ -54,8 +54,7 @@ public final class KeyCode {
     /**
      * Prevent KeyCodes instances.
      */
-    private KeyCode() {
-    }
+    private KeyCode() { }
 
     /**
      * Get the keycode given the key.
