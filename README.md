@@ -32,7 +32,7 @@ To ensure the code quality 3 additional frameworks are used:
 - Eric Cornelissen (@ericcornelissen)
 - Joost Verbraeken (@jverbraeken)
 - Nick Winnubst (@NickWinnubst)
-- Cornel (@clenrock)
-- Michael (@blazeuser)
+- Cornel de Vroomen (@clenrock)
+- Michael Tran (@blazeuser)
 
 - Supervised by Bart de Jonge (@bartdejonge1996)
