@@ -150,6 +150,8 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getSizeUpSprite();
 
+    ISprite getSizeDownSprite();
+
     // Text
     ISprite getWaitDoNotShootSprite();
 
