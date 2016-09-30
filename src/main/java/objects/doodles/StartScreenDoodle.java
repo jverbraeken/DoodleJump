@@ -90,11 +90,13 @@ import system.IServiceLocator;
         this.vSpeed = jumpable.getBoost() + BOOST_REDUCTION;
     }
 
+    /** {@inheritDoc} */
     @Override
-    public void setPassive(IPassive item) { }
+    public void setPassive(final IPassive item) { }
 
+    /** {@inheritDoc} */
     @Override
-    public void removePassive(IPassive item) { }
+    public void removePassive(final IPassive item) { }
 
     /** {@inheritDoc} */
     @Override
