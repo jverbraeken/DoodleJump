@@ -32,10 +32,10 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void collide(final IJumpable jumpable);
 
     /**
-     * Returns the height of the legs of the doodle. When this value is very large, for example 1,
+     * Returns the height of the legs of the Doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      *
-     * @return The height of the legs of the doodle
+     * @return The height of the legs of the Doodle.
      */
     double getLegsHeight();
 

@@ -1,7 +1,6 @@
 package objects.doodles;
 
 import input.Keys;
-import logging.ILogger;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
@@ -11,6 +10,7 @@ import objects.doodles.DoodleBehavior.UnderwaterBehavior;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
@@ -43,10 +43,6 @@ public class Doodle extends AGameObject implements IDoodle {
     private static final double WIDTH_HIT_BOX_RIGHT = .7;
 
     /**
-     * The logger for the Game class.
-     */
-    private final ILogger logger;
-    /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
     private ISprite[][] spritePack;
@@ -55,6 +51,10 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double score;
     /**
+     * The world the Doodle lives in.
+     */
+    private final World world;
+    /**
      * Describes the movement behavior of the doodle.
      */
     private MovementBehavior behavior;
@@ -62,22 +62,23 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Doodle constructor.
      *
-     * @param sL The service locator
+     * @param sL The service locator.
+     * @param w The world the Doodle lives in.
      */
-     /* package */ Doodle(final IServiceLocator sL) {
+     /* package */ Doodle(final IServiceLocator sL, final World w) {
         super(sL,
                 sL.getConstants().getGameWidth() / 2,
                 sL.getConstants().getGameHeight() / 2,
                 sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0],
                 Doodle.class);
 
-        this.logger = sL.getLoggerFactory().createLogger(Doodle.class);
         this.setHitBox(
                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
                 getSprite().getHeight(),
                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT),
                 getSprite().getHeight());
 
+        this.world = w;
         setBehavior(Game.getMode());
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.spritePack = new ISprite[2][2];
@@ -137,6 +138,10 @@ public class Doodle extends AGameObject implements IDoodle {
         return behavior.getVerticalSpeed();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final void setVerticalSpeed(final double vSpeed) {
         behavior.setVerticalSpeed(vSpeed);
     }
@@ -224,14 +229,14 @@ public class Doodle extends AGameObject implements IDoodle {
         ICamera camera = getServiceLocator().getRenderer().getCamera();
         if (getYPos() > camera.getYPos() + getServiceLocator().getConstants().getGameHeight() - DEAD_OFFSET * getHitBox()[HITBOX_BOTTOM]) {
             getLogger().info("The Doodle died with score " + this.score);
-            Game.endGameInstance(this.score);
+            this.world.endGameInstance(this.score);
         }
     }
 
     /**
-     * Set the behavior of the doodle with respect to the mode.
+     * Set the behavior of the Doodle with respect to the mode.
      *
-     * @param mode The game mode.
+     * @param mode the behavior mode.
      */
     private void setBehavior(final Game.Modes mode) {
         switch (mode) {

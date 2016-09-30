@@ -131,13 +131,14 @@ public class World implements IScene {
         this.drawables.get(2).add(this.scoreBar);
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
-        this.doodle = doodleFactory.createDoodle();
+        this.doodle = doodleFactory.createDoodle(this);
         this.doodle.setVerticalSpeed(DOODLE_INITIAL_SPEED);
         this.drawables.get(1).add(this.doodle);
         this.updatables.add(this.doodle);
 
         serviceLocator.getAudioManager().playStart();
 
+        this.start();
         logger.info("Level started");
     }
 
@@ -183,6 +184,16 @@ public class World implements IScene {
         checkCollisions();
         cleanUp();
         newBlocks();
+    }
+
+    /**
+     * End the game.
+     *
+     * @param score The score the player got.
+     */
+    public final void endGameInstance(final double score) {
+        Game.HIGH_SCORES.addHighScore("Doodle", score);
+        Game.setScene(serviceLocator.getSceneFactory().createKillScreen());
     }
 
     /**
