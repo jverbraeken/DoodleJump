@@ -1,5 +1,6 @@
 package resources;
 
+import system.Game;
 import system.IServiceLocator;
 
 import java.util.EnumMap;
@@ -12,9 +13,10 @@ import java.util.Map;
 public final class Res implements IRes {
 
     /**
-     * Used to gain access to all services.
+     * The sprite path used to find the sprites.
      */
-    private static transient IServiceLocator serviceLocator;
+    private static final String SPRITE_PATH = "sprites/";
+
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -22,72 +24,16 @@ public final class Res implements IRes {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        Res.serviceLocator = sL;
-        Res.serviceLocator.provide(new Res());
+        sL.provide(new Res());
     }
 
     /**
      * A map mapping Sprites enum to String containing the path to the sprite.
      */
-    private Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
+    private final Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
 
-    {
-        String spritePath = "sprites/";
-        // TODO this should be removed in the final version when all Sprites are ready
-        for (Sprites sprite : Sprites.values()) {
-            sprites.put(sprite, spritePath + "unimplemented.jpg");
-        }
-
-        // Buttons
-        sprites.put(Sprites.menu, spritePath + "menu@2x.png");
-        sprites.put(Sprites.play, spritePath + "play@2x.png");
-        sprites.put(Sprites.playagain, spritePath + "playagain@2x.png");
-        sprites.put(Sprites.resume, spritePath + "resume@2x.png");
-
-        // Covers
-        sprites.put(Sprites.background, spritePath + "bck@2x.png");
-        sprites.put(Sprites.pauseCover, spritePath + "pause-cover@2x.png");
-        sprites.put(Sprites.startCover, spritePath + "Default@2x.png");
-
-        // Doodle
-        sprites.put(Sprites.doodleLeftAscend, spritePath + "blue-lik-Left@2x.png");
-        sprites.put(Sprites.doodleLeftDescend, spritePath + "blue-lik-Left-odskok@2x.png");
-        sprites.put(Sprites.doodleRightAscend, spritePath + "blue-lik-Right@2x.png");
-        sprites.put(Sprites.doodleRightDescend, spritePath + "blue-lik-Right-odskok@2x.png");
-
-        // Kill screen
-        sprites.put(Sprites.gameOver, spritePath + "gameover@2x.png");
-        sprites.put(Sprites.killScreenBottom, spritePath + "kill-bottom@2x.png");
-
-
-        // Numbers
-        sprites.put(Sprites.pause, spritePath + "pause.png");
-        sprites.put(Sprites.zero, spritePath + "0.png");
-        sprites.put(Sprites.one, spritePath + "1.png");
-        sprites.put(Sprites.two, spritePath + "2.png");
-        sprites.put(Sprites.three, spritePath + "3.png");
-        sprites.put(Sprites.four, spritePath + "4.png");
-        sprites.put(Sprites.five, spritePath + "5.png");
-        sprites.put(Sprites.six, spritePath + "6.png");
-        sprites.put(Sprites.seven, spritePath + "7.png");
-        sprites.put(Sprites.eight, spritePath + "8.png");
-        sprites.put(Sprites.nine, spritePath + "9.png");
-
-        // Platforms
-        sprites.put(Sprites.platform1, spritePath + "platform-green@2x.png");
-
-        // Powerups
-        sprites.put(Sprites.propeller, spritePath + "powerup-propeller@2x.png");
-        sprites.put(Sprites.rocket, spritePath + "powerup-rockets@2x.png");
-        sprites.put(Sprites.shield, spritePath + "powerup-shield@2x.png");
-        sprites.put(Sprites.spring, spritePath + "powerup-spring@2x.png");
-        sprites.put(Sprites.springUsed, spritePath + "powerup-spring-used@2x.png");
-        sprites.put(Sprites.trampoline, spritePath + "powerup-trampoline@2x.png");
-        sprites.put(Sprites.trampolineUsed, spritePath + "powerup-trampoline-used@2x.png");
-
-        // Top bar
-        sprites.put(Sprites.scorebar, spritePath + "scorebar.png");
-    }
+    // Initializes the sprites.
+    { resetSkin(); }
 
     /**
      * Prevent instantiation of Res.
@@ -95,12 +41,159 @@ public final class Res implements IRes {
     private Res() {
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getSpritePath(final Sprites sprite) {
         return sprites.get(sprite);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSkin(final Game.Modes mode) {
+        switch (mode) {
+            case regular:
+                resetSkin();
+                break;
+            case space:
+                setSpaceSkin();
+                break;
+            case underwater:
+                setUnderwaterSkin();
+                break;
+            default:
+                resetSkin();
+                break;
+        }
+    }
+
+    /**
+     * Reset the skin to the regular settings.
+     */
+    private void resetSkin() {
+        // TODO this should be removed in the final version when all Sprites are ready
+        for (Sprites sprite : Sprites.values()) {
+            sprites.put(sprite, SPRITE_PATH + "unimplemented.jpg");
+        }
+
+        // Buttons
+        sprites.put(Sprites.menu, SPRITE_PATH + "menu@2x.png");
+        sprites.put(Sprites.play, SPRITE_PATH + "play@2x.png");
+        sprites.put(Sprites.playAgain, SPRITE_PATH + "playagain@2x.png");
+        sprites.put(Sprites.resume, SPRITE_PATH + "resume@2x.png");
+        sprites.put(Sprites.chooseMode, SPRITE_PATH + "mode-button2@2x.png");
+
+        // Covers
+        sprites.put(Sprites.background, SPRITE_PATH + "bck@2x.png");
+        sprites.put(Sprites.pauseCover, SPRITE_PATH + "pause-cover@2x.png");
+        sprites.put(Sprites.startCover, SPRITE_PATH + "Default@2x.png");
+
+        // Doodle
+        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "blue-lik-Left@2x.png");
+        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "blue-lik-Left-odskok@2x.png");
+        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-Right@2x.png");
+        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-Right-odskok@2x.png");
+
+        // Kill screen
+        sprites.put(Sprites.gameOver, SPRITE_PATH + "gameover@2x.png");
+        sprites.put(Sprites.killScreenBottom, SPRITE_PATH + "kill-bottom@2x.png");
+
+        // Numbers
+        sprites.put(Sprites.pause, SPRITE_PATH + "pause.png");
+        sprites.put(Sprites.zero, SPRITE_PATH + "0.png");
+        sprites.put(Sprites.one, SPRITE_PATH + "1.png");
+        sprites.put(Sprites.two, SPRITE_PATH + "2.png");
+        sprites.put(Sprites.three, SPRITE_PATH + "3.png");
+        sprites.put(Sprites.four, SPRITE_PATH + "4.png");
+        sprites.put(Sprites.five, SPRITE_PATH + "5.png");
+        sprites.put(Sprites.six, SPRITE_PATH + "6.png");
+        sprites.put(Sprites.seven, SPRITE_PATH + "7.png");
+        sprites.put(Sprites.eight, SPRITE_PATH + "8.png");
+        sprites.put(Sprites.nine, SPRITE_PATH + "9.png");
+
+        // Platforms
+        sprites.put(Sprites.platform1, SPRITE_PATH + "platform-green@2x.png");
+        sprites.put(Sprites.platformHorizontal, SPRITE_PATH + "platform-blue@2x.png");
+        sprites.put(Sprites.platformVertical, SPRITE_PATH + "platform-gray@2x.png");
+        sprites.put(Sprites.platformBroken1, SPRITE_PATH + "platform-broken1@2x.png");
+        sprites.put(Sprites.platformBroken2, SPRITE_PATH + "platform-broken2@2x.png");
+        sprites.put(Sprites.platformBroken3, SPRITE_PATH + "platform-broken3@2x.png");
+        sprites.put(Sprites.platformBroken4, SPRITE_PATH + "platform-broken4@2x.png");
+
+        // Powerups
+        sprites.put(Sprites.propeller, SPRITE_PATH + "powerup-propeller@2x.png");
+        sprites.put(Sprites.rocket, SPRITE_PATH + "powerup-rockets@2x.png");
+        sprites.put(Sprites.shield, SPRITE_PATH + "powerup-shield@2x.png");
+        sprites.put(Sprites.spring, SPRITE_PATH + "powerup-spring@2x.png");
+        sprites.put(Sprites.springUsed, SPRITE_PATH + "powerup-spring-used@2x.png");
+        sprites.put(Sprites.trampoline, SPRITE_PATH + "powerup-trampoline@2x.png");
+        sprites.put(Sprites.trampolineUsed, SPRITE_PATH + "powerup-trampoline-used@2x.png");
+
+        // Top bar
+        sprites.put(Sprites.scoreBar, SPRITE_PATH + "scoreBar.png");
+
+        // Choose mode icons
+        sprites.put(Sprites.storyMode, SPRITE_PATH + "story-mode@4x.png");
+        sprites.put(Sprites.regularMode, SPRITE_PATH + "regular-mode@4x.png");
+        sprites.put(Sprites.darknessMode, SPRITE_PATH + "darkness-mode@4x.png");
+        sprites.put(Sprites.invertMode, SPRITE_PATH + "invert-mode@4x.png");
+        sprites.put(Sprites.spaceMode, SPRITE_PATH + "space-mode@4x.png");
+        sprites.put(Sprites.underwaterMode, SPRITE_PATH + "underwater-mode@4x.png");
+    }
+
+    /**
+     * Set the skin to space style.
+     */
+    private void setSpaceSkin() {
+        resetSkin();
+
+        // Covers
+        sprites.put(Sprites.startCover, SPRITE_PATH + "space-Default@2x.png");
+        sprites.put(Sprites.background, SPRITE_PATH + "space-bck@2x.png");
+
+        // Doodle
+        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "space-left@2x.png");
+        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "space-left-odskok@2x.png");
+        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "space-right@2x.png");
+        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "space-right-odskok@2x.png");
+
+        // Platforms
+        sprites.put(Sprites.platform1, SPRITE_PATH + "space-platform@2x.png");
+
+        // Power-ups
+        sprites.put(Sprites.trampoline, SPRITE_PATH + "space-powerup-trampoline@2x.png");
+        sprites.put(Sprites.trampolineUsed, SPRITE_PATH + "space-powerup-trampoline-used@2x.png");
+
+        // Top bar
+        sprites.put(Sprites.scoreBar, SPRITE_PATH + "space-scoreBar@2x.png");
+    }
+
+    /**
+     * Set the skin to underwater style.
+     */
+    private void setUnderwaterSkin() {
+        resetSkin();
+
+        // Covers
+        sprites.put(Sprites.startCover, SPRITE_PATH + "underwater-Default@2x.png");
+        sprites.put(Sprites.background, SPRITE_PATH + "underwater-bck2@2x.png");
+
+        // Doodle
+        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "underwater-left@2x.png");
+        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "underwater-left-odskok@2x.png");
+        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "underwater-right@2x.png");
+        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "underwater-right-odskok@2x.png");
+
+        // Platforms
+        sprites.put(Sprites.platform1, SPRITE_PATH + "underwater-platform@2x.png");
+
+        // Power-ups
+        sprites.put(Sprites.spring, SPRITE_PATH + "underwater-powerup-spring@2x.png");
+        sprites.put(Sprites.springUsed, SPRITE_PATH + "underwater-powerup-spring-used@2x.png");
+        sprites.put(Sprites.trampoline, SPRITE_PATH + "underwater-powerup-trampoline@2x.png");
+        sprites.put(Sprites.trampolineUsed, SPRITE_PATH + "underwater-powerup-trampoline-used@2x.png");
+
+        // Top bar
+        sprites.put(Sprites.scoreBar, SPRITE_PATH + "underwater-scorebar@2x.png");
     }
 
 }

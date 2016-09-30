@@ -11,14 +11,21 @@ import system.IServiceLocator;
 public final class EnemyBuilder implements IEnemyBuilder {
 
     /**
-     * The logger for the EnemyBuilder class.
-     */
-    private final ILogger LOGGER;
-
-    /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator sL;
+    private static transient IServiceLocator serviceLocator;
+    /**
+     * The logger for the EnemyBuilder class.
+     */
+    private final ILogger logger;
+
+    /**
+     * Private constructor to prevent instantiation from outside the class.
+     */
+    private EnemyBuilder() {
+        logger = serviceLocator.getLoggerFactory().createLogger(EnemyBuilder.class);
+    }
+
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -26,24 +33,16 @@ public final class EnemyBuilder implements IEnemyBuilder {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        EnemyBuilder.sL = sL;
-        EnemyBuilder.sL.provide(new EnemyBuilder());
+        EnemyBuilder.serviceLocator = sL;
+        EnemyBuilder.serviceLocator.provide(new EnemyBuilder());
     }
 
-    /**
-     * Private constructor to prevent instantiation from outside the class.
-     */
-    private EnemyBuilder() {
-        LOGGER = sL.getLoggerFactory().createLogger(EnemyBuilder.class);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IGameObject createEnemy(final int x, final int y, final ISprite sprite) {
-        LOGGER.info("A new Enemy has been created: x = " + x + ", y = " + y + " sprite = " + sprite.toString());
-        return new Enemy(x, y, sprite);
+        logger.info("A new Enemy has been created: x = " + x + ", y = " + y + " sprite = " + sprite.toString());
+        return new Enemy(serviceLocator, x, y, sprite);
+
     }
 
 }

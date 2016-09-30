@@ -11,12 +11,19 @@ public final class SceneFactory implements ISceneFactory {
     /**
      * The logger for the SceneFactory class.
      */
-    private final ILogger LOGGER;
-
+    private final ILogger logger;
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator sL;
+    private static transient IServiceLocator serviceLocator;
+
+    /**
+     * Private constructor to prevent instantiation from outside the class.
+     */
+    private SceneFactory() {
+        logger = serviceLocator.getLoggerFactory().createLogger(SceneFactory.class);
+    }
+
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -24,51 +31,43 @@ public final class SceneFactory implements ISceneFactory {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        SceneFactory.sL = sL;
-        SceneFactory.sL.provide(new SceneFactory());
+        SceneFactory.serviceLocator = sL;
+        sL.provide(new SceneFactory());
     }
 
-    /**
-     * Private constructor to prevent instantiation from outside the class.
-     */
-    private SceneFactory() {
-        LOGGER = sL.getLoggerFactory().createLogger(SceneFactory.class);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IScene createMainMenu() {
-        LOGGER.info("A new Menu has been created");
-        return new Menu(sL);
+        logger.info("A new Menu has been created");
+        return new Menu(serviceLocator);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IScene createKillScreen() {
-        LOGGER.info("A new KillScreen has been created");
-        return new KillScreen(sL);
+        logger.info("A new KillScreen has been created");
+        return new KillScreen(serviceLocator);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IScene createPauseScreen() {
-        LOGGER.info("A new PauseScreen has been created");
-        return new PauseScreen(sL);
+        logger.info("A new PauseScreen has been created");
+        return new PauseScreen(serviceLocator);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public World newWorld() {
-        LOGGER.info("A new World has been created");
-        return new World(sL);
+        logger.info("A new World has been created");
+        return new World(serviceLocator);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ChooseMode newChooseMode() {
+        logger.info("A new ChooseMode screen has been created");
+        return new ChooseMode(serviceLocator);
     }
 
 }

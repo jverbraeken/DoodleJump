@@ -1,5 +1,7 @@
 package resources;
 
+import system.Game;
+
 /**
  * Interface for the resources.
  */
@@ -12,15 +14,26 @@ public interface IRes {
      * @param sprite A reference to the sprite you want the path to
      * @return The filepath to the sprite
      */
-    String getSpritePath(Sprites sprite);
+    String getSpritePath(final Sprites sprite);
 
+    /**
+     * Set the skin of the game.
+     *
+     * @param mode The mode to get the skin for.
+     */
+    void setSkin(final Game.Modes mode);
+
+    /**
+     * Enum containing a value for each sprite.
+     */
     enum Sprites {
         // Buttons
         menu,
         pause,
         play,
-        playagain,
+        playAgain,
         resume,
+        chooseMode,
 
         // Covers
         background,
@@ -67,8 +80,8 @@ public interface IRes {
 
         // Platforms
         platform1,
-        platform2,
-        platform3,
+        platformHorizontal,
+        platformVertical,
         platform4,
         platform5,
         platform6,
@@ -100,15 +113,23 @@ public interface IRes {
         shield,
 
         // Top bar
-        scorebar,
+        scoreBar,
 
-        // Miscellanous
-        waitDontShoot,
+        // Miscellaneous
+        waitDoNotShoot,
         avoid,
 
         // UFO
         ufo,
-        ufoShining
+        ufoShining,
+
+        // Mode icons
+        regularMode,
+        darknessMode,
+        invertMode,
+        underwaterMode,
+        spaceMode,
+        storyMode
     }
 
 }

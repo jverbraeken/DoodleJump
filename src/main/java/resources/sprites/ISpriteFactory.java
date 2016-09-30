@@ -1,6 +1,6 @@
 package resources.sprites;
 
-import objects.doodles.IDoodle;
+import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IFactory;
 
 /**
@@ -20,6 +20,8 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getResumeButtonSprite();
 
+    ISprite getChooseModeButtonSprite();
+
     // Covers
     ISprite getBackground();
 
@@ -28,7 +30,7 @@ public interface ISpriteFactory extends IFactory {
     ISprite getStartCoverSprite();
 
     // Doodle
-    ISprite[] getDoodleSprite(IDoodle.Directions direction);
+    ISprite[] getDoodleSprite(final MovementBehavior.Directions direction);
 
     // Kill screen
     ISprite getGameOverSprite();
@@ -85,9 +87,9 @@ public interface ISpriteFactory extends IFactory {
     // Platforms
     ISprite getPlatformSprite1();
 
-    ISprite getPlatformSprite2();
+    ISprite getPlatformSpriteHori();
 
-    ISprite getPlatformSprite3();
+    ISprite getPlatformSpriteVert();
 
     ISprite getPlatformSprite4();
 
@@ -145,17 +147,30 @@ public interface ISpriteFactory extends IFactory {
     ISprite getShieldSprite();
 
     // Text
-    ISprite getWaitDontShootSprite();
+    ISprite getWaitDoNotShootSprite();
 
     ISprite getAvoidSprite();
 
     // Top bar
-    ISprite getScorebarSprite();
+    ISprite getScoreBarSprite();
 
     // UFO
     ISprite getUFOSprite();
 
     ISprite getUFOShiningSprite();
+
+    // Choose mode icons
+    ISprite getRegularModeButton();
+
+    ISprite getStoryModeButton();
+
+    ISprite getDarknessModeButton();
+
+    ISprite getInvertModeButton();
+
+    ISprite getSpaceModeButton();
+
+    ISprite getUnderwaterModeButton();
 
     /**
      * Returns a sprite of the digit specified in Doodle Jump font.

@@ -1,41 +1,68 @@
 package constants;
 
-import objects.blocks.BlockFactory;
 import system.IServiceLocator;
 
-public class Constants implements IConstants {
+import java.io.FileNotFoundException;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
-    private static transient IServiceLocator sL;
-
-    public static void register(IServiceLocator sL) {
-        assert sL != null;
-        Constants.sL = sL;
-        sL.provide(new Constants());
-    }
+/**
+ * Class containing the main constants of the game.
+ */
+public final class Constants implements IConstants {
 
     /**
-     * The width of the frame of the game
+     * True if the number of pending tasks of the logging thread executor should be logged.
      */
-    private final static int WIDTH = 640;
+    private static final boolean LOG_PENDING_TASKS = true;
     /**
-     * The height of the frame of the game
+     * The width of the frame of the game.
      */
-    private final static int HEIGHT = 960;
+    private static final int WIDTH = 640;
+    /**
+     * The height of the frame of the game.
+     */
+    private static final int HEIGHT = 960;
     /**
      * How much the doodle is affected by gravity.
      */
-    private static final double gravityAcceleration = .5;
+    private static final double GRAVITY_ACCELERATION = 0.5d;
     /**
-     * The height the dodle jumps will be multiplied with this value to obtain the score that the player will get
-     * each frame.
+     * The HEIGHT the Doodle jumps will be multiplied with this value to obtain the score that the player will get.
      */
-    private final static double scoreMultiplier = 0.15;
+    private static final double SCORE_MULTIPLIER = 0.15;
 
+    /**
+     * The service locator for the Constants class.
+     */
+    private static transient IServiceLocator serviceLocator;
+
+    /**
+     * The file to which the logs will be written to.
+     */
+    private static AtomicReference<String> logFile = new AtomicReference<>();
 
     /**
      * Prevent public instantiation of Constants.
      */
     private Constants() {
+        try {
+            Map<String, String> json = (Map<String, String>) serviceLocator.getFileSystem().parseJsonMap("constants.json", String.class);
+            interpretJson(json);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        Constants.serviceLocator = sL;
+        sL.provide(new Constants());
     }
 
     /** {@inheritDoc} */
@@ -53,13 +80,42 @@ public class Constants implements IConstants {
     /** {@inheritDoc} */
     @Override
     public double getGravityAcceleration() {
-        return gravityAcceleration;
+        return GRAVITY_ACCELERATION;
     }
 
     /** {@inheritDoc} */
     @Override
     public double getScoreMultiplier() {
-        return scoreMultiplier;
+        return SCORE_MULTIPLIER;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean getLogPendingTasks() {
+        return LOG_PENDING_TASKS;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getLogFile() {
+        return logFile.get();
+    }
+
+    /**
+     * Interpret JSON.
+     *
+     * @param json The JSON to interpret.
+     */
+    private void interpretJson(final Map<String, String> json) {
+        for (Map.Entry<String, String> entry : json.entrySet()) {
+            switch (entry.getKey()) {
+                case "logFile":
+                    logFile.set(entry.getValue());
+                    break;
+                default:
+                    System.err.println("The json entry \"" + entry.getKey() + "\" in the configuration file could not be identified");
+            }
+        }
     }
 
 }

@@ -39,7 +39,7 @@ import scenes.SceneFactory;
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 /* package */ class ServiceLocator implements IServiceLocator {
 
-    // constants
+    // constants.json
     private IConstants constants;
 
     // audio
@@ -47,6 +47,7 @@ import scenes.SceneFactory;
 
     // input
     private IInputManager inputManager;
+
     // enemies
     private IEnemyBuilder enemyBuilder;
 
@@ -83,290 +84,226 @@ import scenes.SceneFactory;
         this.init();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final IAudioManager aM) {
         assert aM != null;
         this.audioManager = aM;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final IEnemyBuilder eB) {
         assert eB != null;
         this.enemyBuilder = eB;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final IFileSystem fS) {
         assert fS != null;
         this.fileSystem = fS;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final IInputManager iM) {
         assert iM != null;
         this.inputManager = iM;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final ICalc c) {
         assert c != null;
         this.calc = c;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final IBlockFactory bF) {
         assert bF != null;
         this.blockFactory = bF;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final IDoodleFactory dF) {
         assert dF != null;
         this.doodleFactory = dF;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final IPowerupFactory pF) {
         assert pF != null;
         this.powerupFactory = pF;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final IRenderer r) {
         assert r != null;
         this.renderer = r;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final ISpriteFactory sF) {
         assert sF != null;
         this.spriteFactory = sF;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void provide(ILoggerFactory loggerFactory) {
-        assert loggerFactory != null;
-        this.loggerFactory = loggerFactory;
+    public void provide(final ILoggerFactory lF) {
+        assert lF != null;
+        this.loggerFactory = lF;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public void provide(final ISceneFactory sF) {
         assert sF != null;
         this.sceneFactory = sF;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final IPlatformFactory pF) {
         assert pF != null;
         this.platformFactory = pF;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final IRes r) {
         assert r != null;
         this.res = r;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void provide(final IButtonFactory bF) {
         assert bF != null;
         this.buttonFactory = bF;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void provide(IConstants constants) {
-        assert constants != null;
-        this.constants = constants;
+    public void provide(final IConstants c) {
+        assert c != null;
+        this.constants = c;
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IAudioManager getAudioManager() {
         assert audioManager != null;
         return audioManager;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IEnemyBuilder getEnemyBuilder() {
         assert enemyBuilder != null;
         return enemyBuilder;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IFileSystem getFileSystem() {
         assert fileSystem != null;
         return fileSystem;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IInputManager getInputManager() {
         assert inputManager != null;
         return inputManager;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public ICalc getCalc() {
         assert calc != null;
         return calc;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IBlockFactory getBlockFactory() {
         assert blockFactory != null;
         return blockFactory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IDoodleFactory getDoodleFactory() {
         assert doodleFactory != null;
         return doodleFactory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IPowerupFactory getPowerupFactory() {
         assert powerupFactory != null;
         return powerupFactory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IRenderer getRenderer() {
         assert renderer != null;
         return renderer;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public ISpriteFactory getSpriteFactory() {
         assert spriteFactory != null;
         return spriteFactory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public ISceneFactory getSceneFactory() {
         assert sceneFactory != null;
         return sceneFactory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IPlatformFactory getPlatformFactory() {
         assert platformFactory != null;
         return platformFactory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IRes getRes() {
         assert res != null;
         return res;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IButtonFactory getButtonFactory() {
         assert buttonFactory != null;
         return buttonFactory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IConstants getConstants() {
         assert constants != null;
         return constants;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public ILoggerFactory getLoggerFactory() {
+        assert loggerFactory != null;
         return loggerFactory;
     }
 
@@ -377,6 +314,7 @@ import scenes.SceneFactory;
         FileSystem.register(this);
         Constants.register(this);
         LoggerFactory.register(this);
+
         AudioManager.register(this);
         EnemyBuilder.register(this);
         InputManager.register(this);

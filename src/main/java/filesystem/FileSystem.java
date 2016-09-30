@@ -1,12 +1,32 @@
 package filesystem;
 
+import com.bluelinelabs.logansquare.LoganSquare;
 import logging.ILogger;
+import system.Game;
 import system.IServiceLocator;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.*;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.Writer;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.BufferedInputStream;
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.BufferedOutputStream;
 import java.awt.image.BufferedImage;
-import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -21,7 +41,39 @@ public final class FileSystem implements IFileSystem {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator sL;
+    private static transient IServiceLocator serviceLocator;
+    /**
+     * The writer to the log files.
+     */
+    private final Writer logWriter;
+
+    /**
+     * Prevents instantiation from outside the class.
+     */
+    private FileSystem() {
+        // If the LOGFILE is not found, the game should either crash on the exception or not crash at all (so also
+        // not when something is logged. Therefore we provide an empty interface instead of null to prevent
+        // a {@link NullPointerException}.
+        Writer fw = new Writer() {
+            @Override
+            public void write(final char[] cbuf, final int off, final int len) throws IOException { }
+
+            @Override
+            public void flush() throws IOException { }
+
+            @Override
+            public void close() throws IOException { }
+        };
+
+        try {
+            fw = new FileWriter(Game.LOGFILE_NAME, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        logWriter = new BufferedWriter(fw);
+    }
+
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -29,24 +81,11 @@ public final class FileSystem implements IFileSystem {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        FileSystem.sL = sL;
+        FileSystem.serviceLocator = sL;
         sL.provide(new FileSystem());
     }
 
-    /**
-     * A classloader in order to load in resources.
-     */
-    private ClassLoader classLoader = getClass().getClassLoader();
-
-    /**
-     * Prevents instantiation from outside the class.
-     */
-    private FileSystem() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public List<String> readTextFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -66,9 +105,7 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public InputStream readBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -78,9 +115,7 @@ public final class FileSystem implements IFileSystem {
         return new BufferedInputStream(inputStream);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public BufferedImage readImage(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -93,9 +128,7 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public Clip readSound(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -112,9 +145,7 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void writeTextFile(final String filename, final String content) throws FileNotFoundException {
         File file = getFile(filename);
@@ -130,23 +161,20 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void deleteFile(final String filename) {
-        boolean success = (new File(filename)).delete();
+        File file = new File(filename);
+        boolean success = file.delete();
         if (!success) {
             // TODO If logger is a field of FileSystem, FileSystem references LoggerFactory which is created AFTER
             // FileSystem. Consider a two-step initialisation of dependent objects.
-            ILogger logger = FileSystem.sL.getLoggerFactory().createLogger(this.getClass());
+            ILogger logger = FileSystem.serviceLocator.getLoggerFactory().createLogger(this.getClass());
             logger.error("The file \"" + filename + "\" could not be deleted!");
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void clearFile(final String filename) {
         final File file = new File(filename);
@@ -160,22 +188,20 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void appendToTextFile(final Writer writer, final String content) {
+    public void log(final String content) {
         try {
-            writer.write(content + "\n");
-            writer.flush();
+            logWriter.write(content + "\n");
+            // Definitely not efficient, but because an application normally crashes soon after a helpful log message
+            // is logged we want to take this performance penalty anyway.
+            logWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public OutputStream writeBinaryFile(final String filename) throws FileNotFoundException {
         File file = getFile(filename);
@@ -184,9 +210,7 @@ public final class FileSystem implements IFileSystem {
         return new BufferedOutputStream(outputStream);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public File getFile(final String filename) throws FileNotFoundException {
         if (filename == null) {
@@ -203,6 +227,54 @@ public final class FileSystem implements IFileSystem {
             throw new FileNotFoundException("The following file could not be found: \"" + newFilename + "\"");
         }
         return new File(url.getFile());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Object parseJson(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
+        StringBuilder sb = new StringBuilder();
+        readTextFile(filename).forEach(sb::append);
+        String json = sb.toString();
+
+        Object result = null;
+        try {
+            result = LoganSquare.parse(json, jsonClass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Object parseJsonList(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
+        StringBuilder sb = new StringBuilder();
+        readTextFile(filename).forEach(sb::append);
+        String json = sb.toString();
+
+        Object result = null;
+        try {
+            result = LoganSquare.parseList(json, jsonClass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Object parseJsonMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
+        StringBuilder sb = new StringBuilder();
+        readTextFile(filename).forEach(sb::append);
+        String json = sb.toString();
+
+        Object result = null;
+        try {
+            result = LoganSquare.parseMap(json, jsonClass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }
