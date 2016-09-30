@@ -23,7 +23,6 @@ import static org.powermock.api.mockito.PowerMockito.when;
  *
  * Created by Michael on 9/30/2016.
  */
-@SuppressWarnings("magicnumber")
 public class TrampolineTest {
     private IAudioManager audioManager;
     private IServiceLocator serviceLocator;
