@@ -8,14 +8,15 @@ package system;
     /**
      * The name of this HighScore.
      */
-    private String name;
+    private final String name;
     /**
      * The score fo this HighScore.
      */
-    private double score;
+    private final double score;
 
     /**
      * Package protected constructor so only Game can create a score.
+     *
      * @param n The name for the score.
      * @param s The actual score.
      */
@@ -26,10 +27,10 @@ package system;
 
     /** {@inheritDoc} */
     @Override
-    public int compareTo(HighScore that) {
-        if(this.getScore() > that.getScore()) {
+    public int compareTo(final HighScore that) {
+        if (this.getScore() > that.getScore()) {
             return -1;
-        } else if(this.getScore() < that.getScore()) {
+        } else if (this.getScore() < that.getScore()) {
             return 1;
         } else {
             return 0;
@@ -38,6 +39,7 @@ package system;
 
     /**
      * Get the name.
+     *
      * @return the name.
      */
     public String getName() {
@@ -46,6 +48,7 @@ package system;
 
     /**
      * Get the score.
+     *
      * @return the score.
      */
     public Double getScore() {

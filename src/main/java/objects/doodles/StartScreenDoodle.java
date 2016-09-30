@@ -1,21 +1,23 @@
 package objects.doodles;
 
+import input.IInputManager;
 import objects.IJumpable;
 import system.IServiceLocator;
 
 /**
- * This class describes the behaviour of the doodle in the startscreen.
+ * This class describes the behaviour of the doodle in the StartScreen.
  */
 /* package */ class StartScreenDoodle extends Doodle {
 
     /**
-     * Boost reduction specifically for the startscreen Doodle.
+     * Boost reduction specifically for the StartScreen Doodle.
      */
     private static final double BOOST_REDUCTION = 0.8d;
 
     /**
      * Doodle constructor.
-     * @param sL The service locator
+     *
+     * @param sL The ServiceLocator.
      */
     /* package */ StartScreenDoodle(final IServiceLocator sL) {
         super(sL);
@@ -23,13 +25,11 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public final void keyPress(final int keyCode) {
-    }
+    public final void keyPress(final int keyCode) { }
 
     /** {@inheritDoc} */
     @Override
-    public final void keyRelease(final int keyCode) {
-    }
+    public final void keyRelease(final int keyCode) { }
 
     /** {@inheritDoc} */
     @Override

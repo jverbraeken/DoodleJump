@@ -30,7 +30,7 @@ public interface ISpriteFactory extends IFactory {
     ISprite getStartCoverSprite();
 
     // Doodle
-    ISprite[] getDoodleSprite(MovementBehavior.Directions direction);
+    ISprite[] getDoodleSprite(final MovementBehavior.Directions direction);
 
     // Kill screen
     ISprite getGameOverSprite();
@@ -147,12 +147,12 @@ public interface ISpriteFactory extends IFactory {
     ISprite getShieldSprite();
 
     // Text
-    ISprite getWaitDontShootSprite();
+    ISprite getWaitDoNotShootSprite();
 
     ISprite getAvoidSprite();
 
     // Top bar
-    ISprite getScorebarSprite();
+    ISprite getScoreBarSprite();
 
     // UFO
     ISprite getUFOSprite();
@@ -171,7 +171,6 @@ public interface ISpriteFactory extends IFactory {
     ISprite getSpaceModeButton();
 
     ISprite getUnderwaterModeButton();
-
 
     /**
      * Returns a sprite of the digit specified in Doodle Jump font.

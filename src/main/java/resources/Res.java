@@ -13,13 +13,10 @@ import java.util.Map;
 public final class Res implements IRes {
 
     /**
-     * Used to gain access to all services.
-     */
-    private static transient IServiceLocator serviceLocator;
-    /**
      * The sprite path used to find the sprites.
      */
     private static final String SPRITE_PATH = "sprites/";
+
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -27,18 +24,16 @@ public final class Res implements IRes {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        Res.serviceLocator = sL;
-        Res.serviceLocator.provide(new Res());
+        sL.provide(new Res());
     }
 
     /**
      * A map mapping Sprites enum to String containing the path to the sprite.
      */
-    private Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
+    private final Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
 
-    {
-        resetSkin();
-    }
+    // Initializes the sprites.
+    { resetSkin(); }
 
     /**
      * Prevent instantiation of Res.
@@ -46,17 +41,13 @@ public final class Res implements IRes {
     private Res() {
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getSpritePath(final Sprites sprite) {
         return sprites.get(sprite);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setSkin(final Game.Modes mode) {
         switch (mode) {
@@ -87,7 +78,7 @@ public final class Res implements IRes {
         // Buttons
         sprites.put(Sprites.menu, SPRITE_PATH + "menu@2x.png");
         sprites.put(Sprites.play, SPRITE_PATH + "play@2x.png");
-        sprites.put(Sprites.playagain, SPRITE_PATH + "playagain@2x.png");
+        sprites.put(Sprites.playAgain, SPRITE_PATH + "playagain@2x.png");
         sprites.put(Sprites.resume, SPRITE_PATH + "resume@2x.png");
         sprites.put(Sprites.chooseMode, SPRITE_PATH + "mode-button2@2x.png");
 
@@ -105,7 +96,6 @@ public final class Res implements IRes {
         // Kill screen
         sprites.put(Sprites.gameOver, SPRITE_PATH + "gameover@2x.png");
         sprites.put(Sprites.killScreenBottom, SPRITE_PATH + "kill-bottom@2x.png");
-
 
         // Numbers
         sprites.put(Sprites.pause, SPRITE_PATH + "pause.png");
@@ -133,7 +123,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.trampolineUsed, SPRITE_PATH + "powerup-trampoline-used@2x.png");
 
         // Top bar
-        sprites.put(Sprites.scorebar, SPRITE_PATH + "scorebar.png");
+        sprites.put(Sprites.scoreBar, SPRITE_PATH + "scoreBar.png");
 
         // Choose mode icons
         sprites.put(Sprites.storyMode, SPRITE_PATH + "story-mode@4x.png");
@@ -149,6 +139,7 @@ public final class Res implements IRes {
      */
     private void setSpaceSkin() {
         resetSkin();
+
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "space-Default@2x.png");
         sprites.put(Sprites.background, SPRITE_PATH + "space-bck@2x.png");
@@ -167,8 +158,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.trampolineUsed, SPRITE_PATH + "space-powerup-trampoline-used@2x.png");
 
         // Top bar
-        sprites.put(Sprites.scorebar, SPRITE_PATH + "space-scorebar@2x.png");
-
+        sprites.put(Sprites.scoreBar, SPRITE_PATH + "space-scoreBar@2x.png");
     }
 
     /**
@@ -176,6 +166,7 @@ public final class Res implements IRes {
      */
     private void setUnderwaterSkin() {
         resetSkin();
+
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "underwater-Default@2x.png");
         sprites.put(Sprites.background, SPRITE_PATH + "underwater-bck2@2x.png");
@@ -196,7 +187,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.trampolineUsed, SPRITE_PATH + "underwater-powerup-trampoline-used@2x.png");
 
         // Top bar
-        sprites.put(Sprites.scorebar, SPRITE_PATH + "underwater-scorebar@2x.png");
-
+        sprites.put(Sprites.scoreBar, SPRITE_PATH + "underwater-scorebar@2x.png");
     }
+
 }
