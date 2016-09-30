@@ -112,8 +112,8 @@ public final class Res implements IRes {
 
         // Platforms
         sprites.put(Sprites.platform1, SPRITE_PATH + "platform-green@2x.png");
-        sprites.put(Sprites.platformHori, SPRITE_PATH + "platform-blue@2x.png");
-        sprites.put(Sprites.platformVert, SPRITE_PATH + "platform-gray@2x.png");
+        sprites.put(Sprites.platformHorizontal, SPRITE_PATH + "platform-blue@2x.png");
+        sprites.put(Sprites.platformVertical, SPRITE_PATH + "platform-gray@2x.png");
         sprites.put(Sprites.platformBroken1, SPRITE_PATH + "platform-broken1@2x.png");
         sprites.put(Sprites.platformBroken2, SPRITE_PATH + "platform-broken2@2x.png");
         sprites.put(Sprites.platformBroken3, SPRITE_PATH + "platform-broken3@2x.png");

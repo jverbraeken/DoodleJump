@@ -80,8 +80,8 @@ public interface IRes {
 
         // Platforms
         platform1,
-        platformHori,
-        platformVert,
+        platformHorizontal,
+        platformVertical,
         platform4,
         platform5,
         platform6,
