@@ -2,7 +2,6 @@ package objects.doodles;
 
 import input.IInputManager;
 import input.Keys;
-import logging.ILogger;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.powerups.IPassive;
@@ -22,10 +21,6 @@ import system.IServiceLocator;
  */
 public class Doodle extends AGameObject implements IDoodle {
 
-    /**
-     * The logger for the Game class.
-     */
-    private static final ILogger LOGGER = getServiceLocator().getLoggerFactory().createLogger(Doodle.class);
     /**
      * The relative center of the camera on the y axis.
      */
@@ -64,6 +59,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * Describes the movement behavior of the doodle.
      */
     private MovementBehavior behavior;
+    /**
+     * The scalar for the Doodle sprite.
+     */
+    private double spriteScalar = 1d;
 
     /**
      * Doodle constructor.
@@ -177,7 +176,12 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void render() {
-        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        ISprite sprite = this.getSprite();
+        getServiceLocator().getRenderer().drawSprite(sprite,
+                (int) this.getXPos(),
+                (int) this.getYPos(),
+                (int) (sprite.getWidth() * this.spriteScalar),
+                (int) (sprite.getHeight() * this.spriteScalar));
 
         if (this.passive != null) {
             this.passive.render();
@@ -207,6 +211,12 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public final ISprite[] getSpritePack() {
         return spritePack;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void increaseSpriteScalar(final double inc) {
+        this.spriteScalar += inc;
     }
 
     /** {@inheritDoc} */
