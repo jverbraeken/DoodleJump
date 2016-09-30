@@ -145,7 +145,7 @@ public class SpaceBehavior implements MovementBehavior {
      */
     private void animate(final double delta) {
         // If the Doodle moves up quickly shorten its legs
-        if (getVerticalSpeed() < QUICK_MOVING_SPEED) {
+        if (getVerticalSpeed() < RELATIVE_SPEED * QUICK_MOVING_SPEED) {
             doodle.setSprite(getFacing(), true);
         } else {
             doodle.setSprite(getFacing(), false);
