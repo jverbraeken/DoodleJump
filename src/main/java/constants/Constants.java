@@ -6,22 +6,22 @@ import java.io.FileNotFoundException;
 import java.util.Map;
 
 /**
- * This class contains constants for the game.
+ * Class containing the main constants of the game.
  */
-public class Constants implements IConstants {
+public final class Constants implements IConstants {
 
     /**
-     * True if the number of pending tasks of the logging thread executor should be logged as well.
+     * True if the number of pending tasks of the logging thread executor should be logged.
      */
     private static final boolean LOG_PENDING_TASKS = true;
     /**
-     * The WIDTH of the frame of the game.
+     * The width of the frame of the game.
      */
     private static final int WIDTH = 640;
     /**
      * The height of the frame of the game.
      */
-    private static final int height = 960;
+    private static final int HEIGHT = 960;
     /**
      * How much the doodle is affected by gravity.
      */
@@ -36,9 +36,10 @@ public class Constants implements IConstants {
     private static final String HIGHCORES_DATA = "highScores.data";
 
     /**
-     * Used to gain access to all services.
+     * The service locator for the Constants class.
      */
     private static transient IServiceLocator serviceLocator;
+
     /**
      * The file to which the logs will be written to.
      */
@@ -77,7 +78,7 @@ public class Constants implements IConstants {
     /** {@inheritDoc} */
     @Override
     public int getGameHeight() {
-        return height;
+        return HEIGHT;
     }
 
     /** {@inheritDoc} */
@@ -111,10 +112,11 @@ public class Constants implements IConstants {
     }
 
     /**
-     * Interpret the JSON for the Constants class.
-     * @param json The json map.
+     * Interpret JSON.
+     *
+     * @param json The JSON to interpret.
      */
-    private void interpretJson(Map<String, String> json) {
+    private void interpretJson(final Map<String, String> json) {
         for (Map.Entry<String, String> entry : json.entrySet()) {
             switch (entry.getKey()) {
                 case "logFile":

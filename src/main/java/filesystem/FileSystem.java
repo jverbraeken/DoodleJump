@@ -50,11 +50,13 @@ public final class FileSystem implements IFileSystem {
             }
         };
         File logFile = new File(Game.LOGFILE_NAME);
+
         try {
             fw = new FileWriter(logFile, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         logWriter = new BufferedWriter(fw);
     }
 
@@ -69,9 +71,7 @@ public final class FileSystem implements IFileSystem {
         sL.provide(new FileSystem());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public List<String> readResourceFile(final String filename) throws FileNotFoundException {
         File file = getResourceFile(filename);
@@ -111,9 +111,7 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public InputStream readBinaryFile(final String filename) throws FileNotFoundException {
         File file = getResourceFile(filename);
@@ -121,9 +119,7 @@ public final class FileSystem implements IFileSystem {
         return new BufferedInputStream(inputStream);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public BufferedImage readImage(final String filename) throws FileNotFoundException {
         File file = getResourceFile(filename);
@@ -136,9 +132,7 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public Clip readSound(final String filename) throws FileNotFoundException {
         File file = getResourceFile(filename);
@@ -155,9 +149,7 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void writeResourceFile(final String filename, final String content) throws FileNotFoundException {
         File file = getResourceFile(filename);
@@ -191,12 +183,12 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void deleteFile(final String filename) throws FileNotFoundException {
-        boolean success = (getResourceFile(filename)).delete();
+    public void deleteFile(final String filename) {
+        File file = new File(filename);
+        boolean success = file.delete();
+
         if (!success) {
             // TODO If logger is a field of FileSystem, FileSystem references LoggerFactory which is created AFTER
             // FileSystem. Consider a two-step initialisation of dependent objects.
@@ -205,9 +197,7 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void clearFile(final String filename) {
         final File file = getProjectFile(filename);
@@ -222,9 +212,7 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void log(final String content) {
         try {
@@ -237,9 +225,7 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public OutputStream writeBinaryFile(final String filename) throws FileNotFoundException {
         File file = getResourceFile(filename);
@@ -247,9 +233,7 @@ public final class FileSystem implements IFileSystem {
         return new BufferedOutputStream(outputStream);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public File getResourceFile(final String filename) throws FileNotFoundException {
         if (filename == null) {
@@ -268,9 +252,7 @@ public final class FileSystem implements IFileSystem {
         return new File(url.getFile());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public File getProjectFile(final String filename) {
         return new File(filename);
@@ -294,13 +276,12 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public Object parseJsonList(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
         readResourceFile(filename).forEach(sb::append);
+
         String json = sb.toString();
 
         Object result = null;
@@ -312,13 +293,12 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public Object parseJsonMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
         readResourceFile(filename).forEach(sb::append);
+
         String json = sb.toString();
 
         Object result = null;
@@ -329,4 +309,5 @@ public final class FileSystem implements IFileSystem {
         }
         return result;
     }
+
 }

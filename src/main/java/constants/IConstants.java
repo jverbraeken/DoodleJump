@@ -21,6 +21,7 @@ public interface IConstants {
 
     /**
      * Get the gravity acceleration.
+     *
      * @return The acceleration of the gravity for the doodle.
      */
     double getGravityAcceleration();

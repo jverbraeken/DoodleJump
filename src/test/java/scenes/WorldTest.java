@@ -1,5 +1,7 @@
 package scenes;
 
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import objects.blocks.IBlock;
 import objects.doodles.IDoodle;
 import org.junit.BeforeClass;
@@ -46,11 +48,11 @@ public class WorldTest {
 
         IAudioManager audioManager = mock(IAudioManager.class);
 
-        IServiceLocator serviceLocator = mock(IServiceLocator.class);
-        when(serviceLocator.getBlockFactory()).thenReturn(blockFactory);
-        when(serviceLocator.getDoodleFactory()).thenReturn(doodleFactory);
-        when(serviceLocator.getAudioManager()).thenReturn(audioManager);
-        world = new World(serviceLocator);*/
+        IServiceLocator sL = mock(IServiceLocator.class);
+        when(sL.getBlockFactory()).thenReturn(blockFactory);
+        when(sL.getDoodleFactory()).thenReturn(doodleFactory);
+        when(sL.getAudioManager()).thenReturn(audioManager);
+        world = new World(sL);*/
     }
 
     @Test
@@ -82,4 +84,5 @@ public class WorldTest {
     @Test
     public void testStop() {
     }
+
 }

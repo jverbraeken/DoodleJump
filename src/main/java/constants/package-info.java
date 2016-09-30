@@ -1,4 +1,4 @@
 /**
- * Provides the constants for the game.
+ * Package for the constants of the game.
  */
 package constants;

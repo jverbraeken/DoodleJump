@@ -4,7 +4,7 @@ import scenes.World;
 import system.IFactory;
 
 /**
- * This is a factory creating all doodles.
+ * This is a factory creating all Doodles.
  */
 public interface IDoodleFactory extends IFactory {
 

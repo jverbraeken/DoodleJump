@@ -12,24 +12,26 @@ import java.util.Set;
 /**
  * Standard implementation of the LoggingFactory. Used to create loggers.
  */
-public class LoggerFactory implements ILoggerFactory {
+public final class LoggerFactory implements ILoggerFactory {
 
     /**
      * The file to which the log data should be written.
      */
     private static final String LOG_IGNORE_FILE = "logIgnore.json";
+
     /**
      * The file to which the log data should be written.
      */
-    private static String LOG_FILE;
+    private static String logFile;
+    /**
+     * The logger for LoggerFactory.
+     */
+    private final ILogger logger;
+
     /**
      * Used to gain access to all services.
      */
     private static IServiceLocator serviceLocator;
-    /**
-     * The logger for LoggerFactory.
-     */
-    private final ILogger LOGGER;
     /**
      * A set containing the classes that should not be logged.
      */
@@ -39,14 +41,14 @@ public class LoggerFactory implements ILoggerFactory {
      * Hidden constructor to prevent instantiation.
      */
     private LoggerFactory() {
-        LOG_FILE = LoggerFactory.serviceLocator.getConstants().getLogFile();
+        logFile = LoggerFactory.serviceLocator.getConstants().getLogFile();
 
         if (Game.CLEAR_LOG_ON_STARTUP) {
             IFileSystem fileSystem = LoggerFactory.serviceLocator.getFileSystem();
-            fileSystem.clearFile(LOG_FILE);
+            fileSystem.clearFile(logFile);
         }
 
-        LOGGER = new Logger(serviceLocator, this.getClass());
+        logger = new Logger(serviceLocator, this.getClass());
 
         logIgnore = new HashSet<>();
         try {
@@ -55,12 +57,12 @@ public class LoggerFactory implements ILoggerFactory {
                 try {
                     logIgnore.add(Class.forName(className));
                 } catch (ClassNotFoundException e) {
-                    LOGGER.warning("LoggerFactory could not find class requested to ignore logging for: " + className);
+                    logger.warning("LoggerFactory could not find class requested to ignore logging for: " + className);
                     e.printStackTrace();
                 }
             }
         } catch (FileNotFoundException e) {
-            LOGGER.error("The file " + LOG_IGNORE_FILE + " requested by LoggerFactory was not found");
+            logger.error("The file " + LOG_IGNORE_FILE + " requested by LoggerFactory was not found");
             e.printStackTrace();
         }
     }
@@ -82,24 +84,19 @@ public class LoggerFactory implements ILoggerFactory {
         if (logIgnore.contains(cl)) {
             return new ILogger() {
                 @Override
-                public void log(String msg) {
-                }
+                public void log(final String msg) { }
 
                 @Override
-                public void error(String msg) {
-                }
+                public void error(final String msg) { }
 
                 @Override
-                public void error(Exception exception) {
-                }
+                public void error(final Exception exception) { }
 
                 @Override
-                public void info(String msg) {
-                }
+                public void info(final String msg) { }
 
                 @Override
-                public void warning(String msg) {
-                }
+                public void warning(final String msg) { }
             };
         } else {
             return new Logger(serviceLocator, cl);

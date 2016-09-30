@@ -26,7 +26,7 @@ public final class DoodleFactory implements IDoodleFactory {
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         DoodleFactory.serviceLocator = sL;
-        DoodleFactory.serviceLocator.provide(new DoodleFactory());
+        sL.provide(new DoodleFactory());
     }
 
     /** {@inheritDoc} */
@@ -35,7 +35,7 @@ public final class DoodleFactory implements IDoodleFactory {
         return new Doodle(serviceLocator, world);
     }
 
-    /**  {@inheritDoc} */
+    /** {@inheritDoc} */
     @Override
     public IDoodle createStartScreenDoodle() {
         return new StartScreenDoodle(serviceLocator);

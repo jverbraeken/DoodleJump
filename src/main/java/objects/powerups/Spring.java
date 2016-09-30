@@ -28,21 +28,13 @@ import system.IServiceLocator;
         super(sL, x, y, sL.getSpriteFactory().getSpringSprite());
     }
 
-    private void animate() {
-        int oldHeight = getSprite().getHeight();
-
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        ISprite newSprite = spriteFactory.getSpringUsedSprite();
-
-        int newHeight = newSprite.getHeight();
-        this.addYPos(oldHeight - newHeight);
-
-        setSprite(newSprite);
+    /** {@inheritDoc} */
+    @Override
+    public void collidesWith(final IDoodle doodle) {
+        doodle.collide(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public double getBoost() {
         //TODO very unexpected behaviour for a getter. Source of bugs as the programmer does not expect this from a getter
@@ -52,26 +44,33 @@ import system.IServiceLocator;
         return Spring.BOOST;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /**
-     * Play the sound for the Trampoline.
+     * Play the sound for the Spring.
      */
     private void playSound() {
-        IAudioManager audioManager = serviceLocator.getAudioManager();
+        IAudioManager audioManager = getServiceLocator().getAudioManager();
         audioManager.playFeder();
     }
 
+    /**
+     * Animate the Spring.
+     */
+    private void animate() {
+        int oldHeight = getSprite().getHeight();
 
-    /** {@inheritDoc} */
-    @Override
-    public void collidesWith(IDoodle doodle) {
-        doodle.collide(this);
+        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
+        ISprite newSprite = spriteFactory.getSpringUsedSprite();
+
+        int newHeight = newSprite.getHeight();
+        this.addYPos(oldHeight - newHeight);
+
+        setSprite(newSprite);
     }
+
 }

@@ -8,11 +8,11 @@ package system;
     /**
      * The name of this HighScore.
      */
-    private String name;
+    private final String name;
     /**
      * The score fo this HighScore.
      */
-    private int score;
+    private final int score;
 
     /**
      * Package protected constructor so only Game can create a score.

@@ -13,6 +13,6 @@ public interface IPlatformFactory extends IFactory {
      * @param y the platform's y position
      * @return a new standard platform
      */
-    IPlatform createPlatform(int x, int y);
+    IPlatform createPlatform(final int x, final int y);
 
 }
