@@ -2,7 +2,6 @@ package objects.doodles.DoodleBehavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
-import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
@@ -67,7 +66,7 @@ public class SpaceBehavior implements MovementBehavior {
     /**
      * The constructor of the regular behavior.
      *
-     * @param d The doodle this applies to.
+     * @param d  The doodle this applies to.
      * @param sL the ServiceLocator.
      */
     public SpaceBehavior(final IServiceLocator sL, final IDoodle d) {
@@ -144,14 +143,11 @@ public class SpaceBehavior implements MovementBehavior {
      * @param delta Delta time since previous frame.
      */
     private void animate(final double delta) {
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        doodle.setSpritePack(spriteFactory.getDoodleSprite(getFacing()));
-
         // If the Doodle moves up quickly shorten its legs
         if (getVerticalSpeed() < RELATIVE_SPEED * JUMPING_THRESHOLD) {
-            doodle.setSprite(this.doodle.getSpritePack()[1]);
+            doodle.setSprite(getFacing(), true);
         } else {
-            doodle.setSprite(this.doodle.getSpritePack()[0]);
+            doodle.setSprite(getFacing(), false);
         }
     }
 

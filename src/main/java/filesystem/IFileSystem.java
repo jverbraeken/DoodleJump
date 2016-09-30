@@ -2,7 +2,10 @@ package filesystem;
 
 import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -79,7 +82,7 @@ public interface IFileSystem {
     /**
      * Returns an {@link OutputStream} that can be used to write binary data to the binary file.
      * The path to the file must exist.
-     *
+     * <p>
      * <b><font color="red">Warning:</font> The file MUST be closed explicitly to prevent resource leaks.</b>
      *
      * @param filename The full path to the file.
@@ -100,7 +103,7 @@ public interface IFileSystem {
     /**
      * Parse a JSON file consisting of a single Json item.
      *
-     * @param filename The filepath to the Json file.
+     * @param filename  The filepath to the Json file.
      * @param jsonClass The class of the resulting Json object.
      * @return An {@link Object} that must be up-casted to the desired Json class.
      * @throws FileNotFoundException Thrown when the Json file was not found.
@@ -110,7 +113,7 @@ public interface IFileSystem {
     /**
      * Parse a JSON file consisting of a single Json list.
      *
-     * @param filename The filepath to the Json file.
+     * @param filename  The filepath to the Json file.
      * @param jsonClass The class of the resulting Json object.
      * @return An {@link Object} that must be up-casted to a {@link List} containing the desired Json class.
      * @throws FileNotFoundException Thrown when the Json file was not found.
@@ -120,7 +123,7 @@ public interface IFileSystem {
     /**
      * Parse a JSON file consisting of a single Json item.
      *
-     * @param filename The filepath to the Json file.
+     * @param filename  The filepath to the Json file.
      * @param jsonClass The class of the resulting Json object.
      * @return An {@link Object} that must be up-casted to a {@link java.util.Map} containing the desired Json class.
      * @throws FileNotFoundException Thrown when the Json file was not found.

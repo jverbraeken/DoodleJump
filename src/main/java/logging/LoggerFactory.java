@@ -4,7 +4,7 @@ import filesystem.IFileSystem;
 import system.Game;
 import system.IServiceLocator;
 
-import java.io.*;
+import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,14 +24,13 @@ public final class LoggerFactory implements ILoggerFactory {
      */
     private static String logFile;
     /**
-     * The logger for LoggerFactory.
-     */
-    private final ILogger logger;
-
-    /**
      * Used to gain access to all services.
      */
     private static IServiceLocator serviceLocator;
+    /**
+     * The logger for LoggerFactory.
+     */
+    private final ILogger logger;
     /**
      * A set containing the classes that should not be logged.
      */
@@ -78,25 +77,29 @@ public final class LoggerFactory implements ILoggerFactory {
         sL.provide(new LoggerFactory());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ILogger createLogger(final Class<?> cl) {
         if (logIgnore.contains(cl)) {
             return new ILogger() {
-                @Override
-                public void log(final String msg) { }
 
                 @Override
-                public void error(final String msg) { }
+                public void error(final String msg) {
+                }
 
                 @Override
-                public void error(final Exception exception) { }
+                public void error(final Exception exception) {
+                }
 
                 @Override
-                public void info(final String msg) { }
+                public void info(final String msg) {
+                }
 
                 @Override
-                public void warning(final String msg) { }
+                public void warning(final String msg) {
+                }
             };
         } else {
             return new Logger(serviceLocator, cl);
