@@ -3,7 +3,9 @@ package objects.powerups;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
 import resources.audio.IAudioManager;
@@ -31,6 +33,9 @@ public class TrampolineTest {
     private Trampoline trampoline;
     private IDoodle doodle;
     private ILoggerFactory loggerFactory;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     /**
      * Initialisation of variables for the test cases.
@@ -92,6 +97,19 @@ public class TrampolineTest {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
         trampoline.collidesWith(doodle);
         verify(doodle).collide(trampoline);
+    }
+
+    /**
+     * Tests if the collide method returns a NullPointerException is the parameter is null.
+     *
+     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
+     *                   in the constructor.
+     */
+    @Test
+    public void testCollidesWith2() throws Exception {
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
+        thrown.expect(NullPointerException.class);
+        trampoline.collidesWith(null);
     }
 
     /**
