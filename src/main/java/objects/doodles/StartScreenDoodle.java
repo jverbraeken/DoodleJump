@@ -5,7 +5,6 @@ import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
-import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
@@ -53,70 +52,90 @@ import system.IServiceLocator;
         inputManager.addObserver(this);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(final double delta) {
         this.applyGravity(delta);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getVerticalSpeed() {
         return vSpeed;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVerticalSpeed(final double speed) {
         this.vSpeed = speed;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getScore() {
         return 0;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void collide(final IJumpable jumpable) {
         this.vSpeed = jumpable.getBoost() + BOOST_REDUCTION;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void collidesWith(final IDoodle doodle) {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getLegsHeight() {
         return 0d;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ISprite[] getSpritePack() {
-        return null;
+    public void setSprite(final MovementBehavior.Directions direction, final boolean falling) {
+
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setSpritePack(final ISprite[] sprites) { }
+    public void keyPress(final Keys key) {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void keyPress(final Keys key) { }
-
-    /** {@inheritDoc} */
-    @Override
-    public void keyRelease(final Keys key) { }
+    public void keyRelease(final Keys key) {
+    }
 
     /**
      * Apply gravity to the Doodle.

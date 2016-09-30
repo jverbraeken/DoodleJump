@@ -4,6 +4,7 @@ import system.IServiceLocator;
 
 import java.io.FileNotFoundException;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Class containing the main constants of the game.
@@ -39,7 +40,7 @@ public final class Constants implements IConstants {
     /**
      * The file to which the logs will be written to.
      */
-    private static String logFile;
+    private static AtomicReference<String> logFile = new AtomicReference<>();
 
     /**
      * Prevent public instantiation of Constants.
@@ -97,7 +98,7 @@ public final class Constants implements IConstants {
     /** {@inheritDoc} */
     @Override
     public String getLogFile() {
-        return logFile;
+        return logFile.get();
     }
 
     /**
@@ -109,7 +110,7 @@ public final class Constants implements IConstants {
         for (Map.Entry<String, String> entry : json.entrySet()) {
             switch (entry.getKey()) {
                 case "logFile":
-                    logFile = entry.getValue();
+                    logFile.set(entry.getValue());
                     break;
                 default:
                     System.err.println("The json entry \"" + entry.getKey() + "\" in the configuration file could not be identified");

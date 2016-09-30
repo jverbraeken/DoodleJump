@@ -753,8 +753,8 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * Loads an ISprite with the name {@code ISpriteName}.
      *
-     * @param spriteName the enumerator defining the requested sprite.
-     * @return The ISprite
+     * @param spriteName the enumerator defining the requested sprite
+     * @return The {@link ISprite sprite} if it was found. null otherwise
      */
     private ISprite loadISprite(final IRes.Sprites spriteName) {
         String filepath = serviceLocator.getRes().getSpritePath(spriteName);
@@ -762,10 +762,11 @@ public final class SpriteFactory implements ISpriteFactory {
         try {
             image = serviceLocator.getFileSystem().readImage(filepath);
             logger.info("Sprite loaded: \"" + filepath + "\"");
+            return new Sprite(getFileName(filepath), image);
         } catch (FileNotFoundException e) {
             logger.error(e);
         }
-        return new Sprite(getFileName(filepath), image);
+        return null;
     }
 
     /**

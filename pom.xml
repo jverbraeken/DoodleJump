@@ -107,8 +107,6 @@
                 <version>2.5.2</version>
                 <configuration>
                     <failOnError>false</failOnError>
-                    <threshold>High</threshold>
-                    <effort>Default</effort>
                     <xmlOutput>true</xmlOutput>
                     <xmlOutputDirectory>target/reports/findbugs</xmlOutputDirectory>
                     <excludeFilterFile>

@@ -1,5 +1,8 @@
 package system;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 /**
  * Class representing a score.
  */
@@ -37,6 +40,28 @@ package system;
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        HighScore highScore = (HighScore) o;
+
+        return new EqualsBuilder()
+                .append(score, highScore.score)
+                .append(name, highScore.name)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(name)
+                .append(score)
+                .toHashCode();
+    }
+
     /**
      * Get the name.
      *
@@ -51,7 +76,7 @@ package system;
      *
      * @return the score.
      */
-    public Double getScore() {
+    public double getScore() {
         return this.score;
     }
 
