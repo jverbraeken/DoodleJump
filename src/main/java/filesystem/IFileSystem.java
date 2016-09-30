@@ -99,7 +99,7 @@ public interface IFileSystem {
     /**
      * Returns an {@link OutputStream} that can be used to write binary data to the binary file.
      * The path to the file must exist.
-     * <p>
+     *
      * <b><font color="red">Warning:</font> The file MUST be closed explicitly to prevent resource leaks</b>
      *
      * @param filename The full path to the file.

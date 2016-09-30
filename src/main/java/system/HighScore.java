@@ -1,9 +1,9 @@
 package system;
 
 /**
- * Class representing a score.
+ * Class representing a score. <b>Is immutable</b>.
  */
-/* package */ class HighScore implements Comparable<HighScore> {
+/* package */ final class HighScore implements Comparable<HighScore> {
 
     /**
      * The name of this HighScore.

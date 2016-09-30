@@ -30,7 +30,7 @@ public class HighScoreList {
     /**
      * A list of high scores for the game.
      */
-    private ArrayList<HighScore> highScores = new ArrayList<>();
+    private ArrayList<HighScore> highScores = new ArrayList<>(MAX_ENTRIES + 1);
 
     /**
      * Package protected constructor allowing Game to make an instance.
@@ -78,6 +78,7 @@ public class HighScoreList {
                 return content.get(0);
             }
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
             logger.warning("High scores file not found, starting with empty high scores list");
         }
 
@@ -117,6 +118,7 @@ public class HighScoreList {
         try {
             fileSystem.writeProjectFile(constants.getHighScoresFilePath(), data);
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
             logger.error(e);
         }
     }

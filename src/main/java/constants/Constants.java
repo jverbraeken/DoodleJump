@@ -123,9 +123,9 @@ public final class Constants implements IConstants {
                     logFile = entry.getValue();
                     break;
                 default:
-                    System.err.print("The json entry \"" + entry.getKey());
-                    System.err.print(entry.getKey());
-                    System.err.println("\" in the configuration file could not be identified");
+                    String msg = "The json entry \"" + entry.getKey()
+                            + "\" in the configuration file could not be identified";
+                    System.err.print(msg);
             }
         }
     }
