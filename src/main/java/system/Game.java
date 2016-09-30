@@ -1,6 +1,5 @@
 package system;
 
-import buttons.IButton;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
@@ -25,10 +24,6 @@ import static system.Game.Modes.regular;
  */
 public final class Game {
 
-    /**
-     * Lock the game.
-     */
-    private static final transient Object LOCK = new Object();
     /**
      * Indicates if the log file should be cleared each time the game starts.
      * This constant is not provided by an implementation of {@link constants.IConstants} because
@@ -74,6 +69,10 @@ public final class Game {
      */
     public static final HighScoreList HIGH_SCORES = new HighScoreList(serviceLocator);
     /**
+     * A LOCK to avoid threading issues.
+     */
+    private static final transient Object LOCK = new Object();
+    /**
      * The logger for the Game class.
      */
     private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
@@ -98,10 +97,6 @@ public final class Game {
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
-    /**
-     * The resume button for the pause screen.
-     */
-    private static IButton resumeButton;
     /**
      * The scale of the game.
      */
@@ -177,11 +172,6 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        resumeButton = serviceLocator.getButtonFactory().createResumeButton(
-                (int) (serviceLocator.getConstants().getGameWidth() * RESUME_BUTTON_X),
-                (int) (serviceLocator.getConstants().getGameHeight() * RESUME_BUTTON_Y));
-        serviceLocator.getInputManager().addObserver(resumeButton);
-
         HIGH_SCORES.initHighScores();
         loop();
     }
@@ -204,7 +194,6 @@ public final class Game {
         mode = m;
         serviceLocator.getRes().setSkin(m);
         SpriteFactory.register(serviceLocator);
-        scene.resetBackground();
         LOGGER.info("The mode is now " + m);
     }
 
@@ -305,7 +294,30 @@ public final class Game {
      * The enums for the mode.
      */
     public enum Modes {
-        regular, underwater, story, invert, darkness, space
+        /**
+         * As usual.
+         */
+        regular,
+        /**
+         * Underwater -> slow moving.
+         */
+        underwater,
+        /**
+         * Accompanied with a story.
+         */
+        story,
+        /**
+         * Everything upside-down.
+         */
+        invert,
+        /**
+         * You don't see any platforms except for the ones you jumped on.
+         */
+        darkness,
+        /**
+         * Fast acceleration, slow deceleration.
+         */
+        space
     }
 
 }

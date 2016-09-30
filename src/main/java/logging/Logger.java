@@ -46,13 +46,6 @@ import java.util.concurrent.TimeUnit;
 
     /** {@inheritDoc} */
     @Override
-    public void log(final String msg) {
-        String str = this.generateMessage("LOG", msg);
-        appendStringToTextFile(str);
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public void error(final String msg) {
         String str = this.generateMessage("ERROR", msg);
         appendStringToTextFile(str);

@@ -103,18 +103,20 @@ public class Menu implements IScene, IKeyInputObserver {
     /** {@inheritDoc} */
     @Override
     public final void start() {
-        serviceLocator.getInputManager().addObserver(playButton);
-        serviceLocator.getInputManager().addObserver(chooseModeButton);
+        playButton.register();
+        chooseModeButton.register();
         serviceLocator.getInputManager().addObserver(this);
+        logger.info("The main menu registered itself as an observer of the input manager");
         logger.info("The menu scene is now displaying");
     }
 
     /** {@inheritDoc} */
     @Override
     public final void stop() {
-        serviceLocator.getInputManager().removeObserver(playButton);
-        serviceLocator.getInputManager().removeObserver(chooseModeButton);
+        playButton.deregister();
+        chooseModeButton.deregister();
         serviceLocator.getInputManager().removeObserver(this);
+        logger.info("The main menu removed itself as an observer from the input manager");
         logger.info("The menu scene is no longer displaying");
     }
 
@@ -150,11 +152,4 @@ public class Menu implements IScene, IKeyInputObserver {
             Game.setScene(serviceLocator.getSceneFactory().newWorld());
         }
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void resetBackground() {
-        cover = serviceLocator.getSpriteFactory().getStartCoverSprite();
-    }
-
 }

@@ -54,4 +54,14 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      */
     void setSprite(final MovementBehavior.Directions direction, final boolean falling);
 
+    /**
+     * Registers its button to the {@link input.IInputManager input manager}.
+     */
+    void register();
+
+    /**
+     * Deregisters its button from the {@link input.IInputManager input manager}.
+     */
+    void deregister();
+
 }

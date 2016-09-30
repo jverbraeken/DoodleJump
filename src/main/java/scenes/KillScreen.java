@@ -84,8 +84,8 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public final void start() {
-        serviceLocator.getInputManager().addObserver(playAgainButton);
-        serviceLocator.getInputManager().addObserver(mainMenuButton);
+        playAgainButton.register();
+        mainMenuButton.register();
 
         active = true;
         logger.info("The kill screen scene is now displaying");
@@ -94,8 +94,8 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public final void stop() {
-        serviceLocator.getInputManager().removeObserver(playAgainButton);
-        serviceLocator.getInputManager().removeObserver(mainMenuButton);
+        playAgainButton.deregister();
+        mainMenuButton.deregister();
 
         active = false;
         logger.info("The kill screen scene is no longer displaying");
@@ -121,13 +121,5 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public final void update(final double delta) { }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void resetBackground() {
-        background = serviceLocator.getSpriteFactory().getBackground();
-    }
 
 }

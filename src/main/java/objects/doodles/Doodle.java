@@ -1,6 +1,5 @@
 package objects.doodles;
 
-import input.IInputManager;
 import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
@@ -85,9 +84,6 @@ public class Doodle extends AGameObject implements IDoodle {
         this.spritePack = new ISprite[2][2];
         this.spritePack[0] = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Left);
         this.spritePack[1] = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Right);
-
-        IInputManager inputManager = sL.getInputManager();
-        inputManager.addObserver(this);
     }
 
     /**
@@ -125,7 +121,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void setSprite(final MovementBehavior.Directions direction, final boolean falling) {
+    public final void setSprite(final MovementBehavior.Directions direction, final boolean falling) {
         if (direction == MovementBehavior.Directions.Left) {
             setSprite(this.spritePack[0][falling ? 1 : 0]);
         }
@@ -183,6 +179,24 @@ public class Doodle extends AGameObject implements IDoodle {
         this.wrap();
         this.checkHighPosition();
         this.checkDeadPosition();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void register() {
+        getServiceLocator().getInputManager().addObserver(this);
+        getLogger().info("The doodle registered itself as an observer of the input manager");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void deregister() {
+        getServiceLocator().getInputManager().removeObserver(this);
+        getLogger().info("The doodle removed itself as an observer from the input manager");
     }
 
     /**
