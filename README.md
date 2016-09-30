@@ -17,8 +17,7 @@ Import as a Maven project in Intellij Idea and build with Maven (3.0.4).
 4 testing frameworks are used:
 - JUnit 4.12
 - Cucumber (Java 8 edition)
-- Mockito 1.6.5
-- Powermockito 1.6.5
+- Powermockito 1.6.5 (making use of Mockito 1.6.5)
 
 ## Code Quality
 
@@ -32,7 +31,7 @@ To ensure the code quality 3 additional frameworks are used:
 - Eric Cornelissen (@ericcornelissen)
 - Joost Verbraeken (@jverbraeken)
 - Nick Winnubst (@NickWinnubst)
-- Cornel (@clenrock)
-- Michael (@blazeuser)
+- Cornel de Vroomen (@clenrock)
+- Michael Tran (@blazeuser)
 
 - Supervised by Bart de Jonge (@bartdejonge1996)
