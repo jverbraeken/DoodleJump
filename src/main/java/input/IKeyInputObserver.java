@@ -8,18 +8,16 @@ public interface IKeyInputObserver {
 
     /**
      * This method is called when the user has pressed a key.
-     * Note: this method should only be called by an {@link IInputManager}.
      *
-     * @param keyCode The character that is pressed.
+     * @param key The key that is pressed.
      */
-    void keyPress(int keyCode);
+    void keyPress(final Keys key);
 
     /**
      * This method is called when the user has released a key.
-     * Note: this method should only be called by an {@link IInputManager}.
      *
-     * @param keyCode The character that is released.
+     * @param key The key that is released.
      */
-    void keyRelease(int keyCode);
+    void keyRelease(final Keys key);
 
 }
