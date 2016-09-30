@@ -80,7 +80,7 @@ public class SpringTest {
     }
 
     /**
-     * Tests if the collide method of the doodle s called when the method collidesWith of the spring is called.
+     * Tests if the collide method of the doodle is called when the method collidesWith of the spring is called.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
@@ -108,7 +108,7 @@ public class SpringTest {
     }
 
     /**
-     * Tests if the getBoost method fo the spring object properly returns the value of BOOST.
+     * Tests if the getBoost method of the spring object properly returns the value of BOOST.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
