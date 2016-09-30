@@ -23,7 +23,7 @@ public class RegularBehavior implements MovementBehavior {
      */
     private static final double HORIZONTAL_ACCELERATION = .5d;
     /**
-     * Horizontal acceleration for the Doodle.
+     * The threshold the Doodle for it to show to be jumping.
      */
     private static final double JUMPING_THRESHOLD = -15;
 

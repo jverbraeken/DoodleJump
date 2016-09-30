@@ -138,12 +138,10 @@ import java.util.ArrayList;
     /** {@inheritDoc} */
     @Override
     public void render() {
-        if (active) {
-            serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
-            double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomChooseModeScreen.getHeight();
-            serviceLocator.getRenderer().drawSpriteHUD(this.bottomChooseModeScreen, 0, (int) y);
-            buttons.forEach(IRenderable::render);
-        }
+        serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
+        double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomChooseModeScreen.getHeight();
+        serviceLocator.getRenderer().drawSpriteHUD(this.bottomChooseModeScreen, 0, (int) y);
+        buttons.forEach(IRenderable::render);
     }
 
     /** {@inheritDoc} */

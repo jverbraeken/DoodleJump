@@ -18,6 +18,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the Doodle.
  */
+@SuppressWarnings({"checkstyle:designforextension"})
 public class Doodle extends AGameObject implements IDoodle {
 
     /**
