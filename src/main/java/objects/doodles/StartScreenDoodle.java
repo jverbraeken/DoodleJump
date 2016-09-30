@@ -24,13 +24,17 @@ import system.IServiceLocator;
         super(sL);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void collide(final IJumpable jumpable) {
         setVerticalSpeed(BOOST_REDUCTION * jumpable.getBoost());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void collidesWith(final IDoodle doodle) {
     }

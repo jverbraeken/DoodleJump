@@ -1,14 +1,17 @@
 package system;
 
-import buttons.IButton;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -22,18 +25,23 @@ import static system.Game.Modes.regular;
 public final class Game {
 
     /**
-     * Used to gain access to all services.
+     * Indicates if the log file should be cleared each time the game starts.
+     * This constant is not provided by an implementation of {@link constants.IConstants} because
+     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
+     * does need to know whether is should clear the log file on startup or not.
      */
-    private static IServiceLocator serviceLocator = new ServiceLocator();
-
+    public static final boolean CLEAR_LOG_ON_STARTUP = true;
+    /**
+     * The filepath to the logfile to which all logs will be written to.
+     * This constant is not provided by an implementation of {@link constants.IConstants} because
+     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
+     * does need the name of the log file.
+     */
+    public static final String LOGFILE_NAME = "async.log";
     /**
      * The time in milliseconds per frame.
      */
     private static final int FRAME_TIME = 16;
-    /**
-     * The logger for the Game class.
-     */
-    private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
     /**
      * The target FPS for the game.
      */
@@ -55,13 +63,17 @@ public final class Game {
      */
     private static final int MAX_HIGH_SCORES = 10;
     /**
-     * Indicates if the log file should be cleared each time the game starts.
-     * This constant is not provided by an implementation of {@link constants.IConstants} because
-     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
-     * does need to know whether is should clear the log file on startup or not.
+     * A LOCK to avoid threading issues.
      */
-    public static final boolean CLEAR_LOG_ON_STARTUP = true;
-
+    private static final transient Object LOCK = new Object();
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator serviceLocator = new ServiceLocator();
+    /**
+     * The logger for the Game class.
+     */
+    private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
     /**
      * The current frame.
      */
@@ -87,10 +99,6 @@ public final class Game {
      */
     private static Modes mode = regular;
     /**
-     * The resume button for the pause screen.
-     */
-    private static IButton resumeButton;
-    /**
      * The scale of the game.
      */
     private static float scale = 2;
@@ -102,18 +110,12 @@ public final class Game {
      * A list of high scores for the game.
      */
     private static ArrayList<HighScore> highScores = new ArrayList<>();
-    /**
-     * The filepath to the logfile to which all logs will be written to.
-     * This constant is not provided by an implementation of {@link constants.IConstants} because
-     * such an implementation will normally use the FileSystem which is for that reason initialised earlier, but
-     * does need the name of the log file.
-     */
-    public static final String LOGFILE_NAME = "async.log";
 
     /**
      * Prevents instantiation from outside the Game class.
      */
-    private Game() { }
+    private Game() {
+    }
 
     /**
      * The initialization of the game.
@@ -175,11 +177,6 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        resumeButton = serviceLocator.getButtonFactory().createResumeButton(
-                (int) (serviceLocator.getConstants().getGameWidth() * RESUME_BUTTON_X),
-                (int) (serviceLocator.getConstants().getGameHeight() * RESUME_BUTTON_Y));
-        serviceLocator.getInputManager().addObserver(resumeButton);
-
         loop();
     }
 
@@ -203,9 +200,21 @@ public final class Game {
     }
 
     /**
+     * Set the mode of the Game.
+     *
+     * @param m The mode to set.
+     */
+    public static void setMode(final Modes m) {
+        mode = m;
+        serviceLocator.getRes().setSkin(m);
+        SpriteFactory.register(serviceLocator);
+        LOGGER.info("The mode is now " + m);
+    }
+
+    /**
      * Loop to update the game 60x per second.
      */
-    private static synchronized void loop() {
+    private static void loop() {
         long lastLoopTime = System.nanoTime();
         long lastFpsTime = 0;
         while (true) {
@@ -234,19 +243,34 @@ public final class Game {
     }
 
     /**
-     * Sets the current scene to currentScene.
+     * Sets the current scene to {@code scene}.
      *
-     * @param s The new scene that must be visible to the user. Cannot be null
+     * @param scene The new scene that must be visible to the user. Cannot be null
      */
-    public static void setScene(final IScene s) {
-        assert s != null;
-        if (Game.scene != null) {
+    public static void setScene(final IScene scene) {
+        assert scene != null;
+        if (Game.scene == null) {
+            synchronized (LOCK) {
+                if (Game.scene == null) {
+                    startScene(scene);
+                }
+            }
+        } else {
             Game.scene.stop();
+            startScene(scene);
         }
+    }
 
+    /**
+     * Private helper method that starts a new {@link IScene scene}.
+     *
+     * @param scene The scene that must be started
+     */
+    private static void startScene(final IScene scene) {
+        assert scene != null;
         serviceLocator.getRenderer().getCamera().setYPos(0d);
-        s.start();
-        Game.scene = s;
+        scene.start();
+        Game.scene = scene;
     }
 
     /**
@@ -264,19 +288,6 @@ public final class Game {
         }
 
         isPaused = paused;
-    }
-
-    /**
-     * Set the mode of the Game.
-     *
-     * @param m The mode to set.
-     */
-    public static void setMode(final Modes m) {
-        mode = m;
-        serviceLocator.getRes().setSkin(m);
-        SpriteFactory.register(serviceLocator);
-        scene.resetBackground();
-        LOGGER.info("The mode is now " + m);
     }
 
     /**
@@ -305,7 +316,7 @@ public final class Game {
         if (threadSleep + renderTime == 0) {
             return TARGET_FPS;
         }
-        return ICalc.NANOSECONDS / (threadSleep + renderTime);
+        return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
     }
 
 }

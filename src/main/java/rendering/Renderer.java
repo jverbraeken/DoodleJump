@@ -4,7 +4,8 @@ import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Graphics;
+
 
 /**
  * This class is responsible for rendering all Sprites.
@@ -46,7 +47,9 @@ public final class Renderer implements IRenderer {
         sL.provide(new Renderer());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void drawRectangle(final int x, final int y, final int width, final int height) {
         assert graphics != null;
@@ -58,7 +61,9 @@ public final class Renderer implements IRenderer {
         graphics.drawRect(x, (int) (y - camera.getYPos()), width, height);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void drawSprite(final ISprite sprite, final int x, final int y) {
         assert graphics != null;
@@ -73,7 +78,9 @@ public final class Renderer implements IRenderer {
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), null);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void drawSprite(final ISprite sprite, final int x, final int y, final int width, final int height) {
         assert graphics != null;
@@ -88,7 +95,9 @@ public final class Renderer implements IRenderer {
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), width, height, null);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void drawRectangleHUD(final int x, final int y, final int width, final int height) {
         assert graphics != null;
@@ -98,7 +107,9 @@ public final class Renderer implements IRenderer {
         graphics.drawRect(x, y, width, height);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void drawSpriteHUD(final ISprite sprite, final int x, final int y) {
         assert graphics != null;
@@ -111,7 +122,9 @@ public final class Renderer implements IRenderer {
         graphics.drawImage(sprite.getImage(), x, y, null);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void drawSpriteHUD(final ISprite sprite, final int x, final int y, final int width, final int height) {
         assert graphics != null;
@@ -124,7 +137,9 @@ public final class Renderer implements IRenderer {
         graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setGraphicsBuffer(final Graphics g) {
         if (g == null) {
@@ -134,7 +149,9 @@ public final class Renderer implements IRenderer {
         this.graphics = g;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ICamera getCamera() {
         return camera;
