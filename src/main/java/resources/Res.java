@@ -123,6 +123,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.trampolineUsed, SPRITE_PATH + "powerup-trampoline-used@2x.png");
         sprites.put(Sprites.shield, SPRITE_PATH + "powerup-shield@2x.png");
         sprites.put(Sprites.sizeUp, SPRITE_PATH + "powerup-size-up@2x.png");
+        sprites.put(Sprites.sizeDown, SPRITE_PATH + "powerup-size-down@2x.png");
 
         // Top bar
         sprites.put(Sprites.scoreBar, SPRITE_PATH + "scoreBar.png");

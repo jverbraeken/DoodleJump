@@ -58,6 +58,15 @@ public final class PowerupFactory implements IPowerupFactory {
      * {@inheritDoc}
      */
     @Override
+    public IGameObject createSizeDown(final int x, final int y) {
+        logger.info("A new SizeDown has been created");
+        return new SizeDown(serviceLocator, x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IGameObject createSizeUp(final int x, final int y) {
         logger.info("A new SizeUp has been created");
         return new SizeUp(serviceLocator, x, y);
