@@ -53,7 +53,7 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void collidesWith(IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
             this.owner = doodle;
             doodle.setPassive(this);

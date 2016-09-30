@@ -49,7 +49,7 @@ public final class PowerupFactory implements IPowerupFactory {
      * {@inheritDoc}
      */
     @Override
-    public IGameObject createPropeller(int x, int y) {
+    public IGameObject createPropeller(final int x, final int y) {
         logger.info("A new Propeller has been created");
         return new Propeller(serviceLocator, x, y);
     }

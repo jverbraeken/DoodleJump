@@ -14,6 +14,8 @@ public interface IPassive extends IGameObject {
 
     /**
      * Get the boost provided by the passive.
+     *
+     * @return The boost provided by the passive.
      */
     double getBoost();
 

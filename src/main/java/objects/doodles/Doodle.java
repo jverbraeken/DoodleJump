@@ -108,7 +108,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public IPassive getPassive() {
+    public final IPassive getPassive() {
         return this.passive;
     }
 

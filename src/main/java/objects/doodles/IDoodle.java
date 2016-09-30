@@ -27,6 +27,8 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
 
     /**
      * Get the passive of the Doodle.
+     *
+     * @return The passive the Doodle currently has. Note that this can be null!
      */
     IPassive getPassive();
 
