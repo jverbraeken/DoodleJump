@@ -18,14 +18,14 @@ import static org.powermock.api.mockito.PowerMockito.when;
 /**
  * Test class to test the methods in Trampoline.java.
  *
- * ]Created by Michael on 9/30/2016.
+ * Created by Michael on 9/30/2016.
  */
 @SuppressWarnings("magicnumber")
 public class TrampolineTest {
     private IAudioManager audioManager;
     private IServiceLocator serviceLocator;
     private ISpriteFactory spriteFactory;
-    private ISprite sprite, newSprite;
+    private ISprite usedSprite, newSprite;
     private IRenderer renderer;
     private Trampoline trampoline;
     private IDoodle doodle;
@@ -37,17 +37,17 @@ public class TrampolineTest {
     public void init() {
         serviceLocator = mock(IServiceLocator.class);
         spriteFactory = mock(ISpriteFactory.class);
-        sprite = mock(ISprite.class);
+        usedSprite = mock(ISprite.class);
         newSprite = mock(ISprite.class);
         audioManager = mock(IAudioManager.class);
         renderer = mock(IRenderer.class);
         doodle = mock(IDoodle.class);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
-        when(spriteFactory.getSpringSprite()).thenReturn(sprite);
+        when(spriteFactory.getSpringSprite()).thenReturn(usedSprite);
         when(spriteFactory.getSpringUsedSprite()).thenReturn(newSprite);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
-        when(sprite.getHeight()).thenReturn(20);
+        when(usedSprite.getHeight()).thenReturn(20);
         when(newSprite.getHeight()).thenReturn(40);
     }
 
@@ -74,7 +74,7 @@ public class TrampolineTest {
     public void testRenderer() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
         trampoline.render();
-        verify(renderer).drawSprite(sprite, (int) trampoline.getXPos(), (int) trampoline.getYPos());
+        verify(renderer).drawSprite(usedSprite, (int) trampoline.getXPos(), (int) trampoline.getYPos());
     }
 
     /**
