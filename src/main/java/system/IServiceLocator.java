@@ -53,7 +53,7 @@ public interface IServiceLocator {
 
     void provide(IConstants constants);
 
-    void provide(ILoggerFactory LoggerFactory);
+    void provide(ILoggerFactory loggerFactory);
 
     IAudioManager getAudioManager();
 
