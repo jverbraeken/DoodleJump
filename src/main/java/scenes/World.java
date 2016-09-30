@@ -73,7 +73,7 @@ public class World implements IScene {
      * {@link IRenderable renderables} that will be drawn first (eg platforms), the second set contains the
      * {@link IRenderable renderables} that will be drawn secondly (eg doodles) and the third set contains the
      * {@link IRenderable renderables} that will be drawn at last (eg HUD elements).</p>
-     *
+     * <p>
      * <p>The reason a list is used instead of an array is because we need to use a weak set. The only
      * way to make it (in Java) is by using Collections.newSetFromMap that creates the set for us (and
      * prohibits creating an array by doing that).</p>
@@ -130,20 +130,26 @@ public class World implements IScene {
         logger.log("Level started");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void start() {
         this.serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
         logger.log("The world is now displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void stop() {
         logger.log("The world is no longer displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void render() {
         serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
@@ -153,7 +159,9 @@ public class World implements IScene {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void update(final double delta) {
         updateObjects(delta);
@@ -282,7 +290,9 @@ public class World implements IScene {
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void render() {
             serviceLocator.getRenderer().drawSpriteHUD(scoreBarSprite, 0, 0, serviceLocator.getConstants().getGameWidth(), scoreBarHeight);
@@ -306,6 +316,7 @@ public class World implements IScene {
 
             /**
              * Construct the pause button.
+             *
              * @param xx the x position of the pause button.
              * @param yy the y position of the pause button.
              * @param sc the scale of the button.
@@ -320,13 +331,17 @@ public class World implements IScene {
                 serviceLocator.getInputManager().addObserver(this);
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void render() {
                 serviceLocator.getRenderer().drawSpriteHUD(sprite, x, y, width, height);
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void mouseClicked(final int mouseX, final int mouseY) {
                 if (mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
@@ -360,10 +375,11 @@ public class World implements IScene {
 
             /**
              * Create the score texts.
-             * @param xPos x position.
+             *
+             * @param xPos    x position.
              * @param yCenter center y of the score text.
-             * @param s the scale.
-             * @param dS the digit sprites.
+             * @param s       the scale.
+             * @param dS      the digit sprites.
              */
             private ScoreText(final int xPos, final int yCenter, final double s, final ISprite[] dS) {
                 assert dS.length == NUMBER_SYSTEM;
@@ -377,7 +393,9 @@ public class World implements IScene {
                 this.digitSprites = dS;
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public void render() {
                 assert doodle.getScore() >= 0;

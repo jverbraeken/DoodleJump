@@ -40,7 +40,8 @@ import system.IServiceLocator;
         super(sL,
                 sL.getConstants().getGameWidth() / 2,
                 sL.getConstants().getGameHeight() / 2,
-                sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0]);
+                sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0],
+                StartScreenDoodle.class);
 
         this.setHitBox(
                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
