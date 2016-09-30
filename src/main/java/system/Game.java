@@ -144,7 +144,11 @@ public final class Game {
 
         // Initialize panel
         panel = new JPanel() {
-            /** {@inheritDoc} */
+            /**
+             * Paint the component to the proper scale.
+             *
+             * @param g the graphics.
+             */
             @Override
             public void paintComponent(final Graphics g) {
                 serviceLocator.getRenderer().setGraphicsBuffer(g);

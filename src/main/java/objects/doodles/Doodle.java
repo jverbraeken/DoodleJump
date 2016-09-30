@@ -17,12 +17,9 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the Doodle.
  */
+@SuppressWarnings({"checkstyle:designforextension"})
 public class Doodle extends AGameObject implements IDoodle {
 
-    /**
-     * The logger for the Game class.
-     */
-    private static final ILogger LOGGER = getServiceLocator().getLoggerFactory().createLogger(Doodle.class);
     /**
      * The relative center of the camera on the y axis.
      */
@@ -46,7 +43,11 @@ public class Doodle extends AGameObject implements IDoodle {
     private static final double WIDTH_HIT_BOX_RIGHT = .7;
 
     /**
-     * The sprite pack for the Doodle, containing all Sprites for both directions. [direction][falling]
+     * The logger for the Game class.
+     */
+    private final ILogger logger;
+    /**
+     * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
     private ISprite[][] spritePack;
     /**
@@ -70,6 +71,7 @@ public class Doodle extends AGameObject implements IDoodle {
                 sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0],
                 Doodle.class);
 
+        this.logger = sL.getLoggerFactory().createLogger(Doodle.class);
         this.setHitBox(
                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
                 getSprite().getHeight(),
@@ -87,7 +89,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void collide(final IJumpable jumpable) {
+    public void collide(final IJumpable jumpable) {
         behavior.setVerticalSpeed(jumpable.getBoost());
     }
 
@@ -135,10 +137,6 @@ public class Doodle extends AGameObject implements IDoodle {
         return behavior.getVerticalSpeed();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final void setVerticalSpeed(final double vSpeed) {
         behavior.setVerticalSpeed(vSpeed);
     }
@@ -147,7 +145,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void keyPress(final Keys key) {
+    public void keyPress(final Keys key) {
         behavior.keyPress(key);
     }
 
@@ -155,7 +153,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void keyRelease(final Keys key) {
+    public void keyRelease(final Keys key) {
         behavior.keyRelease(key);
     }
 

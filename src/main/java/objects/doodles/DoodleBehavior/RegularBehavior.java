@@ -22,9 +22,9 @@ public class RegularBehavior implements MovementBehavior {
      */
     private static final double HORIZONTAL_ACCELERATION = .5d;
     /**
-     * The speed that is considered moving quick (changing the Doodle sprite).
+     * The threshold the Doodle for it to show to be jumping.
      */
-    private static final double QUICK_MOVING_SPEED = -15;
+    private static final double JUMPING_THRESHOLD = -15;
 
     /**
      * Used to access all services.
@@ -124,12 +124,11 @@ public class RegularBehavior implements MovementBehavior {
 
     /**
      * Animate the Doodle.
-     *
-     * @param delta Delta time since previous frame.
+     * @param delta Delta time since previous animate.
      */
     private void animate(final double delta) {
         // If the Doodle moves up quickly shorten its legs
-        if (getVerticalSpeed() < QUICK_MOVING_SPEED) {
+        if (getVerticalSpeed() < JUMPING_THRESHOLD) {
             doodle.setSprite(getFacing(), true);
         } else {
             doodle.setSprite(getFacing(), false);
@@ -138,8 +137,7 @@ public class RegularBehavior implements MovementBehavior {
 
     /**
      * Apply gravity to the Doodle.
-     *
-     * @param delta Delta time since previous frame.
+     * @param delta Delta time since previous animate.
      */
     private void applyGravity(final double delta) {
         this.vSpeed += serviceLocator.getConstants().getGravityAcceleration();
@@ -159,14 +157,17 @@ public class RegularBehavior implements MovementBehavior {
 
     /**
      * Move the Doodle along the X axis.
-     *
-     * @param delta Delta time since previous frame.
+     * @param delta the frame duration
      */
     private void moveHorizontally(final double delta) {
-        if (moving == Directions.Left && this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed -= HORIZONTAL_ACCELERATION;
-        } else if (moving == Directions.Right && this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed += HORIZONTAL_ACCELERATION;
+        if (moving == Directions.Left) {
+            if (this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed -= HORIZONTAL_ACCELERATION;
+            }
+        } else if (moving == Directions.Right) {
+            if (this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed += HORIZONTAL_ACCELERATION;
+            }
         } else {
             if (this.hSpeed < 0) {
                 this.hSpeed += HORIZONTAL_ACCELERATION;
