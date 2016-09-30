@@ -134,6 +134,10 @@ public final class BlockFactory implements IBlockFactory {
         IPlatform platform = platformFactory.createPlatform(xPos, yPos);
         elements.add(platform);
 
+        IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+        IGameObject jetpack = powerupFactory.createPropeller(xPos, yPos - 50);
+        elements.add(jetpack);
+
         return platform;
     }
 

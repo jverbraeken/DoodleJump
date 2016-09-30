@@ -18,6 +18,15 @@ public interface IPowerupFactory extends IFactory {
     IGameObject createJetpack(final int x, final int y);
 
     /**
+     * Create a new Jetpack Propeller.
+     *
+     * @param x The X location for the Propeller.
+     * @param y The Y location for the Propeller.
+     * @return A new Propeller instance.
+     */
+    IGameObject createPropeller(final int x, final int y);
+
+    /**
      * Create a new Spring powerup.
      *
      * @param x The X location for the Spring.

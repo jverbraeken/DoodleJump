@@ -4,29 +4,33 @@ import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
- * This class describes the behaviour of the Jetpack powerup.
+ * This class describes the behaviour of the Propeller powerup.
  */
-/* package */ class Jetpack extends APowerup implements IPassive, IPowerup {
+/* package */ class Propeller extends APowerup implements IPassive, IPowerup {
 
     /**
-     * The boost the Jetpack gives.
+     * The boost the Propeller gives.
      */
-    private static final int BOOST = -10;
+    private static final int BOOST = -15;
+    /**
+     * Y offset for drawing the Propeller when on Doodle.
+     */
+    private static final int OWNED_Y_OFFSET = -10;
 
     /**
-     * The Doodle that owns this Jetpack.
+     * The Doodle that owns this Propeller.
      */
     private IDoodle owner;
 
     /**
-     * Jetpack constructor.
+     * Propeller constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the Jetpack.
-     * @param y - The Y location for the Jetpack.
+     * @param x - The X location for the Propeller.
+     * @param y - The Y location for the Propeller.
      */
-    /* package */ Jetpack(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getJetpackSprite(), Jetpack.class);
+    /* package */ Propeller(final IServiceLocator sL, final int x, final int y) {
+        super(sL, x, y, sL.getSpriteFactory().getPropellerSprite(), Jetpack.class);
     }
 
     /** {@inheritDoc} */
@@ -62,9 +66,10 @@ import system.IServiceLocator;
         if (this.owner == null) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else {
-            int xPos = (int) this.owner.getXPos();
-            int yPos = (int) this.owner.getYPos() + (this.getSprite().getHeight() / 2);
+            int xPos = (int) this.owner.getXPos() + (this.getSprite().getWidth() / 2);
+            int yPos = (int) this.owner.getYPos() + (this.getSprite().getHeight() / 2) + OWNED_Y_OFFSET;
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), xPos, yPos);
         }
     }
+
 }
