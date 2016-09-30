@@ -1,6 +1,7 @@
 package objects.doodles;
 
 import input.IInputManager;
+import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
@@ -84,14 +85,6 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public final void keyPress(final int keyCode) { }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void keyRelease(final int keyCode) { }
-
-    /** {@inheritDoc} */
-    @Override
     public void collide(final IJumpable jumpable) {
         this.vSpeed = jumpable.getBoost() + BOOST_REDUCTION;
     }
@@ -107,16 +100,6 @@ import system.IServiceLocator;
         return 0d;
     }
 
-    /**
-     * Apply gravity to the Doodle.
-     *
-     * @param delta Delta time since previous animate.
-     */
-    private void applyGravity(final double delta) {
-        this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
-        addYPos(this.vSpeed);
-    }
-
     /** {@inheritDoc} */
     @Override
     public ISprite[] getSpritePack() {
@@ -126,5 +109,23 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public void setSpritePack(final ISprite[] sprites) { }
+
+    /** {@inheritDoc} */
+    @Override
+    public void keyPress(final Keys key) { }
+
+    /** {@inheritDoc} */
+    @Override
+    public void keyRelease(final Keys key) { }
+
+    /**
+     * Apply gravity to the Doodle.
+     *
+     * @param delta Delta time since previous animate.
+     */
+    private void applyGravity(final double delta) {
+        this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
+        addYPos(this.vSpeed);
+    }
 
 }
