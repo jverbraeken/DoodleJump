@@ -116,8 +116,8 @@ import java.util.ArrayList;
     /** {@inheritDoc} */
     @Override
     public final void start() {
-        for (IButton b : buttons) {
-            serviceLocator.getInputManager().addObserver(b);
+        for (IButton button : buttons) {
+            button.register();
         }
 
         active = true;
@@ -127,8 +127,8 @@ import java.util.ArrayList;
     /** {@inheritDoc} */
     @Override
     public final void stop() {
-        for (IButton b : buttons) {
-            serviceLocator.getInputManager().removeObserver(b);
+        for (IButton button : buttons) {
+            button.deregister();
         }
 
         active = false;
@@ -147,11 +147,5 @@ import java.util.ArrayList;
     /** {@inheritDoc} */
     @Override
     public final void update(final double delta) { }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void resetBackground() {
-        background = serviceLocator.getSpriteFactory().getBackground();
-    }
 
 }

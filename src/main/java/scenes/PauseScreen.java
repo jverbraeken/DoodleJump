@@ -102,12 +102,4 @@ import system.IServiceLocator;
     public void mouseClicked(final int x, final int y) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void resetBackground() {
-        background = serviceLocator.getSpriteFactory().getBackground();
-    }
-
 }

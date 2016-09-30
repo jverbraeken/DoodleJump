@@ -92,9 +92,11 @@ public final class BlockFactory implements IBlockFactory {
     /** {@inheritDoc} */
     @Override
     public synchronized IBlock createStartBlock() {
+        final int minPlatforms = 6;
+        final int maxPlatforms = (serviceLocator.getConstants().getGameWidth() + serviceLocator.getConstants().getGameHeight()) / 130;
         Set<IGameObject> elements = new HashSet<>();
 
-        int platformAmount = serviceLocator.getCalc().getRandomIntBetween(6, (serviceLocator.getConstants().getGameWidth() + serviceLocator.getConstants().getGameHeight()) / 130);
+        int platformAmount = serviceLocator.getCalc().getRandomIntBetween(minPlatforms, maxPlatforms);
         int heightDividedPlatforms = serviceLocator.getConstants().getGameHeight() / platformAmount;
 
         IPlatform topJumpable = placeInitialStartBlockPlatforms(elements);
@@ -143,8 +145,11 @@ public final class BlockFactory implements IBlockFactory {
      * @return The last and highest platform created by this method
      */
     private IPlatform placeInitialStartBlockPlatforms(final Set<IGameObject> elements) {
+        final double initialPlatformHeightDivider = 1.2d;
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-        IPlatform platform = platformFactory.createPlatform(serviceLocator.getConstants().getGameWidth() / 2, (int) (serviceLocator.getConstants().getGameHeight() / 1.2));
+        IPlatform platform = platformFactory.createPlatform(
+                serviceLocator.getConstants().getGameWidth() / 2,
+                (int) (serviceLocator.getConstants().getGameHeight() / initialPlatformHeightDivider));
         elements.add(platform);
         return platform;
     }
