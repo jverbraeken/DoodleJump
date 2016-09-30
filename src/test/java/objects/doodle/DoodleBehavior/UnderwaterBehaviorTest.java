@@ -4,6 +4,7 @@ import constants.Constants;
 import input.Keys;
 import objects.doodles.Doodle;
 import objects.doodles.DoodleBehavior.MovementBehavior;
+import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.IDoodle;
 import org.junit.After;
@@ -14,6 +15,9 @@ import org.powermock.reflect.Whitebox;
 import system.IServiceLocator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 /**
@@ -42,11 +46,11 @@ public class UnderwaterBehaviorTest {
     public void testKeyPressLeftRight() throws Exception{
         regular = Whitebox.invokeConstructor(SpaceBehavior.class, serviceLocator, doodle);
         regular.keyPress(Keys.arrowLeft);
-        assertEquals(MovementBehavior.Directions.Left, regular.getFacing());
-        assertEquals(MovementBehavior.Directions.Left, regular.getMoving());
+        assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "facing"));
+        assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "moving"));
         regular.keyPress(Keys.arrowRight);
-        assertEquals(MovementBehavior.Directions.Right, regular.getFacing());
-        assertEquals(MovementBehavior.Directions.Right, regular.getMoving());
+        assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "facing"));
+        assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "moving"));
         assertEquals(true, regular.getPressed());
     }
 
@@ -60,12 +64,12 @@ public class UnderwaterBehaviorTest {
     public void testKeyPressRightLeft() throws Exception{
         regular = Whitebox.invokeConstructor(SpaceBehavior.class, serviceLocator, doodle);
         regular.keyPress(Keys.arrowRight);
-        assertEquals(MovementBehavior.Directions.Right, regular.getFacing());
-        assertEquals(MovementBehavior.Directions.Right, regular.getMoving());
+        assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "facing"));
+        assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "moving"));
         regular.keyPress(Keys.arrowLeft);
-        assertEquals(MovementBehavior.Directions.Left, regular.getFacing());
-        assertEquals(MovementBehavior.Directions.Left, regular.getMoving());
-        assertEquals(true, regular.getPressed());
+        assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "facing"));
+        assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "moving"));
+        assertEquals(true, Whitebox.getInternalState(regular, "pressed"));
     }
 
     /**
@@ -78,10 +82,10 @@ public class UnderwaterBehaviorTest {
     public void testKeyReleaseLeft() throws Exception{
         regular = Whitebox.invokeConstructor(SpaceBehavior.class, serviceLocator, doodle);
         regular.keyPress(Keys.arrowLeft);
-        assertEquals(MovementBehavior.Directions.Left, regular.getFacing());
-        assertEquals(MovementBehavior.Directions.Left, regular.getMoving());
+        assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "facing"));
+        assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "moving"));
         regular.keyRelease(Keys.arrowLeft);
-        assertEquals(false, regular.getPressed());
+        assertEquals(false, Whitebox.getInternalState(regular, "pressed"));
     }
 
     /**
@@ -94,10 +98,22 @@ public class UnderwaterBehaviorTest {
     public void testKeyReleaseRight() throws Exception{
         regular = Whitebox.invokeConstructor(SpaceBehavior.class, serviceLocator, doodle);
         regular.keyPress(Keys.arrowRight);
-        assertEquals(MovementBehavior.Directions.Right, regular.getFacing());
-        assertEquals(MovementBehavior.Directions.Right, regular.getMoving());
+        assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "facing"));
+        assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "moving"));
         regular.keyRelease(Keys.arrowRight);
-        assertEquals(false, regular.getPressed());
+        assertEquals(false, Whitebox.getInternalState(regular, "pressed"));
+    }
+
+    /**
+     * Tests that for the gravity method is called.
+     *
+     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
+     *                   in the constructor.
+     */
+    @Test
+    public void testApplyGravity() throws Exception {
+        java.lang.reflect.Method m = Whitebox.getMethod(RegularBehavior.class, "applyGravity", double.class);
+        assertNotNull(m);
     }
 
     @After
