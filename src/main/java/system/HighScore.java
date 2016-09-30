@@ -1,5 +1,8 @@
 package system;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 /**
  * Class representing a score. <b>Is immutable</b>.
  */
@@ -36,7 +39,9 @@ package system;
         this.score = Integer.parseInt(s);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int compareTo(final HighScore that) {
         if (this.getScore() > that.getScore()) {
@@ -46,6 +51,34 @@ package system;
         } else {
             return 0;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        HighScore highScore = (HighScore) o;
+
+        return new EqualsBuilder()
+                .append(score, highScore.score)
+                .append(name, highScore.name)
+                .isEquals();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(name)
+                .append(score)
+                .toHashCode();
     }
 
     /**

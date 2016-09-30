@@ -1,4 +1,4 @@
 /**
- * Package containing classes describing the behaviour of a Doodle.
+ * Contains the classes responsible for the doodle behavior.
  */
 package objects.doodles.DoodleBehavior;

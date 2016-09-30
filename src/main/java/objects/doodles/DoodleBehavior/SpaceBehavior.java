@@ -27,13 +27,13 @@ public class SpaceBehavior implements MovementBehavior {
      */
     private static final double HORIZONTAL_ACCELERATION = 3d;
     /**
+     * The threshold the Doodle for it to show to be jumping.
+     */
+    private static final double JUMPING_THRESHOLD = -15;
+    /**
      * Relative gravity for the Doodle.
      */
     private static final double RELATIVE_GRAVITY = .3d;
-    /**
-     * The speed that is considered moving quick (changing the Doodle sprite).
-     */
-    private static final double QUICK_MOVING_SPEED = -15;
 
     /**
      * Used to access all services.
@@ -144,14 +144,11 @@ public class SpaceBehavior implements MovementBehavior {
      * @param delta Delta time since previous frame.
      */
     private void animate(final double delta) {
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        doodle.setSpritePack(spriteFactory.getDoodleSprite(getFacing()));
-
         // If the Doodle moves up quickly shorten its legs
-        if (getVerticalSpeed() < RELATIVE_SPEED * QUICK_MOVING_SPEED) {
-            doodle.setSprite(this.doodle.getSpritePack()[1]);
+        if (getVerticalSpeed() < RELATIVE_SPEED * JUMPING_THRESHOLD) {
+            doodle.setSprite(getFacing(), true);
         } else {
-            doodle.setSprite(this.doodle.getSpritePack()[0]);
+            doodle.setSprite(getFacing(), false);
         }
     }
 
@@ -182,10 +179,14 @@ public class SpaceBehavior implements MovementBehavior {
      * @param delta Delta time since previous frame.
      */
     private void moveHorizontally(final double delta) {
-        if (pressed && moving == Directions.Left && this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed -= RELATIVE_SPEED * RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
-        } else if (pressed && moving == Directions.Right && this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed += RELATIVE_SPEED * RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
+        if (pressed && moving == Directions.Left) {
+            if (this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed -= RELATIVE_SPEED * RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
+            }
+        } else if (pressed && moving == Directions.Right) {
+            if (this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed += RELATIVE_SPEED * RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
+            }
         }
 
         doodle.addXPos((int) this.hSpeed);

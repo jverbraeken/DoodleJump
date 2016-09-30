@@ -3,7 +3,7 @@ package objects.doodles;
 import input.IKeyInputObserver;
 import objects.IGameObject;
 import objects.IJumpable;
-import resources.sprites.ISprite;
+import objects.doodles.DoodleBehavior.MovementBehavior;
 
 /**
  * This class describes the behaviour of the doodle.
@@ -13,14 +13,21 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     /**
      * Get the vertical speed of the Doodle.
      *
-     * @return The vertical speed.
+     * @return The vertical speed
      */
     double getVerticalSpeed();
 
     /**
-     * The Doodle collides with a jumpable GameObject.
+     * Set the vertical speed of the doodle.
      *
-     * @param jumpable The jumpable GameObject.
+     * @param vSpeed the new speed
+     */
+    void setVerticalSpeed(final double vSpeed);
+
+    /**
+     * The Doodle collides with a jumpable object.
+     *
+     * @param jumpable The jumpable object
      */
     void collide(final IJumpable jumpable);
 
@@ -35,29 +42,16 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     /**
      * Get the score for this Doodle.
      *
-     * @return The score.
+     * @return The score
      */
     double getScore();
 
     /**
-     * Get the sprite pack of the doodle.
-     *
-     * @return the sprite pack.
-     */
-    ISprite[] getSpritePack();
-
-    /**
      * Set the sprite pack of the doodle.
      *
-     * @param doodleSprite the sprites.
+     * @param direction The direction is Doodle is going to
+     * @param falling   True if the doodle is going down
      */
-    void setSpritePack(final ISprite[] doodleSprite);
-
-    /**
-     * Set the vertical speed of the doodle.
-     *
-     * @param vSpeed the new speed.
-     */
-    void setVerticalSpeed(final double vSpeed);
+    void setSprite(final MovementBehavior.Directions direction, final boolean falling);
 
 }

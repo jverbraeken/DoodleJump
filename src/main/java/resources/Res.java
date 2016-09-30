@@ -78,9 +78,9 @@ public final class Res implements IRes {
         // Buttons
         sprites.put(Sprites.menu, SPRITE_PATH + "menu@2x.png");
         sprites.put(Sprites.play, SPRITE_PATH + "play@2x.png");
-        sprites.put(Sprites.playAgain, SPRITE_PATH + "playAgain@2x.png");
+        sprites.put(Sprites.playAgain, SPRITE_PATH + "playagain@2x.png");
         sprites.put(Sprites.resume, SPRITE_PATH + "resume@2x.png");
-        sprites.put(Sprites.chooseMode, SPRITE_PATH + "mode-button@2x.png");
+        sprites.put(Sprites.chooseMode, SPRITE_PATH + "mode-button2@2x.png");
 
         // Covers
         sprites.put(Sprites.background, SPRITE_PATH + "bck@2x.png");
@@ -112,6 +112,12 @@ public final class Res implements IRes {
 
         // Platforms
         sprites.put(Sprites.platform1, SPRITE_PATH + "platform-green@2x.png");
+        sprites.put(Sprites.platformHorizontal, SPRITE_PATH + "platform-blue@2x.png");
+        sprites.put(Sprites.platformVertical, SPRITE_PATH + "platform-gray@2x.png");
+        sprites.put(Sprites.platformBroken1, SPRITE_PATH + "platform-broken1@2x.png");
+        sprites.put(Sprites.platformBroken2, SPRITE_PATH + "platform-broken2@2x.png");
+        sprites.put(Sprites.platformBroken3, SPRITE_PATH + "platform-broken3@2x.png");
+        sprites.put(Sprites.platformBroken4, SPRITE_PATH + "platform-broken4@2x.png");
 
         // Powerups
         sprites.put(Sprites.propeller, SPRITE_PATH + "powerup-propeller@2x.png");
@@ -141,6 +147,7 @@ public final class Res implements IRes {
         resetSkin();
 
         // Covers
+        sprites.put(Sprites.startCover, SPRITE_PATH + "space-Default@2x.png");
         sprites.put(Sprites.background, SPRITE_PATH + "space-bck@2x.png");
 
         // Doodle
@@ -167,6 +174,7 @@ public final class Res implements IRes {
         resetSkin();
 
         // Covers
+        sprites.put(Sprites.startCover, SPRITE_PATH + "underwater-Default@2x.png");
         sprites.put(Sprites.background, SPRITE_PATH + "underwater-bck2@2x.png");
 
         // Doodle
