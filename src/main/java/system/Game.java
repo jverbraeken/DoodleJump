@@ -7,8 +7,12 @@ import math.ICalc;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -142,7 +146,11 @@ public final class Game {
 
         // Initialize panel
         panel = new JPanel() {
-            /** {@inheritDoc} */
+            /**
+             * Paint the component to the proper scale.
+             *
+             * @param g the graphics.
+             */
             @Override
             public void paintComponent(final Graphics g) {
                 serviceLocator.getRenderer().setGraphicsBuffer(g);
