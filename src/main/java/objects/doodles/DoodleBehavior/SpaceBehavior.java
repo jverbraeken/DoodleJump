@@ -120,6 +120,8 @@ public class SpaceBehavior implements MovementBehavior {
 
     /**
      * Returns if a key is pressed.
+     *
+     * @return if a key is pressed.
      */
     public final boolean getPressed() {
         return pressed;

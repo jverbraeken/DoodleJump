@@ -6,6 +6,7 @@ import objects.doodles.Doodle;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
+import objects.doodles.DoodleBehavior.UnderwaterBehavior;
 import objects.doodles.IDoodle;
 import org.junit.After;
 import org.junit.Before;
@@ -28,12 +29,13 @@ public class UnderwaterBehaviorTest {
     private IServiceLocator serviceLocator;
     private Constants constants;
     private IDoodle doodle;
-    private SpaceBehavior regular;
+    private UnderwaterBehavior regular;
 
     @Before
     public void init() throws Exception {
         serviceLocator = mock(IServiceLocator.class);
         doodle = Mockito.mock(Doodle.class);
+        regular = Whitebox.invokeConstructor(UnderwaterBehavior.class, serviceLocator, doodle);
     }
 
     /**
@@ -44,14 +46,13 @@ public class UnderwaterBehaviorTest {
      */
     @Test
     public void testKeyPressLeftRight() throws Exception{
-        regular = Whitebox.invokeConstructor(SpaceBehavior.class, serviceLocator, doodle);
         regular.keyPress(Keys.arrowLeft);
         assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "facing"));
         assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "moving"));
         regular.keyPress(Keys.arrowRight);
         assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "facing"));
         assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "moving"));
-        assertEquals(true, regular.getPressed());
+        assertEquals(true, Whitebox.getInternalState(regular, "pressed"));
     }
 
     /**
@@ -62,7 +63,6 @@ public class UnderwaterBehaviorTest {
      */
     @Test
     public void testKeyPressRightLeft() throws Exception{
-        regular = Whitebox.invokeConstructor(SpaceBehavior.class, serviceLocator, doodle);
         regular.keyPress(Keys.arrowRight);
         assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "facing"));
         assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "moving"));
@@ -80,7 +80,6 @@ public class UnderwaterBehaviorTest {
      */
     @Test
     public void testKeyReleaseLeft() throws Exception{
-        regular = Whitebox.invokeConstructor(SpaceBehavior.class, serviceLocator, doodle);
         regular.keyPress(Keys.arrowLeft);
         assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "facing"));
         assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "moving"));
@@ -96,7 +95,6 @@ public class UnderwaterBehaviorTest {
      */
     @Test
     public void testKeyReleaseRight() throws Exception{
-        regular = Whitebox.invokeConstructor(SpaceBehavior.class, serviceLocator, doodle);
         regular.keyPress(Keys.arrowRight);
         assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "facing"));
         assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "moving"));

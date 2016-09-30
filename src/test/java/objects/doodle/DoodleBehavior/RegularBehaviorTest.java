@@ -37,6 +37,7 @@ public class RegularBehaviorTest {
     public void init() throws Exception {
         serviceLocator = PowerMockito.mock(IServiceLocator.class);
         doodle = PowerMockito.mock(Doodle.class);
+        regular = Whitebox.invokeConstructor(RegularBehavior.class, serviceLocator, doodle);
     }
 
     /**
@@ -47,7 +48,6 @@ public class RegularBehaviorTest {
      */
     @Test
     public void testKeyPressLeftRight() throws Exception{
-        regular = Whitebox.invokeConstructor(RegularBehavior.class, serviceLocator, doodle);
         regular.keyPress(Keys.arrowLeft);
         regular.keyPress(Keys.arrowRight);
         assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "facing"));
@@ -62,7 +62,6 @@ public class RegularBehaviorTest {
      */
     @Test
     public void testKeyPressRightLeft() throws Exception{
-        regular = Whitebox.invokeConstructor(RegularBehavior.class, serviceLocator, doodle);
         regular.keyPress(Keys.arrowRight);
         regular.keyPress(Keys.arrowLeft);
         assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "facing"));
@@ -77,7 +76,6 @@ public class RegularBehaviorTest {
      */
     @Test
     public void testKeyReleaseLeft() throws Exception {
-        regular = Whitebox.invokeConstructor(RegularBehavior.class, serviceLocator, doodle);
         regular.keyPress(Keys.arrowLeft);
         assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "facing"));
         assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "moving"));
@@ -93,7 +91,6 @@ public class RegularBehaviorTest {
      */
     @Test
     public void testKeyReleaseRight() throws Exception {
-        regular = Whitebox.invokeConstructor(RegularBehavior.class, serviceLocator, doodle);
         regular.keyPress(Keys.arrowRight);
         assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "facing"));
         assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "moving"));
