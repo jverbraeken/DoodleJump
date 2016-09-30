@@ -74,6 +74,7 @@ public final class BlockFactory implements IBlockFactory {
     }
 
     /** {@inheritDoc} */
+    @SuppressWarnings("magicnumber")
     @Override
     public synchronized IBlock createStartBlock() {
         Set<IGameObject> elements = new HashSet<>();
@@ -127,6 +128,7 @@ public final class BlockFactory implements IBlockFactory {
      * @param elements The {@link Set} in which the platforms should be placed
      * @return The last and highest platform created by this method
      */
+    @SuppressWarnings("magicnumber")
     private IPlatform placeInitialStartBlockPlatforms(final Set<IGameObject> elements) {
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
         IPlatform platform = platformFactory.createPlatform(serviceLocator.getConstants().getGameWidth() / 2, (int) (serviceLocator.getConstants().getGameHeight() / 1.2));
