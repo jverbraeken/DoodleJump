@@ -150,14 +150,11 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void animate(final double delta) {
-        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        doodle.setSpritePack(spriteFactory.getDoodleSprite(getFacing()));
-
         // If the Doodle moves up quickly shorten its legs
         if (getVerticalSpeed() < RELATIVE_SPEED * JUMPING_THRESHOLD) {
-            doodle.setSprite(this.doodle.getSpritePack()[1]);
+            doodle.setSprite(getFacing(), true);
         } else {
-            doodle.setSprite(this.doodle.getSpritePack()[0]);
+            doodle.setSprite(getFacing(), false);
         }
     }
 

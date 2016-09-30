@@ -50,7 +50,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
-    private ISprite[] spritePack;
+    private ISprite[][] spritePack;
     /**
      * The current score of the doodle.
      */
@@ -81,7 +81,9 @@ public class Doodle extends AGameObject implements IDoodle {
 
         setBehavior(Game.getMode());
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        this.spritePack = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Right);
+        this.spritePack = new ISprite[2][2];
+        this.spritePack[0] = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Left);
+        this.spritePack[1] = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Right);
 
         IInputManager inputManager = sL.getInputManager();
         inputManager.addObserver(this);
@@ -99,7 +101,8 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) { }
+    public void collidesWith(final IDoodle doodle) {
+    }
 
     /**
      * {@inheritDoc}
@@ -121,8 +124,25 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
+    public void setSprite(final MovementBehavior.Directions direction, final boolean falling) {
+        if (direction == MovementBehavior.Directions.Left) {
+            setSprite(this.spritePack[0][falling ? 1 : 0]);
+        }
+        if (direction == MovementBehavior.Directions.Right) {
+            setSprite(this.spritePack[1][falling ? 1 : 0]);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final double getVerticalSpeed() {
         return behavior.getVerticalSpeed();
+    }
+
+    public final void setVerticalSpeed(final double vSpeed) {
+        behavior.setVerticalSpeed(vSpeed);
     }
 
     /**
@@ -153,14 +173,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void setVerticalSpeed(final double vSpeed) {
-        behavior.setVerticalSpeed(vSpeed);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final void update(final double delta) {
         this.applyMovementBehavior(delta);
         this.wrap();
@@ -168,37 +180,9 @@ public class Doodle extends AGameObject implements IDoodle {
         this.checkDeadPosition();
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public final ISprite[] getSpritePack() {
-        return spritePack;
-    }
-
-    /**
-     * Animate the Doodle.
-     *
-     * @param delta Delta time since previous animate.
-     */
-    private void animate(double delta) {
-        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
-        this.spritePack = spriteFactory.getDoodleSprite(this.behavior.getFacing());
-
-        // If the Doodle moves up quickly shorten its legs
-        if (behavior.getVerticalSpeed() < -15) {
-            setSprite(this.spritePack[1]);
-        } else {
-            setSprite(this.spritePack[0]);
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void setSpritePack(final ISprite[] doodleSprite) {
-        this.spritePack = doodleSprite;
-    }
-
     /**
      * Move the doodle.
+     *
      * @param delta Delta time since previous animate.
      */
     private void applyMovementBehavior(final double delta) {
