@@ -1,6 +1,5 @@
 package objects.doodles;
 
-import input.IInputManager;
 import objects.IJumpable;
 import system.IServiceLocator;
 

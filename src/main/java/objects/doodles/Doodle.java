@@ -20,10 +20,6 @@ import system.IServiceLocator;
 public class Doodle extends AGameObject implements IDoodle {
 
     /**
-     * The logger for the Game class.
-     */
-    //private static final ILogger LOGGER = getServiceLocator().getLoggerFactory().createLogger(Doodle.class);
-    /**
      * The relative center of the camera on the y axis.
      */
     private static final double CAMERA_POS = 3 / 7d;
@@ -45,6 +41,10 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private static final double WIDTH_HIT_BOX_RIGHT = .7;
 
+    /**
+     * The logger for the Game class.
+     */
+    private final ILogger logger;
     /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
@@ -68,6 +68,7 @@ public class Doodle extends AGameObject implements IDoodle {
                 sL.getConstants().getGameHeight() / 2,
                 sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0]);
 
+        this.logger = sL.getLoggerFactory().createLogger(Doodle.class);
         this.setHitBox(
                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
                 getSprite().getHeight(),
@@ -181,7 +182,7 @@ public class Doodle extends AGameObject implements IDoodle {
     private void checkDeadPosition() {
         ICamera camera = getServiceLocator().getRenderer().getCamera();
         if (getYPos() > camera.getYPos() + getServiceLocator().getConstants().getGameHeight() - DEAD_OFFSET * getHitBox()[HITBOX_BOTTOM]) {
-            //LOGGER.info("The Doodle died with score " + this.score);
+            logger.info("The Doodle died with score " + this.score);
             Game.endGameInstance(this.score);
         }
     }
