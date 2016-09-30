@@ -95,7 +95,13 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public List<String> readProjectFile(final String filename) throws FileNotFoundException {
-        File file = getProjectFile(filename);
+        File file;
+        try {
+            file = getProjectFile(filename);
+        } catch (IOException e) {
+            throw new FileNotFoundException(filename + " was not found by the FileSystem");
+        }
+
         List<String> result = new ArrayList<>();
 
         String line;
@@ -170,7 +176,13 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public void writeProjectFile(final String filename, final String content) throws FileNotFoundException {
-        File file = getProjectFile(filename);
+        File file;
+        try {
+            file = getProjectFile(filename);
+        } catch (IOException e) {
+            throw new FileNotFoundException(filename + " was not found by the FileSystem");
+        }
+
         try (final OutputStream fs = new FileOutputStream(file);
              final Writer ow = new OutputStreamWriter(fs, StandardCharsets.UTF_8);
              final Writer bufferedFileWriter = new BufferedWriter(ow)) {
@@ -200,7 +212,13 @@ public final class FileSystem implements IFileSystem {
     /** {@inheritDoc} */
     @Override
     public void clearFile(final String filename) {
-        final File file = getProjectFile(filename);
+        File file = null;
+        try {
+            file = getProjectFile(filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         try (final OutputStream outputStream = new FileOutputStream(file);
              final Writer w = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
              final PrintWriter pw = new PrintWriter(w, false)) {
@@ -254,7 +272,10 @@ public final class FileSystem implements IFileSystem {
 
     /** {@inheritDoc} */
     @Override
-    public File getProjectFile(final String filename) {
+    public File getProjectFile(final String filename) throws IOException {
+        File f = new File(filename);
+        f.createNewFile();
+
         return new File(filename);
     }
 
