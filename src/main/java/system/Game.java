@@ -89,10 +89,6 @@ public final class Game {
      */
     private static Modes mode = regular;
     /**
-     * The resume button for the pause screen.
-     */
-    private static IButton resumeButton;
-    /**
      * The scale of the game.
      */
     private static float scale = 2;
@@ -167,11 +163,6 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        resumeButton = serviceLocator.getButtonFactory().createResumeButton(
-                (int) (serviceLocator.getConstants().getGameWidth() * RESUME_BUTTON_X),
-                (int) (serviceLocator.getConstants().getGameHeight() * RESUME_BUTTON_Y));
-        serviceLocator.getInputManager().addObserver(resumeButton);
-
         loop();
     }
 
@@ -203,7 +194,6 @@ public final class Game {
         mode = m;
         serviceLocator.getRes().setSkin(m);
         SpriteFactory.register(serviceLocator);
-        scene.resetBackground();
         LOGGER.info("The mode is now " + m);
     }
 

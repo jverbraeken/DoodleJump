@@ -1,6 +1,7 @@
 package scenes;
 
 import buttons.IButton;
+import input.IInputManager;
 import logging.ILogger;
 import objects.AGameObject;
 import objects.IGameObject;
@@ -82,11 +83,15 @@ public class World implements IScene {
     /**
      * The background of the world.
      */
-    private ISprite background;
+    private final ISprite background;
     /**
      * The highest (and thus latest) created block.
      */
     private IBlock topBlock;
+    /**
+     * The top bar displaying the score and a pause button
+     */
+    private final ScoreBar scoreBar;
 
     /**
      * Package visible constructor so a World can only be created via the SceneFactory.
@@ -116,8 +121,9 @@ public class World implements IScene {
         }
 
         this.background = sL.getSpriteFactory().getBackground();
+        this.scoreBar = new ScoreBar();
 
-        this.drawables.get(2).add(new ScoreBar());
+        this.drawables.get(2).add(this.scoreBar);
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createDoodle();
@@ -127,7 +133,7 @@ public class World implements IScene {
 
         serviceLocator.getAudioManager().playStart();
 
-        logger.log("Level started");
+        logger.info("Level started");
     }
 
     /**
@@ -136,7 +142,9 @@ public class World implements IScene {
     @Override
     public final void start() {
         this.serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
-        logger.log("The world is now displaying");
+        this.scoreBar.register();
+        this.doodle.register();
+        logger.info("The world is now displaying");
     }
 
     /**
@@ -144,7 +152,9 @@ public class World implements IScene {
      */
     @Override
     public final void stop() {
-        logger.log("The world is no longer displaying");
+        this.scoreBar.deregister();
+        this.doodle.deregister();
+        logger.info("The world scene is stopped");
     }
 
     /**
@@ -223,14 +233,6 @@ public class World implements IScene {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void resetBackground() {
-        background = serviceLocator.getSpriteFactory().getBackground();
-    }
-
-    /**
      * IMMUTABLE.
      * <p>
      * The bar on top of the screen displaying the score and pause button
@@ -302,6 +304,20 @@ public class World implements IScene {
         }
 
         /**
+         * Registers its button to the {@link IInputManager input manager}.
+         */
+        private void register() {
+            pauseButton.register();
+        }
+
+        /**
+         * Deregisters its button from the {@link IInputManager input manager}.
+         */
+        private void deregister() {
+            pauseButton.deregister();
+        }
+
+        /**
          * This class focuses on the implementation of the pause button.
          */
         private final class PauseButton implements IButton {
@@ -329,7 +345,6 @@ public class World implements IScene {
                 this.width = (int) (sp.getWidth() * sc);
                 this.height = (int) (sp.getHeight() * sc);
                 this.sprite = sp;
-                serviceLocator.getInputManager().addObserver(this);
             }
 
             /**
@@ -351,6 +366,23 @@ public class World implements IScene {
                 }
             }
 
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void register() {
+                serviceLocator.getInputManager().addObserver(this);
+                logger.info("The button \"PauseButton\" registered itself as an observer of the input manager");
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void deregister() {
+                serviceLocator.getInputManager().removeObserver(this);
+                logger.info("The button \"PauseButton\" removed itself as an observer from the input manager");
+            }
         }
 
         /**

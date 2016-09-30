@@ -6,13 +6,6 @@ package logging;
 public interface ILogger {
 
     /**
-     * Log a message to the FileSystem.
-     *
-     * @param msg The message to log.
-     */
-    void log(final String msg);
-
-    /**
      * Print an error to the FileSystem.
      *
      * @param msg The message to log.

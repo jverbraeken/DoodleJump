@@ -1,5 +1,6 @@
 package objects.doodles;
 
+import input.IInputManager;
 import input.IKeyInputObserver;
 import objects.IGameObject;
 import objects.IJumpable;
@@ -53,5 +54,15 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      * @param falling   True if the doodle is going down
      */
     void setSprite(final MovementBehavior.Directions direction, final boolean falling);
+
+    /**
+     * Registers its button to the {@link IInputManager input manager}.
+     */
+    void register();
+
+    /**
+     * Deregisters its button from the {@link IInputManager input manager}.
+     */
+    void deregister();
 
 }

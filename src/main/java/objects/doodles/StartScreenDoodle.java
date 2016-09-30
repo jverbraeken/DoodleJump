@@ -1,6 +1,5 @@
 package objects.doodles;
 
-import input.IInputManager;
 import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
@@ -47,9 +46,6 @@ import system.IServiceLocator;
                 getSprite().getHeight(),
                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT),
                 getSprite().getHeight());
-
-        IInputManager inputManager = sL.getInputManager();
-        inputManager.addObserver(this);
     }
 
     /**
@@ -135,6 +131,20 @@ import system.IServiceLocator;
      */
     @Override
     public void keyRelease(final Keys key) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register() {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deregister() {
     }
 
     /**
