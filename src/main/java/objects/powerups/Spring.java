@@ -25,18 +25,18 @@ import system.IServiceLocator;
      * @param y - The Y location for the trampoline.
      */
     /* package */ Spring(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getSpringSprite());
+        super(sL, x, y, sL.getSpriteFactory().getSpringSprite(), Spring.class);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void collidesWith(final IDoodle doodle) {
+    public final void collidesWith(final IDoodle doodle) {
         doodle.collide(this);
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getBoost() {
+    public final double getBoost() {
         //TODO very unexpected behaviour for a getter. Source of bugs as the programmer does not expect this from a getter
         this.animate();
         this.playSound();
@@ -46,7 +46,7 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void render() {
+    public final void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 

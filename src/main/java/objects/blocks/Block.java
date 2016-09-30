@@ -18,6 +18,11 @@ import java.util.Set;
 public final class Block implements IBlock {
 
     /**
+     * A LOCK to prevent concurrent modification of e.g. the service locator.
+     */
+    private static final Object LOCK = new Object();
+
+    /**
      * Used to gain access to all services.
      */
     private static IServiceLocator serviceLocator;
@@ -38,7 +43,10 @@ public final class Block implements IBlock {
      * @param tJ The highest jumpable object.
      */
     /* package */ Block(final IServiceLocator sL, final Set<IGameObject> e, final IJumpable tJ) {
-        Block.serviceLocator = sL;
+        synchronized (LOCK) {
+            Block.serviceLocator = sL;
+        }
+
         this.elements = e;
         this.topJumpable = tJ;
     }
