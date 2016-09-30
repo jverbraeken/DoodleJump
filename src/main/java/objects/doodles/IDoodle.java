@@ -69,7 +69,14 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     ISprite[] getSpritePack();
 
     /**
-     * Set the sprite pack of the doodle.
+     * Increase the sprite scalar for the Doodle.
+     *
+     * @param inc The value to increase by.
+     */
+    void increaseSpriteScalar(final double inc);
+
+    /**
+     * Set the sprite pack of the Doodle.
      *
      * @param doodleSprite the sprites.
      */

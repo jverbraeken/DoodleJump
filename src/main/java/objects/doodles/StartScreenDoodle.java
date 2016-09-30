@@ -123,6 +123,11 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
+    public void increaseSpriteScalar(final double inc) {
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public void setSpritePack(final ISprite[] sprites) { }
 
     /** {@inheritDoc} */

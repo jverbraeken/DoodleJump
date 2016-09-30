@@ -9,9 +9,9 @@ import system.IServiceLocator;
 /* package */ class SizeUp extends APowerup implements IPowerup {
 
     /**
-     * The Doodle that owns this Propeller.
+     * The scale increase provided by the SizeUp powerup.
      */
-    private IDoodle owner;
+    private static final double SCALE_INCREASE = 0.2d;
 
     /**
      * SizeUp constructor.
@@ -24,11 +24,17 @@ import system.IServiceLocator;
         super(sL, x, y, sL.getSpriteFactory().getSizeUpSprite(), Jetpack.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void collidesWith(IDoodle doodle) {
-        // TODO: Make Doodle bigger
+    public void collidesWith(final IDoodle doodle) {
+        doodle.increaseSpriteScalar(SCALE_INCREASE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
