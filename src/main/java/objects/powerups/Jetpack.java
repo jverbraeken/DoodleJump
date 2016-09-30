@@ -11,7 +11,7 @@ import system.IServiceLocator;
     /**
      * The boost the Jetpack gives.
      */
-    private static final int BOOST = -10;
+    private static final int BOOST = -20;
 
     /**
      * The Doodle that owns these boots.
