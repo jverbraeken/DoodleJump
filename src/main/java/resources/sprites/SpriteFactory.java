@@ -640,8 +640,8 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getRocketSprite() {
-        return getSprite(IRes.Sprites.rocket);
+    public ISprite getJetpackSprite() {
+        return getSprite(IRes.Sprites.jetpack);
     }
 
     /**

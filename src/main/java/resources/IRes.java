@@ -109,7 +109,7 @@ public interface IRes {
         spring,
         springUsed,
         springShoes,
-        rocket,
+        jetpack,
         propeller,
         shield,
 
