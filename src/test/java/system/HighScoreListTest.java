@@ -69,6 +69,7 @@ public class HighScoreListTest {
     @Test
     public void testAdd1HighScore() {
         highScores.addHighScore(SCORE_1.getName(), SCORE_1.getScore());
+
         expected.add(SCORE_1);
 
         Object temp = Whitebox.getInternalState(highScores, "highScores");
@@ -85,6 +86,7 @@ public class HighScoreListTest {
     public void testAdd2HighScores() {
         highScores.addHighScore(SCORE_1.getName(), SCORE_1.getScore());
         highScores.addHighScore(SCORE_2.getName(), SCORE_2.getScore());
+
         expected.add(SCORE_1);
         expected.add(SCORE_2);
 
@@ -99,6 +101,37 @@ public class HighScoreListTest {
 
         assertThat(actual.get(1).getName().equals(expected.get(1).getName()), is(true));
         assertThat(actual.get(1).getScore() == expected.get(1).getScore(), is(true));
+    }
+
+    @Test
+    public void testAdd3HighScores() {
+        highScores.addHighScore(SCORE_1.getName(), SCORE_1.getScore());
+        highScores.addHighScore(SCORE_2.getName(), SCORE_2.getScore());
+        highScores.addHighScore(SCORE_3.getName(), SCORE_3.getScore());
+        highScores.addHighScore(SCORE_4.getName(), SCORE_4.getScore());
+
+        expected.add(SCORE_1);
+        expected.add(SCORE_2);
+        expected.add(SCORE_3);
+        expected.add(SCORE_4);
+
+        Object temp = Whitebox.getInternalState(highScores, "highScores");
+        ArrayList<HighScore> actual = (ArrayList<HighScore>) temp;
+
+        assertThat(actual.size() == 4, is(true));
+        assertThat(actual.size() == expected.size(), is(true));
+
+        assertThat(actual.get(0).getName().equals(expected.get(0).getName()), is(true));
+        assertThat(actual.get(0).getScore() == expected.get(0).getScore(), is(true));
+
+        assertThat(actual.get(1).getName().equals(expected.get(1).getName()), is(true));
+        assertThat(actual.get(1).getScore() == expected.get(1).getScore(), is(true));
+
+        assertThat(actual.get(2).getName().equals(expected.get(2).getName()), is(true));
+        assertThat(actual.get(2).getScore() == expected.get(2).getScore(), is(true));
+
+        assertThat(actual.get(3).getName().equals(expected.get(3).getName()), is(true));
+        assertThat(actual.get(3).getScore() == expected.get(3).getScore(), is(true));
     }
 
     @Test
