@@ -10,6 +10,7 @@ import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.DoodleBehavior.UnderwaterBehavior;
+import objects.powerups.PassiveType;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -95,7 +96,12 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void collide(final IJumpable jumpable) {
-        behavior.setVerticalSpeed(jumpable.getBoost());
+        double boost = jumpable.getBoost();
+        if (this.passive != null && this.passive.getType() == PassiveType.collision) {
+            boost *= this.passive.getBoost();
+        }
+
+        behavior.setVerticalSpeed(boost);
     }
 
     /**

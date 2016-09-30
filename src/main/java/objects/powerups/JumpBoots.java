@@ -12,6 +12,10 @@ import system.IServiceLocator;
      * The maximum amount of times Jump boots can be used.
      */
     private static final int MAX_USES = 3;
+    /**
+     * The boost provided by the boots.
+     */
+    private static final double BOOST = 2d;
 
     /**
      * The Doodle that owns these boots.
@@ -42,6 +46,25 @@ import system.IServiceLocator;
             this.owner.removePassive(this);
             this.owner = null;
         }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public double getBoost() {
+        this.uses += 1;
+
+        if (this.uses > MAX_USES - 1)  {
+            this.owner.removePassive(this);
+            this.owner = null;
+        }
+
+        return BOOST;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public PassiveType getType() {
+        return PassiveType.collision;
     }
 
     /** {@inheritDoc} */

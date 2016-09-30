@@ -3,6 +3,7 @@ package objects.doodles.DoodleBehavior;
 import input.Keys;
 import objects.doodles.IDoodle;
 import objects.powerups.IPassive;
+import objects.powerups.PassiveType;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
@@ -74,13 +75,6 @@ public class RegularBehavior implements MovementBehavior {
         applyGravity(delta);
         animate(delta);
     }
-    private void applyPassive() {
-        IPassive passive = this.doodle.getPassive();
-        if (passive != null) {
-            passive.applyBoost();
-        }
-    }
-
 
     /**
      * {@inheritDoc}
@@ -146,6 +140,16 @@ public class RegularBehavior implements MovementBehavior {
             doodle.setSprite(this.doodle.getSpritePack()[1]);
         } else {
             doodle.setSprite(this.doodle.getSpritePack()[0]);
+        }
+    }
+
+    /**
+     * Apply the boost of the Doodles passive.
+     */
+    private void applyPassive() {
+        IPassive passive = this.doodle.getPassive();
+        if (passive != null && passive.getType() == PassiveType.constant) {
+            passive.applyBoost();
         }
     }
 

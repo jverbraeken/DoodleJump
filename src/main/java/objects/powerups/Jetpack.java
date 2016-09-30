@@ -37,6 +37,18 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
+    public double getBoost() {
+        return 0;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public PassiveType getType() {
+        return PassiveType.constant;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public void collidesWith(IDoodle doodle) {
         if (this.owner == null) {
             this.owner = doodle;

@@ -33,7 +33,7 @@ public interface IPowerupFactory extends IFactory {
      * @param y The Y location for the JumpBoots.
      * @return A new JumpBoots instance.
      */
-    IGameObject createSpringShoes(final int x, final int y);
+    IGameObject createJumpBoots(final int x, final int y);
 
     /**
      * Create a new Trampoline powerup.
