@@ -90,7 +90,6 @@ public final class BlockFactory implements IBlockFactory {
     }
 
     /** {@inheritDoc} */
-    @SuppressWarnings("magicnumber")
     @Override
     public synchronized IBlock createStartBlock() {
         final int minPlatforms = 6;
