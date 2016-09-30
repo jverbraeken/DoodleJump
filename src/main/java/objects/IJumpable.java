@@ -1,14 +1,14 @@
 package objects;
 
 /**
- * This class describes a jumpable object.
+ * Interface for jumpable GameObjects.
  */
 public interface IJumpable extends IGameObject {
 
     /**
-     * Get the boost provided by the jumpable.
+     * Get the boost of the jumpable object.
      *
-     * @return The boost.
+     * @return A double representing the boost provided by the object.
      */
     double getBoost();
 

@@ -30,7 +30,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the boots.
      */
     /* package */ JumpBoots(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getSpringShoesSprite());
+        super(sL, x, y, sL.getSpriteFactory().getSpringShoesSprite(), JumpBoots.class);
     }
 
     /** {@inheritDoc} */
@@ -38,7 +38,7 @@ import system.IServiceLocator;
     public double getBoost() {
         this.uses += 1;
 
-        if(this.uses > this.MAX_USES)  {
+        if(this.uses > MAX_USES)  {
             this.owner.removePassive(this);
             this.owner = null;
         }
@@ -58,12 +58,12 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public void render() {
-        if (this.owner == null && this.uses < this.MAX_USES) {
-            serviceLocator.getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        if (this.owner == null && this.uses < MAX_USES) {
+            getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else if(this.owner != null) {
             int xPos = (int) owner.getXPos() + (owner.getSprite().getWidth() / 2) - (this.getSprite().getWidth() / 2);
             int yPos = (int) owner.getYPos() + owner.getSprite().getHeight();
-            serviceLocator.getRenderer().drawSprite(this.getSprite(), xPos, yPos);
+            getServiceLocator().getRenderer().drawSprite(this.getSprite(), xPos, yPos);
         }
     }
 

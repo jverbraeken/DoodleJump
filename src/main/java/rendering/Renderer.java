@@ -12,30 +12,17 @@ import java.awt.*;
 public final class Renderer implements IRenderer {
 
     /**
-     * Used to log all actions of the game.
-     */
-    private final ILogger LOGGER;
-
-    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
+     * Used to log all actions of the game.
      */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        Renderer.serviceLocator = sL;
-        Renderer.serviceLocator.provide(new Renderer());
-    }
-
+    private final ILogger logger;
     /**
      * The camera for the renderer.
      */
     private final ICamera camera = new Camera();
-
     /**
      * The graphics that are to be used by the renderer.
      */
@@ -45,12 +32,19 @@ public final class Renderer implements IRenderer {
      * Prevent public instantiations of the Renderer.
      */
     private Renderer() {
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+        logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void start() { }
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        Renderer.serviceLocator = sL;
+        sL.provide(new Renderer());
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -59,7 +53,7 @@ public final class Renderer implements IRenderer {
 
         String drawMsg = "drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - ";
         String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
-        LOGGER.info(drawMsg + cameraMsg);
+        logger.info(drawMsg + cameraMsg);
 
         graphics.drawRect(x, (int) (y - camera.getYPos()), width, height);
     }
@@ -74,7 +68,7 @@ public final class Renderer implements IRenderer {
 
         String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - ";
         String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
-        LOGGER.info(drawMsg + cameraMsg);
+        logger.info(drawMsg + cameraMsg);
 
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), null);
     }
@@ -89,7 +83,7 @@ public final class Renderer implements IRenderer {
 
         String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - ";
         String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
-        LOGGER.info(drawMsg + cameraMsg);
+        logger.info(drawMsg + cameraMsg);
 
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), width, height, null);
     }
@@ -99,7 +93,7 @@ public final class Renderer implements IRenderer {
     public void drawRectangleHUD(final int x, final int y, final int width, final int height) {
         assert graphics != null;
 
-        LOGGER.info("drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
+        logger.info("drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
 
         graphics.drawRect(x, y, width, height);
     }
@@ -112,7 +106,7 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        LOGGER.info("drawImage(" + x + ", " + y + ")");
+        logger.info("drawImage(" + x + ", " + y + ")");
 
         graphics.drawImage(sprite.getImage(), x, y, null);
     }
@@ -125,7 +119,7 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        LOGGER.info("drawSprite(" + x + ", " + y + ")");
+        logger.info("drawSprite(" + x + ", " + y + ")");
 
         graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }

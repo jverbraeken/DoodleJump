@@ -4,6 +4,7 @@ import input.IKeyInputObserver;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.powerups.IPassive;
+import resources.sprites.ISprite;
 
 /**
  * This class describes the behaviour of the doodle.
@@ -47,31 +48,31 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     double getLegsHeight();
 
     /**
-     * Set the vertical speed of the Doodle.
+     * Get the score for this Doodle.
      *
-     * @param vSpeed the new speed.
-     */
-    void setVerticalSpeed(final double vSpeed);
-
-    /**
-     * Get the socre of the Doodle.
-     *
-     * @return The score of the Doodle
+     * @return The score.
      */
     double getScore();
 
     /**
-     * Enum with Directions for the Doodle.
+     * Get the sprite pack of the doodle.
+     *
+     * @return the sprite pack.
      */
-    enum Directions {
-        /**
-         * The left direction.
-         */
-        Left,
-        /**
-         * The right direction.
-         */
-        Right
-    }
+    ISprite[] getSpritePack();
+
+    /**
+     * Set the sprite pack of the doodle.
+     *
+     * @param doodleSprite the sprites.
+     */
+    void setSpritePack(final ISprite[] doodleSprite);
+
+    /**
+     * Set the vertical speed of the doodle.
+     *
+     * @param vSpeed the new speed.
+     */
+    void setVerticalSpeed(final double vSpeed);
 
 }

@@ -11,12 +11,19 @@ public final class SceneFactory implements ISceneFactory {
     /**
      * The logger for the SceneFactory class.
      */
-    private final ILogger LOGGER;
-
+    private final ILogger logger;
     /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
+
+    /**
+     * Private constructor to prevent instantiation from outside the class.
+     */
+    private SceneFactory() {
+        logger = serviceLocator.getLoggerFactory().createLogger(SceneFactory.class);
+    }
+
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
@@ -25,48 +32,41 @@ public final class SceneFactory implements ISceneFactory {
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         SceneFactory.serviceLocator = sL;
-        SceneFactory.serviceLocator.provide(new SceneFactory());
-    }
-
-    /**
-     * Private constructor to prevent instantiation from outside the class.
-     */
-    private SceneFactory() {
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(SceneFactory.class);
+        sL.provide(new SceneFactory());
     }
 
     /** {@inheritDoc} */
     @Override
     public IScene createMainMenu() {
-        LOGGER.info("A new Menu has been created");
+        logger.info("A new Menu has been created");
         return new Menu(serviceLocator);
     }
 
     /** {@inheritDoc} */
     @Override
     public IScene createKillScreen() {
-        LOGGER.info("A new KillScreen has been created");
+        logger.info("A new KillScreen has been created");
         return new KillScreen(serviceLocator);
     }
 
     /** {@inheritDoc} */
     @Override
     public IScene createPauseScreen() {
-        LOGGER.info("A new PauseScreen has been created");
+        logger.info("A new PauseScreen has been created");
         return new PauseScreen(serviceLocator);
     }
 
     /** {@inheritDoc} */
     @Override
     public World newWorld() {
-        LOGGER.info("A new World has been created");
+        logger.info("A new World has been created");
         return new World(serviceLocator);
     }
 
     /** {@inheritDoc} */
     @Override
     public ChooseMode newChooseMode() {
-        LOGGER.info("A new ChooseMode screen has been created");
+        logger.info("A new ChooseMode screen has been created");
         return new ChooseMode(serviceLocator);
     }
 

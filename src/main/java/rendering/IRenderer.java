@@ -10,18 +10,13 @@ import java.awt.Graphics;
 public interface IRenderer {
 
     /**
-     * Start the renderer.
-     */
-    void start();
-
-    /**
      * Draw a sprite relative to the camera.
      *
      * @param image the sprite to be drawn.
      * @param x the x position of the sprite.
      * @param y the y position of the sprite.
      */
-    void drawSprite(final ISprite image, int x, final int y);
+    void drawSprite(final ISprite image, final int x, final int y);
 
     /**
      * Draw a sprite relative to the camera.

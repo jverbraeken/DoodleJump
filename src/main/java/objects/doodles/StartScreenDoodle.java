@@ -1,28 +1,31 @@
 package objects.doodles;
 
 import input.IInputManager;
+import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.powerups.IPassive;
+import objects.doodles.DoodleBehavior.MovementBehavior;
+import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
- * This class describes the behaviour of the doodle in the startscreen.
+ * This class describes the behaviour of the doodle in the StartScreen.
  */
 /* package */ class StartScreenDoodle extends AGameObject implements IDoodle {
 
     /**
-     * Boost reduction specifically for the startscreen Doodle.
+     * Boost reduction specifically for the StartScreen Doodle.
      */
     private static final double BOOST_REDUCTION = 2d;
     /**
-     * Where the hitbox of the doodle starts in relation to the sprite width.
+     * Where the hitbox of the Doodle starts in relation to the sprite width.
      */
-    private final double WIDTH_HIT_BOX_LEFT = .3;
+    private static final double WIDTH_HIT_BOX_LEFT = .3;
     /**
-     * Where the hitbox of the doodle ends in relation to the sprite width.
+     * Where the hitbox of the Doodle ends in relation to the sprite width.
      */
-    private final double WIDTH_HIT_BOX_RIGHT = .7;
+    private static final double WIDTH_HIT_BOX_RIGHT = .7;
 
     /**
      * Current vertical speed for the Doodle.
@@ -31,11 +34,21 @@ import system.IServiceLocator;
 
     /**
      * Doodle constructor.
-     * @param sL The service locator
+     *
+     * @param sL The ServiceLocator.
      */
     /* package */ StartScreenDoodle(final IServiceLocator sL) {
-        super(sL, sL.getConstants().getGameWidth() / 2, sL.getConstants().getGameHeight() / 2, sL.getSpriteFactory().getDoodleSprite(Directions.Right)[0]);
-        this.setHitBox((int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT), (int) (getSprite().getHeight() * 0.25), (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT), getSprite().getHeight());
+        super(sL,
+                sL.getConstants().getGameWidth() / 2,
+                sL.getConstants().getGameHeight() / 2,
+                sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0],
+                StartScreenDoodle.class);
+
+        this.setHitBox(
+                (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
+                getSprite().getHeight(),
+                (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT),
+                getSprite().getHeight());
 
         IInputManager inputManager = sL.getInputManager();
         inputManager.addObserver(this);
@@ -44,7 +57,7 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /** {@inheritDoc} */
@@ -56,13 +69,13 @@ import system.IServiceLocator;
     /** {@inheritDoc} */
     @Override
     public double getVerticalSpeed() {
-        return 0d;
+        return vSpeed;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setVerticalSpeed(final double vSpeed) {
-        this.vSpeed = vSpeed;
+    public void setVerticalSpeed(final double speed) {
+        this.vSpeed = speed;
     }
 
     /** {@inheritDoc} */
@@ -73,27 +86,15 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public final void keyPress(final int keyCode) {
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void keyRelease(final int keyCode) {
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void setPassive(final IPassive item) { }
-
-    /** {@inheritDoc} */
-    @Override
-    public void removePassive(final IPassive item) { }
-
-    /** {@inheritDoc} */
-    @Override
     public void collide(final IJumpable jumpable) {
         this.vSpeed = jumpable.getBoost() + BOOST_REDUCTION;
     }
+
+    @Override
+    public void setPassive(IPassive item) { }
+
+    @Override
+    public void removePassive(IPassive item) { }
 
     /** {@inheritDoc} */
     @Override
@@ -106,12 +107,31 @@ import system.IServiceLocator;
         return 0d;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public ISprite[] getSpritePack() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSpritePack(final ISprite[] sprites) { }
+
+    /** {@inheritDoc} */
+    @Override
+    public void keyPress(final Keys key) { }
+
+    /** {@inheritDoc} */
+    @Override
+    public void keyRelease(final Keys key) { }
+
     /**
      * Apply gravity to the Doodle.
+     *
      * @param delta Delta time since previous animate.
      */
     private void applyGravity(final double delta) {
-        this.vSpeed += serviceLocator.getConstants().getGravityAcceleration();
+        this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
 
