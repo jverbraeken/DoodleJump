@@ -27,7 +27,7 @@ public class SpringTest {
     private IAudioManager audioManager;
     private IServiceLocator serviceLocator;
     private ISpriteFactory spriteFactory;
-    private ISprite sprite, newSprite;
+    private ISprite usedSprite, newSprite;
     private IRenderer renderer;
     private Spring spring;
     private IDoodle doodle;
@@ -39,17 +39,17 @@ public class SpringTest {
     public void init() {
         serviceLocator = mock(IServiceLocator.class);
         spriteFactory = mock(ISpriteFactory.class);
-        sprite = mock(ISprite.class);
+        usedSprite = mock(ISprite.class);
         newSprite = mock(ISprite.class);
         audioManager = mock(IAudioManager.class);
         renderer = mock(IRenderer.class);
         doodle = mock(IDoodle.class);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
-        when(spriteFactory.getSpringSprite()).thenReturn(sprite);
+        when(spriteFactory.getSpringSprite()).thenReturn(usedSprite);
         when(spriteFactory.getSpringUsedSprite()).thenReturn(newSprite);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
-        when(sprite.getHeight()).thenReturn(20);
+        when(usedSprite.getHeight()).thenReturn(20);
         when(newSprite.getHeight()).thenReturn(40);
     }
 
@@ -76,7 +76,7 @@ public class SpringTest {
     public void testRenderer() throws Exception {
         spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
         spring.render();
-        verify(renderer).drawSprite(sprite, (int) spring.getXPos(), (int) spring.getYPos());
+        verify(renderer).drawSprite(usedSprite, (int) spring.getXPos(), (int) spring.getYPos());
     }
 
     /**
