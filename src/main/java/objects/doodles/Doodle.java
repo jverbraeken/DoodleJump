@@ -164,6 +164,10 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public final void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+
+        if (this.passive != null) {
+            this.passive.render();
+        }
     }
 
     /**

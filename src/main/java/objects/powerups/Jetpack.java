@@ -45,7 +45,9 @@ import system.IServiceLocator;
         if (this.owner == null) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else {
-            // TODO: render on Doodle.
+            int xPos = (int) this.owner.getXPos();
+            int yPos = (int) this.owner.getYPos() + (this.getSprite().getHeight() / 2);
+            getServiceLocator().getRenderer().drawSprite(this.getSprite(), xPos, yPos);
         }
     }
 }

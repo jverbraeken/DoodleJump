@@ -129,11 +129,13 @@ public final class BlockFactory implements IBlockFactory {
      */
     private IPlatform placeInitialStartBlockPlatforms(final Set<IGameObject> elements) {
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-        IPlatform platform = platformFactory.createPlatform(serviceLocator.getConstants().getGameWidth() / 2, (int) (serviceLocator.getConstants().getGameHeight() / 1.2));
+        int xPos = serviceLocator.getConstants().getGameWidth() / 2;
+        int yPos = (int) (serviceLocator.getConstants().getGameHeight() / 1.2);
+        IPlatform platform = platformFactory.createPlatform(xPos, yPos);
         elements.add(platform);
 
         IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-        IGameObject jetpack = powerupFactory.createJetpack(10, 10);
+        IGameObject jetpack = powerupFactory.createJetpack(xPos, yPos - 50);
         elements.add(jetpack);
 
         return platform;
