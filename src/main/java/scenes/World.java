@@ -61,10 +61,6 @@ public class World implements IScene {
      */
     private final Set<IBlock> blocks = new HashSet<>();
     /**
-     * The background of the world.
-     */
-    private ISprite background;
-    /**
      * The Doodle for the world.
      */
     private final IDoodle doodle;
@@ -83,6 +79,10 @@ public class World implements IScene {
      * List of game objects that should be updated every frame.
      */
     private final Set<IUpdatable> updatables = Collections.newSetFromMap(new WeakHashMap<>());
+    /**
+     * The background of the world.
+     */
+    private ISprite background;
     /**
      * The highest (and thus latest) created block.
      */
@@ -281,12 +281,13 @@ public class World implements IScene {
                 digitSprites[i] = serviceLocator.getSpriteFactory().getDigitSprite(i);
             }
             int scoreX = (int) (digitSprites[2].getWidth() * scaling);
-            int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2);
+            int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2d);
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
 
             ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseButtonSprite();
-            int pauseX = (int) (serviceLocator.getConstants().getGameWidth() - pauseSprite.getWidth() * scaling - PAUSE_OFFSET);
-            int pauseY = (int) (((double) serviceLocator.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth()) * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2 - pauseSprite.getHeight() / 2);
+            final int gameWidth = serviceLocator.getConstants().getGameWidth();
+            int pauseX = (int) (gameWidth - pauseSprite.getWidth() * scaling - PAUSE_OFFSET);
+            int pauseY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2d - (double) pauseSprite.getHeight() / 2d);
             pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
         }
 

@@ -9,8 +9,8 @@ import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
 import resources.audio.IAudioManager;
-import resources.sprites.ISpriteFactory;
 import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import static org.junit.Assert.assertEquals;
@@ -102,7 +102,11 @@ public class SpringTest {
     }
 
     /**
+<<<<<<< HEAD
      * Tests if the collide method returns a NullPointerException is the parameter is null.
+=======
+     * Tests if the method returns a NullPointerException when the parameter is null.
+>>>>>>> develop
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
