@@ -12,79 +12,90 @@ public interface IGameObject extends IRenderable, IUpdatable {
 
     /**
      * Change the x position of the game object.
+     *
      * @param xPos the amount to add.
      */
-    void addXPos(double xPos);
+    void addXPos(final double xPos);
 
     /**
      * Change the y position of the game object.
+     *
      * @param yPos the amount to add.
      */
-    void addYPos(double yPos);
+    void addYPos(final double yPos);
 
     /**
-     * Retrieve the sprite of the game object.
-     * @return the sprite.
+     * Checks if the game object collides with another game object based on their hit boxes.
+     *
+     * @param gameObject The object that the object could collide with
+     * @return True if the game object collide with each other
      */
-    ISprite getSprite();
+    boolean checkCollision(final IGameObject gameObject);
 
     /**
-     * Sets the sprite of the game object.
-     * @param sprite The new sprite of the game object
+     * Check if the GameObjects collides with a Doodle.
+     *
+     * @param doodle The Doodle to check.
      */
-    void setSprite(ISprite sprite);
+    void collidesWith(final IDoodle doodle);
 
     /**
      * Retrieve the hitbox of the game object.
+     *
      * @return the hitbox.
      */
     double[] getHitBox();
 
     /**
+     * Retrieve the sprite of the game object.
+     *
+     * @return the sprite.
+     */
+    ISprite getSprite();
+
+    /**
      * Retrieve the x position of the game object.
+     *
      * @return the x position.
      */
     double getXPos();
 
     /**
-     * Set the x position of the game object.
-     * @param xPos the to be x position.
-     */
-    void setXPos(double xPos);
-
-    /**
      * Retrieve the y position of the game object.
+     *
      * @return the y position.
      */
     double getYPos();
 
     /**
+     * Set the hitbox of the game object.
+     *
+     * @param left The margin between the X-coordinate and the left side of the hitbox.
+     * @param top The margin between the Y-coordinate and the top side of the hitbox.
+     * @param right The distance between the X-coordinate and the right side of the hitbox.
+     * @param bottom The distance between the Y-coordinate and the bottom side of the hitbox.
+     */
+    void setHitBox(final int left, final int top, final int right, final int bottom);
+
+    /**
+     * Sets the sprite of the game object.
+     *
+     * @param sprite The new sprite of the game object
+     */
+    void setSprite(final ISprite sprite);
+
+    /**
+     * Set the x position of the game object.
+     *
+     * @param xPos the to be x position.
+     */
+    void setXPos(final double xPos);
+
+    /**
      * Set the y position of the game object.
+     *
      * @param yPos the to be y position.
      */
-    void setYPos(double yPos);
-
-    /**
-     * Set the hitbox of the game object.
-     * @param left The margin between the X-coordinate and the left side of the hitbox
-     *             @param top The margin between the Y-coordinate and the top side of the hitbox
-     * @param right The distancce between the X-coordinate and the right side of the hitbox
-     *             @param bottom The distance between the Y-coordinate and the bottom side of the hitbox
-     */
-    void setHitBox(int left, int top, int right, int bottom);
-
-    /**
-     * Checks if the game object collides with another game object based on their hitboxes.
-     *
-     * @param gameObject The object that the object could collide with
-     * @return True if the game object collide with each other
-     */
-    boolean checkCollission(IGameObject gameObject);
-
-    /**
-     * Check if the GameObjects collides with a Doodle
-     * @param doodle The doodle to check
-     */
-    void collidesWith(IDoodle doodle);
+    void setYPos(final double yPos);
 
 }

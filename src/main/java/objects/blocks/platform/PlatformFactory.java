@@ -10,30 +10,28 @@ public final class PlatformFactory implements IPlatformFactory {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator sL;
+    private static transient IServiceLocator serviceLocator;
 
     /**
      * Prevent instantiations of PlatformFactory.
      */
-    private PlatformFactory() {
-    }
+    private PlatformFactory() { }
 
     /**
      * Register the block factory into the service locator.
+     *
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        PlatformFactory.sL = sL;
+        PlatformFactory.serviceLocator = sL;
         sL.provide(new PlatformFactory());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public IPlatform createPlatform(final int x, final int y) {
-        return new Platform(sL, x, y);
+        return new Platform(serviceLocator, x, y);
     }
 
 }

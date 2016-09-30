@@ -9,58 +9,60 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
 /**
  * Standard implementation of the LoggingFactory. Used to create loggers.
  */
-public class LoggerFactory implements ILoggerFactory {
+public final class LoggerFactory implements ILoggerFactory {
 
     /**
      * The file to which the log data should be written.
      */
     private static final String LOG_IGNORE_FILE = "logIgnore.json";
+
     /**
      * The file to which the log data should be written.
      */
-    private static String LOG_FILE;
-    /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator sL;
+    private static String logFile;
     /**
      * The logger for LoggerFactory.
      */
-    private final ILogger LOGGER;
+    private final ILogger logger;
+
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator serviceLocator;
     /**
      * A set containing the classes that should not be logged.
      */
     private final Set<Class<?>> logIgnore;
+
     /**
      * Hidden constructor to prevent instantiation.
      */
     private LoggerFactory() {
-        LOG_FILE = LoggerFactory.sL.getConstants().getLogFile();
+        logFile = LoggerFactory.serviceLocator.getConstants().getLogFile();
 
         if (Game.CLEAR_LOG_ON_STARTUP) {
-            IFileSystem fileSystem = LoggerFactory.sL.getFileSystem();
-            fileSystem.clearFile(LOG_FILE);
+            IFileSystem fileSystem = LoggerFactory.serviceLocator.getFileSystem();
+            fileSystem.clearFile(logFile);
         }
 
-        LOGGER = new Logger(sL, this.getClass());
+        logger = new Logger(serviceLocator, this.getClass());
 
         logIgnore = new HashSet<>();
         try {
-            List<String> list = (List<String>) sL.getFileSystem().parseJsonList(LOG_IGNORE_FILE, String.class);
+            List<String> list = (List<String>) serviceLocator.getFileSystem().parseJsonList(LOG_IGNORE_FILE, String.class);
             for (String className : list) {
                 try {
                     logIgnore.add(Class.forName(className));
                 } catch (ClassNotFoundException e) {
-                    LOGGER.warning("LoggerFactory could not find class requested to ignore logging for: " + className);
+                    logger.warning("LoggerFactory could not find class requested to ignore logging for: " + className);
                     e.printStackTrace();
                 }
             }
         } catch (FileNotFoundException e) {
-            LOGGER.error("The file " + LOG_IGNORE_FILE + " requested by LoggerFactory was not found");
+            logger.error("The file " + LOG_IGNORE_FILE + " requested by LoggerFactory was not found");
             e.printStackTrace();
         }
     }
@@ -72,44 +74,32 @@ public class LoggerFactory implements ILoggerFactory {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        LoggerFactory.sL = sL;
+        LoggerFactory.serviceLocator = sL;
         sL.provide(new LoggerFactory());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public ILogger createLogger(Class<?> cl) {
+    public ILogger createLogger(final Class<?> cl) {
         if (logIgnore.contains(cl)) {
             return new ILogger() {
                 @Override
-                public void log(String msg) {
-
-                }
+                public void log(final String msg) { }
 
                 @Override
-                public void error(String msg) {
-
-                }
+                public void error(final String msg) { }
 
                 @Override
-                public void error(Exception exception) {
-
-                }
+                public void error(final Exception exception) { }
 
                 @Override
-                public void info(String msg) {
-
-                }
+                public void info(final String msg) { }
 
                 @Override
-                public void warning(String msg) {
-
-                }
+                public void warning(final String msg) { }
             };
         } else {
-            return new Logger(sL, cl);
+            return new Logger(serviceLocator, cl);
         }
     }
 
