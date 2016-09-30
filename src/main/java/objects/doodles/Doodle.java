@@ -88,7 +88,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void update(double delta) {
-        this.animate(delta);
         this.applyMovementBehavior(delta);
         this.wrap();
         this.checkHighPosition();
@@ -241,16 +240,28 @@ public class Doodle extends AGameObject implements IDoodle {
     private void setBehavior(Game.Modes mode) {
         switch (mode) {
             case regular:
-                behavior = new RegularBehavior(this, getServiceLocator());
+                behavior = new RegularBehavior(getServiceLocator(), this);
                 break;
             case space:
-                behavior = new SpaceBehavior(this, getServiceLocator());
+                behavior = new SpaceBehavior(getServiceLocator(), this);
                 break;
             case underwater:
-                behavior = new UnderwaterBehavior(this, getServiceLocator());
+                behavior = new UnderwaterBehavior(getServiceLocator(), this);
                 break;
             default:
-                behavior = new RegularBehavior(this, getServiceLocator());
+                behavior = new RegularBehavior(getServiceLocator(), this);
         }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ISprite[] getSpritePack() {
+        return spritePack;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setSpritePack(ISprite[] sprites) {
+        this.spritePack = sprites;
     }
 }
