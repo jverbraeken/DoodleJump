@@ -1,6 +1,8 @@
 package objects.blocks.platform;
 
 import constants.IConstants;
+import logging.ILogger;
+import logging.ILoggerFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -33,7 +35,13 @@ public class MovingPlatformsTest {
         when(camera.getYPos()).thenReturn(2d);
         renderer = mock(IRenderer.class);
         when(renderer.getCamera()).thenReturn(camera);
+
         serviceLocator = mock(IServiceLocator.class);
+        ILogger logger = mock(ILogger.class);
+        ILoggerFactory logFac = mock(ILoggerFactory.class);
+        when(logFac.createLogger(Platform.class)).thenReturn(logger);
+        when(serviceLocator.getLoggerFactory()).thenReturn(logFac);
+
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         sprite = mock(ISprite.class);

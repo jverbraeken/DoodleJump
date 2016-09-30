@@ -1,6 +1,8 @@
 package objects.blocks.platform;
 
 import constants.IConstants;
+import logging.ILogger;
+import logging.ILoggerFactory;
 import math.ICalc;
 import objects.doodles.IDoodle;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.ServiceLocator;
@@ -49,6 +51,11 @@ public class PlatformTest {
         doodle = mock(IDoodle.class);
 
         serviceLocator = mock(IServiceLocator.class);
+        ILogger logger = mock(ILogger.class);
+        ILoggerFactory logFac = mock(ILoggerFactory.class);
+        when(logFac.createLogger(Platform.class)).thenReturn(logger);
+        when(serviceLocator.getLoggerFactory()).thenReturn(logFac);
+
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);

@@ -1,6 +1,9 @@
 package objects.blocks.platform;
 
 import constants.IConstants;
+import logging.ILogger;
+import logging.ILoggerFactory;
+import logging.LoggerFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -42,8 +45,13 @@ public class BreakingPlatformsTest {
         brokensprite = mock(ISprite.class);
         brokensprite2 = mock(ISprite.class);
         brokensprite3 = mock(ISprite.class);
+
         sf = mock(ISpriteFactory.class);
+        ILogger logger = mock(ILogger.class);
+        ILoggerFactory logFac = mock(ILoggerFactory.class);
+        when(logFac.createLogger(Platform.class)).thenReturn(logger);
         when(serviceLocator.getSpriteFactory()).thenReturn(sf);
+        when(serviceLocator.getLoggerFactory()).thenReturn(logFac);
         when(sf.getPlatformBrokenSprite2()).thenReturn(brokensprite);
         when(sf.getPlatformBrokenSprite3()).thenReturn(brokensprite2);
         when(sf.getPlatformBrokenSprite4()).thenReturn(brokensprite3);
