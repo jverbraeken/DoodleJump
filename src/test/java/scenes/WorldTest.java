@@ -1,5 +1,7 @@
 package scenes;
 
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import objects.blocks.IBlock;
 import objects.doodles.IDoodle;
 import org.junit.BeforeClass;

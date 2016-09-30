@@ -6,14 +6,31 @@ import java.awt.image.BufferedImage;
 /**
  * Class representing a sprite.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public class Sprite implements ISprite {
 
+    /**
+     * The name of the sprite.
+     */
     private final String name;
+    /**
+     * The image of the sprite.
+     */
     private final Image image;
+    /**
+     * The width and height of the sprite.
+     */
     private final int width, height;
+    /**
+     * The ratio of the sprite.
+     */
     private final double ratio;
 
+    /**
+     * Package constructor only allowing instantiations by the SpriteFactory.
+     *
+     * @param n The name for the sprite.
+     * @param i The image for the sprite.
+     */
     /* package */ Sprite(final String n, final BufferedImage i) {
         this.name = n;
         this.image = i;
@@ -22,29 +39,41 @@ public class Sprite implements ISprite {
         this.ratio = (double) height / (double) width;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final String getName() {
         return name;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final Image getImage() {
         return image;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final int getWidth() {
         return width;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public  final int getHeight() { return height; }
+    public final int getHeight() {
+        return height;
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final double getRatio() {
         return ratio;

@@ -25,22 +25,16 @@ public class Trampoline extends APowerup implements IJumpable {
      * @param y - The Y location for the trampoline.
      */
     /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite());
+        super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite(), Trampoline.class);
     }
 
-    private void animate() {
-        int oldHeight = getSprite().getHeight();
-
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
-
-        int newHeight = newSprite.getHeight();
-        this.addYPos(oldHeight - newHeight);
+    /** {@inheritDoc} */
+    @Override
+    public final void collidesWith(final IDoodle doodle) {
+        doodle.collide(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final double getBoost() {
         //TODO This is can cause bugs as the programmer does not a getter to do these kind of things
@@ -50,26 +44,31 @@ public class Trampoline extends APowerup implements IJumpable {
         return Trampoline.BOOST;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void render() {
-        sL.getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+    public final void render() {
+        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /**
      * Play the sound for the Trampoline.
      */
     private void playSound() {
-        IAudioManager audioManager = sL.getAudioManager();
+        IAudioManager audioManager = getServiceLocator().getAudioManager();
         audioManager.playTrampoline();
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void collidesWith(IDoodle doodle) {
-        doodle.collide(this);
+    /**
+     * Animate the Trampoline.
+     */
+    private void animate() {
+        int oldHeight = getSprite().getHeight();
+
+        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
+        ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
+
+        int newHeight = newSprite.getHeight();
+        this.addYPos(oldHeight - newHeight);
     }
 
 }

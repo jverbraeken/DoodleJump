@@ -10,79 +10,81 @@ import java.awt.*;
 public interface IRenderer {
 
     /**
-     * Start the renderer.
-     */
-    void start();
-
-    /**
      * Clear the game screen.
      */
     void clear();
 
     /**
+     * Draw a sprite relative to the camera.
+     *
+     * @param image the sprite to be drawn.
+     * @param x the x position of the sprite.
+     * @param y the y position of the sprite.
+     */
+    void drawSprite(final ISprite image, final int x, final int y);
+
+    /**
+     * Draw a sprite relative to the camera.
+     *
+     * @param image the sprite to be drawn.
+     * @param x the x position of the sprite.
+     * @param y the y position of the sprite.
+     * @param width the width of the sprite.
+     * @param height the height of the sprite.
+     */
+    void drawSprite(final ISprite image, final int x, final int y, final int width, final int height);
+
+    /**
      * Draw a rectangle relative to the camera.
+     *
      * @param x the x position of the rectangle
      * @param y the y position of the rectangle
      * @param width the width of the rectangle
      * @param height the height of the rectangle
      */
-    void drawRectangle(int x, int y, int width, int height);
+    void drawRectangle(final int x, final int y, final int width, final int height);
+
+    /**
+     * Draw a sprite relative to the screen.
+     *
+     * @param image the sprite to be drawn.
+     * @param x the x position of the sprite.
+     * @param y the y position of the sprite.
+     */
+    void drawSpriteHUD(final ISprite image, final int x, final int y);
+
+    /**
+     * Draw a sprite relative to the screen.
+     *
+     * @param image the sprite to be drawn.
+     * @param x the x position of the sprite.
+     * @param y the y position of the sprite.
+     * @param width the width of the sprite.
+     * @param height the height of the sprite.
+     */
+    void drawSpriteHUD(final ISprite image, final int x, final int y, final int width, final int height);
 
     /**
      * Draw a rectangle relative to the screen.
+     *
      * @param x the x position of the rectangle
      * @param y the y position of the rectangle
      * @param width the width of the rectangle
      * @param height the height of the rectangle
      */
-    void drawRectangleHUD(int x, int y, int width, int height);
+    void drawRectangleHUD(final int x, final int y, final int width, final int height);
 
     /**
-     * Draw a sprite relative to the camera.
-     * @param image the sprite to be drawn.
-     * @param x the x position of the sprite.
-     * @param y the y position of the sprite.
+     * Draw a string of text relative to the screen.
+     *
+     * @param x the x position of the text.
+     * @param y the y position of the text.
+     * @param msg The message to draw.
      */
-    void drawSprite(ISprite image, int x, int y);
+    void drawText(final int x, final int y, final String msg);
 
     /**
-     * Draw a sprite relative to the camera.
-     * @param image the sprite to be drawn.
-     * @param x the x position of the sprite.
-     * @param y the y position of the sprite.
-     * @param width the width of the sprite.
-     * @param height the height of the sprite.
-     */
-    void drawSprite(ISprite image, int x, int y, int width, int height);
-
-    /**
-     * Draw a sprite relative to the screen.
-     * @param image the sprite to be drawn.
-     * @param x the x position of the sprite.
-     * @param y the y position of the sprite.
-     */
-    void drawSpriteHUD(ISprite image, int x, int y);
-
-    /**
-     * Draw a sprite relative to the screen.
-     * @param image the sprite to be drawn.
-     * @param x the x position of the sprite.
-     * @param y the y position of the sprite.
-     * @param width the width of the sprite.
-     * @param height the height of the sprite.
-     */
-    void drawSpriteHUD(ISprite image, int x, int y, int width, int height);
-
-    /**
-     * Draw a string on the screen.
-     * @param msg The string to draw.
-     * @param x the x position of the string.
-     * @param y the y position of the string.
-     */
-    void drawText(final String msg, final int x, final int y);
-
-    /**
-     * Draw a filled rectangle.
+     *
      * @param x the x position of the rectangle.
      * @param y the y position of the rectangle.
      * @param width the width of the rectangle.
@@ -93,12 +95,14 @@ public interface IRenderer {
 
     /**
      * Create a graphics buffer for smooth animations and rendering.
+     *
      * @param graphics the input graphics.
      */
-    void setGraphicsBuffer(Graphics graphics);
+    void setGraphicsBuffer(final Graphics graphics);
 
     /**
      * Get the camera used by the Renderer.
+     *
      * @return The camera the Renderer is using
      */
     ICamera getCamera();

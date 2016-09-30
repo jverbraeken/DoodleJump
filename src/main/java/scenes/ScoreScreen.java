@@ -90,7 +90,7 @@ import java.util.ArrayList;
             HighScore score = highScores.get(i);
             int entryY = scoreListTop + i * entryHeight;
             String msg = score.getName() + " - " + score.getScore();
-            renderer.drawText(msg, this.left.getWidth(), entryY);
+            renderer.drawText(this.left.getWidth(), entryY, msg);
         }
 
         // Draw the hud.
