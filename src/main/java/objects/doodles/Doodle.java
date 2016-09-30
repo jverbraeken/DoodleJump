@@ -215,8 +215,13 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public void increaseSpriteScalar(final double inc) {
+    public final void increaseSpriteScalar(final double inc) {
         this.spriteScalar += inc;
+
+        ISprite sprite = this.getSprite();
+        int width = (int) (sprite.getWidth() * this.spriteScalar);
+        int height = (int) (sprite.getHeight() * this.spriteScalar);
+        this.setHitBox(0, 0, width, height);
     }
 
     /** {@inheritDoc} */

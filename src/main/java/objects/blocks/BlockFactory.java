@@ -96,7 +96,6 @@ public final class BlockFactory implements IBlockFactory {
 
         IJumpable newTopJumpable = placeBlockPlatforms(elements, topJumpable, platformAmount, heightDividedPlatforms);
 
-
         return new Block(serviceLocator, elements, newTopJumpable);
     }
 
@@ -133,11 +132,6 @@ public final class BlockFactory implements IBlockFactory {
         int yPos = (int) (serviceLocator.getConstants().getGameHeight() / 1.2);
         IPlatform platform = platformFactory.createPlatform(xPos, yPos);
         elements.add(platform);
-
-        IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-        IGameObject jetpack = powerupFactory.createSizeUp(xPos, yPos - 50);
-        elements.add(jetpack);
-
         return platform;
     }
 
