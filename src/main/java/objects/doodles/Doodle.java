@@ -1,6 +1,7 @@
 package objects.doodles;
 
 import input.IInputManager;
+import input.Keys;
 import logging.ILogger;
 import objects.AGameObject;
 import objects.IJumpable;
@@ -60,6 +61,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Doodle constructor.
+     *
      * @param sL The service locator
      */
      /* package */ Doodle(final IServiceLocator sL) {
@@ -112,14 +114,14 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public final void keyPress(final int keyCode) {
-        behavior.keyPress(keyCode);
+    public final void keyPress(final Keys key) {
+        behavior.keyPress(key);
     }
 
     /** {@inheritDoc} */
     @Override
-    public final void keyRelease(final int keyCode) {
-        behavior.keyRelease(keyCode);
+    public final void keyRelease(final Keys key) {
+        behavior.keyRelease(key);
     }
 
     /** {@inheritDoc} */
