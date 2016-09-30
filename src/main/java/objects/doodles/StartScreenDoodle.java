@@ -1,5 +1,6 @@
 package objects.doodles;
 
+import input.Keys;
 import objects.IJumpable;
 import system.IServiceLocator;
 
@@ -24,16 +25,20 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public final void keyPress(final int keyCode) { }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void keyRelease(final int keyCode) { }
-
-    /** {@inheritDoc} */
-    @Override
     public void collide(final IJumpable jumpable) {
         setVerticalSpeed(BOOST_REDUCTION * jumpable.getBoost());
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public void collidesWith(final IDoodle doodle) {
+    }
+    /** {@inheritDoc} */
+    @Override
+    public final void keyPress(final Keys key) { }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void keyRelease(final Keys key) { }
 
 }
