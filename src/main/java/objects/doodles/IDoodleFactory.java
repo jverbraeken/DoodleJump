@@ -11,6 +11,7 @@ public interface IDoodleFactory extends IFactory {
     /**
      * Create a new Doodle.
      *
+     * @param world The world the Doodle will live in.
      * @return The new Doodle.
      */
     IDoodle createDoodle(final World world);

@@ -38,7 +38,7 @@ public final class FileSystem implements IFileSystem {
         // a {@link NullPointerException}.
         Writer fw = new Writer() {
             @Override
-            public void write(char[] cbuf, int off, int len) throws IOException {
+            public void write(final char[] cbuf, final int off, final int len) throws IOException {
             }
 
             @Override
