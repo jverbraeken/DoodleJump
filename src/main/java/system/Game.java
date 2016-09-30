@@ -1,6 +1,5 @@
 package system;
 
-import buttons.IButton;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
@@ -63,7 +62,10 @@ public final class Game {
      * The maximum size of the list of high scores.
      */
     private static final int MAX_HIGH_SCORES = 10;
-    private static final transient Object lock = new Object();
+    /**
+     * A LOCK to avoid threading issues.
+     */
+    private static final transient Object LOCK = new Object();
     /**
      * Used to gain access to all services.
      */
@@ -92,10 +94,6 @@ public final class Game {
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
-    /**
-     * The resume button for the pause screen.
-     */
-    private static IButton resumeButton;
     /**
      * The scale of the game.
      */
@@ -175,11 +173,6 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        resumeButton = serviceLocator.getButtonFactory().createResumeButton(
-                (int) (serviceLocator.getConstants().getGameWidth() * RESUME_BUTTON_X),
-                (int) (serviceLocator.getConstants().getGameHeight() * RESUME_BUTTON_Y));
-        serviceLocator.getInputManager().addObserver(resumeButton);
-
         loop();
     }
 
@@ -211,7 +204,6 @@ public final class Game {
         mode = m;
         serviceLocator.getRes().setSkin(m);
         SpriteFactory.register(serviceLocator);
-        scene.resetBackground();
         LOGGER.info("The mode is now " + m);
     }
 
@@ -254,7 +246,7 @@ public final class Game {
     public static void setScene(final IScene scene) {
         assert scene != null;
         if (Game.scene == null) {
-            synchronized (lock) {
+            synchronized (LOCK) {
                 if (Game.scene == null) {
                     startScene(scene);
                 }
@@ -327,7 +319,30 @@ public final class Game {
      * The enums for the mode.
      */
     public enum Modes {
-        regular, underwater, story, invert, darkness, space
+        /**
+         * As usual.
+         */
+        regular,
+        /**
+         * Underwater -> slow moving.
+         */
+        underwater,
+        /**
+         * Accompanied with a story.
+         */
+        story,
+        /**
+         * Everything upside-down.
+         */
+        invert,
+        /**
+         * You don't see any platforms except for the ones you jumped on.
+         */
+        darkness,
+        /**
+         * Fast acceleration, slow deceleration.
+         */
+        space
     }
 
 }
