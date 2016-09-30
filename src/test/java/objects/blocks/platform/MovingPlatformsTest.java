@@ -21,6 +21,9 @@ public class MovingPlatformsTest {
     private IRenderer renderer;
     private ISprite sprite;
 
+    /**
+     * Initialize before every test.
+     */
     @Before
     public void init() {
         IConstants constants = mock(IConstants.class);
@@ -37,6 +40,11 @@ public class MovingPlatformsTest {
         p = new Platform(serviceLocator, 1, 1, sprite);
     }
 
+    /**
+     * Test that the updateEnums method changes nothing for the horizontal direction.
+     * @throws NoSuchFieldException if the field does not exist.
+     * @throws IllegalAccessException if you can't acces that field.
+     */
     @Test
     public void updateEnumsTestNothingHori() throws NoSuchFieldException, IllegalAccessException {
         int expected = 1;
@@ -48,6 +56,12 @@ public class MovingPlatformsTest {
         assertThat(p.getProps().get(hori), is(expected));
     }
 
+    /**
+     * Test that the updateEnums method changes the horizontal direction
+     * from right to left.
+     * @throws NoSuchFieldException if the field does not exist.
+     * @throws IllegalAccessException if you can't acces that field.
+     */
     @Test
     public void updateEnumsTestFlip1Hori() throws NoSuchFieldException, IllegalAccessException {
         int expected = -1;
@@ -59,6 +73,12 @@ public class MovingPlatformsTest {
         assertThat(p.getProps().get(hori), is(expected));
     }
 
+    /**
+     * Test that the updateEnums method changes the horizontal direction
+     * from left to right.
+     * @throws NoSuchFieldException if the field does not exist.
+     * @throws IllegalAccessException if you can't acces that field.
+     */
     @Test
     public void updateEnumsTestFlipMin1Hori() throws NoSuchFieldException, IllegalAccessException {
         int expected = 1;
@@ -70,6 +90,11 @@ public class MovingPlatformsTest {
         assertThat(p.getProps().get(hori), is(expected));
     }
 
+    /**
+     * Test that the updateEnums method changes nothing for the vertical direction.
+     * @throws NoSuchFieldException if the field does not exist.
+     * @throws IllegalAccessException if you can't acces that field.
+     */
     @Test
     public void updateEnumsTestNothingVert() throws NoSuchFieldException, IllegalAccessException {
         int expected = 1;
@@ -81,6 +106,12 @@ public class MovingPlatformsTest {
         assertThat(p.getProps().get(vert), is(expected));
     }
 
+    /**
+     * Test that the updateEnums method changes the vertical direction
+     * from down to up.
+     * @throws NoSuchFieldException if the field does not exist.
+     * @throws IllegalAccessException if you can't acces that field.
+     */
     @Test
     public void updateEnumsTestFlip1Vert() throws NoSuchFieldException, IllegalAccessException {
         int expected = 1;
@@ -94,6 +125,12 @@ public class MovingPlatformsTest {
         assertThat(p.getProps().get(vert), is(expected));
     }
 
+    /**
+     * Test that the updateEnums method changes the vertical direction
+     * from up to down.
+     * @throws NoSuchFieldException if the field does not exist.
+     * @throws IllegalAccessException if you can't acces that field.
+     */
     @Test
     public void updateEnumsTestFlipMin1Vert() throws NoSuchFieldException, IllegalAccessException {
         int expected = -1;
@@ -107,6 +144,9 @@ public class MovingPlatformsTest {
         assertThat(p.getProps().get(vert), is(expected));
     }
 
+    /**
+     * Test rendering a horizontal platform going right.
+     */
     @Test
     public void renderHoriTest() {
         double expected = p.getXPos() + 2;
@@ -118,6 +158,9 @@ public class MovingPlatformsTest {
         assertThat(p.getXPos(), is(expected));
     }
 
+    /**
+     * Test rendering a horizontal platform going left.
+     */
     @Test
     public void renderHoriOppositeTest() {
         double expected = p.getXPos() - 2;
@@ -129,6 +172,9 @@ public class MovingPlatformsTest {
         assertThat(p.getXPos(), is(expected));
     }
 
+    /**
+     * Test rendering a vertical moving platform going up.
+     */
     @Test
     public void renderVertTest() {
         double expected = p.getYPos() - 2;
@@ -140,6 +186,9 @@ public class MovingPlatformsTest {
         assertThat(p.getYPos(), is(expected));
     }
 
+    /**
+     * Test rendering a vertical moving platform going down.
+     */
     @Test
     public void renderOppositVertTest() {
         double expected = p.getYPos() + 2;

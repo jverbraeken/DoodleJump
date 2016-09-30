@@ -32,6 +32,9 @@ public class PlatformTest {
     private IAudioManager audioManager;
     private IDoodle doodle;
 
+    /**
+     * Initialize before every test.
+     */
     @Before
     public void init() {
         constants = mock(IConstants.class);
@@ -53,22 +56,33 @@ public class PlatformTest {
         p = new Platform(serviceLocator, 1, 1, sprite);
     }
 
+    /**
+     * Test rendering a normal platform
+     */
     @Test
-    public void renderTest() throws NoSuchFieldException, IllegalAccessException {
+    public void renderTest() {
         p.render();
 
         Mockito.verify(serviceLocator).getRenderer();
         Mockito.verify(renderer).drawSprite(sprite, 1, 1);
     }
 
+    /**
+     * Test the updateEnums method.
+     */
     @Test
-    public void updateEnumsTest() throws NoSuchFieldException, IllegalAccessException {
+    public void updateEnumsTest() {
         p.updateEnums(1,1);
 
         Mockito.verify(serviceLocator, Mockito.times(2)).getConstants();
         Mockito.verify(constants).getGameWidth();
     }
 
+    /**
+     * Test the getBoost method.
+     * @throws NoSuchFieldException if the field does not exist.
+     * @throws IllegalAccessException if you can't acces that field.
+     */
     @Test
     public void getBoostTest() throws NoSuchFieldException, IllegalAccessException {
         Field field = Platform.class.getDeclaredField("BOOST");
@@ -77,12 +91,20 @@ public class PlatformTest {
         assertThat(p.getBoost(), is(field.get(p)));
     }
 
+    /**
+     * Test the setOffSet method, if the variable is set right.
+     */
     @Test
-    public void setOffSetTest() throws NoSuchFieldException, IllegalAccessException {
+    public void setOffSetTest() {
         p.setOffset(10);
         assertThat(p.getOffset(), is(10));
     }
 
+    /**
+     * Test the getOffSet method.
+     * @throws NoSuchFieldException if the field does not exist.
+     * @throws IllegalAccessException if you can't acces that field.
+     */
     @Test
     public void getOffSetTest() throws NoSuchFieldException, IllegalAccessException {
         Field field = Platform.class.getDeclaredField("offSet");
@@ -91,6 +113,11 @@ public class PlatformTest {
         assertThat(p.getOffset(), is(field.get(p)));
     }
 
+    /**
+     * Test the getOffSet method.
+     * @throws NoSuchFieldException if the field does not exist.
+     * @throws IllegalAccessException if you can't acces that field.
+     */
     @Test
     public void collidesWith(){
         p.collidesWith(doodle);
@@ -99,6 +126,7 @@ public class PlatformTest {
         Mockito.verify(audioManager).playJump();
     }
 
+    
     @Test
     public void collidesWithBreakPlatform(){
         p.getProps().put(Platform.PlatformProperties.breaks, 1);
