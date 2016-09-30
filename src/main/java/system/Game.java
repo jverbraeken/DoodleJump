@@ -22,7 +22,6 @@ import static system.Game.Modes.regular;
 public final class Game {
 
     /**
-=======
      * Used to gain access to all services.
      */
     private static IServiceLocator serviceLocator = new ServiceLocator();
@@ -36,7 +35,6 @@ public final class Game {
      */
     private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
     /**
->>>>>>> develop
      * The target FPS for the game.
      */
     private static final int TARGET_FPS = 60;
@@ -81,10 +79,7 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
-     * The enums for the mode
-=======
      * The enums for the mode.
->>>>>>> develop
      */
     public enum Modes { regular, underwater, story, invert, darkness, space }
     /**
