@@ -123,7 +123,7 @@ public class TrampolineTest {
     public void testAnimate() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 30, 653);
         Whitebox.invokeMethod(trampoline, "animate");
-        //assertEquals(newSprite, trampoline.getSprite());
+        assertEquals(sprite, trampoline.getSprite());
         assertEquals(633, trampoline.getYPos(), 0.001);
     }
 
@@ -136,7 +136,8 @@ public class TrampolineTest {
     @Test
     public void testGetBoost() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
-        assertEquals(-50, trampoline.getBoost(), 0.001);
+        double boost = Whitebox.getInternalState(trampoline, "BOOST", Trampoline.class);
+        assertEquals(boost, trampoline.getBoost(), 0.001);
     }
 
 }

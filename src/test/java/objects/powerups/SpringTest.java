@@ -124,7 +124,7 @@ public class SpringTest {
     public void testAnimate() throws Exception {
         spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 50, 200);
         Whitebox.invokeMethod(spring, "animate");
-        //assertEquals(newSprite, spring.getSprite());
+        assertEquals(usedSprite, spring.getSprite());
         assertEquals(180, spring.getYPos(), 0.001);
     }
 
@@ -137,7 +137,8 @@ public class SpringTest {
     @Test
     public void testGetBoost() throws Exception {
         spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
-        assertEquals(-35, spring.getBoost(), 0.001);
+        double boost = Whitebox.getInternalState(spring, "BOOST", Spring.class);
+        assertEquals(boost, spring.getBoost(), 0.001);
     }
 
 }
