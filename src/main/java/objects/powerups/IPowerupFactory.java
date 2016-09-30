@@ -27,6 +27,15 @@ public interface IPowerupFactory extends IFactory {
     IGameObject createPropeller(final int x, final int y);
 
     /**
+     * Create a new SizeDown powerup.
+     *
+     * @param x The X location for the SizeDown.
+     * @param y The Y location for the SizeDown.
+     * @return A new SizeDown instance.
+     */
+    IGameObject createSizeDown(final int x, final int y);
+
+    /**
      * Create a new SizeUp powerup.
      *
      * @param x The X location for the SizeUp.

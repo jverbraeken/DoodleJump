@@ -215,7 +215,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /** {@inheritDoc} */
     @Override
-    public void increaseSpriteScalar(final double inc) {
+    public final void increaseSpriteScalar(final double inc) {
         this.spriteScalar += inc;
     }
 
