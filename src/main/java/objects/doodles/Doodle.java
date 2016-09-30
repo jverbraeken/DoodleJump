@@ -174,23 +174,6 @@ public class Doodle extends AGameObject implements IDoodle {
         return spritePack;
     }
 
-    /**
-     * Animate the Doodle.
-     *
-     * @param delta Delta time since previous animate.
-     */
-    private void animate(double delta) {
-        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
-        this.spritePack = spriteFactory.getDoodleSprite(this.behavior.getFacing());
-
-        // If the Doodle moves up quickly shorten its legs
-        if (behavior.getVerticalSpeed() < -15) {
-            setSprite(this.spritePack[1]);
-        } else {
-            setSprite(this.spritePack[0]);
-        }
-    }
-
     /** {@inheritDoc} */
     @Override
     public final void setSpritePack(final ISprite[] doodleSprite) {
