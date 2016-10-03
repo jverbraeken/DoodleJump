@@ -37,7 +37,9 @@ import system.IServiceLocator;
         super(sL, x, y, sL.getSpriteFactory().getSpringShoesSprite(), SpringShoes.class);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getBoost() {
         this.uses += 1;
@@ -50,13 +52,17 @@ import system.IServiceLocator;
         return BOOST;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PassiveType getType() {
         return PassiveType.collision;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
@@ -65,7 +71,9 @@ import system.IServiceLocator;
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         if (this.owner == null && this.uses < MAX_USES) {

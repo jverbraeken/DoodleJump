@@ -28,13 +28,17 @@ public class Trampoline extends APowerup implements IJumpable {
         super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite(), Trampoline.class);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void collidesWith(final IDoodle doodle) {
         doodle.collide(this);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final double getBoost() {
         //TODO This is can cause bugs as the programmer does not a getter to do these kind of things
@@ -44,7 +48,9 @@ public class Trampoline extends APowerup implements IJumpable {
         return Trampoline.BOOST;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());

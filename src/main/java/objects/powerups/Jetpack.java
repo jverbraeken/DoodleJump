@@ -29,19 +29,25 @@ import system.IServiceLocator;
         super(sL, x, y, sL.getSpriteFactory().getJetpackSprite(), Jetpack.class);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getBoost() {
         return BOOST;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PassiveType getType() {
         return PassiveType.constant;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
@@ -50,7 +56,9 @@ import system.IServiceLocator;
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         if (this.owner == null) {
@@ -61,4 +69,5 @@ import system.IServiceLocator;
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), xPos, yPos);
         }
     }
+
 }
