@@ -39,17 +39,6 @@ import system.IServiceLocator;
 
     /** {@inheritDoc} */
     @Override
-    public void applyBoost() {
-        this.uses += 1;
-
-        if (this.uses > MAX_USES)  {
-            this.owner.removePassive(this);
-            this.owner = null;
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public double getBoost() {
         this.uses += 1;
 

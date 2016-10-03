@@ -8,11 +8,6 @@ import objects.IGameObject;
 public interface IPassive extends IGameObject {
 
     /**
-     * Apply a constant boost provided by the passive.
-     */
-    void applyBoost();
-
-    /**
      * Get the boost provided by the passive.
      *
      * @return The boost provided by the passive.
