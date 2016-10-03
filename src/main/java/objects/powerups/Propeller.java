@@ -11,7 +11,7 @@ import system.IServiceLocator;
     /**
      * The boost the Propeller gives.
      */
-    private static final int BOOST = -15;
+    private static final double BOOST = -15;
     /**
      * Y offset for drawing the Propeller when on Doodle.
      */
