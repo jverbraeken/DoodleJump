@@ -9,24 +9,26 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
+import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-public class PropellerTest {
+public class SizeUpTest {
 
     private IConstants constants = mock(IConstants.class);
     private IDoodle doodle = mock(IDoodle.class);
     private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
     private IServiceLocator serviceLocator = mock(IServiceLocator.class);
+    private ISprite sprite = mock(ISprite.class);
     private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
 
-    private Propeller propeller;
-    private double propellerBoost = Whitebox.getInternalState(Propeller.class, "BOOST");
+    private SizeUp sizeUp;
+    private double sizeUpScalar = Whitebox.getInternalState(SizeUp.class, "SCALE_INCREASE");
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -38,36 +40,22 @@ public class PropellerTest {
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
 
         when(constants.getGameWidth()).thenReturn(100);
-        when(spriteFactory.getPropellerSprite()).thenReturn(null);
+        when(sprite.getWidth()).thenReturn(0);
+        when(spriteFactory.getSizeUpSprite()).thenReturn(sprite);
         when(loggerFactory.createLogger(Jetpack.class)).thenReturn(null);
 
-        propeller = new Propeller(serviceLocator, 0, 0);
+        sizeUp = new SizeUp(serviceLocator, 0, 0);
     }
 
     @After
     public void finish() {
-        propeller = null;
+        sizeUp = null;
     }
 
     @Test
-    public void testCollidesWithSetOwner() throws Exception {
-        propeller.collidesWith(doodle);
-        Object owner = Whitebox.getInternalState(propeller, "owner");
-        assertThat(owner.equals(doodle), is(true));
-    }
-
-    @Test
-    public void testGetBoost() throws Exception {
-        propeller.collidesWith(doodle);
-
-        double boost = propeller.getBoost();
-        assertThat(boost == propellerBoost, is(true));
-    }
-
-    @Test
-    public void testGetType() {
-        PassiveType x = propeller.getType();
-        assertThat(x.equals(PassiveType.constant), is(true));
+    public void testCollidesWith() throws Exception {
+        sizeUp.collidesWith(doodle);
+        verify(doodle, times(1)).increaseSpriteScalar(sizeUpScalar);
     }
 
 }

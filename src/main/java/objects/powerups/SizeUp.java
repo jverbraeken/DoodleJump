@@ -30,7 +30,6 @@ import system.IServiceLocator;
     @Override
     public void collidesWith(final IDoodle doodle) {
         doodle.increaseSpriteScalar(SCALE_INCREASE);
-
         this.setXPos(this.getSprite().getWidth() * -1);
     }
 
