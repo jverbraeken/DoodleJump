@@ -144,7 +144,8 @@ public class RegularBehavior implements MovementBehavior {
     private void applyPassive() {
         IPassive passive = this.doodle.getPassive();
         if (passive != null && passive.getType() == PassiveType.constant) {
-            passive.applyBoost();
+            double boost = passive.getBoost();
+            this.setVerticalSpeed(boost);
         }
     }
 

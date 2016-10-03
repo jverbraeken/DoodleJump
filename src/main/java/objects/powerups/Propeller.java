@@ -37,16 +37,8 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void applyBoost() {
-        this.owner.setVerticalSpeed(BOOST);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public double getBoost() {
-        return 0;
+        return BOOST;
     }
 
     /**
