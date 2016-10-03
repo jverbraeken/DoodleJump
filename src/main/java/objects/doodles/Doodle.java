@@ -58,13 +58,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * Describes the movement behavior of the doodle.
      */
     private MovementBehavior behavior;
-
-    /**
-     * Doodle constructor.
-     *
-     * @param sL The service locator.
-     * @param w The world the Doodle lives in.
-     */
      /* package */ Doodle(final IServiceLocator sL, final World w) {
         super(sL,
                 sL.getConstants().getGameWidth() / 2,
@@ -167,6 +160,8 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void render() {
+        getServiceLocator().getRenderer().drawRectangle((int) (this.getXPos() + getHitBox()[0]), (int) (this.getYPos() + getHitBox()[1]), (int) (getHitBox()[2] - getHitBox()[0]),(int) (getHitBox()[3] - getHitBox()[1]));
+
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 

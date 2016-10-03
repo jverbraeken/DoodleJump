@@ -29,7 +29,7 @@ public class Platform extends AGameObject implements IPlatform {
      */
     private double vSpeed = 0d;
     /**
-     * The start y of the platform.
+     * The offSet of the vertical moving platform.
      */
     private int offSet = 0;
     /**

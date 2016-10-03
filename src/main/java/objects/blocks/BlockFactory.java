@@ -142,6 +142,7 @@ public final class BlockFactory implements IBlockFactory {
         IJumpable newTopJumpable = topJumpable;
         for (int i = 0; i < platformAmount; i++) {
             newTopJumpable = placeFollowingPlatform(elements, newTopJumpable, heightDividedPlatforms);
+            chanceForEnemy(elements, (IPlatform) newTopJumpable, heightDividedPlatforms);
         }
         return newTopJumpable;
     }
@@ -198,13 +199,12 @@ public final class BlockFactory implements IBlockFactory {
         do {
             do {
                 platform = makeFollowingPlatform(topJumpable, heightDivPlatforms);
-            } while (platformCollideCheck(platform, elements));
+            } while (objectCollideCheck(platform, elements));
             elements.add(platform);
             Platform.PlatformProperties br = Platform.PlatformProperties.breaks;
             breaks = platform.getProps().containsKey(br);
         } while (breaks);
 
-        chanceForEnemy(elements, platform);
         chanceForPowerup(elements, platform);
         return platform;
     }
@@ -217,7 +217,6 @@ public final class BlockFactory implements IBlockFactory {
      * @return A new platform.
      */
     private IPlatform makeFollowingPlatform(final IJumpable topJumpable, final int heightDividedPlatforms) {
-        //TODO 1.7 and -0.8 are magic numbers
         double heightDeviation = serviceLocator.getCalc().getRandomDouble(HEIGHT_DEVIATION_MULTIPLIER) - HEIGHT_DEVIATION_OFFSET;
         double widthDeviation = serviceLocator.getCalc().getRandomDouble(1d);
 
@@ -252,13 +251,13 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Checks if the platform collides with any of the elements in the Block.
      *
-     * @param platform The {@link IPlatform platform} that has to be checked for a collision
+     * @param object The {@link IGameObject object} that has to be checked for a collision
      * @param elements The {@link Set} in which the platforms should be placed
      * @return True if platform collides with one of the elements of block.
      */
-    private boolean platformCollideCheck(final IPlatform platform, final Set<IGameObject> elements) {
+    private boolean objectCollideCheck(final IGameObject object, final Set<IGameObject> elements) {
         for (IGameObject e : elements) {
-            if (platform.checkCollision(e)) {
+            if (object.checkCollision(e)) {
                 return true;
             }
         }
@@ -313,16 +312,29 @@ public final class BlockFactory implements IBlockFactory {
      * @param elements A set of elements.
      * @param platform The platform a powerup potentially is placed on.
      **/
-    private void chanceForEnemy(final Set<IGameObject> elements, final IPlatform platform) {
+    private void chanceForEnemy(final Set<IGameObject> elements, final IPlatform platform, final int heightDividedPlatforms) {
         ICalc calc = serviceLocator.getCalc();
         double randomDouble = calc.getRandomDouble(MAX_RANDOM_THRESHOLD);
         final int randomNr = (int) (randomDouble);
+        IGameObject enemy = null;
+                //serviceLocator.getEnemyBuilder().createEnemy((int) platform.getXPos(),(int) platform.getYPos());
 
         if (randomNr >= ENEMY_CHANCE) {
-            System.out.println((int) platform.getXPos() + "  =  " + (int) platform.getYPos());
-            IGameObject enemy = serviceLocator.getEnemyBuilder().createEnemy((int) platform.getXPos(), (int) platform.getYPos());
+            do {
+                enemy = placeEnemy(platform, heightDividedPlatforms, calc);
+            } while (objectCollideCheck(enemy, elements));
             elements.add(enemy);
         }
+    }
+
+    private IGameObject placeEnemy(final IPlatform platform, final int heightDividedPlatforms, final ICalc calc) {
+        double widthDeviation = calc.getRandomDouble(1d);
+        double heightDeviation = calc.getRandomDouble(HEIGHT_DEVIATION_MULTIPLIER) - HEIGHT_DEVIATION_OFFSET;
+
+        int xLoc = (int) (widthDeviation * (serviceLocator.getConstants().getGameWidth() - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
+        int yLoc = (int) (platform.getYPos() - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
+
+        return serviceLocator.getEnemyBuilder().createEnemy(xLoc, yLoc);
     }
 
     /**

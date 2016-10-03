@@ -9,6 +9,7 @@ import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
+import objects.enemies.IEnemy;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -217,6 +218,18 @@ public class World implements IScene {
                 for (IGameObject element : elements) {
                     if (this.doodle.checkCollision(element)) {
                         if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()) {
+                            element.collidesWith(this.doodle);
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            for (IBlock block : blocks) {
+                Set<IGameObject> elements = block.getElements();
+                for (IGameObject element : elements) {
+                    if (element instanceof IEnemy) {
+                        if (this.doodle.checkCollision(element)) {
                             element.collidesWith(this.doodle);
                         }
                     }
