@@ -132,4 +132,10 @@ public class SpringShoesTest {
         assertThat(owner == null, is(true));
     }
 
+    @Test
+    public void testGetType() {
+        PassiveType x = springShoes.getType();
+        assertThat(x.equals(PassiveType.collision), is(true));
+    }
+
 }
