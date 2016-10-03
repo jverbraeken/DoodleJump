@@ -108,9 +108,12 @@ public interface IRes {
         trampolineUsed,
         spring,
         springUsed,
-        rocket,
+        springShoes,
+        jetpack,
         propeller,
         shield,
+        sizeUp,
+        sizeDown,
 
         // Top bar
         scoreBar,

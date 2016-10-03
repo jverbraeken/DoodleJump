@@ -3,10 +3,12 @@ package objects.doodles;
 import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
+import objects.powerups.IPassive;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.DoodleBehavior.UnderwaterBehavior;
+import objects.powerups.PassiveType;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -51,6 +53,10 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double score;
     /**
+     * All the passives the can Doodle have.
+     */
+    private IPassive passive;
+    /**
      * The world the Doodle lives in.
      */
     private final World world;
@@ -58,6 +64,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * Describes the movement behavior of the doodle.
      */
     private MovementBehavior behavior;
+    /**
+     * The scalar for the Doodle sprite.
+     */
+    private double spriteScalar = 1d;
 
     /**
      * Doodle constructor.
@@ -91,7 +101,20 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void collide(final IJumpable jumpable) {
-        behavior.setVerticalSpeed(jumpable.getBoost());
+        double boost = jumpable.getBoost();
+        if (this.passive != null && this.passive.getType() == PassiveType.collision) {
+            boost *= this.passive.getBoost();
+        }
+
+        behavior.setVerticalSpeed(boost);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final IPassive getPassive() {
+        return this.passive;
     }
 
     /**
@@ -115,6 +138,24 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public final double getScore() {
         return score;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setPassive(final IPassive item) {
+        this.passive = item;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void removePassive(final IPassive item) {
+        if (this.passive.equals(item)) {
+            this.passive = null;
+        }
     }
 
     /**
@@ -167,7 +208,16 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void render() {
-        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        ISprite sprite = this.getSprite();
+        getServiceLocator().getRenderer().drawSprite(sprite,
+                (int) this.getXPos(),
+                (int) this.getYPos(),
+                (int) (sprite.getWidth() * this.spriteScalar),
+                (int) (sprite.getHeight() * this.spriteScalar));
+
+        if (this.passive != null) {
+            this.passive.render();
+        }
     }
 
     /**
@@ -188,6 +238,19 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void register() {
         getServiceLocator().getInputManager().addObserver(this);
         getLogger().info("The doodle registered itself as an observer of the input manager");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void increaseSpriteScalar(final double inc) {
+        this.spriteScalar += inc;
+
+        ISprite sprite = this.getSprite();
+        int width = (int) (sprite.getWidth() * this.spriteScalar);
+        int height = (int) (sprite.getHeight() * this.spriteScalar);
+        this.setHitBox(0, 0, width, height);
     }
 
     /**

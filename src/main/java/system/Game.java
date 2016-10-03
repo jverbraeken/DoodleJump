@@ -14,8 +14,6 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Collections;
 
 import static system.Game.Modes.regular;
 
@@ -56,14 +54,6 @@ public final class Game {
      * The optimal time per frame.
      */
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
-    /**
-     * X position relative to the frame of the resume button.
-     */
-    private static final double RESUME_BUTTON_X = 0.55;
-    /**
-     * Y position relative to the frame of the resume button.
-     */
-    private static final double RESUME_BUTTON_Y = 0.75;
     /**
      * The high scores list for the Game.
      */
