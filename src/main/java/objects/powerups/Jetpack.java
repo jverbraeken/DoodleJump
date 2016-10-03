@@ -12,11 +12,19 @@ import system.IServiceLocator;
      * The boost the Jetpack gives.
      */
     private static final double BOOST = -20d;
+    /**
+     *
+     */
+    private static final int MAX_TIMER = 100;
 
     /**
      * The Doodle that owns this Jetpack.
      */
     private IDoodle owner;
+    /**
+     *
+     */
+    private int timer = 0;
 
     /**
      * Jetpack constructor.
@@ -35,6 +43,19 @@ import system.IServiceLocator;
     @Override
     public double getBoost() {
         return BOOST;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void update(final double delta) {
+        timer += 1;
+
+        if (timer == MAX_TIMER) {
+            this.owner.removePassive(this);
+            this.owner = null;
+        }
     }
 
     /**
