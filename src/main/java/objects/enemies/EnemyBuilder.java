@@ -3,6 +3,7 @@ package objects.enemies;
 import logging.ILogger;
 import objects.IGameObject;
 import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
@@ -39,7 +40,8 @@ public final class EnemyBuilder implements IEnemyBuilder {
 
     /** {@inheritDoc} */
     @Override
-    public IGameObject createEnemy(final int x, final int y, final ISprite sprite) {
+    public IGameObject createEnemy(final int x, final int y) {
+        ISprite sprite = serviceLocator.getSpriteFactory().getOrdinaryMonsterSprite();
         logger.info("A new Enemy has been created: x = " + x + ", y = " + y + " sprite = " + sprite.toString());
         return new Enemy(serviceLocator, x, y, sprite);
 

@@ -50,7 +50,7 @@ public interface IRes {
         gameOver,
         killScreenBottom,
 
-        // Monsters
+        // Enemies
         puddingMonster1,
         puddingMonster2,
         puddingMonster3,

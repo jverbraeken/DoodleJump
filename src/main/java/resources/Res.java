@@ -93,6 +93,17 @@ public final class Res implements IRes {
         sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-Right@2x.png");
         sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-Right-odskok@2x.png");
 
+        // Enemies
+        sprites.put(Sprites.ordinaryMonster, SPRITE_PATH + "ordinaryMonster.png");
+        sprites.put(Sprites.threeEyedMonster1, SPRITE_PATH + "threeEyedMonster1.png");
+        sprites.put(Sprites.threeEyedMonster2, SPRITE_PATH + "threeEyedMonster2.png");
+        sprites.put(Sprites.threeEyedMonster3, SPRITE_PATH + "threeEyedMonster3.png");
+        sprites.put(Sprites.vampireMonster1, SPRITE_PATH + "vampireMonster1.png");
+        sprites.put(Sprites.vampireMonster2, SPRITE_PATH + "vampireMonster2.png");
+        sprites.put(Sprites.vampireMonster3, SPRITE_PATH + "vampireMonster3.png");
+        sprites.put(Sprites.vampireMonster4, SPRITE_PATH + "vampireMonster4.png");
+        sprites.put(Sprites.vampireMonster5, SPRITE_PATH + "vampireMonster5.png");
+
         // Kill screen
         sprites.put(Sprites.gameOver, SPRITE_PATH + "gameover@2x.png");
         sprites.put(Sprites.killScreenBottom, SPRITE_PATH + "kill-bottom@2x.png");

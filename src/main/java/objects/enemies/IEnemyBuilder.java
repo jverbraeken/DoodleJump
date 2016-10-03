@@ -9,13 +9,12 @@ import resources.sprites.ISprite;
 public interface IEnemyBuilder {
 
     /**
-     * Create a new enemy. NOT READY FOR USE YET.
+     * Create a new enemy.
      *
      * @param x The X position for the Enemy.
      * @param y The Y position for the Enemy.
-     * @param sprite The sprite for the Enemy.
      * @return A new enemy.
      */
-    IGameObject createEnemy(final int x, final int y, final ISprite sprite);
+    IGameObject createEnemy(final int x, final int y);
 
 }

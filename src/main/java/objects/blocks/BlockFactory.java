@@ -7,6 +7,7 @@ import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
+import objects.enemies.IEnemy;
 import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
@@ -46,11 +47,17 @@ public final class BlockFactory implements IBlockFactory {
      * random int(9500 < x < 9900)
      */
     private static final int SPRING_THRESHOLD = 9500;
+
+    /**
+     * The chance that an enemy will spawn.
+     */
+    private static final double ENEMY_CHANCE = 1;
+
     /**
      * Total threshold number for item generation.
      * random int(10000)
      */
-    private static final int MAX_POWERUP_THRESHOLD = 10000;
+    private static final int MAX_RANDOM_THRESHOLD = 10000;
     /**
      * A multiplier to generate a proper height deviation.
      */
@@ -68,6 +75,7 @@ public final class BlockFactory implements IBlockFactory {
      * The chance that a vertical moving platform will spawn.
      */
     private static final double VERTICAL_CHANCE = 0.05;
+
     /**
      * The chance that a vertical moving platform will spawn.
      */
@@ -196,6 +204,7 @@ public final class BlockFactory implements IBlockFactory {
             breaks = platform.getProps().containsKey(br);
         } while (breaks);
 
+        chanceForEnemy(elements, platform);
         chanceForPowerup(elements, platform);
         return platform;
     }
@@ -265,7 +274,7 @@ public final class BlockFactory implements IBlockFactory {
      **/
     private void chanceForPowerup(final Set<IGameObject> elements, final IPlatform platform) {
         ICalc calc = serviceLocator.getCalc();
-        double randomDouble = calc.getRandomDouble(MAX_POWERUP_THRESHOLD);
+        double randomDouble = calc.getRandomDouble(MAX_RANDOM_THRESHOLD);
         final int randomNr = (int) (randomDouble);
 
         double[] hitbox = platform.getHitBox();
@@ -295,6 +304,24 @@ public final class BlockFactory implements IBlockFactory {
                     (int) platform.getXPos() + TRAMPOLINE_X_OFFSET,
                     (int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
             elements.add(powerup);
+        }
+    }
+
+    /**
+     * Creates a random powerup.
+     *
+     * @param elements A set of elements.
+     * @param platform The platform a powerup potentially is placed on.
+     **/
+    private void chanceForEnemy(final Set<IGameObject> elements, final IPlatform platform) {
+        ICalc calc = serviceLocator.getCalc();
+        double randomDouble = calc.getRandomDouble(MAX_RANDOM_THRESHOLD);
+        final int randomNr = (int) (randomDouble);
+
+        if (randomNr >= ENEMY_CHANCE) {
+            System.out.println((int) platform.getXPos() + "  =  " + (int) platform.getYPos());
+            IGameObject enemy = serviceLocator.getEnemyBuilder().createEnemy((int) platform.getXPos(), (int) platform.getYPos());
+            elements.add(enemy);
         }
     }
 

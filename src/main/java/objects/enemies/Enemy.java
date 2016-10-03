@@ -29,7 +29,10 @@ public class Enemy extends AEnemy {
 
     /** {@inheritDoc} */
     @Override
-    public void render() { }
+    public void render() {
+        System.out.println((int) this.getXPos() + " -=-  " + (int) this.getXPos());
+        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+    }
 
     /** {@inheritDoc} */
     @Override
