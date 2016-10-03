@@ -1,9 +1,7 @@
 package objects.powerups;
 
 import constants.IConstants;
-import logging.ILogger;
 import logging.ILoggerFactory;
-import objects.IJumpable;
 import objects.doodles.IDoodle;
 import org.junit.After;
 import org.junit.Before;
@@ -16,31 +14,25 @@ import system.IServiceLocator;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 public class SpringShoesTest {
 
-    private IConstants constants;
-    private IDoodle doodle;
-    private ILoggerFactory loggerFactory;
-    private IServiceLocator serviceLocator;
-    private ISpriteFactory spriteFactory;
+    private IConstants constants = mock(IConstants.class);
+    private IDoodle doodle = mock(IDoodle.class);
+    private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
+    private IServiceLocator serviceLocator = mock(IServiceLocator.class);
+    private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
 
     private SpringShoes springShoes;
+    private double springShoesBoost = Whitebox.getInternalState(SpringShoes.class, "BOOST");
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void init() {
-        constants = mock(IConstants.class);
-        doodle = mock(IDoodle.class);
-        loggerFactory = mock(ILoggerFactory.class);
-        serviceLocator = mock(IServiceLocator.class);
-        spriteFactory = mock(ISpriteFactory.class);
-
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
@@ -54,6 +46,7 @@ public class SpringShoesTest {
 
     @After
     public void finish() {
+        springShoes = null;
     }
 
     @Test
@@ -61,6 +54,82 @@ public class SpringShoesTest {
         springShoes.collidesWith(doodle);
         Object owner = Whitebox.getInternalState(springShoes, "owner");
         assertThat(owner.equals(doodle), is(true));
+    }
+
+    @Test
+    public void testNoUses() throws Exception {
+        springShoes.collidesWith(doodle);
+
+        int uses = Whitebox.getInternalState(springShoes, "uses");
+        assertThat(uses == 0, is(true));
+    }
+
+    @Test
+    public void testGetBoost1() throws Exception {
+        springShoes.collidesWith(doodle);
+
+        double boost = springShoes.getBoost();
+        assertThat(boost == springShoesBoost, is(true));
+    }
+
+    @Test
+    public void testGetBoost1SetUses() throws Exception {
+        springShoes.collidesWith(doodle);
+        springShoes.getBoost();
+
+        int uses = Whitebox.getInternalState(springShoes, "uses");
+        assertThat(uses == 1, is(true));
+    }
+
+    @Test
+    public void testGetBoost2() throws Exception {
+        springShoes.collidesWith(doodle);
+        springShoes.getBoost();
+
+        double boost = springShoes.getBoost();
+        assertThat(boost == springShoesBoost, is(true));
+    }
+
+    @Test
+    public void testGetBoost2SetUses() throws Exception {
+        springShoes.collidesWith(doodle);
+        springShoes.getBoost();
+        springShoes.getBoost();
+
+        int uses = Whitebox.getInternalState(springShoes, "uses");
+        assertThat(uses == 2, is(true));
+    }
+
+    @Test
+    public void testGetBoost3() throws Exception {
+        springShoes.collidesWith(doodle);
+        springShoes.getBoost();
+        springShoes.getBoost();
+
+        double boost = springShoes.getBoost();
+        assertThat(boost == springShoesBoost, is(true));
+    }
+
+    @Test
+    public void testGetBoost3SetUses() throws Exception {
+        springShoes.collidesWith(doodle);
+        springShoes.getBoost();
+        springShoes.getBoost();
+        springShoes.getBoost();
+
+        int uses = Whitebox.getInternalState(springShoes, "uses");
+        assertThat(uses == 3, is(true));
+    }
+
+    @Test
+    public void testGetBoost3UnsetsOwner() throws Exception {
+        springShoes.collidesWith(doodle);
+        springShoes.getBoost();
+        springShoes.getBoost();
+        springShoes.getBoost();
+
+        Object owner = Whitebox.getInternalState(springShoes, "owner");
+        assertThat(owner == null, is(true));
     }
 
 }
