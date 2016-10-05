@@ -151,6 +151,8 @@ public interface ISpriteFactory extends IFactory {
     ISprite getSizeUpSprite();
 
     ISprite getSizeDownSprite();
+    // Passives
+    ISprite[] getJetpackActiveSprites();
 
     // Text
     ISprite getWaitDoNotShootSprite();

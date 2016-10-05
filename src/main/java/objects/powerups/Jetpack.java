@@ -1,6 +1,7 @@
 package objects.powerups;
 
 import objects.doodles.IDoodle;
+import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
@@ -22,6 +23,10 @@ import system.IServiceLocator;
     private static final int MAX_TIMER = 100;
 
     /**
+     * The sprites for an active rocket.
+     */
+    private static ISprite[] spritePack;
+    /**
      * The Doodle that owns this Jetpack.
      */
     private IDoodle owner;
@@ -33,6 +38,10 @@ import system.IServiceLocator;
      * The active speed provided by the Jetpack.
      */
     private double speed = 0;
+    /**
+     * The index of the current sprite.
+     */
+    private int spriteIndex = 0;
 
     /**
      * Jetpack constructor.
@@ -43,6 +52,8 @@ import system.IServiceLocator;
      */
     /* package */ Jetpack(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getJetpackSprite(), Jetpack.class);
+
+        Jetpack.spritePack = sL.getSpriteFactory().getJetpackActiveSprites();
     }
 
     /**
@@ -66,6 +77,8 @@ import system.IServiceLocator;
         } else if (this.speed > MAX_BOOST) {
             this.speed += ACCELERATION;
         }
+
+        this.setSprite(Jetpack.spritePack[timer % 9]);
     }
 
     /**
