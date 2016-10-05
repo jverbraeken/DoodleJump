@@ -13,6 +13,10 @@ import system.IServiceLocator;
      */
     private static final double BOOST = -15;
     /**
+     * The maximum time the Propeller is active.
+     */
+    private static final int MAX_TIMER = 80;
+    /**
      * Y offset for drawing the Propeller when on Doodle.
      */
     private static final int OWNED_Y_OFFSET = -10;
@@ -21,6 +25,10 @@ import system.IServiceLocator;
      * The Doodle that owns this Propeller.
      */
     private IDoodle owner;
+    /**
+     * The active timer for the Propeller.
+     */
+    private int timer = 0;
 
     /**
      * Propeller constructor.
@@ -39,6 +47,19 @@ import system.IServiceLocator;
     @Override
     public double getBoost() {
         return BOOST;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void update(final double delta) {
+        timer += 1;
+
+        if (timer == MAX_TIMER) {
+            this.owner.removePassive(this);
+            this.owner = null;
+        }
     }
 
     /**

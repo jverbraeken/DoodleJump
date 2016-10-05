@@ -13,7 +13,7 @@ import system.IServiceLocator;
      */
     private static final double BOOST = -20d;
     /**
-     *
+     * The maximum time the Jetpack is active.
      */
     private static final int MAX_TIMER = 100;
 
@@ -22,7 +22,7 @@ import system.IServiceLocator;
      */
     private IDoodle owner;
     /**
-     *
+     * The active timer for the Jetpack.
      */
     private int timer = 0;
 
