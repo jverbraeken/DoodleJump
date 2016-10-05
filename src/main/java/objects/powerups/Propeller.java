@@ -1,12 +1,13 @@
 package objects.powerups;
 
+import objects.IGameObject;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
  * This class describes the behaviour of the Propeller powerup.
  */
-/* package */ final class Propeller extends APowerup implements IPassive, IPowerup {
+/* package */ final class Propeller extends APowerup {
 
     /**
      * The boost the Propeller gives.
@@ -37,26 +38,9 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public double getBoost() {
-        return BOOST;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public PassiveType getType() {
-        return PassiveType.constant;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void collidesWith(final IDoodle doodle) {
-        if (this.owner == null) {
-            this.owner = doodle;
-            doodle.setPassive(this);
+    public final void perform(final String occasion) {
+        if (occasion.equals("constant")) {
+            this.owner.setVerticalSpeed(BOOST);
         }
     }
 
@@ -64,7 +48,18 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void render() {
+    public final void collidesWith(final IDoodle doodle) {
+        if (this.owner == null) {
+            this.owner = doodle;
+            doodle.setPowerup(this);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void render() {
         if (this.owner == null) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else {

@@ -3,12 +3,11 @@ package objects.doodles;
 import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
-import objects.powerups.IPassive;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.DoodleBehavior.UnderwaterBehavior;
-import objects.powerups.PassiveType;
+import objects.powerups.IPowerup;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -55,7 +54,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * All the passives the can Doodle have.
      */
-    private IPassive passive;
+    private IPowerup powerup;
     /**
      * The world the Doodle lives in.
      */
@@ -102,19 +101,18 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public void collide(final IJumpable jumpable) {
         double boost = jumpable.getBoost();
-        if (this.passive != null && this.passive.getType() == PassiveType.collision) {
-            boost *= this.passive.getBoost();
-        }
-
         behavior.setVerticalSpeed(boost);
+
+        if (this.powerup != null) {
+            this.powerup.perform("collision");
+        }
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    public final IPassive getPassive() {
-        return this.passive;
+    public final IPowerup getPowerup() {
+        return this.powerup;
     }
 
     /**
@@ -144,17 +142,17 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void setPassive(final IPassive item) {
-        this.passive = item;
+    public final void setPowerup(final IPowerup item) {
+        this.powerup = item;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void removePassive(final IPassive item) {
-        if (this.passive.equals(item)) {
-            this.passive = null;
+    public final void removePowerup(final IPowerup item) {
+        if (this.powerup.equals(item)) {
+            this.powerup = null;
         }
     }
 
@@ -215,8 +213,8 @@ public class Doodle extends AGameObject implements IDoodle {
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
-        if (this.passive != null) {
-            this.passive.render();
+        if (this.powerup != null) {
+            this.powerup.render();
         }
     }
 
