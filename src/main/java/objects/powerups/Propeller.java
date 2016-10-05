@@ -9,9 +9,14 @@ import system.IServiceLocator;
 /* package */ class Propeller extends APowerup implements IPassive, IPowerup {
 
     /**
+     * The acceleration provided by the Propeller.
+     */
+    private static final double ACCELERATION = -1d;
+
+    /**
      * The boost the Propeller gives.
      */
-    private static final double BOOST = -15;
+    private static final double MAX_BOOST = -15;
     /**
      * The maximum time the Propeller is active.
      */
@@ -29,6 +34,10 @@ import system.IServiceLocator;
      * The active timer for the Propeller.
      */
     private int timer = 0;
+    /**
+     * The active speed provided by the Propeller.
+     */
+    private double speed = 0;
 
     /**
      * Propeller constructor.
@@ -46,7 +55,7 @@ import system.IServiceLocator;
      */
     @Override
     public double getBoost() {
-        return BOOST;
+        return this.speed;
     }
 
     /**
@@ -59,6 +68,8 @@ import system.IServiceLocator;
         if (timer == MAX_TIMER) {
             this.owner.removePassive(this);
             this.owner = null;
+        } else if (this.speed > MAX_BOOST) {
+            this.speed += ACCELERATION;
         }
     }
 
