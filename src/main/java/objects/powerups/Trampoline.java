@@ -10,7 +10,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the trampoline powerup.
  */
-public class Trampoline extends APowerup implements IJumpable {
+/* package */ final class Trampoline extends APowerup implements IJumpable {
 
     /**
      * The BOOST value for the Trampoline.

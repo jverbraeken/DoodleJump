@@ -6,7 +6,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the SpringShoes powerup.
  */
-/* package */ class SpringShoes extends APowerup implements IPassive, IPowerup {
+/* package */ final class SpringShoes extends APowerup implements IPassive, IPowerup {
 
     /**
      * The maximum amount of times SpringShoes can be used.
@@ -44,7 +44,7 @@ import system.IServiceLocator;
     public double getBoost() {
         this.uses += 1;
 
-        if (this.uses > MAX_USES - 1)  {
+        if (this.uses >= MAX_USES)  {
             this.owner.removePassive(this);
             this.owner = null;
         }

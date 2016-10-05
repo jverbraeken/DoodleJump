@@ -30,9 +30,6 @@ public class SizeDownTest {
     private SizeDown sizeDown;
     private double sizeDownScalar = Whitebox.getInternalState(SizeDown.class, "SCALE_INCREASE");
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Before
     public void init() {
         when(serviceLocator.getConstants()).thenReturn(constants);
@@ -45,11 +42,6 @@ public class SizeDownTest {
         when(loggerFactory.createLogger(Jetpack.class)).thenReturn(null);
 
         sizeDown = new SizeDown(serviceLocator, 0, 0);
-    }
-
-    @After
-    public void finish() {
-        sizeDown = null;
     }
 
     @Test

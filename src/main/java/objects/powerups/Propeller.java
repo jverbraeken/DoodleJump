@@ -6,7 +6,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the Propeller powerup.
  */
-/* package */ class Propeller extends APowerup implements IPassive, IPowerup {
+/* package */ final class Propeller extends APowerup implements IPassive, IPowerup {
 
     /**
      * The boost the Propeller gives.

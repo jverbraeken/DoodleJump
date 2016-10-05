@@ -28,9 +28,6 @@ public class PropellerTest {
     private Propeller propeller;
     private double propellerBoost = Whitebox.getInternalState(Propeller.class, "BOOST");
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Before
     public void init() {
         when(serviceLocator.getConstants()).thenReturn(constants);
@@ -44,16 +41,11 @@ public class PropellerTest {
         propeller = new Propeller(serviceLocator, 0, 0);
     }
 
-    @After
-    public void finish() {
-        propeller = null;
-    }
-
     @Test
     public void testCollidesWithSetOwner() throws Exception {
         propeller.collidesWith(doodle);
         Object owner = Whitebox.getInternalState(propeller, "owner");
-        assertThat(owner.equals(doodle), is(true));
+        assertThat(owner, is(doodle));
     }
 
     @Test
@@ -61,13 +53,13 @@ public class PropellerTest {
         propeller.collidesWith(doodle);
 
         double boost = propeller.getBoost();
-        assertThat(boost == propellerBoost, is(true));
+        assertThat(boost, is(propellerBoost));
     }
 
     @Test
     public void testGetType() {
-        PassiveType x = propeller.getType();
-        assertThat(x.equals(PassiveType.constant), is(true));
+        PassiveType type = propeller.getType();
+        assertThat(type, is(PassiveType.constant));
     }
 
 }

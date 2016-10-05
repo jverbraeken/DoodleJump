@@ -30,9 +30,6 @@ public class SizeUpTest {
     private SizeUp sizeUp;
     private double sizeUpScalar = Whitebox.getInternalState(SizeUp.class, "SCALE_INCREASE");
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Before
     public void init() {
         when(serviceLocator.getConstants()).thenReturn(constants);
@@ -45,11 +42,6 @@ public class SizeUpTest {
         when(loggerFactory.createLogger(Jetpack.class)).thenReturn(null);
 
         sizeUp = new SizeUp(serviceLocator, 0, 0);
-    }
-
-    @After
-    public void finish() {
-        sizeUp = null;
     }
 
     @Test

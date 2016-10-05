@@ -28,9 +28,6 @@ public class JetpackTest {
     private Jetpack jetpack;
     private double jetpackBoost = Whitebox.getInternalState(Jetpack.class, "BOOST");
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Before
     public void init() {
         when(serviceLocator.getConstants()).thenReturn(constants);
@@ -44,16 +41,11 @@ public class JetpackTest {
         jetpack = new Jetpack(serviceLocator, 0, 0);
     }
 
-    @After
-    public void finish() {
-        jetpack = null;
-    }
-
     @Test
     public void testCollidesWithSetOwner() throws Exception {
         jetpack.collidesWith(doodle);
         Object owner = Whitebox.getInternalState(jetpack, "owner");
-        assertThat(owner.equals(doodle), is(true));
+        assertThat(owner, is(doodle));
     }
 
     @Test
@@ -61,13 +53,13 @@ public class JetpackTest {
         jetpack.collidesWith(doodle);
 
         double boost = jetpack.getBoost();
-        assertThat(boost == jetpackBoost, is(true));
+        assertThat(boost, is(jetpackBoost));
     }
 
     @Test
     public void testGetType() {
-        PassiveType x = jetpack.getType();
-        assertThat(x.equals(PassiveType.constant), is(true));
+        PassiveType type = jetpack.getType();
+        assertThat(type, is(PassiveType.constant));
     }
 
 }

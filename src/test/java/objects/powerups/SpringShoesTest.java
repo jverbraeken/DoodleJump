@@ -28,9 +28,6 @@ public class SpringShoesTest {
     private SpringShoes springShoes;
     private double springShoesBoost = Whitebox.getInternalState(SpringShoes.class, "BOOST");
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Before
     public void init() {
         when(serviceLocator.getConstants()).thenReturn(constants);
@@ -44,16 +41,11 @@ public class SpringShoesTest {
         springShoes = new SpringShoes(serviceLocator, 0, 0);
     }
 
-    @After
-    public void finish() {
-        springShoes = null;
-    }
-
     @Test
     public void testCollidesWithSetOwner() throws Exception {
         springShoes.collidesWith(doodle);
         Object owner = Whitebox.getInternalState(springShoes, "owner");
-        assertThat(owner.equals(doodle), is(true));
+        assertThat(owner, is(doodle));
     }
 
     @Test
@@ -61,7 +53,7 @@ public class SpringShoesTest {
         springShoes.collidesWith(doodle);
 
         int uses = Whitebox.getInternalState(springShoes, "uses");
-        assertThat(uses == 0, is(true));
+        assertThat(uses, is(0));
     }
 
     @Test
@@ -69,7 +61,7 @@ public class SpringShoesTest {
         springShoes.collidesWith(doodle);
 
         double boost = springShoes.getBoost();
-        assertThat(boost == springShoesBoost, is(true));
+        assertThat(boost, is(springShoesBoost));
     }
 
     @Test
@@ -78,7 +70,7 @@ public class SpringShoesTest {
         springShoes.getBoost();
 
         int uses = Whitebox.getInternalState(springShoes, "uses");
-        assertThat(uses == 1, is(true));
+        assertThat(uses, is(1));
     }
 
     @Test
@@ -87,7 +79,7 @@ public class SpringShoesTest {
         springShoes.getBoost();
 
         double boost = springShoes.getBoost();
-        assertThat(boost == springShoesBoost, is(true));
+        assertThat(boost, is(springShoesBoost));
     }
 
     @Test
@@ -97,7 +89,7 @@ public class SpringShoesTest {
         springShoes.getBoost();
 
         int uses = Whitebox.getInternalState(springShoes, "uses");
-        assertThat(uses == 2, is(true));
+        assertThat(uses, is(2));
     }
 
     @Test
@@ -107,7 +99,7 @@ public class SpringShoesTest {
         springShoes.getBoost();
 
         double boost = springShoes.getBoost();
-        assertThat(boost == springShoesBoost, is(true));
+        assertThat(boost, is(springShoesBoost));
     }
 
     @Test
@@ -118,7 +110,7 @@ public class SpringShoesTest {
         springShoes.getBoost();
 
         int uses = Whitebox.getInternalState(springShoes, "uses");
-        assertThat(uses == 3, is(true));
+        assertThat(uses, is(3));
     }
 
     @Test
@@ -134,8 +126,8 @@ public class SpringShoesTest {
 
     @Test
     public void testGetType() {
-        PassiveType x = springShoes.getType();
-        assertThat(x.equals(PassiveType.collision), is(true));
+        PassiveType type = springShoes.getType();
+        assertThat(type, is(PassiveType.collision));
     }
 
 }

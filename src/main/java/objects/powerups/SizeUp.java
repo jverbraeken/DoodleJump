@@ -4,9 +4,9 @@ import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
- * This class describes the behaviour of the SizeUp powerup.
+ * This class describes the behaviour of the SizeUp powerup. Increasing the size of the Doodle when picked up.
  */
-/* package */ class SizeUp extends APowerup implements IPowerup {
+/* package */ final class SizeUp extends APowerup implements IPowerup {
 
     /**
      * The scale increase provided by the SizeUp powerup.
