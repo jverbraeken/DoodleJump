@@ -9,9 +9,13 @@ import system.IServiceLocator;
 /* package */ class Jetpack extends APowerup implements IPassive, IPowerup {
 
     /**
+     * The acceleration provided by the Jetpack.
+     */
+    private static final double ACCELERATION = -2d;
+    /**
      * The boost the Jetpack gives.
      */
-    private static final double BOOST = -20d;
+    private static final double MAX_BOOST = -20d;
     /**
      * The maximum time the Jetpack is active.
      */
@@ -25,6 +29,10 @@ import system.IServiceLocator;
      * The active timer for the Jetpack.
      */
     private int timer = 0;
+    /**
+     * The active speed provided by the Jetpack.
+     */
+    private double speed = 0;
 
     /**
      * Jetpack constructor.
@@ -42,7 +50,7 @@ import system.IServiceLocator;
      */
     @Override
     public double getBoost() {
-        return BOOST;
+        return this.speed;
     }
 
     /**
@@ -55,6 +63,8 @@ import system.IServiceLocator;
         if (timer == MAX_TIMER) {
             this.owner.removePassive(this);
             this.owner = null;
+        } else if (this.speed > MAX_BOOST) {
+            this.speed += ACCELERATION;
         }
     }
 
