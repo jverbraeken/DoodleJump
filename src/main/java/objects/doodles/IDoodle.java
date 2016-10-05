@@ -3,62 +3,65 @@ package objects.doodles;
 import input.IKeyInputObserver;
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.blocks.IBlock;
-import resources.sprites.ISprite;
+import objects.doodles.DoodleBehavior.MovementBehavior;
 
 /**
  * This class describes the behaviour of the doodle.
  */
 public interface IDoodle extends IGameObject, IKeyInputObserver {
 
+    /**
+     * Get the vertical speed of the Doodle.
+     *
+     * @return The vertical speed
+     */
     double getVerticalSpeed();
 
-    void collide(IJumpable jumpable);
-
-    void collide(IBlock block);
+    /**
+     * Set the vertical speed of the doodle.
+     *
+     * @param vSpeed the new speed
+     */
+    void setVerticalSpeed(final double vSpeed);
 
     /**
-     * Returns the height of the legs of the doodle. When this value is very large, for example 1,
+     * The Doodle collides with a jumpable object.
+     *
+     * @param jumpable The jumpable object
+     */
+    void collide(final IJumpable jumpable);
+
+    /**
+     * Returns the height of the legs of the Doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
-     * @return The height of the legs of the doodle
+     *
+     * @return The height of the legs of the Doodle.
      */
     double getLegsHeight();
 
     /**
-     * Get the spritepack of the doodle.
-     * @return rhe spritepack
-     */
-    public ISprite[] getSpritePack();
-
-    /**
-     * Set the vertical speed of the doodle.
-     * @param vSpeed the new speed.
-     */
-    void setVerticalSpeed(double vSpeed);
-
-    /**
-     * @return The score of the doodle.
+     * Get the score for this Doodle.
+     *
+     * @return The score
      */
     double getScore();
 
     /**
      * Set the sprite pack of the doodle.
-     * @param doodleSprite the sprites.
+     *
+     * @param direction The direction is Doodle is going to
+     * @param falling   True if the doodle is going down
      */
-    void setSpritePack(ISprite[] doodleSprite);
+    void setSprite(final MovementBehavior.Directions direction, final boolean falling);
 
     /**
-     * Enum with Directions for the Doodle.
+     * Registers its button to the {@link input.IInputManager input manager}.
      */
-     enum Directions {
-        /**
-         * The left direction.
-         */
-        Left,
-        /**
-         * The right direction.
-         */
-        Right
-    }
+    void register();
+
+    /**
+     * Deregisters its button from the {@link input.IInputManager input manager}.
+     */
+    void deregister();
 
 }

@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Standard implementation of the SpriteFactory. Used to load and get sprites.
- * <p>
+ * <br>
  * Javadoc is not deemed necessary for all individual sprites to have a javadoc.
  */
 @SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod"})
@@ -23,20 +23,22 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator sL;
+    private static transient IServiceLocator serviceLocator;
     /**
      * The logger for the SpriteFactory class.
      */
-    private final ILogger LOGGER;
+    private final ILogger logger;
+
+
     /**
      * The cache for the SpriteFactory.
      */
-    private LoadingCache<IRes.Sprites, ISprite> cache;
+    private final LoadingCache<IRes.Sprites, ISprite> cache;
     /**
      * Prevents instantiation from outside the class.
      */
     public SpriteFactory() {
-        LOGGER = sL.getLoggerFactory().createLogger(SpriteFactory.class);
+        logger = serviceLocator.getLoggerFactory().createLogger(SpriteFactory.class);
 
         cache = CacheBuilder.newBuilder()
                 .maximumSize(Long.MAX_VALUE)
@@ -44,7 +46,7 @@ public final class SpriteFactory implements ISpriteFactory {
                         new CacheLoader<IRes.Sprites, ISprite>() {
                             @Override
                             public ISprite load(final IRes.Sprites sprite) {
-                                LOGGER.info("Sprite loaded: \"" + sprite + "\"");
+                                logger.info("Sprite loaded: \"" + sprite + "\"");
                                 return loadISprite(sprite);
                             }
                         }
@@ -60,8 +62,8 @@ public final class SpriteFactory implements ISpriteFactory {
         if (sL == null) {
             throw new IllegalArgumentException("The service locator cannot be null");
         }
-        SpriteFactory.sL = sL;
-        SpriteFactory.sL.provide(new SpriteFactory());
+        SpriteFactory.serviceLocator = sL;
+        sL.provide(new SpriteFactory());
     }
 
     // Buttons
@@ -95,7 +97,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPlayAgainButtonSprite() {
-        return getSprite(IRes.Sprites.playagain);
+        return getSprite(IRes.Sprites.playAgain);
     }
 
     /**
@@ -419,16 +421,16 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSprite2() {
-        return getSprite(IRes.Sprites.platform2);
+    public ISprite getPlatformSpriteHori() {
+        return getSprite(IRes.Sprites.platformHorizontal);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSprite3() {
-        return getSprite(IRes.Sprites.platform3);
+    public ISprite getPlatformSpriteVert() {
+        return getSprite(IRes.Sprites.platformVertical);
     }
 
     /**
@@ -654,8 +656,8 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getWaitDontShootSprite() {
-        return getSprite(IRes.Sprites.waitDontShoot);
+    public ISprite getWaitDoNotShootSprite() {
+        return getSprite(IRes.Sprites.waitDoNotShoot);
     }
 
     /**
@@ -673,8 +675,8 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getScorebarSprite() {
-        return getSprite(IRes.Sprites.scorebar);
+    public ISprite getScoreBarSprite() {
+        return getSprite(IRes.Sprites.scoreBar);
     }
 
 
@@ -751,22 +753,23 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * Loads an ISprite with the name {@code ISpriteName}.
      *
-     * @param spriteName the enumerator defining the requested sprite.
-     * @return The ISprite
+     * @param spriteName the enumerator defining the requested sprite
+     * @return The {@link ISprite sprite} if it was found. null otherwise
      */
     private ISprite loadISprite(final IRes.Sprites spriteName) {
         assert spriteName != null;
-        String filepath = sL.getRes().getSpritePath(spriteName);
+        String filepath = serviceLocator.getRes().getSpritePath(spriteName);
         BufferedImage image = null;
         try {
-            image = sL.getFileSystem().readImage(filepath);
-            LOGGER.info("Sprite loaded: \"" + filepath + "\"");
+            image = serviceLocator.getFileSystem().readImage(filepath);
+            logger.info("Sprite loaded: \"" + filepath + "\"");
+            return new Sprite(getFileName(filepath), image);
         } catch (FileNotFoundException e) {
-            LOGGER.error(e);
+            logger.error(e);
             e.printStackTrace();
         }
         if (image == null) {
-            LOGGER.error("CRITICAL ERROR: the sprite \"" + spriteName.toString() + "\" could not be found!");
+            logger.error("CRITICAL ERROR: the sprite \"" + spriteName.toString() + "\" could not be found!");
             return null;
         } else {
             return new Sprite(getFileName(filepath), image);
@@ -784,7 +787,7 @@ public final class SpriteFactory implements ISpriteFactory {
         try {
             return cache.get(sprite);
         } catch (ExecutionException e) {
-            LOGGER.error(e);
+            logger.error(e);
         }
 
         return null;

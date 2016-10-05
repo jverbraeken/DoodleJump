@@ -3,7 +3,6 @@ package scenes;
 import buttons.IButton;
 import buttons.IButtonFactory;
 import input.IKeyInputObserver;
-import input.KeyCode;
 import input.Keys;
 import logging.ILogger;
 import objects.AGameObject;
@@ -22,32 +21,30 @@ import system.IServiceLocator;
 public class Menu implements IScene, IKeyInputObserver {
 
     /**
-     * The logger for the Menu class.
-     */
-    private final ILogger LOGGER;
-    /**
      * The X and Y location for the play button.
      */
     private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
     /**
-     * The X and Y location for the startscreen platform.
+     * The X and Y location for the StartScreen platform.
      */
     private static final double PLATFORM_X = 0.1d, PLATFORM_Y = 0.78d;
     /**
-     * The X and Y location for the startscreen Doodle.
+     * The X and Y location for the StartScreen Doodle.
      */
     private static final double DOODLE_X = 0.1d;
-
-
     /**
      * The X and Y location for the choose mode button.
      */
-    private static final double CHOOSE_MODE_X = 0.6d, CHOOSE_MODE_Y= 0.65d;
+    private static final double CHOOSE_MODE_X = 0.6d, CHOOSE_MODE_Y = 0.65d;
 
     /**
      * Used to access all services.
      */
-    private final IServiceLocator sL;
+    private final IServiceLocator serviceLocator;
+    /**
+     * The logger for the Menu class.
+     */
+    private final ILogger logger;
     /**
      * The button that starts up a new world.
      */
@@ -57,10 +54,6 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     private final IButton chooseModeButton;
     /**
-     * The cover sprite of the main menu.
-     */
-    private ISprite cover;
-    /**
      * The Doodle for the menu.
      */
     private final IDoodle doodle;
@@ -68,6 +61,10 @@ public class Menu implements IScene, IKeyInputObserver {
      * The platform for the menu.
      */
     private final IPlatform platform;
+    /**
+     * The cover sprite of the main menu.
+     */
+    private ISprite cover;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -76,7 +73,7 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     /* package */ Menu(final IServiceLocator sL) {
         assert sL != null;
-        this.sL = sL;
+        this.serviceLocator = sL;
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         cover = spriteFactory.getStartCoverSprite();
@@ -96,84 +93,63 @@ public class Menu implements IScene, IKeyInputObserver {
 
         IPlatformFactory platformFactory = sL.getPlatformFactory();
         platform = platformFactory.createPlatform(
-            (int) (sL.getConstants().getGameWidth() * PLATFORM_X),
-            (int) (sL.getConstants().getGameHeight() * PLATFORM_Y)
+                (int) (sL.getConstants().getGameWidth() * PLATFORM_X),
+                (int) (sL.getConstants().getGameHeight() * PLATFORM_Y)
         );
 
-        this.LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
+        this.logger = sL.getLoggerFactory().createLogger(this.getClass());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void start() {
-        sL.getInputManager().addObserver(playButton);
-        sL.getInputManager().addObserver(chooseModeButton);
-        sL.getInputManager().addObserver(this);
-        LOGGER.info("The menu scene is now displaying");
+        playButton.register();
+        chooseModeButton.register();
+        serviceLocator.getInputManager().addObserver(this);
+        logger.info("The main menu registered itself as an observer of the input manager");
+        logger.info("The menu scene is now displaying");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public final void stop() {
-        sL.getInputManager().removeObserver(playButton);
-        sL.getInputManager().removeObserver(chooseModeButton);
-        sL.getInputManager().removeObserver(this);
-        LOGGER.info("The menu scene is no longer displaying");
+        playButton.deregister();
+        chooseModeButton.deregister();
+        serviceLocator.getInputManager().removeObserver(this);
+        logger.info("The main menu removed itself as an observer from the input manager");
+        logger.info("The menu scene is no longer displaying");
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void render() {
-        sL.getRenderer().drawSpriteHUD(this.cover, 0, 0);
+    public final void render() {
+        serviceLocator.getRenderer().drawSpriteHUD(this.cover, 0, 0);
         playButton.render();
         chooseModeButton.render();
         doodle.render();
         platform.render();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void update(final double delta) {
+    public final void update(final double delta) {
         doodle.update(delta);
 
-        if (this.doodle.checkCollission(platform)) {
-            if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < platform.getYPos()) {
-                platform.collidesWith(this.doodle);
-            }
+        double doodleY = doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight();
+        if (doodle.checkCollision(platform) && doodleY < platform.getYPos()) {
+            platform.collidesWith(this.doodle);
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void keyPress(final int keyCode) {
-    }
+    public void keyPress(final Keys key) { }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public final void keyRelease(final int keyCode) {
-        if (KeyCode.getKeyCode(Keys.enter) == keyCode || KeyCode.getKeyCode(Keys.space) == keyCode) {
-            Game.setScene(sL.getSceneFactory().newWorld());
+    public final void keyRelease(final Keys key) {
+        if (key == Keys.enter || key == Keys.space) {
+            Game.setScene(serviceLocator.getSceneFactory().newWorld());
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void resetBackground() {
-        cover = sL.getSpriteFactory().getStartCoverSprite();
-    }
-
 }

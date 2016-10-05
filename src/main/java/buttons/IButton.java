@@ -8,4 +8,13 @@ import system.IRenderable;
  */
 public interface IButton extends IRenderable, IMouseInputObserver {
 
+    /**
+     * Registers its button to the {@link input.IInputManager input manager}.
+     */
+    void register();
+
+    /**
+     * Deregisters its button from the {@link input.IInputManager input manager}.
+     */
+    void deregister();
 }

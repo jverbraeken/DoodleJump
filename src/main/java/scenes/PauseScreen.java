@@ -13,10 +13,6 @@ import system.IServiceLocator;
 /* package */ class PauseScreen implements IScene, IMouseInputObserver {
 
     /**
-     * The logger for the PauseScreen class.
-     */
-    private final ILogger LOGGER;
-    /**
      * The X and Y location for the resume button.
      */
     private static final double RESUME_BUTTON_X = 0.55d, RESUME_BUTTON_Y = 0.75d;
@@ -25,6 +21,10 @@ import system.IServiceLocator;
      * Used to gain access to all services.
      */
     private final IServiceLocator serviceLocator;
+    /**
+     * The logger for the PauseScreen class.
+     */
+    private final ILogger logger;
     /**
      * The resume button.
      */
@@ -43,9 +43,9 @@ import system.IServiceLocator;
      *
      * @param sL The games service locator.
      */
-    /* package */ PauseScreen(IServiceLocator sL) {
+    /* package */ PauseScreen(final IServiceLocator sL) {
         this.serviceLocator = sL;
-        LOGGER = sL.getLoggerFactory().createLogger(PauseScreen.class);
+        logger = sL.getLoggerFactory().createLogger(PauseScreen.class);
 
         // Background
         background = this.serviceLocator.getSpriteFactory().getPauseCoverSprite();
@@ -64,7 +64,7 @@ import system.IServiceLocator;
     public void start() {
         serviceLocator.getInputManager().addObserver(resumeButton);
         this.active = true;
-        LOGGER.info("The pause scene is now displaying");
+        logger.info("The pause scene is now displaying");
     }
 
     /**
@@ -74,7 +74,7 @@ import system.IServiceLocator;
     public void stop() {
         serviceLocator.getInputManager().removeObserver(resumeButton);
         this.active = false;
-        LOGGER.info("The pause scene is no longer displaying");
+        logger.info("The pause scene is no longer displaying");
     }
 
     /**
@@ -92,22 +92,14 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void update(double delta) {
+    public void update(final double delta) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void mouseClicked(int x, int y) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void resetBackground() {
-        background = serviceLocator.getSpriteFactory().getBackground();
+    public void mouseClicked(final int x, final int y) {
     }
 
 }

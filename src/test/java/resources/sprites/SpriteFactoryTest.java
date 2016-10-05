@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.concurrent.Callable;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -36,7 +35,7 @@ public class SpriteFactoryTest {
         ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
         IServiceLocator serviceLocator = mock(IServiceLocator.class);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
-        Whitebox.setInternalState(SpriteFactory.class, "sL", serviceLocator);
+        Whitebox.setInternalState(SpriteFactory.class, "serviceLocator", serviceLocator);
 
         spriteFactory = spy(Whitebox.invokeConstructor(SpriteFactory.class));
         doReturn(mock(ISprite.class)).when(spriteFactory, "loadISprite", anyObject());
@@ -48,7 +47,7 @@ public class SpriteFactoryTest {
         SpriteFactory.register(sampleServiceLocator);
 
         assertNotNull(sampleServiceLocator.getSpriteFactory());
-        assertThat(Whitebox.getInternalState(SpriteFactory.class, "sL"), is(sampleServiceLocator));
+        assertThat(Whitebox.getInternalState(SpriteFactory.class, "serviceLocator"), is(sampleServiceLocator));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -73,7 +72,7 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestPlayAgainGetButtonSprite() throws Exception {
-        TestSprite(IRes.Sprites.playagain, () -> spriteFactory.getPlayAgainButtonSprite());
+        TestSprite(IRes.Sprites.playAgain, () -> spriteFactory.getPlayAgainButtonSprite());
     }
 
     @Test
@@ -328,12 +327,12 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetPlatformSprite2() throws Exception {
-        TestSprite(IRes.Sprites.platform2, () -> spriteFactory.getPlatformSprite2());
+        TestSprite(IRes.Sprites.platformHorizontal, () -> spriteFactory.getPlatformSpriteHori());
     }
 
     @Test
     public void TestGetPlatformSprite3() throws Exception {
-        TestSprite(IRes.Sprites.platform3, () -> spriteFactory.getPlatformSprite3());
+        TestSprite(IRes.Sprites.platformVertical, () -> spriteFactory.getPlatformSpriteVert());
     }
 
     @Test
@@ -479,7 +478,7 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetWaitDontShootSprite() throws Exception {
-        TestSprite(IRes.Sprites.waitDontShoot, () -> spriteFactory.getWaitDontShootSprite());
+        TestSprite(IRes.Sprites.waitDoNotShoot, () -> spriteFactory.getWaitDoNotShootSprite());
     }
 
     @Test
@@ -492,7 +491,7 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetScorebarSprite() throws Exception {
-        TestSprite(IRes.Sprites.scorebar, () -> spriteFactory.getScorebarSprite());
+        TestSprite(IRes.Sprites.scoreBar, () -> spriteFactory.getScoreBarSprite());
     }
 
     // UFO
@@ -558,13 +557,13 @@ public class SpriteFactoryTest {
     @Test(expected = AssertionError.class)
     public void TestGetFileNameNull() throws Exception {
         final String filepath = null;
-        final String result = Whitebox.invokeMethod(spriteFactory, "getFileName", filepath);
+        Whitebox.invokeMethod(spriteFactory, "getFileName", filepath);
     }
 
     @Test(expected = AssertionError.class)
     public void TestGetFileNameBackSlash() throws Exception {
         final String filepath = "resources\\Sprites\\sprite.png";
-        final String result = Whitebox.invokeMethod(spriteFactory, "getFileName", filepath);
+        Whitebox.invokeMethod(spriteFactory, "getFileName", filepath);
     }
 
     // getSprite

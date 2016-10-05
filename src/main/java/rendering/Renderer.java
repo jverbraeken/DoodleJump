@@ -4,7 +4,8 @@ import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Graphics;
+
 
 /**
  * This class is responsible for rendering all Sprites.
@@ -12,30 +13,17 @@ import java.awt.*;
 public final class Renderer implements IRenderer {
 
     /**
-     * Used to log all actions of the game.
-     */
-    private final ILogger LOGGER;
-
-    /**
      * Used to gain access to all services.
      */
-    private static transient IServiceLocator sL;
+    private static transient IServiceLocator serviceLocator;
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
+     * Used to log all actions of the game.
      */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        Renderer.sL = sL;
-        Renderer.sL.provide(new Renderer());
-    }
-
+    private final ILogger logger;
     /**
      * The camera for the renderer.
      */
     private final ICamera camera = new Camera();
-
     /**
      * The graphics that are to be used by the renderer.
      */
@@ -45,20 +33,31 @@ public final class Renderer implements IRenderer {
      * Prevent public instantiations of the Renderer.
      */
     private Renderer() {
-        LOGGER = sL.getLoggerFactory().createLogger(this.getClass());
+        logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void start() {
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        Renderer.serviceLocator = sL;
+        sL.provide(new Renderer());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawRectangle(int x, int y, int width, int height) {
-        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+    public void drawRectangle(final int x, final int y, final int width, final int height) {
+        assert graphics != null;
+
+        String drawMsg = "drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
+        logger.info(drawMsg + cameraMsg);
+
         graphics.drawRect(x, (int) (y - camera.getYPos()), width, height);
     }
 
@@ -66,13 +65,16 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawSprite(ISprite sprite, int x, int y) {
+    public void drawSprite(final ISprite sprite, final int x, final int y) {
         assert graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
+        logger.info(drawMsg + cameraMsg);
+
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), null);
     }
 
@@ -80,13 +82,16 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawSprite(ISprite sprite, int x, int y, int width, int height) {
+    public void drawSprite(final ISprite sprite, final int x, final int y, final int width, final int height) {
         assert graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        LOGGER.info("drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
+        logger.info(drawMsg + cameraMsg);
+
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), width, height, null);
     }
 
@@ -94,8 +99,11 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawRectangleHUD(int x, int y, int width, int height) {
-        LOGGER.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ")");
+    public void drawRectangleHUD(final int x, final int y, final int width, final int height) {
+        assert graphics != null;
+
+        logger.info("drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
+
         graphics.drawRect(x, y, width, height);
     }
 
@@ -103,11 +111,13 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawSpriteHUD(ISprite sprite, int x, int y) {
+    public void drawSpriteHUD(final ISprite sprite, final int x, final int y) {
         assert graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
+
+        logger.info("drawImage(" + x + ", " + y + ")");
 
         graphics.drawImage(sprite.getImage(), x, y, null);
     }
@@ -121,6 +131,8 @@ public final class Renderer implements IRenderer {
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
+
+        logger.info("drawSprite(" + x + ", " + y + ")");
 
         graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
@@ -136,7 +148,6 @@ public final class Renderer implements IRenderer {
 
         this.graphics = g;
     }
-
 
     /**
      * {@inheritDoc}
