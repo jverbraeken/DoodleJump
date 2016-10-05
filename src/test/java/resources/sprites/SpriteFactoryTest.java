@@ -3,33 +3,25 @@ package resources.sprites;
 import logging.ILoggerFactory;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import resources.IRes;
-import system.IServiceLocator;
+import system.IServiceLocator;  
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.concurrent.Callable;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.times;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.spy;
-import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 import static org.powermock.api.mockito.PowerMockito.when;
-import static org.powermock.api.support.membermodification.MemberMatcher.method;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(SpriteFactory.class)
@@ -427,10 +419,113 @@ public class SpriteFactoryTest {
         TestSprite(IRes.Sprites.platformShining3, () -> spriteFactory.getPlatformShiningSprite3());
     }
 
+    // POWERUPS
+
+
+    @Test
+    public void TestGetTrampolineSprite() throws Exception {
+        TestSprite(IRes.Sprites.trampoline, () -> spriteFactory.getTrampolineSprite());
+    }
+
+    @Test
+    public void TestGetTrampolineUsedSprite() throws Exception {
+        TestSprite(IRes.Sprites.trampolineUsed, () -> spriteFactory.getTrampolineUsedSprite());
+    }
+
+    @Test
+    public void TestGetSpringSprite() throws Exception {
+        TestSprite(IRes.Sprites.spring, () -> spriteFactory.getSpringSprite());
+    }
+
+    @Test
+    public void TestGetSpringUsedSprite() throws Exception {
+        TestSprite(IRes.Sprites.springUsed, () -> spriteFactory.getSpringUsedSprite());
+    }
+
+    @Test
+    public void TestGetRocketSprite() throws Exception {
+        TestSprite(IRes.Sprites.rocket, () -> spriteFactory.getRocketSprite());
+    }
+
+    @Test
+    public void TestGetPropellorSprite() throws Exception {
+        TestSprite(IRes.Sprites.propeller, () -> spriteFactory.getPropellerSprite());
+    }
+
+    @Test
+    public void TestGetShieldSprite() throws Exception {
+        TestSprite(IRes.Sprites.shield, () -> spriteFactory.getShieldSprite());
+    }
+
+    // TEXT
+
+
+    @Test
+    public void TestGetWaitDontShootSprite() throws Exception {
+        TestSprite(IRes.Sprites.waitDontShoot, () -> spriteFactory.getWaitDontShootSprite());
+    }
+
+    @Test
+    public void TestGetAvoidSprite() throws Exception {
+        TestSprite(IRes.Sprites.avoid, () -> spriteFactory.getAvoidSprite());
+    }
+
+    // TOP BAR
+
+
+    @Test
+    public void TestGetScorebarSprite() throws Exception {
+        TestSprite(IRes.Sprites.scorebar, () -> spriteFactory.getScorebarSprite());
+    }
+
+    // UFO
+
+    @Test
+    public void TestGetUFOSprite() throws Exception {
+        TestSprite(IRes.Sprites.ufo, () -> spriteFactory.getUFOSprite());
+    }
+
+    @Test
+    public void TestGetUFOShiningSprite() throws Exception {
+        TestSprite(IRes.Sprites.ufoShining, () -> spriteFactory.getUFOShiningSprite());
+    }
+
+    // CHOOSE MODE ICONS
+
+    @Test
+    public void TestGetRegularModeButton() throws Exception {
+        TestSprite(IRes.Sprites.regularMode, () -> spriteFactory.getRegularModeButton());
+    }
+
+    @Test
+    public void TestGetStoryModeButton() throws Exception {
+        TestSprite(IRes.Sprites.storyMode, () -> spriteFactory.getStoryModeButton());
+    }
+
+    @Test
+    public void TestGetDarknessModeButton() throws Exception {
+        TestSprite(IRes.Sprites.darknessMode, () -> spriteFactory.getDarknessModeButton());
+    }
+
+    @Test
+    public void TestGetInvertModeButton() throws Exception {
+        TestSprite(IRes.Sprites.invertMode, () -> spriteFactory.getInvertModeButton());
+    }
+
+    @Test
+    public void TestGetSpaceModeButton() throws Exception {
+        TestSprite(IRes.Sprites.spaceMode, () -> spriteFactory.getSpaceModeButton());
+    }
+
+    @Test
+    public void TestGetUnderwaterModeButton() throws Exception {
+        TestSprite(IRes.Sprites.underwaterMode, () -> spriteFactory.getUnderwaterModeButton());
+    }
+
     /**
      * A method that simplies the testing of {@link SpriteFactory}.
      *
-     * @param sprite The sprite that should be returned by the getter
+     * @param sprite   The sprite that should be returned by the getter
      * @param function The getter that should return {@ocde} sprite
      * @throws Exception Thrown when the method {@link SpriteFactory#getSprite(IRes.Sprites)} could not be found
      */

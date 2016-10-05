@@ -160,17 +160,17 @@ public interface ISpriteFactory extends IFactory {
     ISprite getUFOShiningSprite();
 
     // Choose mode icons
-    public ISprite getRegularModeButton();
+    ISprite getRegularModeButton();
 
-    public ISprite getStoryModeButton();
+    ISprite getStoryModeButton();
 
-    public ISprite getDarknessModeButton();
+    ISprite getDarknessModeButton();
 
-    public ISprite getInvertModeButton();
+    ISprite getInvertModeButton();
 
-    public ISprite getSpaceModeButton();
+    ISprite getSpaceModeButton();
 
-    public ISprite getUnderwaterModeButton();
+    ISprite getUnderwaterModeButton();
 
 
     /**
