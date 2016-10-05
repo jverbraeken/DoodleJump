@@ -99,4 +99,5 @@ public class PropellerTest {
         verify(doodle, times(1)).getXPos();
         verify(doodle, times(1)).getYPos();
     }
+
 }
