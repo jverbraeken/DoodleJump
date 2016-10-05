@@ -198,6 +198,7 @@ public final class Game {
         mode = m;
         serviceLocator.getRes().setSkin(m);
         SpriteFactory.register(serviceLocator);
+        setScene(serviceLocator.getSceneFactory().newChooseMode());
         LOGGER.info("The mode is now " + m);
     }
 
