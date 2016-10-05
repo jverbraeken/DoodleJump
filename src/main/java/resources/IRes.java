@@ -33,7 +33,7 @@ public interface IRes {
         play,
         playAgain,
         resume,
-        scorebutton,
+        scoreButton,
         chooseMode,
 
         // Covers

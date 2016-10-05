@@ -85,6 +85,7 @@ public interface IRenderer {
     void drawText(final int x, final int y, final String msg);
 
     /**
+     * Draw a filled rectangle.
      *
      * @param x the x position of the rectangle.
      * @param y the y position of the rectangle.

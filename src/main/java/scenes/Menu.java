@@ -50,7 +50,7 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     private final ILogger logger;
     /**
-     * The buttons for the main enu.
+     * The buttons for the main menu.
      */
     private final IButton playButton, scoreButton;
     /**

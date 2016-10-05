@@ -19,6 +19,7 @@ import java.util.ArrayList;
  * Score screen implementation of a scene.
  */
 /* package */ class ScoreScreen implements IScene, IMouseInputObserver {
+
     /**
      * The X and Y location for the resume button.
      */

@@ -63,7 +63,6 @@ public class HighScoreListTest {
         ArrayList<HighScore> actual = (ArrayList<HighScore>) temp;
 
         assertThat(actual.size() == 0, is(true));
-        assertThat(actual.size() == expected.size(), is(true));
     }
 
     @Test
@@ -227,4 +226,24 @@ public class HighScoreListTest {
 
         assertThat(actual.size() == maxEntries, is(true));
     }
+
+    @Test
+    public void testGetList_empty() {
+        ArrayList<HighScore> actual = highScores.getList();
+
+        assertThat(actual.size() == 0, is(true));
+    }
+
+    @Test
+    public void testGetList_notEmpty() {
+        highScores.addHighScore(SCORE_1.getName(), SCORE_1.getScore());
+        expected.add(SCORE_1);
+
+        ArrayList<HighScore> actual = highScores.getList();
+
+        assertThat(actual.size() == 1, is(true));
+        assertThat(actual.get(0).getName().equals(expected.get(0).getName()), is(true));
+        assertThat(actual.get(0).getScore() == expected.get(0).getScore(), is(true));
+    }
+
 }
