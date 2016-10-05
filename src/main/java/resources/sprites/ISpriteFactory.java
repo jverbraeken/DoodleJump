@@ -117,19 +117,19 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getPlatformExplosiveSprite3();
 
-    ISprite getPlatformMovable1();
+    ISprite getPlatformMovableSprite1();
 
-    ISprite getPlatformMovable2();
+    ISprite getPlatformMovableSprite2();
 
-    ISprite getPlatformMovable3();
+    ISprite getPlatformMovableSprite3();
 
-    ISprite getPlatformMovable4();
+    ISprite getPlatformMovableSprite4();
 
-    ISprite getPlatformShining1();
+    ISprite getPlatformShiningSprite1();
 
-    ISprite getPlatformShining2();
+    ISprite getPlatformShiningSprite2();
 
-    ISprite getPlatformShining3();
+    ISprite getPlatformShiningSprite3();
 
     // Powerups
     ISprite getTrampolineSprite();

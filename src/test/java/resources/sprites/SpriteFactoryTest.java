@@ -15,6 +15,7 @@ import system.IServiceLocator;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.concurrent.Callable;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -48,74 +49,47 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetMenuButtonSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.menu);
-        ISprite result = spriteFactory.getMenuButtonSprite();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.menu, () -> spriteFactory.getMenuButtonSprite());
     }
 
     @Test
     public void TestGetPauseButtonSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.pause);
-        ISprite result = spriteFactory.getPauseButtonSprite();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.pause, () -> spriteFactory.getPauseButtonSprite());
     }
 
     @Test
     public void TestGetPlayButtonSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.play);
-        ISprite result = spriteFactory.getPlayButtonSprite();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.play, () -> spriteFactory.getPlayButtonSprite());
     }
 
     @Test
     public void TestPlayAgainGetButtonSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.playagain);
-        ISprite result = spriteFactory.getPlayAgainButtonSprite();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.playagain, () -> spriteFactory.getPlayAgainButtonSprite());
     }
 
     @Test
     public void TestGetResumeButtonSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.resume);
-        ISprite result = spriteFactory.getResumeButtonSprite();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.resume, () -> spriteFactory.getResumeButtonSprite());
     }
 
     @Test
     public void TestChooseModeGetButtonSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.chooseMode);
-        ISprite result = spriteFactory.getChooseModeButtonSprite();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.chooseMode, () -> spriteFactory.getChooseModeButtonSprite());
     }
 
     @Test
     public void TestGetBackgroundButtonSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.background);
-        ISprite result = spriteFactory.getBackground();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.background, () -> spriteFactory.getBackground());
     }
 
     @Test
     public void TestGetPauseCoverButtonSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.pauseCover);
-        ISprite result = spriteFactory.getPauseCoverSprite();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.pauseCover, () -> spriteFactory.getPauseCoverSprite());
     }
 
     @Test
     public void TestGetStartCoverSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.startCover);
-        ISprite result = spriteFactory.getStartCoverSprite();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.startCover, () -> spriteFactory.getStartCoverSprite());
     }
 
     @Test
@@ -146,18 +120,12 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetGameOverSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.gameOver);
-        ISprite result = spriteFactory.getGameOverSprite();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.gameOver, () -> spriteFactory.getGameOverSprite());
     }
 
     @Test
     public void TestGetKillScreenBottomSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.killScreenBottom);
-        ISprite result = spriteFactory.getKillScreenBottomSprite();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.killScreenBottom, () -> spriteFactory.getKillScreenBottomSprite());
     }
 
     // MONSTERS
@@ -165,194 +133,117 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetPuddingMonsterSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.puddingMonster1);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.puddingMonster1, () -> spriteFactory.getPuddingMonsterSprite1());
     }
 
     @Test
     public void TestGetPuddingMonsterSprite2() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.puddingMonster2);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.puddingMonster2, () -> spriteFactory.getPuddingMonsterSprite2());
     }
 
     @Test
     public void TestGetPuddingMonsterSprite3() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.puddingMonster3);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.puddingMonster3, () -> spriteFactory.getPuddingMonsterSprite3());
     }
 
     @Test
     public void TestGetPuddingMonsterSprite4() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.puddingMonster4);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.puddingMonster4, () -> spriteFactory.getPuddingMonsterSprite4());
     }
 
     @Test
     public void TestGetPuddingMonsterSprite5() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.puddingMonster5);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.puddingMonster5, () -> spriteFactory.getPuddingMonsterSprite5());
     }
 
     @Test
     public void TestGetTwinMonsterSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.twinMonster);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.twinMonster, () -> spriteFactory.getTwinMonsterSprite());
     }
 
     @Test
     public void TestGetThreeEyedMonsterSprite1() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.threeEyedMonster1);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.threeEyedMonster1, () -> spriteFactory.getThreeEyedMonsterSprite1());
     }
 
     @Test
     public void TestGetThreeEyedMonsterSprite2() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.threeEyedMonster2);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.threeEyedMonster2, () -> spriteFactory.getThreeEyedMonsterSprite2());
     }
 
     @Test
     public void TestGetThreeEyedMonsterSprite3() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.threeEyedMonster3);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.threeEyedMonster3, () -> spriteFactory.getThreeEyedMonsterSprite3());
     }
 
     @Test
     public void TestGetThreeEyedMonsterSprite4() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.threeEyedMonster4);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.threeEyedMonster4, () -> spriteFactory.getThreeEyedMonsterSprite4());
     }
 
     @Test
     public void TestGetThreeEyedMonsterSprite5() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.threeEyedMonster5);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.threeEyedMonster5, () -> spriteFactory.getThreeEyedMonsterSprite5());
     }
 
     @Test
     public void TestGetVampireMonsterSprite1() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.vampireMonster1);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.vampireMonster1, () -> spriteFactory.getVampireMonsterSprite1());
     }
 
     @Test
     public void TestGetVampireMonsterSprite2() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.vampireMonster2);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.vampireMonster2, () -> spriteFactory.getVampireMonsterSprite2());
     }
 
     @Test
     public void TestGetVampireMonsterSprite3() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.vampireMonster3);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.vampireMonster3, () -> spriteFactory.getVampireMonsterSprite3());
     }
 
     @Test
     public void TestGetVampireMonsterSprite4() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.vampireMonster4);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.vampireMonster4, () -> spriteFactory.getVampireMonsterSprite4());
     }
 
     @Test
     public void TestGetVampireMonsterSprite5() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.vampireMonster5);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.vampireMonster5, () -> spriteFactory.getVampireMonsterSprite5());
     }
 
     @Test
     public void TestGetOrdinaryMonsterSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.ordinaryMonster);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.ordinaryMonster, () -> spriteFactory.getOrdinaryMonsterSprite());
     }
 
     @Test
     public void TestGetCactusMonsterSprite1() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.cactusMonster1);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.cactusMonster1, () -> spriteFactory.getCactusMonsterSprite1());
     }
 
     @Test
     public void TestGetCactusMonsterSprite2() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.cactusMonster2);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.cactusMonster2, () -> spriteFactory.getCactusMonsterSprite2());
     }
 
     @Test
     public void TestGetFiveFeetMonsterSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.fiveFeetMonster);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.fiveFeetMonster, () -> spriteFactory.getFiveFeetMonsterSprite());
     }
 
     @Test
     public void TestGetLowFiveFeetMonsterSprite1() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.lowFiveFeetMonster1);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.lowFiveFeetMonster1, () -> spriteFactory.getLowFiveFeetMonsterSprite1());
     }
 
     @Test
     public void TestGetLowFiveFeetMonsterSprite2() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.lowFiveFeetMonster2);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.lowFiveFeetMonster2, () -> spriteFactory.getLowFiveFeetMonsterSprite2());
     }
 
     @Test
     public void getSmallMonsterSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.smallMonster);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
-    }
-
-    @Test
-    public void TestGetMonsterSprite() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.puddingMonster1);
-        ISprite result = spriteFactory.getPuddingMonsterSprite1();
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.smallMonster, () -> spriteFactory.getSmallMonsterSprite());
     }
 
     // NUMBERS
@@ -370,81 +261,183 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetDigitSprite0() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.zero);
-        ISprite result = spriteFactory.getDigitSprite(0);
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.zero, () -> spriteFactory.getDigitSprite(0));
     }
 
     @Test
     public void TestGetDigitSprite1() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.one);
-        ISprite result = spriteFactory.getDigitSprite(1);
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.one, () -> spriteFactory.getDigitSprite(1));
     }
 
     @Test
     public void TestGetDigitSprite2() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.two);
-        ISprite result = spriteFactory.getDigitSprite(2);
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.two, () -> spriteFactory.getDigitSprite(2));
     }
 
     @Test
     public void TestGetDigitSprite3() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.three);
-        ISprite result = spriteFactory.getDigitSprite(3);
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.three, () -> spriteFactory.getDigitSprite(3));
     }
 
     @Test
     public void TestGetDigitSprite4() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.four);
-        ISprite result = spriteFactory.getDigitSprite(4);
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.four, () -> spriteFactory.getDigitSprite(4));
     }
 
     @Test
     public void TestGetDigitSprite5() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.five);
-        ISprite result = spriteFactory.getDigitSprite(5);
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.five, () -> spriteFactory.getDigitSprite(5));
     }
 
     @Test
     public void TestGetDigitSprite6() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.six);
-        ISprite result = spriteFactory.getDigitSprite(6);
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.six, () -> spriteFactory.getDigitSprite(6));
     }
 
     @Test
     public void TestGetDigitSprite7() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.seven);
-        ISprite result = spriteFactory.getDigitSprite(7);
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.seven, () -> spriteFactory.getDigitSprite(7));
     }
 
     @Test
     public void TestGetDigitSprite8() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.eight);
-        ISprite result = spriteFactory.getDigitSprite(8);
-        assertEquals(mock, result);
+        TestSprite(IRes.Sprites.eight, () -> spriteFactory.getDigitSprite(8));
     }
 
     @Test
     public void TestGetDigitSprite9() throws Exception {
+        TestSprite(IRes.Sprites.nine, () -> spriteFactory.getDigitSprite(9));
+    }
+
+    // PLATFORMS
+
+
+    @Test
+    public void TestGetPlatformSprite1() throws Exception {
+        TestSprite(IRes.Sprites.platform1, () -> spriteFactory.getPlatformSprite1());
+    }
+
+    @Test
+    public void TestGetPlatformSprite2() throws Exception {
+        TestSprite(IRes.Sprites.platform2, () -> spriteFactory.getPlatformSprite2());
+    }
+
+    @Test
+    public void TestGetPlatformSprite3() throws Exception {
+        TestSprite(IRes.Sprites.platform3, () -> spriteFactory.getPlatformSprite3());
+    }
+
+    @Test
+    public void TestGetPlatformSprite4() throws Exception {
+        TestSprite(IRes.Sprites.platform4, () -> spriteFactory.getPlatformSprite4());
+    }
+
+    @Test
+    public void TestGetPlatformSprite5() throws Exception {
+        TestSprite(IRes.Sprites.platform5, () -> spriteFactory.getPlatformSprite5());
+    }
+
+    @Test
+    public void TestGetPlatformSprite6() throws Exception {
+        TestSprite(IRes.Sprites.platform6, () -> spriteFactory.getPlatformSprite6());
+    }
+
+    @Test
+    public void TestGetPlatformSprite7() throws Exception {
+        TestSprite(IRes.Sprites.platform7, () -> spriteFactory.getPlatformSprite7());
+    }
+
+    @Test
+    public void TestGetPlatformSprite8() throws Exception {
+        TestSprite(IRes.Sprites.platform8, () -> spriteFactory.getPlatformSprite8());
+    }
+
+    @Test
+    public void TestGetPlatformSprite9() throws Exception {
+        TestSprite(IRes.Sprites.platform9, () -> spriteFactory.getPlatformSprite9());
+    }
+
+    @Test
+    public void TestGetPlatformBrokenSprite1() throws Exception {
+        TestSprite(IRes.Sprites.platformBroken1, () -> spriteFactory.getPlatformBrokenSprite1());
+    }
+
+    @Test
+    public void TestGetPlatformBrokenSprite2() throws Exception {
+        TestSprite(IRes.Sprites.platformBroken2, () -> spriteFactory.getPlatformBrokenSprite2());
+    }
+
+    @Test
+    public void TestGetPlatformBrokenSprite3() throws Exception {
+        TestSprite(IRes.Sprites.platformBroken3, () -> spriteFactory.getPlatformBrokenSprite3());
+    }
+
+    @Test
+    public void TestGetPlatformBrokenSprite4() throws Exception {
+        TestSprite(IRes.Sprites.platformBroken4, () -> spriteFactory.getPlatformBrokenSprite4());
+    }
+
+    @Test
+    public void TestGetPlatformExplosiveSprite1() throws Exception {
+        TestSprite(IRes.Sprites.platformExplosive1, () -> spriteFactory.getPlatformExplosiveSprite1());
+    }
+
+    @Test
+    public void TestGetPlatformExplosiveSprite2() throws Exception {
+        TestSprite(IRes.Sprites.platformExplosive2, () -> spriteFactory.getPlatformExplosiveSprite2());
+    }
+
+    @Test
+    public void TestGetPlatformExplosiveSprite3() throws Exception {
+        TestSprite(IRes.Sprites.platformExplosive3, () -> spriteFactory.getPlatformExplosiveSprite3());
+    }
+
+    @Test
+    public void TestGetPlatformMovableSprite1() throws Exception {
+        TestSprite(IRes.Sprites.platformMovable1, () -> spriteFactory.getPlatformMovableSprite1());
+    }
+
+    @Test
+    public void TestGetPlatformMovableSprite2() throws Exception {
+        TestSprite(IRes.Sprites.platformMovable2, () -> spriteFactory.getPlatformMovableSprite2());
+    }
+
+    @Test
+    public void TestGetPlatformMovableSprite3() throws Exception {
+        TestSprite(IRes.Sprites.platformMovable3, () -> spriteFactory.getPlatformMovableSprite3());
+    }
+
+    @Test
+    public void TestGetPlatformMovableSprite4() throws Exception {
+        TestSprite(IRes.Sprites.platformMovable4, () -> spriteFactory.getPlatformMovableSprite4());
+    }
+
+    @Test
+    public void TestGetPlatformShiningSprite1() throws Exception {
+        TestSprite(IRes.Sprites.platformShining1, () -> spriteFactory.getPlatformShiningSprite1());
+    }
+
+    @Test
+    public void TestGetPlatformShiningSprite2() throws Exception {
+        TestSprite(IRes.Sprites.platformShining2, () -> spriteFactory.getPlatformShiningSprite2());
+    }
+
+    @Test
+    public void TestGetPlatformShiningSprite3() throws Exception {
+        TestSprite(IRes.Sprites.platformShining3, () -> spriteFactory.getPlatformShiningSprite3());
+    }
+
+    /**
+     * A method that simplies the testing of {@link SpriteFactory}.
+     *
+     * @param sprite The sprite that should be returned by the getter
+     * @param function The getter that should return {@ocde} sprite
+     * @throws Exception Thrown when the method {@link SpriteFactory#getSprite(IRes.Sprites)} could not be found
+     */
+    private void TestSprite(IRes.Sprites sprite, Callable<ISprite> function) throws Exception {
         ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.nine);
-        ISprite result = spriteFactory.getDigitSprite(9);
+        doReturn(mock).when(spriteFactory, "getSprite", sprite);
+        ISprite result = function.call();
         assertEquals(mock, result);
     }
 }

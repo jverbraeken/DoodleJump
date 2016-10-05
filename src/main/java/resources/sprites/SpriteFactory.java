@@ -538,7 +538,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformMovable1() {
+    public ISprite getPlatformMovableSprite1() {
         return getSprite(IRes.Sprites.platformMovable1);
     }
 
@@ -546,7 +546,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformMovable2() {
+    public ISprite getPlatformMovableSprite2() {
         return getSprite(IRes.Sprites.platformMovable2);
     }
 
@@ -554,7 +554,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformMovable3() {
+    public ISprite getPlatformMovableSprite3() {
         return getSprite(IRes.Sprites.platformMovable3);
     }
 
@@ -562,7 +562,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformMovable4() {
+    public ISprite getPlatformMovableSprite4() {
         return getSprite(IRes.Sprites.platformMovable4);
     }
 
@@ -570,7 +570,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformShining1() {
+    public ISprite getPlatformShiningSprite1() {
         return getSprite(IRes.Sprites.platformShining1);
     }
 
@@ -578,7 +578,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformShining2() {
+    public ISprite getPlatformShiningSprite2() {
         return getSprite(IRes.Sprites.platformShining2);
     }
 
@@ -586,7 +586,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformShining3() {
+    public ISprite getPlatformShiningSprite3() {
         return getSprite(IRes.Sprites.platformShining3);
     }
 
