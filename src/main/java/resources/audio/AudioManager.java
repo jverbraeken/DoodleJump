@@ -32,7 +32,15 @@ public final class AudioManager implements IAudioManager {
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         AudioManager.serviceLocator = sL;
-        sL.provide(new AudioManager());
+        sL.provide(getAudioManager());
+    }
+
+    /**
+     * Awful, but we need to mock the AudioManager to simplify the tests a lot.
+     * @return By default the audiomanager, but when testing you'll want to powermock this method and return a mock
+     */
+    private static IAudioManager getAudioManager() {
+        return new AudioManager();
     }
 
     /** {@inheritDoc} */
