@@ -274,28 +274,30 @@ public final class BlockFactory implements IBlockFactory {
         final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
         boolean isSpecialPlatform = isSpecialPlatform(platform);
 
-        if (randomNr >= SPRING_THRESHOLD && randomNr < TRAMPOLINE_THRESHOLD) {
-            IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-            int springXLoc = (int) (calc.getRandomDouble(platformWidth));
-            IGameObject powerup = powerupFactory.createSpring(0, 0);
-            double[] powHitbox = powerup.getHitBox();
-            final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
+        if (!isSpecialPlatform) {
+            if (randomNr >= SPRING_THRESHOLD && randomNr < TRAMPOLINE_THRESHOLD) {
+                IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+                int springXLoc = (int) (calc.getRandomDouble(platformWidth));
+                IGameObject powerup = powerupFactory.createSpring(0, 0);
+                double[] powHitbox = powerup.getHitBox();
+                final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
 
-            int xPos = (int) platform.getXPos() + springXLoc;
-            if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
-                xPos = xPos - powerupWidth;
+                int xPos = (int) platform.getXPos() + springXLoc;
+                if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
+                    xPos = xPos - powerupWidth;
+                }
+                powerup.setXPos(xPos);
+                powerup.setYPos((int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
+
+                elements.add(powerup);
+            } else if (randomNr >= TRAMPOLINE_THRESHOLD) {
+
+                IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+                IGameObject powerup = powerupFactory.createTrampoline(
+                        (int) platform.getXPos() + TRAMPOLINE_X_OFFSET,
+                        (int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
+                elements.add(powerup);
             }
-            powerup.setXPos(xPos);
-            powerup.setYPos((int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
-
-            elements.add(powerup);
-        } else if (randomNr >= TRAMPOLINE_THRESHOLD) {
-
-            IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-            IGameObject powerup = powerupFactory.createTrampoline(
-                    (int) platform.getXPos() + TRAMPOLINE_X_OFFSET,
-                    (int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
-            elements.add(powerup);
         }
     }
 
