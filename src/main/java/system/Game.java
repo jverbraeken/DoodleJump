@@ -123,14 +123,6 @@ public final class Game {
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
         IInputManager inputManager = serviceLocator.getInputManager();
 
-        // TEMP: test scores
-        HIGH_SCORES.addHighScore("Aaaaaaaaaaaaaaaaaaaa", 100000d);
-        HIGH_SCORES.addHighScore("Bbbbbbbbbbbbbbbbbbbb", 10000d);
-        HIGH_SCORES.addHighScore("Cccccccccccccccccccc", 1000d);
-        HIGH_SCORES.addHighScore("Dddddddddddddddddddd", 100d);
-        HIGH_SCORES.addHighScore("Eeeeeeeeeeeeeeeeeeee", 10d);
-        // TEMP: test scores
-
         // Initialize frame
         frame = new JFrame("Doodle Jump");
         frame.addMouseListener(inputManager);
