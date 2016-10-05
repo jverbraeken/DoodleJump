@@ -141,6 +141,9 @@ public final class Res implements IRes {
         sprites.put(Sprites.jetpack7, SPRITE_PATH + "jetpack-7@2x.png");
         sprites.put(Sprites.jetpack8, SPRITE_PATH + "jetpack-8@2x.png");
         sprites.put(Sprites.jetpack9, SPRITE_PATH + "jetpack-9@2x.png");
+        sprites.put(Sprites.propeller0, SPRITE_PATH + "propeller-0@2x.png");
+        sprites.put(Sprites.propeller1, SPRITE_PATH + "propeller-1@2x.png");
+        sprites.put(Sprites.propeller2, SPRITE_PATH + "propeller-2@2x.png");
 
         // Top bar
         sprites.put(Sprites.scoreBar, SPRITE_PATH + "scoreBar.png");

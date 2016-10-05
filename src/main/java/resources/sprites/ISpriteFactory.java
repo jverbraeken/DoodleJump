@@ -154,6 +154,8 @@ public interface ISpriteFactory extends IFactory {
     // Passives
     ISprite[] getJetpackActiveSprites();
 
+    ISprite[] getPropellerActiveSprites();
+
     // Text
     ISprite getWaitDoNotShootSprite();
 

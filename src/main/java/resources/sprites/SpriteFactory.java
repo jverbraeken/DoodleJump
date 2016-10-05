@@ -696,6 +696,20 @@ public final class SpriteFactory implements ISpriteFactory {
         return sprites;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite[] getPropellerActiveSprites() {
+        ISprite[] sprites = new ISprite[4];
+        sprites[0] = getSprite(IRes.Sprites.propeller0);
+        sprites[1] = getSprite(IRes.Sprites.propeller1);
+        sprites[2] = getSprite(IRes.Sprites.propeller0);
+        sprites[3] = getSprite(IRes.Sprites.propeller2);
+
+        return sprites;
+    }
+
     // Misc
 
     /**

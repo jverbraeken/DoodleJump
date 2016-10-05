@@ -125,6 +125,9 @@ public interface IRes {
         jetpack7,
         jetpack8,
         jetpack9,
+        propeller0,
+        propeller1,
+        propeller2,
 
         // Top bar
         scoreBar,

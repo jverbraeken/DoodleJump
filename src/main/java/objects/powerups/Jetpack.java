@@ -38,10 +38,6 @@ import system.IServiceLocator;
      * The active speed provided by the Jetpack.
      */
     private double speed = 0;
-    /**
-     * The index of the current sprite.
-     */
-    private int spriteIndex = 0;
 
     /**
      * Jetpack constructor.

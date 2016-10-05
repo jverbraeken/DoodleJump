@@ -1,6 +1,7 @@
 package objects.powerups;
 
 import objects.doodles.IDoodle;
+import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
@@ -24,8 +25,12 @@ import system.IServiceLocator;
     /**
      * Y offset for drawing the Propeller when on Doodle.
      */
-    private static final int OWNED_Y_OFFSET = -10;
+    private static final int OWNED_Y_OFFSET = -26;
 
+    /**
+     * The sprites for an active rocket.
+     */
+    private static ISprite[] spritePack;
     /**
      * The Doodle that owns this Propeller.
      */
@@ -48,6 +53,8 @@ import system.IServiceLocator;
      */
     /* package */ Propeller(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getPropellerSprite(), Jetpack.class);
+
+        Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
     }
 
     /**
@@ -71,6 +78,8 @@ import system.IServiceLocator;
         } else if (this.speed > MAX_BOOST) {
             this.speed += ACCELERATION;
         }
+
+        this.setSprite(Propeller.spritePack[timer % 4]);
     }
 
     /**
