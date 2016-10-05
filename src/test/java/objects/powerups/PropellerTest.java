@@ -32,6 +32,7 @@ public class PropellerTest {
     private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
 
     private Propeller propeller;
+    private ISprite[] spritePack = new ISprite[4];
     private int render_y_offset = Whitebox.getInternalState(Propeller.class, "OWNED_Y_OFFSET");
 
     @Rule
@@ -47,9 +48,10 @@ public class PropellerTest {
         when(constants.getGameWidth()).thenReturn(100);
         when(doodle.getXPos()).thenReturn(0d);
         when(doodle.getYPos()).thenReturn(0d);
-        when(spriteFactory.getPropellerSprite()).thenReturn(sprite);
-        when(sprite.getHeight()).thenReturn(0);
         when(loggerFactory.createLogger(Jetpack.class)).thenReturn(null);
+        when(sprite.getHeight()).thenReturn(0);
+        when(spriteFactory.getPropellerSprite()).thenReturn(sprite);
+        when(spriteFactory.getPropellerActiveSprites()).thenReturn(spritePack);
 
         propeller = new Propeller(serviceLocator, 0, 0);
     }

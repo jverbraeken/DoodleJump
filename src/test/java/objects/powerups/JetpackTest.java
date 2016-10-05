@@ -32,6 +32,7 @@ public class JetpackTest {
     private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);;
 
     private Jetpack jetpack;
+    private ISprite[] spritePack = new ISprite[10];
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -49,6 +50,7 @@ public class JetpackTest {
         when(loggerFactory.createLogger(Jetpack.class)).thenReturn(null);
         when(sprite.getHeight()).thenReturn(0);
         when(spriteFactory.getJetpackSprite()).thenReturn(sprite);
+        when(spriteFactory.getJetpackActiveSprites()).thenReturn(spritePack);
 
         jetpack = new Jetpack(serviceLocator, 0, 0);
     }
