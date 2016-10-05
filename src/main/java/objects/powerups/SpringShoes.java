@@ -59,6 +59,7 @@ import system.IServiceLocator;
     @Override
     public final void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
+            getLogger().info("Doodle collided with a pair of SpringShoes");
             this.owner = doodle;
             doodle.setPowerup(this);
         }

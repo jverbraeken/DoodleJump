@@ -29,8 +29,8 @@ import system.IServiceLocator;
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
+        getLogger().info("Doodle collided with a SizeDown");
         doodle.increaseSpriteScalar(SCALE_INCREASE);
-
         this.setXPos(this.getSprite().getWidth() * -1);
     }
 
