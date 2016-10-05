@@ -14,11 +14,12 @@ import system.IServiceLocator;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Score screen implementation of a scene.
  */
-/* package */ class ScoreScreen implements IScene, IMouseInputObserver {
+/* package */ class ScoreScreen implements IScene {
 
     /**
      * The X and Y location for the resume button.
@@ -31,8 +32,17 @@ import java.util.ArrayList;
     /**
      * The color of score entries.
      */
-    private static final Color COLOR_EVEN = new Color(235, 224, 206), COLOR_UNEVEN = new Color(241, 234, 224);
+    private static final Color COLOR_EVEN = new Color(235, 224, 206),
+            COLOR_UNEVEN = new Color(241, 234, 224);
 
+    /**
+     * The height of an entry in the ScoreScreen.
+     */
+    private static int entryHeight;
+    /**
+     * The height of the top part of the ScoreScreen.
+     */
+    private static int scoreListTop;
     /**
      * Used to gain access to all services.
      */
@@ -68,6 +78,9 @@ import java.util.ArrayList;
         int menuButtonX = (int) (sL.getConstants().getGameWidth() * MENU_BUTTON_X);
         int menuButtonY = (int) (sL.getConstants().getGameHeight() * MENU_BUTTON_Y);
         this.menuButton = buttonFactory.createMainMenuButton(menuButtonX, menuButtonY);
+
+        entryHeight = (int) (serviceLocator.getConstants().getGameHeight() * ENTRY_HEIGHT);
+        scoreListTop = this.top.getHeight();
     }
 
     /**
@@ -80,11 +93,9 @@ import java.util.ArrayList;
         renderer.clear();
 
         // Draw the list of scores.
-        int entryHeight = (int) (constants.getGameHeight() * ENTRY_HEIGHT);
-        int scoreListTop = this.top.getHeight();
-        ArrayList<HighScore> highScores = Game.HIGH_SCORES.getList();
+        List<HighScore> highScores = Game.HIGH_SCORES.getList();
         for (int i = 0; i < highScores.size(); i++) {
-            // Entry background.
+            // Entry background
             int backgroundY = scoreListTop + (i - 1) * entryHeight;
             Color color = i % 2 == 1 ? COLOR_EVEN : COLOR_UNEVEN;
             renderer.fillRectangle(0, backgroundY, constants.getGameWidth(), entryHeight, color);
@@ -128,13 +139,6 @@ import java.util.ArrayList;
      */
     @Override
     public void update(final double delta) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void mouseClicked(final int x, final int y) {
     }
 
 }

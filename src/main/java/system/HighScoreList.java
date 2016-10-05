@@ -66,9 +66,9 @@ public class HighScoreList {
     /**
      * Get the actual HighScores lists.
      *
-     * @return An ArrayList of HighScores.
+     * @return A List of HighScores.
      */
-    public final ArrayList<HighScore> getList() {
+    public final List<HighScore> getList() {
         return highScores;
     }
 

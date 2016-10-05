@@ -60,7 +60,7 @@ public final class Renderer implements IRenderer {
     @Override
     public void clear() {
         IConstants constants = serviceLocator.getConstants();
-        graphics.clearRect(1, 1, constants.getGameWidth(), constants.getGameHeight());
+        graphics.clearRect(0, 0, constants.getGameWidth(), constants.getGameHeight());
     }
 
     /**
