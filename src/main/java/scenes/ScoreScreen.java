@@ -10,21 +10,15 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.HighScore;
-import system.HighScoreList;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 
 /**
  * Score screen implementation of a scene.
  */
 /* package */ class ScoreScreen implements IScene, IMouseInputObserver {
-
-    /**
-     * The logger for the PauseScreen class.
-     */
-    private final ILogger LOGGER;
     /**
      * The X and Y location for the resume button.
      */
@@ -43,6 +37,10 @@ import java.util.ArrayList;
      */
     private final IServiceLocator serviceLocator;
     /**
+     * The logger for the PauseScreen class.
+     */
+    private final ILogger logger;
+    /**
      * The cover sprite of the main menu.
      */
     private final ISprite bottom, left, top;
@@ -51,9 +49,14 @@ import java.util.ArrayList;
      */
     private final IButton menuButton;
 
-    /* package */ ScoreScreen(IServiceLocator sL) {
+    /**
+     * Package protected constructor so only the SceneFactory can create a ScoreScreen.
+     *
+     * @param sL The serviceLocator.
+     */
+    /* package */ ScoreScreen(final IServiceLocator sL) {
         this.serviceLocator = sL;
-        LOGGER = sL.getLoggerFactory().createLogger(ScoreScreen.class);
+        logger = sL.getLoggerFactory().createLogger(ScoreScreen.class);
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.bottom = spriteFactory.getScoreScreenBottom();
@@ -66,7 +69,9 @@ import java.util.ArrayList;
         this.menuButton = buttonFactory.createMainMenuButton(menuButtonX, menuButtonY);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         IConstants constants = this.serviceLocator.getConstants();
@@ -75,7 +80,7 @@ import java.util.ArrayList;
 
         // Draw the list of scores.
         int entryHeight = (int) (constants.getGameHeight() * ENTRY_HEIGHT);
-        int scoreListTop = this.top.getHeight() + 10;
+        int scoreListTop = this.top.getHeight();
         ArrayList<HighScore> highScores = Game.HIGH_SCORES.getList();
         for (int i = 0; i < highScores.size(); i++) {
             // Entry background.
@@ -99,28 +104,36 @@ import java.util.ArrayList;
         this.menuButton.render();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void start() {
         serviceLocator.getInputManager().addObserver(this.menuButton);
-        LOGGER.info("The score scene is now displaying");
+        logger.info("The score scene is now displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void stop() {
         serviceLocator.getInputManager().removeObserver(this.menuButton);
-        LOGGER.info("The score scene is no longer displaying");
+        logger.info("The score scene is no longer displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update(double delta) {
+    public void update(final double delta) {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void mouseClicked(int x, int y) {
+    public void mouseClicked(final int x, final int y) {
     }
 
 }

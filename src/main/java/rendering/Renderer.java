@@ -5,12 +5,19 @@ import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 
 /**
  * This class is responsible for rendering all Sprites.
  */
 public final class Renderer implements IRenderer {
+
+    /**
+     * The default font size used by the Renderer.
+     */
+    private static final int FONT_SIZE = 28;
 
     /**
      * Used to gain access to all services.
@@ -159,7 +166,7 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void fillRectangle(int x, int y, int width, int height, Color color) {
+    public void fillRectangle(final int x, final int y, final int width, final int height, final Color color) {
         assert graphics != null;
         logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
 
@@ -179,7 +186,7 @@ public final class Renderer implements IRenderer {
         }
 
         this.graphics = g;
-        this.graphics.setFont(new Font("Comic Sans", 0, 28));
+        this.graphics.setFont(new Font("Comic Sans", 0, FONT_SIZE));
     }
 
     /**
