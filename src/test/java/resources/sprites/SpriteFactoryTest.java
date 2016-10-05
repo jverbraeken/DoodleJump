@@ -9,7 +9,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import resources.IRes;
-import system.IServiceLocator;  
+import system.IServiceLocator;
 
 import java.util.Arrays;
 import java.util.concurrent.Callable;
@@ -517,16 +517,52 @@ public class SpriteFactoryTest {
         TestSprite(IRes.Sprites.spaceMode, () -> spriteFactory.getSpaceModeButton());
     }
 
+    // getFileName
+
     @Test
     public void TestGetUnderwaterModeButton() throws Exception {
         TestSprite(IRes.Sprites.underwaterMode, () -> spriteFactory.getUnderwaterModeButton());
+    }
+
+    @Test
+    public void TestGetFileName() throws Exception {
+        final String filepath = "resources/Sprites/sprite.png";
+        final String result = Whitebox.invokeMethod(spriteFactory, "getFileName", filepath);
+        assertThat(result, is("sprite.png"));
+    }
+
+    @Test
+    public void TestGetFileNameBlanco() throws Exception {
+        final String filepath = "sprite.png";
+        final String result = Whitebox.invokeMethod(spriteFactory, "getFileName", filepath);
+        assertThat(result, is("sprite.png"));
+    }
+
+    @Test(expected = AssertionError.class)
+    public void TestGetFileNameNull() throws Exception {
+        final String filepath = null;
+        final String result = Whitebox.invokeMethod(spriteFactory, "getFileName", filepath);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void TestGetFileNameBackSlash() throws Exception {
+        final String filepath = "resources\\Sprites\\sprite.png";
+        final String result = Whitebox.invokeMethod(spriteFactory, "getFileName", filepath);
+    }
+
+    // getSprite
+
+    @Test(expected = AssertionError.class)
+    public void TestGetSpriteNull() throws Exception {
+        // The (Object) is used to make clear we want to use a non-varargs instead of a varargs
+        Whitebox.invokeMethod(spriteFactory, "getSprite", (IRes.Sprites) null);
     }
 
     /**
      * A method that simplies the testing of {@link SpriteFactory}.
      *
      * @param sprite   The sprite that should be returned by the getter
-     * @param function The getter that should return {@ocde} sprite
+     * @param function The getter that should return {@code sprite}
      * @throws Exception Thrown when the method {@link SpriteFactory#getSprite(IRes.Sprites)} could not be found
      */
     private void TestSprite(IRes.Sprites sprite, Callable<ISprite> function) throws Exception {

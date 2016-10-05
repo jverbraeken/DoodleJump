@@ -398,9 +398,8 @@ public final class SpriteFactory implements ISpriteFactory {
                 return getSprite(IRes.Sprites.eight);
             case 9:
                 return getSprite(IRes.Sprites.nine);
-            default:
-                return null;
         }
+        return null;
     }
 
 
@@ -754,6 +753,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * @return The ISprite
      */
     private ISprite loadISprite(final IRes.Sprites spriteName) {
+        assert spriteName != null;
         String filepath = sL.getRes().getSpritePath(spriteName);
         BufferedImage image = null;
         try {
@@ -778,6 +778,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * @return the sprite.
      */
     private ISprite getSprite(final IRes.Sprites sprite) {
+        assert sprite != null;
         try {
             return cache.get(sprite);
         } catch (ExecutionException e) {
@@ -797,10 +798,12 @@ public final class SpriteFactory implements ISpriteFactory {
      * }
      * </pre>
      *
-     * @param filepath The full path to the file, the directories seperated by '('
+     * @param filepath The full path to the file, the directories seperated by '/'
      * @return The name of the file
      */
     private String getFileName(final String filepath) {
+        assert filepath != null;
+        assert !filepath.contains("\\");
         int fileNameIndex = filepath.lastIndexOf('/') + 1;
         return filepath.substring(fileNameIndex);
     }
