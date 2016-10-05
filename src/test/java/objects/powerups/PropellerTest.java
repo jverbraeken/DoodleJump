@@ -26,7 +26,6 @@ public class PropellerTest {
     private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
 
     private Propeller propeller;
-    private double propellerBoost = Whitebox.getInternalState(Propeller.class, "BOOST");
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -60,8 +59,9 @@ public class PropellerTest {
     public void testGetBoost() throws Exception {
         propeller.collidesWith(doodle);
 
+        propeller.update(0d);
         double boost = propeller.getBoost();
-        assertThat(boost == propellerBoost, is(true));
+        assertThat(boost < 0, is(true));
     }
 
     @Test

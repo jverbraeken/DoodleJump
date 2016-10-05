@@ -26,7 +26,6 @@ public class JetpackTest {
     private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
 
     private Jetpack jetpack;
-    private double jetpackBoost = Whitebox.getInternalState(Jetpack.class, "BOOST");
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -60,8 +59,9 @@ public class JetpackTest {
     public void testGetBoost() throws Exception {
         jetpack.collidesWith(doodle);
 
+        jetpack.update(0d);
         double boost = jetpack.getBoost();
-        assertThat(boost == jetpackBoost, is(true));
+        assertThat(boost < 0, is(true));
     }
 
     @Test
