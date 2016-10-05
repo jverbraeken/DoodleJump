@@ -32,11 +32,6 @@ public final class SpriteFactory implements ISpriteFactory {
      * The cache for the SpriteFactory.
      */
     private LoadingCache<IRes.Sprites, ISprite> cache;
-
-    /**
-     * Used for sprites for which the image could not be found.
-     */
-    //private final ISprite unimplementedSprite;
     /**
      * Prevents instantiation from outside the class.
      */
@@ -54,8 +49,6 @@ public final class SpriteFactory implements ISpriteFactory {
                             }
                         }
                 );
-
-        //unimplementedSprite = loadISprite(IRes.Sprites.unimplemented);
     }
 
     /**
@@ -192,6 +185,14 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
+    public ISprite getPuddingMonsterSprite1() {
+        return getSprite(IRes.Sprites.puddingMonster1);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ISprite getPuddingMonsterSprite2() {
         return getSprite(IRes.Sprites.puddingMonster2);
     }
@@ -320,7 +321,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getCactusMonster1Sprite() {
+    public ISprite getCactusMonsterSprite1() {
         return getSprite(IRes.Sprites.cactusMonster1);
     }
 
@@ -328,7 +329,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getCactusMonster2Sprite() {
+    public ISprite getCactusMonsterSprite2() {
         return getSprite(IRes.Sprites.cactusMonster2);
     }
 
@@ -344,7 +345,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getLowFiveFeetMonster1Sprite() {
+    public ISprite getLowFiveFeetMonsterSprite1() {
         return getSprite(IRes.Sprites.lowFiveFeetMonster1);
     }
 
@@ -352,7 +353,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getLowFiveFeetMonster2Sprite() {
+    public ISprite getLowFiveFeetMonsterSprite2() {
         return getSprite(IRes.Sprites.lowFiveFeetMonster2);
     }
 
@@ -587,14 +588,6 @@ public final class SpriteFactory implements ISpriteFactory {
     @Override
     public ISprite getPlatformShining3() {
         return getSprite(IRes.Sprites.platformShining3);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPuddingMonsterSprite1() {
-        return getSprite(IRes.Sprites.puddingMonster1);
     }
 
 

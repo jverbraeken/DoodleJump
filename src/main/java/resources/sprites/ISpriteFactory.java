@@ -72,15 +72,15 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getOrdinaryMonsterSprite(); // By default the purple monster with a blank head
 
-    ISprite getCactusMonster1Sprite(); // By default with three flaps at its Left and Right side and three eyes
+    ISprite getCactusMonsterSprite1(); // By default with three flaps at its Left and Right side and three eyes
 
-    ISprite getCactusMonster2Sprite();
+    ISprite getCactusMonsterSprite2();
 
     ISprite getFiveFeetMonsterSprite(); // By default a blue pudding with 5 red feet
 
-    ISprite getLowFiveFeetMonster1Sprite(); // By default a green very low monster with 5 feet
+    ISprite getLowFiveFeetMonsterSprite1(); // By default a green very low monster with 5 feet
 
-    ISprite getLowFiveFeetMonster2Sprite();
+    ISprite getLowFiveFeetMonsterSprite2();
 
     ISprite getSmallMonsterSprite(); // By default a very small three eyed red monster
 
