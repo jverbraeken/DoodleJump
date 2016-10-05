@@ -37,7 +37,7 @@ import scenes.SceneFactory;
  * Default implementation for the ServiceLocator. Used to gain access to all services.
  */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
-/* package */ class ServiceLocator implements IServiceLocator {
+public class ServiceLocator implements IServiceLocator {
 
     // constants.json
     private IConstants constants;

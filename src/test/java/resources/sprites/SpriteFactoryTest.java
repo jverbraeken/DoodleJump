@@ -10,12 +10,15 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import resources.IRes;
 import system.IServiceLocator;
+import system.ServiceLocator;
 
 import java.util.Arrays;
 import java.util.concurrent.Callable;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyObject;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
@@ -37,6 +40,20 @@ public class SpriteFactoryTest {
 
         spriteFactory = spy(Whitebox.invokeConstructor(SpriteFactory.class));
         doReturn(mock(ISprite.class)).when(spriteFactory, "loadISprite", anyObject());
+    }
+
+    @Test
+    public void TestRegister() throws Exception {
+        IServiceLocator sampleServiceLocator = Whitebox.invokeConstructor(ServiceLocator.class);
+        SpriteFactory.register(sampleServiceLocator);
+
+        assertNotNull(sampleServiceLocator.getSpriteFactory());
+        assertThat(Whitebox.getInternalState(SpriteFactory.class, "sL"), is(sampleServiceLocator));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void TestRegisterNull() {
+        SpriteFactory.register(null);
     }
 
     @Test
