@@ -10,6 +10,7 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.HighScore;
+import system.HighScoreList;
 import system.IServiceLocator;
 
 import java.awt.*;
@@ -49,14 +50,9 @@ import java.util.ArrayList;
      * The button on the score screen.
      */
     private final IButton menuButton;
-    /**
-     * A list of high scores for the game.
-     */
-    private final ArrayList<HighScore> highScores;
 
     /* package */ ScoreScreen(IServiceLocator sL) {
         this.serviceLocator = sL;
-        this.highScores = Game.getHighScores();
         LOGGER = sL.getLoggerFactory().createLogger(ScoreScreen.class);
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
@@ -80,6 +76,7 @@ import java.util.ArrayList;
         // Draw the list of scores.
         int entryHeight = (int) (constants.getGameHeight() * ENTRY_HEIGHT);
         int scoreListTop = this.top.getHeight() + 10;
+        ArrayList<HighScore> highScores = Game.HIGH_SCORES.getList();
         for (int i = 0; i < highScores.size(); i++) {
             // Entry background.
             int backgroundY = scoreListTop + (i - 1) * entryHeight;

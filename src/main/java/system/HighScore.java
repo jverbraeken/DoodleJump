@@ -4,9 +4,9 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * Class representing a score.
+ * Class representing a score. <b>Is immutable</b>.
  */
-public class HighScore implements Comparable<HighScore> {
+public final class HighScore implements Comparable<HighScore> {
 
     /**
      * The name of this HighScore.
@@ -29,6 +29,17 @@ public class HighScore implements Comparable<HighScore> {
     }
 
     /**
+     * Package protected constructor so only Game can create a score.
+     *
+     * @param n The name for the score.
+     * @param s The actual score.
+     */
+    /* package */ HighScore(final String n, final String s) {
+        this.name = n;
+        this.score = Integer.parseInt(s);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -42,6 +53,9 @@ public class HighScore implements Comparable<HighScore> {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -60,6 +74,9 @@ public class HighScore implements Comparable<HighScore> {
                 .isEquals();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int hash1 = 17;

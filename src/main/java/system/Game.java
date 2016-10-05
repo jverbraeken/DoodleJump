@@ -38,6 +38,12 @@ public final class Game {
      * does need the name of the log file.
      */
     public static final String LOGFILE_NAME = "async.log";
+
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator serviceLocator = new ServiceLocator();
+
     /**
      * The time in milliseconds per frame.
      */
@@ -59,21 +65,18 @@ public final class Game {
      */
     private static final double RESUME_BUTTON_Y = 0.75;
     /**
-     * The maximum size of the list of high scores.
-     */
-    private static final int MAX_HIGH_SCORES = 10;
-    /**
      * A LOCK to avoid threading issues.
      */
     private static final transient Object LOCK = new Object();
     /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator serviceLocator = new ServiceLocator();
-    /**
      * The logger for the Game class.
      */
     private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+    /**
+     * The high scores list for the Game.
+     */
+    public static final HighScoreList HIGH_SCORES = new HighScoreList(serviceLocator);
+
     /**
      * The current frame.
      */
@@ -102,10 +105,6 @@ public final class Game {
      * The pause screen for the game.
      */
     private static IScene pauseScreen;
-    /**
-     * A list of high scores for the game.
-     */
-    private static ArrayList<HighScore> highScores = new ArrayList<>();
 
     /**
      * Prevents instantiation from outside the Game class.
@@ -125,11 +124,11 @@ public final class Game {
         IInputManager inputManager = serviceLocator.getInputManager();
 
         // TEMP: test scores
-        highScores.add(new HighScore("Aaaaaaaaaaaaaaaaaaaa", 100000d));
-        highScores.add(new HighScore("Bbbbbbbbbbbbbbbbbbbb", 10000d));
-        highScores.add(new HighScore("Cccccccccccccccccccc", 1000d));
-        highScores.add(new HighScore("Dddddddddddddddddddd", 100d));
-        highScores.add(new HighScore("Eeeeeeeeeeeeeeeeeeee", 10d));
+        HIGH_SCORES.addHighScore("Aaaaaaaaaaaaaaaaaaaa", 100000d);
+        HIGH_SCORES.addHighScore("Bbbbbbbbbbbbbbbbbbbb", 10000d);
+        HIGH_SCORES.addHighScore("Cccccccccccccccccccc", 1000d);
+        HIGH_SCORES.addHighScore("Dddddddddddddddddddd", 100d);
+        HIGH_SCORES.addHighScore("Eeeeeeeeeeeeeeeeeeee", 10d);
         // TEMP: test scores
 
         // Initialize frame
@@ -181,17 +180,8 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
+        HIGH_SCORES.initHighScores();
         loop();
-    }
-
-    /**
-     * End the game.
-     *
-     * @param score The score the game instance ended with.
-     */
-    public static void endGameInstance(final double score) {
-        updateHighScores(score);
-        setScene(serviceLocator.getSceneFactory().createKillScreen());
     }
 
     /**
@@ -212,15 +202,8 @@ public final class Game {
         mode = m;
         serviceLocator.getRes().setSkin(m);
         SpriteFactory.register(serviceLocator);
+        setScene(serviceLocator.getSceneFactory().newChooseMode());
         LOGGER.info("The mode is now " + m);
-    }
-
-    /**
-     * Get the list of highscores.
-     * @return The highscores.
-     */
-    public static ArrayList<HighScore> getHighScores() {
-        return Game.highScores;
     }
 
     /**
@@ -300,21 +283,6 @@ public final class Game {
         }
 
         isPaused = paused;
-    }
-
-    /**
-     * Update the high scores for the game.
-     *
-     * @param score The score the game instance ended with.
-     */
-    private static void updateHighScores(final double score) {
-        HighScore scoreEntry = new HighScore("", score);
-        Game.highScores.add(scoreEntry);
-        Collections.sort(Game.highScores);
-
-        for (int i = Game.highScores.size(); i > MAX_HIGH_SCORES; i--) {
-            Game.highScores.remove(i - 1);
-        }
     }
 
     /**
