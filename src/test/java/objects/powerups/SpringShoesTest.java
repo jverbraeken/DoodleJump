@@ -1,6 +1,7 @@
 package objects.powerups;
 
 import constants.IConstants;
+import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.After;
@@ -21,12 +22,12 @@ public class SpringShoesTest {
 
     private IConstants constants = mock(IConstants.class);
     private IDoodle doodle = mock(IDoodle.class);
+    private ILogger logger = mock(ILogger.class);
     private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
     private IServiceLocator serviceLocator = mock(IServiceLocator.class);
     private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
 
     private SpringShoes springShoes;
-    private double springShoesBoost = Whitebox.getInternalState(SpringShoes.class, "BOOST");
 
     @Before
     public void init() {
@@ -36,7 +37,7 @@ public class SpringShoesTest {
 
         when(constants.getGameWidth()).thenReturn(100);
         when(spriteFactory.getSpringShoesSprite()).thenReturn(null);
-        when(loggerFactory.createLogger(SpringShoes.class)).thenReturn(null);
+        when(loggerFactory.createLogger(SpringShoes.class)).thenReturn(logger);
 
         springShoes = new SpringShoes(serviceLocator, 0, 0);
     }
@@ -57,68 +58,50 @@ public class SpringShoesTest {
     }
 
     @Test
-    public void testGetBoost1() throws Exception {
+    public void testPerformInvalid() throws Exception {
         springShoes.collidesWith(doodle);
+        springShoes.perform("invalid");
 
-        //double boost = springShoes.getBoost();
-        //assertThat(boost, is(springShoesBoost));
+        int uses = Whitebox.getInternalState(springShoes, "uses");
+        assertThat(uses, is(0));
     }
 
     @Test
-    public void testGetBoost1SetUses() throws Exception {
+    public void testPerformOnce() throws Exception {
         springShoes.collidesWith(doodle);
-        //springShoes.getBoost();
+        springShoes.perform("collision");
 
         int uses = Whitebox.getInternalState(springShoes, "uses");
         assertThat(uses, is(1));
     }
 
     @Test
-    public void testGetBoost2() throws Exception {
+    public void testPerformTwice() throws Exception {
         springShoes.collidesWith(doodle);
-        //springShoes.getBoost();
-
-        //double boost = springShoes.getBoost();
-        //assertThat(boost, is(springShoesBoost));
-    }
-
-    @Test
-    public void testGetBoost2SetUses() throws Exception {
-        springShoes.collidesWith(doodle);
-        //springShoes.getBoost();
-        //springShoes.getBoost();
+        springShoes.perform("collision");
+        springShoes.perform("collision");
 
         int uses = Whitebox.getInternalState(springShoes, "uses");
         assertThat(uses, is(2));
     }
 
     @Test
-    public void testGetBoost3() throws Exception {
+    public void testPerformThrice() throws Exception {
         springShoes.collidesWith(doodle);
-        //springShoes.getBoost();
-        //springShoes.getBoost();
-
-        //double boost = springShoes.getBoost();
-        //assertThat(boost, is(springShoesBoost));
-    }
-
-    @Test
-    public void testGetBoost3SetUses() throws Exception {
-        springShoes.collidesWith(doodle);
-        //springShoes.getBoost();
-        //springShoes.getBoost();
-        //springShoes.getBoost();
+        springShoes.perform("collision");
+        springShoes.perform("collision");
+        springShoes.perform("collision");
 
         int uses = Whitebox.getInternalState(springShoes, "uses");
         assertThat(uses, is(3));
     }
 
     @Test
-    public void testGetBoost3UnsetsOwner() throws Exception {
+    public void testPerformThriceUnsetOwner() throws Exception {
         springShoes.collidesWith(doodle);
-        //springShoes.getBoost();
-        //springShoes.getBoost();
-        //springShoes.getBoost();
+        springShoes.perform("collision");
+        springShoes.perform("collision");
+        springShoes.perform("collision");
 
         Object owner = Whitebox.getInternalState(springShoes, "owner");
         assertThat(owner == null, is(true));

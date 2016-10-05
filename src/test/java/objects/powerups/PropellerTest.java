@@ -1,6 +1,7 @@
 package objects.powerups;
 
 import constants.IConstants;
+import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.After;
@@ -14,6 +15,8 @@ import system.IServiceLocator;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -21,6 +24,7 @@ public class PropellerTest {
 
     private IConstants constants = mock(IConstants.class);
     private IDoodle doodle = mock(IDoodle.class);
+    private ILogger logger = mock(ILogger.class);
     private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
     private IServiceLocator serviceLocator = mock(IServiceLocator.class);
     private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
@@ -36,7 +40,7 @@ public class PropellerTest {
 
         when(constants.getGameWidth()).thenReturn(100);
         when(spriteFactory.getPropellerSprite()).thenReturn(null);
-        when(loggerFactory.createLogger(Jetpack.class)).thenReturn(null);
+        when(loggerFactory.createLogger(Propeller.class)).thenReturn(logger);
 
         propeller = new Propeller(serviceLocator, 0, 0);
     }
@@ -49,11 +53,17 @@ public class PropellerTest {
     }
 
     @Test
-    public void testGetBoost() throws Exception {
+    public void testPerform() throws Exception {
         propeller.collidesWith(doodle);
+        propeller.perform("constant");
+        verify(doodle, times(1)).setVerticalSpeed(propellerBoost);
+    }
 
-        //double boost = propeller.getBoost();
-        //assertThat(boost, is(propellerBoost));
+    @Test
+    public void testPerformInvalid() throws Exception {
+        propeller.collidesWith(doodle);
+        propeller.perform("invalid");
+        verify(doodle, times(0)).setVerticalSpeed(propellerBoost);
     }
 
 }

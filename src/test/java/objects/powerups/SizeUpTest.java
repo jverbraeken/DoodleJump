@@ -1,6 +1,7 @@
 package objects.powerups;
 
 import constants.IConstants;
+import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.After;
@@ -22,6 +23,7 @@ public class SizeUpTest {
 
     private IConstants constants = mock(IConstants.class);
     private IDoodle doodle = mock(IDoodle.class);
+    private ILogger logger = mock(ILogger.class);
     private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
     private IServiceLocator serviceLocator = mock(IServiceLocator.class);
     private ISprite sprite = mock(ISprite.class);
@@ -39,7 +41,7 @@ public class SizeUpTest {
         when(constants.getGameWidth()).thenReturn(100);
         when(sprite.getWidth()).thenReturn(0);
         when(spriteFactory.getSizeUpSprite()).thenReturn(sprite);
-        when(loggerFactory.createLogger(Jetpack.class)).thenReturn(null);
+        when(loggerFactory.createLogger(SizeUp.class)).thenReturn(logger);
 
         sizeUp = new SizeUp(serviceLocator, 0, 0);
     }

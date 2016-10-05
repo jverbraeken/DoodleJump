@@ -31,7 +31,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the Propeller.
      */
     /* package */ Propeller(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPropellerSprite(), Jetpack.class);
+        super(sL, x, y, sL.getSpriteFactory().getPropellerSprite(), Propeller.class);
     }
 
     /**
