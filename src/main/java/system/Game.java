@@ -84,6 +84,10 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
+     * The enums for the mode.
+     */
+    public enum Modes { regular, underwater, story, invert, darkness, space }
+    /**
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
@@ -279,36 +283,6 @@ public final class Game {
             return TARGET_FPS;
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
-    }
-
-    /**
-     * The enums for the mode.
-     */
-    public enum Modes {
-        /**
-         * As usual.
-         */
-        regular,
-        /**
-         * Underwater -> slow moving.
-         */
-        underwater,
-        /**
-         * Accompanied with a story.
-         */
-        story,
-        /**
-         * Everything upside-down.
-         */
-        invert,
-        /**
-         * You don't see any platforms except for the ones you jumped on.
-         */
-        darkness,
-        /**
-         * Fast acceleration, slow deceleration.
-         */
-        space
     }
 
 }
