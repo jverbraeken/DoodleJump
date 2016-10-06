@@ -41,15 +41,6 @@ public class SpriteFactoryTest {
         doReturn(mock(ISprite.class)).when(spriteFactory, "loadISprite", anyObject());
     }
 
-    @Test
-    public void TestRegister() throws Exception {
-        IServiceLocator sampleServiceLocator = Whitebox.invokeConstructor(ServiceLocator.class);
-        SpriteFactory.register(sampleServiceLocator);
-
-        assertNotNull(sampleServiceLocator.getSpriteFactory());
-        assertThat(Whitebox.getInternalState(SpriteFactory.class, "serviceLocator"), is(sampleServiceLocator));
-    }
-
     @Test(expected = IllegalArgumentException.class)
     public void TestRegisterNull() {
         SpriteFactory.register(null);
