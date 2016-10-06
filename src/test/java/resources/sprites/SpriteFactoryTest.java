@@ -449,7 +449,7 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetRocketSprite() throws Exception {
-        TestSprite(IRes.Sprites.rocket, () -> spriteFactory.getRocketSprite());
+        TestSprite(IRes.Sprites.jetpack, () -> spriteFactory.getJetpackSprite());
     }
 
     @Test
