@@ -546,14 +546,6 @@ public class SpriteFactoryTest {
     // No bad weather checks, because Travis doesn't compile the assertions and thus no AssertionErrors will be thrown
     // and it's a private method, so there's less risk other people will use the method for things it isn't supposed to do
 
-    // getSprite
-
-    @Test(expected = AssertionError.class)
-    public void TestGetSpriteNull() throws Exception {
-        // The (Object) is used to make clear we want to use a non-varargs instead of a varargs
-        Whitebox.invokeMethod(spriteFactory, "getSprite", (IRes.Sprites) null);
-    }
-
     /**
      * A method that simplies the testing of {@link SpriteFactory}.
      *

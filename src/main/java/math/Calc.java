@@ -39,14 +39,21 @@ public final class Calc implements ICalc {
     /** {@inheritDoc} */
     @Override
     public int getRandomIntBetween(final int lower, final int upper) {
-        assert upper > lower;
+        if (upper < lower) {
+            throw new IllegalArgumentException("The upper-bound cannot be less than the lower-bound");
+        }
+        if (upper <= lower) {
+            throw new IllegalArgumentException("The upper-bound cannot equal the lower-bound");
+        }
         return RANDOM.nextInt(upper - lower) + lower + 1;
     }
 
     /** {@inheritDoc} */
     @Override
     public double getRandomDouble(final double max) {
-        assert max > 0;
+        if (max <= 0) {
+            throw new IllegalArgumentException("The maximum value for a random double should be more than 0, but was [" + max + "] instead");
+        }
         return RANDOM.nextDouble() * max;
     }
 
