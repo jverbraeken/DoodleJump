@@ -803,7 +803,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * }
      * </pre>
      *
-     * @param filepath The full path to the file, the directories seperated by '/'
+     * @param filepath The full path to the file, the directories seperated by '/'. Cannot be null
      * @return The name of the file
      */
     private String getFileName(final String filepath) {
