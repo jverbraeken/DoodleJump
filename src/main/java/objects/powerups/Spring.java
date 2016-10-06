@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.AGameObject;
 import objects.IJumpable;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
@@ -10,7 +11,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the spring powerup.
  */
-/* package */ class Spring extends APowerup implements IPowerup, IJumpable {
+/* package */ final class Spring extends AGameObject implements IJumpable {
 
     /**
      * The BOOST value for the Spring.
@@ -28,13 +29,17 @@ import system.IServiceLocator;
         super(sL, x, y, sL.getSpriteFactory().getSpringSprite(), Spring.class);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void collidesWith(final IDoodle doodle) {
         doodle.collide(this);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final double getBoost() {
         //TODO very unexpected behaviour for a getter. Source of bugs as the programmer does not expect this from a getter
@@ -44,7 +49,9 @@ import system.IServiceLocator;
         return Spring.BOOST;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());

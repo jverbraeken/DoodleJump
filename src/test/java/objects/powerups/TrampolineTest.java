@@ -18,20 +18,18 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-
 /**
- * Test class for the Spring class.
+ * Test class to test the methods in Trampoline.java.
  *
  * Created by Michael on 9/30/2016.
  */
-public class SpringTest {
-
+public class TrampolineTest {
     private IAudioManager audioManager;
     private IServiceLocator serviceLocator;
     private ISpriteFactory spriteFactory;
     private ISprite sprite, usedSprite;
     private IRenderer renderer;
-    private Spring spring;
+    private Trampoline trampoline;
     private IDoodle doodle;
     private ILoggerFactory loggerFactory;
 
@@ -45,16 +43,16 @@ public class SpringTest {
     public void init() {
         serviceLocator = mock(IServiceLocator.class);
         spriteFactory = mock(ISpriteFactory.class);
-        sprite = mock(ISprite.class);
         usedSprite = mock(ISprite.class);
+        sprite = mock(ISprite.class);
         audioManager = mock(IAudioManager.class);
         renderer = mock(IRenderer.class);
         doodle = mock(IDoodle.class);
         loggerFactory = mock(ILoggerFactory.class);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
-        when(spriteFactory.getSpringSprite()).thenReturn(sprite);
-        when(spriteFactory.getSpringUsedSprite()).thenReturn(usedSprite);
+        when(spriteFactory.getTrampolineSprite()).thenReturn(sprite);
+        when(spriteFactory.getTrampolineUsedSprite()).thenReturn(usedSprite);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(sprite.getHeight()).thenReturn(20);
@@ -69,48 +67,48 @@ public class SpringTest {
      */
     @Test
     public void testPlaySound() throws Exception {
-        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
-        Whitebox.invokeMethod(spring, "playSound");
-        verify(audioManager).playFeder();
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
+        Whitebox.invokeMethod(trampoline, "playSound");
+        verify(audioManager).playTrampoline();
     }
 
     /**
-     * Tests if the drawSprite method is called when the render method of the spring is called.
+     * Tests if the drawSprite method is called when the render method of the trampoline is called.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
      */
     @Test
     public void testRenderer() throws Exception {
-        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
-        spring.render();
-        verify(renderer).drawSprite(sprite, (int) spring.getXPos(), (int) spring.getYPos());
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
+        trampoline.render();
+        verify(renderer).drawSprite(sprite, (int) trampoline.getXPos(), (int) trampoline.getYPos());
     }
 
     /**
-     * Tests if the collide method of the doodle is called when the method collidesWith of the spring is called.
+     * Tests if the collide method of the doodle is called when the method collidesWith of the trampoline is called.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
      */
     @Test
     public void testCollidesWith() throws Exception {
-        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
-        spring.collidesWith(doodle);
-        verify(doodle).collide(spring);
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
+        trampoline.collidesWith(doodle);
+        verify(doodle).collide(trampoline);
     }
 
     /**
-     * Tests if the method returns a NullPointerException when the parameter is null.
+     * Tests if the collide method returns a NullPointerException is the parameter is null.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
      */
     @Test
     public void testCollidesWith2() throws Exception {
-        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
         thrown.expect(NullPointerException.class);
-        spring.collidesWith(null);
+        trampoline.collidesWith(null);
     }
 
     /**
@@ -119,25 +117,26 @@ public class SpringTest {
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
      */
+
     @Test
     public void testAnimate() throws Exception {
-        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 50, 200);
-        Whitebox.invokeMethod(spring, "animate");
-        assertEquals(usedSprite, spring.getSprite());
-        assertEquals(180, spring.getYPos(), 0.001);
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 30, 653);
+        Whitebox.invokeMethod(trampoline, "animate");
+        assertEquals(sprite, trampoline.getSprite());
+        assertEquals(633, trampoline.getYPos(), 0.001);
     }
 
     /**
-     * Tests if the getBoost method of the spring object properly returns the value of BOOST.
+     * Tests if the getBoost method of the trampoline object properly returns the value of BOOST.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
      */
     @Test
     public void testGetBoost() throws Exception {
-        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
-        double boost = Whitebox.getInternalState(spring, "BOOST", Spring.class);
-        assertEquals(boost, spring.getBoost(), 0.001);
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
+        double boost = Whitebox.getInternalState(trampoline, "BOOST", Trampoline.class);
+        assertEquals(boost, trampoline.getBoost(), 0.001);
     }
 
 }

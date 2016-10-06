@@ -4,6 +4,7 @@ import input.IKeyInputObserver;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
+import objects.powerups.IPowerup;
 
 /**
  * This class describes the behaviour of the doodle.
@@ -32,6 +33,27 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void collide(final IJumpable jumpable);
 
     /**
+     * Get the passive of the Doodle.
+     *
+     * @return The passive the Doodle currently has. Note that this can be null!
+     */
+    IPowerup getPowerup();
+
+    /**
+     * Add a passive item to the Doodle.
+     *
+     * @param item The item to add as passive.
+     */
+    void setPowerup(final IPowerup item);
+
+    /**
+     * Removes a passive from the Doodle.
+     *
+     * @param item The item to remove as passive.
+     */
+    void removePowerup(final IPowerup item);
+
+    /**
      * Returns the height of the legs of the Doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      *
@@ -53,6 +75,13 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      * @param falling   True if the doodle is going down
      */
     void setSprite(final MovementBehavior.Directions direction, final boolean falling);
+
+    /**
+     * Increase the sprite scalar for the Doodle.
+     *
+     * @param inc The value to increase by.
+     */
+    void increaseSpriteScalar(final double inc);
 
     /**
      * Registers its button to the {@link input.IInputManager input manager}.

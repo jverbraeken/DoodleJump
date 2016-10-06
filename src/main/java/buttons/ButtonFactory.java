@@ -157,4 +157,5 @@ public final class ButtonFactory implements IButtonFactory {
         Runnable storyMode = () -> Game.setMode(Game.Modes.story);
         return new Button(serviceLocator, x, y, buttonSprite, storyMode, "storyMode");
     }
+
 }
