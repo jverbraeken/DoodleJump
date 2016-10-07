@@ -50,7 +50,7 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * The chance that an enemy will spawn.
      */
-    private static final double ENEMY_CHANCE = 1;
+    private static final double ENEMY_CHANCE = 9700;
 
     /**
      * Total threshold number for item generation.
