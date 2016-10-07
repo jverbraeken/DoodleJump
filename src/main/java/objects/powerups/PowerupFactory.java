@@ -36,14 +36,63 @@ public final class PowerupFactory implements IPowerupFactory {
         PowerupFactory.serviceLocator.provide(new PowerupFactory());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject createJetpack(final int x, final int y) {
+        logger.info("A new Jetpack has been created");
+        return new Jetpack(serviceLocator, x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject createPropeller(final int x, final int y) {
+        logger.info("A new Propeller has been created");
+        return new Propeller(serviceLocator, x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject createSizeDown(final int x, final int y) {
+        logger.info("A new SizeDown has been created");
+        return new SizeDown(serviceLocator, x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject createSizeUp(final int x, final int y) {
+        logger.info("A new SizeUp has been created");
+        return new SizeUp(serviceLocator, x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IGameObject createSpring(final int x, final int y) {
         logger.info("A new Spring has been created");
         return new Spring(serviceLocator, x, y);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject createSpringShoes(final int x, final int y) {
+        logger.info("A new pair of Spring Shoes has been created");
+        return new SpringShoes(serviceLocator, x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IGameObject createTrampoline(final int x, final int y) {
         logger.info("A new Trampoline has been created");

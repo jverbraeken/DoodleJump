@@ -639,8 +639,16 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getRocketSprite() {
-        return getSprite(IRes.Sprites.rocket);
+    public ISprite getSpringShoesSprite() {
+        return getSprite(IRes.Sprites.springShoes);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getJetpackSprite() {
+        return getSprite(IRes.Sprites.jetpack);
     }
 
     /**
@@ -658,6 +666,24 @@ public final class SpriteFactory implements ISpriteFactory {
     public ISprite getShieldSprite() {
         return getSprite(IRes.Sprites.shield);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getSizeUpSprite() {
+        return getSprite(IRes.Sprites.sizeUp);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getSizeDownSprite() {
+        return getSprite(IRes.Sprites.sizeDown);
+    }
+
+    // Misc
 
     /**
      * {@inheritDoc}

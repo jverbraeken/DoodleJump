@@ -7,6 +7,7 @@ import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
+import objects.powerups.IPowerup;
 import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
@@ -144,6 +145,7 @@ public final class BlockFactory implements IBlockFactory {
      * @param elements The {@link Set} in which the platforms should be placed
      * @return The last and highest platform created by this method
      */
+    @SuppressWarnings("magicnumber")
     private IPlatform placeInitialStartBlockPlatforms(final Set<IGameObject> elements) {
         final double initialPlatformHeightDivider = 1.2d;
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
@@ -151,6 +153,7 @@ public final class BlockFactory implements IBlockFactory {
                 serviceLocator.getConstants().getGameWidth() / 2,
                 (int) (serviceLocator.getConstants().getGameHeight() / initialPlatformHeightDivider));
         elements.add(platform);
+
         return platform;
     }
 
