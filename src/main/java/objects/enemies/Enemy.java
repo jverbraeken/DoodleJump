@@ -70,7 +70,8 @@ public class Enemy extends AEnemy {
     @Override
     public void collidesWith(final IDoodle doodle) {
         System.out.println("dodo");
-        Game.setPaused(true);
+        doodle.setHitByEnemy(true);
+        //Game.setPaused(true);
     }
 
 }

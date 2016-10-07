@@ -64,4 +64,16 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      */
     void deregister();
 
+    /**
+     * Returns true if the enemy has been hit by an enemy;
+     * @return the boolean hitByEnemy.
+     */
+    boolean isHitByEnemy();
+
+    /**
+     * Sets the variable hitByEnemy to isHit.
+     * @param isHit a boolean if the doodle is hit.
+     */
+    void setHitByEnemy(boolean isHit);
+
 }

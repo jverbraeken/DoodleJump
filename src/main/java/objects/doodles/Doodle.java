@@ -34,13 +34,21 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private static final double LEGS_HEIGHT = 0.8;
     /**
+     * Where the hitbox of the doodle starts in relation to the sprite height.
+     */
+    private static final double HEIGHT_HIT_BOX_TOP = 0.5;
+    /**
      * Where the hitbox of the doodle starts in relation to the sprite width.
      */
-    private static final double WIDTH_HIT_BOX_LEFT = .3;
+    private static final double WIDTH_HIT_BOX_LEFT = 0.3;
     /**
      * Where the hitbox of the doodle ends in relation to the sprite width.
      */
-    private static final double WIDTH_HIT_BOX_RIGHT = .7;
+    private static final double WIDTH_HIT_BOX_RIGHT = .8;
+    /**
+     * Gives true if the doodle has been hit by an enemy;
+     */
+    private boolean hitByEnemy = false;
 
     /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
@@ -65,11 +73,11 @@ public class Doodle extends AGameObject implements IDoodle {
                 sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0],
                 Doodle.class);
 
-        this.setHitBox(
-                (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
-                getSprite().getHeight(),
-                (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT),
-                getSprite().getHeight());
+         this.setHitBox(
+                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
+                 (int) (getSprite().getHeight() * HEIGHT_HIT_BOX_TOP),
+                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT),
+                 getSprite().getHeight());
 
         this.world = w;
         setBehavior(Game.getMode());
@@ -84,7 +92,9 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void collide(final IJumpable jumpable) {
-        behavior.setVerticalSpeed(jumpable.getBoost());
+        if (!isHitByEnemy()) {
+            behavior.setVerticalSpeed(jumpable.getBoost());
+        }
     }
 
     /**
@@ -160,8 +170,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void render() {
-        getServiceLocator().getRenderer().drawRectangle((int) (this.getXPos() + getHitBox()[0]), (int) (this.getYPos() + getHitBox()[1]), (int) (getHitBox()[2] - getHitBox()[0]),(int) (getHitBox()[3] - getHitBox()[1]));
-
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
@@ -260,6 +268,22 @@ public class Doodle extends AGameObject implements IDoodle {
         } else if (middle > width) {
             this.addXPos(-width);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isHitByEnemy() {
+        return hitByEnemy;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setHitByEnemy(boolean isHit) {
+        hitByEnemy = isHit;
     }
 
 }
