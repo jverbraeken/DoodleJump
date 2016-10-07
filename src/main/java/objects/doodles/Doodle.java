@@ -227,6 +227,10 @@ public class Doodle extends AGameObject implements IDoodle {
         this.wrap();
         this.checkHighPosition();
         this.checkDeadPosition();
+
+        if (this.powerup != null) {
+            this.powerup.update(delta);
+        }
     }
 
     /**

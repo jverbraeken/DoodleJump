@@ -675,6 +675,41 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.sizeDown);
     }
 
+    // Passive
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite[] getJetpackActiveSprites() {
+        ISprite[] sprites = new ISprite[10];
+        sprites[0] = getSprite(IRes.Sprites.jetpack0);
+        sprites[1] = getSprite(IRes.Sprites.jetpack1);
+        sprites[2] = getSprite(IRes.Sprites.jetpack2);
+        sprites[3] = getSprite(IRes.Sprites.jetpack3);
+        sprites[4] = getSprite(IRes.Sprites.jetpack4);
+        sprites[5] = getSprite(IRes.Sprites.jetpack5);
+        sprites[6] = getSprite(IRes.Sprites.jetpack6);
+        sprites[7] = getSprite(IRes.Sprites.jetpack7);
+        sprites[8] = getSprite(IRes.Sprites.jetpack8);
+        sprites[9] = getSprite(IRes.Sprites.jetpack9);
+
+        return sprites;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite[] getPropellerActiveSprites() {
+        ISprite[] sprites = new ISprite[4];
+        sprites[0] = getSprite(IRes.Sprites.propeller0);
+        sprites[1] = getSprite(IRes.Sprites.propeller1);
+        sprites[2] = getSprite(IRes.Sprites.propeller0);
+        sprites[3] = getSprite(IRes.Sprites.propeller2);
+
+        return sprites;
+    }
+
     // Misc
 
     /**
