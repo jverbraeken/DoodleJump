@@ -3,8 +3,8 @@ package objects.doodles;
 import input.IKeyInputObserver;
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.powerups.IPassive;
 import objects.doodles.DoodleBehavior.MovementBehavior;
+import objects.powerups.IPowerup;
 
 /**
  * This class describes the behaviour of the doodle.
@@ -37,21 +37,21 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      *
      * @return The passive the Doodle currently has. Note that this can be null!
      */
-    IPassive getPassive();
+    IPowerup getPowerup();
 
     /**
      * Add a passive item to the Doodle.
      *
      * @param item The item to add as passive.
      */
-    void setPassive(final IPassive item);
+    void setPowerup(final IPowerup item);
 
     /**
      * Removes a passive from the Doodle.
      *
      * @param item The item to remove as passive.
      */
-    void removePassive(final IPassive item);
+    void removePowerup(final IPowerup item);
 
     /**
      * Returns the height of the legs of the Doodle. When this value is very large, for example 1,

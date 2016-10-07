@@ -6,7 +6,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the SpringShoes powerup.
  */
-/* package */ class SpringShoes extends APowerup implements IPassive, IPowerup {
+/* package */ class SpringShoes extends APowerup {
 
     /**
      * The maximum amount of times SpringShoes can be used.
@@ -15,7 +15,7 @@ import system.IServiceLocator;
     /**
      * The boost provided by the SpringShoes.
      */
-    private static final double BOOST = 2d;
+    private static final double BOOST = -30d;
 
     /**
      * The Doodle that owns these SpringShoes.
@@ -41,33 +41,27 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public double getBoost() {
-        this.uses += 1;
+    public final void perform(final String occasion) {
+        if (occasion.equals("collision")) {
+            this.uses += 1;
+            this.owner.setVerticalSpeed(BOOST);
 
-        if (this.uses > MAX_USES - 1)  {
-            this.owner.removePassive(this);
-            this.owner = null;
+            if (this.uses >= MAX_USES) {
+                this.owner.removePowerup(this);
+                this.owner = null;
+            }
         }
-
-        return BOOST;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public PassiveType getType() {
-        return PassiveType.collision;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void collidesWith(final IDoodle doodle) {
+    public final void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
+            getLogger().info("Doodle collided with a pair of SpringShoes");
             this.owner = doodle;
-            doodle.setPassive(this);
+            doodle.setPowerup(this);
         }
     }
 
@@ -75,7 +69,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void render() {
+    public final void render() {
         if (this.owner == null && this.uses < MAX_USES) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else if (this.owner != null) {

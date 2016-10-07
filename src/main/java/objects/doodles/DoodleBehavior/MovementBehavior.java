@@ -35,6 +35,13 @@ public interface MovementBehavior extends IKeyInputObserver {
     void move(final double delta);
 
     /**
+     * Get the direction we are moving.
+     *
+     * @return the direction
+     */
+    Directions getMoving();
+
+    /**
      * Enum with Directions for the Doodle.
      */
     enum Directions {

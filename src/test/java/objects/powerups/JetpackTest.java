@@ -1,6 +1,7 @@
 package objects.powerups;
 
 import constants.IConstants;
+import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.After;
@@ -16,6 +17,7 @@ import system.IServiceLocator;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -25,6 +27,7 @@ public class JetpackTest {
 
     private IConstants constants = mock(IConstants.class);
     private IDoodle doodle = mock(IDoodle.class);
+    private ILogger logger = mock(ILogger.class);
     private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
     private IRenderer renderer = mock(IRenderer.class);
     private IServiceLocator serviceLocator = mock(IServiceLocator.class);
@@ -33,9 +36,6 @@ public class JetpackTest {
 
     private Jetpack jetpack;
     private ISprite[] spritePack = new ISprite[10];
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void init() {
@@ -47,7 +47,7 @@ public class JetpackTest {
         when(constants.getGameWidth()).thenReturn(100);
         when(doodle.getXPos()).thenReturn(0d);
         when(doodle.getYPos()).thenReturn(0d);
-        when(loggerFactory.createLogger(Jetpack.class)).thenReturn(null);
+        when(loggerFactory.createLogger(Jetpack.class)).thenReturn(logger);
         when(sprite.getHeight()).thenReturn(0);
         when(spriteFactory.getJetpackSprite()).thenReturn(sprite);
         when(spriteFactory.getJetpackActiveSprites()).thenReturn(spritePack);
@@ -55,31 +55,11 @@ public class JetpackTest {
         jetpack = new Jetpack(serviceLocator, 0, 0);
     }
 
-    @After
-    public void finish() {
-        jetpack = null;
-    }
-
     @Test
-    public void testCollidesWithSetOwner() throws Exception {
+    public void testCollidesWith_SetOwner() throws Exception {
         jetpack.collidesWith(doodle);
         Object owner = Whitebox.getInternalState(jetpack, "owner");
-        assertThat(owner.equals(doodle), is(true));
-    }
-
-    @Test
-    public void testGetBoost() throws Exception {
-        jetpack.collidesWith(doodle);
-
-        jetpack.update(0d);
-        double boost = jetpack.getBoost();
-        assertThat(boost < 0, is(true));
-    }
-
-    @Test
-    public void testGetType() {
-        PassiveType type = jetpack.getType();
-        assertThat(type.equals(PassiveType.constant), is(true));
+        assertThat(owner, is(doodle));
     }
 
     @Test
@@ -98,6 +78,21 @@ public class JetpackTest {
         verify(renderer, times(1)).drawSprite(sprite, 0, 0);
         verify(doodle, times(1)).getXPos();
         verify(doodle, times(1)).getYPos();
+    }
+
+    @Test
+    public void testPerform() throws Exception {
+        jetpack.collidesWith(doodle);
+
+        jetpack.perform("constant");
+        verify(doodle, times(1)).setVerticalSpeed(anyDouble());
+    }
+
+    @Test
+    public void testPerformInvalid() throws Exception {
+        jetpack.collidesWith(doodle);
+        jetpack.perform("invalid");
+        verify(doodle, times(0)).setVerticalSpeed(anyDouble());
     }
 
 }

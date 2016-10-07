@@ -7,7 +7,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the Jetpack powerup.
  */
-/* package */ class Jetpack extends APowerup implements IPassive, IPowerup {
+/* package */ class Jetpack extends APowerup {
 
     /**
      * The acceleration provided by the Jetpack.
@@ -56,19 +56,11 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public double getBoost() {
-        return this.speed;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final void update(final double delta) {
         timer += 1;
 
         if (timer == MAX_TIMER) {
-            this.owner.removePassive(this);
+            this.owner.removePowerup(this);
             this.owner = null;
         } else if (this.speed > MAX_BOOST) {
             this.speed += ACCELERATION;
@@ -81,18 +73,9 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public PassiveType getType() {
-        return PassiveType.constant;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void collidesWith(final IDoodle doodle) {
-        if (this.owner == null) {
-            this.owner = doodle;
-            doodle.setPassive(this);
+    public final void perform(final String occasion) {
+        if (occasion.equals("constant")) {
+            this.owner.setVerticalSpeed(this.speed);
         }
     }
 
@@ -100,7 +83,19 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void render() {
+    public final void collidesWith(final IDoodle doodle) {
+        if (this.owner == null) {
+            getLogger().info("Doodle collided with a Jetpack");
+            this.owner = doodle;
+            doodle.setPowerup(this);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void render() {
         if (this.owner == null) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else {
