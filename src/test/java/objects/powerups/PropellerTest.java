@@ -1,6 +1,7 @@
 package objects.powerups;
 
 import constants.IConstants;
+import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.After;
@@ -16,6 +17,7 @@ import system.IServiceLocator;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -25,6 +27,7 @@ public class PropellerTest {
 
     private IConstants constants = mock(IConstants.class);
     private IDoodle doodle = mock(IDoodle.class);
+    private ILogger logger = mock(ILogger.class);
     private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
     private IRenderer renderer = mock(IRenderer.class);
     private IServiceLocator serviceLocator = mock(IServiceLocator.class);
@@ -33,9 +36,6 @@ public class PropellerTest {
 
     private Propeller propeller;
     private int render_y_offset = Whitebox.getInternalState(Propeller.class, "OWNED_Y_OFFSET");
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void init() {
@@ -47,38 +47,33 @@ public class PropellerTest {
         when(constants.getGameWidth()).thenReturn(100);
         when(doodle.getXPos()).thenReturn(0d);
         when(doodle.getYPos()).thenReturn(0d);
-        when(spriteFactory.getPropellerSprite()).thenReturn(sprite);
+        when(loggerFactory.createLogger(Propeller.class)).thenReturn(logger);
         when(sprite.getHeight()).thenReturn(0);
-        when(loggerFactory.createLogger(Jetpack.class)).thenReturn(null);
+        when(spriteFactory.getPropellerSprite()).thenReturn(sprite);
 
         propeller = new Propeller(serviceLocator, 0, 0);
-    }
-
-    @After
-    public void finish() {
-        propeller = null;
     }
 
     @Test
     public void testCollidesWithSetOwner() throws Exception {
         propeller.collidesWith(doodle);
         Object owner = Whitebox.getInternalState(propeller, "owner");
-        assertThat(owner.equals(doodle), is(true));
+        assertThat(owner, is(doodle));
     }
 
     @Test
-    public void testGetBoost() throws Exception {
+    public void testPerform() throws Exception {
         propeller.collidesWith(doodle);
 
-        propeller.update(0d);
-        double boost = propeller.getBoost();
-        assertThat(boost < 0, is(true));
+        propeller.perform("constant");
+        verify(doodle, times(1)).setVerticalSpeed(anyDouble());
     }
 
     @Test
-    public void testGetType() {
-        PassiveType x = propeller.getType();
-        assertThat(x.equals(PassiveType.constant), is(true));
+    public void testPerformInvalid() throws Exception {
+        propeller.collidesWith(doodle);
+        propeller.perform("invalid");
+        verify(doodle, times(0)).setVerticalSpeed(anyDouble());
     }
 
 

@@ -2,8 +2,7 @@ package objects.doodles.DoodleBehavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
-import objects.powerups.IPassive;
-import objects.powerups.PassiveType;
+import objects.powerups.IPowerup;
 import system.IServiceLocator;
 
 /**
@@ -70,9 +69,13 @@ public class RegularBehavior implements MovementBehavior {
     @Override
     public final void move(final double delta) {
         moveHorizontally(delta);
-        applyPassive();
         applyGravity(delta);
         animate(delta);
+
+        IPowerup powerup = this.doodle.getPowerup();
+        if (powerup != null) {
+            powerup.perform("constant");
+        }
     }
 
     /**
@@ -97,6 +100,14 @@ public class RegularBehavior implements MovementBehavior {
     @Override
     public final Directions getFacing() {
         return facing;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Directions getMoving() {
+        return moving;
     }
 
     /**
@@ -135,17 +146,6 @@ public class RegularBehavior implements MovementBehavior {
             doodle.setSprite(getFacing(), true);
         } else {
             doodle.setSprite(getFacing(), false);
-        }
-    }
-
-    /**
-     * Apply the boost of the Doodles passive.
-     */
-    private void applyPassive() {
-        IPassive passive = this.doodle.getPassive();
-        if (passive != null && passive.getType() == PassiveType.constant) {
-            double boost = passive.getBoost();
-            this.setVerticalSpeed(boost);
         }
     }
 

@@ -1,12 +1,13 @@
 package objects.powerups;
 
+import objects.IGameObject;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
  * This class describes the behaviour of the Propeller powerup.
  */
-/* package */ class Propeller extends APowerup implements IPassive, IPowerup {
+/* package */ final class Propeller extends APowerup {
 
     /**
      * The acceleration provided by the Propeller.
@@ -47,15 +48,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the Propeller.
      */
     /* package */ Propeller(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPropellerSprite(), Jetpack.class);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double getBoost() {
-        return this.speed;
+        super(sL, x, y, sL.getSpriteFactory().getPropellerSprite(), Propeller.class);
     }
 
     /**
@@ -66,7 +59,7 @@ import system.IServiceLocator;
         timer += 1;
 
         if (timer == MAX_TIMER) {
-            this.owner.removePassive(this);
+            this.owner.removePowerup(this);
             this.owner = null;
         } else if (this.speed > MAX_BOOST) {
             this.speed += ACCELERATION;
@@ -77,18 +70,9 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public PassiveType getType() {
-        return PassiveType.constant;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void collidesWith(final IDoodle doodle) {
-        if (this.owner == null) {
-            this.owner = doodle;
-            doodle.setPassive(this);
+    public final void perform(final String occasion) {
+        if (occasion.equals("constant")) {
+            this.owner.setVerticalSpeed(this.speed);
         }
     }
 
@@ -96,7 +80,19 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void render() {
+    public final void collidesWith(final IDoodle doodle) {
+        if (this.owner == null) {
+            getLogger().info("Doodle collided with a Propeller");
+            this.owner = doodle;
+            doodle.setPowerup(this);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void render() {
         if (this.owner == null) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else {

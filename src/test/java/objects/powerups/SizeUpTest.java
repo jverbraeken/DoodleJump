@@ -1,6 +1,7 @@
 package objects.powerups;
 
 import constants.IConstants;
+import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.After;
@@ -23,6 +24,7 @@ public class SizeUpTest {
 
     private IConstants constants = mock(IConstants.class);
     private IDoodle doodle = mock(IDoodle.class);
+    private ILogger logger = mock(ILogger.class);
     private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
     private IRenderer renderer = mock(IRenderer.class);
     private IServiceLocator serviceLocator = mock(IServiceLocator.class);
@@ -32,9 +34,6 @@ public class SizeUpTest {
     private SizeUp sizeUp;
     private double sizeUpScalar = Whitebox.getInternalState(SizeUp.class, "SCALE_INCREASE");
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Before
     public void init() {
         when(serviceLocator.getConstants()).thenReturn(constants);
@@ -43,16 +42,11 @@ public class SizeUpTest {
         when(serviceLocator.getRenderer()).thenReturn(renderer);
 
         when(constants.getGameWidth()).thenReturn(100);
-        when(loggerFactory.createLogger(Jetpack.class)).thenReturn(null);
+        when(loggerFactory.createLogger(SizeUp.class)).thenReturn(logger);
         when(sprite.getWidth()).thenReturn(0);
         when(spriteFactory.getSizeUpSprite()).thenReturn(sprite);
 
         sizeUp = new SizeUp(serviceLocator, 0, 0);
-    }
-
-    @After
-    public void finish() {
-        sizeUp = null;
     }
 
     @Test

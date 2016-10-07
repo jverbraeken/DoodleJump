@@ -4,9 +4,9 @@ import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
- * This class describes the behaviour of the SizeUp powerup.
+ * This class describes the behaviour of the SizeUp powerup. Increasing the size of the Doodle when picked up.
  */
-/* package */ class SizeUp extends APowerup implements IPowerup {
+/* package */ final class SizeUp extends APowerup {
 
     /**
      * The scale increase provided by the SizeUp powerup.
@@ -21,7 +21,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the SizeUp.
      */
     /* package */ SizeUp(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getSizeUpSprite(), Jetpack.class);
+        super(sL, x, y, sL.getSpriteFactory().getSizeUpSprite(), SizeUp.class);
     }
 
     /**
@@ -29,6 +29,7 @@ import system.IServiceLocator;
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
+        getLogger().info("Doodle collided with a SizeUp");
         doodle.increaseSpriteScalar(SCALE_INCREASE);
         this.setXPos(this.getSprite().getWidth() * -1);
     }
