@@ -1,6 +1,5 @@
 package objects.powerups;
 
-import objects.IGameObject;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 

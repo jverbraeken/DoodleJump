@@ -7,7 +7,6 @@ import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
-import objects.powerups.IPowerup;
 import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
