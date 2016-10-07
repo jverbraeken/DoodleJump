@@ -212,25 +212,26 @@ public class World implements IScene {
      * Apply the current speed to all objects.
      */
     private void checkCollisions() {
-        if (this.doodle.getVerticalSpeed() > 0) {
-            for (IBlock block : blocks) {
-                Set<IGameObject> elements = block.getElements();
-                for (IGameObject element : elements) {
-                    if (this.doodle.checkCollision(element)) {
-                        if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()) {
-                            element.collidesWith(this.doodle);
+        if (!this.doodle.isHitByEnemy()) {
+            if (this.doodle.getVerticalSpeed() > 0) {
+                for (IBlock block : blocks) {
+                    Set<IGameObject> elements = block.getElements();
+                    for (IGameObject element : elements) {
+                        if (this.doodle.checkCollision(element)) {
+                            if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()) {
+                                element.collidesWith(this.doodle);
+                            }
                         }
                     }
                 }
-            }
-        }
-        else {
-            for (IBlock block : blocks) {
-                Set<IGameObject> elements = block.getElements();
-                for (IGameObject element : elements) {
-                    if (element instanceof IEnemy) {
-                        if (this.doodle.checkCollision(element)) {
-                            element.collidesWith(this.doodle);
+            } else {
+                for (IBlock block : blocks) {
+                    Set<IGameObject> elements = block.getElements();
+                    for (IGameObject element : elements) {
+                        if (element instanceof IEnemy) {
+                            if (this.doodle.checkCollision(element)) {
+                                element.collidesWith(this.doodle);
+                            }
                         }
                     }
                 }

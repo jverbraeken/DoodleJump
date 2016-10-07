@@ -1,14 +1,9 @@
 package objects.enemies;
 
-import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
-import system.Game;
 import system.IServiceLocator;
 
-/**
- * A sample enemy class.
- */
-public class Enemy extends AEnemy {
+public class threeEyedMonster extends AEnemy {
 
     /**
      * Will move 15 pixels left and right.
@@ -39,17 +34,15 @@ public class Enemy extends AEnemy {
      * @param y The Y-coordinate of the enemy
      * @param sprite The sprite of the enemy
      */
-    public Enemy(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
-        super(sL, x, y, sprite, Enemy.class);
+    public threeEyedMonster(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
+        super(sL, x, y, sprite, threeEyedMonster.class);
     }
 
-    /** {@inheritDoc} */
     @Override
-    public final double getBoost() {
+    public double getBoost() {
         return 0;
     }
 
-    /** {@inheritDoc} */
     @Override
     public void render() {
         if (!killed) {
@@ -72,22 +65,4 @@ public class Enemy extends AEnemy {
             getServiceLocator().getRenderer().drawSprite(getSprite(), xPos, yPos);
         }
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public void collidesWith(final IDoodle doodle) {
-        if(doodle.getVerticalSpeed() > 0 && !doodle.isHitByEnemy()) {
-            System.out.println("hit van boven");
-            killed = true;
-        }
-        else if (!killed) {
-            System.out.println("dodo");
-            if (doodle.getVerticalSpeed() < -5) {
-                doodle.setVerticalSpeed(-5);
-            }
-            doodle.setHitByEnemy(true);
-        }
-        //Game.setPaused(true);
-    }
-
 }

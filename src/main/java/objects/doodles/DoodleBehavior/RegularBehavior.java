@@ -68,9 +68,8 @@ public class RegularBehavior implements MovementBehavior {
      */
     @Override
     public final void move(final double delta) {
-        if (!doodle.isHitByEnemy()) {
-            moveHorizontally(delta);
-        }
+        moveHorizontally(delta);
+
         applyGravity(delta);
         animate(delta);
 

@@ -75,6 +75,9 @@ public interface IRes {
         lowFiveFeetMonster2,
         smallMonster,
 
+        //Stars
+        stars1, stars2, stars3,
+
         // Numbers
         zero, one, two, three, four, five, six, seven, eight, nine,
 

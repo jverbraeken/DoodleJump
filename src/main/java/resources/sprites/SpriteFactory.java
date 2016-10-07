@@ -359,6 +359,30 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.smallMonster);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getStarSprite1() {
+        return getSprite(IRes.Sprites.stars1);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getStarSprite2() {
+        return getSprite(IRes.Sprites.stars2);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getStarSprite3() {
+        return getSprite(IRes.Sprites.stars3);
+    }
+
 
     // Numbers
 

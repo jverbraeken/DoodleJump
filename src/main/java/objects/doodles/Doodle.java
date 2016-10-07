@@ -47,9 +47,14 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private static final double WIDTH_HIT_BOX_RIGHT = .8;
     /**
-     * Gives true if the doodle has been hit by an enemy;
+     * Gives true if the doodle has been hit by an enemy.
      */
     private boolean hitByEnemy = false;
+
+    /**
+     * Keeps the number of the star animation when killed by an enemy.
+     */
+    private int starNumber = 0;
 
     /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
@@ -75,6 +80,14 @@ public class Doodle extends AGameObject implements IDoodle {
      * The scalar for the Doodle sprite.
      */
     private double spriteScalar = 1d;
+    /**
+     * The scalar for the Stars sprite.
+     */
+    private final double starsScalar = 0.7d;
+    /**
+     * The scalar for the Stars sprite.
+     */
+    private final int starsOffset = 20;
 
     /**
      * Doodle constructor.
@@ -108,15 +121,13 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void collide(final IJumpable jumpable) {
-        if (!isHitByEnemy()) {
-            behavior.setVerticalSpeed(jumpable.getBoost());
+        behavior.setVerticalSpeed(jumpable.getBoost());
 
-            double boost = jumpable.getBoost();
-            behavior.setVerticalSpeed(boost);
+        double boost = jumpable.getBoost();
+        behavior.setVerticalSpeed(boost);
 
-            if (this.powerup != null) {
-                this.powerup.perform("collision");
-            }
+        if (this.powerup != null) {
+            this.powerup.perform("collision");
         }
     }
 
@@ -225,9 +236,28 @@ public class Doodle extends AGameObject implements IDoodle {
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
+        if (this.isHitByEnemy()) {
+            getServiceLocator().getRenderer().drawSprite(getStarSprite(),
+                    (int) (this.getXPos() + (this.starsOffset * this.spriteScalar)),
+                    (int) this.getYPos(),
+                    (int) (sprite.getWidth() * this.spriteScalar * this.starsScalar),
+                    (int) (sprite.getHeight() * this.spriteScalar * this.starsScalar));
+            starNumber++;
+        }
+
         if (this.powerup != null) {
             this.powerup.render();
         }
+    }
+
+    private ISprite getStarSprite() {
+        if (starNumber % 9 < 3) {
+            return getServiceLocator().getSpriteFactory().getStarSprite1();
+        }
+        else if (starNumber % 9 < 6) {
+            return getServiceLocator().getSpriteFactory().getStarSprite2();
+        }
+        return getServiceLocator().getSpriteFactory().getStarSprite3();
     }
 
     /**
