@@ -66,7 +66,7 @@ import system.IServiceLocator;
             this.speed += ACCELERATION;
         }
 
-        this.setSprite(Jetpack.spritePack[timer % 9]);
+        this.setSprite(Jetpack.spritePack[timer % Jetpack.spritePack.length]);
     }
 
     /**

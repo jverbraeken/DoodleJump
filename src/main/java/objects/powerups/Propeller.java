@@ -1,6 +1,5 @@
 package objects.powerups;
 
-import objects.IGameObject;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -72,7 +71,7 @@ import system.IServiceLocator;
             this.speed += ACCELERATION;
         }
 
-        this.setSprite(Propeller.spritePack[timer % 4]);
+        this.setSprite(Propeller.spritePack[timer % Propeller.spritePack.length]);
     }
 
     /**

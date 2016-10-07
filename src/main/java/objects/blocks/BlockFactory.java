@@ -7,7 +7,6 @@ import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
-import objects.powerups.IPowerup;
 import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
@@ -153,13 +152,6 @@ public final class BlockFactory implements IBlockFactory {
                 serviceLocator.getConstants().getGameWidth() / 2,
                 (int) (serviceLocator.getConstants().getGameHeight() / initialPlatformHeightDivider));
         elements.add(platform);
-
-        IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-        IGameObject powerup = powerupFactory.createSpringShoes(
-                serviceLocator.getConstants().getGameWidth() / 2,
-                (int) (serviceLocator.getConstants().getGameHeight() / initialPlatformHeightDivider) - 50);
-        elements.add(powerup);
-
         return platform;
     }
 
