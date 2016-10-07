@@ -14,8 +14,6 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Collections;
 
 import static system.Game.Modes.regular;
 
@@ -57,14 +55,6 @@ public final class Game {
      */
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
     /**
-     * X position relative to the frame of the resume button.
-     */
-    private static final double RESUME_BUTTON_X = 0.55;
-    /**
-     * Y position relative to the frame of the resume button.
-     */
-    private static final double RESUME_BUTTON_Y = 0.75;
-    /**
      * The high scores list for the Game.
      */
     public static final HighScoreList HIGH_SCORES = new HighScoreList(serviceLocator);
@@ -93,6 +83,10 @@ public final class Game {
      * Track if the game is paused.
      */
     private static boolean isPaused = false;
+    /**
+     * The enums for the mode.
+     */
+    public enum Modes { regular, underwater, story, invert, darkness, space }
     /**
      * Track the current mode of the game.
      */
@@ -289,36 +283,6 @@ public final class Game {
             return TARGET_FPS;
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
-    }
-
-    /**
-     * The enums for the mode.
-     */
-    public enum Modes {
-        /**
-         * As usual.
-         */
-        regular,
-        /**
-         * Underwater -> slow moving.
-         */
-        underwater,
-        /**
-         * Accompanied with a story.
-         */
-        story,
-        /**
-         * Everything upside-down.
-         */
-        invert,
-        /**
-         * You don't see any platforms except for the ones you jumped on.
-         */
-        darkness,
-        /**
-         * Fast acceleration, slow deceleration.
-         */
-        space
     }
 
 }
