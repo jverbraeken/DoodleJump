@@ -11,7 +11,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the spring powerup.
  */
-/* package */ final class Spring extends AGameObject implements IJumpable {
+/* package */ class Spring extends AGameObject implements IJumpable {
 
     /**
      * The BOOST value for the Spring.
