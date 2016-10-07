@@ -26,6 +26,12 @@ public class Enemy extends AEnemy {
     private int movingDirection = 0;
 
     /**
+     * Is true when the enemy has been killed. This can be
+     * either by a shot or from the doodle jumping on the enemy.
+     */
+    private boolean killed = false;
+
+    /**
      * Creates a new enemy and determines its hitbox by using the sprites dimensions automatically.
      *
      * @param sL The service locator
@@ -46,31 +52,38 @@ public class Enemy extends AEnemy {
     /** {@inheritDoc} */
     @Override
     public void render() {
-        int xPos = 0;
-        int yPos = (int) this.getYPos();
-        if (movingDirection == 1) {
-            xPos = (int) (this.getXPos() + 2);
-            offSet = offSet + 2;
-            if (offSet > movingDistance) {
-                movingDirection = 0;
+        if (!killed) {
+            int xPos = 0;
+            int yPos = (int) this.getYPos();
+            if (movingDirection == 1) {
+                xPos = (int) (this.getXPos() + 2);
+                offSet = offSet + 2;
+                if (offSet > movingDistance) {
+                    movingDirection = 0;
+                }
+            } else {
+                xPos = (int) (this.getXPos() - 2);
+                offSet = offSet - 2;
+                if (offSet < -movingDistance) {
+                    movingDirection = 1;
+                }
             }
+            this.setXPos(xPos);
+            getServiceLocator().getRenderer().drawSprite(getSprite(), xPos, yPos);
         }
-        else {
-            xPos = (int) (this.getXPos() - 2);
-            offSet = offSet - 2;
-            if (offSet < -movingDistance) {
-                movingDirection = 1;
-            }
-        }
-        this.setXPos(xPos);
-        getServiceLocator().getRenderer().drawSprite(getSprite(), xPos, yPos);
     }
 
     /** {@inheritDoc} */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        System.out.println("dodo");
-        doodle.setHitByEnemy(true);
+        if(doodle.getVerticalSpeed() > 0 && !doodle.isHitByEnemy()) {
+            System.out.println("hit van boven");
+            killed = true;
+        }
+        else if (!killed) {
+            System.out.println("dodo");
+            doodle.setHitByEnemy(true);
+        }
         //Game.setPaused(true);
     }
 
