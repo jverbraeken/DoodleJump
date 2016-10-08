@@ -65,4 +65,19 @@ public class threeEyedMonster extends AEnemy {
             getServiceLocator().getRenderer().drawSprite(getSprite(), xPos, yPos);
         }
     }
+
+    @Override
+    public void applyGravity() {
+
+    }
+
+    @Override
+    public boolean getKilled() {
+        return false;
+    }
+
+    @Override
+    public void setKilled(boolean killed) {
+
+    }
 }

@@ -5,7 +5,6 @@ import logging.ILogger;
 import logging.ILoggerFactory;
 import math.ICalc;
 import objects.doodles.IDoodle;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.ServiceLocator;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -121,9 +120,7 @@ public class PlatformTest {
     }
 
     /**
-     * Test the getOffSet method.
-     * @throws NoSuchFieldException if the field does not exist.
-     * @throws IllegalAccessException if you can't acces that field.
+     * Test the collidesWith method.
      */
     @Test
     public void collidesWith(){

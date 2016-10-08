@@ -98,13 +98,11 @@ public class Enemy extends AEnemy {
     @Override
     public void collidesWith(final IDoodle doodle) {
         if(doodle.getVerticalSpeed() > 0 && !doodle.isHitByEnemy()) {
-            System.out.println("hit van boven");
             killed = true;
             vSpeed = doodle.getVerticalSpeed();
             doodle.collide(this);
         }
         else if (!killed) {
-            System.out.println("dodo");
             if (doodle.getVerticalSpeed() < -5) {
                 doodle.setVerticalSpeed(-5);
             }
@@ -115,9 +113,41 @@ public class Enemy extends AEnemy {
     /**
      * Apply gravity to the Breaking platform.
      */
-    private void applyGravity() {
+    public void applyGravity() {
         vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
+    }
+
+    /**
+     * Get if the Enemy is killed.
+     * @return the attribute killed.
+     */
+    public boolean getKilled() {
+        return killed;
+    }
+
+    /**
+     * Set if the Enemy is killed.
+     * @param killed a boolean if the Enemy is killed.
+     */
+    public void setKilled(boolean killed) {
+        this.killed = killed;
+    }
+
+    /**
+     * Returns the offSet of this Enemy.
+     * @return the attribute offSet.
+     */
+    int getOffSet() {
+        return offSet;
+    }
+
+    /**
+     * Returns the vSpeed of this Enemy.
+     * @return the attribute vSpeed.
+     */
+    double getVerticalSpeed() {
+        return vSpeed;
     }
 
 }
