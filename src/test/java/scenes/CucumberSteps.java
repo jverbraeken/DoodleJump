@@ -15,7 +15,7 @@ public class CucumberSteps implements En {
 
 
         Given("^that the game is started$", () -> {
-            sL = Whitebox.getInternalState(Game.class, "sL");
+            sL = Whitebox.getInternalState(Game.class, "serviceLocator");
         });
         Given("^that the scene is (.*)$", (String scene) -> {
             switch (scene) {

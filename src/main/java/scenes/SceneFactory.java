@@ -35,35 +35,54 @@ public final class SceneFactory implements ISceneFactory {
         sL.provide(new SceneFactory());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IScene createMainMenu() {
         logger.info("A new Menu has been created");
         return new Menu(serviceLocator);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IScene createKillScreen() {
         logger.info("A new KillScreen has been created");
         return new KillScreen(serviceLocator);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IScene createPauseScreen() {
         logger.info("A new PauseScreen has been created");
         return new PauseScreen(serviceLocator);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IScene createScoreScreen() {
+        logger.info("A new ScoreScreen has been created");
+        return new ScoreScreen(serviceLocator);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public World newWorld() {
         logger.info("A new World has been created");
         return new World(serviceLocator);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ChooseMode newChooseMode() {
         logger.info("A new ChooseMode screen has been created");
