@@ -25,7 +25,7 @@ public class Platform extends AGameObject implements IPlatform {
      */
     private static double movingDistance;
     /**
-     * Current vertical speed for the Doodle.
+     * Current vertical speed for the Platform.
      */
     private double vSpeed = 0d;
     /**

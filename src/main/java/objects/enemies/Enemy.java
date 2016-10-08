@@ -9,6 +9,10 @@ import system.IServiceLocator;
  * A sample enemy class.
  */
 public class Enemy extends AEnemy {
+    /**
+     * The boost the Doodle gets from colliding with the Enemy.
+     */
+    private static final double BOOST = -18;
 
     /**
      * Will move 15 pixels left and right.
@@ -19,6 +23,11 @@ public class Enemy extends AEnemy {
      * OffSet of the movement from left to right.
      */
     private int offSet = 0;
+
+    /**
+     * Current vertical speed for the Enemy.
+     */
+    private double vSpeed = 0d;
 
     /**
      * Moving left = 0 and when moving right = 1
@@ -46,13 +55,16 @@ public class Enemy extends AEnemy {
     /** {@inheritDoc} */
     @Override
     public final double getBoost() {
-        return 0;
+        return this.BOOST;
     }
 
     /** {@inheritDoc} */
     @Override
     public void render() {
-        if (!killed) {
+        if (killed) {
+            getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        }
+        else {
             int xPos;
             int yPos = (int) this.getYPos();
             if (movingDirection == 1) {
@@ -71,6 +83,15 @@ public class Enemy extends AEnemy {
             this.setXPos(xPos);
             getServiceLocator().getRenderer().drawSprite(getSprite(), xPos, yPos);
         }
+
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void update(double delta) {
+        if (killed) {
+            applyGravity();
+        }
     }
 
     /** {@inheritDoc} */
@@ -79,6 +100,8 @@ public class Enemy extends AEnemy {
         if(doodle.getVerticalSpeed() > 0 && !doodle.isHitByEnemy()) {
             System.out.println("hit van boven");
             killed = true;
+            vSpeed = doodle.getVerticalSpeed();
+            doodle.collide(this);
         }
         else if (!killed) {
             System.out.println("dodo");
@@ -87,7 +110,14 @@ public class Enemy extends AEnemy {
             }
             doodle.setHitByEnemy(true);
         }
-        //Game.setPaused(true);
+    }
+
+    /**
+     * Apply gravity to the Breaking platform.
+     */
+    private void applyGravity() {
+        vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
+        addYPos(this.vSpeed);
     }
 
 }

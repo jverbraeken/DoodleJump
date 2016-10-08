@@ -5,6 +5,7 @@ import objects.IJumpable;
 import system.IServiceLocator;
 
 import java.util.Set;
+import java.util.jar.Pack200;
 
 /**
  * This class focuses on the implementation of Blocks.
@@ -71,6 +72,11 @@ public final class Block implements IBlock {
 
     /** {@inheritDoc} */
     @Override
-    public void update(final double delta) { }
+    public void update(final double delta) {
+        for (IGameObject gameObject : elements) {
+            gameObject.update(delta);
+        }
+        //elements.forEach(IGameObject::update);}
+    }
 
 }
