@@ -6,7 +6,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * Class representing a score. <b>Is immutable</b>.
  */
-/* package */ final class HighScore implements Comparable<HighScore> {
+public final class HighScore implements Comparable<HighScore> {
 
     /**
      * The name of this HighScore.

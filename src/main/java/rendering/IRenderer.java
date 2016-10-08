@@ -2,12 +2,18 @@ package rendering;
 
 import resources.sprites.ISprite;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
  * This class is responsible for rendering all Sprites.
  */
 public interface IRenderer {
+
+    /**
+     * Clear the game screen.
+     */
+    void clear();
 
     /**
      * Draw a sprite relative to the camera.
@@ -68,6 +74,26 @@ public interface IRenderer {
      * @param height the height of the rectangle
      */
     void drawRectangleHUD(final int x, final int y, final int width, final int height);
+
+    /**
+     * Draw a string of text relative to the screen.
+     *
+     * @param x the x position of the text.
+     * @param y the y position of the text.
+     * @param msg The message to draw.
+     */
+    void drawText(final int x, final int y, final String msg);
+
+    /**
+     * Draw a filled rectangle.
+     *
+     * @param x the x position of the rectangle.
+     * @param y the y position of the rectangle.
+     * @param width the width of the rectangle.
+     * @param height the height of the rectangle.
+     * @param color the color of the rectangle.
+     */
+    void fillRectangle(int x, int y, int width, int height, Color color);
 
     /**
      * Create a graphics buffer for smooth animations and rendering.

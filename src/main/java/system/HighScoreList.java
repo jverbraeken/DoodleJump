@@ -64,6 +64,15 @@ public class HighScoreList {
     }
 
     /**
+     * Get the actual HighScores lists.
+     *
+     * @return A List of HighScores.
+     */
+    public final List<HighScore> getList() {
+        return highScores;
+    }
+
+    /**
      * Get the high scores from the high scores file.
      *
      * @return The relevant content of the file.
