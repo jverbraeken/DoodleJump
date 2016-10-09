@@ -12,7 +12,7 @@ public class Enemy extends AEnemy {
     /**
      * The boost the Doodle gets from colliding with the Enemy.
      */
-    private static final double BOOST = -18;
+    private static final double BOOST = -22;
 
     /**
      * Will move 15 pixels left and right.
