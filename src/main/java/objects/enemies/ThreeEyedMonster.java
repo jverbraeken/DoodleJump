@@ -1,14 +1,18 @@
 package objects.enemies;
 
+import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-public class threeEyedMonster extends AEnemy {
+/**
+ * An enemy that is pretty high, and has 3 eyes.
+ */
+/* Package */ class ThreeEyedMonster extends AEnemy {
 
     /**
      * Will move 15 pixels left and right.
      */
-    private final static double movingDistance = 15;
+    private final static double MOVING_DISTANCE = 15;
 
     /**
      * OffSet of the movement from left to right.
@@ -16,7 +20,7 @@ public class threeEyedMonster extends AEnemy {
     private int offSet = 0;
 
     /**
-     * Moving left = 0 and when moving right = 1
+     * Moving left = 0 and when moving right = 1.
      */
     private int movingDirection = 0;
 
@@ -34,8 +38,8 @@ public class threeEyedMonster extends AEnemy {
      * @param y The Y-coordinate of the enemy
      * @param sprite The sprite of the enemy
      */
-    public threeEyedMonster(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
-        super(sL, x, y, sprite, threeEyedMonster.class);
+    /* package */ ThreeEyedMonster(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
+        super(sL, x, y, sprite, ThreeEyedMonster.class);
     }
 
     @Override
@@ -51,13 +55,13 @@ public class threeEyedMonster extends AEnemy {
             if (movingDirection == 1) {
                 xPos = (int) (this.getXPos() + 2);
                 offSet = offSet + 2;
-                if (offSet > movingDistance) {
+                if (offSet > MOVING_DISTANCE) {
                     movingDirection = 0;
                 }
             } else {
                 xPos = (int) (this.getXPos() - 2);
                 offSet = offSet - 2;
-                if (offSet < -movingDistance) {
+                if (offSet < -MOVING_DISTANCE) {
                     movingDirection = 1;
                 }
             }
@@ -77,7 +81,12 @@ public class threeEyedMonster extends AEnemy {
     }
 
     @Override
-    public void setKilled(boolean killed) {
+    public void setKilled(final boolean killed) {
+
+    }
+
+    @Override
+    public void collidesWith(final IDoodle doodle) {
 
     }
 }

@@ -2,7 +2,6 @@ package objects.enemies;
 
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
-import system.Game;
 import system.IServiceLocator;
 
 /**
@@ -15,9 +14,14 @@ public class Enemy extends AEnemy {
     private static final double BOOST = -22;
 
     /**
+     * When the Enemy is hit, the Doodle shouldn't go faster than this.
+     */
+    private static final double TOO_FAST_SPEED = -5;
+
+    /**
      * Will move 15 pixels left and right.
      */
-    private final static double movingDistance = 15;
+    private static final double MOVING_DISTANCE = 15;
 
     /**
      * OffSet of the movement from left to right.
@@ -30,7 +34,7 @@ public class Enemy extends AEnemy {
     private double vSpeed = 0d;
 
     /**
-     * Moving left = 0 and when moving right = 1
+     * Moving left = 0 and when moving right = 1.
      */
     private int movingDirection = 0;
 
@@ -60,23 +64,22 @@ public class Enemy extends AEnemy {
 
     /** {@inheritDoc} */
     @Override
-    public void render() {
+    public final void render() {
         if (killed) {
             getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
-        }
-        else {
+        } else {
             int xPos;
             int yPos = (int) this.getYPos();
             if (movingDirection == 1) {
                 xPos = (int) (this.getXPos() + 2);
                 offSet = offSet + 2;
-                if (offSet > movingDistance) {
+                if (offSet > MOVING_DISTANCE) {
                     movingDirection = 0;
                 }
             } else {
                 xPos = (int) (this.getXPos() - 2);
                 offSet = offSet - 2;
-                if (offSet < -movingDistance) {
+                if (offSet < -MOVING_DISTANCE) {
                     movingDirection = 1;
                 }
             }
@@ -88,7 +91,7 @@ public class Enemy extends AEnemy {
 
     /** {@inheritDoc} */
     @Override
-    public void update(double delta) {
+    public final void update(final double delta) {
         if (killed) {
             applyGravity();
         }
@@ -96,15 +99,14 @@ public class Enemy extends AEnemy {
 
     /** {@inheritDoc} */
     @Override
-    public void collidesWith(final IDoodle doodle) {
-        if(doodle.getVerticalSpeed() > 0 && !doodle.isHitByEnemy()) {
+    public final void collidesWith(final IDoodle doodle) {
+        if (doodle.getVerticalSpeed() > 0 && !doodle.isHitByEnemy()) {
             killed = true;
             vSpeed = doodle.getVerticalSpeed();
             doodle.collide(this);
-        }
-        else if (!killed) {
-            if (doodle.getVerticalSpeed() < -5) {
-                doodle.setVerticalSpeed(-5);
+        } else if (!killed) {
+            if (doodle.getVerticalSpeed() < TOO_FAST_SPEED) {
+                doodle.setVerticalSpeed(TOO_FAST_SPEED);
             }
             doodle.setHitByEnemy(true);
         }
@@ -113,7 +115,7 @@ public class Enemy extends AEnemy {
     /**
      * Apply gravity to the Breaking platform.
      */
-    public void applyGravity() {
+    public final void applyGravity() {
         vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
@@ -122,7 +124,7 @@ public class Enemy extends AEnemy {
      * Get if the Enemy is killed.
      * @return the attribute killed.
      */
-    public boolean getKilled() {
+    public final boolean getKilled() {
         return killed;
     }
 
@@ -130,7 +132,7 @@ public class Enemy extends AEnemy {
      * Set if the Enemy is killed.
      * @param killed a boolean if the Enemy is killed.
      */
-    public void setKilled(boolean killed) {
+    public final void setKilled(final boolean killed) {
         this.killed = killed;
     }
 
@@ -138,7 +140,7 @@ public class Enemy extends AEnemy {
      * Returns the offSet of this Enemy.
      * @return the attribute offSet.
      */
-    int getOffSet() {
+    final int getOffSet() {
         return offSet;
     }
 
@@ -146,7 +148,7 @@ public class Enemy extends AEnemy {
      * Returns the vSpeed of this Enemy.
      * @return the attribute vSpeed.
      */
-    double getVerticalSpeed() {
+    final double getVerticalSpeed() {
         return vSpeed;
     }
 

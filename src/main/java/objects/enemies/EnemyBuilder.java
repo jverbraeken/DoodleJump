@@ -3,7 +3,6 @@ package objects.enemies;
 import logging.ILogger;
 import objects.IGameObject;
 import resources.sprites.ISprite;
-import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**

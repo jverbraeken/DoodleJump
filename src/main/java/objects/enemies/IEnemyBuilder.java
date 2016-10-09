@@ -1,7 +1,6 @@
 package objects.enemies;
 
 import objects.IGameObject;
-import resources.sprites.ISprite;
 
 /**
  * Interface for an EnemyBuilder.
