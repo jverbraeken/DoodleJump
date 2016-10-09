@@ -25,17 +25,21 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
     /**
-     * The X and Y location for the StartScreen platform.
+     * The X and Y location for the play button.
      */
-    private static final double PLATFORM_X = 0.1d, PLATFORM_Y = 0.78d;
-    /**
-     * The X and Y location for the StartScreen Doodle.
-     */
-    private static final double DOODLE_X = 0.1d;
+    private static final double SCORE_BUTTON_X = 0.28d, SCORE_BUTTON_Y = 0.36d;
     /**
      * The X and Y location for the choose mode button.
      */
     private static final double CHOOSE_MODE_X = 0.6d, CHOOSE_MODE_Y = 0.65d;
+    /**
+     * The X and Y location for the StartScreen platform.
+     */
+    private static final double PLATFORM_X = 0.1d, PLATFORM_Y = 0.78d;
+    /**
+     * The X location for the StartScreen Doodle.
+     */
+    private static final double DOODLE_X = 0.1d;
 
     /**
      * Used to access all services.
@@ -46,9 +50,9 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     private final ILogger logger;
     /**
-     * The button that starts up a new world.
+     * The buttons for the main menu.
      */
-    private final IButton playButton;
+    private final IButton playButton, scoreButton;
     /**
      * The button that starts up a scene to choose mode.
      */
@@ -82,6 +86,9 @@ public class Menu implements IScene, IKeyInputObserver {
         playButton = buttonFactory.createPlayButton(
                 (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
                 (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y));
+        scoreButton = buttonFactory.createScoreButton(
+                (int) (sL.getConstants().getGameWidth() * SCORE_BUTTON_X),
+                (int) (sL.getConstants().getGameHeight() * SCORE_BUTTON_Y));
         chooseModeButton = buttonFactory.createChooseModeButton(
                 (int) (sL.getConstants().getGameWidth() * CHOOSE_MODE_X),
                 (int) (sL.getConstants().getGameHeight() * CHOOSE_MODE_Y));
@@ -104,6 +111,7 @@ public class Menu implements IScene, IKeyInputObserver {
     @Override
     public final void start() {
         playButton.register();
+        scoreButton.register();
         chooseModeButton.register();
         serviceLocator.getInputManager().addObserver(this);
         logger.info("The main menu registered itself as an observer of the input manager");
@@ -114,6 +122,7 @@ public class Menu implements IScene, IKeyInputObserver {
     @Override
     public final void stop() {
         playButton.deregister();
+        scoreButton.deregister();
         chooseModeButton.deregister();
         serviceLocator.getInputManager().removeObserver(this);
         logger.info("The main menu removed itself as an observer from the input manager");
@@ -125,6 +134,7 @@ public class Menu implements IScene, IKeyInputObserver {
     public final void render() {
         serviceLocator.getRenderer().drawSpriteHUD(this.cover, 0, 0);
         playButton.render();
+        scoreButton.render();
         chooseModeButton.render();
         doodle.render();
         platform.render();
@@ -152,4 +162,5 @@ public class Menu implements IScene, IKeyInputObserver {
             Game.setScene(serviceLocator.getSceneFactory().newWorld());
         }
     }
+
 }

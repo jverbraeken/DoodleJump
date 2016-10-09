@@ -1,16 +1,23 @@
 package rendering;
 
+import constants.IConstants;
 import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
-
 
 /**
  * This class is responsible for rendering all Sprites.
  */
 public final class Renderer implements IRenderer {
+
+    /**
+     * The default font size used by the Renderer.
+     */
+    private static final int FONT_SIZE = 28;
 
     /**
      * Used to gain access to all services.
@@ -45,6 +52,15 @@ public final class Renderer implements IRenderer {
         assert sL != null;
         Renderer.serviceLocator = sL;
         sL.provide(new Renderer());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clear() {
+        IConstants constants = serviceLocator.getConstants();
+        graphics.clearRect(0, 0, constants.getGameWidth(), constants.getGameHeight());
     }
 
     /**
@@ -141,12 +157,36 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
+    public void drawText(final int x, final int y, final String msg) {
+        assert graphics != null;
+        graphics.drawString(msg, x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void fillRectangle(final int x, final int y, final int width, final int height, final Color color) {
+        assert graphics != null;
+        logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+
+        Color currentColor = graphics.getColor();
+        graphics.setColor(color);
+        graphics.fillRect(x, (int) (y - camera.getYPos()), width, height);
+        graphics.setColor(currentColor);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setGraphicsBuffer(final Graphics g) {
         if (g == null) {
             throw new IllegalArgumentException("The graphics buffer cannot be null");
         }
 
         this.graphics = g;
+        this.graphics.setFont(new Font("Comic Sans", 0, FONT_SIZE));
     }
 
     /**
