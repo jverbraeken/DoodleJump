@@ -33,6 +33,7 @@ public interface IRes {
         play,
         playAgain,
         resume,
+        scoreButton,
         chooseMode,
 
         // Covers
@@ -117,6 +118,11 @@ public interface IRes {
         shield,
         sizeUp,
         sizeDown,
+
+        // Score screen
+        scoreScreenBottom,
+        scoreScreenLeft,
+        scoreScreenTop,
 
         // Top bar
         scoreBar,
