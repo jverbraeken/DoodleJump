@@ -11,7 +11,7 @@ import system.IServiceLocator;
     /**
      * The scale increase provided by the SizeUp powerup.
      */
-    private static final double SCALE_INCREASE = 0.2d;
+    private static final double SCALE_INCREASE = 0.4d;
 
     /**
      * SizeUp constructor.
