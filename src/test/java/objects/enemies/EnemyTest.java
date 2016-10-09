@@ -62,7 +62,7 @@ public class EnemyTest {
      */
     @Test
     public void getBoostTest() throws NoSuchFieldException, IllegalAccessException {
-        Field field = Platform.class.getDeclaredField("BOOST");
+        Field field = Enemy.class.getDeclaredField("BOOST");
         field.setAccessible(true);
 
         assertThat(enemy.getBoost(), is(field.get(enemy)));
