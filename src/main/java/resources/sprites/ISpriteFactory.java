@@ -20,7 +20,10 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getResumeButtonSprite();
 
+    ISprite getScoreButtonSprite();
+
     ISprite getChooseModeButtonSprite();
+
 
     // Covers
     ISprite getBackground();
@@ -262,6 +265,13 @@ public interface ISpriteFactory extends IFactory {
     ISprite getSizeUpSprite();
 
     ISprite getSizeDownSprite();
+
+    // Score screen
+    ISprite getScoreScreenBottom();
+
+    ISprite getScoreScreenLeft();
+
+    ISprite getScoreScreenTop();
 
     // Text
     ISprite getWaitDoNotShootSprite();

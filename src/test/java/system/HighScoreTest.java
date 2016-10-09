@@ -31,37 +31,25 @@ public class HighScoreTest {
     @Test
     public void testHighScoreName2() {
         score = new HighScore(scoreNameB, scoreScoreDefault);
-        assertThat(score.getName().equals(scoreNameB), is(true));
-    }
-
-    @Test
-    public void testHighScoreNameNeg() {
-        score = new HighScore(scoreNameA, scoreScoreDefault);
-        assertThat(score.getName().equals(scoreNameB), is(false));
+        assertThat(score.getName(), is(scoreNameB));
     }
 
     @Test
     public void testHighScoreScore1() {
         score = new HighScore(scoreNameDefault, scoreScoreA);
-        assertThat(score.getScore() == scoreScoreA, is(true));
+        assertThat(score.getScore(), is(scoreScoreA));
     }
 
     @Test
     public void testHighScoreScore2() {
         score = new HighScore(scoreNameDefault, scoreScoreB);
-        assertThat(score.getScore() == scoreScoreBExpected, is(true));
+        assertThat(score.getScore(), is(scoreScoreBExpected));
     }
 
     @Test
     public void testHighScoreScore3() {
         score = new HighScore(scoreNameDefault, scoreScoreC);
-        assertThat(score.getScore() == scoreScoreCExpected, is(true));
-    }
-
-    @Test
-    public void testHighScoreScoreNeg() {
-        score = new HighScore(scoreNameDefault, scoreScoreA);
-        assertThat(score.getScore() == scoreScoreA + 2, is(false));
+        assertThat(score.getScore(), is(scoreScoreCExpected));
     }
 
 }
