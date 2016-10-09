@@ -15,11 +15,11 @@ import system.IServiceLocator;
     /**
      * The boost the Jetpack gives.
      */
-    private static final double MAX_BOOST = -20d;
+    private static final double MAX_BOOST = -25d;
     /**
      * The maximum time the Jetpack is active.
      */
-    private static final int MAX_TIMER = 100;
+    private static final int MAX_TIMER = 175;
 
     /**
      * The Doodle that owns this Jetpack.

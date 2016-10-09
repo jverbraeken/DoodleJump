@@ -16,11 +16,11 @@ import system.IServiceLocator;
     /**
      * The boost the Propeller gives.
      */
-    private static final double MAX_BOOST = -15;
+    private static final double MAX_BOOST = -20;
     /**
      * The maximum time the Propeller is active.
      */
-    private static final int MAX_TIMER = 80;
+    private static final int MAX_TIMER = 150;
     /**
      * Y offset for drawing the Propeller when on Doodle.
      */
