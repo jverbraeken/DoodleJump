@@ -28,7 +28,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
+    public final void collidesWith(final IDoodle doodle) {
         getLogger().info("Doodle collided with a SizeDown");
         doodle.increaseSpriteScalar(SCALE_INCREASE);
         this.setXPos(this.getSprite().getWidth() * -1);
@@ -38,7 +38,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void render() {
+    public final void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 

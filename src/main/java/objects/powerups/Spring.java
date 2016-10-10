@@ -33,7 +33,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
+    public final void collidesWith(final IDoodle doodle) {
         doodle.collide(this);
     }
 
@@ -41,7 +41,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public double getBoost() {
+    public final double getBoost() {
         this.animate();
         this.playSound();
 
@@ -52,7 +52,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void render() {
+    public final void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 

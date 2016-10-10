@@ -50,7 +50,7 @@ import system.IServiceLocator;
      */
     @Override
     public final void update(final double delta) {
-        timer += 1;
+        timer++;
 
         if (timer == MAX_TIMER) {
             this.owner.removePowerup(this);
@@ -64,7 +64,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void perform(final String occasion) {
+    public final void perform(final String occasion) {
         if (occasion.equals("constant")) {
             this.owner.setVerticalSpeed(this.speed);
         }
@@ -74,7 +74,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
+    public final void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
             getLogger().info("Doodle collided with a Jetpack");
             this.owner = doodle;
@@ -86,7 +86,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void render() {
+    public final void render() {
         if (this.owner == null) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else {

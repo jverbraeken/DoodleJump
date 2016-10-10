@@ -33,7 +33,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
+    public final void collidesWith(final IDoodle doodle) {
         doodle.collide(this);
     }
 
@@ -41,8 +41,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public double getBoost() {
-        //TODO This is can cause bugs as the programmer does not a getter to do these kind of things
+    public final double getBoost() {
         this.animate();
         this.playSound();
 
@@ -53,7 +52,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void render() {
+    public final void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
