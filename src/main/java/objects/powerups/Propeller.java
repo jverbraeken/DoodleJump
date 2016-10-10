@@ -29,11 +29,19 @@ import system.IServiceLocator;
      * Y offset for drawing the Propeller when on Doodle.
      */
     private static final int OWNED_Y_OFFSET = -26;
+    /**
+     * The refresh rate for the active animation.
+     */
+    private static final int ANIMATION_REFRESH_RATE = 3;
 
     /**
-     * The sprites for an active rocket.
+     * The sprites for an active Propeller.
      */
     private static ISprite[] spritePack;
+    /**
+     * The index of the current sprite.
+     */
+    private int spriteIndex = 0;
     /**
      * The Doodle that owns this Propeller.
      */
@@ -114,9 +122,9 @@ import system.IServiceLocator;
      * Update method for when the Propeller is owned.
      */
     private void updateOwned() {
-        timer += 1;
+        this.timer += 1;
 
-        if (timer == MAX_TIMER) {
+        if (this.timer == MAX_TIMER) {
             this.owner.getWorld().addDrawable(this);
             this.owner.getWorld().addUpdatable(this);
 
@@ -129,7 +137,11 @@ import system.IServiceLocator;
             this.vSpeed += ACCELERATION;
         }
 
-        this.setSprite(Propeller.spritePack[timer % Propeller.spritePack.length]);
+        if (this.timer % ANIMATION_REFRESH_RATE == 0) {
+            this.spriteIndex = (spriteIndex + 1) % Propeller.spritePack.length;
+        }
+
+        this.setSprite(Propeller.spritePack[this.spriteIndex]);
     }
 
     /**
