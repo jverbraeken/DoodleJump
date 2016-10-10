@@ -107,6 +107,13 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.resume);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getScoreButtonSprite() {
+        return getSprite(IRes.Sprites.scoreButton);
+    }
 
     /**
      * {@inheritDoc}
@@ -632,8 +639,16 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getRocketSprite() {
-        return getSprite(IRes.Sprites.rocket);
+    public ISprite getSpringShoesSprite() {
+        return getSprite(IRes.Sprites.springShoes);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getJetpackSprite() {
+        return getSprite(IRes.Sprites.jetpack);
     }
 
     /**
@@ -656,6 +671,24 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
+    public ISprite getSizeUpSprite() {
+        return getSprite(IRes.Sprites.sizeUp);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getSizeDownSprite() {
+        return getSprite(IRes.Sprites.sizeDown);
+    }
+
+    // Misc
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ISprite getWaitDoNotShootSprite() {
         return getSprite(IRes.Sprites.waitDoNotShoot);
     }
@@ -666,6 +699,33 @@ public final class SpriteFactory implements ISpriteFactory {
     @Override
     public ISprite getAvoidSprite() {
         return getSprite(IRes.Sprites.avoid);
+    }
+
+
+    // Score Screen
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getScoreScreenBottom() {
+        return getSprite(IRes.Sprites.scoreScreenBottom);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getScoreScreenLeft() {
+        return getSprite(IRes.Sprites.scoreScreenLeft);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getScoreScreenTop() {
+        return getSprite(IRes.Sprites.scoreScreenTop);
     }
 
 

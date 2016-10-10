@@ -1,16 +1,17 @@
 package objects.doodles;
 
 import input.Keys;
-import logging.ILogger;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.DoodleBehavior.UnderwaterBehavior;
+import objects.powerups.IPowerup;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
@@ -43,10 +44,6 @@ public class Doodle extends AGameObject implements IDoodle {
     private static final double WIDTH_HIT_BOX_RIGHT = .7;
 
     /**
-     * The logger for the Game class.
-     */
-    private final ILogger logger;
-    /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
     private ISprite[][] spritePack;
@@ -55,29 +52,42 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double score;
     /**
+     * All the passives the can Doodle have.
+     */
+    private IPowerup powerup;
+    /**
+     * The world the Doodle lives in.
+     */
+    private final World world;
+    /**
      * Describes the movement behavior of the doodle.
      */
     private MovementBehavior behavior;
+    /**
+     * The scalar for the Doodle sprite.
+     */
+    private double spriteScalar = 1d;
 
     /**
      * Doodle constructor.
      *
-     * @param sL The service locator
+     * @param sL The service locator.
+     * @param w The world the Doodle lives in.
      */
-     /* package */ Doodle(final IServiceLocator sL) {
+     /* package */ Doodle(final IServiceLocator sL, final World w) {
         super(sL,
                 sL.getConstants().getGameWidth() / 2,
                 sL.getConstants().getGameHeight() / 2,
                 sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0],
                 Doodle.class);
 
-        this.logger = sL.getLoggerFactory().createLogger(Doodle.class);
         this.setHitBox(
                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
                 getSprite().getHeight(),
                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT),
                 getSprite().getHeight());
 
+        this.world = w;
         setBehavior(Game.getMode());
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.spritePack = new ISprite[2][2];
@@ -90,7 +100,19 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void collide(final IJumpable jumpable) {
-        behavior.setVerticalSpeed(jumpable.getBoost());
+        double boost = jumpable.getBoost();
+        behavior.setVerticalSpeed(boost);
+
+        if (this.powerup != null) {
+            this.powerup.perform("collision");
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public final IPowerup getPowerup() {
+        return this.powerup;
     }
 
     /**
@@ -120,6 +142,24 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
+    public final void setPowerup(final IPowerup item) {
+        this.powerup = item;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void removePowerup(final IPowerup item) {
+        if (this.powerup.equals(item)) {
+            this.powerup = null;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final void setSprite(final MovementBehavior.Directions direction, final boolean falling) {
         if (direction == MovementBehavior.Directions.Left) {
             setSprite(this.spritePack[0][falling ? 1 : 0]);
@@ -137,6 +177,10 @@ public class Doodle extends AGameObject implements IDoodle {
         return behavior.getVerticalSpeed();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final void setVerticalSpeed(final double vSpeed) {
         behavior.setVerticalSpeed(vSpeed);
     }
@@ -162,7 +206,16 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void render() {
-        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        ISprite sprite = this.getSprite();
+        getServiceLocator().getRenderer().drawSprite(sprite,
+                (int) this.getXPos(),
+                (int) this.getYPos(),
+                (int) (sprite.getWidth() * this.spriteScalar),
+                (int) (sprite.getHeight() * this.spriteScalar));
+
+        if (this.powerup != null) {
+            this.powerup.render();
+        }
     }
 
     /**
@@ -183,6 +236,19 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void register() {
         getServiceLocator().getInputManager().addObserver(this);
         getLogger().info("The doodle registered itself as an observer of the input manager");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void increaseSpriteScalar(final double inc) {
+        this.spriteScalar += inc;
+
+        ISprite sprite = this.getSprite();
+        int width = (int) (sprite.getWidth() * this.spriteScalar);
+        int height = (int) (sprite.getHeight() * this.spriteScalar);
+        this.setHitBox(0, 0, width, height);
     }
 
     /**
@@ -224,14 +290,14 @@ public class Doodle extends AGameObject implements IDoodle {
         ICamera camera = getServiceLocator().getRenderer().getCamera();
         if (getYPos() > camera.getYPos() + getServiceLocator().getConstants().getGameHeight() - DEAD_OFFSET * getHitBox()[HITBOX_BOTTOM]) {
             getLogger().info("The Doodle died with score " + this.score);
-            Game.endGameInstance(this.score);
+            this.world.endGameInstance(this.score);
         }
     }
 
     /**
-     * Set the behavior of the doodle with respect to the mode.
+     * Set the behavior of the Doodle with respect to the mode.
      *
-     * @param mode The game mode.
+     * @param mode the behavior mode.
      */
     private void setBehavior(final Game.Modes mode) {
         switch (mode) {

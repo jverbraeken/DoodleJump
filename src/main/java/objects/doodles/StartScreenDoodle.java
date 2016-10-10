@@ -2,7 +2,6 @@ package objects.doodles;
 
 import input.Keys;
 import objects.IJumpable;
-import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IServiceLocator;
 
 /**
@@ -21,7 +20,7 @@ import system.IServiceLocator;
      * @param sL The ServiceLocator.
      */
     /* package */ StartScreenDoodle(final IServiceLocator sL) {
-        super(sL);
+        super(sL, null);
     }
 
     /**
@@ -38,12 +37,19 @@ import system.IServiceLocator;
     @Override
     public void collidesWith(final IDoodle doodle) {
     }
-    /** {@inheritDoc} */
-    @Override
-    public final void keyPress(final Keys key) { }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final void keyRelease(final Keys key) { }
+    public final void keyPress(final Keys key) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void keyRelease(final Keys key) {
+    }
 
 }

@@ -78,6 +78,18 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
+    public IButton createScoreButton(final int x, final int y) {
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getScoreButtonSprite();
+        Runnable scoreScreen = () -> Game.setScene(serviceLocator.getSceneFactory().createScoreScreen());
+        return new Button(serviceLocator, x, y, buttonSprite, scoreScreen, "scores");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IButton createChooseModeButton(final int x, final int y) {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
@@ -157,4 +169,5 @@ public final class ButtonFactory implements IButtonFactory {
         Runnable storyMode = () -> Game.setMode(Game.Modes.story);
         return new Button(serviceLocator, x, y, buttonSprite, storyMode, "storyMode");
     }
+
 }

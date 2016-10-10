@@ -14,8 +14,6 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Collections;
 
 import static system.Game.Modes.regular;
 
@@ -38,6 +36,12 @@ public final class Game {
      * does need the name of the log file.
      */
     public static final String LOGFILE_NAME = "async.log";
+
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator serviceLocator = new ServiceLocator();
+
     /**
      * The time in milliseconds per frame.
      */
@@ -51,29 +55,18 @@ public final class Game {
      */
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
     /**
-     * X position relative to the frame of the resume button.
-     */
-    private static final double RESUME_BUTTON_X = 0.55;
-    /**
-     * Y position relative to the frame of the resume button.
-     */
-    private static final double RESUME_BUTTON_Y = 0.75;
-    /**
-     * The maximum size of the list of high scores.
-     */
-    private static final int MAX_HIGH_SCORES = 10;
-    /**
      * A LOCK to avoid threading issues.
      */
     private static final transient Object LOCK = new Object();
     /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator serviceLocator = new ServiceLocator();
-    /**
      * The logger for the Game class.
      */
     private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+    /**
+     * The high scores list for the Game.
+     */
+    public static final HighScoreList HIGH_SCORES = new HighScoreList(serviceLocator);
+
     /**
      * The current frame.
      */
@@ -91,6 +84,10 @@ public final class Game {
      */
     private static boolean isPaused = false;
     /**
+     * The enums for the mode.
+     */
+    public enum Modes { regular, underwater, story, invert, darkness, space }
+    /**
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
@@ -102,10 +99,6 @@ public final class Game {
      * The pause screen for the game.
      */
     private static IScene pauseScreen;
-    /**
-     * A list of high scores for the game.
-     */
-    private static ArrayList<HighScore> highScores = new ArrayList<>();
 
     /**
      * Prevents instantiation from outside the Game class.
@@ -173,17 +166,8 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
+        HIGH_SCORES.initHighScores();
         loop();
-    }
-
-    /**
-     * End the game.
-     *
-     * @param score The score the game instance ended with.
-     */
-    public static void endGameInstance(final double score) {
-        updateHighScores(score);
-        setScene(serviceLocator.getSceneFactory().createKillScreen());
     }
 
     /**
@@ -204,6 +188,7 @@ public final class Game {
         mode = m;
         serviceLocator.getRes().setSkin(m);
         SpriteFactory.register(serviceLocator);
+        setScene(serviceLocator.getSceneFactory().newChooseMode());
         LOGGER.info("The mode is now " + m);
     }
 
@@ -287,21 +272,6 @@ public final class Game {
     }
 
     /**
-     * Update the high scores for the game.
-     *
-     * @param score The score the game instance ended with.
-     */
-    private static void updateHighScores(final double score) {
-        HighScore scoreEntry = new HighScore("", score);
-        Game.highScores.add(scoreEntry);
-        Collections.sort(Game.highScores);
-
-        for (int i = Game.highScores.size(); i > MAX_HIGH_SCORES; i--) {
-            Game.highScores.remove(i - 1);
-        }
-    }
-
-    /**
      * Returns the current FPS.
      *
      * @param threadSleep Amount of time thread has slept
@@ -313,36 +283,6 @@ public final class Game {
             return TARGET_FPS;
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
-    }
-
-    /**
-     * The enums for the mode.
-     */
-    public enum Modes {
-        /**
-         * As usual.
-         */
-        regular,
-        /**
-         * Underwater -> slow moving.
-         */
-        underwater,
-        /**
-         * Accompanied with a story.
-         */
-        story,
-        /**
-         * Everything upside-down.
-         */
-        invert,
-        /**
-         * You don't see any platforms except for the ones you jumped on.
-         */
-        darkness,
-        /**
-         * Fast acceleration, slow deceleration.
-         */
-        space
     }
 
 }

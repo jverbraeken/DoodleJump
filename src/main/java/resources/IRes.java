@@ -33,6 +33,7 @@ public interface IRes {
         play,
         playAgain,
         resume,
+        scoreButton,
         chooseMode,
 
         // Covers
@@ -108,9 +109,17 @@ public interface IRes {
         trampolineUsed,
         spring,
         springUsed,
-        rocket,
+        springShoes,
+        jetpack,
         propeller,
         shield,
+        sizeUp,
+        sizeDown,
+
+        // Score screen
+        scoreScreenBottom,
+        scoreScreenLeft,
+        scoreScreenTop,
 
         // Top bar
         scoreBar,
