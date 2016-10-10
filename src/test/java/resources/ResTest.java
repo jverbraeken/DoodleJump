@@ -12,6 +12,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 /**
@@ -50,4 +51,13 @@ public class ResTest {
         Whitebox.setInternalState(res, "sprites", mockedSprites);
         assertEquals(filePath, res.getSpritePath(IRes.Sprites.menu));
     }
+
+    @Test
+    public void testResetSkin() throws Exception {
+        mockedSprites.put(IRes.Sprites.menu, filePath);
+        Whitebox.setInternalState(res, "sprites", mockedSprites);
+        Whitebox.invokeMethod(res, "resetSkin");
+        assertNotEquals(filePath, res.getSpritePath(IRes.Sprites.menu));
+    }
+
 }
