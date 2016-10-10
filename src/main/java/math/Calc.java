@@ -45,7 +45,7 @@ public final class Calc implements ICalc {
     /**
      * Return the singleton calc.
      * Done using double locking.
-     * @return
+     * @return the singleton calc
      */
     public static ICalc getCalc() {
         if (calc == null) {

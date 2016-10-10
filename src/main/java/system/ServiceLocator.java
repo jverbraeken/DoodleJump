@@ -90,6 +90,10 @@ import scenes.SceneFactory;
         this.init();
     }
 
+    /**
+     * Getter of the singleton service locator.
+     * @return the service locator.
+     */
     public static IServiceLocator getServiceLocator() {
         return serviceLocator;
     }
