@@ -111,15 +111,6 @@ public class EnemyTest {
     public void updateAliveTest() {
         enemy.setAlive(true);
         double startVSpeed = enemy.getVerticalSpeed();
-
-        enemy.update(0);
-        assertThat(enemy.getVerticalSpeed(), is(startVSpeed));
-    }
-
-    @Test
-    public void updateKilledTest() {
-        enemy.setAlive(true);
-        double startVSpeed = enemy.getVerticalSpeed();
         double expectedVSpeed = startVSpeed + 1.5;
 
         enemy.update(0);
