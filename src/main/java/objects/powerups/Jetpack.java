@@ -16,11 +16,11 @@ import system.IServiceLocator;
     /**
      * The boost the Jetpack gives.
      */
-    private static final double MAX_BOOST = -20d;
+    private static final double MAX_BOOST = -25d;
     /**
      * The maximum time the Jetpack is active.
      */
-    private static final int MAX_TIMER = 100;
+    private static final int MAX_TIMER = 175;
 
     /**
      * The sprites for an active rocket.
@@ -48,7 +48,6 @@ import system.IServiceLocator;
      */
     /* package */ Jetpack(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getJetpackSprite(), Jetpack.class);
-
         Jetpack.spritePack = sL.getSpriteFactory().getJetpackActiveSprites();
     }
 
@@ -73,7 +72,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void perform(final String occasion) {
+    public void perform(final String occasion) {
         if (occasion.equals("constant")) {
             this.owner.setVerticalSpeed(this.speed);
         }
@@ -83,7 +82,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
             getLogger().info("Doodle collided with a Jetpack");
             this.owner = doodle;
@@ -95,7 +94,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         if (this.owner == null) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else {

@@ -56,7 +56,7 @@ public class JetpackTest {
     }
 
     @Test
-    public void testCollidesWith_SetOwner() throws Exception {
+    public void testCollidesWith_SetOwner() {
         jetpack.collidesWith(doodle);
         Object owner = Whitebox.getInternalState(jetpack, "owner");
         assertThat(owner, is(doodle));
@@ -81,15 +81,14 @@ public class JetpackTest {
     }
 
     @Test
-    public void testPerform() throws Exception {
+    public void testPerform() {
         jetpack.collidesWith(doodle);
-
         jetpack.perform("constant");
         verify(doodle, times(1)).setVerticalSpeed(anyDouble());
     }
 
     @Test
-    public void testPerformInvalid() throws Exception {
+    public void testPerformInvalid() {
         jetpack.collidesWith(doodle);
         jetpack.perform("invalid");
         verify(doodle, times(0)).setVerticalSpeed(anyDouble());

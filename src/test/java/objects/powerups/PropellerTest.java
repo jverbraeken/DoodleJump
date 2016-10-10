@@ -57,27 +57,25 @@ public class PropellerTest {
     }
 
     @Test
-    public void testCollidesWithSetOwner() throws Exception {
+    public void testCollidesWithSetOwner() {
         propeller.collidesWith(doodle);
         Object owner = Whitebox.getInternalState(propeller, "owner");
         assertThat(owner, is(doodle));
     }
 
     @Test
-    public void testPerform() throws Exception {
+    public void testPerform() {
         propeller.collidesWith(doodle);
-
         propeller.perform("constant");
         verify(doodle, times(1)).setVerticalSpeed(anyDouble());
     }
 
     @Test
-    public void testPerformInvalid() throws Exception {
+    public void testPerformInvalid() {
         propeller.collidesWith(doodle);
         propeller.perform("invalid");
         verify(doodle, times(0)).setVerticalSpeed(anyDouble());
     }
-
 
     @Test
     public void testRenderNoOwner() {

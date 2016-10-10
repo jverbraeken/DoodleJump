@@ -33,6 +33,7 @@ public interface IRes {
         play,
         playAgain,
         resume,
+        scoreButton,
         chooseMode,
 
         // Covers
@@ -128,6 +129,11 @@ public interface IRes {
         propeller0,
         propeller1,
         propeller2,
+
+        // Score screen
+        scoreScreenBottom,
+        scoreScreenLeft,
+        scoreScreenTop,
 
         // Top bar
         scoreBar,

@@ -252,7 +252,9 @@ public class Doodle extends AGameObject implements IDoodle {
         ISprite sprite = this.getSprite();
         int width = (int) (sprite.getWidth() * this.spriteScalar);
         int height = (int) (sprite.getHeight() * this.spriteScalar);
-        this.setHitBox(0, 0, width, height);
+        this.setHitBox(
+                (int) (width * WIDTH_HIT_BOX_LEFT), height,
+                (int) (width * WIDTH_HIT_BOX_RIGHT), height);
     }
 
     /**

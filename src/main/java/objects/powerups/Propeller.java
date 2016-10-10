@@ -17,11 +17,11 @@ import system.IServiceLocator;
     /**
      * The boost the Propeller gives.
      */
-    private static final double MAX_BOOST = -15;
+    private static final double MAX_BOOST = -20;
     /**
      * The maximum time the Propeller is active.
      */
-    private static final int MAX_TIMER = 80;
+    private static final int MAX_TIMER = 150;
     /**
      * Y offset for drawing the Propeller when on Doodle.
      */
@@ -53,7 +53,6 @@ import system.IServiceLocator;
      */
     /* package */ Propeller(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getPropellerSprite(), Propeller.class);
-
         Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
     }
 
@@ -78,7 +77,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void perform(final String occasion) {
+    public void perform(final String occasion) {
         if (occasion.equals("constant")) {
             this.owner.setVerticalSpeed(this.speed);
         }
@@ -88,7 +87,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
             getLogger().info("Doodle collided with a Propeller");
             this.owner = doodle;
@@ -100,7 +99,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         if (this.owner == null) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else {
