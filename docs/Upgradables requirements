@@ -1,6 +1,6 @@
 - The player has 3 missions each time
 - The player has a certain amount of coins
-- Some items can be unlocked or upgraded by the player
+- Items can be unlocked or upgraded by the player
 - If the player manages to complete one mission, a new mission will be created for the player for the next run
 - The missions the player has accomplished and the 3 missions he still has to do will be saved to the disk
 - Each time the game is loaded, the 3 missions that must be done, the amount of coins and the quantity/quality of the items will be loaded from the disk if the file exists
