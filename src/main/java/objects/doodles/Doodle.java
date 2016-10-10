@@ -111,6 +111,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * {@inheritDoc}
      */
+    @Override
     public final IPowerup getPowerup() {
         return this.powerup;
     }

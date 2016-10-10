@@ -96,6 +96,8 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
 
     /**
      * Get the world the Doodle lives.
+     *
+     * @return The world the Doodle lives in.
      */
     World getWorld();
 

@@ -33,6 +33,10 @@ import system.IServiceLocator;
      * The refresh rate for the active animation.
      */
     private static final int ANIMATION_REFRESH_RATE = 3;
+    /**
+     * The horizontal speed for a Propeller.
+     */
+    private static final double HORIZONTAL_SPEED = 1.2d;
 
     /**
      * The sprites for an active Propeller.
@@ -54,10 +58,6 @@ import system.IServiceLocator;
      * The vertical speed of the Propeller.
      */
     private double vSpeed = 0d;
-    /**
-     * The horizontal speed of the Propeller.
-     */
-    private double hSpeed = 1.2d;
 
     /**
      * Propeller constructor.
@@ -148,7 +148,7 @@ import system.IServiceLocator;
      */
     private void updateFalling() {
         this.applyGravity();
-        this.addXPos(hSpeed);
+        this.addXPos(HORIZONTAL_SPEED);
     }
 
     /**
