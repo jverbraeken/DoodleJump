@@ -314,6 +314,7 @@ public final class BlockFactory implements IBlockFactory {
      *
      * @param elements A set of elements.
      * @param platform The platform a powerup potentially is placed on.
+     * @param heightDividedPlatforms the height devided by the amount of platforms.
      **/
     private void chanceForEnemy(final Set<IGameObject> elements, final IPlatform platform, final int heightDividedPlatforms) {
         ICalc calc = serviceLocator.getCalc();
@@ -330,6 +331,13 @@ public final class BlockFactory implements IBlockFactory {
         }
     }
 
+    /**
+     * Create the enemy at the given location and return it.
+     * @param platform the last platform.
+     * @param heightDividedPlatforms the height devided by the amount of platforms.
+     * @param calc the calculator.
+     * @return the Enemy as IGameObject.
+     */
     private IGameObject placeEnemy(final IPlatform platform, final int heightDividedPlatforms, final ICalc calc) {
         double widthDeviation = calc.getRandomDouble(1d);
         double heightDeviation = calc.getRandomDouble(HEIGHT_DEVIATION_MULTIPLIER) - HEIGHT_DEVIATION_OFFSET;

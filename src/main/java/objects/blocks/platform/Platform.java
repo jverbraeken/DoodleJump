@@ -24,6 +24,12 @@ public class Platform extends AGameObject implements IPlatform {
      * One third of the game height.
      */
     private static double movingDistance;
+
+    /**
+     * One third of the game height.
+     */
+    private static final double MOVING_DISTANCE_HEIGHT_MULTIPLIER = 0.20;
+
     /**
      * Current vertical speed for the Platform.
      */
@@ -91,7 +97,7 @@ public class Platform extends AGameObject implements IPlatform {
         super(sL, x, y, sprite, Platform.class);
 
         int gameHeight = sL.getConstants().getGameHeight();
-        movingDistance = gameHeight * 0.20;
+        movingDistance = gameHeight * MOVING_DISTANCE_HEIGHT_MULTIPLIER;
 
         directions.put(Directions.up, 1);
         directions.put(Directions.down, -1);
@@ -136,7 +142,7 @@ public class Platform extends AGameObject implements IPlatform {
         yPos = this.getYPos();
 
         if (props.containsKey(PlatformProperties.breaks)) {
-            int breaks = (int) props.get(PlatformProperties.breaks);
+            int breaks = props.get(PlatformProperties.breaks);
             if (breaks == 1) {
                 getServiceLocator().getRenderer().drawSprite(getSprite(), (int) xPos, (int) yPos);
             } else if (breaks < 5 && breaks > 1) {

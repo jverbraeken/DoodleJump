@@ -46,6 +46,22 @@ public class Doodle extends AGameObject implements IDoodle {
      * Where the hitbox of the doodle ends in relation to the sprite width.
      */
     private static final double WIDTH_HIT_BOX_RIGHT = .8;
+
+    /**
+     * Amount of star frames.
+     */
+    private static final double STAR_FRAMES = 9;
+
+    /**
+     * First star animation in frames.
+     */
+    private static final double FIRST_STAR_FRAME = 3;
+
+    /**
+     * Second star animation in frames.
+     */
+    private static final double SECOND_STAR_FRAME = 6;
+
     /**
      * Gives true if the doodle has been hit by an enemy.
      */
@@ -250,11 +266,14 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
+    /**
+     * Returns the Star sprite by looking at the current starNumber.
+     * @return a star sprite.
+     */
     private ISprite getStarSprite() {
-        if (starNumber % 9 < 3) {
+        if (starNumber % STAR_FRAMES < FIRST_STAR_FRAME) {
             return getServiceLocator().getSpriteFactory().getStarSprite1();
-        }
-        else if (starNumber % 9 < 6) {
+        } else if (starNumber % STAR_FRAMES < SECOND_STAR_FRAME) {
             return getServiceLocator().getSpriteFactory().getStarSprite2();
         }
         return getServiceLocator().getSpriteFactory().getStarSprite3();
@@ -382,7 +401,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void setHitByEnemy(boolean isHit) {
+    public void setHitByEnemy(final boolean isHit) {
         hitByEnemy = isHit;
     }
 

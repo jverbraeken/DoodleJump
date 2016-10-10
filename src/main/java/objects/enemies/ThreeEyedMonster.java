@@ -12,7 +12,7 @@ import system.IServiceLocator;
     /**
      * Will move 15 pixels left and right.
      */
-    private final static double MOVING_DISTANCE = 15;
+    private static final double MOVING_DISTANCE = 15;
 
     /**
      * OffSet of the movement from left to right.
