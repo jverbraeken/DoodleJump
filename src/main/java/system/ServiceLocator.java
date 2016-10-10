@@ -78,10 +78,20 @@ import scenes.SceneFactory;
     private ICalc calc;
 
     /**
+     * The singleton servicelocator.
+     * Constructed eagerly.
+     */
+    private final static ServiceLocator serviceLocator = new ServiceLocator();
+
+    /**
      * Initialize the ServiceLocator class.
      */
-    /* package */ ServiceLocator() {
+    /* package */ private ServiceLocator() {
         this.init();
+    }
+
+    public static IServiceLocator getServiceLocator() {
+        return serviceLocator;
     }
 
     /** {@inheritDoc} */
