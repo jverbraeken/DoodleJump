@@ -124,7 +124,7 @@ import system.IServiceLocator;
     private void updateOwned() {
         this.timer += 1;
 
-        if (this.timer == MAX_TIMER) {
+        if (this.timer >= MAX_TIMER) {
             this.owner.getWorld().addDrawable(this);
             this.owner.getWorld().addUpdatable(this);
 
@@ -139,9 +139,8 @@ import system.IServiceLocator;
 
         if (this.timer % ANIMATION_REFRESH_RATE == 0) {
             this.spriteIndex = (spriteIndex + 1) % Propeller.spritePack.length;
+            this.setSprite(Propeller.spritePack[this.spriteIndex]);
         }
-
-        this.setSprite(Propeller.spritePack[this.spriteIndex]);
     }
 
     /**

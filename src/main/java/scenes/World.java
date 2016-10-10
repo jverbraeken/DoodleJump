@@ -204,7 +204,7 @@ public class World implements IScene {
      *
      * @param renderable An object implementing the IRenderable interface.
      */
-    public final void addDrawable(final IRenderable renderable) {
+    public void addDrawable(final IRenderable renderable) {
         newDrawables.add(renderable);
     }
 
@@ -213,7 +213,7 @@ public class World implements IScene {
      *
      * @param updatable An object implementing the IUpdatable interface.
      */
-    public final void addUpdatable(final IUpdatable updatable) {
+    public void addUpdatable(final IUpdatable updatable) {
         newUpdatables.add(updatable);
     }
 

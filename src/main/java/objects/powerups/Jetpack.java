@@ -65,6 +65,7 @@ import system.IServiceLocator;
             this.speed += ACCELERATION;
         }
 
+        // TODO: Improve animation system
         double x = (double) timer / (double) MAX_TIMER;
         int spriteIndex = 0;
         if (x < .15) {
