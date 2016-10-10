@@ -39,9 +39,9 @@ public final class EnemyBuilder implements IEnemyBuilder {
 
     /** {@inheritDoc} */
     @Override
-    public IGameObject createEnemy(final int x, final int y) {
+    public IGameObject createOrdinaryEnemy(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getOrdinaryMonsterSprite();
-        logger.info("A new Enemy has been created: x = " + x + ", y = " + y + " sprite = " + sprite.toString());
+        logger.info("A new Ordinary Enemy has been created: x = " + x + ", y = " + y);
         return new Enemy(serviceLocator, x, y, sprite);
 
     }

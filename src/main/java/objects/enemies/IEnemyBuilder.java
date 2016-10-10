@@ -14,6 +14,6 @@ public interface IEnemyBuilder {
      * @param y The Y position for the Enemy.
      * @return A new enemy.
      */
-    IGameObject createEnemy(final int x, final int y);
+    IGameObject createOrdinaryEnemy(final int x, final int y);
 
 }

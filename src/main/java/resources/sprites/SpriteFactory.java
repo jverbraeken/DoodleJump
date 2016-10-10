@@ -372,7 +372,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getStarSprite1() {
-        return getSprite(IRes.Sprites.stars1);
+        return getSprite(IRes.Sprites.confusedStars1);
     }
 
     /**
@@ -380,7 +380,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getStarSprite2() {
-        return getSprite(IRes.Sprites.stars2);
+        return getSprite(IRes.Sprites.confusedStars2);
     }
 
     /**
@@ -388,7 +388,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getStarSprite3() {
-        return getSprite(IRes.Sprites.stars3);
+        return getSprite(IRes.Sprites.confusedStars3);
     }
 
 

@@ -76,24 +76,20 @@ public class EnemyTest {
         enemy.render();
 
         Mockito.verify(serviceLocator).getRenderer();
-        Mockito.verify(renderer).drawSprite(sprite, -1, 1);
-        assertThat(enemy.getOffSet(), is(-2));
+        Mockito.verify(renderer).drawSprite(sprite, 1, 1);
     }
 
     /**
-     * Test rendering a normal enemy after 2 times.
+     * Test updating a normal enemy after 2 times.
      */
     @Test
-    public void renderTwoTest() {
+    public void updateTwoTest() {
         double startY = enemy.getYPos();
-        enemy.render();
-        enemy.render();
-
-        Mockito.verify(serviceLocator, Mockito.times(2)).getRenderer();
-        Mockito.verify(renderer).drawSprite(sprite, -3, 1);
+        enemy.update(0);
+        enemy.update(0);
 
         assertThat(enemy.getXPos(), is(-3d));
-        assertThat(enemy.getYPos(), is(startY));
+        assertThat(enemy.getYPos(), is(5.5));
         assertThat(enemy.getOffSet(), is(-4));
     }
 
@@ -101,20 +97,8 @@ public class EnemyTest {
      * Test rendering a killed enemy.
      */
     @Test
-    public void renderKilledTest() {
-        enemy.setKilled(true);
-        enemy.render();
-
-        Mockito.verify(serviceLocator).getRenderer();
-        Mockito.verify(renderer).drawSprite(sprite, 1, 1);
-    }
-
-    /**
-     * Test rendering a killed enemy.
-     */
-    @Test
     public void renderKilledMultipleTest() {
-        enemy.setKilled(true);
+        enemy.setAlive(false);
         for (int i = 0; i < 10; i ++){
             enemy.render();
         }
@@ -124,8 +108,8 @@ public class EnemyTest {
     }
 
     @Test
-    public void updateNotKilledTest() {
-        enemy.setKilled(false);
+    public void updateAliveTest() {
+        enemy.setAlive(true);
         double startVSpeed = enemy.getVerticalSpeed();
 
         enemy.update(0);
@@ -134,7 +118,7 @@ public class EnemyTest {
 
     @Test
     public void updateKilledTest() {
-        enemy.setKilled(true);
+        enemy.setAlive(true);
         double startVSpeed = enemy.getVerticalSpeed();
         double expectedVSpeed = startVSpeed + 1.5;
 
@@ -147,10 +131,10 @@ public class EnemyTest {
     @Test
     public void collidesWithKillsEnemy(){
         when(doodle.getVerticalSpeed()).thenReturn(1d);
-        when(doodle.isHitByEnemy()).thenReturn(false);
+        when(doodle.isAlive()).thenReturn(true);
         enemy.collidesWith(doodle);
 
-        assertThat(enemy.getKilled(), is(true));
+        assertThat(enemy.isAlive(), is(false));
         assertThat(enemy.getVerticalSpeed(), is(1d));
 
         Mockito.verify(doodle).collide(enemy);
@@ -162,7 +146,8 @@ public class EnemyTest {
         enemy.collidesWith(doodle);
 
         Mockito.verify(doodle).setVerticalSpeed(-5d);
-        Mockito.verify(doodle).setHitByEnemy(true);
+        Mockito.verify(doodle).setAlive(false);
+        assertThat(doodle.isAlive(), is(false));
     }
 
     /**
@@ -180,28 +165,28 @@ public class EnemyTest {
 
     @Test
     public void getKilledTest() {
-        assertThat(enemy.getKilled(), is(false));
+        assertThat(enemy.isAlive(), is(true));
 
-        enemy.setKilled(true);
-        assertThat(enemy.getKilled(), is(true));
+        enemy.setAlive(false);
+        assertThat(enemy.isAlive(), is(false));
     }
 
     @Test
     public void setKilledTest() {
-        enemy.setKilled(true);
-        assertThat(enemy.getKilled(), is(true));
+        enemy.setAlive(false);
+        assertThat(enemy.isAlive(), is(false));
 
-        enemy.setKilled(false);
-        assertThat(enemy.getKilled(), is(false));
-        enemy.setKilled(false);
-        assertThat(enemy.getKilled(), is(false));
+        enemy.setAlive(true);
+        assertThat(enemy.isAlive(), is(true));
+        enemy.setAlive(true);
+        assertThat(enemy.isAlive(), is(true));
     }
 
     @Test
     public void getOffSetTest() {
         assertThat(enemy.getOffSet(), is(0));
 
-        enemy.render();
+        enemy.update(0);
         assertThat(enemy.getOffSet(), is(-2));
     }
 

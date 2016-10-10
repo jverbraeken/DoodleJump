@@ -39,10 +39,10 @@ public class Enemy extends AEnemy {
     private int movingDirection = 0;
 
     /**
-     * Is true when the enemy has been killed. This can be
+     * Is false when the enemy has been killed. This can be
      * either by a shot or from the doodle jumping on the enemy.
      */
-    private boolean killed = false;
+    private boolean alive = true;
 
     /**
      * Creates a new enemy and determines its hitbox by using the sprites dimensions automatically.
@@ -65,11 +65,16 @@ public class Enemy extends AEnemy {
     /** {@inheritDoc} */
     @Override
     public final void render() {
-        if (killed) {
-            getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
-        } else {
+        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void update(final double delta) {
+        if (alive) {
+            applyGravity();
+
             int xPos;
-            int yPos = (int) this.getYPos();
             if (movingDirection == 1) {
                 xPos = (int) (this.getXPos() + 2);
                 offSet = offSet + 2;
@@ -84,31 +89,21 @@ public class Enemy extends AEnemy {
                 }
             }
             this.setXPos(xPos);
-            getServiceLocator().getRenderer().drawSprite(getSprite(), xPos, yPos);
-        }
-
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public final void update(final double delta) {
-        if (killed) {
-            applyGravity();
         }
     }
 
     /** {@inheritDoc} */
     @Override
     public final void collidesWith(final IDoodle doodle) {
-        if (doodle.getVerticalSpeed() > 0 && !doodle.isHitByEnemy()) {
-            killed = true;
+        if (doodle.getVerticalSpeed() > 0) {
+            alive = false;
             vSpeed = doodle.getVerticalSpeed();
             doodle.collide(this);
-        } else if (!killed) {
+        } else if (alive) {
             if (doodle.getVerticalSpeed() < TOO_FAST_SPEED) {
                 doodle.setVerticalSpeed(TOO_FAST_SPEED);
             }
-            doodle.setHitByEnemy(true);
+            doodle.setAlive(false);
         }
     }
 
@@ -121,19 +116,19 @@ public class Enemy extends AEnemy {
     }
 
     /**
-     * Get if the Enemy is killed.
-     * @return the attribute killed.
+     * Get if the Enemy is alive.
+     * @return the attribute alive.
      */
-    public final boolean getKilled() {
-        return killed;
+    public final boolean isAlive() {
+        return alive;
     }
 
     /**
-     * Set if the Enemy is killed.
-     * @param killed a boolean if the Enemy is killed.
+     * Set if the Enemy is alive.
+     * @param alive a boolean if the Enemy is alive.
      */
-    public final void setKilled(final boolean killed) {
-        this.killed = killed;
+    public final void setAlive(final boolean alive) {
+        this.alive = alive;
     }
 
     /**

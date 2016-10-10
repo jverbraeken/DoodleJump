@@ -33,15 +33,15 @@ public class Doodle extends AGameObject implements IDoodle {
      * The height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      */
-    private static final double LEGS_HEIGHT = 0.8;
+    private static final double LEGS_HEIGHT = .8;
     /**
      * Where the hitbox of the doodle starts in relation to the sprite height.
      */
-    private static final double HEIGHT_HIT_BOX_TOP = 0.5;
+    private static final double HEIGHT_HIT_BOX_TOP = .5;
     /**
      * Where the hitbox of the doodle starts in relation to the sprite width.
      */
-    private static final double WIDTH_HIT_BOX_LEFT = 0.3;
+    private static final double WIDTH_HIT_BOX_LEFT = .3;
     /**
      * Where the hitbox of the doodle ends in relation to the sprite width.
      */
@@ -63,9 +63,9 @@ public class Doodle extends AGameObject implements IDoodle {
     private static final double SECOND_STAR_FRAME = 6;
 
     /**
-     * Gives true if the doodle has been hit by an enemy.
+     * Gives true if the doodle is alive.
      */
-    private boolean hitByEnemy = false;
+    private boolean alive = true;
 
     /**
      * Keeps the number of the star animation when killed by an enemy.
@@ -99,7 +99,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * The scalar for the Stars sprite.
      */
-    private final double starsScalar = 0.7d;
+    private final double starsScalar = .7;
     /**
      * The scalar for the Stars sprite.
      */
@@ -137,8 +137,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void collide(final IJumpable jumpable) {
-        behavior.setVerticalSpeed(jumpable.getBoost());
-
         double boost = jumpable.getBoost();
         behavior.setVerticalSpeed(boost);
 
@@ -252,18 +250,27 @@ public class Doodle extends AGameObject implements IDoodle {
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
-        if (this.isHitByEnemy()) {
-            getServiceLocator().getRenderer().drawSprite(getStarSprite(),
-                    (int) (this.getXPos() + (this.starsOffset * this.spriteScalar)),
-                    (int) this.getYPos(),
-                    (int) (sprite.getWidth() * this.spriteScalar * this.starsScalar),
-                    (int) (sprite.getHeight() * this.spriteScalar * this.starsScalar));
-            starNumber++;
+        if (!this.isAlive()) {
+            hitByEnemyState();
         }
 
         if (this.powerup != null) {
             this.powerup.render();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void hitByEnemyState() {
+        ISprite sprite = this.getSprite();
+        getServiceLocator().getRenderer().drawSprite(getStarSprite(),
+                (int) (this.getXPos() + (this.starsOffset * this.spriteScalar)),
+                (int) this.getYPos(),
+                (int) (sprite.getWidth() * this.spriteScalar * this.starsScalar),
+                (int) (sprite.getHeight() * this.spriteScalar * this.starsScalar));
+        starNumber++;
     }
 
     /**
@@ -393,16 +400,16 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public boolean isHitByEnemy() {
-        return hitByEnemy;
+    public boolean isAlive() {
+        return alive;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setHitByEnemy(final boolean isHit) {
-        hitByEnemy = isHit;
+    public void setAlive(final boolean isHit) {
+        alive = isHit;
     }
 
 }

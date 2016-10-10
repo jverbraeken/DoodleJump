@@ -12,6 +12,12 @@ import objects.powerups.IPowerup;
 public interface IDoodle extends IGameObject, IKeyInputObserver {
 
     /**
+     * Render the enemy when it is hit by an enemy.
+     * From here the stars animation is called.
+     */
+    void hitByEnemyState();
+
+    /**
      * Get the vertical speed of the Doodle.
      *
      * @return The vertical speed
@@ -94,15 +100,15 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void deregister();
 
     /**
-     * Returns true if the enemy has been hit by an enemy.
-     * @return the boolean hitByEnemy.
+     * Returns true if the doodle is alive.
+     * @return the boolean alive.
      */
-    boolean isHitByEnemy();
+    boolean isAlive();
 
     /**
-     * Sets the variable hitByEnemy to isHit.
-     * @param isHit a boolean if the doodle is hit.
+     * Sets the variable alive to alive.
+     * @param alive a boolean if the doodle is dead or alive.
      */
-    void setHitByEnemy(boolean isHit);
+    void setAlive(boolean alive);
 
 }

@@ -106,9 +106,9 @@ public final class Res implements IRes {
         sprites.put(Sprites.vampireMonster5, SPRITE_PATH + "vampireMonster5.png");
 
         //Stars
-        sprites.put(Sprites.stars1, SPRITE_PATH + "stars1@2x.png");
-        sprites.put(Sprites.stars2, SPRITE_PATH + "stars2@2x.png");
-        sprites.put(Sprites.stars3, SPRITE_PATH + "stars3@2x.png");
+        sprites.put(Sprites.confusedStars1, SPRITE_PATH + "stars1@2x.png");
+        sprites.put(Sprites.confusedStars2, SPRITE_PATH + "stars2@2x.png");
+        sprites.put(Sprites.confusedStars3, SPRITE_PATH + "stars3@2x.png");
 
 
         // Kill screen

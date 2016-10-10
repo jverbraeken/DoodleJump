@@ -28,7 +28,7 @@ import system.IServiceLocator;
      * Is true when the enemy has been killed. This can be
      * either by a shot or from the doodle jumping on the enemy.
      */
-    private boolean killed = false;
+    private boolean alive = false;
 
     /**
      * Creates a new enemy and determines its hitbox by using the sprites dimensions automatically.
@@ -49,7 +49,7 @@ import system.IServiceLocator;
 
     @Override
     public void render() {
-        if (!killed) {
+        if (alive) {
             int xPos;
             int yPos = (int) this.getYPos();
             if (movingDirection == 1) {
@@ -76,12 +76,12 @@ import system.IServiceLocator;
     }
 
     @Override
-    public boolean getKilled() {
+    public boolean isAlive() {
         return false;
     }
 
     @Override
-    public void setKilled(final boolean killed) {
+    public void setAlive(final boolean alive) {
 
     }
 

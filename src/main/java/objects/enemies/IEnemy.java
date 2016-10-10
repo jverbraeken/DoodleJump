@@ -13,14 +13,14 @@ public interface IEnemy extends IGameObject, IJumpable {
     void applyGravity();
 
     /**
-     * Get if the Enemy is killed.
-     * @return the attribute killed.
+     * Get if the Enemy is alive.
+     * @return the attribute alive.
      */
-    boolean getKilled();
+    boolean isAlive();
 
     /**
-     * Set if the Enemy is killed.
-     * @param killed a boolean if the Enemy is killed.
+     * Set if the Enemy is alive.
+     * @param alive a boolean if the Enemy is alive.
      */
-     void setKilled(boolean killed);
+     void setAlive(boolean alive);
 }

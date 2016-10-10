@@ -212,7 +212,7 @@ public class World implements IScene {
      * Apply the current speed to all objects.
      */
     private void checkCollisions() {
-        if (!this.doodle.isHitByEnemy()) {
+        if (this.doodle.isAlive()) {
             if (this.doodle.getVerticalSpeed() > 0) {
                 for (IBlock block : blocks) {
                     Set<IGameObject> elements = block.getElements();

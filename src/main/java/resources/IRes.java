@@ -77,7 +77,7 @@ public interface IRes {
         smallMonster,
 
         //Stars
-        stars1, stars2, stars3,
+        confusedStars1, confusedStars2, confusedStars3,
 
         // Numbers
         zero, one, two, three, four, five, six, seven, eight, nine,
