@@ -144,7 +144,6 @@ public final class BlockFactory implements IBlockFactory {
      * @param elements The {@link Set} in which the platforms should be placed
      * @return The last and highest platform created by this method
      */
-    @SuppressWarnings("magicnumber")
     private IPlatform placeInitialStartBlockPlatforms(final Set<IGameObject> elements) {
         final double initialPlatformHeightDivider = 1.2d;
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
@@ -154,9 +153,9 @@ public final class BlockFactory implements IBlockFactory {
         elements.add(platform);
 
         IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-        IGameObject powerup = powerupFactory.createJetpack(
+        IGameObject powerup = powerupFactory.createPropeller(
                 serviceLocator.getConstants().getGameWidth() / 2,
-                (int) (serviceLocator.getConstants().getGameHeight() / initialPlatformHeightDivider) - 50);
+                (int) (serviceLocator.getConstants().getGameHeight() / initialPlatformHeightDivider) - 250);
         elements.add(powerup);
 
         return platform;

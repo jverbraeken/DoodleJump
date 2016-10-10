@@ -266,6 +266,11 @@ public class Doodle extends AGameObject implements IDoodle {
         getLogger().info("The doodle removed itself as an observer from the input manager");
     }
 
+    @Override
+    public World getWorld() {
+        return this.world;
+    }
+
     /**
      * Move the doodle.
      *

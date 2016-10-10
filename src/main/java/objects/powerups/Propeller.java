@@ -13,11 +13,14 @@ import system.IServiceLocator;
      * The acceleration provided by the Propeller.
      */
     private static final double ACCELERATION = -1d;
-
+    /**
+     * The boost for the Propeller when it is being dropped.
+     */
+    private static final double DROP_BOOST = 1.1d;
     /**
      * The boost the Propeller gives.
      */
-    private static final double MAX_BOOST = -20;
+    private static final double MAX_BOOST = -20d;
     /**
      * The maximum time the Propeller is active.
      */
@@ -40,9 +43,13 @@ import system.IServiceLocator;
      */
     private int timer = 0;
     /**
-     * The active speed provided by the Propeller.
+     * The vertical speed of the Propeller.
      */
-    private double speed = 0;
+    private double vSpeed = 0d;
+    /**
+     * The horizontal speed of the Propeller.
+     */
+    private double hSpeed = 1.2d;
 
     /**
      * Propeller constructor.
@@ -61,16 +68,11 @@ import system.IServiceLocator;
      */
     @Override
     public final void update(final double delta) {
-        timer += 1;
-
-        if (timer == MAX_TIMER) {
-            this.owner.removePowerup(this);
-            this.owner = null;
-        } else if (this.speed > MAX_BOOST) {
-            this.speed += ACCELERATION;
+        if (this.owner != null) {
+            this.updateOwned();
+        } else if (this.timer > 0) {
+            this.updateFalling();
         }
-
-        this.setSprite(Propeller.spritePack[timer % Propeller.spritePack.length]);
     }
 
     /**
@@ -79,7 +81,7 @@ import system.IServiceLocator;
     @Override
     public void perform(final String occasion) {
         if (occasion.equals("constant")) {
-            this.owner.setVerticalSpeed(this.speed);
+            this.owner.setVerticalSpeed(this.vSpeed);
         }
     }
 
@@ -88,7 +90,7 @@ import system.IServiceLocator;
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        if (this.owner == null) {
+        if (this.owner == null && this.timer == 0) {
             getLogger().info("Doodle collided with a Propeller");
             this.owner = doodle;
             doodle.setPowerup(this);
@@ -100,13 +102,50 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        if (this.owner == null) {
-            getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
-        } else {
-            int xPos = (int) this.owner.getXPos() + (this.getSprite().getWidth() / 2);
-            int yPos = (int) this.owner.getYPos() + (this.getSprite().getHeight() / 2) + OWNED_Y_OFFSET;
-            getServiceLocator().getRenderer().drawSprite(this.getSprite(), xPos, yPos);
+        if (this.owner != null) {
+            this.setXPos((int) this.owner.getXPos() + (this.getSprite().getWidth() / 2));
+            this.setYPos((int) this.owner.getYPos() + (this.getSprite().getHeight() / 2) + OWNED_Y_OFFSET);
         }
+
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+    }
+
+    /**
+     * Update method for when the Propeller is owned.
+     */
+    private void updateOwned() {
+        timer += 1;
+
+        if (timer == MAX_TIMER) {
+            this.owner.getWorld().addDrawable(this);
+            this.owner.getWorld().addUpdatable(this);
+
+            this.setSprite(getServiceLocator().getSpriteFactory().getPropellerSprite());
+            this.vSpeed *= DROP_BOOST;
+            this.owner.removePowerup(this);
+            this.owner = null;
+            return;
+        } else if (this.vSpeed > MAX_BOOST) {
+            this.vSpeed += ACCELERATION;
+        }
+
+        this.setSprite(Propeller.spritePack[timer % Propeller.spritePack.length]);
+    }
+
+    /**
+     * Update method for when the Propeller is falling.
+     */
+    private void updateFalling() {
+        this.applyGravity();
+        this.addXPos(hSpeed);
+    }
+
+    /**
+     * Applies gravity to the Propeller when needed.
+     */
+    private void applyGravity() {
+        this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
+        this.addYPos(this.vSpeed);
     }
 
 }

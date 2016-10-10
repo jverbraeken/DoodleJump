@@ -5,6 +5,7 @@ import objects.IGameObject;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.powerups.IPowerup;
+import scenes.World;
 
 /**
  * This class describes the behaviour of the doodle.
@@ -92,5 +93,10 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      * Deregisters its button from the {@link input.IInputManager input manager}.
      */
     void deregister();
+
+    /**
+     * Get the world the Doodle lives.
+     */
+    World getWorld();
 
 }
