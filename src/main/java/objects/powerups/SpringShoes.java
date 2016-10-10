@@ -6,7 +6,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the SpringShoes powerup.
  */
-/* package */ class SpringShoes extends APowerup {
+/* package */ final class SpringShoes extends APowerup {
 
     /**
      * The maximum amount of times SpringShoes can be used.

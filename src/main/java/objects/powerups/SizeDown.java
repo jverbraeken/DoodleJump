@@ -6,7 +6,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the SizeDown powerup. Decreasing the size of the Doodle when picked up.
  */
-/* package */ class SizeDown extends APowerup {
+/* package */ final class SizeDown extends APowerup {
 
     /**
      * The scale increase provided by the SizeUp powerup.
@@ -28,7 +28,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         getLogger().info("Doodle collided with a SizeDown");
         doodle.increaseSpriteScalar(SCALE_INCREASE);
         this.setXPos(this.getSprite().getWidth() * -1);
@@ -38,7 +38,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 

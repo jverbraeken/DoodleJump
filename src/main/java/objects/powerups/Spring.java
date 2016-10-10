@@ -11,7 +11,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the spring powerup.
  */
-/* package */ class Spring extends AGameObject implements IJumpable {
+/* package */ final class Spring extends AGameObject implements IJumpable {
 
     /**
      * The BOOST value for the Spring.
@@ -33,7 +33,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         doodle.collide(this);
     }
 
@@ -41,7 +41,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final double getBoost() {
+    public double getBoost() {
         this.animate();
         this.playSound();
 
@@ -52,7 +52,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
