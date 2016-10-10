@@ -689,7 +689,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite[] getJetpackActiveSprites() {
-        ISprite[] sprites = new ISprite[10];
+        ISprite[] sprites = new ISprite[9];
         sprites[0] = getSprite(IRes.Sprites.jetpack0);
         sprites[1] = getSprite(IRes.Sprites.jetpack1);
         sprites[2] = getSprite(IRes.Sprites.jetpack2);
@@ -699,7 +699,6 @@ public final class SpriteFactory implements ISpriteFactory {
         sprites[6] = getSprite(IRes.Sprites.jetpack6);
         sprites[7] = getSprite(IRes.Sprites.jetpack7);
         sprites[8] = getSprite(IRes.Sprites.jetpack8);
-        sprites[9] = getSprite(IRes.Sprites.jetpack9);
 
         return sprites;
     }

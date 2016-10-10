@@ -65,7 +65,19 @@ import system.IServiceLocator;
             this.speed += ACCELERATION;
         }
 
-        this.setSprite(Jetpack.spritePack[timer % Jetpack.spritePack.length]);
+        double x = (double) timer / (double) MAX_TIMER;
+        int spriteIndex = 0;
+        if (x < .15) {
+            spriteIndex = (timer % 2) + 2;
+        } else if (x < .85) {
+            spriteIndex = (timer % 4) + 3;
+        } else if (x < .95) {
+            spriteIndex = (timer % 2) + 7;
+        } else {
+            spriteIndex = Jetpack.spritePack.length - 1;
+        }
+
+        this.setSprite(Jetpack.spritePack[spriteIndex]);
     }
 
     /**
