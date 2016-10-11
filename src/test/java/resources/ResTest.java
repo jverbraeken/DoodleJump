@@ -10,15 +10,13 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import resources.IRes.Sprites;
-import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.*;
 
 
@@ -31,7 +29,6 @@ public class ResTest {
 
     private IServiceLocator serviceLocator;
     private Res res;
-    private ISprite sprite;
     private String filePath = "mockedSprite.jpg";
     private Map<Sprites, String> mockedSprites = new EnumMap<>(Sprites.class);
     private Map<Sprites, String> insertedSprites;
@@ -48,18 +45,18 @@ public class ResTest {
     @Before
     public void setUp() throws Exception {
         serviceLocator = mock(IServiceLocator.class);
-        sprite = mock(ISprite.class);
         res = Whitebox.invokeConstructor(Res.class);
     }
 
     /**
      * Tests if the register method returns an assertion error if the input is a null object.
      */
-    @Test
+    @Test(expected = AssertionError.class)
     public void testRegisterNullInput() throws NullPointerException {
-        thrown.expect(AssertionError.class);
-        res.register(null);
+        Res.register(null);
     }
+
+
 
     /**
      * Tests if the method returns the correct path to the file.
