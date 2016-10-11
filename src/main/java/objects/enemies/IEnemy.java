@@ -23,4 +23,16 @@ public interface IEnemy extends IGameObject, IJumpable {
      * @param alive a boolean if the Enemy is alive.
      */
      void setAlive(boolean alive);
+
+    /**
+     * Returns the offSet of this Enemy.
+     * @return the attribute offSet.
+     */
+    int getOffSet();
+
+    /**
+     * Returns the vSpeed of this Enemy.
+     * @return the attribute vSpeed.
+     */
+    double getVerticalSpeed();
 }

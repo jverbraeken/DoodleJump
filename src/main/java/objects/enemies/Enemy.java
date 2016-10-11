@@ -134,19 +134,16 @@ public class Enemy extends AEnemy {
         this.alive = alive;
     }
 
-    /**
-     * Returns the offSet of this Enemy.
-     * @return the attribute offSet.
-     */
-    final int getOffSet() {
+
+    /** {@inheritDoc} */
+    @Override
+    public final int getOffSet() {
         return offSet;
     }
 
-    /**
-     * Returns the vSpeed of this Enemy.
-     * @return the attribute vSpeed.
-     */
-    final double getVerticalSpeed() {
+    /** {@inheritDoc} */
+    @Override
+    public final double getVerticalSpeed() {
         return vSpeed;
     }
 

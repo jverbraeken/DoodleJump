@@ -41,161 +41,56 @@ public interface ISpriteFactory extends IFactory {
     ISprite getKillScreenBottomSprite();
 
     // Monsters
-
-    /**
-     * Creates a pudding monster and returns it.
-     * @return the ISprite of pudding monster 1
-     */
     ISprite getPuddingMonsterSprite1(); // By default the green monster with some blood
 
-    /**
-     * Creates a pudding monster and returns it.
-     * @return the ISprite of pudding monster 2
-     */
     ISprite getPuddingMonsterSprite2();
 
-    /**
-     * Creates a pudding monster and returns it.
-     * @return the ISprite of pudding monster 3
-     */
     ISprite getPuddingMonsterSprite3();
 
-    /**
-     * Creates a pudding monster and returns it.
-     * @return the ISprite of pudding monster 4
-     */
     ISprite getPuddingMonsterSprite4();
 
-    /**
-     * Creates a pudding monster and returns it.
-     * @return the ISprite of pudding monster 5
-     */
     ISprite getPuddingMonsterSprite5();
 
-    /**
-     * Creates a twin monster and returns it.
-     * @return the ISprite of twin monster
-     */
     ISprite getTwinMonsterSprite(); // By default the blue twin
 
-    /**
-     * Creates a three eyed monster and returns it.
-     * @return the ISprite of three eyed monster 1
-     */
     ISprite getThreeEyedMonsterSprite1(); // By default three yellow eyes
 
-    /**
-     * Creates a three eyed monster and returns it.
-     * @return the ISprite of three eyed monster 1
-     */
     ISprite getThreeEyedMonsterSprite2();
 
-    /**
-     * Creates a three eyed monster and returns it.
-     * @return the ISprite of three eyed monster 1
-     */
     ISprite getThreeEyedMonsterSprite3();
 
-    /**
-     * Creates a three eyed monster and returns it.
-     * @return the ISprite of three eyed monster 1
-     */
     ISprite getThreeEyedMonsterSprite4();
 
-    /**
-     * Creates a three eyed monster and returns it.
-     * @return the ISprite of three eyed monster 1
-     */
     ISprite getThreeEyedMonsterSprite5();
 
-    /**
-     * Creates a vampire monster sprite and returns it.
-     * @return the ISprite of vampire monster 1
-     */
     ISprite getVampireMonsterSprite1(); // By default a blue monster with 2 red teeth
 
-    /**
-     * Creates a vampire monster sprite and returns it.
-     * @return the ISprite of vampire monster 2
-     */
     ISprite getVampireMonsterSprite2();
 
-    /**
-     * Creates a vampire monster sprite and returns it.
-     * @return the ISprite of vampire monster 3
-     */
     ISprite getVampireMonsterSprite3();
 
-    /**
-     * Creates a vampire monster sprite and returns it.
-     * @return the ISprite of vampire monster 5
-     */
     ISprite getVampireMonsterSprite4();
 
-    /**
-     * Creates a vampire monster sprite and returns it.
-     * @return the ISprite of vampire monster 5
-     */
     ISprite getVampireMonsterSprite5();
 
-    /**
-     * Creates an ordinary monster sprite and returns it.
-     * @return the ISprite of ordinary monster
-     */
     ISprite getOrdinaryMonsterSprite(); // By default the purple monster with a blank head
 
-    /**
-     * Creates a cactus monster sprite and returns it.
-     * @return the ISprite of cactus monster 1
-     */
     ISprite getCactusMonster1Sprite(); // By default with three flaps at its Left and Right side and three eyes
 
-    /**
-     * Creates a cactus monster sprite and returns it.
-     * @return the ISprite of cactus monster 2
-     */
     ISprite getCactusMonster2Sprite();
 
-    /**
-     * Creates an low five feet monster sprite and returns it.
-     * @return the ISprite of low five feet monster
-     */
     ISprite getFiveFeetMonsterSprite(); // By default a blue pudding with 5 red feet
 
-    /**
-     * Creates an low five feet monster sprite and returns it.
-     * @return the ISprite of low five feet monster 1
-     */
     ISprite getLowFiveFeetMonster1Sprite(); // By default a green very low monster with 5 feet
 
-    /**
-     * Creates an low five feet monster sprite and returns it.
-     * @return the ISprite of low five feet monster 2
-     */
     ISprite getLowFiveFeetMonster2Sprite();
 
-    /**
-     * Creates an small monster sprite and returns it.
-     * @return the ISprite of small monster
-     */
     ISprite getSmallMonsterSprite(); // By default a very small three eyed red monster
 
-    /**
-     * Creates a stars sprite and returns it.
-     * @return the ISprite of star1
-     */
     ISprite getStarSprite1();
 
-    /**
-     * Creates a stars sprite and returns it.
-     * @return the ISprite of star2
-     */
     ISprite getStarSprite2();
 
-    /**
-     * Creates a stars sprite and returns it.
-     * @return the ISprite of star3
-     */
     ISprite getStarSprite3();
 
     // Platforms
