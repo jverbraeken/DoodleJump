@@ -2,6 +2,8 @@ package objects.doodles.DoodleBehavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
+import objects.powerups.IPowerup;
+import objects.powerups.PowerupOccasion;
 import system.IServiceLocator;
 
 /**
@@ -83,6 +85,11 @@ public class SpaceBehavior implements MovementBehavior {
         moveHorizontally(delta);
         applyGravity(delta);
         animate(delta);
+
+        IPowerup powerup = this.doodle.getPowerup();
+        if (powerup != null) {
+            powerup.perform(PowerupOccasion.constant);
+        }
     }
 
     /**

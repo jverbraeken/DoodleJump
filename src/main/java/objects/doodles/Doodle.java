@@ -9,6 +9,7 @@ import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.DoodleBehavior.UnderwaterBehavior;
 import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
+import objects.powerups.PowerupOccasion;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -105,7 +106,7 @@ public class Doodle extends AGameObject implements IDoodle {
         behavior.setVerticalSpeed(boost);
 
         if (this.powerup != null) {
-            this.powerup.perform("collision");
+            this.powerup.perform(PowerupOccasion.collision);
         }
     }
 

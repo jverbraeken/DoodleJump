@@ -81,14 +81,14 @@ public class JetpackTest {
     @Test
     public void testPerform() throws Exception {
         jetpack.collidesWith(doodle);
-        jetpack.perform("constant");
+        jetpack.perform(PowerupOccasion.constant);
         verify(doodle, times(1)).setVerticalSpeed(anyDouble());
     }
 
     @Test
     public void testPerformInvalid() throws Exception {
         jetpack.collidesWith(doodle);
-        jetpack.perform("invalid");
+        jetpack.perform(PowerupOccasion.collision);
         verify(doodle, times(0)).setVerticalSpeed(anyDouble());
     }
 

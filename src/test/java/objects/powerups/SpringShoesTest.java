@@ -71,7 +71,7 @@ public class SpringShoesTest {
     @Test
     public void testPerformInvalid() throws Exception {
         springShoes.collidesWith(doodle);
-        springShoes.perform("invalid");
+        springShoes.perform(PowerupOccasion.constant);
 
         int uses = Whitebox.getInternalState(springShoes, "uses");
         assertThat(uses, is(0));
@@ -80,7 +80,7 @@ public class SpringShoesTest {
     @Test
     public void testPerformOnce() throws Exception {
         springShoes.collidesWith(doodle);
-        springShoes.perform("collision");
+        springShoes.perform(PowerupOccasion.collision);
 
         int uses = Whitebox.getInternalState(springShoes, "uses");
         assertThat(uses, is(1));
@@ -89,8 +89,8 @@ public class SpringShoesTest {
     @Test
     public void testPerformTwice() throws Exception {
         springShoes.collidesWith(doodle);
-        springShoes.perform("collision");
-        springShoes.perform("collision");
+        springShoes.perform(PowerupOccasion.collision);
+        springShoes.perform(PowerupOccasion.collision);
 
         int uses = Whitebox.getInternalState(springShoes, "uses");
         assertThat(uses, is(2));
@@ -99,9 +99,9 @@ public class SpringShoesTest {
     @Test
     public void testPerformThrice() throws Exception {
         springShoes.collidesWith(doodle);
-        springShoes.perform("collision");
-        springShoes.perform("collision");
-        springShoes.perform("collision");
+        springShoes.perform(PowerupOccasion.collision);
+        springShoes.perform(PowerupOccasion.collision);
+        springShoes.perform(PowerupOccasion.collision);
 
         int uses = Whitebox.getInternalState(springShoes, "uses");
         assertThat(uses, is(3));
@@ -110,9 +110,9 @@ public class SpringShoesTest {
     @Test
     public void testPerformThriceUnsetOwner() throws Exception {
         springShoes.collidesWith(doodle);
-        springShoes.perform("collision");
-        springShoes.perform("collision");
-        springShoes.perform("collision");
+        springShoes.perform(PowerupOccasion.collision);
+        springShoes.perform(PowerupOccasion.collision);
+        springShoes.perform(PowerupOccasion.collision);
 
         Object owner = Whitebox.getInternalState(springShoes, "owner");
         assertThat(owner == null, is(true));

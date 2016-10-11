@@ -69,8 +69,8 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void perform(final String occasion) {
-        if (occasion.equals("constant")) {
+    public void perform(final PowerupOccasion occasion) {
+        if (occasion == PowerupOccasion.constant) {
             this.owner.setVerticalSpeed(this.speed);
         }
     }

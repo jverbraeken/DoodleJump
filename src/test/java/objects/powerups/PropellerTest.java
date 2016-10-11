@@ -65,14 +65,14 @@ public class PropellerTest {
     public void testPerform() throws Exception {
         propeller.collidesWith(doodle);
 
-        propeller.perform("constant");
+        propeller.perform(PowerupOccasion.constant);
         verify(doodle, times(1)).setVerticalSpeed(anyDouble());
     }
 
     @Test
     public void testPerformInvalid() throws Exception {
         propeller.collidesWith(doodle);
-        propeller.perform("invalid");
+        propeller.perform(PowerupOccasion.collision);
         verify(doodle, times(0)).setVerticalSpeed(anyDouble());
     }
 
