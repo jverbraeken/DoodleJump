@@ -46,6 +46,13 @@ public interface IPlatform extends IGameObject, IJumpable {
     void updateEnums(double xpos, double ypos);
 
     /**
+     * Returns the Map with directions of the Platform.
+     *
+     * @return the Map with directions
+     */
+    Map<Platform.Directions, Integer> getDirections();
+
+    /**
      * Sets the variable offSet to the parameter given.
      *
      * @param offSet the offSet that this.offSet has to be set to.

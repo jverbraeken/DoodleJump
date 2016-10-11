@@ -41,11 +41,10 @@ public final class PlatformFactory implements IPlatformFactory {
      */
     @Override
     public IPlatform createHoriMovingPlatform(final int x, final int y) {
-        ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSpriteHori();
-        IPlatform platform = new Platform(serviceLocator, x, y, sprite);
-        platform.getProps().put(Platform.PlatformProperties.movingHorizontally, 1);
-
-        return platform;
+        IPlatform platform = createPlatform(x, y);
+        IPlatform sideways = new PlatformSideways(serviceLocator, platform);
+      
+        return sideways;
     }
 
     /**

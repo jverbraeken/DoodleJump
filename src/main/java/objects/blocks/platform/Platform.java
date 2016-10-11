@@ -35,15 +35,17 @@ public class Platform extends AGameObject implements IPlatform {
     /**
      * The properties for this platform.
      */
-    private Map<PlatformProperties, Integer> props = new EnumMap<>(PlatformProperties.class);
+    Map<PlatformProperties, Integer> props = new EnumMap<>(PlatformProperties.class);
+
     /**
      * The directions a platform can go to.
      */
-    private Map<Directions, Integer> directions = new EnumMap<>(Directions.class);
+    Map<Directions, Integer> directions = new EnumMap<>(Directions.class);
+
     /**
      * An enum to define what the platform does.
      */
-    private enum Directions {
+    enum Directions {
         /**
          * For moving up, normally 1.
          */
@@ -102,13 +104,13 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public final double getBoost() {
+    public double getBoost() {
         return Platform.BOOST;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final void render() {
+    public void update(final double delta) {
         double xPos = this.getXPos();
         double yPos = this.getYPos();
 
@@ -131,9 +133,13 @@ public class Platform extends AGameObject implements IPlatform {
                 offSet = offSet + 2;
             }
         }
+    }
 
-        xPos = this.getXPos();
-        yPos = this.getYPos();
+    /** {@inheritDoc} */
+    @Override
+    public void render() {
+        double xPos = this.getXPos();
+        double yPos = this.getYPos();
 
         if (props.containsKey(PlatformProperties.breaks)) {
             int breaks = (int) props.get(PlatformProperties.breaks);
@@ -152,7 +158,7 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public final void updateEnums(final double xPos, final double yPos) {
+    public void updateEnums(final double xPos, final double yPos) {
         int gameWidth = getServiceLocator().getConstants().getGameWidth();
         if (xPos > gameWidth - this.getSprite().getWidth()) {
             this.props.replace(PlatformProperties.movingHorizontally, -1);
@@ -169,7 +175,7 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         if (props.containsKey(PlatformProperties.breaks)) {
             if (props.get(PlatformProperties.breaks) == 1) {
                 props.replace(PlatformProperties.breaks, 2);
@@ -200,25 +206,31 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public final Map<PlatformProperties, Integer> getProps() {
+    public Map<PlatformProperties, Integer> getProps() {
         return props;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final void setOffset(final int value) {
+    public Map<Directions, Integer> getDirections() {
+        return directions;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setOffset(final int value) {
         this.offSet = value;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final int getOffset() {
+    public int getOffset() {
         return offSet;
     }
 
     /** {@inheritDoc} */
     @Override
-    public final ISprite getBrokenSprite(final int numberOfAnimation) {
+    public ISprite getBrokenSprite(final int numberOfAnimation) {
         if (numberOfAnimation == 2) {
             props.replace(PlatformProperties.breaks, 3);
             return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite2();
