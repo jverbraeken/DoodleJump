@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -136,7 +137,12 @@ import system.IServiceLocator;
         }
 
         if (this.owner != null) {
-            this.setXPos((int) this.owner.getXPos());
+            MovementBehavior.Directions facing = this.owner.getFacing();
+            if (facing == MovementBehavior.Directions.Left) {
+                this.setXPos((int) this.owner.getXPos() + this.owner.getHitBox()[HITBOX_RIGHT]);
+            } else {
+                this.setXPos((int) this.owner.getXPos());
+            }
             this.setYPos((int) this.owner.getYPos() + (this.getSprite().getHeight() / 2 / 2));
         }
     }

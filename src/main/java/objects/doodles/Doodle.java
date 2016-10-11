@@ -181,8 +181,7 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void setSprite(final MovementBehavior.Directions direction, final boolean falling) {
         if (direction == MovementBehavior.Directions.Left) {
             setSprite(this.spritePack[0][falling ? 1 : 0]);
-        }
-        if (direction == MovementBehavior.Directions.Right) {
+        } else if (direction == MovementBehavior.Directions.Right) {
             setSprite(this.spritePack[1][falling ? 1 : 0]);
         }
     }
@@ -279,6 +278,17 @@ public class Doodle extends AGameObject implements IDoodle {
         getLogger().info("The doodle removed itself as an observer from the input manager");
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MovementBehavior.Directions getFacing() {
+        return this.behavior.getFacing();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public World getWorld() {
         return this.world;

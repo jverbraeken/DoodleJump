@@ -96,6 +96,13 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void deregister();
 
     /**
+     * Get the direction the Doodle is facing.
+     *
+     * @return The direction of the Doodle.
+     */
+    MovementBehavior.Directions getFacing();
+
+    /**
      * Get the world the Doodle lives.
      *
      * @return The world the Doodle lives in.
