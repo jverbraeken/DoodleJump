@@ -345,7 +345,7 @@ public final class BlockFactory implements IBlockFactory {
         int xLoc = (int) (widthDeviation * (serviceLocator.getConstants().getGameWidth() - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
         int yLoc = (int) (platform.getYPos() - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
 
-        return serviceLocator.getEnemyBuilder().createOrdinaryEnemy(xLoc, yLoc);
+        return serviceLocator.getEnemyFactory().createOrdinaryEnemy(xLoc, yLoc);
     }
 
     /**
