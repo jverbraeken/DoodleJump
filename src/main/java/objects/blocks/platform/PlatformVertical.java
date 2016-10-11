@@ -68,6 +68,8 @@ public class PlatformVertical extends PlatformDecorator implements IPlatform{
                 setOffset(getOffset() + 2);
             }
         }
+
+        getContained().update(delta);
     }
 
     /** {@inheritDoc} */

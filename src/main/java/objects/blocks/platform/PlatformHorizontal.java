@@ -37,16 +37,18 @@ public class PlatformHorizontal extends PlatformDecorator implements IPlatform {
                 this.setXPos(xPos - 2);
             }
         }
+
+        getContained().update(delta);
     }
 
     /** {@inheritDoc} */
     @Override
     public final void updateEnums(final double xPos, final double yPos) {
-        int gameWidth = getServiceLocator().getConstants().getGameWidth();
-        if (xPos > gameWidth - this.getSprite().getWidth()) {
-            this.getProps().replace(Platform.PlatformProperties.movingHorizontally, -1);
+        double gameWidth = getServiceLocator().getConstants().getGameWidth();
+        if (xPos > gameWidth - getSprite().getWidth()) {
+            getProps().replace(Platform.PlatformProperties.movingHorizontally, -1);
         } else if (xPos < 1) {
-            this.getProps().replace(Platform.PlatformProperties.movingHorizontally, 1);
+            getProps().replace(Platform.PlatformProperties.movingHorizontally, 1);
         }
     }
 }
