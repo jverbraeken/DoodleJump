@@ -16,6 +16,12 @@ public final class Calc implements ICalc {
     private static transient IServiceLocator serviceLocator;
 
     /**
+     * The singleton Calc.
+     * Created using double locking.
+     */
+    private volatile static ICalc calc;
+
+    /**
      * Random generator.
      */
     private static final Random RANDOM = new Random();
@@ -33,20 +39,43 @@ public final class Calc implements ICalc {
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         Calc.serviceLocator = sL;
-        sL.provide(new Calc());
+        sL.provide(getCalc());
+    }
+
+    /**
+     * Return the singleton calc.
+     * Done using double locking.
+     * @return the singleton calc
+     */
+    public static ICalc getCalc() {
+        if (calc == null) {
+            synchronized (Calc.class) {
+                if (calc == null) {
+                    calc = new Calc();
+                }
+            }
+        }
+        return calc;
     }
 
     /** {@inheritDoc} */
     @Override
     public int getRandomIntBetween(final int lower, final int upper) {
-        assert upper > lower;
+        if (upper < lower) {
+            throw new IllegalArgumentException("The upper-bound cannot be less than the lower-bound");
+        }
+        if (upper <= lower) {
+            throw new IllegalArgumentException("The upper-bound cannot equal the lower-bound");
+        }
         return RANDOM.nextInt(upper - lower) + lower + 1;
     }
 
     /** {@inheritDoc} */
     @Override
     public double getRandomDouble(final double max) {
-        assert max > 0;
+        if (max <= 0) {
+            throw new IllegalArgumentException("The maximum value for a random double should be more than 0, but was [" + max + "] instead");
+        }
         return RANDOM.nextDouble() * max;
     }
 
