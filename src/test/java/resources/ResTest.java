@@ -52,8 +52,8 @@ public class ResTest {
      * Tests if the register method returns an assertion error if the input is a null object.
      * @throws NullPointerException throws an exception when the input is null.
      */
-    @Test(expected = NullPointerException.class)
-    public void testRegisterNullInput() throws NullPointerException {
+    @Test(expected = AssertionError.class)
+    public void testRegisterNullInput() {
         Res.register(null);
     }
 
