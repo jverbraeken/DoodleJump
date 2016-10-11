@@ -522,11 +522,11 @@ public class SpriteFactoryTest {
         TestSprite(IRes.Sprites.spaceMode, () -> spriteFactory.getSpaceModeButton());
     }
 
-    // getFileName
-
     @Test
     public void TestGetUnderwaterModeButton() throws Exception {
         TestSprite(IRes.Sprites.underwaterMode, () -> spriteFactory.getUnderwaterModeButton());
+
+    // getFileName
     }
 
     @Test
@@ -538,9 +538,9 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetFileNameBlanco() throws Exception {
-        final String filepath = "sprite.png";
+        final String filepath = "";
         final String result = Whitebox.invokeMethod(spriteFactory, "getFileName", filepath);
-        assertThat(result, is("sprite.png"));
+        assertThat(result, is(""));
     }
 
     // No bad weather checks, because Travis doesn't compile the assertions and thus no AssertionErrors will be thrown
