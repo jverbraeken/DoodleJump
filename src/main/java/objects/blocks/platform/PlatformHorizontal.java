@@ -6,7 +6,7 @@ import system.IServiceLocator;
 /**
  * Created by Nick on 11-10-2016.
  */
-public class PlatformSideways extends PlatformDecorator implements IPlatform {
+public class PlatformHorizontal extends PlatformDecorator implements IPlatform {
 
     /**
      * Platform constructor.
@@ -14,7 +14,7 @@ public class PlatformSideways extends PlatformDecorator implements IPlatform {
      * @param sL the servicelocator.
      * @param platform the encapsulated platform.
      */
-     PlatformSideways(final IServiceLocator sL, final IPlatform platform) {
+     PlatformHorizontal(final IServiceLocator sL, final IPlatform platform) {
          super(sL, platform);
          getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteHori());
          getContained().getProps().put(Platform.PlatformProperties.movingHorizontally, 1);
@@ -36,6 +36,17 @@ public class PlatformSideways extends PlatformDecorator implements IPlatform {
             } else if (getContained().getProps().get(Platform.PlatformProperties.movingHorizontally).equals(getContained().getDirections().get(Platform.Directions.left))) {
                 this.setXPos(xPos - 2);
             }
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final void updateEnums(final double xPos, final double yPos) {
+        int gameWidth = getServiceLocator().getConstants().getGameWidth();
+        if (xPos > gameWidth - this.getSprite().getWidth()) {
+            this.getProps().replace(Platform.PlatformProperties.movingHorizontally, -1);
+        } else if (xPos < 1) {
+            this.getProps().replace(Platform.PlatformProperties.movingHorizontally, 1);
         }
     }
 }

@@ -212,14 +212,6 @@ public abstract class PlatformDecorator implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getBrokenSprite(final int numberOfAnimation) {
-        return contained.getBrokenSprite(numberOfAnimation);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Map<Platform.Directions, Integer> getDirections() {
         return contained.getDirections();
     }

@@ -47,7 +47,7 @@ public final class PlatformFactory implements IPlatformFactory {
     @Override
     public IPlatform createHoriMovingPlatform(final int x, final int y) {
         IPlatform platform = createPlatform(x, y);
-        IPlatform sideways = new PlatformSideways(serviceLocator, platform);
+        IPlatform sideways = new PlatformHorizontal(serviceLocator, platform);
 
         return sideways;
     }

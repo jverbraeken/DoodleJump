@@ -65,14 +65,4 @@ public interface IPlatform extends IGameObject, IJumpable {
      * @return the offSet of the platform.
      */
     int getOffset();
-
-    /**
-     * Will return the Sprite of the broken platform, dependent
-     * on the number of the animation. SO which phase it is in.
-     *
-     * @param numberOfAnimation the phase of the animation
-     * @return the sprite belonging to this animation phase
-     */
-    ISprite getBrokenSprite(final int numberOfAnimation);
-
 }
