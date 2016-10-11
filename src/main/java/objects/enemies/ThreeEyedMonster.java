@@ -86,6 +86,16 @@ import system.IServiceLocator;
     }
 
     @Override
+    public int getOffSet() {
+        return offSet;
+    }
+
+    @Override
+    public double getVerticalSpeed() {
+        return 0;
+    }
+
+    @Override
     public void collidesWith(final IDoodle doodle) {
 
     }
