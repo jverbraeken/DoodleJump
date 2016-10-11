@@ -8,7 +8,6 @@ import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
-import objects.doodles.IDoodleFactory;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -472,7 +471,7 @@ public class World implements IScene {
             @Override
             public void render() {
                 //assert doodle.getScore() >= 0;
-                int roundedScore = 0;// = (int) doodle.getScore();
+                int roundedScore = 0; // = (int) doodle.getScore();
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();
                 while (roundedScore != 0) {

@@ -1,6 +1,5 @@
 package objects.doodles;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import scenes.World;
 import system.IServiceLocator;
 
@@ -40,7 +39,6 @@ public final class DoodleFactory implements IDoodleFactory {
     public IDoodle createDoodle(final World world) {
         IDoodle doodle = new Doodle(serviceLocator, world);
         doodle.setVerticalSpeed(DOODLE_INITIAL_SPEED);
-
         return doodle;
     }
 

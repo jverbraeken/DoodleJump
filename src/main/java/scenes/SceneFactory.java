@@ -92,11 +92,11 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
-    public World newMultiPlayerWorld(final int playerCount) {
+    public World newTwoPlayerWorld() {
         logger.info("A new TwoPlayerWorld has been created");
         World world = new World(serviceLocator);
 
-        for (int i = 0; i < playerCount; i++) {
+        for (int i = 0; i < 2; i++) {
             IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
             IDoodle doodle = doodleFactory.createDoodle(world);
             world.addDoodle(doodle);
