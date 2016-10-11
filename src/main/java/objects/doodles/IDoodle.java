@@ -102,7 +102,7 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     Keys[] getKeys();
 
     /**
-     * Set the keys the Doodle react to
+     * Set the keys the Doodle react to.
      *
      * @param left The key to move to the left.
      * @param right The key to move to the right.

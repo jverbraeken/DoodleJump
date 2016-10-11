@@ -188,7 +188,7 @@ public class SpaceBehavior implements MovementBehavior {
         Keys[] keys = this.doodle.getKeys();
         return key == keys[0];
     }
-    
+
     /**
      * Check if the Right key for the Doodle is pressed.
      *
