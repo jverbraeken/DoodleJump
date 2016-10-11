@@ -1,7 +1,7 @@
 package progression;
 
 /**
- * Created by jverb on 10/11/2016.
+ * Implemented by classes that want to get a notification when the doodle jumped on a {@link objects.powerups.Propeller Propeller}.
  */
-public interface PropellerUsedObserver {
+public interface PropellerUsedObserver extends EquipmentPickupObserver {
 }

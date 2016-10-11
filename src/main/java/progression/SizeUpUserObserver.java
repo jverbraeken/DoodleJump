@@ -1,7 +1,7 @@
 package progression;
 
 /**
- * Created by jverb on 10/11/2016.
+ * Implemented by classes that want to get a notification when the doodle jumped on a {@link SizeUpUserObserver}.
  */
-public interface SizeUpUserObserver {
+public interface SizeUpUserObserver extends DisappearingPickupObserver {
 }

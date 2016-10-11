@@ -1,7 +1,5 @@
 package objects.powerups;
 
-import objects.AGameObject;
-import objects.IJumpable;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -11,7 +9,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the spring powerup.
  */
-/* package */ final class Spring extends AGameObject implements IJumpable {
+/* package */ final class Spring extends APowerup implements IJumpablePowerup {
 
     /**
      * The BOOST value for the Spring.

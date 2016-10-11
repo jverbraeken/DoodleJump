@@ -10,7 +10,7 @@ public interface IPowerup extends IGameObject {
     /**
      * Perform the action of the powerup.
      *
-     * @param occasion What is the occasion on which the powerup should perform its action
+     * @param occasion The occasion on which the powerup should perform its action
      */
     void perform(final PowerupOccasion occasion);
 

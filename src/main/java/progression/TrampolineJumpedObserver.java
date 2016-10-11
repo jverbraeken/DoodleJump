@@ -1,7 +1,9 @@
 package progression;
 
+import objects.powerups.Trampoline;
+
 /**
- * Created by jverb on 10/11/2016.
+ * Implemented by classes that want to get a notification when the doodle jumped on a {@link Trampoline}.
  */
-public interface TrampolineJumpedObserver {
+public interface TrampolineJumpedObserver extends StaticPickupObserver {
 }

@@ -6,7 +6,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the Jetpack powerup.
  */
-/* package */ final class Jetpack extends APowerup {
+/* package */ final class Jetpack extends APowerup implements IEquipmentPowerup {
 
     /**
      * The acceleration provided by the Jetpack.

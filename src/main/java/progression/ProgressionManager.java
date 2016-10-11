@@ -25,6 +25,9 @@ public final class ProgressionManager implements IProgressionManager {
         sL.provide(new ProgressionManager());
     }
 
+    /**
+     * Prevents construction from outside the package.
+     */
     private ProgressionManager() {
 
     }
