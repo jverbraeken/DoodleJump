@@ -89,7 +89,7 @@ public class EnemyTest {
         enemy.update(0);
 
         assertThat(enemy.getXPos(), is(-3d));
-        assertThat(enemy.getYPos(), is(5.5));
+        assertThat(enemy.getYPos(), is(1.0));
         assertThat(enemy.getOffSet(), is(-4));
     }
 
@@ -111,11 +111,9 @@ public class EnemyTest {
     public void updateAliveTest() {
         enemy.setAlive(true);
         double startVSpeed = enemy.getVerticalSpeed();
-        double expectedVSpeed = startVSpeed + 1.5;
 
         enemy.update(0);
-        assertThat(enemy.getVerticalSpeed(), is(expectedVSpeed));
-        assertThat(enemy.getVerticalSpeed(), not(startVSpeed));
+        assertThat(enemy.getVerticalSpeed(), is(startVSpeed));
 
     }
 
