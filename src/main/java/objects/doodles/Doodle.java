@@ -46,6 +46,10 @@ public class Doodle extends AGameObject implements IDoodle {
     private static final double WIDTH_HIT_BOX_RIGHT = .7;
 
     /**
+     * The world the Doodle lives in.
+     */
+    private final World world;
+    /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
     private ISprite[][] spritePack;
@@ -58,10 +62,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private IPowerup powerup;
     /**
-     * The world the Doodle lives in.
-     */
-    private final World world;
-    /**
      * Describes the movement behavior of the doodle.
      */
     private MovementBehavior behavior;
@@ -69,6 +69,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * The scalar for the Doodle sprite.
      */
     private double spriteScalar = 1d;
+    /**
+     * The keys the Doodle responds to.
+     */
+    private Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
 
     /**
      * Doodle constructor.
@@ -272,6 +276,23 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void deregister() {
         getServiceLocator().getInputManager().removeObserver(this);
         getLogger().info("The doodle removed itself as an observer from the input manager");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Keys[] getKeys() {
+        return this.keys;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setKeys(final Keys left, final Keys right) {
+        this.keys[0] = left;
+        this.keys[1] = right;
     }
 
     /**
