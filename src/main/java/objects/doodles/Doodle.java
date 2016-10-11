@@ -433,8 +433,8 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void setAlive(final boolean alive) {
-        this.alive = alive;
+    public void setAlive(final boolean al) {
+        alive = al;
     }
 
 }

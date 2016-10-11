@@ -107,9 +107,9 @@ import scenes.SceneFactory;
 
     /** {@inheritDoc} */
     @Override
-    public void provide(final IEnemyFactory eB) {
-        assert eB != null;
-        this.enemyFactory = eB;
+    public void provide(final IEnemyFactory eF) {
+        assert eF != null;
+        this.enemyFactory = eF;
     }
 
     /** {@inheritDoc} */

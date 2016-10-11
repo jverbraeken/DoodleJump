@@ -95,7 +95,6 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void deregister();
 
     /**
-<<<<<<< HEAD
      * Returns true if the doodle is alive.
      * @return the boolean alive.
      */

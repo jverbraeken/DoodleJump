@@ -321,7 +321,6 @@ public final class BlockFactory implements IBlockFactory {
         double randomDouble = calc.getRandomDouble(MAX_RANDOM_THRESHOLD);
         final int randomNr = (int) (randomDouble);
         IGameObject enemy = null;
-                //serviceLocator.getEnemyBuilder().createEnemy((int) platform.getXPos(),(int) platform.getYPos());
 
         if (randomNr >= ENEMY_CHANCE) {
             do {

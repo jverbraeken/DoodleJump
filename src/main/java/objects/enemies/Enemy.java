@@ -27,7 +27,7 @@ public class Enemy extends AEnemy {
     /**
      * OffSet of the movement from left to right.
      */
-    private int offSet = 0;
+    private int offset = 0;
 
     /**
      * Current vertical speed for the Enemy.
@@ -77,14 +77,14 @@ public class Enemy extends AEnemy {
             int xPos;
             if (movingDirection == 1) {
                 xPos = (int) (this.getXPos() + 2);
-                offSet = offSet + 2;
-                if (offSet > MOVING_DISTANCE) {
+                offset = offset + 2;
+                if (offset > MOVING_DISTANCE) {
                     movingDirection = 0;
                 }
             } else {
                 xPos = (int) (this.getXPos() - 2);
-                offSet = offSet - 2;
-                if (offSet < -MOVING_DISTANCE) {
+                offset = offset - 2;
+                if (offset < -MOVING_DISTANCE) {
                     movingDirection = 1;
                 }
             }
@@ -108,6 +108,18 @@ public class Enemy extends AEnemy {
             }
             doodle.setAlive(false);
         }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final int getOffSet() {
+        return offset;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public final double getVerticalSpeed() {
+        return vSpeed;
     }
 
     /**
@@ -135,16 +147,6 @@ public class Enemy extends AEnemy {
     }
 
 
-    /** {@inheritDoc} */
-    @Override
-    public final int getOffSet() {
-        return offSet;
-    }
 
-    /** {@inheritDoc} */
-    @Override
-    public final double getVerticalSpeed() {
-        return vSpeed;
-    }
 
 }

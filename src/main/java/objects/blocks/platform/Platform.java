@@ -21,12 +21,12 @@ public class Platform extends AGameObject implements IPlatform {
     private static final double BOOST = -18;
 
     /**
-     * One third of the game height.
+     * The maximum moving distance the platform can move.
      */
     private static double movingDistance;
 
     /**
-     * One third of the game height.
+     * The multiplier to calculate the movingDistance.
      */
     private static final double MOVING_DISTANCE_HEIGHT_MULTIPLIER = 0.20;
 
