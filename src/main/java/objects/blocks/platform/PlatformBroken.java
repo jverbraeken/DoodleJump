@@ -1,6 +1,5 @@
 package objects.blocks.platform;
 
-import objects.blocks.BlockFactory;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -9,6 +8,7 @@ import system.IServiceLocator;
 /**
  * The platform decorator to support horizontal movement.
  */
+@SuppressWarnings("checkstyle:magicnumber")
 public class PlatformBroken extends PlatformDecorator implements IPlatform {
 
     /**
