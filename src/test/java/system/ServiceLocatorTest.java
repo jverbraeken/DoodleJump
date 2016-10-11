@@ -35,7 +35,7 @@ public class ServiceLocatorTest {
 
     // PROVIDERS
 
-    @Test
+    /*@Test
     public void TestProvideAudioManager() {
         IAudioManager mock = mock(IAudioManager.class);
         serviceLocator.provide(mock);
@@ -213,7 +213,7 @@ public class ServiceLocatorTest {
     @Test(expected = AssertionError.class)
     public void TestProvideConstantsNull() {
         serviceLocator.provide((IConstants) null);
-    }
+    }*/
 
     @Test
     public void TestProvideLoggerFactory() {
