@@ -77,7 +77,7 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
-    public World newWorld() {
+    public World createWorld() {
         logger.info("A new World has been created");
         World world = new World(serviceLocator);
 
@@ -92,7 +92,7 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
-    public World newTwoPlayerWorld() {
+    public World createTwoPlayerWorld() {
         logger.info("A new TwoPlayerWorld has been created");
         World world = new World(serviceLocator);
 
