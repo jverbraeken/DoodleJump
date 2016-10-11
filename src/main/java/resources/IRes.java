@@ -139,7 +139,10 @@ public interface IRes {
         invertMode,
         underwaterMode,
         spaceMode,
-        storyMode;
+        storyMode,
+
+        // Unimplemented
+        unimplemented
     }
 
 }
