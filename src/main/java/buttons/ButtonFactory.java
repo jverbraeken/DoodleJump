@@ -42,6 +42,19 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
+    public IButton createMultiplayerButton(final int x, final int y) {
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getMultiplayerButtonSprite();
+        //TODO de regel hieronder omzetten naar iets beters
+        Runnable playAction = () -> System.out.println("Zet hier je code neer Eric");
+        return new Button(serviceLocator, x, y, buttonSprite, playAction, "multiplayer");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IButton createResumeButton(final int x, final int y) {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
