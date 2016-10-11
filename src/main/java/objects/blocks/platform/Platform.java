@@ -1,7 +1,6 @@
 package objects.blocks.platform;
 
 import objects.AGameObject;
-import objects.blocks.BlockFactory;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -191,7 +190,7 @@ public class Platform extends AGameObject implements IPlatform {
      * @param numberOfAnimation the phase of the animation
      * @return the sprite belonging to this animation phase
      */
-    private final ISprite getBrokenSprite(final int numberOfAnimation) {
+    private ISprite getBrokenSprite(final int numberOfAnimation) {
         if (numberOfAnimation == 2) {
             props.replace(PlatformProperties.breaks, 3);
             return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite2();

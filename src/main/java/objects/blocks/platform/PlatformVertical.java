@@ -1,13 +1,12 @@
 package objects.blocks.platform;
 
 import objects.blocks.BlockFactory;
-import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
  * The platform decorator used to describe vertical movement.
  */
-public class PlatformVertical extends PlatformDecorator implements IPlatform{
+public class PlatformVertical extends PlatformDecorator implements IPlatform {
 
     /**
      * One third of the game height.
