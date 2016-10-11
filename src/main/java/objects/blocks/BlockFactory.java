@@ -1,6 +1,7 @@
 package objects.blocks;
 
 import math.ICalc;
+import math.WeightsSet;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
@@ -10,9 +11,7 @@ import objects.blocks.platform.Platform;
 import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class is the factory in which separate blocks get created.
@@ -76,7 +75,7 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * A weighted set for the spawning of platforms.
      */
-    private static HashSet<String> weightedPlatformSet = new HashSet<>();
+    private WeightsSet platformWeightsSet;
 
     /**
      * A weighted set for the spawning of powerups.
@@ -93,6 +92,10 @@ public final class BlockFactory implements IBlockFactory {
      */
     private static transient IServiceLocator serviceLocator;
 
+    private BlockFactory() {
+        initializeWeightsSets();
+    }
+
     /**
      * Register the block factory into the service locator.
      *
@@ -102,6 +105,18 @@ public final class BlockFactory implements IBlockFactory {
         assert sL != null;
         BlockFactory.serviceLocator = sL;
         BlockFactory.serviceLocator.provide(new BlockFactory());
+    }
+
+    /**
+     * Create the WeightsSets for the Powerups, Platforms and Enemies.
+     */
+    private void initializeWeightsSets() {
+        ArrayList<Double> platWeights = new ArrayList<>(Arrays.asList(0.8, 0.05, 0.05, 0.1));
+        List<String> platformTypes = Arrays.asList("normalPlatform", "verticalMovingPlatform", "horizontalMovingPlatform", "breakingPlatform");
+        ArrayList<String> platforms = new ArrayList<>(platformTypes);
+
+        platformWeightsSet = new WeightsSet(serviceLocator, platWeights, platforms);
+
     }
 
     /** {@inheritDoc} */
@@ -239,18 +254,20 @@ public final class BlockFactory implements IBlockFactory {
         }
 
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-        IPlatform platform = platformFactory.createPlatform(0, yLoc);
+        //IPlatform platform = platformFactory.createPlatform(0, yLoc);
 
-        double randDouble = serviceLocator.getCalc().getRandomDouble(1);
-        if (randDouble < HORIZONTAL_CHANCE) {
-            platform = platformFactory.createHoriMovingPlatform(0, yLoc);
-        } else if (randDouble < HORIZONTAL_CHANCE + VERTICAL_CHANCE) {
-            platform = platformFactory.createVertMovingPlatform(0, yLoc);
-        } else if (randDouble < HORIZONTAL_CHANCE + VERTICAL_CHANCE + BREAK_CHANCE) {
-            platform = platformFactory.createBreakPlatform(0, yLoc);
-        }
+        IPlatform platform = (IPlatform) platformWeightsSet.getRandomElement();
+//        double randDouble = serviceLocator.getCalc().getRandomDouble(1);
+//        if (randDouble < HORIZONTAL_CHANCE) {
+//            platform = platformFactory.createHoriMovingPlatform(0, yLoc);
+//        } else if (randDouble < HORIZONTAL_CHANCE + VERTICAL_CHANCE) {
+//            platform = platformFactory.createVertMovingPlatform(0, yLoc);
+//        } else if (randDouble < HORIZONTAL_CHANCE + VERTICAL_CHANCE + BREAK_CHANCE) {
+//            platform = platformFactory.createBreakPlatform(0, yLoc);
+//        }
 
         //TODO This prohibits platforms from being immutable
+        platform.setYPos(yLoc);
         int xLoc = (int) (widthDeviation * (serviceLocator.getConstants().getGameWidth() - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
         platform.setXPos(xLoc);
 
