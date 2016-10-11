@@ -27,11 +27,10 @@ import static org.junit.Assert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 public class ServiceLocatorTest {
-    private ServiceLocator serviceLocator;
+    private ServiceLocator serviceLocator = new ServiceLocator();
 
     @Before
     public void Init() {
-        serviceLocator = new ServiceLocator();
     }
 
     // PROVIDERS
