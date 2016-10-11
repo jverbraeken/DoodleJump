@@ -525,10 +525,9 @@ public class SpriteFactoryTest {
     @Test
     public void TestGetUnderwaterModeButton() throws Exception {
         TestSprite(IRes.Sprites.underwaterMode, () -> spriteFactory.getUnderwaterModeButton());
-
-    // getFileName
     }
 
+    // getFileName
     @Test
     public void TestGetFileName() throws Exception {
         final String filepath = "resources/Sprites/sprite.png";
