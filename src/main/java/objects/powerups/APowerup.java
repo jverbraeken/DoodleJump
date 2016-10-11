@@ -26,7 +26,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      * {@inheritDoc}
      */
     @Override
-    public void perform(final String occasion) {
+    public void perform(final PowerupOccasion occasion) {
     }
 
 }
