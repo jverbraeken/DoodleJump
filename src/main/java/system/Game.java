@@ -66,11 +66,11 @@ public final class Game {
      * The high scores list for the Game.
      */
     public static final HighScoreList HIGH_SCORES = new HighScoreList(serviceLocator);
-
     /**
-     * The current frame.
+     * The amount of coins the player has.
      */
-    private static JFrame frame;
+    private final CoinManager coinManager = new CoinManager();
+
     /**
      * The current panel.
      */
@@ -118,7 +118,7 @@ public final class Game {
         IInputManager inputManager = serviceLocator.getInputManager();
 
         // Initialize frame
-        frame = new JFrame("Doodle Jump");
+        JFrame frame = new JFrame("Doodle Jump");
         frame.addMouseListener(inputManager);
         frame.addKeyListener(inputManager);
         frame.setSize(serviceLocator.getConstants().getGameWidth(), serviceLocator.getConstants().getGameHeight());
@@ -285,4 +285,14 @@ public final class Game {
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
     }
 
+    /**
+     * Use a seperate class to manage the coins, because Game is static and thus cannot be registered as observer to
+     * other classes.
+     */
+    public class CoinManager {
+        private int coins;
+        private CoinManager() {
+
+        }
+    }
 }

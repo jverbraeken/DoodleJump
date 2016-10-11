@@ -22,6 +22,7 @@ import objects.enemies.EnemyBuilder;
 import objects.enemies.IEnemyBuilder;
 import objects.powerups.IPowerupFactory;
 import objects.powerups.PowerupFactory;
+import progression.IProgressionManager;
 import rendering.IRenderer;
 import rendering.Renderer;
 import resources.IRes;
@@ -60,6 +61,9 @@ import scenes.SceneFactory;
 
     // util
     private ILoggerFactory loggerFactory;
+
+    // progression
+    private IProgressionManager progressionManager;
 
     // objects
     private IPowerupFactory powerupFactory;
@@ -197,6 +201,13 @@ import scenes.SceneFactory;
 
     /** {@inheritDoc} */
     @Override
+    public void provide(final IProgressionManager progressionManager) {
+        assert progressionManager != null;
+        this.progressionManager = progressionManager;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public IAudioManager getAudioManager() {
         assert audioManager != null;
         return audioManager;
@@ -305,6 +316,13 @@ import scenes.SceneFactory;
     public ILoggerFactory getLoggerFactory() {
         assert loggerFactory != null;
         return loggerFactory;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public IProgressionManager getProgressionManager() {
+        assert progressionManager != null;
+        return progressionManager;
     }
 
     /**

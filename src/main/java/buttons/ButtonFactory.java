@@ -16,7 +16,7 @@ public final class ButtonFactory implements IButtonFactory {
     private static transient IServiceLocator serviceLocator;
 
     /**
-     * Register the platform factory into the service locator.
+     * Register the ButtonFactory into the service locator.
      *
      * @param sL the service locator.
      */
