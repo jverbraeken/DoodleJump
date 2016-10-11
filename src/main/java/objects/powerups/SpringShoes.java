@@ -41,8 +41,8 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void perform(final String occasion) {
-        if (occasion.equals("collision")) {
+    public final void perform(final PowerupOccasion occasion) {
+        if (occasion == PowerupOccasion.collision) {
             this.uses += 1;
             this.owner.setVerticalSpeed(BOOST);
 
@@ -57,7 +57,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
+    public final void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
             getLogger().info("Doodle collided with a pair of SpringShoes");
             this.owner = doodle;
@@ -69,7 +69,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void render() {
+    public final void render() {
         if (this.owner == null && this.uses < MAX_USES) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else if (this.owner != null) {
