@@ -81,8 +81,7 @@ public class PlatformTest {
     public void updateEnumsTest() {
         p.updateEnums(1,1);
 
-        Mockito.verify(serviceLocator, Mockito.times(2)).getConstants();
-        Mockito.verify(constants).getGameWidth();
+        Mockito.verify(serviceLocator, Mockito.times(0)).getConstants();
     }
 
     /**
