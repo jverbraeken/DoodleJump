@@ -29,6 +29,7 @@ public interface IRes {
     enum Sprites {
         // Buttons
         menu,
+        multiplayer,
         pause,
         play,
         playAgain,
