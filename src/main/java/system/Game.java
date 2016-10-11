@@ -40,7 +40,7 @@ public final class Game {
     /**
      * Used to gain access to all services.
      */
-    private static IServiceLocator serviceLocator = new ServiceLocator();
+    private static IServiceLocator serviceLocator = ServiceLocator.getServiceLocator();
 
     /**
      * The time in milliseconds per frame.

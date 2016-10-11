@@ -11,7 +11,7 @@ import system.IServiceLocator;
     /**
      * The scale increase provided by the SizeUp powerup.
      */
-    private static final double SCALE_INCREASE = 0.2d;
+    private static final double SCALE_INCREASE = 0.4d;
 
     /**
      * SizeUp constructor.
@@ -20,7 +20,7 @@ import system.IServiceLocator;
      * @param x - The X location for the SizeUp.
      * @param y - The Y location for the SizeUp.
      */
-    /* package */ SizeUp(final IServiceLocator sL, final int x, final int y) {
+    /* package */ SizeUp(IServiceLocator sL, int x, int y) {
         super(sL, x, y, sL.getSpriteFactory().getSizeUpSprite(), SizeUp.class);
     }
 
@@ -28,7 +28,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
+    public void collidesWith(IDoodle doodle) {
         getLogger().info("Doodle collided with a SizeUp");
         doodle.increaseSpriteScalar(SCALE_INCREASE);
         this.setXPos(this.getSprite().getWidth() * -1);
