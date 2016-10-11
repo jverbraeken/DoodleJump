@@ -1,6 +1,8 @@
 package scenes;
 
 import logging.ILogger;
+import objects.doodles.IDoodle;
+import objects.doodles.IDoodleFactory;
 import system.IServiceLocator;
 
 /**
@@ -77,7 +79,31 @@ public final class SceneFactory implements ISceneFactory {
     @Override
     public World newWorld() {
         logger.info("A new World has been created");
-        return new World(serviceLocator);
+        World world = new World(serviceLocator);
+
+        IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
+        IDoodle doodle = doodleFactory.createDoodle(world);
+        world.addDoodle(doodle);
+
+        return world;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public World newMultiPlayerWorld(final int playerCount) {
+        logger.info("A new TwoPlayerWorld has been created");
+        World world = new World(serviceLocator);
+
+        for (int i = 0; i < playerCount; i++) {
+            IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
+            IDoodle doodle = doodleFactory.createDoodle(world);
+            world.addDoodle(doodle);
+            doodle.addXPos(i * 20);
+        }
+
+        return world;
     }
 
     /**

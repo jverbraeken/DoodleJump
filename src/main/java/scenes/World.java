@@ -46,10 +46,6 @@ public class World implements IScene {
      */
     private static final int BLOCK_BUFFER = 4;
     /**
-     * Initial vertical speed for the Doodle.
-     */
-    private static final int DOODLE_INITIAL_SPEED = -9;
-    /**
      * Maximum amount of drawables.
      */
     private static final int MAX_DRAWABLES = 3;
@@ -69,7 +65,7 @@ public class World implements IScene {
     /**
      * The Doodle for the world.
      */
-    private final IDoodle doodle;
+    private final Set<IDoodle> doodles = new HashSet<>();
     /**
      * <p>Drawables consists of 3 sets, although this can be easily changed. The first set contains the
      * {@link IRenderable renderables} that will be drawn first (eg platforms), the second set contains the
@@ -130,12 +126,6 @@ public class World implements IScene {
 
         this.drawables.get(2).add(this.scoreBar);
 
-        IDoodleFactory doodleFactory = sL.getDoodleFactory();
-        this.doodle = doodleFactory.createDoodle(this);
-        this.doodle.setVerticalSpeed(DOODLE_INITIAL_SPEED);
-        this.drawables.get(1).add(this.doodle);
-        this.updatables.add(this.doodle);
-
         serviceLocator.getAudioManager().playStart();
 
         this.start();
@@ -149,7 +139,10 @@ public class World implements IScene {
     public final void start() {
         this.serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
         this.scoreBar.register();
-        this.doodle.register();
+        for (IDoodle doodle : this.doodles) {
+            doodle.register();
+        }
+
         logger.info("The world is now displaying");
     }
 
@@ -159,7 +152,10 @@ public class World implements IScene {
     @Override
     public final void stop() {
         this.scoreBar.deregister();
-        this.doodle.deregister();
+        for (IDoodle doodle : this.doodles) {
+            doodle.deregister();
+        }
+
         logger.info("The world scene is stopped");
     }
 
@@ -197,6 +193,20 @@ public class World implements IScene {
     }
 
     /**
+     * Add a Doodle to the world.
+     *
+     * @param doodle The Doodle to add.
+     */
+    /* package */ final void addDoodle(final IDoodle doodle) {
+        this.doodles.add(doodle);
+        this.updatables.add(doodle);
+
+        Set<IRenderable> test = new HashSet<>();
+        test.add(doodle);
+        this.drawables.add(test);
+    }
+
+    /**
      * Update the vertical speed.
      *
      * @param delta The time since the previous update.
@@ -208,17 +218,30 @@ public class World implements IScene {
     }
 
     /**
-     * Apply the current speed to all objects.
+     * Check the collisions in the World.
      */
     private void checkCollisions() {
-        if (this.doodle.getVerticalSpeed() > 0) {
-            for (IBlock block : blocks) {
-                Set<IGameObject> elements = block.getElements();
-                for (IGameObject element : elements) {
-                    if (this.doodle.checkCollision(element)) {
-                        if (this.doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * this.doodle.getLegsHeight() < element.getYPos()) {
-                            element.collidesWith(this.doodle);
-                        }
+        for (IDoodle doodle : this.doodles) {
+            this.checkCollisionsForDoodle(doodle);
+        }
+    }
+
+    /**
+     * Check the collisions in the World for a specific Doodle.
+     *
+     * @param doodle The Doodle of interest.
+     */
+    private void checkCollisionsForDoodle(final IDoodle doodle) {
+        if (doodle.getVerticalSpeed() <= 0) {
+            return;
+        }
+
+        for (IBlock block : blocks) {
+            Set<IGameObject> elements = block.getElements();
+            for (IGameObject element : elements) {
+                if (doodle.checkCollision(element)) {
+                    if (doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight() < element.getYPos()) {
+                        element.collidesWith(doodle);
                     }
                 }
             }
@@ -448,8 +471,8 @@ public class World implements IScene {
              */
             @Override
             public void render() {
-                assert doodle.getScore() >= 0;
-                int roundedScore = (int) doodle.getScore();
+                //assert doodle.getScore() >= 0;
+                int roundedScore = 0;// = (int) doodle.getScore();
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();
                 while (roundedScore != 0) {

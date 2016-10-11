@@ -43,6 +43,13 @@ public interface ISceneFactory extends IFactory {
     World newWorld();
 
     /**
+     * Create a new world for multiple players.
+     *
+     * @return The created world.
+     */
+    World newMultiPlayerWorld(final int playerCount);
+
+    /**
      * Create a choose mode screen.
      *
      * @return An IScene of the choose mode screen.

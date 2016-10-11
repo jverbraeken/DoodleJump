@@ -34,7 +34,7 @@ public final class ButtonFactory implements IButtonFactory {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayButtonSprite();
-        Runnable playAction = () -> Game.setScene(serviceLocator.getSceneFactory().newWorld());
+        Runnable playAction = () -> Game.setScene(serviceLocator.getSceneFactory().newMultiPlayerWorld(5));
         return new Button(serviceLocator, x, y, buttonSprite, playAction, "play");
     }
 
