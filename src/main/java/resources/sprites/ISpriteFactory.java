@@ -16,6 +16,8 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getPlayButtonSprite();
 
+    ISprite getMultiplayerButtonSprite();
+
     ISprite getPlayAgainButtonSprite();
 
     ISprite getResumeButtonSprite();

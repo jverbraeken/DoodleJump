@@ -29,6 +29,7 @@ public interface IRes {
     enum Sprites {
         // Buttons
         menu,
+        multiplayer,
         pause,
         play,
         playAgain,
@@ -141,7 +142,7 @@ public interface IRes {
         invertMode,
         underwaterMode,
         spaceMode,
-        storyMode
+        storyMode;
     }
 
 }

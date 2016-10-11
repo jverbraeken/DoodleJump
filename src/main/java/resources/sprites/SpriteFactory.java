@@ -95,6 +95,14 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
+    public ISprite getMultiplayerButtonSprite() {
+        return getSprite(IRes.Sprites.multiplayer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ISprite getPlayAgainButtonSprite() {
         return getSprite(IRes.Sprites.playAgain);
     }
