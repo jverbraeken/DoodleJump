@@ -74,6 +74,21 @@ public final class BlockFactory implements IBlockFactory {
     private static final double BREAK_CHANCE = 0.1;
 
     /**
+     * A weighted set for the spawning of platforms.
+     */
+    private static HashSet<String> weightedPlatformSet = new HashSet<>();
+
+    /**
+     * A weighted set for the spawning of powerups.
+     */
+    private static HashSet<String> weightedPowerupSet = new HashSet<>();
+
+    /**
+     * A weighted set for the spawning of enemies.
+     */
+    private static HashSet<String> weightedEnemySet = new HashSet<>();
+
+    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
