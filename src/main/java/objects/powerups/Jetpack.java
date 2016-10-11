@@ -1,6 +1,5 @@
 package objects.powerups;
 
-import objects.IGameObject;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
@@ -10,14 +9,30 @@ import system.IServiceLocator;
 /* package */ final class Jetpack extends APowerup {
 
     /**
+     * The acceleration provided by the Jetpack.
+     */
+    private static final double ACCELERATION = -2d;
+    /**
      * The boost the Jetpack gives.
      */
-    private static final double BOOST = -20d;
+    private static final double MAX_BOOST = -25d;
+    /**
+     * The maximum time the Jetpack is active.
+     */
+    private static final int MAX_TIMER = 175;
 
     /**
      * The Doodle that owns this Jetpack.
      */
     private IDoodle owner;
+    /**
+     * The active timer for the Jetpack.
+     */
+    private int timer = 0;
+    /**
+     * The active speed provided by the Jetpack.
+     */
+    private double speed = 0;
 
     /**
      * Jetpack constructor.
@@ -34,9 +49,14 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void perform(final String occasion) {
-        if (occasion.equals("constant")) {
-            this.owner.setVerticalSpeed(BOOST);
+    public void update(final double delta) {
+        timer++;
+
+        if (timer == MAX_TIMER) {
+            this.owner.removePowerup(this);
+            this.owner = null;
+        } else if (this.speed > MAX_BOOST) {
+            this.speed += ACCELERATION;
         }
     }
 
@@ -44,7 +64,17 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void perform(final PowerupOccasion occasion) {
+        if (occasion == PowerupOccasion.constant) {
+            this.owner.setVerticalSpeed(this.speed);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
             getLogger().info("Doodle collided with a Jetpack");
             this.owner = doodle;
@@ -56,7 +86,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         if (this.owner == null) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else {

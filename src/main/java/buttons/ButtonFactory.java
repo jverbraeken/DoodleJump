@@ -16,6 +16,12 @@ public final class ButtonFactory implements IButtonFactory {
     private static transient IServiceLocator serviceLocator;
 
     /**
+     * The singleton button factory.
+     * Constructed using synchronization.
+     */
+    private static IButtonFactory buttonFactory;
+
+    /**
      * Register the platform factory into the service locator.
      *
      * @param sL the service locator.
@@ -23,8 +29,20 @@ public final class ButtonFactory implements IButtonFactory {
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         ButtonFactory.serviceLocator = sL;
-        ButtonFactory.serviceLocator.provide(new ButtonFactory());
+        ButtonFactory.serviceLocator.provide(getButtonFactory());
     }
+
+    /**
+     * The synchronized getter of the singleton buttonfactory.
+     * @return the button factory
+     */
+    public synchronized static IButtonFactory getButtonFactory() {
+        if (buttonFactory == null) {
+           buttonFactory = new ButtonFactory();
+        }
+        return buttonFactory;
+    }
+
 
     /**
      * {@inheritDoc}
@@ -72,6 +90,18 @@ public final class ButtonFactory implements IButtonFactory {
         ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
         Runnable mainMenu = () -> Game.setScene(serviceLocator.getSceneFactory().createMainMenu());
         return new Button(serviceLocator, x, y, buttonSprite, mainMenu, "mainMenu");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createScoreButton(final int x, final int y) {
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getScoreButtonSprite();
+        Runnable scoreScreen = () -> Game.setScene(serviceLocator.getSceneFactory().createScoreScreen());
+        return new Button(serviceLocator, x, y, buttonSprite, scoreScreen, "scores");
     }
 
     /**

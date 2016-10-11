@@ -1,6 +1,5 @@
 package objects.powerups;
 
-import objects.IGameObject;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
@@ -10,9 +9,18 @@ import system.IServiceLocator;
 /* package */ final class Propeller extends APowerup {
 
     /**
+     * The acceleration provided by the Propeller.
+     */
+    private static final double ACCELERATION = -1d;
+
+    /**
      * The boost the Propeller gives.
      */
-    private static final double BOOST = -15;
+    private static final double MAX_BOOST = -20;
+    /**
+     * The maximum time the Propeller is active.
+     */
+    private static final int MAX_TIMER = 150;
     /**
      * Y offset for drawing the Propeller when on Doodle.
      */
@@ -22,6 +30,14 @@ import system.IServiceLocator;
      * The Doodle that owns this Propeller.
      */
     private IDoodle owner;
+    /**
+     * The active timer for the Propeller.
+     */
+    private int timer = 0;
+    /**
+     * The active speed provided by the Propeller.
+     */
+    private double speed = 0;
 
     /**
      * Propeller constructor.
@@ -38,9 +54,14 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void perform(final String occasion) {
-        if (occasion.equals("constant")) {
-            this.owner.setVerticalSpeed(BOOST);
+    public void update(final double delta) {
+        timer += 1;
+
+        if (timer == MAX_TIMER) {
+            this.owner.removePowerup(this);
+            this.owner = null;
+        } else if (this.speed > MAX_BOOST) {
+            this.speed += ACCELERATION;
         }
     }
 
@@ -48,7 +69,17 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void perform(final PowerupOccasion occasion) {
+        if (occasion == PowerupOccasion.constant) {
+            this.owner.setVerticalSpeed(this.speed);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
             getLogger().info("Doodle collided with a Propeller");
             this.owner = doodle;
@@ -60,7 +91,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         if (this.owner == null) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
         } else {

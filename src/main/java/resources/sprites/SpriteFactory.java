@@ -112,6 +112,14 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
+    public ISprite getScoreButtonSprite() {
+        return getSprite(IRes.Sprites.scoreButton);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ISprite getChooseModeButtonSprite() {
         return getSprite(IRes.Sprites.chooseMode);
     }
@@ -691,6 +699,33 @@ public final class SpriteFactory implements ISpriteFactory {
     @Override
     public ISprite getAvoidSprite() {
         return getSprite(IRes.Sprites.avoid);
+    }
+
+
+    // Score Screen
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getScoreScreenBottom() {
+        return getSprite(IRes.Sprites.scoreScreenBottom);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getScoreScreenLeft() {
+        return getSprite(IRes.Sprites.scoreScreenLeft);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getScoreScreenTop() {
+        return getSprite(IRes.Sprites.scoreScreenTop);
     }
 
 

@@ -40,7 +40,7 @@ public final class Game {
     /**
      * Used to gain access to all services.
      */
-    private static IServiceLocator serviceLocator = new ServiceLocator();
+    private static IServiceLocator serviceLocator = ServiceLocator.getServiceLocator();
 
     /**
      * The time in milliseconds per frame.
@@ -55,10 +55,6 @@ public final class Game {
      */
     private static final long OPTIMAL_TIME = ICalc.NANOSECONDS / TARGET_FPS;
     /**
-     * The high scores list for the Game.
-     */
-    public static final HighScoreList HIGH_SCORES = new HighScoreList(serviceLocator);
-    /**
      * A LOCK to avoid threading issues.
      */
     private static final transient Object LOCK = new Object();
@@ -66,6 +62,10 @@ public final class Game {
      * The logger for the Game class.
      */
     private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+    /**
+     * The high scores list for the Game.
+     */
+    public static final HighScoreList HIGH_SCORES = new HighScoreList(serviceLocator);
 
     /**
      * The current frame.
