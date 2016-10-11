@@ -3,6 +3,7 @@ package objects.doodles.DoodleBehavior;
 import input.Keys;
 import objects.doodles.IDoodle;
 import objects.powerups.IPowerup;
+import objects.powerups.PowerupOccasion;
 import system.IServiceLocator;
 
 /**
@@ -74,7 +75,7 @@ public class RegularBehavior implements MovementBehavior {
 
         IPowerup powerup = this.doodle.getPowerup();
         if (powerup != null) {
-            powerup.perform("constant");
+            powerup.perform(PowerupOccasion.constant);
         }
     }
 
