@@ -5,6 +5,7 @@ import filesystem.IFileSystem;
 import math.Calc;
 import math.ICalc;
 import objects.blocks.platform.Platform;
+import org.codehaus.plexus.component.configurator.converters.basic.DoubleConverter;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.ServiceLocator;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -40,7 +42,6 @@ public class ConstantsTest {
         when(serviceLocator.getFileSystem()).thenReturn(fileSystem);
         when(fileSystem.parseJsonMap("constants.json", String.class)).thenReturn(jsonObject);
 
-
         Constants.register(serviceLocator);
         constants = Whitebox.invokeConstructor(Constants.class);
     }
@@ -50,5 +51,22 @@ public class ConstantsTest {
         Field field = Constants.class.getDeclaredField("WIDTH");
         field.setAccessible(true);
         assertThat(constants.getGameWidth(), is(field.get(constants)));
+        assertThat(constants.getGameWidth(), instanceOf(Integer.class));
+    }
+
+    @Test
+    public void getGameHeightTest() throws NoSuchFieldException, IllegalAccessException{
+        Field field = Constants.class.getDeclaredField("HEIGHT");
+        field.setAccessible(true);
+        assertThat(constants.getGameHeight(), is(field.get(constants)));
+        assertThat(constants.getGameHeight(), instanceOf(Integer.class));
+    }
+
+    @Test
+    public void getGravityAccelerationTest() throws NoSuchFieldException, IllegalAccessException{
+        Field field = Constants.class.getDeclaredField("GRAVITY_ACCELERATION");
+        field.setAccessible(true);
+        assertThat(constants.getGravityAcceleration(), is(field.get(constants)));
+        assertThat(constants.getGravityAcceleration(), instanceOf(Double.class));
     }
 }
