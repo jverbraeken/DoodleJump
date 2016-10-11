@@ -54,9 +54,7 @@ public class PlatformVertical extends PlatformDecorator implements IPlatform {
         final double xPos = this.getXPos();
         final double yPos = this.getYPos();
 
-        if (BlockFactory.isSpecialPlatform(this)) {
-            updateEnums(xPos, yPos);
-        }
+        updateEnums(xPos, yPos);
 
         if (getProps().containsKey(Platform.PlatformProperties.movingVertically)) {
             if (getProps().get(Platform.PlatformProperties.movingVertically).equals(getDirections().get(Platform.Directions.up))) {

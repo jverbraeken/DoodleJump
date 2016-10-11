@@ -26,9 +26,7 @@ public class PlatformHorizontal extends PlatformDecorator implements IPlatform {
         double xPos = this.getXPos();
         double yPos = this.getYPos();
 
-        if (BlockFactory.isSpecialPlatform(this)) {
-            updateEnums(xPos, yPos);
-        }
+        updateEnums(xPos, yPos);
 
         if (getContained().getProps().containsKey(Platform.PlatformProperties.movingHorizontally)) {
             if (getContained().getProps().get(Platform.PlatformProperties.movingHorizontally).equals(getContained().getDirections().get(Platform.Directions.right))) {
