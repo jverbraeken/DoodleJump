@@ -125,13 +125,7 @@ import system.IServiceLocator;
         this.timer++;
 
         if (this.timer >= MAX_TIMER) {
-            this.owner.getWorld().addDrawable(this);
-            this.owner.getWorld().addUpdatable(this);
-
-            this.setSprite(getServiceLocator().getSpriteFactory().getPropellerSprite());
-            this.vSpeed *= DROP_BOOST;
-            this.owner.removePowerup(this);
-            this.owner = null;
+            this.endPowerup();
             return;
         } else if (this.vSpeed > MAX_BOOST) {
             this.vSpeed += ACCELERATION;
@@ -157,6 +151,19 @@ import system.IServiceLocator;
     private void applyGravity() {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         this.addYPos(this.vSpeed);
+    }
+
+    /**
+     * Ends the powerup.
+     */
+    private void endPowerup() {
+        this.setSprite(getServiceLocator().getSpriteFactory().getPropellerSprite());
+        this.vSpeed *= DROP_BOOST;
+
+        this.owner.removePowerup(this);
+        this.owner.getWorld().addDrawable(this);
+        this.owner.getWorld().addUpdatable(this);
+        this.owner = null;
     }
 
 }
