@@ -101,11 +101,11 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * The scalar for the Stars sprite.
      */
-    private final double starsScalar = .7;
+    private static final double STARS_SCALAR = .7;
     /**
      * The scalar for the Stars sprite.
      */
-    private final int starsOffset = 20;
+    private static final int STARS_OFFSET = 20;
     /**
      * The keys the Doodle responds to.
      */
@@ -269,10 +269,10 @@ public class Doodle extends AGameObject implements IDoodle {
 
         if (!this.isAlive()) {
             getServiceLocator().getRenderer().drawSprite(getStarSprite(),
-                    (int) (this.getXPos() + (this.starsOffset * this.spriteScalar)),
+                    (int) (this.getXPos() + (STARS_OFFSET * this.spriteScalar)),
                     (int) this.getYPos(),
-                    (int) (getSprite().getWidth() * this.spriteScalar * this.starsScalar),
-                    (int) (getSprite().getHeight() * this.spriteScalar * this.starsScalar));
+                    (int) (getSprite().getWidth() * this.spriteScalar * STARS_SCALAR),
+                    (int) (getSprite().getHeight() * this.spriteScalar * STARS_SCALAR));
         }
 
         this.getPowerup().render();
