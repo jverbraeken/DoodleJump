@@ -4,7 +4,7 @@ import objects.blocks.BlockFactory;
 import system.IServiceLocator;
 
 /**
- * Created by Nick on 11-10-2016.
+ * The platform decorator to support horizontal movement.
  */
 public class PlatformHorizontal extends PlatformDecorator implements IPlatform {
 
