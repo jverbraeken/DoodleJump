@@ -34,7 +34,6 @@ public final class SpriteFactory implements ISpriteFactory {
      * The cache for the SpriteFactory.
      */
     private final LoadingCache<IRes.Sprites, ISprite> cache;
-
     /**
      * Prevents instantiation from outside the class.
      */
@@ -60,7 +59,9 @@ public final class SpriteFactory implements ISpriteFactory {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         SpriteFactory.serviceLocator = sL;
         sL.provide(new SpriteFactory());
     }
@@ -203,6 +204,14 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
+    public ISprite getPuddingMonsterSprite1() {
+        return getSprite(IRes.Sprites.puddingMonster1);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ISprite getPuddingMonsterSprite2() {
         return getSprite(IRes.Sprites.puddingMonster2);
     }
@@ -331,7 +340,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getCactusMonster1Sprite() {
+    public ISprite getCactusMonsterSprite1() {
         return getSprite(IRes.Sprites.cactusMonster1);
     }
 
@@ -339,7 +348,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getCactusMonster2Sprite() {
+    public ISprite getCactusMonsterSprite2() {
         return getSprite(IRes.Sprites.cactusMonster2);
     }
 
@@ -355,7 +364,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getLowFiveFeetMonster1Sprite() {
+    public ISprite getLowFiveFeetMonsterSprite1() {
         return getSprite(IRes.Sprites.lowFiveFeetMonster1);
     }
 
@@ -363,7 +372,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getLowFiveFeetMonster2Sprite() {
+    public ISprite getLowFiveFeetMonsterSprite2() {
         return getSprite(IRes.Sprites.lowFiveFeetMonster2);
     }
 
@@ -432,9 +441,8 @@ public final class SpriteFactory implements ISpriteFactory {
                 return getSprite(IRes.Sprites.eight);
             case 9:
                 return getSprite(IRes.Sprites.nine);
-            default:
-                return null;
         }
+        return null;
     }
 
 
@@ -572,7 +580,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformMovable1() {
+    public ISprite getPlatformMovableSprite1() {
         return getSprite(IRes.Sprites.platformMovable1);
     }
 
@@ -580,7 +588,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformMovable2() {
+    public ISprite getPlatformMovableSprite2() {
         return getSprite(IRes.Sprites.platformMovable2);
     }
 
@@ -588,7 +596,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformMovable3() {
+    public ISprite getPlatformMovableSprite3() {
         return getSprite(IRes.Sprites.platformMovable3);
     }
 
@@ -596,7 +604,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformMovable4() {
+    public ISprite getPlatformMovableSprite4() {
         return getSprite(IRes.Sprites.platformMovable4);
     }
 
@@ -604,7 +612,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformShining1() {
+    public ISprite getPlatformShiningSprite1() {
         return getSprite(IRes.Sprites.platformShining1);
     }
 
@@ -612,7 +620,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformShining2() {
+    public ISprite getPlatformShiningSprite2() {
         return getSprite(IRes.Sprites.platformShining2);
     }
 
@@ -620,16 +628,8 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformShining3() {
+    public ISprite getPlatformShiningSprite3() {
         return getSprite(IRes.Sprites.platformShining3);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPuddingMonsterSprite1() {
-        return getSprite(IRes.Sprites.puddingMonster1);
     }
 
 
@@ -849,6 +849,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * @return The {@link ISprite sprite} if it was found. null otherwise
      */
     private ISprite loadISprite(final IRes.Sprites spriteName) {
+        assert spriteName != null;
         String filepath = serviceLocator.getRes().getSpritePath(spriteName);
         BufferedImage image = null;
         try {
@@ -857,8 +858,14 @@ public final class SpriteFactory implements ISpriteFactory {
             return new Sprite(getFileName(filepath), image);
         } catch (FileNotFoundException e) {
             logger.error(e);
+            e.printStackTrace();
         }
-        return null;
+        if (image == null) {
+            logger.error("CRITICAL ERROR: the sprite \"" + spriteName.toString() + "\" could not be found!");
+            return null;
+        } else {
+            return new Sprite(getFileName(filepath), image);
+        }
     }
 
     /**
@@ -868,6 +875,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * @return the sprite.
      */
     private ISprite getSprite(final IRes.Sprites sprite) {
+        assert sprite != null;
         try {
             return cache.get(sprite);
         } catch (ExecutionException e) {
@@ -887,10 +895,12 @@ public final class SpriteFactory implements ISpriteFactory {
      * }
      * </pre>
      *
-     * @param filepath The full path to the file, the directories separated by '('
+     * @param filepath The full path to the file, the directories seperated by '/'. Cannot be null
      * @return The name of the file
      */
     private String getFileName(final String filepath) {
+        assert filepath != null;
+        assert !filepath.contains("\\");
         int fileNameIndex = filepath.lastIndexOf('/') + 1;
         return filepath.substring(fileNameIndex);
     }

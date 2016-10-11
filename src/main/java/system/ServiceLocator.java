@@ -325,6 +325,7 @@ import scenes.SceneFactory;
      * Initialize the ServiceLocator.
      */
     private void init() {
+        Res.register(this);
         FileSystem.register(this);
         Constants.register(this);
         LoggerFactory.register(this);
@@ -340,7 +341,6 @@ import scenes.SceneFactory;
         Renderer.register(this);
         SceneFactory.register(this);
         PlatformFactory.register(this);
-        Res.register(this);
         ButtonFactory.register(this);
     }
 
