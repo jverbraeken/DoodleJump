@@ -19,9 +19,11 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -47,7 +49,7 @@ public class ConstantsTest {
     }
 
     @Test
-    public void getGameWidthTest() throws NoSuchFieldException, IllegalAccessException{
+    public void getGameWidthTest() throws NoSuchFieldException, IllegalAccessException {
         Field field = Constants.class.getDeclaredField("WIDTH");
         field.setAccessible(true);
         assertThat(constants.getGameWidth(), is(field.get(constants)));
@@ -55,7 +57,7 @@ public class ConstantsTest {
     }
 
     @Test
-    public void getGameHeightTest() throws NoSuchFieldException, IllegalAccessException{
+    public void getGameHeightTest() throws NoSuchFieldException, IllegalAccessException {
         Field field = Constants.class.getDeclaredField("HEIGHT");
         field.setAccessible(true);
         assertThat(constants.getGameHeight(), is(field.get(constants)));
@@ -63,10 +65,68 @@ public class ConstantsTest {
     }
 
     @Test
-    public void getGravityAccelerationTest() throws NoSuchFieldException, IllegalAccessException{
+    public void getGravityAccelerationTest() throws NoSuchFieldException, IllegalAccessException {
         Field field = Constants.class.getDeclaredField("GRAVITY_ACCELERATION");
         field.setAccessible(true);
         assertThat(constants.getGravityAcceleration(), is(field.get(constants)));
         assertThat(constants.getGravityAcceleration(), instanceOf(Double.class));
+    }
+
+    @Test
+    public void getScoreMultiplierTest() throws NoSuchFieldException, IllegalAccessException {
+        Field field = Constants.class.getDeclaredField("SCORE_MULTIPLIER");
+        field.setAccessible(true);
+        assertThat(constants.getScoreMultiplier(), is(field.get(constants)));
+        assertThat(constants.getScoreMultiplier(), instanceOf(Double.class));
+    }
+
+    @Test
+    public void getLogPendingTasksTest() throws NoSuchFieldException, IllegalAccessException {
+        Field field = Constants.class.getDeclaredField("LOG_PENDING_TASKS");
+        field.setAccessible(true);
+        assertThat(constants.getLogPendingTasks(), is(field.get(constants)));
+        assertThat(constants.getLogPendingTasks(), instanceOf(Boolean.class));
+    }
+
+    @Test
+    public void getLogFileTest() throws NoSuchFieldException, IllegalAccessException {
+        Field field = Constants.class.getDeclaredField("logFile");
+        field.setAccessible(true);
+        AtomicReference<String> logFile = (AtomicReference<String>) field.get(constants);
+        assertThat(constants.getLogFile(), is(logFile.toString()));
+        assertThat(constants.getLogFile(), instanceOf(String.class));
+    }
+
+    @Test
+    public void getHighScoresFilePathTest() throws NoSuchFieldException, IllegalAccessException {
+        Field field = Constants.class.getDeclaredField("HIGHCORES_DATA");
+        field.setAccessible(true);
+        assertThat(constants.getHighScoresFilePath(), is(field.get(constants)));
+        assertThat(constants.getHighScoresFilePath(), instanceOf(String.class));
+    }
+
+    @Test
+    public void interpretJsonNormalTest() throws Exception {
+        Map<String, String> jsonObject = new HashMap<>();
+        String logFileName = "foobar";
+        jsonObject.put("logFile", logFileName);
+
+        Whitebox.invokeMethod(constants, jsonObject);
+
+        assertThat(constants.getLogFile(), is(logFileName));
+    }
+
+    @Test
+    public void interpretJsonDefaultCaseTest() throws Exception {
+        String logFileName = "async.log";
+        assertThat(constants.getLogFile(), is(logFileName));
+        
+        Map<String, String> jsonObject = new HashMap<>();
+        jsonObject.put("a", "b");
+
+        Whitebox.invokeMethod(constants, jsonObject);
+
+        assertThat(constants.getLogFile(), is(logFileName));
+        assertThat(constants.getLogFile(), not("b"));
     }
 }
