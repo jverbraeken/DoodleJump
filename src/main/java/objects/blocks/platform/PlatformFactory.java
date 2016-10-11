@@ -19,6 +19,11 @@ public final class PlatformFactory implements IPlatformFactory {
     private PlatformFactory() { }
 
     /**
+     * Fifty-fifty chance.
+     */
+    private static final double FIFTY_FIFTY = 0.5d;
+
+    /**
      * Register the block factory into the service locator.
      *
      * @param sL the service locator.
@@ -59,7 +64,7 @@ public final class PlatformFactory implements IPlatformFactory {
 
 
         int upOrDown = 1;
-        if (serviceLocator.getCalc().getRandomDouble(1) < 0.50d) {
+        if (serviceLocator.getCalc().getRandomDouble(1) < FIFTY_FIFTY) {
             upOrDown = -1;
         }
         platform.getProps().put(vertical, upOrDown);
