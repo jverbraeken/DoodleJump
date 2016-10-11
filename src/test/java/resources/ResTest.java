@@ -50,13 +50,12 @@ public class ResTest {
 
     /**
      * Tests if the register method returns an assertion error if the input is a null object.
+     * @throws NullPointerException throws an exception when the input is null.
      */
     @Test(expected = AssertionError.class)
     public void testRegisterNullInput() throws NullPointerException {
         Res.register(null);
     }
-
-
 
     /**
      * Tests if the method returns the correct path to the file.
@@ -227,7 +226,7 @@ public class ResTest {
      */
     @Test
     public void testSetSpaceSkinCovers() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+        Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.background));
         assertTrue(insertedSprites.containsKey(Sprites.startCover));
@@ -239,7 +238,7 @@ public class ResTest {
      */
     @Test
     public void testSetSpaceSkinDoodle() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+        Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.doodleLeftAscend));
         assertTrue(insertedSprites.containsKey(Sprites.doodleLeftDescend));
@@ -253,7 +252,7 @@ public class ResTest {
      */
     @Test
     public void testSetSpaceSkinPlatforms() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+        Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.platform1));
     }
@@ -264,7 +263,7 @@ public class ResTest {
      */
     @Test
     public void testSetSpaceSkinPowerUps() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+        Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.trampoline));
         assertTrue(insertedSprites.containsKey(Sprites.trampolineUsed));
@@ -276,7 +275,7 @@ public class ResTest {
      */
     @Test
     public void testSetSpaceSkinTopBar() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+        Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.scoreBar));
     }
@@ -287,7 +286,7 @@ public class ResTest {
      */
     @Test
     public void testUnderwaterSkinCovers() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+        Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.background));
         assertTrue(insertedSprites.containsKey(Sprites.startCover));
@@ -299,7 +298,7 @@ public class ResTest {
      */
     @Test
     public void testUnderwaterSkinDoodle() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+        Whitebox.invokeMethod(res, "setUnderwaterSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.doodleLeftAscend));
         assertTrue(insertedSprites.containsKey(Sprites.doodleLeftDescend));
@@ -313,7 +312,7 @@ public class ResTest {
      */
     @Test
     public void testSetUnderwaterSkinPlatforms() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+        Whitebox.invokeMethod(res, "setUnderwaterSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.platform1));
     }
@@ -324,7 +323,7 @@ public class ResTest {
      */
     @Test
     public void testSetUnderwaterSkinPowerUps() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+        Whitebox.invokeMethod(res, "setUnderwaterSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.trampoline));
         assertTrue(insertedSprites.containsKey(Sprites.trampolineUsed));
@@ -338,7 +337,7 @@ public class ResTest {
      */
     @Test
     public void testSetUnderwaterSkinTopBar() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+        Whitebox.invokeMethod(res, "setUnderwaterSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.scoreBar));
     }
