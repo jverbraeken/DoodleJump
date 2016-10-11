@@ -57,19 +57,11 @@ public final class PlatformFactory implements IPlatformFactory {
      */
     @Override
     public IPlatform createVertMovingPlatform(final int x, final int y) {
-        ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSpriteVert();
-        IPlatform platform = new Platform(serviceLocator, x, y, sprite);
-
-        Platform.PlatformProperties vertical = Platform.PlatformProperties.movingVertically;
+        IPlatform platform = createPlatform(x, y);
+        IPlatform vertical = new PlatformVertical(serviceLocator, platform);
 
 
-        int upOrDown = 1;
-        if (serviceLocator.getCalc().getRandomDouble(1) < FIFTY_FIFTY) {
-            upOrDown = -1;
-        }
-        platform.getProps().put(vertical, upOrDown);
-
-        return platform;
+        return vertical;
     }
 
     /**
