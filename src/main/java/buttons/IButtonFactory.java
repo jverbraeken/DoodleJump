@@ -25,6 +25,8 @@ public interface IButtonFactory extends IFactory {
      */
     IButton createPlayAgainButton(final int x, final int y);
 
+    IButton createMultiplayerButton(int x, int y);
+
     /**
      * Create a press to resume playing button.
      *

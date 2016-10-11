@@ -1,0 +1,13 @@
+- The player has 3 missions each time
+- The player has a certain amount of coins
+- Items can be unlocked or upgraded by the player
+- If the player manages to complete one mission, a new mission will be created for the player for the next run
+- The missions the player has accomplished and the 3 missions he still has to do will be saved to the disk
+- Each time the game is loaded, the 3 missions that must be done, the amount of coins and the quantity/quality of the items will be loaded from the disk if the file exists
+- If the file containing the missions and coins does not exist, then the file and the 3 missions will be created and the amount of coins is set to 0 and the quantity/quality of the items is set to the minimum
+- Each missions has a certain reward in coins. The higher the difficulty, the higher the reward
+- In the menu of the game a scene displaying a shop can be opened
+- In the shop items can be bought with coins
+- If an item is bought the amount of coins of the player is decreased with the price of the product
+- Trampolines have 3 stages: Trampoline, Circus Cannon and Rocket Launcher
+- Jetpacks have 3 stages: Jetpack, Chrome Plated Afterburner and Space Rocket
