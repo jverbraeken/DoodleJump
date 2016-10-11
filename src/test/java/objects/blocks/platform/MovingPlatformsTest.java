@@ -162,6 +162,7 @@ public class MovingPlatformsTest {
         p.getProps().put(hori, 1);
 
         p.render();
+        p.update(0.05d);
 
         assertThat(p.getXPos(), is(expected));
     }
@@ -176,6 +177,7 @@ public class MovingPlatformsTest {
         p.getProps().put(hori, -1);
 
         p.render();
+        p.update(0.05d);
 
         assertThat(p.getXPos(), is(expected));
     }
@@ -190,6 +192,7 @@ public class MovingPlatformsTest {
         p.getProps().put(vert, 1);
 
         p.render();
+        p.update(0.05d);
 
         assertThat(p.getYPos(), is(expected));
     }
@@ -204,6 +207,7 @@ public class MovingPlatformsTest {
         p.getProps().put(vert, -1);
 
         p.render();
+        p.update(0.05d);
 
         assertThat(p.getYPos(), is(expected));
     }

@@ -43,7 +43,7 @@ public final class PlatformFactory implements IPlatformFactory {
     public IPlatform createHoriMovingPlatform(final int x, final int y) {
         IPlatform platform = createPlatform(x, y);
         IPlatform sideways = new PlatformSideways(serviceLocator, platform);
-      
+
         return sideways;
     }
 
