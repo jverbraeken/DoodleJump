@@ -36,8 +36,6 @@ public class WeightsSet implements IWeightsSet {
 
         for (int i = 0; i < weights.size(); i++) {
             String s = formatter.format(total + weights.get(i));
-            System.out.println("-=-" + s);
-            System.out.println(weights.get(i));
             total = Double.parseDouble(s);
             sortedWeights.add(new MyEntry<>(total, elementType.get(i)));
             assert total <= 1;
@@ -45,10 +43,7 @@ public class WeightsSet implements IWeightsSet {
         return sortedWeights;
     }
 
-    /**
-     * Return a random IGameObject taken from this weightedSet.
-     * @return a random IGameObject.
-     */
+    @Override
     public IGameObject getRandomElement() {
         double randDouble = serviceLocator.getCalc().getRandomDouble(1);
 
@@ -66,7 +61,6 @@ public class WeightsSet implements IWeightsSet {
      * @return the wanted object as an IGameObject.
      */
     private IGameObject getGameObject(String objectName) {
-        System.out.println(objectName);
         switch (objectName) {
             case ("normalPlatform"):
                 return serviceLocator.getPlatformFactory().createPlatform(0, 0);
