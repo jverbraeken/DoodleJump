@@ -1,5 +1,8 @@
 package objects.powerups;
 
+/**
+ * Enum describing the occasion of a powerup.
+ */
 public enum PowerupOccasion {
 
     /**
