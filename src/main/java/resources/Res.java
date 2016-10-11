@@ -148,6 +148,9 @@ public final class Res implements IRes {
         sprites.put(Sprites.invertMode, SPRITE_PATH + "invert-mode@4x.png");
         sprites.put(Sprites.spaceMode, SPRITE_PATH + "space-mode@4x.png");
         sprites.put(Sprites.underwaterMode, SPRITE_PATH + "underwater-mode@4x.png");
+
+        // Unimplemented
+        sprites.put(Sprites.unimplemented, SPRITE_PATH + "unimplemented.jpg");
     }
 
     /**
