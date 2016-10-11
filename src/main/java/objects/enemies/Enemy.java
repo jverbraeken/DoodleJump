@@ -90,6 +90,9 @@ public class Enemy extends AEnemy {
             }
             this.setXPos(xPos);
         }
+        else {
+            applyGravity();
+        }
     }
 
     /** {@inheritDoc} */

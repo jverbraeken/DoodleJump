@@ -1,0 +1,34 @@
+MUST HAVES
+- The player has a certain amount of coins
+- The player has 3 missions each time
+- If the player manages to complete one mission, a new mission will be created for the player for the next run
+- Each missions has a certain reward in coins. The higher the difficulty, the higher the reward
+
+SHOULD HAVES
+- Items can be unlocked or upgraded by the player
+- The missions the player has accomplished and the 3 missions he still has to do will be saved to the disk
+- Each time the game is loaded, the 3 missions that must be done, the amount of coins and the quantity/quality of the items will be loaded from the disk if the file exists
+- If the file containing the missions and coins does not exist, then the file and the 3 missions will be created and the amount of coins is set to 0 and the quantity/quality of the items is set to the minimum
+- In the menu of the game a scene displaying a shop can be opened
+- In the shop items can be bought with coins
+- If an item is bought the amount of coins of the player is decreased with the price of the product
+- Trampolines have 3 stages: Trampoline, Circus Cannon and Rocket Launcher
+- Jetpacks have 3 stages: Jetpack, Chrome Plated Afterburner and Space Rocket
+
+COULD HAVES
+- Each day the game is started, the player is rewarded with a certain amount of coins
+- If the player starts the game multiple days in a row, the rewards get higher
+- The player has a rank, that is a level with a name
+- The player has a certain amount of experience, initially 0 and loaded/saved from/to a file
+- Each time the experience reaches a threshold associated with a rank, the rank goes up one level and the experience is set to 0
+- Each unit the player jumps, results in an increase in experience
+- Each time the player reaches a certain height, the experience increases with a certain amount
+- The first time the player reaches certain heights, the experience increases with a certain amount
+- Each rank is associated with a game mode that is unlocked when the player reaches the associated rank
+
+WONT HAVES
+- An Iron Man suit that can be unlocked
+- Support for mods
+- Buying coins with real money
+- A website with a ranking of players with the highest amount of money
+- 

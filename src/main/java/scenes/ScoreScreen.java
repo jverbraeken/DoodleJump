@@ -3,7 +3,6 @@ package scenes;
 import buttons.IButton;
 import buttons.IButtonFactory;
 import constants.IConstants;
-import input.IMouseInputObserver;
 import logging.ILogger;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
@@ -13,7 +12,6 @@ import system.HighScore;
 import system.IServiceLocator;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
