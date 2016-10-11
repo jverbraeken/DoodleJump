@@ -7,7 +7,9 @@ import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.DoodleBehavior.UnderwaterBehavior;
+import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
+import objects.powerups.PowerupOccasion;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -108,7 +110,7 @@ public class Doodle extends AGameObject implements IDoodle {
         behavior.setVerticalSpeed(boost);
 
         if (this.powerup != null) {
-            this.powerup.perform("collision");
+            this.powerup.perform(PowerupOccasion.collision);
         }
     }
 
@@ -116,7 +118,18 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     public final IPowerup getPowerup() {
-        return this.powerup;
+        if (this.powerup != null) {
+            return this.powerup;
+        } else {
+            IServiceLocator serviceLocator = getServiceLocator();
+            return new APowerup(serviceLocator, 0, 0, serviceLocator.getSpriteFactory().getShieldSprite(), APowerup.class) {
+                @Override
+                public void render() { }
+
+                @Override
+                public void collidesWith(final IDoodle doodle) { }
+            };
+        }
     }
 
     /**
@@ -217,9 +230,7 @@ public class Doodle extends AGameObject implements IDoodle {
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
-        if (this.powerup != null) {
-            this.powerup.render();
-        }
+        this.getPowerup().render();
     }
 
     /**
@@ -231,6 +242,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.wrap();
         this.checkHighPosition();
         this.checkDeadPosition();
+        this.getPowerup().update(delta);
     }
 
     /**
@@ -252,7 +264,9 @@ public class Doodle extends AGameObject implements IDoodle {
         ISprite sprite = this.getSprite();
         int width = (int) (sprite.getWidth() * this.spriteScalar);
         int height = (int) (sprite.getHeight() * this.spriteScalar);
-        this.setHitBox(0, 0, width, height);
+        this.setHitBox(
+                (int) (width * WIDTH_HIT_BOX_LEFT), height,
+                (int) (width * WIDTH_HIT_BOX_RIGHT), height);
     }
 
     /**
@@ -348,5 +362,7 @@ public class Doodle extends AGameObject implements IDoodle {
             this.addXPos(-width);
         }
     }
+
+
 
 }
