@@ -70,7 +70,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * The keys the Doodle responds to.
      */
-    private Keys[] keys = new Keys[2];
+    private Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
 
     /**
      * Doodle constructor.
