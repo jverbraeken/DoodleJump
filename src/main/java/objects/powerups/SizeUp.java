@@ -20,7 +20,7 @@ import system.IServiceLocator;
      * @param x - The X location for the SizeUp.
      * @param y - The Y location for the SizeUp.
      */
-    /* package */ SizeUp(IServiceLocator sL, int x, int y) {
+    /* package */ SizeUp(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getSizeUpSprite(), SizeUp.class);
     }
 
@@ -28,7 +28,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         getLogger().info("Doodle collided with a SizeUp");
         doodle.increaseSpriteScalar(SCALE_INCREASE);
         this.setXPos(this.getSprite().getWidth() * -1);
