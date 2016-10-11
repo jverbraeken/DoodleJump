@@ -12,12 +12,6 @@ import objects.powerups.IPowerup;
 public interface IDoodle extends IGameObject, IKeyInputObserver {
 
     /**
-     * Render the enemy when it is hit by an enemy.
-     * From here the stars animation is called.
-     */
-    void hitByEnemyState();
-
-    /**
      * Get the vertical speed of the Doodle.
      *
      * @return The vertical speed

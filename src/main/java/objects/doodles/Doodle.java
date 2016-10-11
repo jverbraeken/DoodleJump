@@ -118,11 +118,11 @@ public class Doodle extends AGameObject implements IDoodle {
                 sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0],
                 Doodle.class);
 
-         this.setHitBox(
-                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
-                 (int) (getSprite().getHeight() * HEIGHT_HIT_BOX_TOP),
-                 (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT),
-                 getSprite().getHeight());
+        this.setHitBox(
+                (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
+                (int) (getSprite().getHeight() * HEIGHT_HIT_BOX_TOP),
+                (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT),
+                getSprite().getHeight());
 
         this.world = w;
         setBehavior(Game.getMode());
@@ -251,28 +251,17 @@ public class Doodle extends AGameObject implements IDoodle {
                 (int) (sprite.getHeight() * this.spriteScalar));
 
         if (!this.isAlive()) {
-            hitByEnemyState();
+            getServiceLocator().getRenderer().drawSprite(getStarSprite(),
+                    (int) (this.getXPos() + (this.starsOffset * this.spriteScalar)),
+                    (int) this.getYPos(),
+                    (int) (getSprite().getWidth() * this.spriteScalar * this.starsScalar),
+                    (int) (getSprite().getHeight() * this.spriteScalar * this.starsScalar));
         }
 
         if (this.powerup != null) {
             this.powerup.render();
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void hitByEnemyState() {
-        ISprite sprite = this.getSprite();
-        getServiceLocator().getRenderer().drawSprite(getStarSprite(),
-                (int) (this.getXPos() + (this.starsOffset * this.spriteScalar)),
-                (int) this.getYPos(),
-                (int) (sprite.getWidth() * this.spriteScalar * this.starsScalar),
-                (int) (sprite.getHeight() * this.spriteScalar * this.starsScalar));
-        starNumber++;
-    }
-
     /**
      * Returns the Star sprite by looking at the current starNumber.
      * @return a star sprite.
@@ -295,6 +284,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.wrap();
         this.checkHighPosition();
         this.checkDeadPosition();
+        starNumber++;
     }
 
     /**
@@ -408,8 +398,8 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void setAlive(final boolean isHit) {
-        alive = isHit;
+    public void setAlive(final boolean alive) {
+        this.alive = alive;
     }
 
 }

@@ -1,6 +1,7 @@
 package objects.enemies;
 
 import objects.doodles.IDoodle;
+import rendering.IRenderer;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -65,15 +66,14 @@ public class Enemy extends AEnemy {
     /** {@inheritDoc} */
     @Override
     public final void render() {
-        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        IRenderer renderer = getServiceLocator().getRenderer();
+        renderer.drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /** {@inheritDoc} */
     @Override
     public final void update(final double delta) {
         if (alive) {
-            applyGravity();
-
             int xPos;
             if (movingDirection == 1) {
                 xPos = (int) (this.getXPos() + 2);
