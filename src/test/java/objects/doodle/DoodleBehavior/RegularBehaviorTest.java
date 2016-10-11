@@ -41,64 +41,6 @@ public class RegularBehaviorTest {
     }
 
     /**
-     * Tests if the key press is processed.
-     *
-     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
-     *                   in the constructor.
-     */
-    @Test
-    public void testKeyPressLeftRight() throws Exception{
-        regular.keyPress(Keys.arrowLeft);
-        regular.keyPress(Keys.arrowRight);
-        assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "facing"));
-        assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "moving"));
-    }
-
-    /**
-     * Tests if the key press is processed.
-     *
-     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
-     *                   in the constructor.
-     */
-    @Test
-    public void testKeyPressRightLeft() throws Exception{
-        regular.keyPress(Keys.arrowRight);
-        regular.keyPress(Keys.arrowLeft);
-        assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "facing"));
-        assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "moving"));
-    }
-
-    /**
-     * Tests if the key release is processed.
-     *
-     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
-     *                   in the constructor.
-     */
-    @Test
-    public void testKeyReleaseLeft() throws Exception {
-        regular.keyPress(Keys.arrowLeft);
-        assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "facing"));
-        assertEquals(MovementBehavior.Directions.Left, Whitebox.getInternalState(regular, "moving"));
-        regular.keyRelease(Keys.arrowLeft);
-        assertEquals(null, Whitebox.getInternalState(regular, "moving"));
-    }
-
-    /**
-     * Tests if the key release is processed.
-     *
-     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
-     *                   in the constructor.
-     */
-    @Test
-    public void testKeyReleaseRight() throws Exception {
-        regular.keyPress(Keys.arrowRight);
-        assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "facing"));
-        assertEquals(MovementBehavior.Directions.Right, Whitebox.getInternalState(regular, "moving"));
-        regular.keyRelease(Keys.arrowRight);
-        assertEquals(null, Whitebox.getInternalState(regular, "moving"));
-    }
-
-    /**
      * Tests that for the gravity method is called.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
