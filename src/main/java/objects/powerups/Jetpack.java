@@ -106,11 +106,6 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        if (this.owner != null) {
-            this.setXPos((int) this.owner.getXPos());
-            this.setYPos((int) this.owner.getYPos() + (this.getSprite().getHeight() / 2));
-        }
-
         getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
@@ -138,6 +133,11 @@ import system.IServiceLocator;
             
             this.spriteIndex = (spriteIndex + 1) % 3;
             this.setSprite(Jetpack.spritePack[offset + this.spriteIndex]);
+        }
+
+        if (this.owner != null) {
+            this.setXPos((int) this.owner.getXPos());
+            this.setYPos((int) this.owner.getYPos() + (this.getSprite().getHeight() / 2 / 2));
         }
     }
 
