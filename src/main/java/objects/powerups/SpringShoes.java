@@ -41,8 +41,8 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void perform(final String occasion) {
-        if (occasion.equals("collision")) {
+    public void perform(final PowerupOccasion occasion) {
+        if (occasion == PowerupOccasion.collision) {
             this.uses += 1;
             this.owner.setVerticalSpeed(BOOST);
 
