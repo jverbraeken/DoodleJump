@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import resources.IRes.Sprites;
 import resources.sprites.ISprite;
@@ -14,15 +17,16 @@ import system.IServiceLocator;
 import java.util.EnumMap;
 import java.util.Map;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.*;
+
 
 /**
  * Test class for Res.class.
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Res.class)
 public class ResTest {
 
     private IServiceLocator serviceLocator;
@@ -342,25 +346,49 @@ public class ResTest {
         assertTrue(insertedSprites.containsKey(Sprites.scoreBar));
     }
 
+    /**
+     * Tests if the resetSkin method is called when the input is the regular game mode
+     * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
+     */
     @Test
     public void testSetSkinRegular() throws Exception {
-        res.setSkin(Game.Modes.regular);
-        verify(res).White;
+        Res mockedRes = spy(Whitebox.invokeConstructor(Res.class));
+        doNothing().when(mockedRes, "resetSkin");
+        mockedRes.setSkin(Game.Modes.regular);
+        verifyPrivate(mockedRes).invoke("resetSkin");
     }
 
+    /**
+     * Tests if the resetSkin method is called when the input is the regular game mode
+     * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
+     */
     @Test
     public void testSetSkinSpace() throws Exception {
-
+        Res mockedRes = spy(Whitebox.invokeConstructor(Res.class));
+        doNothing().when(mockedRes, "setSpaceSkin");
+        mockedRes.setSkin(Game.Modes.space);
+        verifyPrivate(mockedRes).invoke("setSpaceSkin");
     }
 
+    /**
+     * Tests if the setUnderwaterSkin method is called when the input is the underwater game mode
+     * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
+     */
     @Test
     public void testSetSkinUnderwater() throws Exception {
-
+        Res mockedRes = spy(Whitebox.invokeConstructor(Res.class));
+        doNothing().when(mockedRes, "setUnderwaterSkin");
+        mockedRes.setSkin(Game.Modes.underwater);
+        verifyPrivate(mockedRes).invoke("setUnderwaterSkin");
     }
 
+    /**
+     * Tests if the setSkin method returns a NullPointerException if the input is a null object.
+     */
     @Test
-    public void testSetSkinNoGameMode() throws Exception {
-
+    public void testSetSkinNoGameMode() {
+        thrown.expect(NullPointerException.class);
+        res.setSkin(null);
     }
 
     /**
