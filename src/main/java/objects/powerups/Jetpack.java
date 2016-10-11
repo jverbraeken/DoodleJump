@@ -14,6 +14,10 @@ import system.IServiceLocator;
      */
     private static final double ACCELERATION = -2d;
     /**
+     * The refresh rate for the active animation.
+     */
+    private static final int ANIMATION_REFRESH_RATE = 3;
+    /**
      * The boost for the Jetpack when it is being dropped.
      */
     private static final double DROP_BOOST = 1.1d;
@@ -46,6 +50,10 @@ import system.IServiceLocator;
      * The vertical speed of the Jetpack.
      */
     private double vSpeed = 0d;
+    /**
+     * The index of the current sprite.
+     */
+    private int spriteIndex = 0;
 
     /**
      * Jetpack constructor.
@@ -119,20 +127,18 @@ import system.IServiceLocator;
             this.vSpeed += ACCELERATION;
         }
 
-        // TODO: Improve animation system
-        double x = (double) timer / (double) MAX_TIMER;
-        int spriteIndex = 0;
-        if (x < .15) {
-            spriteIndex = (timer % 2) + 2;
-        } else if (x < .85) {
-            spriteIndex = (timer % 4) + 3;
-        } else if (x < .95) {
-            spriteIndex = (timer % 2) + 7;
-        } else {
-            spriteIndex = Jetpack.spritePack.length - 1;
+        if (this.timer % ANIMATION_REFRESH_RATE == 0) {
+            double percentage = (double) timer / (double) MAX_TIMER;
+            int offset = 0;
+            if (percentage > 0.15 && percentage < 0.8) {
+                offset = 3;
+            } else if (percentage < 1) {
+                offset = 6;
+            }
+            
+            this.spriteIndex = (spriteIndex + 1) % 3;
+            this.setSprite(Jetpack.spritePack[offset + this.spriteIndex]);
         }
-
-        this.setSprite(Jetpack.spritePack[spriteIndex]);
     }
 
     /**
@@ -155,9 +161,9 @@ import system.IServiceLocator;
      * Ends the powerup.
      */
     private void endPowerup() {
-        this.setSprite(getServiceLocator().getSpriteFactory().getJetpackSprite());
+        this.setSprite(getServiceLocator().getSpriteFactory().getJetpackActiveSprites()[8]);
         this.vSpeed *= DROP_BOOST;
-        
+
         this.owner.removePowerup(this);
         this.owner.getWorld().addDrawable(this);
         this.owner.getWorld().addUpdatable(this);
