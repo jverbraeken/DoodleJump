@@ -131,11 +131,11 @@ public class SpaceBehavior implements MovementBehavior {
      */
     @Override
     public final void keyPress(final Keys key) {
-        if (this.leftPressed(key)) {
+        if (this.isLeftPressed(key)) {
             this.moving = Directions.Left;
             this.facing = Directions.Left;
             this.pressed = true;
-        } else if (this.rightPressed(key)) {
+        } else if (this.isRightPressed(key)) {
             this.moving = Directions.Right;
             this.facing = Directions.Right;
             this.pressed = true;
@@ -147,9 +147,9 @@ public class SpaceBehavior implements MovementBehavior {
      */
     @Override
     public final void keyRelease(final Keys key) {
-        if (this.leftPressed(key)) {
+        if (this.isLeftPressed(key)) {
             this.pressed = false;
-        } else if (this.rightPressed(key)) {
+        } else if (this.isRightPressed(key)) {
             this.pressed = false;
         }
     }
@@ -184,9 +184,20 @@ public class SpaceBehavior implements MovementBehavior {
      * @param key The key that's pressed
      * @return A boolean indicating whether the key for Left is pressed.
      */
-    private boolean leftPressed(final Keys key) {
-        return key == Keys.arrowLeft
-                || key == Keys.a;
+    private boolean isLeftPressed(final Keys key) {
+        Keys[] keys = this.doodle.getKeys();
+        return key == keys[0];
+    }
+    
+    /**
+     * Check if the Right key for the Doodle is pressed.
+     *
+     * @param key The key that's released
+     * @return A boolean indicating whether the key for Right is pressed.
+     */
+    private boolean isRightPressed(final Keys key) {
+        Keys[] keys = this.doodle.getKeys();
+        return key == keys[1];
     }
 
     /**
@@ -208,15 +219,5 @@ public class SpaceBehavior implements MovementBehavior {
         doodle.addXPos((int) this.hSpeed);
     }
 
-    /**
-     * Check if the Right key for the Doodle is pressed.
-     *
-     * @param key The key that's released
-     * @return A boolean indicating whether the key for Right is pressed.
-     */
-    private boolean rightPressed(final Keys key) {
-        return key == Keys.arrowRight
-                || key == Keys.d;
-    }
 
 }
