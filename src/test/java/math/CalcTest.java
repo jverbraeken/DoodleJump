@@ -51,18 +51,18 @@ public class CalcTest {
      * Check that an AssertionError comes up when the bounderies are
      * wrongly given.
      */
-    @Test(expected = AssertionError.class)
+    @Test(expected = IllegalArgumentException.class)
     public void getRandomIntBetweenTestWrong() {
-        int integer = calc.getRandomIntBetween(5, 2);
+        calc.getRandomIntBetween(5, 2);
     }
 
     /**
      * Check that an AssertionError comes up when the bounderies are
      * the same number.
      */
-    @Test(expected = AssertionError.class)
+    @Test(expected = IllegalArgumentException.class)
     public void getRandomIntBetweenTestEqual() {
-        int integer = calc.getRandomIntBetween(2, 2);
+        calc.getRandomIntBetween(2, 2);
     }
 
     /**
@@ -77,16 +77,16 @@ public class CalcTest {
     /**
      * Test that an AssertionError comes up when the max is 0.
      */
-    @Test(expected = AssertionError.class)
+    @Test(expected = IllegalArgumentException.class)
     public void randomDoubleTestZero() {
-        double d = calc.getRandomDouble(0);
+        calc.getRandomDouble(0);
     }
 
     /**
      * Test that an AssertionError comes up when the max is negative.
      */
-    @Test(expected = AssertionError.class)
+    @Test(expected = IllegalArgumentException.class)
     public void randomDoubleTestNegative() {
-        double d = calc.getRandomDouble(-42);
+        calc.getRandomDouble(-42);
     }
 }

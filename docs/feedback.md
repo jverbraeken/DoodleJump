@@ -1,4 +1,3 @@
-
 # Feedback/Grades Group 8008
 
 ## Initial working version
@@ -63,8 +62,43 @@ Q2 = 0/13: no analysis document provided
 - Make sure everyone keeps contributing to the codebase, clenrock is falling behind a bit in that respect
 - Next sprint I will only consider things on the master branch in the release for grading.
 
+## Sprint #2 = 8,0:
+For grading the sprints I will use the rubrics to grade and give feedback about sprint management and code evolution quality. Then I will grade and give feedback to the assignment. These grades will construct the final grade for the sprint using a 20% (sprint management), 40% (code quality) and 40% (assignment) weight system.
 
+### Sprint Management = 8,4:
+- Definition = 10: excellent
+- Splitting = 6: You should assign at least 2 people per task except for the really small tasks. This way you always have someone to discuss problems/solutions with. Also having one person assigned to testing and nothing else isn’t musch fun for that person, make sure you switch around in tasks.
+- Responsibility = 10: excellent
+- Estimation = 8: I like when people are working more than they need to, but are you all really making this amount of hours?
+- Prioritization = 7: when define a scale of A-E, make sure to use the whole spectrum
+- Reflection = 9: extensive retrospective, but done but not yet on develop is not a thing, a feature is done when it is on the develop/master branch.
 
+### Code Evolution Quality = 7,9:
+- Code change quality = 9
+- Formatting = 9
+- Naming = 9
+- Comments = 9
+- Building = 9: still a failing build merged, never do this!
+- Testing = 6: make sure you have that coverage >= 75%. Also include a user testing document for UI testing.
+- Tooling = 9: include cobertura report in maven site
+- Branching = 6: some really large branches/pr’s with different bugs/features/testing activites per branche. Make sure each branch contains only one bug/feature/testing activity
+- Code review = 8: Some pr’s get good code review, other get some LGTM’s. Make sure you do code review on each pr and at least 2 reviewers do this per pr.
 
+### Assignments = 68/90 = 7,8
 
+#### Assignment 1 = 30/30:
+q1 = 10/10: excellent
+q2 = 10/10: excellent
+q3 = 10/10: excellent
 
+#### Assignment 2 = 8/30:
+q1 = 5/22: good requirements, but no actual feature/code on master at deadline
+q2 = 3/8: only UML provided
+
+#### Assignment 3 = 30/30:
+q1 = 22/22: excellent
+q2 = 8/8: amazing analysis
+
+### General Feedback
+you can tag all checkstyle warnings as errors and let the travis build fail on checkstyle errors. Because a failing build is never merged (right?) this would ensure no checkstyle errors in pr’s.
+I still can’t run the project, please include a runnable jar with the next release. That way I can grade before our meeting.

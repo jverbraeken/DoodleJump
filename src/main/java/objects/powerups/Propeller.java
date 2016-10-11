@@ -7,7 +7,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the Propeller powerup.
  */
-/* package */ class Propeller extends APowerup {
+/* package */ final class Propeller extends APowerup {
 
     /**
      * The acceleration provided by the Propeller.
@@ -87,8 +87,8 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void perform(final String occasion) {
-        if (occasion.equals("constant")) {
+    public void perform(final PowerupOccasion occasion) {
+        if (occasion == PowerupOccasion.constant) {
             this.owner.setVerticalSpeed(this.vSpeed);
         }
     }
@@ -122,7 +122,7 @@ import system.IServiceLocator;
      * Update method for when the Propeller is owned.
      */
     private void updateOwned() {
-        this.timer += 1;
+        this.timer++;
 
         if (this.timer >= MAX_TIMER) {
             this.owner.getWorld().addDrawable(this);

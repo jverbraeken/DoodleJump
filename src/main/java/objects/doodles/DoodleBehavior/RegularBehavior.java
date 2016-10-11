@@ -3,6 +3,7 @@ package objects.doodles.DoodleBehavior;
 import input.Keys;
 import objects.doodles.IDoodle;
 import objects.powerups.IPowerup;
+import objects.powerups.PowerupOccasion;
 import system.IServiceLocator;
 
 /**
@@ -74,7 +75,7 @@ public class RegularBehavior implements MovementBehavior {
 
         IPowerup powerup = this.doodle.getPowerup();
         if (powerup != null) {
-            powerup.perform("constant");
+            powerup.perform(PowerupOccasion.constant);
         }
     }
 
@@ -115,10 +116,10 @@ public class RegularBehavior implements MovementBehavior {
      */
     @Override
     public final void keyPress(final Keys key) {
-        if (this.leftPressed(key)) {
+        if (this.isLeftPressed(key)) {
             this.moving = Directions.Left;
             this.facing = Directions.Left;
-        } else if (this.rightPressed(key)) {
+        } else if (this.isRightPressed(key)) {
             this.moving = Directions.Right;
             this.facing = Directions.Right;
         }
@@ -129,9 +130,9 @@ public class RegularBehavior implements MovementBehavior {
      */
     @Override
     public final void keyRelease(final Keys key) {
-        if (this.leftPressed(key) && this.moving == Directions.Left) {
+        if (this.isLeftPressed(key) && this.moving == Directions.Left) {
             this.moving = null;
-        } else if (this.rightPressed(key) && this.moving == Directions.Right) {
+        } else if (this.isRightPressed(key) && this.moving == Directions.Right) {
             this.moving = null;
         }
     }
@@ -164,9 +165,20 @@ public class RegularBehavior implements MovementBehavior {
      * @param key The key that's pressed
      * @return A boolean indicating whether the key for Left is pressed.
      */
-    private boolean leftPressed(final Keys key) {
-        return key == Keys.arrowLeft
-                || key == Keys.a;
+    private boolean isLeftPressed(final Keys key) {
+        Keys[] keys = this.doodle.getKeys();
+        return key == keys[0];
+    }
+
+    /**
+     * Check if the Right key for the Doodle is pressed.
+     *
+     * @param key The key that's released
+     * @return A boolean indicating whether the key for Right is pressed.
+     */
+    private boolean isRightPressed(final Keys key) {
+        Keys[] keys = this.doodle.getKeys();
+        return key == keys[1];
     }
 
     /**
@@ -191,17 +203,6 @@ public class RegularBehavior implements MovementBehavior {
         }
 
         doodle.addXPos((int) this.hSpeed);
-    }
-
-    /**
-     * Check if the Right key for the Doodle is pressed.
-     *
-     * @param key The key that's released
-     * @return A boolean indicating whether the key for Right is pressed.
-     */
-    private boolean rightPressed(final Keys key) {
-        return key == Keys.arrowRight
-                || key == Keys.d;
     }
 
 }

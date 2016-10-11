@@ -7,7 +7,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the Jetpack powerup.
  */
-/* package */ class Jetpack extends APowerup {
+/* package */ final class Jetpack extends APowerup {
 
     /**
      * The acceleration provided by the Jetpack.
@@ -55,8 +55,8 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
-        timer += 1;
+    public void update(final double delta) {
+        timer++;
 
         if (timer == MAX_TIMER) {
             this.owner.removePowerup(this);
@@ -85,8 +85,8 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void perform(final String occasion) {
-        if (occasion.equals("constant")) {
+    public void perform(final PowerupOccasion occasion) {
+        if (occasion == PowerupOccasion.constant) {
             this.owner.setVerticalSpeed(this.speed);
         }
     }

@@ -37,7 +37,7 @@ import scenes.SceneFactory;
  * Default implementation for the ServiceLocator. Used to gain access to all services.
  */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
-/* package */ class ServiceLocator implements IServiceLocator {
+/* package */ final class ServiceLocator implements IServiceLocator {
 
     // constants.json
     private IConstants constants;
@@ -78,10 +78,24 @@ import scenes.SceneFactory;
     private ICalc calc;
 
     /**
+     * The singleton serviceLocator.
+     * Constructed eagerly.
+     */
+    private static final ServiceLocator SERVICE_LOCATOR = new ServiceLocator();
+
+    /**
      * Initialize the ServiceLocator class.
      */
-    /* package */ ServiceLocator() {
+    /* package */ private ServiceLocator() {
         this.init();
+    }
+
+    /**
+     * Getter of the singleton service locator.
+     * @return the service locator.
+     */
+    public static IServiceLocator getServiceLocator() {
+        return SERVICE_LOCATOR;
     }
 
     /** {@inheritDoc} */
@@ -311,6 +325,7 @@ import scenes.SceneFactory;
      * Initialize the ServiceLocator.
      */
     private void init() {
+        Res.register(this);
         FileSystem.register(this);
         Constants.register(this);
         LoggerFactory.register(this);
@@ -326,7 +341,6 @@ import scenes.SceneFactory;
         Renderer.register(this);
         SceneFactory.register(this);
         PlatformFactory.register(this);
-        Res.register(this);
         ButtonFactory.register(this);
     }
 

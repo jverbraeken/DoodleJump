@@ -78,6 +78,7 @@ public final class Res implements IRes {
         // Buttons
         sprites.put(Sprites.menu, SPRITE_PATH + "menu@2x.png");
         sprites.put(Sprites.play, SPRITE_PATH + "play@2x.png");
+        sprites.put(Sprites.multiplayer, SPRITE_PATH + "multiplayer@2x.png");
         sprites.put(Sprites.playAgain, SPRITE_PATH + "playagain@2x.png");
         sprites.put(Sprites.resume, SPRITE_PATH + "resume@2x.png");
         sprites.put(Sprites.scoreButton, SPRITE_PATH + "scores-on@2x.png");
@@ -161,6 +162,9 @@ public final class Res implements IRes {
         sprites.put(Sprites.invertMode, SPRITE_PATH + "invert-mode@4x.png");
         sprites.put(Sprites.spaceMode, SPRITE_PATH + "space-mode@4x.png");
         sprites.put(Sprites.underwaterMode, SPRITE_PATH + "underwater-mode@4x.png");
+
+        // Unimplemented
+        sprites.put(Sprites.unimplemented, SPRITE_PATH + "unimplemented.jpg");
     }
 
     /**

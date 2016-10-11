@@ -1,6 +1,7 @@
 package objects.doodles;
 
 import input.IKeyInputObserver;
+import input.Keys;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
@@ -100,5 +101,20 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      * @return The world the Doodle lives in.
      */
     World getWorld();
+
+    /**
+     * Get the keys for the Doodle.
+     *
+     * @return An array of Keys.
+     */
+    Keys[] getKeys();
+
+    /**
+     * Set the keys the Doodle react to.
+     *
+     * @param left The key to move to the left.
+     * @param right The key to move to the right.
+     */
+    void setKeys(final Keys left, final Keys right);
 
 }

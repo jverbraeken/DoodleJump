@@ -11,7 +11,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the trampoline powerup.
  */
-/* package */ class Trampoline extends AGameObject implements IJumpable {
+/* package */ public final class Trampoline extends AGameObject implements IJumpable {
 
     /**
      * The BOOST value for the Trampoline.
@@ -42,7 +42,6 @@ import system.IServiceLocator;
      */
     @Override
     public double getBoost() {
-        //TODO This is can cause bugs as the programmer does not a getter to do these kind of things
         this.animate();
         this.playSound();
 

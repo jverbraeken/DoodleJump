@@ -22,7 +22,14 @@ import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(PowerupFactory.class)
+@PrepareForTest({PowerupFactory.class,
+        Jetpack.class,
+        Propeller.class,
+        SizeDown.class,
+        SizeUp.class,
+        Spring.class,
+        SpringShoes.class,
+        Trampoline.class})
 public class PowerupFactoryTest {
 
     private static ILogger logger = mock(ILogger.class);

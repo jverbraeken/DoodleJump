@@ -6,7 +6,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the SizeDown powerup. Decreasing the size of the Doodle when picked up.
  */
-/* package */ class SizeDown extends APowerup {
+/* package */ final class SizeDown extends APowerup {
 
     /**
      * The scale increase provided by the SizeUp powerup.
