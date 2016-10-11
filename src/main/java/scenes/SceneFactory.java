@@ -1,5 +1,6 @@
 package scenes;
 
+import input.Keys;
 import logging.ILogger;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
@@ -95,13 +96,14 @@ public final class SceneFactory implements ISceneFactory {
     public World createTwoPlayerWorld() {
         logger.info("A new TwoPlayerWorld has been created");
         World world = new World(serviceLocator);
+        IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
 
-        for (int i = 0; i < 2; i++) {
-            IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
-            IDoodle doodle = doodleFactory.createDoodle(world);
-            world.addDoodle(doodle);
-            doodle.addXPos(i * 20);
-        }
+        IDoodle doodle1 = doodleFactory.createDoodle(world);
+        doodle1.setKeys(Keys.arrowLeft, Keys.arrowRight);
+        world.addDoodle(doodle1);
+        IDoodle doodle2 = doodleFactory.createDoodle(world);
+        doodle2.setKeys(Keys.a, Keys.d);
+        world.addDoodle(doodle2);
 
         return world;
     }
