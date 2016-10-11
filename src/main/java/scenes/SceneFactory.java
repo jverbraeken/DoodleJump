@@ -78,7 +78,7 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
-    public World createWorld() {
+    public World createSinglePlayerWorld() {
         logger.info("A new World has been created");
         World world = new World(serviceLocator);
 
