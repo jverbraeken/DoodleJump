@@ -7,6 +7,7 @@ import logging.LoggerFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.powermock.reflect.Whitebox;
 import rendering.ICamera;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
@@ -64,8 +65,8 @@ public class BreakingPlatformsTest {
      * Check if the broken sprite from animation 2 is returned.
      */
     @Test
-    public void getBrokenSpriteTest2() {
-        assertThat(p.getBrokenSprite(2), is(brokensprite));
+    public void getBrokenSpriteTest2() throws Exception {
+        assertThat(Whitebox.invokeMethod(p, "getBrokenSprite", 2), is(brokensprite));
 
         Mockito.verify(serviceLocator).getSpriteFactory();
         Mockito.verify(sf).getPlatformBrokenSprite2();
@@ -75,8 +76,8 @@ public class BreakingPlatformsTest {
      * Check if the broken sprite from animation 3 is returned.
      */
     @Test
-    public void getBrokenSpriteTest3() {
-        assertThat(p.getBrokenSprite(3), is(brokensprite2));
+    public void getBrokenSpriteTest3() throws Exception {
+        assertThat(Whitebox.invokeMethod(p, "getBrokenSprite", 3), is(brokensprite2));
 
         Mockito.verify(sf).getPlatformBrokenSprite3();
     }
@@ -85,8 +86,8 @@ public class BreakingPlatformsTest {
      * Check if the broken sprite from animation 4 is returned.
      */
     @Test
-    public void getBrokenSpriteTest4() {
-        assertThat(p.getBrokenSprite(4), is(brokensprite3));
+    public void getBrokenSpriteTest4() throws Exception {
+        assertThat(Whitebox.invokeMethod(p, "getBrokenSprite", 4), is(brokensprite3));
 
         Mockito.verify(sf).getPlatformBrokenSprite4();
     }
@@ -95,8 +96,8 @@ public class BreakingPlatformsTest {
      * Check if the broken sprite from animation 4 is returned.
      */
     @Test
-    public void getBrokenSpriteTestMin1() {
-        assertThat(p.getBrokenSprite(-1), is(brokensprite3));
+    public void getBrokenSpriteTestMin1() throws Exception {
+        assertThat(Whitebox.invokeMethod(p, "getBrokenSprite", -1), is(brokensprite3));
 
         Mockito.verify(sf).getPlatformBrokenSprite4();
     }
@@ -106,8 +107,8 @@ public class BreakingPlatformsTest {
      * sprite will be returned.
      */
     @Test
-    public void getBrokenSpriteTestElse() {
-        assertThat(p.getBrokenSprite(5), is(sprite));
+    public void getBrokenSpriteTestElse() throws Exception {
+        assertThat(Whitebox.invokeMethod(p, "getBrokenSprite", 5), is(sprite));
     }
 
     /**
