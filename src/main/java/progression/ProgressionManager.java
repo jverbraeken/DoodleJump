@@ -112,10 +112,8 @@ public final class ProgressionManager implements IProgressionManager {
         List<SaveFileHighScoreEntry> highScoreEntries = new ArrayList<>(MAX_HIGHSCORE_ENTRIES);
         for (HighScore highScore : highScores) {
             SaveFileHighScoreEntry entry = new SaveFileHighScoreEntry();
-            Map<String, String> map = new HashMap<>();
-            map.put("name", highScore.getName());
-            map.put("score", Integer.toString(highScore.getScore()));
-            entry.setHighscores(map);
+            entry.setName(highScore.getName());
+            entry.setScore(highScore.getScore());
             highScoreEntries.add(entry);
         }
         image.setHighScores(highScoreEntries);
@@ -126,13 +124,7 @@ public final class ProgressionManager implements IProgressionManager {
         }
         image.setPowerupLevels(powerupLevelEntries);
 
-        String json = null;
-        try {
-            json = LoganSquare.serialize(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //String json = serviceLocator.getFileSystem().serializeJson(image);
+        String json = serviceLocator.getFileSystem().serializeJson(image);
         try {
             serviceLocator.getFileSystem().writeProjectFile(serviceLocator.getConstants().getSaveFilePath(), json);
         } catch (FileNotFoundException e) {
@@ -156,82 +148,49 @@ public final class ProgressionManager implements IProgressionManager {
     private void progressionFromJson(SaveFile json) {
         highScores.clear();
         for (SaveFileHighScoreEntry entry : json.getHighScores()) {
-            highScores.add(new HighScore(entry.getHighscores().get("name"), entry.getHighscores().get("score")));
+            highScores.add(new HighScore(entry.getName(), entry.getScore()));
+            logger.info("A highscore is added: " + entry.getName() + " - " + entry.getScore());
         }
 
         coins = json.getCoins();
+        logger.info("Coins is set to: " + coins);
 
         powerupLevels.clear();
         for (Map.Entry<String, Integer> entry : json.getPowerupLevels().entrySet()) {
             switch (entry.getKey()) {
-                case "jetpack":
+                case "JETPACK":
                     powerupLevels.put(Powerups.JETPACK, entry.getValue());
                     logger.info("Jetpack level is loaded from save file: " + entry.getValue());
                     break;
-                case "propeller":
+                case "PROPELLER":
                     powerupLevels.put(Powerups.PROPELLER, entry.getValue());
                     logger.info("Propeller level is loaded from save file: " + entry.getValue());
                     break;
-                case "sizeDown":
+                case "SIZEDOWN":
                     powerupLevels.put(Powerups.SIZEDOWN, entry.getValue());
                     logger.info("SizeDown level is loaded from save file: " + entry.getValue());
                     break;
-                case "sizeUp":
+                case "SIZEUP":
                     powerupLevels.put(Powerups.SIZEUP, entry.getValue());
                     logger.info("SizeUp level is loaded from save file: " + entry.getValue());
                     break;
-                case "spring":
+                case "SPRING":
                     powerupLevels.put(Powerups.SPRING, entry.getValue());
                     logger.info("Spring level is loaded from save file: " + entry.getValue());
                     break;
-                case "springShoes":
+                case "SPRINGSHOES":
                     powerupLevels.put(Powerups.SPRINGSHOES, entry.getValue());
                     logger.info("SpringShoes level is loaded from save file: " + entry.getValue());
                     break;
-                case "trampoline":
+                case "TRAMPOLINE":
                     powerupLevels.put(Powerups.TRAMPOLINE, entry.getValue());
                     logger.info("Trampoline level is loaded from save file: " + entry.getValue());
                     break;
+                default:
+                    logger.warning("Unidentified powerup classifier found in savefile: \"" + entry.getKey() + "\"");
+                    break;
             }
         }
-    }
-
-    /**
-     * Parse a high scores string as saved in the high scores file.
-     *
-     * @param plain The plaintext string.
-     */
-    private void parseHighScoreString(final String plain) {
-        String[] scores = plain.split("\\s+");
-        for (int i = 0; i < scores.length; i += 2) {
-            HighScore score = new HighScore(scores[i], scores[i + 1]);
-            highScores.add(score);
-        }
-    }
-
-    /**
-     * Save the high scores to the high scores file.
-     */
-    private void saveHighScores() {
-        // Convert high scores to string
-        /*StringBuilder buf = new StringBuilder();
-        for (HighScore score : highScores) {
-            buf.append(score.getName());
-            buf.append(" ");
-            buf.append(score.getScore());
-            buf.append(" ");
-        }
-        String data = buf.toString();
-
-        // Save high scores.
-        IFileSystem fileSystem = serviceLocator.getFileSystem();
-        IConstants constants = serviceLocator.getConstants();
-        try {
-            fileSystem.writeProjectFile(constants.getProgressionFilePath(), data);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            logger.error(e);
-        }*/
     }
 
     /**
@@ -244,7 +203,6 @@ public final class ProgressionManager implements IProgressionManager {
         for (int i = highScores.size(); i > MAX_HIGHSCORE_ENTRIES; i--) {
             highScores.remove(i - 1);
         }
-
-        saveHighScores();
+        saveData();
     }
 }

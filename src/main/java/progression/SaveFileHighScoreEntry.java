@@ -3,21 +3,28 @@ package progression;
 
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 
-import java.util.Map;
-
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
 public class SaveFileHighScoreEntry {
-    private Map<String, String> highscores;
+    private String name;
+    private int score;
 
     public SaveFileHighScoreEntry() {
 
     }
 
-    public Map<String, String> getHighscores() {
-        return highscores;
+    public String getName() {
+        return name;
     }
 
-    public void setHighscores(Map<String, String> highscores) {
-        this.highscores = highscores;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
