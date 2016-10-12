@@ -45,7 +45,7 @@ public class GenerationSet implements IWeightsSet {
 
     @Override
     public IGameObject getRandomElement() {
-        double randDouble = serviceLocator.getCalc().getRandomDouble(1);
+        double randDouble = serviceLocator.getCalc().getRandomDouble(1) * 0.5;
 
         for (MyEntry<Double, String> entry : weights) {
             if (entry.getKey() >= randDouble) {

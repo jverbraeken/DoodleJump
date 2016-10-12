@@ -296,24 +296,28 @@ public final class BlockFactory implements IBlockFactory {
     private void chanceForPowerup(final Set<IGameObject> elements, final IPlatform platform) {
         ICalc calc = serviceLocator.getCalc();
         double randomDouble = calc.getRandomDouble(MAX_POWERUP_THRESHOLD);
-        final int randomNr = (int) (randomDouble);
 
         double[] hitbox = platform.getHitBox();
-        //final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
+        final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
         final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
         boolean isSpecialPlatform = isSpecialPlatform(platform);
 
         if (!isSpecialPlatform) {
             IGameObject powerup = powerupGenerationSet.getRandomElement();
             if (powerup != null) {
-//                final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
-//                int springXLoc = (int) (calc.getRandomDouble(platformWidth));
-//                int xPos = (int) platform.getXPos() + springXLoc;
-//                if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
-//                    xPos = xPos - powerupWidth;
-//                }
-                powerup.setXPos(platform.getXPos() + 10);
-                powerup.setYPos(platform.getYPos() - platformHeight);
+                int powerupXLoc = (int) (calc.getRandomDouble(platformWidth));
+                double[] powHitbox = powerup.getHitBox();
+                final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
+                final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
+
+                int xPos = (int) platform.getXPos() + powerupXLoc;
+                if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
+                    xPos = xPos - powerupWidth;
+                }
+                powerup.setXPos(xPos);
+                powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight/2);
+                //powerup.setXPos(platform.getXPos() + 10);
+                //powerup.setYPos(platform.getYPos() - platformHeight);
                 elements.add(powerup);
             }
 //            if (randomNr >= SPRING_THRESHOLD && randomNr < TRAMPOLINE_THRESHOLD) {
