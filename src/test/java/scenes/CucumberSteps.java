@@ -1,9 +1,15 @@
 package scenes;
 
+import buttons.IButton;
 import cucumber.api.java8.En;
+import objects.doodles.IDoodle;
 import org.powermock.reflect.Whitebox;
 import system.Game;
 import system.IServiceLocator;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -31,8 +37,8 @@ public class CucumberSteps implements En {
             switch (button) {
                 case "play":
                     Object scene = Whitebox.getInternalState(Game.class, "scene");
-                    Object playButton = Whitebox.getInternalState(scene, "playButton");
-                    Object action = Whitebox.getInternalState(playButton, "action");
+                    List<IButton> buttons = (List<IButton>) Whitebox.getInternalState(scene, "buttons");
+                    Object action = Whitebox.getInternalState(buttons.get(0), "action");
                     ((Runnable) action).run();
                     break;
             }
@@ -48,8 +54,10 @@ public class CucumberSteps implements En {
         Then("^the score should be (\\d+)", (String score) -> {
             double scoreDouble = Double.parseDouble(score);
             Object scene = Whitebox.getInternalState(Game.class, "scene");
-            Object doodle = Whitebox.getInternalState(scene, "doodle");
-            assertThat(Whitebox.getInternalState(doodle, "score"), is(scoreDouble));
+            Set<IDoodle> doodles = (Set<IDoodle>) Whitebox.getInternalState(scene, "doodles");
+            for (IDoodle doodle : doodles) {
+                assertThat(Whitebox.getInternalState(doodle, "score"), is(scoreDouble));
+            }
         });
     }
 }

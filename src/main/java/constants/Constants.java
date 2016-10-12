@@ -1,5 +1,6 @@
 package constants;
 
+import filesystem.IFileSystem;
 import system.IServiceLocator;
 
 import java.io.FileNotFoundException;
@@ -51,7 +52,8 @@ public final class Constants implements IConstants {
      */
     private Constants() {
         try {
-            Object jsonObject = serviceLocator.getFileSystem().parseJsonMap("constants.json", String.class);
+            IFileSystem fileSystem = serviceLocator.getFileSystem();
+            Object jsonObject = fileSystem.parseJsonMap("constants.json", String.class);
             Map<String, String> json = (Map<String, String>) jsonObject;
             interpretJson(json);
         } catch (FileNotFoundException e) {

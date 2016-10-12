@@ -16,15 +16,33 @@ public final class ButtonFactory implements IButtonFactory {
     private static transient IServiceLocator serviceLocator;
 
     /**
-     * Register the ButtonFactory into the service locator.
+     * The singleton button factory.
+     * Constructed using synchronization.
+     */
+    private static IButtonFactory buttonFactory;
+
+    /**
+     * Register the platform factory into the service locator.
      *
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         ButtonFactory.serviceLocator = sL;
-        ButtonFactory.serviceLocator.provide(new ButtonFactory());
+        ButtonFactory.serviceLocator.provide(getButtonFactory());
     }
+
+    /**
+     * The synchronized getter of the singleton buttonfactory.
+     * @return the button factory
+     */
+    public synchronized static IButtonFactory getButtonFactory() {
+        if (buttonFactory == null) {
+           buttonFactory = new ButtonFactory();
+        }
+        return buttonFactory;
+    }
+
 
     /**
      * {@inheritDoc}
@@ -34,8 +52,20 @@ public final class ButtonFactory implements IButtonFactory {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayButtonSprite();
-        Runnable playAction = () -> Game.setScene(serviceLocator.getSceneFactory().newWorld());
+        Runnable playAction = () -> Game.setScene(serviceLocator.getSceneFactory().createSinglePlayerWorld());
         return new Button(serviceLocator, x, y, buttonSprite, playAction, "play");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createMultiplayerButton(final int x, final int y) {
+        assert serviceLocator != null;
+        ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getMultiplayerButtonSprite();
+        Runnable playAction = () -> Game.setScene(serviceLocator.getSceneFactory().createTwoPlayerWorld());
+        return new Button(serviceLocator, x, y, buttonSprite, playAction, "multiplayer");
     }
 
     /**
@@ -58,7 +88,7 @@ public final class ButtonFactory implements IButtonFactory {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayAgainButtonSprite();
-        Runnable playAgainAction = () -> Game.setScene(serviceLocator.getSceneFactory().newWorld());
+        Runnable playAgainAction = () -> Game.setScene(serviceLocator.getSceneFactory().createSinglePlayerWorld());
         return new Button(serviceLocator, x, y, buttonSprite, playAgainAction, "playAgain");
     }
 
