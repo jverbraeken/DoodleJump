@@ -165,6 +165,7 @@ public final class ProgressionManager implements IProgressionManager {
             highScores.add(new HighScore(entry.getName(), entry.getScore()));
             logger.info("A highscore is added: " + entry.getName() + " - " + entry.getScore());
         }
+        updateHighScores();
 
         coins = json.getCoins();
         logger.info("Coins is set to: " + coins);
