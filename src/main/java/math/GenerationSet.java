@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
 
-public class WeightsSet implements IWeightsSet {
+public class GenerationSet implements IWeightsSet {
 
     private ArrayList<MyEntry<Double, String>> weights;
     private IServiceLocator serviceLocator;
@@ -17,7 +17,7 @@ public class WeightsSet implements IWeightsSet {
      *
      * @param weights a set with the weights that have to be used.
      */
-    public WeightsSet(IServiceLocator sL, ArrayList<Double> weights, ArrayList<String> elementType) {
+    public GenerationSet(IServiceLocator sL, ArrayList<Double> weights, ArrayList<String> elementType) {
         assert weights.size() == elementType.size();
         this.weights = sortWeightsMap(weights, elementType);
 

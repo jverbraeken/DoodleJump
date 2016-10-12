@@ -1,13 +1,14 @@
 package objects.blocks;
 
 import math.ICalc;
-import math.WeightsSet;
+import math.GenerationSet;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
+import objects.powerups.IPowerup;
 import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
@@ -58,34 +59,21 @@ public final class BlockFactory implements IBlockFactory {
      * An offset to generate a minimum height deviation.
      */
     private static final double HEIGHT_DEVIATION_OFFSET = 0.8;
-    /**
-     * The chance that a horizontal moving platform will spawn.
-     */
-    private static final double HORIZONTAL_CHANCE = 0.05;
-
-    /**
-     * The chance that a vertical moving platform will spawn.
-     */
-    private static final double VERTICAL_CHANCE = 0.05;
-    /**
-     * The chance that a vertical moving platform will spawn.
-     */
-    private static final double BREAK_CHANCE = 0.1;
 
     /**
      * A weighted set for the spawning of platforms.
      */
-    private WeightsSet platformWeightsSet;
+    private GenerationSet platformGenerationSet;
 
     /**
      * A weighted set for the spawning of powerups.
      */
-    private static HashSet<String> weightedPowerupSet = new HashSet<>();
+    private GenerationSet powerupGenerationSet;
 
     /**
      * A weighted set for the spawning of enemies.
      */
-    private static HashSet<String> weightedEnemySet = new HashSet<>();
+    private GenerationSet enemyGenerationSet;
 
     /**
      * Used to gain access to all services.
@@ -93,7 +81,7 @@ public final class BlockFactory implements IBlockFactory {
     private static transient IServiceLocator serviceLocator;
 
     private BlockFactory() {
-        initializeWeightsSets();
+        initializeGenerationSets();
     }
 
     /**
@@ -108,14 +96,34 @@ public final class BlockFactory implements IBlockFactory {
     }
 
     /**
-     * Create the WeightsSets for the Powerups, Platforms and Enemies.
+     * Create the GenerationSets for the Powerups, Platforms and Enemies.
      */
-    private void initializeWeightsSets() {
-        ArrayList<Double> platWeights = new ArrayList<>(Arrays.asList(0.8, 0.05, 0.05, 0.1));
+    private void initializeGenerationSets() {
+        List<Double> platWeightsArr = Arrays.asList(
+                WeightsMap.getWeight(WeightsEnum.normalPlatform),
+                WeightsMap.getWeight(WeightsEnum.verticalMovingPlatform),
+                WeightsMap.getWeight(WeightsEnum.horizontalMovingPlatform),
+                WeightsMap.getWeight(WeightsEnum.breakingPlatform));
+        ArrayList<Double> platWeights = new ArrayList<>(platWeightsArr);
         List<String> platformTypes = Arrays.asList("normalPlatform", "verticalMovingPlatform", "horizontalMovingPlatform", "breakingPlatform");
         ArrayList<String> platforms = new ArrayList<>(platformTypes);
 
-        platformWeightsSet = new WeightsSet(serviceLocator, platWeights, platforms);
+        platformGenerationSet = new GenerationSet(serviceLocator, platWeights, platforms);
+
+        List<Double> powerupWeightsArr = Arrays.asList(
+                WeightsMap.getWeight(WeightsEnum.spring),
+                WeightsMap.getWeight(WeightsEnum.trampoline),
+                WeightsMap.getWeight(WeightsEnum.jetpack),
+                WeightsMap.getWeight(WeightsEnum.propellor),
+                WeightsMap.getWeight(WeightsEnum.sizeUp),
+                WeightsMap.getWeight(WeightsEnum.sizeDown),
+                WeightsMap.getWeight(WeightsEnum.springShoes));
+
+        ArrayList<Double> powerupWeights = new ArrayList<>(powerupWeightsArr);
+        List<String> powerupTypes = Arrays.asList("spring", "trampoline", "jetpack", "propellor", "sizeUp", "sizeDown", "springShoes");
+        ArrayList<String> powerups = new ArrayList<>(powerupTypes);
+
+        powerupGenerationSet = new GenerationSet(serviceLocator, powerupWeights, powerups);
 
     }
 
@@ -253,20 +261,8 @@ public final class BlockFactory implements IBlockFactory {
             yLoc = yLast - (int) maxY;
         }
 
-        IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-        //IPlatform platform = platformFactory.createPlatform(0, yLoc);
-
-        IPlatform platform = (IPlatform) platformWeightsSet.getRandomElement();
-//        double randDouble = serviceLocator.getCalc().getRandomDouble(1);
-//        if (randDouble < HORIZONTAL_CHANCE) {
-//            platform = platformFactory.createHoriMovingPlatform(0, yLoc);
-//        } else if (randDouble < HORIZONTAL_CHANCE + VERTICAL_CHANCE) {
-//            platform = platformFactory.createVertMovingPlatform(0, yLoc);
-//        } else if (randDouble < HORIZONTAL_CHANCE + VERTICAL_CHANCE + BREAK_CHANCE) {
-//            platform = platformFactory.createBreakPlatform(0, yLoc);
-//        }
-
         //TODO This prohibits platforms from being immutable
+        IPlatform platform = (IPlatform) platformGenerationSet.getRandomElement();
         platform.setYPos(yLoc);
         int xLoc = (int) (widthDeviation * (serviceLocator.getConstants().getGameWidth() - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
         platform.setXPos(xLoc);
@@ -303,34 +299,46 @@ public final class BlockFactory implements IBlockFactory {
         final int randomNr = (int) (randomDouble);
 
         double[] hitbox = platform.getHitBox();
-        final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
+        //final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
         final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
         boolean isSpecialPlatform = isSpecialPlatform(platform);
 
         if (!isSpecialPlatform) {
-            if (randomNr >= SPRING_THRESHOLD && randomNr < TRAMPOLINE_THRESHOLD) {
-                IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-                int springXLoc = (int) (calc.getRandomDouble(platformWidth));
-                IGameObject powerup = powerupFactory.createSpring(0, 0);
-                double[] powHitbox = powerup.getHitBox();
-                final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
-
-                int xPos = (int) platform.getXPos() + springXLoc;
-                if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
-                    xPos = xPos - powerupWidth;
-                }
-                powerup.setXPos(xPos);
-                powerup.setYPos((int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
-
-                elements.add(powerup);
-            } else if (randomNr >= TRAMPOLINE_THRESHOLD) {
-
-                IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-                IGameObject powerup = powerupFactory.createTrampoline(
-                        (int) platform.getXPos() + TRAMPOLINE_X_OFFSET,
-                        (int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
+            IGameObject powerup = powerupGenerationSet.getRandomElement();
+            if (powerup != null) {
+//                final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
+//                int springXLoc = (int) (calc.getRandomDouble(platformWidth));
+//                int xPos = (int) platform.getXPos() + springXLoc;
+//                if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
+//                    xPos = xPos - powerupWidth;
+//                }
+                powerup.setXPos(platform.getXPos() + 10);
+                powerup.setYPos(platform.getYPos() - platformHeight);
                 elements.add(powerup);
             }
+//            if (randomNr >= SPRING_THRESHOLD && randomNr < TRAMPOLINE_THRESHOLD) {
+//                IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+//                int springXLoc = (int) (calc.getRandomDouble(platformWidth));
+//                IGameObject powerup = powerupFactory.createSpring(0, 0);
+//                double[] powHitbox = powerup.getHitBox();
+//                final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
+//
+//                int xPos = (int) platform.getXPos() + springXLoc;
+//                if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
+//                    xPos = xPos - powerupWidth;
+//                }
+//                powerup.setXPos(xPos);
+//                powerup.setYPos((int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
+//
+//                elements.add(powerup);
+//            } else if (randomNr >= TRAMPOLINE_THRESHOLD) {
+//
+//                IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+//                IGameObject powerup = powerupFactory.createTrampoline(
+//                        (int) platform.getXPos() + TRAMPOLINE_X_OFFSET,
+//                        (int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
+//                elements.add(powerup);
+//            }
         }
     }
 
