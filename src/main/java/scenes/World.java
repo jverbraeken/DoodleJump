@@ -483,8 +483,13 @@ public class World implements IScene {
              */
             @Override
             public void render() {
-                //assert doodle.getScore() >= 0;
-                int roundedScore = 0; // = (int) doodle.getScore();
+                int roundedScore = 0;
+                for (IDoodle doodle : doodles) {
+                    if (doodle.getScore() > roundedScore) {
+                        roundedScore = (int) doodle.getScore();
+                    }
+                }
+
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();
                 while (roundedScore != 0) {
