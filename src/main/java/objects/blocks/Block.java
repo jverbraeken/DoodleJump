@@ -51,25 +51,33 @@ public final class Block implements IBlock {
         this.topJumpable = tJ;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public Set<IGameObject> getElements() {
         return this.elements;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public IJumpable getTopJumpable() {
         return topJumpable;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void render() {
         elements.forEach(IGameObject::render);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void update(final double delta) {
         for (IGameObject gameObject : elements) {

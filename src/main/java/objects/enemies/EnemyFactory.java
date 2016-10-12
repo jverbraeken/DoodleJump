@@ -37,7 +37,9 @@ public final class EnemyFactory implements IEnemyFactory {
         EnemyFactory.serviceLocator.provide(new EnemyFactory());
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public IGameObject createOrdinaryEnemy(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getOrdinaryMonsterSprite();

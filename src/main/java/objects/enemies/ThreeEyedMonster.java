@@ -42,13 +42,17 @@ import system.IServiceLocator;
         super(sL, x, y, sprite, ThreeEyedMonster.class);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public double getBoost() {
         return 0;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void render() {
         if (alive) {
@@ -72,37 +76,49 @@ import system.IServiceLocator;
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void applyGravity() {
 
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public boolean isAlive() {
         return false;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void setAlive(final boolean alive) {
 
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public int getOffSet() {
         return offSet;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public double getVerticalSpeed() {
         return 0;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void collidesWith(final IDoodle doodle) {
 

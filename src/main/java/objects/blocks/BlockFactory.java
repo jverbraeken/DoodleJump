@@ -96,7 +96,9 @@ public final class BlockFactory implements IBlockFactory {
         BlockFactory.serviceLocator.provide(new BlockFactory());
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public synchronized IBlock createStartBlock() {
         final int minPlatforms = 6;
@@ -111,7 +113,9 @@ public final class BlockFactory implements IBlockFactory {
         return new Block(serviceLocator, elements, nowHighest);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public synchronized IBlock createBlock(final IJumpable topJumpable) {
         Set<IGameObject> elements = new HashSet<>();

@@ -29,7 +29,9 @@ public final class PlatformFactory implements IPlatformFactory {
         sL.provide(new PlatformFactory());
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public IPlatform createPlatform(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSprite1();

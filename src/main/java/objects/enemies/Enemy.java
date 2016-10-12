@@ -57,20 +57,26 @@ public class Enemy extends AEnemy {
         super(sL, x, y, sprite, Enemy.class);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final double getBoost() {
         return this.BOOST;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void render() {
         IRenderer renderer = getServiceLocator().getRenderer();
         renderer.drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void update(final double delta) {
         if (alive) {
@@ -95,7 +101,9 @@ public class Enemy extends AEnemy {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void collidesWith(final IDoodle doodle) {
         if (doodle.getVerticalSpeed() > 0) {
@@ -110,13 +118,17 @@ public class Enemy extends AEnemy {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final int getOffSet() {
         return offset;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final double getVerticalSpeed() {
         return vSpeed;

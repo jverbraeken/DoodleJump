@@ -41,13 +41,17 @@ public final class Res implements IRes {
     private Res() {
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public String getSpritePath(final Sprites sprite) {
         return sprites.get(sprite);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void setSkin(final Game.Modes mode) {
         switch (mode) {

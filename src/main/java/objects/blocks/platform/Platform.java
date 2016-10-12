@@ -106,13 +106,17 @@ public class Platform extends AGameObject implements IPlatform {
         directions.put(Directions.left, -1);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final double getBoost() {
         return Platform.BOOST;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void render() {
         double xPos = this.getXPos();
@@ -156,7 +160,9 @@ public class Platform extends AGameObject implements IPlatform {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void updateEnums(final double xPos, final double yPos) {
         int gameWidth = getServiceLocator().getConstants().getGameWidth();
@@ -173,7 +179,9 @@ public class Platform extends AGameObject implements IPlatform {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void collidesWith(final IDoodle doodle) {
         if (props.containsKey(PlatformProperties.breaks)) {
@@ -204,25 +212,33 @@ public class Platform extends AGameObject implements IPlatform {
         audioManager.playJump();
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final Map<PlatformProperties, Integer> getProps() {
         return props;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void setOffset(final int value) {
         this.offSet = value;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final int getOffset() {
         return offSet;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final ISprite getBrokenSprite(final int numberOfAnimation) {
         if (numberOfAnimation == 2) {
