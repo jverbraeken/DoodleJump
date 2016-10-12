@@ -8,8 +8,7 @@ import system.IServiceLocator;
 /**
  * The platform decorator to support horizontal movement.
  */
-@SuppressWarnings("checkstyle:magicnumber")
-public class PlatformDarkness extends PlatformDecorator implements IPlatform {
+public final class PlatformDarkness extends PlatformDecorator implements IPlatform {
 
     /**
      * Current vertical speed for the Doodle.
@@ -33,7 +32,7 @@ public class PlatformDarkness extends PlatformDecorator implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         getContained().setSprite(getServiceLocator().getSpriteFactory().getPlatformSprite4());
         getContained().collidesWith(doodle);
     }
