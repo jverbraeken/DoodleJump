@@ -1,7 +1,7 @@
 package progression;
 
 /**
- * Created by jverb on 10/11/2016.
+ * Implemented by classes that want to get a notification when the height of the doodle changes.
  */
 public interface IHeightObserver {
 }

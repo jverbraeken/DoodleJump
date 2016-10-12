@@ -161,7 +161,7 @@ public interface IFileSystem {
     Object parseJsonMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException;
 
     /**
-     * Serializes the image specified to a Json string
+     * Serializes the image specified to a Json string.
      *
      * @param image The image that should be serialized
      * @return A string containing the serialized image

@@ -1,16 +1,17 @@
 package progression;
 
 
-import com.bluelinelabs.logansquare.LoganSquare;
-import com.bluelinelabs.logansquare.annotation.JsonObject;
 import logging.ILogger;
 import objects.powerups.Powerups;
 import system.IServiceLocator;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Standard implementation of the ProgressionManager. Used to contain all "global" variables that describe
@@ -76,7 +77,7 @@ public final class ProgressionManager implements IProgressionManager {
      * @param score The actual score.
      */
     @Override
-    public final void addHighScore(final String name, final double score) {
+    public void addHighScore(final String name, final double score) {
         HighScore scoreEntry = new HighScore(name, score);
         highScores.add(scoreEntry);
         updateHighScores();
@@ -86,10 +87,13 @@ public final class ProgressionManager implements IProgressionManager {
      * {@inheritDoc}
      */
     @Override
-    public final List<HighScore> getHighscores() {
+    public List<HighScore> getHighscores() {
         return highScores;
     }
 
+    /**
+     * Loads the progression of the player from the disk.
+     */
     private void loadData() {
         Object jsonObject = null;
         try {
@@ -104,6 +108,9 @@ public final class ProgressionManager implements IProgressionManager {
         }
     }
 
+    /**
+     * Saved the progression of the player to the disk.
+     */
     private void saveData() {
         SaveFile image = new SaveFile();
 
@@ -132,6 +139,9 @@ public final class ProgressionManager implements IProgressionManager {
         }
     }
 
+    /**
+     * Sets the progression to the default values: the values used when the game is started for the first time.
+     */
     private void progressionFromDefault() {
         powerupLevels.clear();
         for (Powerups powerup : Powerups.values()) {
@@ -145,6 +155,10 @@ public final class ProgressionManager implements IProgressionManager {
         saveData();
     }
 
+    /**
+     * Sets the progression in the game from a json string.
+     * @param json The json containing the progression
+     */
     private void progressionFromJson(SaveFile json) {
         highScores.clear();
         for (SaveFileHighScoreEntry entry : json.getHighScores()) {

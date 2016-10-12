@@ -1,30 +1,60 @@
 package progression;
 
-
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 
+/**
+ * Used to be (de)serialized to save/load the data.
+ */
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
-public class SaveFileHighScoreEntry {
+public final class SaveFileHighScoreEntry {
+    /**
+     * The name associated with the high score.
+     */
     private String name;
+    /**
+     * The score associated with the high score.
+     */
     private int score;
 
+    /**
+     * Construct a new Highscore entry.
+     */
     public SaveFileHighScoreEntry() {
-
     }
 
+    /**
+     * @return The name associated with the high score
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    /**
+     * @param name The name the high score entry should have
+     */
+    public void setName(final String name) {
         this.name = name;
     }
 
+    /**
+     * @return The score associated with the high score
+     */
     public int getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    /**
+     * @param score The score the high score entry should have
+     */
+    public void setScore(final int score) {
         this.score = score;
+    }
+
+    /**
+     * @return A string describing the high score entry
+     */
+    @Override
+    public String toString() {
+        return "HighScoreEntry{" + "name='" + name + '\'' + ", score=" + score + '}';
     }
 }
