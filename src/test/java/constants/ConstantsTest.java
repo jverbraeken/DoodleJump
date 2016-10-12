@@ -98,11 +98,11 @@ public class ConstantsTest {
     }
 
     @Test
-    public void getHighScoresFilePathTest() throws NoSuchFieldException, IllegalAccessException {
-        Field field = Constants.class.getDeclaredField("HIGHCORES_DATA");
+    public void getSaveFilePathTest() throws NoSuchFieldException, IllegalAccessException {
+        Field field = Constants.class.getDeclaredField("SAVEFILE_DATA");
         field.setAccessible(true);
-        assertThat(constants.getHighScoresFilePath(), is(field.get(constants)));
-        assertThat(constants.getHighScoresFilePath(), instanceOf(String.class));
+        assertThat(constants.getSaveFilePath(), is(field.get(constants)));
+        assertThat(constants.getSaveFilePath(), instanceOf(String.class));
     }
 
     @Test

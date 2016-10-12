@@ -41,74 +41,61 @@ import scenes.SceneFactory;
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 /* package */ final class ServiceLocator implements IServiceLocator {
 
-    // constants.json
-    private IConstants constants;
-
-    // audio
-    private IAudioManager audioManager;
-
-    // input
-    private IInputManager inputManager;
-
-    // enemies
-    private IEnemyBuilder enemyBuilder;
-
-    // rendering
-    private IRenderer renderer;
-    private IButtonFactory buttonFactory;
-
-    // filesystem
-    private IFileSystem fileSystem;
-
-    // util
-    private ILoggerFactory loggerFactory;
-
-    // progression
-    private IProgressionManager progressionManager;
-
-    // objects
-    private IPowerupFactory powerupFactory;
-    private IDoodleFactory doodleFactory;
-    private IBlockFactory blockFactory;
-    private IPlatformFactory platformFactory;
-
-    // resources
-    private ISpriteFactory spriteFactory;
-    private IRes res;
-
-    // scenes
-    private ISceneFactory sceneFactory;
-
-    // utility
-    private ICalc calc;
-
     /**
      * The singleton serviceLocator.
      * Constructed eagerly.
      */
     private static final ServiceLocator SERVICE_LOCATOR = new ServiceLocator();
+    // constants.json
+    private IConstants constants;
+    // audio
+    private IAudioManager audioManager;
+    // input
+    private IInputManager inputManager;
+    // enemies
+    private IEnemyBuilder enemyBuilder;
+    // rendering
+    private IRenderer renderer;
+    private IButtonFactory buttonFactory;
+    // filesystem
+    private IFileSystem fileSystem;
+    // util
+    private ILoggerFactory loggerFactory;
+    // progression
+    private IProgressionManager progressionManager;
+    // objects
+    private IPowerupFactory powerupFactory;
+    private IDoodleFactory doodleFactory;
+    private IBlockFactory blockFactory;
+    private IPlatformFactory platformFactory;
+    // resources
+    private ISpriteFactory spriteFactory;
+    private IRes res;
+    // scenes
+    private ISceneFactory sceneFactory;
+    // utility
+    private ICalc calc;
 
     /**
      * Initialize the ServiceLocator class.
      */
-    /* package */ private ServiceLocator() {
+    /* package */
+    private ServiceLocator() {
         this.init();
     }
 
     /**
-<<<<<<< HEAD
-     * {@inheritDoc}
-     */
-=======
      * Getter of the singleton service locator.
+     *
      * @return the service locator.
      */
     public static IServiceLocator getServiceLocator() {
         return SERVICE_LOCATOR;
     }
 
-    /** {@inheritDoc} */
->>>>>>> develop
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void provide(final IAudioManager aM) {
         assert aM != null;
