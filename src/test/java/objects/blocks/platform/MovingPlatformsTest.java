@@ -5,10 +5,14 @@ import logging.ILogger;
 import logging.ILoggerFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import rendering.ICamera;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
+import resources.sprites.SpriteFactory;
 import system.IServiceLocator;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -16,9 +20,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(SpriteFactory.class)
 public class MovingPlatformsTest {
 
-    private IPlatform p;
+    private IPlatform platform;
+    private IPlatform horizontal;
+    private IPlatform vertical;
+    private ISpriteFactory spriteFactory;
     private IServiceLocator serviceLocator;
     private IRenderer renderer;
     private ISprite sprite;
@@ -36,16 +45,22 @@ public class MovingPlatformsTest {
         renderer = mock(IRenderer.class);
         when(renderer.getCamera()).thenReturn(camera);
 
+        sprite = mock(ISprite.class);
+
+        spriteFactory = mock(SpriteFactory.class);
+        when(spriteFactory.getPlatformSpriteHori()).thenReturn(sprite);
+
         serviceLocator = mock(IServiceLocator.class);
+        when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         ILogger logger = mock(ILogger.class);
         ILoggerFactory logFac = mock(ILoggerFactory.class);
         when(logFac.createLogger(Platform.class)).thenReturn(logger);
         when(serviceLocator.getLoggerFactory()).thenReturn(logFac);
-
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
-        sprite = mock(ISprite.class);
-        p = new Platform(serviceLocator, 1, 1, sprite);
+
+        platform = new Platform(serviceLocator, 1, 1, sprite);
+        horizontal = new PlatformHorizontal(serviceLocator, this.platform);
     }
 
     /**
@@ -57,11 +72,11 @@ public class MovingPlatformsTest {
     public void updateEnumsTestNothingHori() throws NoSuchFieldException, IllegalAccessException {
         int expected = 1;
         Platform.PlatformProperties hori = Platform.PlatformProperties.movingHorizontally;
-        p.getProps().put(hori, expected);
+        horizontal.getProps().put(hori, expected);
 
-        p.updateEnums(0,0);
+        horizontal.updateEnums(0,0);
 
-        assertThat(p.getProps().get(hori), is(expected));
+        assertThat(horizontal.getProps().get(hori), is(expected));
     }
 
     /**
@@ -74,11 +89,11 @@ public class MovingPlatformsTest {
     public void updateEnumsTestFlip1Hori() throws NoSuchFieldException, IllegalAccessException {
         int expected = -1;
         Platform.PlatformProperties hori = Platform.PlatformProperties.movingHorizontally;
-        p.getProps().put(hori, 1);
+        horizontal.getProps().put(hori, 1);
 
-        p.updateEnums(200,0);
+        horizontal.updateEnums(200,0);
 
-        assertThat(p.getProps().get(hori), is(expected));
+        assertThat(horizontal.getProps().get(hori), is(expected));
     }
 
     /**
@@ -91,11 +106,11 @@ public class MovingPlatformsTest {
     public void updateEnumsTestFlipMin1Hori() throws NoSuchFieldException, IllegalAccessException {
         int expected = 1;
         Platform.PlatformProperties hori = Platform.PlatformProperties.movingHorizontally;
-        p.getProps().put(hori, -1);
+        horizontal.getProps().put(hori, -1);
 
-        p.updateEnums(-200,0);
+        horizontal.updateEnums(-200,0);
 
-        assertThat(p.getProps().get(hori), is(expected));
+        assertThat(horizontal.getProps().get(hori), is(expected));
     }
 
     /**
@@ -107,11 +122,11 @@ public class MovingPlatformsTest {
     public void updateEnumsTestNothingVert() throws NoSuchFieldException, IllegalAccessException {
         int expected = 1;
         Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        p.getProps().put(vert, expected);
+        horizontal.getProps().put(vert, expected);
 
-        p.updateEnums(0,0);
+        horizontal.updateEnums(0,0);
 
-        assertThat(p.getProps().get(vert), is(expected));
+        assertThat(horizontal.getProps().get(vert), is(expected));
     }
 
     /**
@@ -124,13 +139,13 @@ public class MovingPlatformsTest {
     public void updateEnumsTestFlip1Vert() throws NoSuchFieldException, IllegalAccessException {
         int expected = 1;
         Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        p.getProps().put(vert, -1);
+        platform.getProps().put(vert, -1);
 
-        p.setOffset(21);
+        platform.setOffset(21);
 
-        p.updateEnums(0,0);
+        platform.updateEnums(0,0);
 
-        assertThat(p.getProps().get(vert), is(expected));
+        assertThat(platform.getProps().get(vert), is(expected));
     }
 
     /**
@@ -143,13 +158,13 @@ public class MovingPlatformsTest {
     public void updateEnumsTestFlipMin1Vert() throws NoSuchFieldException, IllegalAccessException {
         int expected = -1;
         Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        p.getProps().put(vert, 1);
+        platform.getProps().put(vert, 1);
 
-        p.setOffset(-21);
+        platform.setOffset(-21);
 
-        p.updateEnums(0,0);
+        platform.updateEnums(0,0);
 
-        assertThat(p.getProps().get(vert), is(expected));
+        assertThat(platform.getProps().get(vert), is(expected));
     }
 
     /**
@@ -157,13 +172,14 @@ public class MovingPlatformsTest {
      */
     @Test
     public void renderHoriTest() {
-        double expected = p.getXPos() + 2;
+        double expected = horizontal.getXPos() + 2;
         Platform.PlatformProperties hori = Platform.PlatformProperties.movingHorizontally;
-        p.getProps().put(hori, 1);
+        horizontal.getProps().put(hori, 1);
 
-        p.render();
+        horizontal.render();
+        horizontal.update(0.05d);
 
-        assertThat(p.getXPos(), is(expected));
+        assertThat(horizontal.getXPos(), is(expected));
     }
 
     /**
@@ -171,13 +187,14 @@ public class MovingPlatformsTest {
      */
     @Test
     public void renderHoriOppositeTest() {
-        double expected = p.getXPos() - 2;
+        double expected = horizontal.getXPos() - 2;
         Platform.PlatformProperties hori = Platform.PlatformProperties.movingHorizontally;
-        p.getProps().put(hori, -1);
+        horizontal.getProps().put(hori, -1);
 
-        p.render();
+        horizontal.render();
+        horizontal.update(0.05d);
 
-        assertThat(p.getXPos(), is(expected));
+        assertThat(horizontal.getXPos(), is(expected));
     }
 
     /**
@@ -185,13 +202,14 @@ public class MovingPlatformsTest {
      */
     @Test
     public void renderVertTest() {
-        double expected = p.getYPos() - 2;
+        double expected = platform.getYPos() - 2;
         Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        p.getProps().put(vert, 1);
+        platform.getProps().put(vert, 1);
 
-        p.render();
+        platform.render();
+        platform.update(0.05d);
 
-        assertThat(p.getYPos(), is(expected));
+        assertThat(platform.getYPos(), is(expected));
     }
 
     /**
@@ -199,12 +217,13 @@ public class MovingPlatformsTest {
      */
     @Test
     public void renderOppositVertTest() {
-        double expected = p.getYPos() + 2;
+        double expected = platform.getYPos() + 2;
         Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        p.getProps().put(vert, -1);
+        platform.getProps().put(vert, -1);
 
-        p.render();
+        platform.render();
+        platform.update(0.05d);
 
-        assertThat(p.getYPos(), is(expected));
+        assertThat(platform.getYPos(), is(expected));
     }
 }

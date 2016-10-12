@@ -42,14 +42,16 @@ public class Platform extends AGameObject implements IPlatform {
      * The properties for this platform.
      */
     private Map<PlatformProperties, Integer> props = new EnumMap<>(PlatformProperties.class);
+
     /**
      * The directions a platform can go to.
      */
     private Map<Directions, Integer> directions = new EnumMap<>(Directions.class);
+
     /**
      * An enum to define what the platform does.
      */
-    private enum Directions {
+    enum Directions {
         /**
          * For moving up, normally 1.
          */
@@ -118,21 +120,15 @@ public class Platform extends AGameObject implements IPlatform {
 	 * {@inheritDoc}
      */
     @Override
-    public final void render() {
-        double xPos = this.getXPos();
-        double yPos = this.getYPos();
+    public final void update(final double delta) {
+        final double xPos = this.getXPos();
+        final double yPos = this.getYPos();
 
         if (BlockFactory.isSpecialPlatform(this)) {
             updateEnums(xPos, yPos);
         }
 
-        if (props.containsKey(PlatformProperties.movingHorizontally)) {
-            if (props.get(PlatformProperties.movingHorizontally).equals(directions.get(Directions.right))) {
-                this.setXPos(xPos + 2);
-            } else if (props.get(PlatformProperties.movingHorizontally).equals(directions.get(Directions.left))) {
-                this.setXPos(xPos - 2);
-            }
-        } else if (props.containsKey(PlatformProperties.movingVertically)) {
+        if (props.containsKey(PlatformProperties.movingVertically)) {
             if (props.get(PlatformProperties.movingVertically).equals(directions.get(Directions.up))) {
                 this.setYPos(yPos - 2);
                 offSet = offSet - 2;
@@ -141,9 +137,13 @@ public class Platform extends AGameObject implements IPlatform {
                 offSet = offSet + 2;
             }
         }
+    }
 
-        xPos = this.getXPos();
-        yPos = this.getYPos();
+    /** {@inheritDoc} */
+    @Override
+    public final void render() {
+        double xPos = this.getXPos();
+        double yPos = this.getYPos();
 
         if (props.containsKey(PlatformProperties.breaks)) {
             int breaks = props.get(PlatformProperties.breaks);
@@ -165,13 +165,6 @@ public class Platform extends AGameObject implements IPlatform {
      */
     @Override
     public final void updateEnums(final double xPos, final double yPos) {
-        int gameWidth = getServiceLocator().getConstants().getGameWidth();
-        if (xPos > gameWidth - this.getSprite().getWidth()) {
-            this.props.replace(PlatformProperties.movingHorizontally, -1);
-        } else if (xPos < 1) {
-            this.props.replace(PlatformProperties.movingHorizontally, 1);
-        }
-
         if (offSet > movingDistance) {
             this.props.replace(PlatformProperties.movingVertically, 1);
         } else if (offSet < -movingDistance) {
@@ -224,6 +217,12 @@ public class Platform extends AGameObject implements IPlatform {
 	 * {@inheritDoc}
      */
     @Override
+    public final Map<Directions, Integer> getDirections() {
+        return directions;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public final void setOffset(final int value) {
         this.offSet = value;
     }
@@ -237,10 +236,13 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-	 * {@inheritDoc}
+     * Will return the Sprite of the broken platform, dependent
+     * on the number of the animation. SO which phase it is in.
+     *
+     * @param numberOfAnimation the phase of the animation
+     * @return the sprite belonging to this animation phase
      */
-    @Override
-    public final ISprite getBrokenSprite(final int numberOfAnimation) {
+    private final ISprite getBrokenSprite(final int numberOfAnimation) {
         if (numberOfAnimation == 2) {
             props.replace(PlatformProperties.breaks, 3);
             return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite2();

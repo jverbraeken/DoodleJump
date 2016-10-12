@@ -239,9 +239,9 @@ public final class BlockFactory implements IBlockFactory {
 
         double randDouble = serviceLocator.getCalc().getRandomDouble(1);
         if (randDouble < HORIZONTAL_CHANCE) {
-            platform = platformFactory.createHoriMovingPlatform(0, yLoc);
+            platform = platformFactory.createHorizontalMovingPlatform(0, yLoc);
         } else if (randDouble < HORIZONTAL_CHANCE + VERTICAL_CHANCE) {
-            platform = platformFactory.createVertMovingPlatform(0, yLoc);
+            platform = platformFactory.createVerticalMovingPlatform(0, yLoc);
         } else if (randDouble < HORIZONTAL_CHANCE + VERTICAL_CHANCE + BREAK_CHANCE) {
             platform = platformFactory.createBreakPlatform(0, yLoc);
         }

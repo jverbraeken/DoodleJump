@@ -84,5 +84,4 @@ public final class Block implements IBlock {
             gameObject.update(delta);
         }
     }
-
 }
