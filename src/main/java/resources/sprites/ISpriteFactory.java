@@ -157,6 +157,10 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getSizeDownSprite();
 
+    ISprite getCannonSprite();
+
+    ISprite getCannonUsedSprite();
+
     // Score screen
     ISprite getScoreScreenBottom();
 

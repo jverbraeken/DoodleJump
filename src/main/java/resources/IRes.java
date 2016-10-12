@@ -116,6 +116,8 @@ public interface IRes {
         shield,
         sizeUp,
         sizeDown,
+        cannon,
+        cannonUsed,
 
         // Score screen
         scoreScreenBottom,

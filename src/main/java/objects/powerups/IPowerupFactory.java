@@ -71,4 +71,13 @@ public interface IPowerupFactory extends IFactory {
      */
     IGameObject createTrampoline(final int x, final int y);
 
+    /**
+     * Create a new Cannon powerup.
+     *
+     * @param x The X location for the Circus Cannon.
+     * @param y The Y location for the Circus Cannon.
+     * @return A new CircusCannon instance.
+     */
+    IGameObject createCircusCannon(final int x, final int y);
+
 }

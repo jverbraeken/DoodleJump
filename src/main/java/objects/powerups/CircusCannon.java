@@ -26,7 +26,7 @@ public class CircusCannon extends AGameObject implements IJumpable {
      * @param y - The Y location for the trampoline.
      */
     /* package */ CircusCannon(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite(), Trampoline.class);
+        super(sL, x, y, sL.getSpriteFactory().getCannonSprite(), Trampoline.class);
     }
 
     /**
@@ -43,7 +43,7 @@ public class CircusCannon extends AGameObject implements IJumpable {
     @Override
     public double getBoost() {
         this.animate();
-        this.playSound();
+        //this.playSound();
 
         return CircusCannon.BOOST;
     }
@@ -65,13 +65,13 @@ public class CircusCannon extends AGameObject implements IJumpable {
     }
 
     /**
-     * Animate the Trampoline.
+     * Animate the Circus Cannon.
      */
     private void animate() {
         int oldHeight = getSprite().getHeight();
 
         ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
-        ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
+        ISprite newSprite = spriteFactory.getCannonUsedSprite();
 
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);

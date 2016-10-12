@@ -709,6 +709,22 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.avoid);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getCannonSprite() {
+        return getSprite(IRes.Sprites.cannon);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getCannonUsedSprite() {
+        return getSprite(IRes.Sprites.cannonUsed);
+    }
+
 
     // Score Screen
 
