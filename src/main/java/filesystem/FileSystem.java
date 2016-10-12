@@ -349,4 +349,14 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public String serializeJson(final Object image) {
+        try {
+            return LoganSquare.serialize(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

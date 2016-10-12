@@ -1,6 +1,7 @@
-package system;
+package progression;
 
 import org.junit.Test;
+import progression.HighScore;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

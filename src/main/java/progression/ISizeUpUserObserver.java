@@ -1,7 +1,7 @@
 package progression;
 
 /**
- * Implemented by classes that want to get a notification when the doodle jumped on a {@link SizeUpUserObserver}.
+ * Implemented by classes that want to get a notification when the doodle jumped on a {@link ISizeUpUserObserver}.
  */
-public interface SizeUpUserObserver extends DisappearingPowerupObserver {
+public interface ISizeUpUserObserver extends IDisappearingPowerupObserver {
 }

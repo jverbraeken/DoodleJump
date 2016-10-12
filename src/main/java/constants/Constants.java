@@ -34,7 +34,7 @@ public final class Constants implements IConstants {
     /**
      * The file to which the high scores will be written to.
      */
-    private static final String HIGHCORES_DATA = "highScores.data";
+    private static final String SAVEFILE_DATA = "saveFile.data";
 
     /**
      * The service locator for the Constants class.
@@ -108,8 +108,8 @@ public final class Constants implements IConstants {
 
     /** {@inheritDoc} */
     @Override
-    public String getHighScoresFilePath() {
-        return HIGHCORES_DATA;
+    public String getSaveFilePath() {
+        return SAVEFILE_DATA;
     }
 
     /**

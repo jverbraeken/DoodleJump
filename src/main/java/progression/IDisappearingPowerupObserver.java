@@ -1,4 +1,4 @@
 package progression;
 
-public interface DisappearingPowerupObserver extends PickupObserver {
+public interface IDisappearingPowerupObserver extends IPickupObserver {
 }

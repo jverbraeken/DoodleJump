@@ -63,10 +63,6 @@ public final class Game {
      */
     private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
     /**
-     * The high scores list for the Game.
-     */
-    public static final HighScoreList HIGH_SCORES = new HighScoreList(serviceLocator);
-    /**
      * The amount of coins the player has.
      */
     private final CoinManager coinManager = new CoinManager();
@@ -166,7 +162,7 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        HIGH_SCORES.initHighScores();
+        serviceLocator.getProgressionManager().init();
         loop();
     }
 

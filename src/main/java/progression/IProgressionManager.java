@@ -1,4 +1,11 @@
 package progression;
 
-public interface IProgressionManager extends HeightObserver, JetpackUsedObserver, PropellerUsedObserver, SizeDownUsedObserver, SizeUpUserObserver, SpringUsedObserver, SpringShoesUsedObserver, TrampolineJumpedObserver {
+import java.util.List;
+
+public interface IProgressionManager extends IHeightObserver, IJetpackUsedObserver, IPropellerUsedObserver, ISizeDownUsedObserver, ISizeUpUserObserver, ISpringUsedObserver, ISpringShoesUsedObserver, ITrampolineJumpedObserver {
+    void init();
+
+    void addHighScore(String name, double score);
+
+    List<HighScore> getHighscores();
 }
