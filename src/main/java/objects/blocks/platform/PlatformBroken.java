@@ -19,7 +19,7 @@ public class PlatformBroken extends PlatformDecorator implements IPlatform {
     /**
      * Platform constructor.
      *
-     * @param sL the servicelocator.
+     * @param sL       the servicelocator.
      * @param platform the encapsulated platform.
      */
     PlatformBroken(final IServiceLocator sL, final IPlatform platform) {
@@ -28,7 +28,9 @@ public class PlatformBroken extends PlatformDecorator implements IPlatform {
         getContained().getProps().put(Platform.PlatformProperties.breaks, 1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void render() {
         double xPos = this.getXPos();
@@ -47,13 +49,13 @@ public class PlatformBroken extends PlatformDecorator implements IPlatform {
         }
     }
 
-        /**
-         * Will return the Sprite of the broken platform, dependent
-         * on the number of the animation. SO which phase it is in.
-         *
-         * @param numberOfAnimation the phase of the animation
-         * @return the sprite belonging to this animation phase
-         */
+    /**
+     * Will return the Sprite of the broken platform, dependent
+     * on the number of the animation. SO which phase it is in.
+     *
+     * @param numberOfAnimation the phase of the animation
+     * @return the sprite belonging to this animation phase
+     */
     private ISprite getBrokenSprite(final int numberOfAnimation) {
         if (numberOfAnimation == 2) {
             getProps().replace(Platform.PlatformProperties.breaks, 3);
@@ -77,10 +79,11 @@ public class PlatformBroken extends PlatformDecorator implements IPlatform {
         addYPos(this.vSpeed);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void collidesWith(final IDoodle doodle) {
-        System.out.println(getProps().get(Platform.PlatformProperties.breaks));
         if (getProps().get(Platform.PlatformProperties.breaks).equals(1)) {
             getProps().replace(Platform.PlatformProperties.breaks, 2);
             vSpeed = doodle.getVerticalSpeed() / 2;

@@ -25,12 +25,14 @@ public class PlatformVertical extends PlatformDecorator implements IPlatform {
     /**
      * Platform constructor.
      *
-     * @param sL the servicelocator.
+     * @param sL       the servicelocator.
      * @param platform the encapsulated platform.
      */
     PlatformVertical(final IServiceLocator sL, final IPlatform platform) {
         super(sL, platform);
-        getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteVert());
+        if (!getProps().containsKey(Platform.PlatformProperties.breaks)) {
+            getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteVert());
+        }
         getContained().getProps().put(Platform.PlatformProperties.movingVertically, 1);
 
         int gameHeight = sL.getConstants().getGameHeight();
@@ -47,7 +49,9 @@ public class PlatformVertical extends PlatformDecorator implements IPlatform {
 
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void update(final double delta) {
         final double xPos = this.getXPos();
@@ -68,7 +72,9 @@ public class PlatformVertical extends PlatformDecorator implements IPlatform {
         getContained().update(delta);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void updateEnums(final double xPos, final double yPos) {
         if (getOffset() > movingDistance) {
