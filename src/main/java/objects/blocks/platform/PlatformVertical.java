@@ -40,10 +40,8 @@ public final class PlatformVertical extends PlatformDecorator implements IPlatfo
         getDirections().put(Platform.Directions.up, 1);
         getDirections().put(Platform.Directions.down, -1);
 
-        int upOrDown = 1;
-        if (sL.getCalc().getRandomDouble(1) < FIFTY_FIFTY) {
-            upOrDown = -1;
-        }
+        int upOrDown = (sL.getCalc().getRandomDouble(1) < FIFTY_FIFTY) ? 1 : -1;
+        
         platform.getProps().put(Platform.PlatformProperties.movingVertically, upOrDown);
 
     }
