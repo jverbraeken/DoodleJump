@@ -73,11 +73,8 @@ public class JetpackTest {
     @Test
     public void testRenderWithOwner() {
         jetpack.collidesWith(doodle);
-
         jetpack.render();
         verify(renderer, times(1)).drawSprite(sprite, 0, 0);
-        verify(doodle, times(1)).getXPos();
-        verify(doodle, times(1)).getYPos();
     }
 
     @Test

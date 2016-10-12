@@ -19,6 +19,7 @@ import java.util.HashSet;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.anyDouble;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -38,8 +39,7 @@ public class PropellerTest {
     private World world = mock(World.class);
 
     private Propeller propeller;
-    private ISprite[] spritePack = new ISprite[4];
-    private int render_y_offset = Whitebox.getInternalState(Propeller.class, "OWNED_Y_OFFSET");
+    private ISprite[] spritePack = new ISprite[]{sprite, sprite, sprite, sprite};
     private int max_timer = Whitebox.getInternalState(Propeller.class, "MAX_TIMER");
     private int animation_refresh_rate = Whitebox.getInternalState(Propeller.class, "ANIMATION_REFRESH_RATE");
 
@@ -97,11 +97,8 @@ public class PropellerTest {
     @Test
     public void testRenderWithOwner() {
         propeller.collidesWith(doodle);
-
         propeller.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, render_y_offset);
-        verify(doodle, times(1)).getXPos();
-        verify(doodle, times(1)).getYPos();
+        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
     }
 
     @Test
@@ -113,7 +110,7 @@ public class PropellerTest {
     }
 
     @Test
-    public void testUpdateWithOwner_Animtion() {
+    public void testUpdateWithOwner_Animation() {
         propeller.collidesWith(doodle);
         int currentIndex = Whitebox.getInternalState(propeller, "spriteIndex");
 
