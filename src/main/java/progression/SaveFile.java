@@ -7,6 +7,10 @@ import java.util.Map;
 
 /**
  * Used to be (de)serialized to load/save the progression of the player.
+ * <br />
+ * <br />
+ * <b>NOTE: this class is designed to be used by JSON (de)serializers only and is not meant
+ * for regular usage in the game!</b>
  */
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
 public final class SaveFile {
