@@ -6,7 +6,7 @@ import system.IServiceLocator;
 /**
  * The platform decorator used to describe vertical movement.
  */
-public class PlatformVertical extends PlatformDecorator implements IPlatform {
+public final class PlatformVertical extends PlatformDecorator implements IPlatform {
 
     /**
      * One third of the game height.
@@ -26,7 +26,7 @@ public class PlatformVertical extends PlatformDecorator implements IPlatform {
     /**
      * Platform constructor.
      *
-     * @param sL the servicelocator.
+     * @param sL       the servicelocator.
      * @param platform the encapsulated platform.
      */
     PlatformVertical(final IServiceLocator sL, final IPlatform platform) {
@@ -48,9 +48,11 @@ public class PlatformVertical extends PlatformDecorator implements IPlatform {
 
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         final double xPos = this.getXPos();
         final double yPos = this.getYPos();
 
@@ -59,10 +61,13 @@ public class PlatformVertical extends PlatformDecorator implements IPlatform {
         }
 
         if (getProps().containsKey(Platform.PlatformProperties.movingVertically)) {
-            if (getProps().get(Platform.PlatformProperties.movingVertically).equals(getDirections().get(Platform.Directions.up))) {
+
+            int movingProperty = getProps().get(Platform.PlatformProperties.movingVertically);
+
+            if (movingProperty == getDirections().get(Platform.Directions.up)) {
                 setYPos(yPos - 2);
                 setOffset(getOffset() - 2);
-            } else if (getProps().get(Platform.PlatformProperties.movingVertically).equals(getDirections().get(Platform.Directions.down))) {
+            } else if (movingProperty == getDirections().get(Platform.Directions.down)) {
                 setYPos(yPos + 2);
                 setOffset(getOffset() + 2);
             }
@@ -71,9 +76,11 @@ public class PlatformVertical extends PlatformDecorator implements IPlatform {
         getContained().update(delta);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final void updateEnums(final double xPos, final double yPos) {
+    public void updateEnums(final double xPos, final double yPos) {
         if (getOffset() > movingDistance) {
             this.getProps().replace(Platform.PlatformProperties.movingVertically, 1);
         } else if (getOffset() < -movingDistance) {
