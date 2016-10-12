@@ -104,7 +104,7 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createCircusCannon(final int x, final int y) {
-        logger.info("A new Trampoline has been created");
+        logger.info("A new Circus Cannon has been created");
         return new CircusCannon(serviceLocator, x, y);
     }
 }
