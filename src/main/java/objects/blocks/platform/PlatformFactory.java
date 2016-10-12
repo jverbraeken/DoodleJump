@@ -45,7 +45,7 @@ public final class PlatformFactory implements IPlatformFactory {
      * {@inheritDoc}
      */
     @Override
-    public IPlatform createHoriMovingPlatform(final int x, final int y) {
+    public IPlatform createHorizontalMovingPlatform(final int x, final int y) {
         IPlatform platform = createPlatform(x, y);
         IPlatform sideways = new PlatformHorizontal(serviceLocator, platform);
 
@@ -56,7 +56,7 @@ public final class PlatformFactory implements IPlatformFactory {
      * {@inheritDoc}
      */
     @Override
-    public IPlatform createVertMovingPlatform(final int x, final int y) {
+    public IPlatform createVerticalMovingPlatform(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSpriteVert();
         IPlatform platform = new Platform(serviceLocator, x, y, sprite);
 
