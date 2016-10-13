@@ -27,6 +27,15 @@ import java.util.logging.Handler;
     private static final int RETRACT_SPEED = 250;
 
     /**
+     * The default sprite for the Spring.
+     */
+    private static ISprite defaultSprite;
+    /**
+     * The used sprite for the Spring.
+     */
+    private static ISprite usedSprite;
+
+    /**
      * Trampoline constructor.
      *
      * @param sL - The Games service locator.
@@ -35,6 +44,10 @@ import java.util.logging.Handler;
      */
     /* package */ Spring(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getSpringSprite(), Spring.class);
+
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        Spring.defaultSprite = spriteFactory.getSpringSprite();
+        Spring.usedSprite = spriteFactory.getSpringUsedSprite();
     }
 
     /**
@@ -77,22 +90,17 @@ import java.util.logging.Handler;
      */
     private void animate() {
         int oldHeight = getSprite().getHeight();
-
-        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
-        ISprite newSprite = spriteFactory.getSpringUsedSprite();
-        ISprite oldSprite = this.getSprite();
-
-        int newHeight = newSprite.getHeight();
+        int newHeight = Spring.usedSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
-        this.setSprite(newSprite);
+        this.setSprite(Spring.usedSprite);
 
         Spring self = this;
         new Timer().schedule(new TimerTask() {
             public void run() {
                 self.addYPos(newHeight - oldHeight);
-                self.setSprite(oldSprite);
+                self.setSprite(Spring.defaultSprite);
             }
-        }, RETRACT_SPEED);
+        }, Spring.RETRACT_SPEED);
     }
 
 }

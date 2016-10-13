@@ -26,6 +26,15 @@ import java.util.TimerTask;
     private static final int RETRACT_SPEED = 250;
 
     /**
+     * The default sprite for the Trampoline.
+     */
+    private static ISprite defaultSprite;
+    /**
+     * The used sprite for the Trampoline.
+     */
+    private static ISprite usedSprite;
+
+    /**
      * Trampoline constructor.
      *
      * @param sL - The Games service locator.
@@ -34,6 +43,10 @@ import java.util.TimerTask;
      */
     /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite(), Trampoline.class);
+
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        Trampoline.defaultSprite = spriteFactory.getTrampolineSprite();
+        Trampoline.usedSprite = spriteFactory.getTrampolineUsedSprite();
     }
 
     /**
@@ -76,21 +89,17 @@ import java.util.TimerTask;
      */
     private void animate() {
         int oldHeight = getSprite().getHeight();
-
-        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
-        ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
-        ISprite oldSprite = this.getSprite();
-
-        int newHeight = newSprite.getHeight();
+        int newHeight = Trampoline.usedSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
+        this.setSprite(Trampoline.usedSprite);
 
         Trampoline self = this;
         new Timer().schedule(new TimerTask() {
             public void run() {
                 self.addYPos(newHeight - oldHeight);
-                self.setSprite(oldSprite);
+                self.setSprite(Trampoline.defaultSprite);
             }
-        }, RETRACT_SPEED);
+        }, Trampoline.RETRACT_SPEED);
     }
 
 }
