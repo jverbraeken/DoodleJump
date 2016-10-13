@@ -49,7 +49,7 @@ public final class Mission {
     public void render(int number) {
         assert number >= 0 && number < 3;
         serviceLocator.getRenderer().drawSpriteHUD(serviceLocator.getSpriteFactory().getAchievementSprite(), 0, MESSAGE_OFFSET + number * MESSAGE_SPACE_BETWEEN);
-        serviceLocator.getRenderer().drawTextHUD(serviceLocator.getConstants().getGameWidth() / 2, MESSAGE_OFFSET + number * MESSAGE_SPACE_BETWEEN, this.message);
+        serviceLocator.getRenderer().drawTextHUD(serviceLocator.getConstants().getGameWidth() / 2, MESSAGE_OFFSET + number * MESSAGE_SPACE_BETWEEN + MESSAGE_TEXT_OFFSET, this.message);
     }
 
     /* package */ void alertStartOver() {

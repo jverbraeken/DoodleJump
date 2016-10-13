@@ -10,11 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.Callable;
 
 /**
  * Standard implementation of the ProgressionManager. Used to contain all "global" variables that describe
@@ -43,14 +40,18 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private final List<HighScore> highScores = new ArrayList<>(MAX_HIGHSCORE_ENTRIES + 1);
     /**
-     * The amount of coins the player has.
-     */
-    private int coins;
-    /**
      * Contains the current missions of the player. Note that this is a list instead of a set, because we don't
      * want the missios to be drawn in another order every time the screen refreshes.
      */
     private final List<Mission> missions = new ArrayList<>();
+    /**
+     * The amount of coins the player has.
+     */
+    private int coins;
+    /**
+     * Incremented by 1 after every mission; used to determine which mission should be created.
+     */
+    private int level = 0;
 
     /**
      * Prevents construction from outside the package.
@@ -149,6 +150,7 @@ public final class ProgressionManager implements IProgressionManager {
             logger.warning(error);
             throw new InternalError(error);
         }
+        logger.info("Mission succeeded!");
         missions.remove(mission);
         createNewMission();
     }
@@ -224,6 +226,7 @@ public final class ProgressionManager implements IProgressionManager {
 
     /**
      * Sets the progression in the game from a json string.
+     *
      * @param json The json containing the progression
      */
     private void progressionFromJson(SaveFile json) {
@@ -303,10 +306,23 @@ public final class ProgressionManager implements IProgressionManager {
         saveData();
     }
 
+    /**
+     * Create a new missio based on the {@link #level} of the doodle.
+     */
     private void createNewMission() {
-        missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
-            logger.info("Mission succeeded!");
-            return null;
-        }));
+        switch (level) {
+            case 0:
+                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> null));
+                break;
+            case 1:
+                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(2, () -> null));
+                break;
+            case 2:
+                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(3, () -> null));
+                break;
+            case 3:
+                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(4, () -> null));
+                break;
+        }
     }
 }

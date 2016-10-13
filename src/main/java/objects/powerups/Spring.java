@@ -3,6 +3,7 @@ package objects.powerups;
 import objects.doodles.IDoodle;
 import progression.IPowerupObserver;
 import progression.ISpringUsedObserver;
+import progression.ProgressionObservers;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -44,7 +45,7 @@ import system.IServiceLocator;
     public double getBoost() {
         this.animate();
         this.playSound();
-        getServiceLocator().getProgressionManager().alertObservers(ISpringUsedObserver.class);
+        getServiceLocator().getProgressionManager().alertObservers(ProgressionObservers.spring);
 
         return Spring.BOOST;
     }

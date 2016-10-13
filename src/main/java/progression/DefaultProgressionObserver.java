@@ -19,16 +19,30 @@ public class DefaultProgressionObserver implements
 {
     private final int times;
     private final Callable<Void> action;
-    private double counter = 0d;
+    private double counter;
     private Mission mission;
+
+    /* package */ DefaultProgressionObserver(final int times) {
+        this.times = times;
+        this.action = () -> null;
+        this.counter = 0d;
+    }
+
+    /* package */ DefaultProgressionObserver(final int times, final int counter) {
+        this.times = times;
+        this.action = () -> null;
+        this.counter = counter;
+    }
 
     /* package */ DefaultProgressionObserver(final int times, final Callable<Void> action) {
         this.times = times;
         this.action = action;
+        this.counter = 0d;
     }
 
-    /* package */ DefaultProgressionObserver(final int times, final Callable<Void> action, int counter) {
-        this(times, action);
+    /* package */ DefaultProgressionObserver(final int times, final Callable<Void> action, final int counter) {
+        this.times = times;
+        this.action = action;
         this.counter = counter;
     }
 
@@ -38,9 +52,7 @@ public class DefaultProgressionObserver implements
     @Override
     public void alert() {
         counter++;
-        if (counter >= times) {
-            mission.alertFinished();
-        }
+        checkFinished();
     }
 
     /**
@@ -48,10 +60,8 @@ public class DefaultProgressionObserver implements
      */
     @Override
     public void alert(final double amount) {
-        counter++;
-        if (counter >= times) {
-            mission.alertFinished();
-        }
+        counter += amount;
+        checkFinished();
     }
 
     /**
@@ -76,5 +86,18 @@ public class DefaultProgressionObserver implements
     @Override
     public void setMission(final Mission mission) {
         this.mission = mission;
+    }
+
+    private void checkFinished() {
+        if (counter >= times) {
+            try {
+                action.call();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (mission != null) {
+                mission.alertFinished();
+            }
+        }
     }
 }
