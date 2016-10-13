@@ -417,8 +417,9 @@ public final class SpriteFactory implements ISpriteFactory {
                 return getSprite(IRes.Sprites.eight);
             case 9:
                 return getSprite(IRes.Sprites.nine);
+            default:
+                throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
         }
-        return null;
     }
 
 
