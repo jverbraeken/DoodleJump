@@ -177,10 +177,10 @@ public class World implements IScene {
     @Override
     public final void update(final double delta) {
         updateObjects(delta);
-        updateDoodles(delta);
         updateCamera(delta);
         cleanUp();
         newBlocks();
+        this.doodles.forEach(this::checkCollisions);
     }
 
     /**
@@ -198,7 +198,7 @@ public class World implements IScene {
      *
      * @param doodle The Doodle to add.
      */
-    /* package */ void addDoodle(final IDoodle doodle) {
+    /* package */ final void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
         this.updatables.add(doodle);
 
@@ -219,14 +219,14 @@ public class World implements IScene {
     }
 
     /**
-     * Check the collisions in the World.
+     * Update the camera for the world.
      */
     private void updateCamera(final double delta) {
         ICamera camera = serviceLocator.getRenderer().getCamera();
 
-        if (this.doodles.size() > 1) {
+        if (this.doodles.size() > 1) { // Multi player
             camera.setYPos(camera.getYPos() - 3);
-        } else {
+        } else { // Single player
             IDoodle doodle = this.doodles.get(0);
             double CAMERA_POS = 3 / 7d;
             final int height = serviceLocator.getConstants().getGameHeight();
@@ -237,19 +237,11 @@ public class World implements IScene {
             }
         }
     }
-    /**
-     * Check the collisions in the World.
-     */
-    private void updateDoodles(final double delta) {
-        for (IDoodle doodle : this.doodles) {
-            this.checkCollisions(doodle);
-        }
-    }
 
     /**
      * Check the collisions in the World for a specific Doodle.
      *
-     * @param doodle The Doodle of interest.
+     * @param doodle The Doodle to check the collisions for.
      */
     private void checkCollisions(final IDoodle doodle) {
         if (doodle.getVerticalSpeed() <= 0) {

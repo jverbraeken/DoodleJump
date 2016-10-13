@@ -1,5 +1,6 @@
 package objects.doodles;
 
+import constants.IConstants;
 import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
@@ -238,6 +239,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.wrap();
         this.checkDeadPosition();
         this.getPowerup().update(delta);
+        this.updateScore();
     }
 
     /**
@@ -344,6 +346,16 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-
+    /**
+     * Update the score for the Doodle.
+     */
+    private void updateScore() {
+        IConstants constants = getServiceLocator().getConstants();
+        double effectiveYPos = this.getYPos() - constants.getGameHeight();
+        double newScore = -1 * effectiveYPos * constants.getScoreMultiplier();
+        if (newScore > this.score) {
+            this.score = newScore;
+        }
+    }
 
 }

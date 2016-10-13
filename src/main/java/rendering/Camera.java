@@ -12,7 +12,6 @@ import com.google.common.util.concurrent.AtomicDouble;
      */
     private static AtomicDouble y = new AtomicDouble(0d);
 
-
     /**
      * Package constructor to prevent instantiation from outside the package.
      */
