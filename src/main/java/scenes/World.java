@@ -225,7 +225,7 @@ public class World implements IScene {
         ICamera camera = serviceLocator.getRenderer().getCamera();
 
         if (this.doodles.size() > 1) {
-            //
+            camera.setYPos(camera.getYPos() - 3);
         } else {
             IDoodle doodle = this.doodles.get(0);
             double CAMERA_POS = 3 / 7d;
