@@ -33,10 +33,10 @@ public final class ButtonFactory implements IButtonFactory {
     }
 
     /**
-     * The synchronized getter of the singleton buttonfactory.
+     * The synchronized getter of the singleton buttonFactory.
      * @return the button factory
      */
-    public static synchronized IButtonFactory getButtonFactory() {
+    private static synchronized IButtonFactory getButtonFactory() {
         if (buttonFactory == null) {
            buttonFactory = new ButtonFactory();
         }

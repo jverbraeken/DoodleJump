@@ -116,6 +116,20 @@ public interface IRes {
         shield,
         sizeUp,
         sizeDown,
+        // Passive
+        jetpack0,
+        jetpack1,
+        jetpack2,
+        jetpack3,
+        jetpack4,
+        jetpack5,
+        jetpack6,
+        jetpack7,
+        jetpack8,
+        jetpack9,
+        propeller0,
+        propeller1,
+        propeller2,
 
         // Score screen
         scoreScreenBottom,

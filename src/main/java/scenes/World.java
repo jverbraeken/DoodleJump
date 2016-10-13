@@ -90,9 +90,17 @@ public class World implements IScene {
      */
     private final List<Set<IRenderable>> drawables = new ArrayList<>();
     /**
+     * A set of drawables that should be added next time the World is rendered.
+     */
+    private final Set<IRenderable> newDrawables = new HashSet<>();
+    /**
      * List of game objects that should be updated every frame.
      */
     private final Set<IUpdatable> updatables = Collections.newSetFromMap(new WeakHashMap<>());
+    /**
+     * A set of drawables that should be added next time the World is rendered.
+     */
+    private final ArrayList<IUpdatable> newUpdatables = new ArrayList<>();
     /**
      * The background of the world.
      */
@@ -181,6 +189,9 @@ public class World implements IScene {
     public final void render() {
         serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
 
+        drawables.add(newDrawables);
+        newDrawables.removeAll(newDrawables);
+
         for (Set<IRenderable> set : drawables) {
             set.forEach(IRenderable::render);
         }
@@ -191,11 +202,31 @@ public class World implements IScene {
      */
     @Override
     public final void update(final double delta) {
+        this.updatables.addAll(this.newUpdatables);
+
         updateObjects(delta);
         updateCamera(delta);
         cleanUp();
         newBlocks();
         this.doodles.forEach(this::checkCollisions);
+    }
+
+    /**
+     * Add a new drawable element to the World.
+     *
+     * @param renderable An object implementing the IRenderable interface.
+     */
+    public final void addDrawable(final IRenderable renderable) {
+        newDrawables.add(renderable);
+    }
+
+    /**
+     * Add a new updatable element to the World.
+     *
+     * @param updatable An object implementing the IUpdatable interface.
+     */
+    public final void addUpdatable(final IUpdatable updatable) {
+        newUpdatables.add(updatable);
     }
 
     /**
