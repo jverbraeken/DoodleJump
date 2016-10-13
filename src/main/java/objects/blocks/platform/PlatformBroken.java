@@ -33,17 +33,17 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      */
     @Override
     public void render() {
-        double xPos = this.getXPos();
-        double yPos = this.getYPos();
+        int xPos = (int) this.getXPos();
+        int yPos = (int) this.getYPos();
 
         int breaks = (int) getProps().get(Platform.PlatformProperties.breaks);
         if (breaks == 1) {
-            getServiceLocator().getRenderer().drawSprite(getSprite(), (int) xPos, (int) yPos);
+            getServiceLocator().getRenderer().drawSprite(getSprite(), xPos, yPos);
         } else if (breaks <= 4 && breaks > 1) {
-            getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), (int) xPos, (int) yPos);
+            getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), xPos, yPos);
         } else if (breaks == -1) {
             applyGravity();
-            getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), (int) xPos, (int) yPos);
+            getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), xPos, yPos);
         } else {
             getContained().render();
         }
@@ -57,17 +57,22 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      * @return the sprite belonging to this animation phase
      */
     private ISprite getBrokenSprite(final int numberOfAnimation) {
-        if (numberOfAnimation == 2) {
-            getProps().replace(Platform.PlatformProperties.breaks, 3);
-            return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite2();
-        } else if (numberOfAnimation == 3) {
-            getProps().replace(Platform.PlatformProperties.breaks, 4);
-            return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite3();
-        } else if (numberOfAnimation == 4 || numberOfAnimation == -1) {
-            getProps().replace(Platform.PlatformProperties.breaks, -1);
-            return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite4();
-        } else {
-            return getSprite();
+
+        switch (numberOfAnimation) {
+            case (2):
+                getProps().replace(Platform.PlatformProperties.breaks, 3);
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite2();
+            case (3):
+                getProps().replace(Platform.PlatformProperties.breaks, 4);
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite3();
+            case (4):
+                getProps().replace(Platform.PlatformProperties.breaks, -1);
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite4();
+            case (-1):
+                getProps().replace(Platform.PlatformProperties.breaks, -1);
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite4();
+            default:
+                return getSprite();
         }
     }
 
