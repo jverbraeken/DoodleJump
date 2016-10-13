@@ -1,6 +1,5 @@
 package objects.blocks.platform;
 
-import objects.blocks.BlockFactory;
 import system.IServiceLocator;
 
 /**
@@ -54,9 +53,7 @@ public final class PlatformVertical extends PlatformDecorator implements IPlatfo
         final double xPos = this.getXPos();
         final double yPos = this.getYPos();
 
-        if (BlockFactory.isSpecialPlatform(this)) {
-            updateEnums(xPos, yPos);
-        }
+        updateEnums(xPos, yPos);
 
         if (getProps().containsKey(Platform.PlatformProperties.movingVertically)) {
 
