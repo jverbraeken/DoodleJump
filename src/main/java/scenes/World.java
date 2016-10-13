@@ -8,6 +8,7 @@ import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
+import rendering.ICamera;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -64,7 +65,7 @@ public class World implements IScene {
     /**
      * The Doodle for the world.
      */
-    private final Set<IDoodle> doodles = new HashSet<>();
+    private final List<IDoodle> doodles = new ArrayList<>();
     /**
      * <p>Drawables consists of 3 sets, although this can be easily changed. The first set contains the
      * {@link IRenderable renderables} that will be drawn first (eg platforms), the second set contains the
@@ -176,7 +177,8 @@ public class World implements IScene {
     @Override
     public final void update(final double delta) {
         updateObjects(delta);
-        checkCollisions();
+        updateDoodles(delta);
+        updateCamera(delta);
         cleanUp();
         newBlocks();
     }
@@ -196,7 +198,7 @@ public class World implements IScene {
      *
      * @param doodle The Doodle to add.
      */
-    /* package */ final void addDoodle(final IDoodle doodle) {
+    /* package */ void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
         this.updatables.add(doodle);
 
@@ -219,9 +221,28 @@ public class World implements IScene {
     /**
      * Check the collisions in the World.
      */
-    private void checkCollisions() {
+    private void updateCamera(final double delta) {
+        ICamera camera = serviceLocator.getRenderer().getCamera();
+
+        if (this.doodles.size() > 1) {
+            //
+        } else {
+            IDoodle doodle = this.doodles.get(0);
+            double CAMERA_POS = 3 / 7d;
+            final int height = serviceLocator.getConstants().getGameHeight();
+
+            final double yThreshold = camera.getYPos() + height * CAMERA_POS;
+            if (doodle.getYPos() < yThreshold) {
+                camera.setYPos(doodle.getYPos() - height * CAMERA_POS);
+            }
+        }
+    }
+    /**
+     * Check the collisions in the World.
+     */
+    private void updateDoodles(final double delta) {
         for (IDoodle doodle : this.doodles) {
-            this.checkCollisionsForDoodle(doodle);
+            this.checkCollisions(doodle);
         }
     }
 
@@ -230,7 +251,7 @@ public class World implements IScene {
      *
      * @param doodle The Doodle of interest.
      */
-    private void checkCollisionsForDoodle(final IDoodle doodle) {
+    private void checkCollisions(final IDoodle doodle) {
         if (doodle.getVerticalSpeed() <= 0) {
             return;
         }

@@ -24,10 +24,6 @@ import system.IServiceLocator;
 public class Doodle extends AGameObject implements IDoodle {
 
     /**
-     * The relative center of the camera on the y axis.
-     */
-    private static final double CAMERA_POS = 3 / 7d;
-    /**
      * The ratio of Doodle to offset the frame size vs panel size.
      */
     private static final double DEAD_OFFSET = 1.5d;
@@ -240,7 +236,6 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void update(final double delta) {
         this.applyMovementBehavior(delta);
         this.wrap();
-        this.checkHighPosition();
         this.checkDeadPosition();
         this.getPowerup().update(delta);
     }
@@ -302,20 +297,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void applyMovementBehavior(final double delta) {
         behavior.move(delta);
-    }
-
-    /**
-     * Check the height position of the Doodle.
-     */
-    private void checkHighPosition() {
-        ICamera camera = getServiceLocator().getRenderer().getCamera();
-        final int height = getServiceLocator().getConstants().getGameHeight();
-
-        final double yThreshold = camera.getYPos() + height * CAMERA_POS;
-        if (getYPos() < yThreshold) {
-            score += (yThreshold - getYPos()) * getServiceLocator().getConstants().getScoreMultiplier();
-            camera.setYPos(getYPos() - height * CAMERA_POS);
-        }
     }
 
     /**
