@@ -23,4 +23,14 @@ public interface IProgressionManager {
      * @return A list containing the highscores of the player.
      */
     List<HighScore> getHighscores();
+
+    /**
+     * @return The amount of coins the player has.
+     */
+    int getCoins();
+
+    /**
+     * @return A list containing the active missions.
+     */
+    List<Mission> getMissions();
 }

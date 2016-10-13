@@ -4,6 +4,7 @@ import buttons.IButton;
 import buttons.IButtonFactory;
 import input.IMouseInputObserver;
 import logging.ILogger;
+import progression.Mission;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -33,10 +34,6 @@ import system.IServiceLocator;
      * The background sprite.
      */
     private ISprite background;
-    /**
-     * Is the pause scene active, should it be displayed.
-     */
-    private boolean active = false;
 
     /**
      * Initialize the pause screen.
@@ -63,7 +60,6 @@ import system.IServiceLocator;
     @Override
     public void start() {
         serviceLocator.getInputManager().addObserver(resumeButton);
-        this.active = true;
         logger.info("The pause scene is now displaying");
     }
 
@@ -73,7 +69,6 @@ import system.IServiceLocator;
     @Override
     public void stop() {
         serviceLocator.getInputManager().removeObserver(resumeButton);
-        this.active = false;
         logger.info("The pause scene is no longer displaying");
     }
 
@@ -82,9 +77,10 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        if (this.active) {
-            serviceLocator.getRenderer().drawSpriteHUD(background, 0, 0);
-            resumeButton.render();
+        serviceLocator.getRenderer().drawSpriteHUD(background, 0, 0);
+        resumeButton.render();
+        for (Mission mission : serviceLocator.getProgressionManager().getMissions()) {
+            mission.render(0);
         }
     }
 

@@ -14,15 +14,17 @@ public final class Mission {
     private final int times;
     private final IProgressionObserver observer;
     private final IServiceLocator serviceLocator;
+    private final String message;
 
     /**
      * Prevents instantiation from outside the package.
      */
-    /* package */ Mission(final IServiceLocator serviceLocator, final MissionType type, final int times, final IProgressionObserver observer) {
+    /* package */ Mission(final IServiceLocator serviceLocator, final MissionType type, final int times, final IProgressionObserver observer, final String message) {
         this.serviceLocator = serviceLocator;
         this.type = type;
         this.times = times;
         this.observer = observer;
+        this.message = message;
     }
 
     public MissionType getType() {
@@ -46,5 +48,6 @@ public final class Mission {
     public void render(int number) {
         assert number >= 0 && number < 3;
         serviceLocator.getRenderer().drawSprite(serviceLocator.getSpriteFactory().getAchievementSprite(), 0, 100);
+        System.out.println(message);
     }
 }

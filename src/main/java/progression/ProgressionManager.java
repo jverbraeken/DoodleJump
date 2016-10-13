@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 /**
  * Standard implementation of the ProgressionManager. Used to contain all "global" variables that describe
@@ -46,9 +47,10 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private int coins;
     /**
-     * Contains the missions that are currently active.
+     * Contains the current missions of the player. Note that this is a list instead of a set, because we don't
+     * want the missios to be drawn in another order every time the screen refreshes.
      */
-    private final Set<Mission> missions = new HashSet<>();
+    private final List<Mission> missions = new ArrayList<>();
 
     /**
      * Prevents construction from outside the package.
@@ -95,6 +97,22 @@ public final class ProgressionManager implements IProgressionManager {
     @Override
     public List<HighScore> getHighscores() {
         return highScores;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getCoins() {
+        return coins;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Mission> getMissions() {
+        return missions;
     }
 
     /**
@@ -158,6 +176,22 @@ public final class ProgressionManager implements IProgressionManager {
         coins = 0;
 
         highScores.clear();
+
+        missions.add(0, serviceLocator.getMissionFactory().createMissionJumpOnSpring(5, () -> {
+            logger.info("Mission succeeded!");
+            return null;
+        }));
+
+        missions.add(1, serviceLocator.getMissionFactory().createMissionJumpOnSpring(5, () -> {
+            logger.info("Mission succeeded!");
+            return null;
+        }));
+
+        missions.add(2, serviceLocator.getMissionFactory().createMissionJumpOnSpring(5, () -> {
+            logger.info("Mission succeeded!");
+            return null;
+        }));
+
         saveData();
     }
 
