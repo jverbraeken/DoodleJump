@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Standard implementation of the ProgressionManager. Used to contain all "global" variables that describe
@@ -43,6 +45,10 @@ public final class ProgressionManager implements IProgressionManager {
      * The amount of coins the player has.
      */
     private int coins;
+    /**
+     * Contains the missions that are currently active.
+     */
+    private final Set<Mission> missions = new HashSet<>();
 
     /**
      * Prevents construction from outside the package.

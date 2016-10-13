@@ -198,4 +198,8 @@ public interface ISpriteFactory extends IFactory {
      */
     ISprite getDigitSprite(int digit);
 
+    // Missions
+
+    ISprite getAchievementSprite();
+
 }

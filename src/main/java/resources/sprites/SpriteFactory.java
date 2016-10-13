@@ -816,6 +816,16 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.spaceMode);
     }
 
+    // Missions
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getAchievementSprite() {
+        return getSprite(IRes.Sprites.achievement);
+    }
+
     // Miscellaneous
 
     /**

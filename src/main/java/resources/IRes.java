@@ -141,6 +141,10 @@ public interface IRes {
         spaceMode,
         storyMode,
 
+        // Missions
+
+        achievement,
+
         // Unimplemented
         unimplemented
     }

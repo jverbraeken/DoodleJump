@@ -5,15 +5,7 @@ import java.util.List;
 /**
  * Defines a progression manager.
  */
-public interface IProgressionManager extends
-        IHeightObserver,
-        IJetpackUsedObserver,
-        IPropellerUsedObserver,
-        ISizeDownUsedObserver,
-        ISizeUpUserObserver,
-        ISpringUsedObserver,
-        ISpringShoesUsedObserver,
-        ITrampolineJumpedObserver {
+public interface IProgressionManager {
 
     /**
      * Initializes the progression manager. Normally the progression will be loaded from the disk in this method.

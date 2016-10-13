@@ -22,7 +22,9 @@ import objects.enemies.EnemyBuilder;
 import objects.enemies.IEnemyBuilder;
 import objects.powerups.IPowerupFactory;
 import objects.powerups.PowerupFactory;
+import progression.IMissionFactory;
 import progression.IProgressionManager;
+import progression.MissionFactory;
 import progression.ProgressionManager;
 import rendering.IRenderer;
 import rendering.Renderer;
@@ -63,6 +65,7 @@ import scenes.SceneFactory;
     private ILoggerFactory loggerFactory;
     // progression
     private IProgressionManager progressionManager;
+    private IMissionFactory missionFactory;
     // objects
     private IPowerupFactory powerupFactory;
     private IDoodleFactory doodleFactory;
@@ -249,6 +252,15 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
+    public void provide(final IMissionFactory missionFactory) {
+        assert missionFactory != null;
+        this.missionFactory = missionFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IAudioManager getAudioManager() {
         assert audioManager != null;
         return audioManager;
@@ -399,6 +411,16 @@ import scenes.SceneFactory;
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IMissionFactory getMissionFactory() {
+        assert missionFactory != null;
+        return missionFactory;
+    }
+
+
+    /**
      * Initialize the ServiceLocator.
      */
     private void init() {
@@ -420,6 +442,7 @@ import scenes.SceneFactory;
         PlatformFactory.register(this);
         ButtonFactory.register(this);
         ProgressionManager.register(this);
+        MissionFactory.register(this);
     }
 
 }
