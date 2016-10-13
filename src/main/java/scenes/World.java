@@ -49,6 +49,14 @@ public class World implements IScene {
      * Maximum amount of drawables.
      */
     private static final int MAX_DRAWABLES = 3;
+    /**
+     * The acceleration for the camera in arcade mode.
+     */
+    private static final double CAMERA_ACCELERATION = 0.00001d;
+    /**
+     * The initial speed for the camera in arcade mode.
+     */
+    private static final double CAMERA_INITIAL_SPEED = 3d;
 
     /**
      * Used to access all services.
@@ -93,6 +101,10 @@ public class World implements IScene {
      * The highest (and thus latest) created block.
      */
     private IBlock topBlock;
+    /**
+     * The speed of the camera (only relevant in arcade mode).
+     */
+    private double cameraSpeed = CAMERA_INITIAL_SPEED;
 
     /**
      * Package visible constructor so a World can only be created via the SceneFactory.
@@ -220,18 +232,20 @@ public class World implements IScene {
 
     /**
      * Update the camera for the world.
+     *
+     * @param delta The delta time since the previous update.
      */
     private void updateCamera(final double delta) {
         ICamera camera = serviceLocator.getRenderer().getCamera();
 
         if (this.doodles.size() > 1) { // Multi player
-            camera.setYPos(camera.getYPos() - 3);
+            cameraSpeed += CAMERA_ACCELERATION;
+            camera.setYPos(camera.getYPos() - cameraSpeed);
         } else { // Single player
             IDoodle doodle = this.doodles.get(0);
             double CAMERA_POS = 3 / 7d;
-            final int height = serviceLocator.getConstants().getGameHeight();
-
-            final double yThreshold = camera.getYPos() + height * CAMERA_POS;
+            int height = serviceLocator.getConstants().getGameHeight();
+            double yThreshold = camera.getYPos() + height * CAMERA_POS;
             if (doodle.getYPos() < yThreshold) {
                 camera.setYPos(doodle.getYPos() - height * CAMERA_POS);
             }
