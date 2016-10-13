@@ -11,25 +11,24 @@ import java.util.Random;
 public final class Calc implements ICalc {
 
     /**
+     * Random generator.
+     */
+    private static final Random RANDOM = new Random();
+    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
-
     /**
      * The singleton Calc.
      * Created using double locking.
      */
-    private volatile static ICalc calc;
-
-    /**
-     * Random generator.
-     */
-    private static final Random RANDOM = new Random();
+    private static volatile ICalc calc;
 
     /**
      * Prevents instantiation from outside the class.
      */
-    private Calc() { }
+    private Calc() {
+    }
 
     /**
      * Register the FileSystem into the service locator.
@@ -45,6 +44,7 @@ public final class Calc implements ICalc {
     /**
      * Return the singleton calc.
      * Done using double locking.
+     *
      * @return the singleton calc
      */
     public static ICalc getCalc() {
@@ -58,7 +58,9 @@ public final class Calc implements ICalc {
         return calc;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getRandomIntBetween(final int lower, final int upper) {
         if (upper < lower) {
@@ -70,7 +72,9 @@ public final class Calc implements ICalc {
         return RANDOM.nextInt(upper - lower) + lower + 1;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double getRandomDouble(final double max) {
         if (max <= 0) {

@@ -3,7 +3,6 @@ package objects.blocks.platform;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.doodles.IDoodle;
-import resources.sprites.ISprite;
 
 import java.util.Map;
 
@@ -53,16 +52,16 @@ public interface IPlatform extends IGameObject, IJumpable {
     Map<Platform.Directions, Integer> getDirections();
 
     /**
-     * Sets the variable offSet to the parameter given.
-     *
-     * @param offSet the offSet that this.offSet has to be set to.
-     */
-    void setOffset(int offSet);
-
-    /**
      * Returns the offSet of the platform.
      *
      * @return the offSet of the platform.
      */
     int getOffset();
+
+    /**
+     * Sets the variable offSet to the parameter given.
+     *
+     * @param offSet the offSet that this.offSet has to be set to.
+     */
+    void setOffset(int offSet);
 }

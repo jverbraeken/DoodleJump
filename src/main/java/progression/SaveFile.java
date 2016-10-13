@@ -28,7 +28,7 @@ public final class SaveFile {
     private Map<String, Integer> powerupLevels;
 
     /**
-     * Construct a new save file
+     * Construct a new save file.
      */
     public SaveFile() {
 

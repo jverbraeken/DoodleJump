@@ -417,6 +417,8 @@ public final class SpriteFactory implements ISpriteFactory {
                 return getSprite(IRes.Sprites.eight);
             case 9:
                 return getSprite(IRes.Sprites.nine);
+            default:
+                logger.error("Internal error: trying to get a digit that's not between 0 and 9...");
         }
         return null;
     }

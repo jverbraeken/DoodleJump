@@ -1,7 +1,5 @@
 package objects.powerups;
 
-import objects.AGameObject;
-import objects.IJumpable;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -22,8 +20,8 @@ import system.IServiceLocator;
      * Trampoline constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the trampoline.
-     * @param y - The Y location for the trampoline.
+     * @param x  - The X location for the trampoline.
+     * @param y  - The Y location for the trampoline.
      */
     /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite(), Trampoline.class);
