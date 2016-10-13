@@ -75,7 +75,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         if (this.owner != null) {
             this.updateOwned();
         } else if (this.timer > 0) {

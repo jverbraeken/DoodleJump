@@ -34,6 +34,34 @@ import system.IServiceLocator;
      * The horizontal speed for a Jetpack.
      */
     private static final double HORIZONTAL_SPEED = 1.2d;
+    /**
+     * Percentage for the initial phase of the Jetpack animation.
+     */
+    private static final double ANIMATION_PHASE_ONE = 0.15;
+    /**
+     * Percentage for the second phase of the Jetpack animation.
+     */
+    private static final double ANIMATION_PHASE_TWO = 0.8;
+    /**
+     * Percentage for the third phase of the Jetpack animation.
+     */
+    private static final double ANIMATION_PHASE_THREE = 1;
+    /**
+     * Offset for the initial phase of the Jetpack animation.
+     */
+    private static final int ANIMATION_OFFSET_ONE = 0;
+    /**
+     * Offset for the second phase of the Jetpack animation.
+     */
+    private static final int ANIMATION_OFFSET_TWO = 3;
+    /**
+     * Offset for the third phase of the Jetpack animation.
+     */
+    private static final int ANIMATION_OFFSET_THREE = 6;
+    /**
+     * Y offset for drawing the Jetpack when on Doodle.
+     */
+    private static final int OWNED_Y_OFFSET = 35;
 
     /**
      * The sprites for an active rocket.
@@ -125,15 +153,15 @@ import system.IServiceLocator;
 
         if (this.timer % ANIMATION_REFRESH_RATE == 0) {
             double percentage = (double) timer / (double) MAX_TIMER;
-            int offset = 0;
-            if (percentage > 0.15 && percentage < 0.8) {
-                offset = 3;
-            } else if (percentage < 1) {
-                offset = 6;
+            int offset = ANIMATION_OFFSET_ONE;
+            if (percentage > ANIMATION_PHASE_ONE && percentage < ANIMATION_PHASE_TWO) {
+                offset = ANIMATION_OFFSET_TWO;
+            } else if (percentage < ANIMATION_PHASE_THREE) {
+                offset = ANIMATION_OFFSET_THREE;
             }
-            
-            this.spriteIndex = (spriteIndex + 1) % 3;
-            this.setSprite(Jetpack.spritePack[offset + this.spriteIndex]);
+
+            this.spriteIndex = offset + ((spriteIndex + 1) % ANIMATION_REFRESH_RATE);
+            this.setSprite(Jetpack.spritePack[this.spriteIndex]);
         }
 
         if (this.owner != null) {
@@ -143,7 +171,7 @@ import system.IServiceLocator;
             } else {
                 this.setXPos((int) this.owner.getXPos());
             }
-            this.setYPos((int) this.owner.getYPos() + (this.getSprite().getHeight() / 2 / 2));
+            this.setYPos((int) this.owner.getYPos() + OWNED_Y_OFFSET);
         }
     }
 
@@ -167,7 +195,7 @@ import system.IServiceLocator;
      * Ends the powerup.
      */
     private void endPowerup() {
-        this.setSprite(getServiceLocator().getSpriteFactory().getJetpackActiveSprites()[8]);
+        this.setSprite(spritePack[spritePack.length - 1]);
         this.vSpeed = INITIAL_DROP_SPEED;
 
         this.owner.removePowerup(this);
