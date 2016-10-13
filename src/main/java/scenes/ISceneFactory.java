@@ -12,7 +12,7 @@ public interface ISceneFactory extends IFactory {
      *
      * @return An IScene of the kill screen.
      */
-    IScene createKillScreen();
+    IScene createKillScreen(final String gameType);
 
     /**
      * Create a new main menu.

@@ -51,9 +51,9 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
-    public IScene createKillScreen() {
+    public IScene createKillScreen(final String gameType) {
         logger.info("A new KillScreen has been created");
-        return new KillScreen(serviceLocator);
+        return new KillScreen(serviceLocator, gameType);
     }
 
     /**
@@ -80,7 +80,7 @@ public final class SceneFactory implements ISceneFactory {
     @Override
     public World createSinglePlayerWorld() {
         logger.info("A new World has been created");
-        World world = new World(serviceLocator);
+        World world = new World(serviceLocator, "single");
 
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         IDoodle doodle = doodleFactory.createDoodle(world);
@@ -95,7 +95,7 @@ public final class SceneFactory implements ISceneFactory {
     @Override
     public World createTwoPlayerWorld() {
         logger.info("A new TwoPlayerWorld has been created");
-        World world = new World(serviceLocator);
+        World world = new World(serviceLocator, "multi");
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
 
         IDoodle doodle1 = doodleFactory.createDoodle(world);

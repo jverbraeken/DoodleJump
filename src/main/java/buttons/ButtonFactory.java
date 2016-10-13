@@ -84,11 +84,17 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createPlayAgainButton(final int x, final int y) {
+    public IButton createPlayAgainButton(final int x, final int y, final String gameType) {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayAgainButtonSprite();
-        Runnable playAgainAction = () -> Game.setScene(serviceLocator.getSceneFactory().createSinglePlayerWorld());
+        Runnable playAgainAction = () -> {
+            if (gameType == "single") {
+                Game.setScene(serviceLocator.getSceneFactory().createSinglePlayerWorld());
+            } else {
+                Game.setScene(serviceLocator.getSceneFactory().createTwoPlayerWorld());
+            }
+        };
         return new Button(serviceLocator, x, y, buttonSprite, playAgainAction, "playAgain");
     }
 

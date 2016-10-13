@@ -109,13 +109,17 @@ public class World implements IScene {
      * The speed of the camera (only relevant in arcade mode).
      */
     private double cameraSpeed = CAMERA_INITIAL_SPEED;
+    /**
+     *
+     */
+    private String gameType;
 
     /**
      * Package visible constructor so a World can only be created via the SceneFactory.
      *
      * @param sL The service locator.
      */
-    /* package */ World(final IServiceLocator sL) {
+    /* package */ World(final IServiceLocator sL, final String gt) {
         assert sL != null;
         serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(World.class);
@@ -143,6 +147,7 @@ public class World implements IScene {
 
         serviceLocator.getAudioManager().playStart();
 
+        this.gameType = gt;
         this.start();
         logger.info("Level started");
     }
@@ -205,7 +210,7 @@ public class World implements IScene {
      */
     public final void endGameInstance(final double score) {
         Game.HIGH_SCORES.addHighScore("Doodle", score);
-        Game.setScene(serviceLocator.getSceneFactory().createKillScreen());
+        Game.setScene(serviceLocator.getSceneFactory().createKillScreen(this.gameType));
     }
 
     /**
