@@ -4,6 +4,8 @@ import resources.sprites.ISprite;
 import system.IRenderable;
 import system.IServiceLocator;
 
+import java.util.Set;
+
 /**
  * <b>IMMUTABLE</b>
  *
@@ -15,18 +17,18 @@ public final class Mission {
     private static final int MESSAGE_SPACE_BETWEEN = 200;
     private final MissionType type;
     private final int times;
-    private final IProgressionObserver observer;
+    private final IProgressionObserver[] observers;
     private final IServiceLocator serviceLocator;
     private final String message;
 
     /**
      * Prevents instantiation from outside the package.
      */
-    /* package */ Mission(final IServiceLocator serviceLocator, final MissionType type, final int times, final IProgressionObserver observer, final String message) {
+    /* package */ Mission(final IServiceLocator serviceLocator, final MissionType type, final int times, final String message, final IProgressionObserver... observers) {
         this.serviceLocator = serviceLocator;
         this.type = type;
         this.times = times;
-        this.observer = observer;
+        this.observers = observers;
         this.message = message;
     }
 
@@ -36,10 +38,6 @@ public final class Mission {
 
     public int getMaximumTimes() {
         return times;
-    }
-
-    public int getProgression() {
-        return this.observer.getProgression();
     }
 
     /**
@@ -52,5 +50,15 @@ public final class Mission {
         assert number >= 0 && number < 3;
         serviceLocator.getRenderer().drawSpriteHUD(serviceLocator.getSpriteFactory().getAchievementSprite(), 0, MESSAGE_OFFSET + number * MESSAGE_SPACE_BETWEEN);
         serviceLocator.getRenderer().drawTextHUD(serviceLocator.getConstants().getGameWidth() / 2, MESSAGE_OFFSET + number * MESSAGE_SPACE_BETWEEN, this.message);
+    }
+
+    /* package */ void alertStartOver() {
+        for (IProgressionObserver observer : observers) {
+            observer.reset();
+        }
+    }
+
+    /* package */ void alertFinished() {
+        serviceLocator.getProgressionManager().alertMissionFinished(this);
     }
 }

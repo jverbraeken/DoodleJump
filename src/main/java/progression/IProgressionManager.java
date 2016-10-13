@@ -36,17 +36,31 @@ public interface IProgressionManager {
     List<Mission> getMissions();
 
     /**
-     * Alert the observers of a certain type that an action happened.
+     * Add an observer.
      *
-     * @param progressionObserver Indicates which kind of observer should be alerted.
+     * @param observer The observer that should be added
      */
-    void alertObservers(IProgressionObserver progressionObserver);
+    void addObserver(ProgressionObservers type, ISpringUsedObserver observer);
 
     /**
      * Alert the observers of a certain type that an action happened.
      *
-     * @param progressionObserver Indicates which kind of observer should be alerted.
+     * @param type Indicates which kind of observer should be alerted.
+     */
+    void alertObservers(ProgressionObservers type);
+
+    /**
+     * Alert the observers of a certain type that an action happened.
+     *
+     * @param type Indicates which kind of observer should be alerted.
      * @param amount              The amount that changed for the thing that caused the reason to alert the observers.
      */
-    void alertObservers(IProgressionObserver progressionObserver, double amount);
+    void alertObservers(ProgressionObservers type, double amount);
+
+    /**
+     * Let the progression manager know that the mission is finished.
+     *
+     * @param mission The mission that's finished
+     */
+    void alertMissionFinished(Mission mission);
 }

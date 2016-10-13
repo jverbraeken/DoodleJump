@@ -116,6 +116,44 @@ public final class ProgressionManager implements IProgressionManager {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addObserver(final ProgressionObservers type, final ISpringUsedObserver observer) {
+        type.addObserver(observer);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void alertObservers(final ProgressionObservers type) {
+        type.alertObservers();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void alertObservers(final ProgressionObservers type, final double amount) {
+        type.alertObservers(amount);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void alertMissionFinished(Mission mission) {
+        if (!missions.contains(mission)) {
+            final String error = "The mission that's said to be finished is not an active mission";
+            logger.warning(error);
+            throw new InternalError(error);
+        }
+        missions.remove(mission);
+        createNewMission();
+    }
+
+    /**
      * Loads the progression of the player from the disk.
      */
     private void loadData() {
@@ -177,20 +215,9 @@ public final class ProgressionManager implements IProgressionManager {
 
         highScores.clear();
 
-        missions.add(0, serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
-            logger.info("Mission succeeded!");
-            return null;
-        }));
-
-        missions.add(1, serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
-            logger.info("Mission succeeded!");
-            return null;
-        }));
-
-        missions.add(2, serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
-            logger.info("Mission succeeded!");
-            return null;
-        }));
+        for (int i = 0; i < 3; i++) {
+            createNewMission();
+        }
 
         saveData();
     }
@@ -274,5 +301,12 @@ public final class ProgressionManager implements IProgressionManager {
             highScores.remove(i - 1);
         }
         saveData();
+    }
+
+    private void createNewMission() {
+        missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
+            logger.info("Mission succeeded!");
+            return null;
+        }));
     }
 }
