@@ -135,7 +135,6 @@ public class World implements IScene {
 
         this.background = sL.getSpriteFactory().getBackground();
         this.scoreBar = new ScoreBar();
-
         this.drawables.get(2).add(this.scoreBar);
 
         serviceLocator.getAudioManager().playStart();
@@ -213,10 +212,7 @@ public class World implements IScene {
     /* package */ final void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
         this.updatables.add(doodle);
-
-        Set<IRenderable> test = new HashSet<>();
-        test.add(doodle);
-        this.drawables.add(test);
+        this.drawables.get(1).add(doodle);
     }
 
     /**
