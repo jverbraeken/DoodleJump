@@ -87,7 +87,7 @@ import java.util.logging.Handler;
         this.setSprite(newSprite);
 
         Spring self = this;
-        new Timer().schedule(new TimerTask(){
+        new Timer().schedule(new TimerTask() {
             public void run() {
                 self.addYPos(newHeight - oldHeight);
                 self.setSprite(oldSprite);

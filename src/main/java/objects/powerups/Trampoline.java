@@ -8,6 +8,9 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * This class describes the behaviour of the trampoline powerup.
  */
@@ -17,6 +20,10 @@ import system.IServiceLocator;
      * The BOOST value for the Trampoline.
      */
     private static final double BOOST = -50;
+    /**
+     * The speed with which the springs retracts after it is being used.
+     */
+    private static final int RETRACT_SPEED = 250;
 
     /**
      * Trampoline constructor.
@@ -72,9 +79,18 @@ import system.IServiceLocator;
 
         ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
         ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
+        ISprite oldSprite = this.getSprite();
 
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
+
+        Trampoline self = this;
+        new Timer().schedule(new TimerTask() {
+            public void run() {
+                self.addYPos(newHeight - oldHeight);
+                self.setSprite(oldSprite);
+            }
+        }, RETRACT_SPEED);
     }
 
 }
