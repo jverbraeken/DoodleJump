@@ -1,7 +1,6 @@
 package objects.blocks.platform;
 
 import objects.AGameObject;
-import objects.blocks.BlockFactory;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -20,10 +19,6 @@ public class Platform extends AGameObject implements IPlatform {
      */
     private static final double BOOST = -18;
 
-    /**
-     * One third of the game height.
-     */
-    private static double movingDistance;
     /**
      * Current vertical speed for the Doodle.
      */
@@ -92,12 +87,6 @@ public class Platform extends AGameObject implements IPlatform {
     /* package */ Platform(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
         super(sL, x, y, sprite, Platform.class);
 
-        int gameHeight = sL.getConstants().getGameHeight();
-        movingDistance = gameHeight * 0.20;
-
-        directions.put(Directions.up, 1);
-        directions.put(Directions.down, -1);
-
         directions.put(Directions.right, 1);
         directions.put(Directions.left, -1);
     }
@@ -111,22 +100,6 @@ public class Platform extends AGameObject implements IPlatform {
     /** {@inheritDoc} */
     @Override
     public final void update(final double delta) {
-        final double xPos = this.getXPos();
-        final double yPos = this.getYPos();
-
-        if (BlockFactory.isSpecialPlatform(this)) {
-            updateEnums(xPos, yPos);
-        }
-
-        if (props.containsKey(PlatformProperties.movingVertically)) {
-            if (props.get(PlatformProperties.movingVertically).equals(directions.get(Directions.up))) {
-                this.setYPos(yPos - 2);
-                offSet = offSet - 2;
-            } else if (props.get(PlatformProperties.movingVertically).equals(directions.get(Directions.down))) {
-                this.setYPos(yPos + 2);
-                offSet = offSet + 2;
-            }
-        }
     }
 
     /** {@inheritDoc} */
@@ -153,11 +126,6 @@ public class Platform extends AGameObject implements IPlatform {
     /** {@inheritDoc} */
     @Override
     public final void updateEnums(final double xPos, final double yPos) {
-        if (offSet > movingDistance) {
-            this.props.replace(PlatformProperties.movingVertically, 1);
-        } else if (offSet < -movingDistance) {
-            this.props.replace(PlatformProperties.movingVertically, -1);
-        }
     }
 
     /** {@inheritDoc} */
@@ -222,7 +190,7 @@ public class Platform extends AGameObject implements IPlatform {
      * @param numberOfAnimation the phase of the animation
      * @return the sprite belonging to this animation phase
      */
-    private final ISprite getBrokenSprite(final int numberOfAnimation) {
+    private ISprite getBrokenSprite(final int numberOfAnimation) {
         if (numberOfAnimation == 2) {
             props.replace(PlatformProperties.breaks, 3);
             return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite2();
