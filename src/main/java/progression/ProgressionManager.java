@@ -200,6 +200,21 @@ public final class ProgressionManager implements IProgressionManager {
      * @param json The json containing the progression
      */
     private void progressionFromJson(SaveFile json) {
+
+        missions.add(0, serviceLocator.getMissionFactory().createMissionJumpOnSpring(5, () -> {
+            logger.info("Mission succeeded!");
+            return null;
+        }));
+
+        missions.add(1, serviceLocator.getMissionFactory().createMissionJumpOnSpring(5, () -> {
+            logger.info("Mission succeeded!");
+            return null;
+        }));
+
+        missions.add(2, serviceLocator.getMissionFactory().createMissionJumpOnSpring(5, () -> {
+            logger.info("Mission succeeded!");
+            return null;
+        }));
         highScores.clear();
         for (SaveFileHighScoreEntry entry : json.getHighScores()) {
             highScores.add(new HighScore(entry.getName(), entry.getScore()));

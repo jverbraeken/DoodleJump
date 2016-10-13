@@ -149,6 +149,9 @@ public final class Res implements IRes {
         sprites.put(Sprites.spaceMode, SPRITE_PATH + "space-mode@4x.png");
         sprites.put(Sprites.underwaterMode, SPRITE_PATH + "underwater-mode@4x.png");
 
+        // Missions
+        sprites.put(Sprites.achievement, SPRITE_PATH + "achievement@2x.png");
+
         // Unimplemented
         sprites.put(Sprites.unimplemented, SPRITE_PATH + "unimplemented.jpg");
     }
