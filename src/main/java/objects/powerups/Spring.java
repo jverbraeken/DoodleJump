@@ -21,6 +21,10 @@ import java.util.logging.Handler;
      * The BOOST value for the Spring.
      */
     private static final double BOOST = -35;
+    /**
+     * The speed with which the springs retracts after it is being used.
+     */
+    private static final int RETRACT_SPEED = 250;
 
     /**
      * Trampoline constructor.
@@ -80,16 +84,15 @@ import java.util.logging.Handler;
 
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
-
         this.setSprite(newSprite);
-        Spring self = this;
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask(){
+        Spring self = this;
+        new Timer().schedule(new TimerTask(){
             public void run() {
+                self.addYPos(newHeight - oldHeight);
                 self.setSprite(oldSprite);
             }
-        }, 500);
+        }, RETRACT_SPEED);
     }
 
 }
