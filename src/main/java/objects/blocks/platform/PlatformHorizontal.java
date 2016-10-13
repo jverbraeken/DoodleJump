@@ -8,12 +8,12 @@ import system.IServiceLocator;
 public final class PlatformHorizontal extends PlatformDecorator implements IPlatform {
 
     /**
-     * Platform constructor.
+     * Horizontal moving platform decorator constructor.
      *
      * @param sL       the servicelocator.
      * @param platform the encapsulated platform.
      */
-    PlatformHorizontal(final IServiceLocator sL, final IPlatform platform) {
+    /* package */PlatformHorizontal(final IServiceLocator sL, final IPlatform platform) {
         super(sL, platform);
         if (!getProps().containsKey(Platform.PlatformProperties.breaks)) {
             getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteHori());
