@@ -6,10 +6,10 @@ import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
- * The platform decorator to support horizontal movement.
+ * The platform decorator to support breaking platforms.
  */
 @SuppressWarnings("checkstyle:magicnumber")
-public class PlatformBroken extends PlatformDecorator implements IPlatform {
+public final class PlatformBroken extends PlatformDecorator implements IPlatform {
 
     /**
      * Current vertical speed for the Doodle.
@@ -17,7 +17,7 @@ public class PlatformBroken extends PlatformDecorator implements IPlatform {
     private double vSpeed = 0d;
 
     /**
-     * Platform constructor.
+     * broken platform decorator constructor.
      *
      * @param sL       the servicelocator.
      * @param platform the encapsulated platform.
@@ -32,14 +32,14 @@ public class PlatformBroken extends PlatformDecorator implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         double xPos = this.getXPos();
         double yPos = this.getYPos();
 
         int breaks = (int) getProps().get(Platform.PlatformProperties.breaks);
         if (breaks == 1) {
             getServiceLocator().getRenderer().drawSprite(getSprite(), (int) xPos, (int) yPos);
-        } else if (breaks < 5 && breaks > 1) {
+        } else if (breaks <= 4 && breaks > 1) {
             getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), (int) xPos, (int) yPos);
         } else if (breaks == -1) {
             applyGravity();
@@ -83,7 +83,8 @@ public class PlatformBroken extends PlatformDecorator implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
+        System.out.println(getProps().get(Platform.PlatformProperties.breaks));
         if (getProps().get(Platform.PlatformProperties.breaks).equals(1)) {
             getProps().replace(Platform.PlatformProperties.breaks, 2);
             vSpeed = doodle.getVerticalSpeed() / 2;
