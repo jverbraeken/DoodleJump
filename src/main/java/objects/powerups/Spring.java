@@ -8,6 +8,10 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
+
 /**
  * This class describes the behaviour of the spring powerup.
  */
@@ -72,11 +76,20 @@ import system.IServiceLocator;
 
         ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
         ISprite newSprite = spriteFactory.getSpringUsedSprite();
+        ISprite oldSprite = this.getSprite();
 
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
 
-        setSprite(newSprite);
+        this.setSprite(newSprite);
+        Spring self = this;
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask(){
+            public void run() {
+                self.setSprite(oldSprite);
+            }
+        }, 500);
     }
 
 }
