@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
  * <br>
  * Javadoc is not deemed necessary for all individual sprites to have a javadoc.
  */
-@SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod"})
+@SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod", "checkstyle:MagicNumber"})
 public final class SpriteFactory implements ISpriteFactory {
 
     /**
@@ -417,8 +417,9 @@ public final class SpriteFactory implements ISpriteFactory {
                 return getSprite(IRes.Sprites.eight);
             case 9:
                 return getSprite(IRes.Sprites.nine);
+            default:
+                throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
         }
-        return null;
     }
 
 
@@ -691,20 +692,51 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.sizeDown);
     }
 
+<<<<<<< HEAD
+=======
+    // Passive
+>>>>>>> develop
     /**
      * {@inheritDoc}
      */
     @Override
+<<<<<<< HEAD
     public ISprite getRocketLauncherSprite() {
         return getSprite(IRes.Sprites.rocketLauncher);
+=======
+    public ISprite[] getJetpackActiveSprites() {
+        ISprite[] sprites = new ISprite[9];
+        sprites[0] = getSprite(IRes.Sprites.jetpack0);
+        sprites[1] = getSprite(IRes.Sprites.jetpack1);
+        sprites[2] = getSprite(IRes.Sprites.jetpack2);
+        sprites[3] = getSprite(IRes.Sprites.jetpack3);
+        sprites[4] = getSprite(IRes.Sprites.jetpack4);
+        sprites[5] = getSprite(IRes.Sprites.jetpack5);
+        sprites[6] = getSprite(IRes.Sprites.jetpack6);
+        sprites[7] = getSprite(IRes.Sprites.jetpack7);
+        sprites[8] = getSprite(IRes.Sprites.jetpack8);
+
+        return sprites;
+>>>>>>> develop
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+<<<<<<< HEAD
     public ISprite getRocketLauncherUsedSprite() {
         return getSprite(IRes.Sprites.rocketLauncherUsed);
+=======
+    public ISprite[] getPropellerActiveSprites() {
+        ISprite[] sprites = new ISprite[4];
+        sprites[0] = getSprite(IRes.Sprites.propeller0);
+        sprites[1] = getSprite(IRes.Sprites.propeller1);
+        sprites[2] = getSprite(IRes.Sprites.propeller0);
+        sprites[3] = getSprite(IRes.Sprites.propeller2);
+
+        return sprites;
+>>>>>>> develop
     }
 
     // Misc

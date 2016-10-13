@@ -40,6 +40,8 @@ public final class PlatformHorizontal extends PlatformDecorator implements IPlat
                 setXPos(xPos - 2);
             }
         }
+
+        getContained().update(delta);
     }
 
     /** {@inheritDoc} */
