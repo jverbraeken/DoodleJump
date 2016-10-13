@@ -34,7 +34,6 @@ public final class ButtonFactory implements IButtonFactory {
 
     /**
      * The synchronized getter of the singleton buttonfactory.
-     *
      * @return the button factory
      */
     private static synchronized IButtonFactory getButtonFactory() {

@@ -3,6 +3,8 @@ package objects.blocks.platform;
 import constants.IConstants;
 import logging.ILogger;
 import logging.ILoggerFactory;
+import math.Calc;
+import math.ICalc;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +14,7 @@ import rendering.ICamera;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import resources.sprites.Sprite;
 import resources.sprites.SpriteFactory;
 import system.IServiceLocator;
 
@@ -21,7 +24,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(SpriteFactory.class)
+@PrepareForTest({SpriteFactory.class, Calc.class, Sprite.class})
 public class MovingPlatformsTest {
 
     private IPlatform platform;
@@ -29,6 +32,7 @@ public class MovingPlatformsTest {
     private IPlatform vertical;
     private ISpriteFactory spriteFactory;
     private IServiceLocator serviceLocator;
+    private ICalc calc;
     private IRenderer renderer;
     private ISprite sprite;
 
@@ -46,9 +50,14 @@ public class MovingPlatformsTest {
         when(renderer.getCamera()).thenReturn(camera);
 
         sprite = mock(ISprite.class);
+        when(sprite.getWidth()).thenReturn(0);
 
         spriteFactory = mock(SpriteFactory.class);
         when(spriteFactory.getPlatformSpriteHori()).thenReturn(sprite);
+        when(spriteFactory.getPlatformSpriteVert()).thenReturn(sprite);
+
+        calc = mock(Calc.class);
+        when(calc.getRandomDouble(1)).thenReturn(0d);
 
         serviceLocator = mock(IServiceLocator.class);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
@@ -58,9 +67,11 @@ public class MovingPlatformsTest {
         when(serviceLocator.getLoggerFactory()).thenReturn(logFac);
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
+        when(serviceLocator.getCalc()).thenReturn(calc);
 
         platform = new Platform(serviceLocator, 1, 1, sprite);
-        horizontal = new PlatformHorizontal(serviceLocator, this.platform);
+        horizontal = new PlatformHorizontal(serviceLocator, platform);
+        vertical = new PlatformVertical(serviceLocator, platform);
     }
 
     /**
@@ -139,13 +150,13 @@ public class MovingPlatformsTest {
     public void updateEnumsTestFlip1Vert() throws NoSuchFieldException, IllegalAccessException {
         int expected = 1;
         Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        platform.getProps().put(vert, -1);
+        vertical.getProps().put(vert, -1);
 
-        platform.setOffset(21);
+        vertical.setOffset(21);
 
-        platform.updateEnums(0,0);
+        vertical.updateEnums(0,0);
 
-        assertThat(platform.getProps().get(vert), is(expected));
+        assertThat(vertical.getProps().get(vert), is(expected));
     }
 
     /**
@@ -158,17 +169,17 @@ public class MovingPlatformsTest {
     public void updateEnumsTestFlipMin1Vert() throws NoSuchFieldException, IllegalAccessException {
         int expected = -1;
         Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        platform.getProps().put(vert, 1);
+        vertical.getProps().put(vert, 1);
 
-        platform.setOffset(-21);
+        vertical.setOffset(-21);
 
-        platform.updateEnums(0,0);
+        vertical.updateEnums(0,0);
 
-        assertThat(platform.getProps().get(vert), is(expected));
+        assertThat(vertical.getProps().get(vert), is(expected));
     }
 
     /**
-     * Test rendering a horizontal platform going right.
+     * Test rendering a horizontal vertical going right.
      */
     @Test
     public void renderHoriTest() {
@@ -183,7 +194,7 @@ public class MovingPlatformsTest {
     }
 
     /**
-     * Test rendering a horizontal platform going left.
+     * Test rendering a horizontal vertical going left.
      */
     @Test
     public void renderHoriOppositeTest() {
@@ -198,32 +209,32 @@ public class MovingPlatformsTest {
     }
 
     /**
-     * Test rendering a vertical moving platform going up.
+     * Test rendering a vertical moving vertical going up.
      */
     @Test
     public void renderVertTest() {
-        double expected = platform.getYPos() - 2;
+        double expected = vertical.getYPos() - 2;
         Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        platform.getProps().put(vert, 1);
+        vertical.getProps().put(vert, 1);
 
-        platform.render();
-        platform.update(0.05d);
+        vertical.render();
+        vertical.update(0.05d);
 
-        assertThat(platform.getYPos(), is(expected));
+        assertThat(vertical.getYPos(), is(expected));
     }
 
     /**
-     * Test rendering a vertical moving platform going down.
+     * Test rendering a vertical moving vertical going down.
      */
     @Test
     public void renderOppositVertTest() {
-        double expected = platform.getYPos() + 2;
+        double expected = vertical.getYPos() + 2;
         Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        platform.getProps().put(vert, -1);
+        vertical.getProps().put(vert, -1);
 
-        platform.render();
-        platform.update(0.05d);
+        vertical.render();
+        vertical.update(0.05d);
 
-        assertThat(platform.getYPos(), is(expected));
+        assertThat(vertical.getYPos(), is(expected));
     }
 }
