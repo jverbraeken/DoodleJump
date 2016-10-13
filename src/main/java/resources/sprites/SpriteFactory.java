@@ -691,6 +691,22 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.sizeDown);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRocketLauncherSprite() {
+        return getSprite(IRes.Sprites.rocketLauncher);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRocketLauncherUsedSprite() {
+        return getSprite(IRes.Sprites.rocketLauncherUsed);
+    }
+
     // Misc
 
     /**

@@ -132,6 +132,8 @@ public final class Res implements IRes {
         sprites.put(Sprites.shield, SPRITE_PATH + "powerup-shield@2x.png");
         sprites.put(Sprites.sizeUp, SPRITE_PATH + "powerup-size-up@2x.png");
         sprites.put(Sprites.sizeDown, SPRITE_PATH + "powerup-size-down@2x.png");
+        sprites.put(Sprites.rocketLauncher, SPRITE_PATH + "rocketlauncher-unused.png");
+        sprites.put(Sprites.rocketLauncherUsed, SPRITE_PATH + "rocketlauncher-used@2x.png");
 
         // Score screen
         sprites.put(Sprites.scoreScreenBottom, SPRITE_PATH + "high-scores-bottom@2x.png");

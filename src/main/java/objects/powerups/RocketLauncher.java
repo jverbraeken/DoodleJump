@@ -26,7 +26,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the rocket launcher.
      */
     /* package */ RocketLauncher(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite(), Trampoline.class);
+        super(sL, x, y, sL.getSpriteFactory().getRocketLauncherSprite(), Trampoline.class);
     }
 
     /**
@@ -71,7 +71,7 @@ import system.IServiceLocator;
         int oldHeight = getSprite().getHeight();
 
         ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
-        ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
+        ISprite newSprite = spriteFactory.getRocketLauncherUsedSprite();
 
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);

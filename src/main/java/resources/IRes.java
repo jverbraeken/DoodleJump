@@ -116,6 +116,8 @@ public interface IRes {
         shield,
         sizeUp,
         sizeDown,
+        rocketLauncher,
+        rocketLauncherUsed,
 
         // Score screen
         scoreScreenBottom,
