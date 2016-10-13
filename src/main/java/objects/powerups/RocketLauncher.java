@@ -9,7 +9,7 @@ import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
- * This class describes the behaviour of the trampoline powerup.
+ * This class describes the behaviour of the rocket launcher powerup.
  */
 /* package */ public final class RocketLauncher extends AGameObject implements IJumpable {
 
@@ -19,11 +19,11 @@ import system.IServiceLocator;
     private static final double BOOST = -90;
 
     /**
-     * Trampoline constructor.
+     * RocketLauncher constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the trampoline.
-     * @param y - The Y location for the trampoline.
+     * @param x - The X location for the rocket launcher.
+     * @param y - The Y location for the rocket launcher.
      */
     /* package */ RocketLauncher(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite(), Trampoline.class);
@@ -57,7 +57,7 @@ import system.IServiceLocator;
     }
 
     /**
-     * Play the sound for the Trampoline.
+     * Play the sound for the Rocket Launcher.
      */
     private void playSound() {
         IAudioManager audioManager = getServiceLocator().getAudioManager();
@@ -65,7 +65,7 @@ import system.IServiceLocator;
     }
 
     /**
-     * Animate the Trampoline.
+     * Animate the Rocket Launcher.
      */
     private void animate() {
         int oldHeight = getSprite().getHeight();
