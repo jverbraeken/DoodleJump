@@ -27,7 +27,7 @@ public enum ProgressionObservers {
     private final Class<?> myClass; // class is not allowed as variable name
     private final Class<?> mySuperClass;
 
-    <T1 extends IProgressionObserver> ProgressionObservers(Class<T1> myClass) {
+    <T extends IProgressionObserver> ProgressionObservers(Class<T> myClass) {
         this.myClass = myClass;
         if (myClass != IProgressionObserver.class) {
             this.mySuperClass = myClass.getSuperclass();

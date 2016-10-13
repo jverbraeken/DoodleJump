@@ -8,6 +8,8 @@ import progression.Mission;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.util.List;
+
 /**
  * PauseScreen implementation of a scene.
  */
@@ -79,8 +81,9 @@ import system.IServiceLocator;
     public void render() {
         serviceLocator.getRenderer().drawSpriteHUD(background, 0, 0);
         resumeButton.render();
-        for (Mission mission : serviceLocator.getProgressionManager().getMissions()) {
-            mission.render(0);
+        List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
+        for (int i = 0; i < missions.size(); i++) {
+            missions.get(i).render(i);
         }
     }
 

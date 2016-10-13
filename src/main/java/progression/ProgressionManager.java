@@ -10,8 +10,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.Callable;
 
 /**
  * Standard implementation of the ProgressionManager. Used to contain all "global" variables that describe
@@ -44,6 +47,11 @@ public final class ProgressionManager implements IProgressionManager {
      * want the missios to be drawn in another order every time the screen refreshes.
      */
     private final List<Mission> missions = new ArrayList<>();
+    /**
+     * Used to prevent an {@link java.util.ConcurrentModificationException ConcurrentModificationException}
+     * when deleting a mission while iterating over the missions.
+     */
+    private final Queue<Mission> finishedMissionsQueue = new LinkedList<>();
     /**
      * The amount of coins the player has.
      */
@@ -130,6 +138,10 @@ public final class ProgressionManager implements IProgressionManager {
     @Override
     public void alertObservers(final ProgressionObservers type) {
         type.alertObservers();
+        while (finishedMissionsQueue.size() > 0) {
+            missions.remove(finishedMissionsQueue.remove());
+            createNewMission();
+        }
     }
 
     /**
@@ -138,6 +150,10 @@ public final class ProgressionManager implements IProgressionManager {
     @Override
     public void alertObservers(final ProgressionObservers type, final double amount) {
         type.alertObservers(amount);
+        while (finishedMissionsQueue.size() > 0) {
+            missions.remove(finishedMissionsQueue.remove());
+            createNewMission();
+        }
     }
 
     /**
@@ -151,8 +167,7 @@ public final class ProgressionManager implements IProgressionManager {
             throw new InternalError(error);
         }
         logger.info("Mission succeeded!");
-        missions.remove(mission);
-        createNewMission();
+        finishedMissionsQueue.add(mission);
     }
 
     /**
@@ -231,20 +246,10 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private void progressionFromJson(SaveFile json) {
 
-        missions.add(0, serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
-            logger.info("Mission succeeded!");
-            return null;
-        }));
+        for (int i = 0; i < 3; i++) {
+            createNewMission();
+        }
 
-        missions.add(1, serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
-            logger.info("Mission succeeded!");
-            return null;
-        }));
-
-        missions.add(2, serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
-            logger.info("Mission succeeded!");
-            return null;
-        }));
         highScores.clear();
         for (SaveFileHighScoreEntry entry : json.getHighScores()) {
             highScores.add(new HighScore(entry.getName(), entry.getScore()));
@@ -310,19 +315,37 @@ public final class ProgressionManager implements IProgressionManager {
      * Create a new missio based on the {@link #level} of the doodle.
      */
     private void createNewMission() {
-        switch (level) {
+        switch (level++) {
             case 0:
-                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> null));
+                logger.info("New mission was created: level = " + level + ", mission = jumpOnSpring, amount = 1");
+                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
+                    coins += 10;
+                    return null;
+                }));
                 break;
             case 1:
-                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(2, () -> null));
+                logger.info("New mission was created: level = " + level + ", mission = jumpOnSpring, amount = 2");
+                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
+                    coins += 20;
+                    return null;
+                }));
                 break;
             case 2:
-                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(3, () -> null));
+                logger.info("New mission was created: level = " + level + ", mission = jumpOnSpring, amount = 3");
+                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
+                    coins += 30;
+                    return null;
+                }));
                 break;
             case 3:
-                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(4, () -> null));
+                logger.info("New mission was created: level = " + level + ", mission = jumpOnSpring, amount = 4");
+                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
+                    coins += 40;
+                    return null;
+                }));
                 break;
+            default:
+                logger.info("No new mission was created because the mission list was exhausted: level = " + level);
         }
     }
 }
