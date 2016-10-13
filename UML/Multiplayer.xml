@@ -1,0 +1,30 @@
+<diagram program="umletino" version="14.2"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>420</x><y>282</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt;IScene&gt;&gt;
+scenes::ArcadeWorld
+--
+- cameraMover : Runnable
+- cameraSpeed : double
+--
+Responsibilities
+-- Keep track of the Doodles
+-- Move the camera automatically</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>300</x><y>392</y><w>140</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;120;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>100</x><y>282</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt;IDoodle&gt;&gt;
+object.doodle::Doodle
+--
+- world : World
+- keys : Keys[]
+--
++ setKeys(keys : Keys[])
+--
+Responsibilities
+-- Act upon its own keys</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>300</x><y>332</y><w>140</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>120;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>420</x><y>32</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt;ISceneFactory&gt;&gt;
+scenes::SceneFactory
+--
++ createSinglePlayerWorld()
++ createMultiPlayerWorld(players : int)
+--
+Responsibilities
+-- Create Worlds</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>212</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;70;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>420</x><y>532</y><w>210</w><h>80</h></coordinates><panel_attributes>&lt;&lt;IScene&gt;&gt;
+scenes::World
+--
+# doodles : Set&lt;IDoodle&gt;
+--
+# addDoodle</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>462</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element></diagram>

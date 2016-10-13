@@ -34,6 +34,9 @@ public abstract class PlatformDecorator implements IPlatform {
      * @param platform the encapsulated platform.
      */
     public PlatformDecorator(final IServiceLocator sL, final IPlatform platform) {
+        assert sL != null;
+        assert platform != null;
+
         serviceLocator = sL;
         contained = platform;
     }
