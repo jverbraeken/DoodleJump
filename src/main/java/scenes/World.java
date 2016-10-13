@@ -57,6 +57,10 @@ public class World implements IScene {
      * The initial speed for the camera in arcade mode.
      */
     private static final double CAMERA_INITIAL_SPEED = 3d;
+    /**
+     * The maximum height of a Doodle on the screen when playing alone.
+     */
+    private static final double SINGLE_DOODLE_THRESHOLD = 3 / 7d;
 
     /**
      * Used to access all services.
@@ -239,11 +243,10 @@ public class World implements IScene {
             camera.setYPos(camera.getYPos() - cameraSpeed);
         } else { // Single player
             IDoodle doodle = this.doodles.get(0);
-            double CAMERA_POS = 3 / 7d;
             int height = serviceLocator.getConstants().getGameHeight();
-            double yThreshold = camera.getYPos() + height * CAMERA_POS;
+            double yThreshold = camera.getYPos() + height * SINGLE_DOODLE_THRESHOLD;
             if (doodle.getYPos() < yThreshold) {
-                camera.setYPos(doodle.getYPos() - height * CAMERA_POS);
+                camera.setYPos(doodle.getYPos() - height * SINGLE_DOODLE_THRESHOLD);
             }
         }
     }
