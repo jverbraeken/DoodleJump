@@ -5,7 +5,7 @@ import system.IServiceLocator;
 /**
  * The platform decorator to support horizontal movement.
  */
-public class PlatformHorizontal extends PlatformDecorator implements IPlatform {
+public final class PlatformHorizontal extends PlatformDecorator implements IPlatform {
 
     /**
      * Platform constructor.
@@ -25,17 +25,20 @@ public class PlatformHorizontal extends PlatformDecorator implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         double xPos = this.getXPos();
         double yPos = this.getYPos();
 
         updateEnums(xPos, yPos);
 
         if (getContained().getProps().containsKey(Platform.PlatformProperties.movingHorizontally)) {
-            if (getContained().getProps().get(Platform.PlatformProperties.movingHorizontally).equals(getContained().getDirections().get(Platform.Directions.right))) {
-                this.setXPos(xPos + 2);
-            } else if (getContained().getProps().get(Platform.PlatformProperties.movingHorizontally).equals(getContained().getDirections().get(Platform.Directions.left))) {
-                this.setXPos(xPos - 2);
+
+            final int movingProperty = getContained().getProps().get(Platform.PlatformProperties.movingHorizontally);
+
+            if (movingProperty == (getContained().getDirections().get(Platform.Directions.right))) {
+                setXPos(xPos + 2);
+            } else if (movingProperty == getContained().getDirections().get(Platform.Directions.left)) {
+                setXPos(xPos - 2);
             }
         }
 
@@ -46,9 +49,9 @@ public class PlatformHorizontal extends PlatformDecorator implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final void updateEnums(final double xPos, final double yPos) {
-        double gameWidth = getServiceLocator().getConstants().getGameWidth();
-        if (xPos > gameWidth - getSprite().getWidth()) {
+    public void updateEnums(final double xPos, final double yPos) {
+        int gameWidth = getServiceLocator().getConstants().getGameWidth();
+        if (xPos > gameWidth - this.getSprite().getWidth()) {
             getProps().replace(Platform.PlatformProperties.movingHorizontally, -1);
         } else if (xPos < 1) {
             getProps().replace(Platform.PlatformProperties.movingHorizontally, 1);
