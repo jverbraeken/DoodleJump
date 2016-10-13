@@ -21,7 +21,7 @@ import system.IServiceLocator;
     /**
      * The boost for the Jetpack when it is being dropped.
      */
-    private static final double DROP_BOOST = 1.1d;
+    private static final double INITIAL_DROP_SPEED = -25d;
     /**
      * The boost the Jetpack gives.
      */
@@ -168,7 +168,7 @@ import system.IServiceLocator;
      */
     private void endPowerup() {
         this.setSprite(getServiceLocator().getSpriteFactory().getJetpackActiveSprites()[8]);
-        this.vSpeed *= DROP_BOOST;
+        this.vSpeed = INITIAL_DROP_SPEED;
 
         this.owner.removePowerup(this);
         this.owner.getWorld().addDrawable(this);

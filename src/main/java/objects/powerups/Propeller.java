@@ -16,7 +16,7 @@ import system.IServiceLocator;
     /**
      * The boost for the Propeller when it is being dropped.
      */
-    private static final double DROP_BOOST = 1.1d;
+    private static final double INITIAL_DROP_SPEED = -20d;
     /**
      * The boost the Propeller gives.
      */
@@ -158,7 +158,7 @@ import system.IServiceLocator;
      */
     private void endPowerup() {
         this.setSprite(getServiceLocator().getSpriteFactory().getPropellerSprite());
-        this.vSpeed *= DROP_BOOST;
+        this.vSpeed = INITIAL_DROP_SPEED;
 
         this.owner.removePowerup(this);
         this.owner.getWorld().addDrawable(this);
