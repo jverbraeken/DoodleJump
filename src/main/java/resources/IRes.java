@@ -118,6 +118,8 @@ public interface IRes {
         sizeDown,
         cannon,
         cannonUsed,
+        rocketLauncher,
+        rocketLauncherUsed,
 
         // Passive
         jetpack0,
@@ -133,6 +135,7 @@ public interface IRes {
         propeller0,
         propeller1,
         propeller2,
+
 
         // Score screen
         scoreScreenBottom,
