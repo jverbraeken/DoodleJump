@@ -35,6 +35,7 @@ public class JetpackTest {
     private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);;
 
     private Jetpack jetpack;
+    private ISprite[] spritePack = new ISprite[10];
 
     @Before
     public void init() {
@@ -49,12 +50,13 @@ public class JetpackTest {
         when(loggerFactory.createLogger(Jetpack.class)).thenReturn(logger);
         when(sprite.getHeight()).thenReturn(0);
         when(spriteFactory.getJetpackSprite()).thenReturn(sprite);
+        when(spriteFactory.getJetpackActiveSprites()).thenReturn(spritePack);
 
         jetpack = new Jetpack(serviceLocator, 0, 0);
     }
 
     @Test
-    public void testCollidesWith_SetOwner() throws Exception {
+    public void testCollidesWith_SetOwner() {
         jetpack.collidesWith(doodle);
         Object owner = Whitebox.getInternalState(jetpack, "owner");
         assertThat(owner, is(doodle));
@@ -71,22 +73,19 @@ public class JetpackTest {
     @Test
     public void testRenderWithOwner() {
         jetpack.collidesWith(doodle);
-
         jetpack.render();
         verify(renderer, times(1)).drawSprite(sprite, 0, 0);
-        verify(doodle, times(1)).getXPos();
-        verify(doodle, times(1)).getYPos();
     }
 
     @Test
-    public void testPerform() throws Exception {
+    public void testPerform() {
         jetpack.collidesWith(doodle);
         jetpack.perform(PowerupOccasion.constant);
         verify(doodle, times(1)).setVerticalSpeed(anyDouble());
     }
 
     @Test
-    public void testPerformInvalid() throws Exception {
+    public void testPerformInvalid() {
         jetpack.collidesWith(doodle);
         jetpack.perform(PowerupOccasion.collision);
         verify(doodle, times(0)).setVerticalSpeed(anyDouble());
