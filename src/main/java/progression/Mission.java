@@ -10,6 +10,9 @@ import system.IServiceLocator;
  * This class represents a mission that the player can complete.
  */
 public final class Mission {
+    private static final int MESSAGE_TEXT_OFFSET = 84 / 2;
+    private static final int MESSAGE_OFFSET = 150;
+    private static final int MESSAGE_SPACE_BETWEEN = 200;
     private final MissionType type;
     private final int times;
     private final IProgressionObserver observer;
@@ -47,7 +50,7 @@ public final class Mission {
      */
     public void render(int number) {
         assert number >= 0 && number < 3;
-        serviceLocator.getRenderer().drawSprite(serviceLocator.getSpriteFactory().getAchievementSprite(), 0, 100);
-        System.out.println(message);
+        serviceLocator.getRenderer().drawSpriteHUD(serviceLocator.getSpriteFactory().getAchievementSprite(), 0, MESSAGE_OFFSET + number * MESSAGE_SPACE_BETWEEN);
+        serviceLocator.getRenderer().drawTextHUD(serviceLocator.getConstants().getGameWidth() / 2, MESSAGE_OFFSET + number * MESSAGE_SPACE_BETWEEN, this.message);
     }
 }

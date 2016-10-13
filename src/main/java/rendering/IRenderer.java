@@ -76,13 +76,22 @@ public interface IRenderer {
     void drawRectangleHUD(final int x, final int y, final int width, final int height);
 
     /**
-     * Draw a string of text relative to the screen.
+     * Draw a string of text relative to the camera.
      *
      * @param x the x position of the text.
      * @param y the y position of the text.
      * @param msg The message to draw.
      */
     void drawText(final int x, final int y, final String msg);
+
+    /**
+     * Draw a string of text relative to the screen.
+     *
+     * @param x the x position of the text.
+     * @param y the y position of the text.
+     * @param msg The message to draw.
+     */
+    void drawTextHUD(final int x, final int y, final String msg);
 
     /**
      * Draw a filled rectangle.

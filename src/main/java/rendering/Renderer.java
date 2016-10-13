@@ -159,6 +159,15 @@ public final class Renderer implements IRenderer {
     @Override
     public void drawText(final int x, final int y, final String msg) {
         assert graphics != null;
+        graphics.drawString(msg, x, (int) (y - camera.getYPos()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawTextHUD(final int x, final int y, final String msg) {
+        assert graphics != null;
         graphics.drawString(msg, x, y);
     }
 

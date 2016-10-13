@@ -177,17 +177,17 @@ public final class ProgressionManager implements IProgressionManager {
 
         highScores.clear();
 
-        missions.add(0, serviceLocator.getMissionFactory().createMissionJumpOnSpring(5, () -> {
+        missions.add(0, serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
             logger.info("Mission succeeded!");
             return null;
         }));
 
-        missions.add(1, serviceLocator.getMissionFactory().createMissionJumpOnSpring(5, () -> {
+        missions.add(1, serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
             logger.info("Mission succeeded!");
             return null;
         }));
 
-        missions.add(2, serviceLocator.getMissionFactory().createMissionJumpOnSpring(5, () -> {
+        missions.add(2, serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
             logger.info("Mission succeeded!");
             return null;
         }));
@@ -201,17 +201,17 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private void progressionFromJson(SaveFile json) {
 
-        missions.add(0, serviceLocator.getMissionFactory().createMissionJumpOnSpring(5, () -> {
+        missions.add(0, serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
             logger.info("Mission succeeded!");
             return null;
         }));
 
-        missions.add(1, serviceLocator.getMissionFactory().createMissionJumpOnSpring(5, () -> {
+        missions.add(1, serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
             logger.info("Mission succeeded!");
             return null;
         }));
 
-        missions.add(2, serviceLocator.getMissionFactory().createMissionJumpOnSpring(5, () -> {
+        missions.add(2, serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
             logger.info("Mission succeeded!");
             return null;
         }));

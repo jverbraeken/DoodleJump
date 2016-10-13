@@ -42,6 +42,7 @@ import system.IServiceLocator;
     public double getBoost() {
         this.animate();
         this.playSound();
+        getServiceLocator().getProgressionManager().alertObservers(Powerups.SPRING);
 
         return Spring.BOOST;
     }
