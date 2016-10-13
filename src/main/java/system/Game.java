@@ -62,10 +62,6 @@ public final class Game {
      * The logger for the Game class.
      */
     private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
-    /**
-     * The amount of coins the player has.
-     */
-    private final CoinManager coinManager = new CoinManager();
 
     /**
      * The current panel.
@@ -279,16 +275,5 @@ public final class Game {
             return TARGET_FPS;
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
-    }
-
-    /**
-     * Use a seperate class to manage the coins, because Game is static and thus cannot be registered as observer to
-     * other classes.
-     */
-    public class CoinManager {
-        private int coins;
-        private CoinManager() {
-
-        }
     }
 }

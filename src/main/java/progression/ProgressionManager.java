@@ -102,7 +102,7 @@ public final class ProgressionManager implements IProgressionManager {
             logger.warning("Save file was not found -> default progression used.");
         }
         if (jsonObject == null) {
-            progressionFromDefault();
+            setProgressionToDefault();
         } else {
             progressionFromJson((SaveFile) jsonObject);
         }
@@ -142,7 +142,7 @@ public final class ProgressionManager implements IProgressionManager {
     /**
      * Sets the progression to the default values: the values used when the game is started for the first time.
      */
-    private void progressionFromDefault() {
+    private void setProgressionToDefault() {
         powerupLevels.clear();
         for (Powerups powerup : Powerups.values()) {
             powerupLevels.put(powerup, 0);
@@ -159,17 +159,41 @@ public final class ProgressionManager implements IProgressionManager {
      * Sets the progression in the game from a json string.
      * @param json The json containing the progression
      */
-    private void progressionFromJson(SaveFile json) {
+    private void progressionFromJson(final SaveFile json) {
+        highScoresFromJson(json);
+
+        coinsFromJson(json);
+
+        powerupLevelsFromJson(json);
+    }
+
+    /**
+     * Loads the highscores from the Json file.
+     * @param json The json to load the highscores from
+     */
+    private void highScoresFromJson(final SaveFile json) {
         highScores.clear();
         for (SaveFileHighScoreEntry entry : json.getHighScores()) {
-            highScores.add(new HighScore(entry.getName(), entry.getScore()));
+            addHighScore(entry.getName(), entry.getScore());
             logger.info("A highscore is added: " + entry.getName() + " - " + entry.getScore());
         }
         updateHighScores();
+    }
 
+    /**
+     * Loads the amount of coins from the Json file.
+     * @param json The json to load the amount of coins from
+     */
+    private void coinsFromJson(final SaveFile json) {
         coins = json.getCoins();
         logger.info("Coins is set to: " + coins);
+    }
 
+    /**
+     * Loads the powerup levels from the Json file.
+     * @param json The json to load the powerup levels from
+     */
+    private void powerupLevelsFromJson(final SaveFile json) {
         powerupLevels.clear();
         for (Map.Entry<String, Integer> entry : json.getPowerupLevels().entrySet()) {
             switch (entry.getKey()) {
