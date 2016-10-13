@@ -22,6 +22,10 @@ import system.IServiceLocator;
      */
     private static final double MAX_BOOST = -20d;
     /**
+     * The horizontal speed for a Propeller.
+     */
+    private static final double HORIZONTAL_SPEED = 1.2d;
+    /**
      * The maximum time the Propeller is active.
      */
     private static final int MAX_TIMER = 150;
@@ -33,10 +37,6 @@ import system.IServiceLocator;
      * The refresh rate for the active animation.
      */
     private static final int ANIMATION_REFRESH_RATE = 3;
-    /**
-     * The horizontal speed for a Propeller.
-     */
-    private static final double HORIZONTAL_SPEED = 1.2d;
 
     /**
      * The sprites for an active Propeller.

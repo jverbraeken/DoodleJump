@@ -15,10 +15,6 @@ import system.IServiceLocator;
      */
     private static final double ACCELERATION = -2d;
     /**
-     * The refresh rate for the active animation.
-     */
-    private static final int ANIMATION_REFRESH_RATE = 3;
-    /**
      * The boost for the Jetpack when it is being dropped.
      */
     private static final double INITIAL_DROP_SPEED = -25d;
@@ -27,25 +23,29 @@ import system.IServiceLocator;
      */
     private static final double MAX_BOOST = -25d;
     /**
-     * The maximum time the Jetpack is active.
-     */
-    private static final int MAX_TIMER = 175;
-    /**
      * The horizontal speed for a Jetpack.
      */
     private static final double HORIZONTAL_SPEED = 1.2d;
     /**
      * Percentage for the initial phase of the Jetpack animation.
      */
-    private static final double ANIMATION_PHASE_ONE = 0.15;
+    private static final double ANIMATION_PHASE_ONE = 0.15d;
     /**
      * Percentage for the second phase of the Jetpack animation.
      */
-    private static final double ANIMATION_PHASE_TWO = 0.8;
+    private static final double ANIMATION_PHASE_TWO = 0.8d;
     /**
      * Percentage for the third phase of the Jetpack animation.
      */
-    private static final double ANIMATION_PHASE_THREE = 1;
+    private static final double ANIMATION_PHASE_THREE = 1d;
+    /**
+     * The refresh rate for the active animation.
+     */
+    private static final int ANIMATION_REFRESH_RATE = 3;
+    /**
+     * The maximum time the Jetpack is active.
+     */
+    private static final int MAX_TIMER = 175;
     /**
      * Offset for the initial phase of the Jetpack animation.
      */
