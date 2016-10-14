@@ -126,22 +126,22 @@ public class CucumberSteps implements En {
         Then("^the mode should be (.*)$", (String mode) -> {
             switch (mode) {
                 case "regular":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode").equals(Game.Modes.regular), is(true));
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"),is(Game.Modes.regular));
                     break;
                 case "space":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode").equals(Game.Modes.space), is(true));
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"),is(Game.Modes.space));
                     break;
                 case "underwater":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode").equals(Game.Modes.underwater), is(true));
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"),is(Game.Modes.underwater));
                     break;
                 case "darkness":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode").equals(Game.Modes.darkness), is(true));
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"),is(Game.Modes.darkness));
                     break;
                 case "invert":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode").equals(Game.Modes.invert), is(true));
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"),is(Game.Modes.invert));
                     break;
                 case "story":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode").equals(Game.Modes.story), is(true));
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"),is(Game.Modes.story));
                     break;
             }
         });
