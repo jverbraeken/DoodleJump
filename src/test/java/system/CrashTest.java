@@ -15,6 +15,7 @@ public class CrashTest {
     @Before
     public void Init() throws Exception {
         game = Whitebox.invokeConstructor(Game.class);
+        sL = Whitebox.getInternalState(Game.class, "serviceLocator");
     }
 
     @Test
