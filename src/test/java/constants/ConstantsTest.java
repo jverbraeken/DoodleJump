@@ -2,11 +2,6 @@ package constants;
 
 import filesystem.FileSystem;
 import filesystem.IFileSystem;
-import math.Calc;
-import math.ICalc;
-import objects.blocks.platform.Platform;
-import org.codehaus.plexus.component.configurator.converters.basic.DoubleConverter;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.ServiceLocator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +12,6 @@ import system.IServiceLocator;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -42,7 +36,7 @@ public class ConstantsTest {
         Map<String, String> jsonObject = new HashMap<>();
         jsonObject.put("logFile", "async.log");
         when(serviceLocator.getFileSystem()).thenReturn(fileSystem);
-        when(fileSystem.parseJsonMap("constants.json", String.class)).thenReturn(jsonObject);
+        when(fileSystem.parseJsonResourceMap("constants.json", String.class)).thenReturn(jsonObject);
 
         Constants.register(serviceLocator);
         constants = Whitebox.invokeConstructor(Constants.class);

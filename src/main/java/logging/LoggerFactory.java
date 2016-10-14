@@ -51,7 +51,7 @@ public final class LoggerFactory implements ILoggerFactory {
 
         logIgnore = new HashSet<>();
         try {
-            List<String> list = (List<String>) serviceLocator.getFileSystem().parseJsonList(LOG_IGNORE_FILE, String.class);
+            List<String> list = (List<String>) serviceLocator.getFileSystem().parseJsonResourceList(LOG_IGNORE_FILE, String.class);
             for (String className : list) {
                 try {
                     logIgnore.add(Class.forName(className));

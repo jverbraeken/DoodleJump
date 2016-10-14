@@ -33,13 +33,13 @@ import java.util.List;
      */
     private final IButton resumeButton;
     /**
-     * The background sprite.
-     */
-    private ISprite background;
-    /**
      * The sprites of the coin, animated.
      */
     private final ISprite[] coinSprite = new ISprite[10];
+    /**
+     * The background sprite.
+     */
+    private ISprite background;
     /**
      * The index of the coin animation. Must be between 0 (inclusive) and 10 (exclusive).
      */

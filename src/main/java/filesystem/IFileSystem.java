@@ -1,6 +1,7 @@
 package filesystem;
 
 import javax.sound.sampled.Clip;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -148,7 +149,7 @@ public interface IFileSystem {
      * @return An {@link Object} that must be up-casted to a {@link List} containing the desired Json class.
      * @throws FileNotFoundException Thrown when the Json file was not found.
      */
-    Object parseJsonList(final String filename, final Class<?> jsonClass) throws FileNotFoundException;
+    Object parseJsonResourceList(final String filename, final Class<?> jsonClass) throws FileNotFoundException;
 
     /**
      * Parse a JSON file consisting of a single Json item.
@@ -158,7 +159,7 @@ public interface IFileSystem {
      * @return An {@link Object} that must be up-casted to a {@link java.util.Map} containing the desired Json class.
      * @throws FileNotFoundException Thrown when the Json file was not found.
      */
-    Object parseJsonMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException;
+    Object parseJsonResourceMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException;
 
     /**
      * Serializes the image specified to a Json string.
@@ -167,4 +168,12 @@ public interface IFileSystem {
      * @return A string containing the serialized image
      */
     String serializeJson(Object image);
+
+    /**
+     * Gets a custom font from a *.ttf file.
+     *
+     * @param name The name of the ttf font file
+     * @return The font loaded from the disk
+     */
+    Font getFont(String name);
 }

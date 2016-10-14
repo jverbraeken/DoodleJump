@@ -5,9 +5,7 @@ import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * This class is responsible for rendering all Sprites.
@@ -34,13 +32,27 @@ public final class Renderer implements IRenderer {
     /**
      * The graphics that are to be used by the renderer.
      */
-    private Graphics graphics;
+    private Graphics2D graphics;
+    /**
+     * The font used to draw text.
+     */
+    private final Font FONT;
+    /**
+     * The font used to draw text with size 24.
+     */
+    private final Font FONT50;
+    /**
+     * White color
+     */
+    private static final Color WHITE_COLOR = new Color(255, 255, 255);
 
     /**
      * Prevent public instantiations of the Renderer.
      */
     private Renderer() {
         logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+        FONT = serviceLocator.getFileSystem().getFont("al-seana.ttf");
+        FONT50 = FONT.deriveFont(Font.BOLD, 50F);
     }
 
     /**
@@ -159,6 +171,8 @@ public final class Renderer implements IRenderer {
     @Override
     public void drawText(final int x, final int y, final String msg) {
         assert graphics != null;
+        graphics.setFont(FONT50);
+        graphics.setColor(WHITE_COLOR);
         graphics.drawString(msg, x, (int) (y - camera.getYPos()));
     }
 
@@ -168,6 +182,8 @@ public final class Renderer implements IRenderer {
     @Override
     public void drawTextHUD(final int x, final int y, final String msg) {
         assert graphics != null;
+        graphics.setFont(FONT50);
+        graphics.setColor(WHITE_COLOR);
         graphics.drawString(msg, x, y);
     }
 
@@ -194,8 +210,14 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("The graphics buffer cannot be null");
         }
 
-        this.graphics = g;
-        this.graphics.setFont(new Font("Comic Sans", 0, FONT_SIZE));
+        this.graphics = (Graphics2D) g;
+
+        this.graphics.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        this.graphics.setRenderingHint(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 
     /**

@@ -53,7 +53,7 @@ public final class Constants implements IConstants {
     private Constants() {
         try {
             IFileSystem fileSystem = serviceLocator.getFileSystem();
-            Object jsonObject = fileSystem.parseJsonMap("constants.json", String.class);
+            Object jsonObject = fileSystem.parseJsonResourceMap("constants.json", String.class);
             Map<String, String> json = (Map<String, String>) jsonObject;
             interpretJson(json);
         } catch (FileNotFoundException e) {

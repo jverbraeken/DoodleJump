@@ -11,6 +11,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.awt.*;
 import java.io.Writer;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -46,6 +47,10 @@ public final class FileSystem implements IFileSystem {
      * The writer to the log files.
      */
     private final Writer logWriter;
+    /**
+     * The font used when the font requested could not be found.
+     */
+    private static final Font DEFAULT_FONT = new Font("serif", Font.PLAIN, 24);
 
     /**
      * Prevents instantiation from outside the class.
@@ -317,7 +322,7 @@ public final class FileSystem implements IFileSystem {
 
     /** {@inheritDoc} */
     @Override
-    public Object parseJsonList(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
+    public Object parseJsonResourceList(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
         readResourceFile(filename).forEach(sb::append);
 
@@ -334,7 +339,7 @@ public final class FileSystem implements IFileSystem {
 
     /** {@inheritDoc} */
     @Override
-    public Object parseJsonMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
+    public Object parseJsonResourceMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
         readResourceFile(filename).forEach(sb::append);
 
@@ -358,5 +363,29 @@ public final class FileSystem implements IFileSystem {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Font getFont(String name) {
+        if (name == null) {
+            return DEFAULT_FONT;
+        }
+
+        Font font;
+        try {
+            File fontFile = getResourceFile("fonts/" + name);
+            font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+            GraphicsEnvironment ge = GraphicsEnvironment
+                    .getLocalGraphicsEnvironment();
+
+            ge.registerFont(font);
+        } catch (Exception ex) {
+            System.err.println(name + " not loaded.  Using serif font.");
+            font = DEFAULT_FONT;
+        }
+        return font;
     }
 }
