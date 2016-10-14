@@ -17,8 +17,10 @@ import system.IUpdatable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.WeakHashMap;
@@ -52,7 +54,7 @@ public class World implements IScene {
     /**
      * The acceleration for the camera in arcade mode.
      */
-    private static final double CAMERA_ACCELERATION = 0.00001d;
+    private static final double CAMERA_ACCELERATION = 0.0005d;
     /**
      * The initial speed for the camera in arcade mode.
      */
@@ -88,7 +90,7 @@ public class World implements IScene {
      * way to make it (in Java) is by using Collections.newSetFromMap that creates the set for us (and
      * prohibits creating an array by doing that).</p>
      */
-    private final List<Set<IRenderable>> drawables = new ArrayList<>();
+    private final Map<drawableLevel, Set<IRenderable>> drawables = new EnumMap<>(drawableLevel.class);
     /**
      * A set of drawables that should be added next time the World is rendered.
      */
@@ -118,6 +120,8 @@ public class World implements IScene {
      */
     private double cameraSpeed = CAMERA_INITIAL_SPEED;
 
+    private enum drawableLevel { front, middle, back };
+
     /**
      * Package visible constructor so a World can only be created via the SceneFactory.
      *
@@ -128,26 +132,26 @@ public class World implements IScene {
         serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(World.class);
 
-        for (int i = 0; i < MAX_DRAWABLES; i++) {
-            drawables.add(Collections.newSetFromMap(new WeakHashMap<>()));
-        }
+        this.drawables.put(drawableLevel.back, Collections.newSetFromMap(new WeakHashMap<>()));
+        this.drawables.put(drawableLevel.middle, Collections.newSetFromMap(new WeakHashMap<>()));
+        this.drawables.put(drawableLevel.front, Collections.newSetFromMap(new WeakHashMap<>()));
 
         IBlockFactory blockFactory = sL.getBlockFactory();
         this.topBlock = blockFactory.createStartBlock();
         this.blocks.add(this.topBlock);
-        this.drawables.get(0).add(this.topBlock);
+        this.drawables.get(drawableLevel.back).add(this.topBlock);
         this.updatables.add(this.topBlock);
 
         for (int i = 1; i < BLOCK_BUFFER; i++) {
             this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable());
             this.blocks.add(this.topBlock);
-            this.drawables.get(0).add(this.topBlock);
+            this.drawables.get(drawableLevel.back).add(this.topBlock);
             this.updatables.add(this.topBlock);
         }
 
         this.background = sL.getSpriteFactory().getBackground();
         this.scoreBar = new ScoreBar();
-        this.drawables.get(2).add(this.scoreBar);
+        this.drawables.get(drawableLevel.front).add(this.scoreBar);
 
         serviceLocator.getAudioManager().playStart();
 
@@ -189,12 +193,12 @@ public class World implements IScene {
     public final void render() {
         serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
 
-        drawables.add(newDrawables);
-        newDrawables.removeAll(newDrawables);
+        drawables.get(drawableLevel.back).addAll(newDrawables);
+        newDrawables.clear();
 
-        for (Set<IRenderable> set : drawables) {
-            set.forEach(IRenderable::render);
-        }
+        drawables.get(drawableLevel.back).forEach(IRenderable::render);
+        drawables.get(drawableLevel.middle).forEach(IRenderable::render);
+        drawables.get(drawableLevel.front).forEach(IRenderable::render);
     }
 
     /**
@@ -204,11 +208,11 @@ public class World implements IScene {
     public final void update(final double delta) {
         this.updatables.addAll(this.newUpdatables);
 
-        updateObjects(delta);
-        updateCamera(delta);
-        cleanUp();
-        newBlocks();
-        this.doodles.forEach(this::checkCollisions);
+        this.updateObjects(delta);
+        this.updateCamera(delta);
+        this.cleanUp();
+        this.newBlocks();
+        this.checkCollisions();
     }
 
     /**
@@ -247,7 +251,7 @@ public class World implements IScene {
     /* package */ final void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
         this.updatables.add(doodle);
-        this.drawables.get(1).add(doodle);
+        this.drawables.get(drawableLevel.middle).add(doodle);
     }
 
     /**
@@ -272,7 +276,7 @@ public class World implements IScene {
         if (this.doodles.size() > 1) { // Multi player
             cameraSpeed += CAMERA_ACCELERATION;
             camera.setYPos(camera.getYPos() - cameraSpeed);
-        } else { // Single player
+        } else if (this.doodles.size() == 1) { // Single player
             IDoodle doodle = this.doodles.get(0);
             int height = serviceLocator.getConstants().getGameHeight();
             double yThreshold = camera.getYPos() + height * SINGLE_DOODLE_THRESHOLD;
@@ -280,6 +284,13 @@ public class World implements IScene {
                 camera.setYPos(doodle.getYPos() - height * SINGLE_DOODLE_THRESHOLD);
             }
         }
+    }
+
+    /**
+     * Check the collisions for all the Doodles in the world.
+     */
+    private void checkCollisions() {
+        this.doodles.forEach(this::checkCollisions);
     }
 
     /**
@@ -321,10 +332,10 @@ public class World implements IScene {
     private void newBlocks() {
         if (blocks.size() < BLOCK_BUFFER) {
             IJumpable topPlatform = topBlock.getTopJumpable();
-            topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform);
-            blocks.add(topBlock);
-            drawables.get(0).add(topBlock);
-            updatables.add(topBlock);
+            this.topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform);
+            this.blocks.add(topBlock);
+            this.drawables.get(drawableLevel.back).add(topBlock);
+            this.updatables.add(topBlock);
         }
     }
 
