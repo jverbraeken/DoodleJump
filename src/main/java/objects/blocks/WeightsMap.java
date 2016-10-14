@@ -67,6 +67,16 @@ public final class WeightsMap {
      */
     private static final double SPRINGSHOES_POWERUP = 0.004;
 
+    /**
+     * The chance of the spring jetpack spawning.
+     */
+    private static final double CANNON_POWERUP = 0.001;
+
+    /**
+     * The chance of the spring jetpack spawning.
+     */
+    private static final double ROCKETLAUNCHER_POWERUP = 0.001;
+
     static {
         // Platforms
         WEIGTS_MAP.put(ElementTypes.normalPlatform, NORMAL_PLATFORM);
@@ -75,6 +85,7 @@ public final class WeightsMap {
         WEIGTS_MAP.put(ElementTypes.breakingPlatform, BREAKING_PLATFORM);
 
         // Powerups
+
         WEIGTS_MAP.put(ElementTypes.spring, SPRING_POWERUP);
         WEIGTS_MAP.put(ElementTypes.trampoline, TRAMPOLINE_POWERUP);
         WEIGTS_MAP.put(ElementTypes.jetpack, JETPACK_POWERUP);
@@ -82,6 +93,8 @@ public final class WeightsMap {
         WEIGTS_MAP.put(ElementTypes.sizeUp, SIZEUP_POWERUP);
         WEIGTS_MAP.put(ElementTypes.sizeDown, SIZEDOWN_POWERUP);
         WEIGTS_MAP.put(ElementTypes.springShoes, SPRINGSHOES_POWERUP);
+        WEIGTS_MAP.put(ElementTypes.cannon, CANNON_POWERUP);
+        WEIGTS_MAP.put(ElementTypes.rocketLauncher, ROCKETLAUNCHER_POWERUP);
 
     }
 

@@ -692,11 +692,42 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.sizeDown);
     }
 
-    // Passive
     /**
      * {@inheritDoc}
      */
     @Override
+    public ISprite getCannonSprite() {
+        return getSprite(IRes.Sprites.cannon);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getCannonUsedSprite() {
+        return getSprite(IRes.Sprites.cannonUsed);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRocketLauncherSprite() {
+        return getSprite(IRes.Sprites.rocketLauncher);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRocketLauncherUsedSprite() {
+        return getSprite(IRes.Sprites.rocketLauncherUsed);
+    }
+
+    /**
+     * Returns a list of sprites for the jetpack.
+     * @return a list of ISprite objects
+     */
     public ISprite[] getJetpackActiveSprites() {
         ISprite[] sprites = new ISprite[9];
         sprites[0] = getSprite(IRes.Sprites.jetpack0);
@@ -713,9 +744,9 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns a list of sprites used by the propeller.
+     * @return a list of ISprite objects.
      */
-    @Override
     public ISprite[] getPropellerActiveSprites() {
         ISprite[] sprites = new ISprite[4];
         sprites[0] = getSprite(IRes.Sprites.propeller0);
@@ -743,6 +774,8 @@ public final class SpriteFactory implements ISpriteFactory {
     public ISprite getAvoidSprite() {
         return getSprite(IRes.Sprites.avoid);
     }
+
+
 
 
     // Score Screen
