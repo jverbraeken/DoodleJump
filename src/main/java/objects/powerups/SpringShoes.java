@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.AGameObject;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
@@ -59,9 +60,12 @@ import system.IServiceLocator;
     @Override
     public void collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
-            getLogger().info("Doodle collided with a pair of SpringShoes");
-            this.owner = doodle;
-            doodle.setPowerup(this);
+            if (doodle.getVerticalSpeed() > 0
+            && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight() < this.getYPos()) {
+                getLogger().info("Doodle collided with a pair of SpringShoes");
+                this.owner = doodle;
+                doodle.setPowerup(this);
+            }
         }
     }
 
