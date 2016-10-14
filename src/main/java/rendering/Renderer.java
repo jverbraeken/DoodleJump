@@ -170,10 +170,7 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public void drawText(final int x, final int y, final String msg) {
-        assert graphics != null;
-        graphics.setFont(FONT50);
-        graphics.setColor(WHITE_COLOR);
-        graphics.drawString(msg, x, (int) (y - camera.getYPos()));
+        drawText(x, y, msg, TextAlignment.left);
     }
 
     /**
@@ -181,10 +178,27 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public void drawTextHUD(final int x, final int y, final String msg) {
+        drawTextHUD(x, y, msg, TextAlignment.left);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawText(final int x, final int y, final String msg, final TextAlignment alignment) {
         assert graphics != null;
-        graphics.setFont(FONT50);
-        graphics.setColor(WHITE_COLOR);
-        graphics.drawString(msg, x, y);
+        int xPos = prepareDrawText(x, y, msg, alignment);
+        graphics.drawString(msg, xPos, (int) (y - camera.getYPos()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawTextHUD(final int x, final int y, final String msg, final TextAlignment alignment) {
+        assert graphics != null;
+        int xPos = prepareDrawText(x, y, msg, alignment);
+        graphics.drawString(msg, xPos, y);
     }
 
     /**
@@ -226,6 +240,28 @@ public final class Renderer implements IRenderer {
     @Override
     public ICamera getCamera() {
         return camera;
+    }
+
+    private int prepareDrawText(final int x, final int y, final String msg, final TextAlignment alignment) {
+        graphics.setFont(FONT50);
+        graphics.setColor(WHITE_COLOR);
+        int xPos = x;
+        switch (alignment) {
+            case left:
+                xPos = x;
+                break;
+            case center:
+                xPos = x - graphics.getFontMetrics().stringWidth(msg) / 2;
+                break;
+            case right:
+                xPos = x - graphics.getFontMetrics().stringWidth(msg);
+                break;
+            default:
+                final String error = "The text alignment enum constant could not be identified: " + alignment.toString();
+                logger.error(error);
+                throw new InternalError(error);
+        }
+        return xPos;
     }
 
 }

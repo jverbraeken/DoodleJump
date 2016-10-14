@@ -35,7 +35,7 @@ import java.util.List;
     /**
      * The sprites of the coin, animated.
      */
-    private final ISprite[] coinSprite = new ISprite[10];
+    private final ISprite[] coinSprites = new ISprite[10];
     /**
      * The background sprite.
      */
@@ -44,6 +44,14 @@ import java.util.List;
      * The index of the coin animation. Must be between 0 (inclusive) and 10 (exclusive).
      */
     private double coinSpriteIndex;
+    /**
+     * Default margin for the HUD grid.
+     */
+    private static final int MARGIN = 10;
+    /**
+     * The distance between the missions drawn at the screen.
+     */
+    private static final int DISTANCE_BETWEEN_MISSIONS = 15;
 
     /**
      * Initialize the pause screen.
@@ -59,7 +67,7 @@ import java.util.List;
 
         // Coins
         for (int i = 0; i < 10; i++) {
-            coinSprite[i] = this.serviceLocator.getSpriteFactory().getCoinSprite(i + 1);
+            coinSprites[i] = this.serviceLocator.getSpriteFactory().getCoinSprite(i + 1);
         }
 
         // Resume button
@@ -94,18 +102,24 @@ import java.util.List;
     public void render() {
         assert background != null;
         assert resumeButton != null;
-        assert coinSprite[(int) coinSpriteIndex] != null;
+        assert coinSprites[(int) coinSpriteIndex] != null;
 
         serviceLocator.getRenderer().drawSpriteHUD(background, 0, 0);
 
         resumeButton.render();
 
-        ISprite sprite = coinSprite[(int) coinSpriteIndex];
-        serviceLocator.getRenderer().drawSpriteHUD(sprite, 10 + sprite.getHeight() / 2 - (int) (((double) sprite.getWidth() / (double) sprite.getHeight()) * (double) sprite.getHeight() / 2d), 10);
+        ISprite coinSprite = this.coinSprites[(int) coinSpriteIndex];
+        final int coinX = MARGIN + coinSprite.getHeight() / 2 - (int) (((double) coinSprite.getWidth() / (double) coinSprite.getHeight()) * (double) coinSprite.getHeight() / 2d);
+        final int coinY = serviceLocator.getSpriteFactory().getScoreBarSprite().getHeight();
+        serviceLocator.getRenderer().drawSpriteHUD(coinSprite, coinX, coinY);
 
-        List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
+        final int coinTextX = MARGIN + coinSprite.getHeight() + MARGIN;
+        serviceLocator.getRenderer().drawTextHUD(coinTextX, coinY, Integer.toString(serviceLocator.getProgressionManager().getCoins()));
+
+        final List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
+        final int missionSpriteHeight = serviceLocator.getSpriteFactory().getAchievementSprite().getHeight();
         for (int i = 0; i < missions.size(); i++) {
-            missions.get(i).render(i);
+            missions.get(i).render(coinY + coinSprite.getHeight() + MARGIN + Math.max(i - 1, 0) * missionSpriteHeight + i * DISTANCE_BETWEEN_MISSIONS);
         }
     }
 
