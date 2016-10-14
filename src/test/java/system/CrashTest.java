@@ -16,6 +16,8 @@ public class CrashTest {
 
     @Before
     public void Init() throws Exception {
+        String[] a = {"a"};
+        Game.main(a);
         sL = Whitebox.getInternalState(Game.class, "serviceLocator");
     }
 
