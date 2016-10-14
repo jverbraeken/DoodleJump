@@ -84,12 +84,7 @@ public class Doodle extends AGameObject implements IDoodle {
                 sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0],
                 Doodle.class);
 
-        this.setHitBox(
-                (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
-                getSprite().getHeight(),
-                (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT),
-                getSprite().getHeight());
-
+        this.updateHitBox();
         this.world = w;
         setBehavior(Game.getMode());
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
@@ -227,6 +222,13 @@ public class Doodle extends AGameObject implements IDoodle {
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
+        double[] hitbox = this.getHitBox();
+        int x = (int) (this.getXPos() + this.getHitBox()[HITBOX_LEFT]);
+        int y = (int) (this.getYPos() + this.getHitBox()[HITBOX_TOP]);
+        int width = (int) (this.getXPos() + this.getHitBox()[HITBOX_RIGHT]);
+        int height = (int) (this.getYPos() + this.getHitBox()[HITBOX_BOTTOM]);
+        getServiceLocator().getRenderer().drawRectangle(x, y, width - x, height - y);
+
         this.getPowerup().render();
     }
 
@@ -257,13 +259,7 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public final void increaseSpriteScalar(final double inc) {
         this.spriteScalar += inc;
-
-        ISprite sprite = this.getSprite();
-        int width = (int) (sprite.getWidth() * this.spriteScalar);
-        int height = (int) (sprite.getHeight() * this.spriteScalar);
-        this.setHitBox(
-                (int) (width * WIDTH_HIT_BOX_LEFT), height,
-                (int) (width * WIDTH_HIT_BOX_RIGHT), height);
+        this.updateHitBox();
     }
 
     /**
@@ -372,6 +368,18 @@ public class Doodle extends AGameObject implements IDoodle {
         if (newScore > this.score) {
             this.score = newScore;
         }
+    }
+
+    /**
+     * Update the hitbox for the Doodle
+     */
+    private void updateHitBox() {
+        ISprite sprite = this.getSprite();
+        int width = (int) (sprite.getWidth() * this.spriteScalar);
+        int height = (int) (sprite.getHeight() * this.spriteScalar);
+        int x = (int) (width * WIDTH_HIT_BOX_LEFT);
+        int y = (int) (width * WIDTH_HIT_BOX_RIGHT);
+        this.setHitBox(x, 0, y, height);
     }
 
 }
