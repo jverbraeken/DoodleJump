@@ -34,8 +34,14 @@ import system.IServiceLocator;
      */
     @Override
     public boolean collidesWith(final IDoodle doodle) {
-        doodle.collide(this);
-        return true;
+        if (doodle.getVerticalSpeed() > 0
+        && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight() < this.getYPos()) {
+            getLogger().info("Doodle collided with a Spring");
+            doodle.collide(this);
+            return true;
+        }
+
+        return false;
     }
 
     /**

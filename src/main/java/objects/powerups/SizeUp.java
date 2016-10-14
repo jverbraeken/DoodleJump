@@ -31,7 +31,7 @@ import system.IServiceLocator;
     public boolean collidesWith(final IDoodle doodle) {
         getLogger().info("Doodle collided with a SizeUp");
         doodle.increaseSpriteScalar(SCALE_INCREASE);
-        this.setXPos(this.getSprite().getWidth() * -1);
+        this.setXPos(this.getSprite().getWidth() * -1); // Hide the powerup so it will be deleted automatically
         return true;
     }
 

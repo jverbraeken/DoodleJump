@@ -102,7 +102,6 @@ import system.IServiceLocator;
             getLogger().info("Doodle collided with a Propeller");
             this.owner = doodle;
             doodle.setPowerup(this);
-
             return true;
         }
 
