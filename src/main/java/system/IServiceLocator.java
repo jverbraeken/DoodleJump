@@ -13,6 +13,7 @@ import objects.enemies.IEnemyBuilder;
 import objects.powerups.IPowerupFactory;
 import progression.IMissionFactory;
 import progression.IProgressionManager;
+import rendering.ICameraFactory;
 import rendering.IRenderer;
 import resources.IRes;
 import resources.audio.IAudioManager;
@@ -61,6 +62,8 @@ public interface IServiceLocator {
 
     void provide(IMissionFactory missionFactory);
 
+    void provide(ICameraFactory cameraFactory);
+
     IAudioManager getAudioManager();
 
     IEnemyBuilder getEnemyBuilder();
@@ -96,5 +99,7 @@ public interface IServiceLocator {
     IProgressionManager getProgressionManager();
 
     IMissionFactory getMissionFactory();
+
+    ICameraFactory getCameraFactory();
 
 }

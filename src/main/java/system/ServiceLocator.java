@@ -26,6 +26,8 @@ import progression.IMissionFactory;
 import progression.IProgressionManager;
 import progression.MissionFactory;
 import progression.ProgressionManager;
+import rendering.CameraFactory;
+import rendering.ICameraFactory;
 import rendering.IRenderer;
 import rendering.Renderer;
 import resources.IRes;
@@ -57,6 +59,7 @@ import scenes.SceneFactory;
     // enemies
     private IEnemyBuilder enemyBuilder;
     // rendering
+    private ICameraFactory cameraFactory;
     private IRenderer renderer;
     private IButtonFactory buttonFactory;
     // filesystem
@@ -193,6 +196,15 @@ import scenes.SceneFactory;
     public void provide(final ILoggerFactory lF) {
         assert lF != null;
         this.loggerFactory = lF;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void provide(final ICameraFactory cF) {
+        assert cF != null;
+        this.cameraFactory = cF;
     }
 
     /**
@@ -421,6 +433,15 @@ import scenes.SceneFactory;
 
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ICameraFactory getCameraFactory() {
+        assert this.cameraFactory != null;
+        return this.cameraFactory;
+    }
+
+    /**
      * Initialize the ServiceLocator.
      */
     private void init() {
@@ -443,6 +464,7 @@ import scenes.SceneFactory;
         ButtonFactory.register(this);
         ProgressionManager.register(this);
         MissionFactory.register(this);
+        CameraFactory.register(this);
     }
 
 }

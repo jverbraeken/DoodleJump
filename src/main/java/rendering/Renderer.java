@@ -28,7 +28,7 @@ public final class Renderer implements IRenderer {
     /**
      * The camera for the renderer.
      */
-    private final ICamera camera = new Camera();
+    private ICamera camera = new StaticCamera();
     /**
      * The graphics that are to be used by the renderer.
      */
@@ -79,7 +79,7 @@ public final class Renderer implements IRenderer {
         assert graphics != null;
 
         String drawMsg = "drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
+        String cameraMsg = "DoodleCamera corrected Y-position = " + (y - camera.getYPos());
         logger.info(drawMsg + cameraMsg);
 
         graphics.drawRect(x, (int) (y - camera.getYPos()), width, height);
@@ -96,7 +96,7 @@ public final class Renderer implements IRenderer {
         }
 
         String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
+        String cameraMsg = "DoodleCamera corrected Y-position = " + (y - camera.getYPos());
         logger.info(drawMsg + cameraMsg);
 
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), null);
@@ -113,7 +113,7 @@ public final class Renderer implements IRenderer {
         }
 
         String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - camera.getYPos());
+        String cameraMsg = "DoodleCamera corrected Y-position = " + (y - camera.getYPos());
         logger.info(drawMsg + cameraMsg);
 
         graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), width, height, null);
@@ -247,7 +247,7 @@ public final class Renderer implements IRenderer {
     @Override
     public void fillRectangle(final int x, final int y, final int width, final int height, final Color color) {
         assert graphics != null;
-        logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
+        logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - DoodleCamera corrected Y-position = " + (y - camera.getYPos()));
 
         java.awt.Color currentColor = graphics.getColor();
         graphics.setColor(color.getColor());
@@ -279,7 +279,15 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public ICamera getCamera() {
-        return camera;
+        return this.camera;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setCamera(final ICamera cam) {
+        this.camera = cam;
     }
 
     private int prepareDrawText(final int x, final int y, final String msg, final TextAlignment alignment, final java.awt.Color color, final Font font) {
