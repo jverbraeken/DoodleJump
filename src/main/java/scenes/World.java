@@ -47,10 +47,6 @@ public class World implements IScene {
      * The amount of blocks kept in a buffer.
      */
     private static final int BLOCK_BUFFER = 4;
-    /**
-     * The maximum height of a Doodle on the screen when playing alone.
-     */
-    private static final double SINGLE_DOODLE_THRESHOLD = 3 / 7d;
 
     /**
      * Used to access all services.
@@ -115,10 +111,6 @@ public class World implements IScene {
         assert sL != null;
         serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(World.class);
-
-        ICamera camera = sL.getCameraFactory().createArcadeCamera();
-        sL.getRenderer().setCamera(camera);
-        this.updatables.add(camera);
 
         this.drawables.put(drawableLevel.back, Collections.newSetFromMap(new WeakHashMap<>()));
         this.drawables.put(drawableLevel.middle, Collections.newSetFromMap(new WeakHashMap<>()));

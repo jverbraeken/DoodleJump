@@ -1,6 +1,7 @@
 package rendering;
 
 import logging.ILogger;
+import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
@@ -39,9 +40,18 @@ public class CameraFactory implements ICameraFactory {
      * {@inheritDoc}
      */
     @Override
-    public ICamera createDefaultCamera() {
-        logger.info("A new Default Camera has been created");
-        return new Camera();
+    public ICamera createStaticCamera() {
+        logger.info("A new StaticeCamera has been created");
+        return new StaticCamera();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ICamera createDoodleCamera(final IDoodle doodle) {
+        logger.info("A new DoodleCamera has been created");
+        return new DoodleCamera(serviceLocator, doodle);
     }
 
     /**
@@ -49,7 +59,7 @@ public class CameraFactory implements ICameraFactory {
      */
     @Override
     public ICamera createArcadeCamera() {
-        logger.info("A new Arcade Camera has been created");
+        logger.info("A new ArcadeCamera has been created");
         return new ArcadeCamera();
     }
 

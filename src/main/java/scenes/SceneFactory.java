@@ -4,6 +4,7 @@ import input.Keys;
 import logging.ILogger;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
+import rendering.ICamera;
 import system.IServiceLocator;
 
 /**
@@ -86,6 +87,10 @@ public final class SceneFactory implements ISceneFactory {
         IDoodle doodle = doodleFactory.createDoodle(world);
         world.addDoodle(doodle);
 
+        ICamera camera = serviceLocator.getCameraFactory().createDoodleCamera(doodle);
+        serviceLocator.getRenderer().setCamera(camera);
+        world.addUpdatable(camera);
+
         return world;
     }
 
@@ -104,6 +109,10 @@ public final class SceneFactory implements ISceneFactory {
         IDoodle doodle2 = doodleFactory.createDoodle(world);
         doodle2.setKeys(Keys.a, Keys.d);
         world.addDoodle(doodle2);
+
+        ICamera camera = serviceLocator.getCameraFactory().createArcadeCamera();
+        serviceLocator.getRenderer().setCamera(camera);
+        world.addUpdatable(camera);
 
         return world;
     }

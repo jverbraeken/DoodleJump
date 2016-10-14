@@ -28,7 +28,9 @@ import com.google.common.util.concurrent.AtomicDouble;
     /**
      * Package constructor to prevent instantiation from outside the package.
      */
-    /* package */ ArcadeCamera() { }
+    /* package */ ArcadeCamera() {
+
+    }
 
     /**
      * {@inheritDoc}
