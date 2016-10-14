@@ -23,7 +23,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a play again button.
      */
-    IButton createPlayAgainButton(final int x, final int y, final String gameType);
+    IButton createPlayAgainButton(final int x, final int y);
 
     /**
      * Create a press to start multiplayer playing button.

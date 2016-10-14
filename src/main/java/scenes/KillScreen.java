@@ -62,7 +62,7 @@ import system.IServiceLocator;
      *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    /* package */ KillScreen(final IServiceLocator sL, final String gameType) {
+    /* package */ KillScreen(final IServiceLocator sL) {
         assert sL != null;
         this.serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(KillScreen.class);
@@ -74,8 +74,7 @@ import system.IServiceLocator;
         IButtonFactory buttonFactory = sL.getButtonFactory();
         playAgainButton = buttonFactory.createPlayAgainButton(
                 (int) (sL.getConstants().getGameWidth() * PLAY_AGAIN_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * PLAY_AGAIN_BUTTON_Y),
-                gameType);
+                (int) (sL.getConstants().getGameHeight() * PLAY_AGAIN_BUTTON_Y));
         mainMenuButton = buttonFactory.createMainMenuButton(
                 (int) (sL.getConstants().getGameWidth() * MAIN_MENU_BUTTON_X),
                 (int) (sL.getConstants().getGameHeight() * MAIN_MENU_BUTTON_Y));

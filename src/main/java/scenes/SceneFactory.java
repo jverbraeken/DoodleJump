@@ -4,6 +4,7 @@ import input.Keys;
 import logging.ILogger;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
+import system.Game;
 import system.IServiceLocator;
 
 /**
@@ -53,7 +54,7 @@ public final class SceneFactory implements ISceneFactory {
     @Override
     public IScene createKillScreen(final String gameType) {
         logger.info("A new KillScreen has been created");
-        return new KillScreen(serviceLocator, gameType);
+        return new KillScreen(serviceLocator);
     }
 
     /**
@@ -86,6 +87,7 @@ public final class SceneFactory implements ISceneFactory {
         IDoodle doodle = doodleFactory.createDoodle(world);
         world.addDoodle(doodle);
 
+        Game.setPlayerMode(Game.PlayerModes.single);
         return world;
     }
 
@@ -105,6 +107,7 @@ public final class SceneFactory implements ISceneFactory {
         doodle2.setKeys(Keys.a, Keys.d);
         world.addDoodle(doodle2);
 
+        Game.setPlayerMode(Game.PlayerModes.multi);
         return world;
     }
 
