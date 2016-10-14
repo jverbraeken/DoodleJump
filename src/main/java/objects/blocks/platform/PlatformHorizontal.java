@@ -20,8 +20,8 @@ public final class PlatformHorizontal extends PlatformDecorator implements IPlat
         }
         getContained().getProps().put(Platform.PlatformProperties.movingHorizontally, 1);
 
-        getDirections().put(Platform.Directions.left, -1);
         getDirections().put(Platform.Directions.right, 1);
+        getDirections().put(Platform.Directions.left, -1);
     }
 
     /**
