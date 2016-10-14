@@ -107,13 +107,6 @@ public final class Game {
     }
 
     /**
-     * Prevents instantiation from outside the Game class.
-     */
-    private Game(IServiceLocator sL) {
-        this.serviceLocator = sL;
-    }
-
-    /**
      * The initialization of the game.
      *
      * @param argv the arguments to run.
