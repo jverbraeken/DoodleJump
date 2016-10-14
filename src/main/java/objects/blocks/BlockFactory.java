@@ -78,6 +78,9 @@ public final class BlockFactory implements IBlockFactory {
      */
     private static transient IServiceLocator serviceLocator;
 
+    /**
+     * BlockFactory constructor.
+     */
     private BlockFactory() {
         initializeGenerationSets();
     }

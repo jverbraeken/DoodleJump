@@ -712,14 +712,22 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getRocketLauncherSprite() { return getSprite(IRes.Sprites.rocketLauncher); }
+    public ISprite getRocketLauncherSprite() {
+        return getSprite(IRes.Sprites.rocketLauncher);
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ISprite getRocketLauncherUsedSprite() { return getSprite(IRes.Sprites.rocketLauncherUsed); }
+    public ISprite getRocketLauncherUsedSprite() {
+        return getSprite(IRes.Sprites.rocketLauncherUsed);
+    }
 
+    /**
+     * Returns a list of sprites for the jetpack.
+     * @return a list of ISprite objects
+     */
     public ISprite[] getJetpackActiveSprites() {
         ISprite[] sprites = new ISprite[9];
         sprites[0] = getSprite(IRes.Sprites.jetpack0);
@@ -735,6 +743,10 @@ public final class SpriteFactory implements ISpriteFactory {
         return sprites;
     }
 
+    /**
+     * Returns a list of sprites used by the propeller.
+     * @return a list of ISprite objects.
+     */
     public ISprite[] getPropellerActiveSprites() {
         ISprite[] sprites = new ISprite[4];
         sprites[0] = getSprite(IRes.Sprites.propeller0);

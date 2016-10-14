@@ -3,7 +3,6 @@ package objects.powerups;
 import objects.AGameObject;
 import objects.IJumpable;
 import objects.doodles.IDoodle;
-import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -43,7 +42,6 @@ public class CircusCannon extends AGameObject implements IJumpable {
     @Override
     public double getBoost() {
         this.animate();
-        //this.playSound();
 
         return CircusCannon.BOOST;
     }
@@ -56,13 +54,6 @@ public class CircusCannon extends AGameObject implements IJumpable {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
-    /**
-     * Play the sound for the Trampoline.
-     */
-    private void playSound() {
-        IAudioManager audioManager = getServiceLocator().getAudioManager();
-        audioManager.playTrampoline();
-    }
 
     /**
      * Animate the Circus Cannon.
