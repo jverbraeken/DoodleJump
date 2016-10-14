@@ -8,7 +8,6 @@ import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
-import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
 import java.util.*;
@@ -307,14 +306,7 @@ public final class BlockFactory implements IBlockFactory {
                 if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
                     xPos = xPos - powerupWidth;
                 }
-                powerup.setYPos((int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
-
-                elements.add(powerup);
-            } else if (randomNr >= TRAMPOLINE_THRESHOLD) {
-
-                IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-                IGameObject powerup = powerupFactory.chooseTrampolineUpgrade(
-                        platform, TRAMPOLINE_X_OFFSET, ITEM_Y_OFFSET, platformHeight);
+                powerup.setXPos(xPos);
                 powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
                 elements.add(powerup);
             }
