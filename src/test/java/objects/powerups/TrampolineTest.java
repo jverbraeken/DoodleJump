@@ -24,6 +24,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
  * Created by Michael on 9/30/2016.
  */
 public class TrampolineTest {
+
     private IAudioManager audioManager;
     private IServiceLocator serviceLocator;
     private ISpriteFactory spriteFactory;
@@ -122,7 +123,7 @@ public class TrampolineTest {
     public void testAnimate() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 30, 653);
         Whitebox.invokeMethod(trampoline, "animate");
-        assertEquals(sprite, trampoline.getSprite());
+        assertEquals(usedSprite, trampoline.getSprite());
         assertEquals(633, trampoline.getYPos(), 0.001);
     }
 
