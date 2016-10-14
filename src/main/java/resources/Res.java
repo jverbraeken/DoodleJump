@@ -155,7 +155,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.scoreScreenTop, SPRITE_PATH + "high-scores-top@2x.png");
 
         // Top bar
-        sprites.put(Sprites.scoreBar, SPRITE_PATH + "scoreBar.png");
+        sprites.put(Sprites.scoreBar, SPRITE_PATH + "scorebar.png");
 
         // Choose mode icons
         sprites.put(Sprites.storyMode, SPRITE_PATH + "story-mode@4x.png");
