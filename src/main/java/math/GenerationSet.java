@@ -79,9 +79,9 @@ public class GenerationSet implements IWeightsSet {
             case ("normalPlatform"):
                 return platformFactory.createPlatform(0, 0);
             case ("verticalMovingPlatform"):
-                return platformFactory.createVertMovingPlatform(0, 0);
+                return platformFactory.createVerticalMovingPlatform(0, 0);
             case ("horizontalMovingPlatform"):
-                return platformFactory.createHoriMovingPlatform(0, 0);
+                return platformFactory.createHorizontalMovingPlatform(0, 0);
             case ("breakingPlatform"):
                 return platformFactory.createBreakPlatform(0, 0);
             case ("spring"):

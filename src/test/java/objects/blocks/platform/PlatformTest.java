@@ -15,6 +15,7 @@ import rendering.ICamera;
 import rendering.IRenderer;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import java.lang.reflect.Field;
@@ -27,6 +28,8 @@ import static org.powermock.api.mockito.PowerMockito.when;
 public class PlatformTest {
 
     private IPlatform p;
+    private IPlatform q;
+    private ISpriteFactory sf;
     private IServiceLocator serviceLocator;
     private IRenderer renderer;
     private ISprite sprite;
@@ -50,17 +53,23 @@ public class PlatformTest {
         audioManager = mock(IAudioManager.class);
         doodle = mock(IDoodle.class);
 
+        sprite = mock(ISprite.class);
+        sf = mock(ISpriteFactory.class);
+        when(sf.getPlatformBrokenSprite1()).thenReturn(sprite);
+        when(sf.getPlatformSprite1()).thenReturn(sprite);
+
         serviceLocator = mock(IServiceLocator.class);
         ILogger logger = mock(ILogger.class);
         ILoggerFactory logFac = mock(ILoggerFactory.class);
         when(logFac.createLogger(Platform.class)).thenReturn(logger);
         when(serviceLocator.getLoggerFactory()).thenReturn(logFac);
-
+        when(serviceLocator.getSpriteFactory()).thenReturn(sf);
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
-        sprite = mock(ISprite.class);
+
         p = new Platform(serviceLocator, 1, 1, sprite);
+        q = new PlatformBroken(serviceLocator, p);
     }
 
     /**
@@ -81,8 +90,7 @@ public class PlatformTest {
     public void updateEnumsTest() {
         p.updateEnums(1,1);
 
-        Mockito.verify(serviceLocator, Mockito.times(2)).getConstants();
-        Mockito.verify(constants).getGameWidth();
+        Mockito.verify(serviceLocator, Mockito.times(0)).getConstants();
     }
 
     /**
@@ -136,10 +144,9 @@ public class PlatformTest {
     
     @Test
     public void collidesWithBreakPlatform(){
-        p.getProps().put(Platform.PlatformProperties.breaks, 1);
-        p.collidesWith(doodle);
+        q.collidesWith(doodle);
 
-        Mockito.verify(doodle, Mockito.times(0)).collide(p);
+        Mockito.verify(doodle, Mockito.times(0)).collide(q);
         Mockito.verify(audioManager).playLomise();
     }
 

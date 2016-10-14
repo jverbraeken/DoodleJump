@@ -21,7 +21,7 @@ public interface IPlatformFactory extends IFactory {
      * @param y the platform's y position
      * @return a new horizontally moving platform
      */
-    IPlatform createHoriMovingPlatform(final int x, final int y);
+    IPlatform createHorizontalMovingPlatform(final int x, final int y);
 
     /**
      * Create a vertically moving platform.
@@ -29,7 +29,7 @@ public interface IPlatformFactory extends IFactory {
      * @param y the platform's y position
      * @return a new vertically moving platform
      */
-    IPlatform createVertMovingPlatform(final int x, final int y);
+    IPlatform createVerticalMovingPlatform(final int x, final int y);
 
     /**
      * Create a platform that breaks.

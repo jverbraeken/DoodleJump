@@ -175,7 +175,6 @@ public final class BlockFactory implements IBlockFactory {
      * @param elements The {@link Set} in which the platforms should be placed
      * @return The last and highest platform created by this method
      */
-    @SuppressWarnings("magicnumber")
     private IPlatform placeInitialStartBlockPlatforms(final Set<IGameObject> elements) {
         final double initialPlatformHeightDivider = 1.2d;
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
@@ -297,19 +296,20 @@ public final class BlockFactory implements IBlockFactory {
 
         if (!isSpecialPlatform) {
             IGameObject powerup = powerupGenerationSet.getRandomElement();
-            int powerupXLoc = (int) (calc.getRandomDouble(platformWidth));
-            double[] powHitbox = powerup.getHitBox();
-            final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
-            final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
+            if (powerup != null) {
+                int powerupXLoc = (int) (calc.getRandomDouble(platformWidth));
+                double[] powHitbox = powerup.getHitBox();
+                final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
+                final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
 
-            int xPos = (int) platform.getXPos() + powerupXLoc;
-            if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
-                xPos = xPos - powerupWidth;
+                int xPos = (int) platform.getXPos() + powerupXLoc;
+                if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
+                    xPos = xPos - powerupWidth;
+                }
+                powerup.setXPos(xPos);
+                powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
+                elements.add(powerup);
             }
-            powerup.setXPos(xPos);
-            powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight/2);
-            elements.add(powerup);
-
         }
     }
 

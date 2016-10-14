@@ -19,6 +19,11 @@ public final class PlatformFactory implements IPlatformFactory {
     private PlatformFactory() { }
 
     /**
+     * Fifty-fifty chance.
+     */
+    private static final double FIFTY_FIFTY = 0.5d;
+
+    /**
      * Register the block factory into the service locator.
      *
      * @param sL the service locator.
@@ -40,32 +45,22 @@ public final class PlatformFactory implements IPlatformFactory {
      * {@inheritDoc}
      */
     @Override
-    public IPlatform createHoriMovingPlatform(final int x, final int y) {
-        ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSpriteHori();
-        IPlatform platform = new Platform(serviceLocator, x, y, sprite);
-        platform.getProps().put(Platform.PlatformProperties.movingHorizontally, 1);
+    public IPlatform createHorizontalMovingPlatform(final int x, final int y) {
+        IPlatform platform = createPlatform(x, y);
+        IPlatform sideways = new PlatformHorizontal(serviceLocator, platform);
 
-        return platform;
+        return sideways;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public IPlatform createVertMovingPlatform(final int x, final int y) {
-        ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSpriteVert();
-        IPlatform platform = new Platform(serviceLocator, x, y, sprite);
+    public IPlatform createVerticalMovingPlatform(final int x, final int y) {
+        IPlatform platform = createPlatform(x, y);
+        IPlatform vertical = new PlatformVertical(serviceLocator, platform);
 
-        Platform.PlatformProperties vertical = Platform.PlatformProperties.movingVertically;
-
-
-        int upOrDown = 1;
-        if (serviceLocator.getCalc().getRandomDouble(1) < 0.50d) {
-            upOrDown = -1;
-        }
-        platform.getProps().put(vertical, upOrDown);
-
-        return platform;
+        return vertical;
     }
 
     /**
@@ -75,9 +70,9 @@ public final class PlatformFactory implements IPlatformFactory {
     public IPlatform createBreakPlatform(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getPlatformBrokenSprite1();
         IPlatform platform = new Platform(serviceLocator, x, y, sprite);
-        platform.getProps().put(Platform.PlatformProperties.breaks, 1);
+        IPlatform broken = new PlatformBroken(serviceLocator, platform);
 
-        return platform;
+        return broken;
     }
 
 

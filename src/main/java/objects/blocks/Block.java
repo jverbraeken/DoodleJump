@@ -71,6 +71,9 @@ public final class Block implements IBlock {
 
     /** {@inheritDoc} */
     @Override
-    public void update(final double delta) { }
-
+    public void update(final double delta) {
+        for (IGameObject e : elements) {
+            e.update(delta);
+        }
+    }
 }
