@@ -31,6 +31,7 @@ public class ProgressionManagerTest {
     private static IConstants constants;
 
     private ProgressionManager progressionManager;
+    private IMissionFactory missionFactory;
     private List<HighScore> expected;
 
     private final static HighScore SCORE_1 = new HighScore("Foo", 78);
@@ -49,9 +50,11 @@ public class ProgressionManagerTest {
         loggerFactory = mock(ILoggerFactory.class);
         fileSystem = mock(IFileSystem.class);
         constants = mock(IConstants.class);
+        missionFactory = mock(IMissionFactory.class);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getFileSystem()).thenReturn(fileSystem);
         when(serviceLocator.getConstants()).thenReturn(constants);
+        when(serviceLocator.getMissionFactory()).thenReturn(missionFactory);
         when(loggerFactory.createLogger(ProgressionManager.class)).thenReturn(mock(ILogger.class));
         ProgressionManager.register(serviceLocator);
         progressionManager = Whitebox.invokeConstructor(ProgressionManager.class);
