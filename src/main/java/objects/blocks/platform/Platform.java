@@ -1,7 +1,6 @@
 package objects.blocks.platform;
 
 import objects.AGameObject;
-import objects.blocks.BlockFactory;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -69,6 +68,7 @@ public class Platform extends AGameObject implements IPlatform {
          */
         left
     }
+
     /**
      * An enum to define what the platform does.
      */
@@ -90,9 +90,9 @@ public class Platform extends AGameObject implements IPlatform {
     /**
      * Platform constructor.
      *
-     * @param sL - The games service locator.
-     * @param x - The X location for the platform.
-     * @param y - The Y location for the platform.
+     * @param sL     - The games service locator.
+     * @param x      - The X location for the platform.
+     * @param y      - The Y location for the platform.
      * @param sprite - The sprite for the platform.
      */
     /* package */ Platform(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
@@ -104,8 +104,6 @@ public class Platform extends AGameObject implements IPlatform {
         directions.put(Directions.up, 1);
         directions.put(Directions.down, -1);
 
-        directions.put(Directions.right, 1);
-        directions.put(Directions.left, -1);
     }
 
     /**
@@ -121,80 +119,32 @@ public class Platform extends AGameObject implements IPlatform {
      */
     @Override
     public final void update(final double delta) {
-        final double xPos = this.getXPos();
-        final double yPos = this.getYPos();
-
-        if (BlockFactory.isSpecialPlatform(this)) {
-            updateEnums(xPos, yPos);
-        }
-
-        if (props.containsKey(PlatformProperties.movingVertically)) {
-            if (props.get(PlatformProperties.movingVertically).equals(directions.get(Directions.up))) {
-                this.setYPos(yPos - 2);
-                offSet = offSet - 2;
-            } else if (props.get(PlatformProperties.movingVertically).equals(directions.get(Directions.down))) {
-                this.setYPos(yPos + 2);
-                offSet = offSet + 2;
-            }
-        }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void render() {
         double xPos = this.getXPos();
         double yPos = this.getYPos();
-
-        if (props.containsKey(PlatformProperties.breaks)) {
-            int breaks = props.get(PlatformProperties.breaks);
-            if (breaks == 1) {
-                getServiceLocator().getRenderer().drawSprite(getSprite(), (int) xPos, (int) yPos);
-            } else if (breaks < 5 && breaks > 1) {
-                getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), (int) xPos, (int) yPos);
-            } else if (breaks == -1) {
-                applyGravity();
-                getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), (int) xPos, (int) yPos);
-            }
-        } else {
-            getServiceLocator().getRenderer().drawSprite(getSprite(), (int) xPos, (int) yPos);
-        }
+        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) xPos, (int) yPos);
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void updateEnums(final double xPos, final double yPos) {
-        if (offSet > movingDistance) {
-            this.props.replace(PlatformProperties.movingVertically, 1);
-        } else if (offSet < -movingDistance) {
-            this.props.replace(PlatformProperties.movingVertically, -1);
-        }
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void collidesWith(final IDoodle doodle) {
-        if (props.containsKey(PlatformProperties.breaks)) {
-            if (props.get(PlatformProperties.breaks) == 1) {
-                props.replace(PlatformProperties.breaks, 2);
-                vSpeed = doodle.getVerticalSpeed() / 2;
-                playBreakSound();
-            }
-        } else {
-            this.playSound();
-            doodle.collide(this);
-        }
-    }
-
-    /**
-     * Play the breaking sound for the Platform.
-     */
-    private void playBreakSound() {
-        IAudioManager audioManager = getServiceLocator().getAudioManager();
-        audioManager.playLomise();
+        this.playSound();
+        doodle.collide(this);
     }
 
     /**
@@ -214,14 +164,16 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final Map<Directions, Integer> getDirections() {
         return directions;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void setOffset(final int value) {
         this.offSet = value;
@@ -233,36 +185,6 @@ public class Platform extends AGameObject implements IPlatform {
     @Override
     public final int getOffset() {
         return offSet;
-    }
-
-    /**
-     * Will return the Sprite of the broken platform, dependent
-     * on the number of the animation. SO which phase it is in.
-     *
-     * @param numberOfAnimation the phase of the animation
-     * @return the sprite belonging to this animation phase
-     */
-    private final ISprite getBrokenSprite(final int numberOfAnimation) {
-        if (numberOfAnimation == 2) {
-            props.replace(PlatformProperties.breaks, 3);
-            return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite2();
-        } else if (numberOfAnimation == 3) {
-            props.replace(PlatformProperties.breaks, 4);
-            return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite3();
-        } else if (numberOfAnimation == 4 || numberOfAnimation == -1) {
-            props.replace(PlatformProperties.breaks, -1);
-            return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite4();
-        } else {
-            return getSprite();
-        }
-    }
-
-    /**
-     * Apply gravity to the Breaking platform.
-     */
-    private void applyGravity() {
-        vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
-        addYPos(this.vSpeed);
     }
 
 }

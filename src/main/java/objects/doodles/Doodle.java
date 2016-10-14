@@ -1,5 +1,6 @@
 package objects.doodles;
 
+import constants.IConstants;
 import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
@@ -23,10 +24,6 @@ import system.IServiceLocator;
 @SuppressWarnings({"checkstyle:designforextension"})
 public class Doodle extends AGameObject implements IDoodle {
 
-    /**
-     * The relative center of the camera on the y axis.
-     */
-    private static final double CAMERA_POS = 3 / 7d;
     /**
      * The ratio of Doodle to offset the frame size vs panel size.
      */
@@ -154,6 +151,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * {@inheritDoc}
      */
+    @Override
     public final IPowerup getPowerup() {
         if (this.powerup != null) {
             return this.powerup;
@@ -217,8 +215,7 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void setSprite(final MovementBehavior.Directions direction, final boolean falling) {
         if (direction == MovementBehavior.Directions.Left) {
             setSprite(this.spritePack[0][falling ? 1 : 0]);
-        }
-        if (direction == MovementBehavior.Directions.Right) {
+        } else if (direction == MovementBehavior.Directions.Right) {
             setSprite(this.spritePack[1][falling ? 1 : 0]);
         }
     }
@@ -297,10 +294,10 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void update(final double delta) {
         this.applyMovementBehavior(delta);
         this.wrap();
-        this.checkHighPosition();
         this.checkDeadPosition();
         starNumber++;
         this.getPowerup().update(delta);
+        this.updateScore();
     }
 
     /**
@@ -340,6 +337,22 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
+    public MovementBehavior.Directions getFacing() {
+        return this.behavior.getFacing();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public World getWorld() {
+        return this.world;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Keys[] getKeys() {
         return this.keys;
     }
@@ -360,20 +373,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void applyMovementBehavior(final double delta) {
         behavior.move(delta);
-    }
-
-    /**
-     * Check the height position of the Doodle.
-     */
-    private void checkHighPosition() {
-        ICamera camera = getServiceLocator().getRenderer().getCamera();
-        final int height = getServiceLocator().getConstants().getGameHeight();
-
-        final double yThreshold = camera.getYPos() + height * CAMERA_POS;
-        if (getYPos() < yThreshold) {
-            score += (yThreshold - getYPos()) * getServiceLocator().getConstants().getScoreMultiplier();
-            camera.setYPos(getYPos() - height * CAMERA_POS);
-        }
     }
 
     /**
@@ -435,6 +434,18 @@ public class Doodle extends AGameObject implements IDoodle {
     @Override
     public void setAlive(final boolean al) {
         alive = al;
+    }
+
+    /**
+     * Update the score for the Doodle.
+     */
+    private void updateScore() {
+        IConstants constants = getServiceLocator().getConstants();
+        double effectiveYPos = this.getYPos() - constants.getGameHeight();
+        double newScore = -1 * effectiveYPos * constants.getScoreMultiplier();
+        if (newScore > this.score) {
+            this.score = newScore;
+        }
     }
 
 }

@@ -6,6 +6,7 @@ import objects.IGameObject;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.powerups.IPowerup;
+import scenes.World;
 
 /**
  * This class describes the behaviour of the doodle.
@@ -105,6 +106,19 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      * @param alive a boolean if the doodle is dead or alive.
      */
     void setAlive(boolean alive);
+    /**
+     * Get the direction the Doodle is facing.
+     *
+     * @return The direction of the Doodle.
+     */
+    MovementBehavior.Directions getFacing();
+
+    /**
+     * Get the world the Doodle lives.
+     *
+     * @return The world the Doodle lives in.
+     */
+    World getWorld();
 
     /**
      * Get the keys for the Doodle.

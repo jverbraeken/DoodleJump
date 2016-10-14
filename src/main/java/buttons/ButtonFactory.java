@@ -33,10 +33,10 @@ public final class ButtonFactory implements IButtonFactory {
     }
 
     /**
-     * The synchronized getter of the singleton buttonfactory.
+     * The synchronized getter of the singleton buttonFactory.
      * @return the button factory
      */
-    public synchronized static IButtonFactory getButtonFactory() {
+    private static synchronized IButtonFactory getButtonFactory() {
         if (buttonFactory == null) {
            buttonFactory = new ButtonFactory();
         }
@@ -88,7 +88,13 @@ public final class ButtonFactory implements IButtonFactory {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayAgainButtonSprite();
-        Runnable playAgainAction = () -> Game.setScene(serviceLocator.getSceneFactory().createSinglePlayerWorld());
+        Runnable playAgainAction = () -> {
+            if (Game.getPlayerMode() == Game.PlayerModes.single) {
+                Game.setScene(serviceLocator.getSceneFactory().createSinglePlayerWorld());
+            } else {
+                Game.setScene(serviceLocator.getSceneFactory().createTwoPlayerWorld());
+            }
+        };
         return new Button(serviceLocator, x, y, buttonSprite, playAgainAction, "playAgain");
     }
 
