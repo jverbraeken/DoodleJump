@@ -14,19 +14,9 @@ public class CrashTest {
 
     private IServiceLocator sL;
 
-    private JFrame frame;
-
     @Before
     public void Init() throws Exception {
-        String[] a = {"a"};
-        Game.main(a);
-        frame = Whitebox.getInternalState(Game.class, "frame");
         sL = Whitebox.getInternalState(Game.class, "serviceLocator");
-    }
-
-    @After
-    public void Close() throws Exception {
-        frame.dispose();
     }
 
     @Test
