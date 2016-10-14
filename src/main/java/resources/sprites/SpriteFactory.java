@@ -34,6 +34,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * The cache for the SpriteFactory.
      */
     private final LoadingCache<IRes.Sprites, ISprite> cache;
+
     /**
      * Prevents instantiation from outside the class.
      */
@@ -46,12 +47,20 @@ public final class SpriteFactory implements ISpriteFactory {
                         new CacheLoader<IRes.Sprites, ISprite>() {
                             @Override
                             public ISprite load(final IRes.Sprites sprite) {
-                                logger.info("Sprite loaded: \"" + sprite + "\"");
-                                return loadISprite(sprite);
+                                ISprite loaded = null;
+                                try {
+                                    logger.info("Sprite loaded: \"" + sprite + "\"");
+                                    loaded = loadISprite(sprite);
+                                } catch (FileNotFoundException e) {
+                                    logger.error(e);
+                                }
+                                return loaded;
                             }
                         }
                 );
+
     }
+
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -693,6 +702,7 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     // Passive
+
     /**
      * {@inheritDoc}
      */
@@ -859,7 +869,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * @param spriteName the enumerator defining the requested sprite
      * @return The {@link ISprite sprite} if it was found. null otherwise
      */
-    private ISprite loadISprite(final IRes.Sprites spriteName) {
+    private ISprite loadISprite(final IRes.Sprites spriteName) throws FileNotFoundException {
         assert spriteName != null;
         String filepath = serviceLocator.getRes().getSpritePath(spriteName);
         BufferedImage image = null;
@@ -869,13 +879,7 @@ public final class SpriteFactory implements ISpriteFactory {
             return new Sprite(getFileName(filepath), image);
         } catch (FileNotFoundException e) {
             logger.error(e);
-            e.printStackTrace();
-        }
-        if (image == null) {
-            logger.error("CRITICAL ERROR: the sprite \"" + spriteName.toString() + "\" could not be found!");
-            return null;
-        } else {
-            return new Sprite(getFileName(filepath), image);
+            throw (e);
         }
     }
 
