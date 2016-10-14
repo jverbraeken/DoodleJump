@@ -7,7 +7,7 @@ import system.IServiceLocator;
 /**
  * A factory for the creation of different cameras.
  */
-public class CameraFactory implements ICameraFactory {
+public final class CameraFactory implements ICameraFactory {
 
     /**
      * The logger for the SceneFactory class.
@@ -41,7 +41,7 @@ public class CameraFactory implements ICameraFactory {
      */
     @Override
     public ICamera createStaticCamera() {
-        logger.info("A new StaticeCamera has been created");
+        logger.info("A new StaticCamera has been created");
         return new StaticCamera();
     }
 

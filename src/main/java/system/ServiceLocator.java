@@ -182,7 +182,7 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
-    public void provide(ICameraFactory cF) {
+    public void provide(final ICameraFactory cF) {
         assert cF != null;
         this.cameraFactory = cF;
     }

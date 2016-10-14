@@ -29,6 +29,9 @@ import system.IServiceLocator;
 
     /**
      * Package constructor to prevent instantiation from outside the package.
+     *
+     * @param sL The serviceLocator for the Game.
+     * @param d The Doodle that should be used as reference point.
      */
     /* package */ DoodleCamera(final IServiceLocator sL, final IDoodle d) {
         this.serviceLocator = sL;
