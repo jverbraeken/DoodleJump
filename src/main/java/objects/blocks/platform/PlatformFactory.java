@@ -57,19 +57,10 @@ public final class PlatformFactory implements IPlatformFactory {
      */
     @Override
     public IPlatform createVerticalMovingPlatform(final int x, final int y) {
-        ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSpriteVert();
-        IPlatform platform = new Platform(serviceLocator, x, y, sprite);
+        IPlatform platform = createPlatform(x, y);
+        IPlatform vertical = new PlatformVertical(serviceLocator, platform);
 
-        Platform.PlatformProperties vertical = Platform.PlatformProperties.movingVertically;
-
-
-        int upOrDown = 1;
-        if (serviceLocator.getCalc().getRandomDouble(1) < FIFTY_FIFTY) {
-            upOrDown = -1;
-        }
-        platform.getProps().put(vertical, upOrDown);
-
-        return platform;
+        return vertical;
     }
 
     /**
@@ -79,9 +70,9 @@ public final class PlatformFactory implements IPlatformFactory {
     public IPlatform createBreakPlatform(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getPlatformBrokenSprite1();
         IPlatform platform = new Platform(serviceLocator, x, y, sprite);
-        platform.getProps().put(Platform.PlatformProperties.breaks, 1);
+        IPlatform broken = new PlatformBroken(serviceLocator, platform);
 
-        return platform;
+        return broken;
     }
 
 

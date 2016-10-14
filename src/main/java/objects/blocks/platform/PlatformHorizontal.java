@@ -1,6 +1,5 @@
 package objects.blocks.platform;
 
-import objects.blocks.BlockFactory;
 import system.IServiceLocator;
 
 /**
@@ -26,9 +25,7 @@ public final class PlatformHorizontal extends PlatformDecorator implements IPlat
         double xPos = this.getXPos();
         double yPos = this.getYPos();
 
-        if (BlockFactory.isSpecialPlatform(this)) {
-            updateEnums(xPos, yPos);
-        }
+        updateEnums(xPos, yPos);
 
         if (getContained().getProps().containsKey(Platform.PlatformProperties.movingHorizontally)) {
 
@@ -40,6 +37,8 @@ public final class PlatformHorizontal extends PlatformDecorator implements IPlat
                 setXPos(xPos - 2);
             }
         }
+
+        getContained().update(delta);
     }
 
     /** {@inheritDoc} */

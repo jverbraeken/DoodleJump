@@ -19,7 +19,7 @@ public final class Calc implements ICalc {
      * The singleton Calc.
      * Created using double locking.
      */
-    private volatile static ICalc calc;
+    private static volatile ICalc calc;
 
     /**
      * Random generator.
