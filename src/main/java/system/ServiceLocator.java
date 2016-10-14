@@ -22,6 +22,8 @@ import objects.enemies.EnemyBuilder;
 import objects.enemies.IEnemyBuilder;
 import objects.powerups.IPowerupFactory;
 import objects.powerups.PowerupFactory;
+import rendering.CameraFactory;
+import rendering.ICameraFactory;
 import rendering.IRenderer;
 import rendering.Renderer;
 import resources.IRes;
@@ -52,6 +54,7 @@ import scenes.SceneFactory;
     private IEnemyBuilder enemyBuilder;
 
     // rendering
+    private ICameraFactory cameraFactory;
     private IRenderer renderer;
     private IButtonFactory buttonFactory;
 
@@ -173,6 +176,15 @@ import scenes.SceneFactory;
     public void provide(final ILoggerFactory lF) {
         assert lF != null;
         this.loggerFactory = lF;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void provide(final ICameraFactory cF) {
+        assert cF != null;
+        this.cameraFactory = cF;
     }
 
     /** {@inheritDoc} */
@@ -322,6 +334,15 @@ import scenes.SceneFactory;
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ICameraFactory getCameraFactory() {
+        assert this.cameraFactory != null;
+        return this.cameraFactory;
+    }
+
+    /**
      * Initialize the ServiceLocator.
      */
     private void init() {
@@ -342,6 +363,7 @@ import scenes.SceneFactory;
         SceneFactory.register(this);
         PlatformFactory.register(this);
         ButtonFactory.register(this);
+        CameraFactory.register(this);
     }
 
 }

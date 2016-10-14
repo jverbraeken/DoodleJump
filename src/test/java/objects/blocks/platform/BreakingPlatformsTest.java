@@ -4,25 +4,33 @@ import constants.IConstants;
 import logging.ILogger;
 import logging.ILoggerFactory;
 import logging.LoggerFactory;
+import math.Calc;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import rendering.ICamera;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import resources.sprites.Sprite;
 import resources.sprites.SpriteFactory;
 import system.IServiceLocator;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
-
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({SpriteFactory.class, Calc.class, Sprite.class})
 public class BreakingPlatformsTest {
 
     private IPlatform p;
+    private IPlatform q;
     private IServiceLocator serviceLocator;
     private IRenderer renderer;
     private ISprite sprite;
@@ -53,11 +61,13 @@ public class BreakingPlatformsTest {
         when(logFac.createLogger(Platform.class)).thenReturn(logger);
         when(serviceLocator.getSpriteFactory()).thenReturn(sf);
         when(serviceLocator.getLoggerFactory()).thenReturn(logFac);
+        when(sf.getPlatformBrokenSprite1()).thenReturn(sprite);
         when(sf.getPlatformBrokenSprite2()).thenReturn(brokensprite);
         when(sf.getPlatformBrokenSprite3()).thenReturn(brokensprite2);
         when(sf.getPlatformBrokenSprite4()).thenReturn(brokensprite3);
 
-        p = new Platform(serviceLocator, 1, 1, sprite);
+        q = new Platform(serviceLocator, 1, 1, sprite);
+        p = new PlatformBroken(serviceLocator, q);
         p.getProps().put(Platform.PlatformProperties.breaks, 1);
     }
 
@@ -68,7 +78,7 @@ public class BreakingPlatformsTest {
     public void getBrokenSpriteTest2() throws Exception {
         assertThat(Whitebox.invokeMethod(p, "getBrokenSprite", 2), is(brokensprite));
 
-        Mockito.verify(serviceLocator).getSpriteFactory();
+        Mockito.verify(serviceLocator, times(2)).getSpriteFactory();
         Mockito.verify(sf).getPlatformBrokenSprite2();
     }
 

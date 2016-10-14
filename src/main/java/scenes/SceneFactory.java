@@ -4,6 +4,7 @@ import input.Keys;
 import logging.ILogger;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
+import rendering.ICamera;
 import system.Game;
 import system.IServiceLocator;
 
@@ -52,7 +53,7 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
-    public IScene createKillScreen(final String gameType) {
+    public IScene createKillScreen() {
         logger.info("A new KillScreen has been created");
         return new KillScreen(serviceLocator);
     }
@@ -81,11 +82,15 @@ public final class SceneFactory implements ISceneFactory {
     @Override
     public World createSinglePlayerWorld() {
         logger.info("A new World has been created");
-        World world = new World(serviceLocator, "single");
+        World world = new World(serviceLocator);
 
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
         IDoodle doodle = doodleFactory.createDoodle(world);
         world.addDoodle(doodle);
+
+        ICamera camera = serviceLocator.getCameraFactory().createDoodleCamera(doodle);
+        serviceLocator.getRenderer().setCamera(camera);
+        world.addUpdatable(camera);
 
         Game.setPlayerMode(Game.PlayerModes.single);
         return world;
@@ -97,7 +102,7 @@ public final class SceneFactory implements ISceneFactory {
     @Override
     public World createTwoPlayerWorld() {
         logger.info("A new TwoPlayerWorld has been created");
-        World world = new World(serviceLocator, "multi");
+        World world = new World(serviceLocator);
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
 
         IDoodle doodle1 = doodleFactory.createDoodle(world);
@@ -106,6 +111,10 @@ public final class SceneFactory implements ISceneFactory {
         IDoodle doodle2 = doodleFactory.createDoodle(world);
         doodle2.setKeys(Keys.a, Keys.d);
         world.addDoodle(doodle2);
+
+        ICamera camera = serviceLocator.getCameraFactory().createArcadeCamera();
+        serviceLocator.getRenderer().setCamera(camera);
+        world.addUpdatable(camera);
 
         Game.setPlayerMode(Game.PlayerModes.multi);
         return world;
