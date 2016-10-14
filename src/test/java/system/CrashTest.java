@@ -9,19 +9,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CrashTest {
 
-    private Game game;
     private IServiceLocator sL;
 
     @Before
     public void Init() throws Exception {
-        game = Whitebox.invokeConstructor(Game.class);
-        Thread.sleep(1000);
         sL = Whitebox.getInternalState(Game.class, "serviceLocator");
     }
 
     @Test
     public void testCreateSinglePlayerWorld() {
-        game.setScene(
+        Game.setScene(
                 sL.getSceneFactory().createSinglePlayerWorld());
         //No crashes
         assertThat(true, is(true));
@@ -29,7 +26,7 @@ public class CrashTest {
 
     @Test
     public void testCreateMultiplayerWorld() {
-        game.setScene(
+        Game.setScene(
                 sL.getSceneFactory().createTwoPlayerWorld());
         //No crashes
         assertThat(true, is(true));
@@ -37,7 +34,7 @@ public class CrashTest {
 
     @Test
     public void testCreateScoreScreen() {
-        game.setScene(
+        Game.setScene(
                 sL.getSceneFactory().createScoreScreen());
         //No crashes
         assertThat(true, is(true));
@@ -45,7 +42,7 @@ public class CrashTest {
 
     @Test
     public void testCreateChoodeMode() {
-        game.setScene(
+        Game.setScene(
                 sL.getSceneFactory().newChooseMode());
         //No crashes
         assertThat(true, is(true));
@@ -53,7 +50,7 @@ public class CrashTest {
 
     @Test
     public void testCreateKillScreen() {
-        game.setScene(
+        Game.setScene(
                 sL.getSceneFactory().createKillScreen());
         //No crashes
         assertThat(true, is(true));
@@ -61,7 +58,7 @@ public class CrashTest {
 
     @Test
     public void testCreatePauseScreen() {
-        game.setScene(
+        Game.setScene(
                 sL.getSceneFactory().createPauseScreen());
         //No crashes
         assertThat(true, is(true));
@@ -69,7 +66,7 @@ public class CrashTest {
 
     @Test
     public void testCreateMainMenu() {
-        game.setScene(
+        Game.setScene(
                 sL.getSceneFactory().createMainMenu());
         //No crashes
         assertThat(true, is(true));
