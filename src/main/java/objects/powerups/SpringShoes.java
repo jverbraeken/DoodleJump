@@ -57,12 +57,15 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
+    public boolean collidesWith(final IDoodle doodle) {
         if (this.owner == null) {
             getLogger().info("Doodle collided with a pair of SpringShoes");
             this.owner = doodle;
             doodle.setPowerup(this);
+            return true;
         }
+
+        return false;
     }
 
     /**

@@ -37,7 +37,7 @@ public interface IGameObject extends IRenderable, IUpdatable {
      *
      * @param doodle The Doodle to check.
      */
-    void collidesWith(final IDoodle doodle);
+    boolean collidesWith(final IDoodle doodle);
 
     /**
      * Retrieve the hitbox of the game object.

@@ -114,9 +114,15 @@ public class Platform extends AGameObject implements IPlatform {
 
     /** {@inheritDoc} */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
-        this.playSound();
-        doodle.collide(this);
+    public final boolean collidesWith(final IDoodle doodle) {
+        if (doodle.getVerticalSpeed() > 0
+        && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight() < this.getYPos()) {
+            this.playSound();
+            doodle.collide(this);
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -262,17 +262,11 @@ public class World implements IScene {
      * @param doodle The Doodle of interest.
      */
     private void checkCollisionsForDoodle(final IDoodle doodle) {
-        if (doodle.getVerticalSpeed() <= 0) {
-            return;
-        }
-
         for (IBlock block : blocks) {
             Set<IGameObject> elements = block.getElements();
             for (IGameObject element : elements) {
                 if (doodle.checkCollision(element)) {
-                    if (doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight() < element.getYPos()) {
-                        element.collidesWith(doodle);
-                    }
+                    element.collidesWith(doodle);
                 }
             }
         }

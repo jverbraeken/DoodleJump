@@ -88,14 +88,16 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
-        System.out.println(getProps().get(Platform.PlatformProperties.breaks));
-        if (getProps().get(Platform.PlatformProperties.breaks).equals(1)) {
-            getProps().replace(Platform.PlatformProperties.breaks, 2);
-            vSpeed = doodle.getVerticalSpeed() / 2;
-            playBreakSound();
+    public boolean collidesWith(final IDoodle doodle) {
+        if (this.getProps().get(Platform.PlatformProperties.breaks).equals(1)) {
+            if (super.collidesWith(doodle)) {
+                this.getProps().replace(Platform.PlatformProperties.breaks, 2);
+                vSpeed = doodle.getVerticalSpeed() / 2;
+                return true;
+            }
         }
 
+        return false;
     }
 
     /**

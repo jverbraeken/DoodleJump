@@ -27,8 +27,9 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
+    public boolean collidesWith(final IDoodle doodle) {
         doodle.collide(this);
+        return true;
     }
 
 }

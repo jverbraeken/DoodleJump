@@ -23,13 +23,6 @@ public interface IPlatform extends IGameObject, IJumpable {
     void render();
 
     /**
-     * Will send to the Doodle that it is colliding with this platform.
-     *
-     * @param doodle the Doodle it is colliding with.
-     */
-    void collidesWith(IDoodle doodle);
-
-    /**
      * Returns the Map with properties of the Platform.
      *
      * @return the Map with properties

@@ -33,6 +33,6 @@ public class Enemy extends AEnemy {
 
     /** {@inheritDoc} */
     @Override
-    public void collidesWith(final IDoodle doodle) { }
+    public boolean collidesWith(final IDoodle doodle) { return false; }
 
 }

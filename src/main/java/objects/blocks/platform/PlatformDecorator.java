@@ -45,7 +45,7 @@ public abstract class PlatformDecorator implements IPlatform {
      * Return the contained platform.
      * @return the platform.
      */
-    public IPlatform getContained() {
+    /* package */ IPlatform getContained() {
         return contained;
     }
 
@@ -111,8 +111,8 @@ public abstract class PlatformDecorator implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
-        contained.collidesWith(doodle);
+    public boolean collidesWith(final IDoodle doodle) {
+        return contained.collidesWith(doodle);
     }
 
     /**

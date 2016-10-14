@@ -128,7 +128,7 @@ public class Doodle extends AGameObject implements IDoodle {
                 public void render() { }
 
                 @Override
-                public void collidesWith(final IDoodle doodle) { }
+                public boolean collidesWith(final IDoodle doodle) { return true; }
             };
         }
     }
@@ -137,7 +137,8 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
+    public boolean collidesWith(final IDoodle doodle) {
+        return false;
     }
 
     /**
@@ -378,7 +379,5 @@ public class Doodle extends AGameObject implements IDoodle {
             this.addXPos(-width);
         }
     }
-
-
 
 }
