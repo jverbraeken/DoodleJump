@@ -91,8 +91,7 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
     @Override
     public void collidesWith(final IDoodle doodle) {
         if (this.getProps().get(Platform.PlatformProperties.breaks).equals(1)) {
-            if (doodle.getVerticalSpeed() > 0
-            && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight() < this.getYPos()) {
+            if (doodle.getVerticalSpeed() > 0 && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight() < this.getYPos()) {
                 this.getProps().replace(Platform.PlatformProperties.breaks, 2);
                 vSpeed = doodle.getVerticalSpeed() / 2;
                 this.playBreakSound();

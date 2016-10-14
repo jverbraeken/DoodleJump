@@ -49,6 +49,10 @@ public class SpringShoesTest {
         when(loggerFactory.createLogger(SpringShoes.class)).thenReturn(logger);
         when(sprite.getWidth()).thenReturn(0);
         when(spriteFactory.getSpringShoesSprite()).thenReturn(sprite);
+        when(doodle.getHitBox()).thenReturn(new double[]{0, 0, 0, 0});
+        when(doodle.getYPos()).thenReturn(-2d);
+        when(doodle.getLegsHeight()).thenReturn(0d);
+        when(doodle.getVerticalSpeed()).thenReturn(1d);
 
         springShoes = new SpringShoes(serviceLocator, 0, 0);
     }
@@ -122,18 +126,13 @@ public class SpringShoesTest {
     public void testRenderNoOwner() {
         springShoes.render();
         verify(renderer, times(1)).drawSprite(sprite, 0, 0);
-        verify(doodle, times(0)).getXPos();
-        verify(doodle, times(0)).getYPos();
     }
 
     @Test
     public void testRenderWithOwner() {
         springShoes.collidesWith(doodle);
-
         springShoes.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
-        verify(doodle, times(1)).getXPos();
-        verify(doodle, times(1)).getYPos();
+        verify(renderer, times(1)).drawSprite(sprite, 0, -2);
     }
 
 }

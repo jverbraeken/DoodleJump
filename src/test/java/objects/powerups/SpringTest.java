@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.Before;
@@ -34,6 +35,7 @@ public class SpringTest {
     private Spring spring;
     private IDoodle doodle;
     private ILoggerFactory loggerFactory;
+    private ILogger logger;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -51,7 +53,9 @@ public class SpringTest {
         renderer = mock(IRenderer.class);
         doodle = mock(IDoodle.class);
         loggerFactory = mock(ILoggerFactory.class);
+        logger = mock(ILogger.class);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
+        when(loggerFactory.createLogger(Spring.class)).thenReturn(logger);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(spriteFactory.getSpringSprite()).thenReturn(sprite);
         when(spriteFactory.getSpringUsedSprite()).thenReturn(usedSprite);
@@ -59,6 +63,10 @@ public class SpringTest {
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(sprite.getHeight()).thenReturn(20);
         when(usedSprite.getHeight()).thenReturn(40);
+        when(doodle.getHitBox()).thenReturn(new double[]{0, 0, 0, 0});
+        when(doodle.getYPos()).thenReturn(-2d);
+        when(doodle.getLegsHeight()).thenReturn(0d);
+        when(doodle.getVerticalSpeed()).thenReturn(1d);
     }
 
     /**
