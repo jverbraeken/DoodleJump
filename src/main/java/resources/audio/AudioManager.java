@@ -21,12 +21,7 @@ public final class AudioManager implements IAudioManager {
      * Prevents instantiation from outside the class.
      */
     private AudioManager() {
-
-        try {
-            preload();
-        } catch (IllegalArgumentException e) {
-        }
-        ;
+        preload();
     }
 
     /**

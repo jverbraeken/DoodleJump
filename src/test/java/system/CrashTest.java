@@ -19,6 +19,7 @@ public class CrashTest {
         String[] a = {"a"};
         Game.main(a);
         sL = Whitebox.getInternalState(Game.class, "serviceLocator");
+        Thread.sleep(1000);
     }
 
     @Test
