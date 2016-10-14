@@ -36,6 +36,14 @@ import java.util.List;
      * The background sprite.
      */
     private ISprite background;
+    /**
+     * The sprites of the coin, animated.
+     */
+    private final ISprite[] coinSprite = new ISprite[10];
+    /**
+     * The index of the coin animation. Must be between 0 (inclusive) and 10 (exclusive).
+     */
+    private double coinSpriteIndex;
 
     /**
      * Initialize the pause screen.
@@ -48,6 +56,11 @@ import java.util.List;
 
         // Background
         background = this.serviceLocator.getSpriteFactory().getPauseCoverSprite();
+
+        // Coins
+        for (int i = 0; i < 10; i++) {
+            coinSprite[i] = this.serviceLocator.getSpriteFactory().getCoinSprite(i + 1);
+        }
 
         // Resume button
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
@@ -79,8 +92,16 @@ import java.util.List;
      */
     @Override
     public void render() {
+        assert background != null;
+        assert resumeButton != null;
+        assert coinSprite[(int) coinSpriteIndex] != null;
+
         serviceLocator.getRenderer().drawSpriteHUD(background, 0, 0);
+
         resumeButton.render();
+
+        serviceLocator.getRenderer().drawSpriteHUD(coinSprite[(int) coinSpriteIndex], 10, 10);
+
         List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
         for (int i = 0; i < missions.size(); i++) {
             missions.get(i).render(i);
@@ -92,6 +113,8 @@ import java.util.List;
      */
     @Override
     public void update(final double delta) {
+        coinSpriteIndex += 0.5 * delta;
+        coinSpriteIndex = coinSpriteIndex % 10;
     }
 
     /**

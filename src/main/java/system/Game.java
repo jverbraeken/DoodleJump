@@ -207,6 +207,9 @@ public final class Game {
             if (!isPaused) {
                 scene.update(delta);
             }
+            else {
+                pauseScreen.update(delta);
+            }
 
             panel.repaint();
             try {
