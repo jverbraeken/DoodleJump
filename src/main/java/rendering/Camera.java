@@ -5,7 +5,7 @@ import com.google.common.util.concurrent.AtomicDouble;
 /**
  * A standard implementation of the {@link ICamera} interface.
  */
-public final class Camera implements ICamera {
+/* package */ final class Camera implements ICamera {
 
     /**
      * The y-coordinate of the camera. When the doodle jumps high enough, this value decreases.

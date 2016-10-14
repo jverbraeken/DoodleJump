@@ -5,7 +5,7 @@ import com.google.common.util.concurrent.AtomicDouble;
 /**
  * A arcade implementation of the {@link ICamera} interface. Arcade meaning the camera will move up automtically.
  */
-public final class ArcadeCamera implements ICamera {
+/* package */ final class ArcadeCamera implements ICamera {
 
     /**
      * The acceleration for the camera in arcade mode.
@@ -28,7 +28,7 @@ public final class ArcadeCamera implements ICamera {
     /**
      * Package constructor to prevent instantiation from outside the package.
      */
-    public ArcadeCamera() { }
+    /* package */ ArcadeCamera() { }
 
     /**
      * {@inheritDoc}

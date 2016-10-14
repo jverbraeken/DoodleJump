@@ -8,7 +8,6 @@ import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
-import rendering.ArcadeCamera;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import system.Game;
@@ -117,8 +116,9 @@ public class World implements IScene {
         serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(World.class);
 
-        ICamera camera = new ArcadeCamera();
+        ICamera camera = sL.getCameraFactory().createArcadeCamera();
         sL.getRenderer().setCamera(camera);
+        this.updatables.add(camera);
 
         this.drawables.put(drawableLevel.back, Collections.newSetFromMap(new WeakHashMap<>()));
         this.drawables.put(drawableLevel.middle, Collections.newSetFromMap(new WeakHashMap<>()));
@@ -129,7 +129,6 @@ public class World implements IScene {
         this.blocks.add(this.topBlock);
         this.drawables.get(drawableLevel.back).add(this.topBlock);
         this.updatables.add(this.topBlock);
-        this.updatables.add(camera);
 
         for (int i = 1; i < BLOCK_BUFFER; i++) {
             this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable());
