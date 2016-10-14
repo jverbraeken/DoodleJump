@@ -30,7 +30,7 @@ public final class Renderer implements IRenderer {
     /**
      * The camera for the renderer.
      */
-    private final ICamera camera = new Camera();
+    private ICamera camera = new Camera();
     /**
      * The graphics that are to be used by the renderer.
      */
@@ -194,7 +194,15 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public ICamera getCamera() {
-        return camera;
+        return this.camera;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setCamera(final ICamera cam) {
+        this.camera = cam;
     }
 
 }

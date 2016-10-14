@@ -5,7 +5,7 @@ import com.google.common.util.concurrent.AtomicDouble;
 /**
  * A standard implementation of the {@link ICamera} interface.
  */
-/* package */ final class Camera implements ICamera {
+public final class Camera implements ICamera {
 
     /**
      * The y-coordinate of the camera. When the doodle jumps high enough, this value decreases.
@@ -31,6 +31,21 @@ import com.google.common.util.concurrent.AtomicDouble;
     @Override
     public void setYPos(final double yPos) {
         Camera.y.set(yPos);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update(double delta) {
+        /**
+         IDoodle doodle = this.doodles.get(0);
+         int height = serviceLocator.getConstants().getGameHeight();
+         double yThreshold = camera.getYPos() + height * SINGLE_DOODLE_THRESHOLD;
+         if (doodle.getYPos() < yThreshold) {
+         camera.setYPos(doodle.getYPos() - height * SINGLE_DOODLE_THRESHOLD);
+         }
+         */
     }
 
 }

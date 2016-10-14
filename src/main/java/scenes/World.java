@@ -8,6 +8,7 @@ import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
+import rendering.ArcadeCamera;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import system.Game;
@@ -47,18 +48,6 @@ public class World implements IScene {
      * The amount of blocks kept in a buffer.
      */
     private static final int BLOCK_BUFFER = 4;
-    /**
-     * Maximum amount of drawables.
-     */
-    private static final int MAX_DRAWABLES = 3;
-    /**
-     * The acceleration for the camera in arcade mode.
-     */
-    private static final double CAMERA_ACCELERATION = 0.0005d;
-    /**
-     * The initial speed for the camera in arcade mode.
-     */
-    private static final double CAMERA_INITIAL_SPEED = 3d;
     /**
      * The maximum height of a Doodle on the screen when playing alone.
      */
@@ -115,10 +104,6 @@ public class World implements IScene {
      * The highest (and thus latest) created block.
      */
     private IBlock topBlock;
-    /**
-     * The speed of the camera (only relevant in arcade mode).
-     */
-    private double cameraSpeed = CAMERA_INITIAL_SPEED;
 
     private enum drawableLevel { front, middle, back };
 
@@ -132,6 +117,9 @@ public class World implements IScene {
         serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(World.class);
 
+        ICamera camera = new ArcadeCamera();
+        sL.getRenderer().setCamera(camera);
+
         this.drawables.put(drawableLevel.back, Collections.newSetFromMap(new WeakHashMap<>()));
         this.drawables.put(drawableLevel.middle, Collections.newSetFromMap(new WeakHashMap<>()));
         this.drawables.put(drawableLevel.front, Collections.newSetFromMap(new WeakHashMap<>()));
@@ -141,6 +129,7 @@ public class World implements IScene {
         this.blocks.add(this.topBlock);
         this.drawables.get(drawableLevel.back).add(this.topBlock);
         this.updatables.add(this.topBlock);
+        this.updatables.add(camera);
 
         for (int i = 1; i < BLOCK_BUFFER; i++) {
             this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable());
@@ -209,7 +198,6 @@ public class World implements IScene {
         this.updatables.addAll(this.newUpdatables);
 
         this.updateObjects(delta);
-        this.updateCamera(delta);
         this.cleanUp();
         this.newBlocks();
         this.checkCollisions();
@@ -262,27 +250,6 @@ public class World implements IScene {
     private void updateObjects(final double delta) {
         for (IUpdatable e : updatables) {
             e.update(delta);
-        }
-    }
-
-    /**
-     * Update the camera for the world.
-     *
-     * @param delta The delta time since the previous update.
-     */
-    private void updateCamera(final double delta) {
-        ICamera camera = serviceLocator.getRenderer().getCamera();
-
-        if (this.doodles.size() > 1) { // Multi player
-            cameraSpeed += CAMERA_ACCELERATION;
-            camera.setYPos(camera.getYPos() - cameraSpeed);
-        } else if (this.doodles.size() == 1) { // Single player
-            IDoodle doodle = this.doodles.get(0);
-            int height = serviceLocator.getConstants().getGameHeight();
-            double yThreshold = camera.getYPos() + height * SINGLE_DOODLE_THRESHOLD;
-            if (doodle.getYPos() < yThreshold) {
-                camera.setYPos(doodle.getYPos() - height * SINGLE_DOODLE_THRESHOLD);
-            }
         }
     }
 
