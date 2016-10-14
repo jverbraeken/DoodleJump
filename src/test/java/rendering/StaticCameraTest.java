@@ -5,22 +5,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 
-import java.lang.reflect.Field;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class CameraTest {
+public class StaticCameraTest {
+
     private ICamera camera;
 
     @Before
     public void init() {
-        camera = new Camera();
+        camera = new StaticCamera();
     }
 
     @Test
     public void testGetYPos() throws NoSuchFieldException, IllegalAccessException {
-        Object y = Whitebox.getInternalState(Camera.class, "y");
+        Object y = Whitebox.getInternalState(StaticCamera.class, "y");
 
         ((AtomicDouble) y).set(2d);
         assertThat(camera.getYPos(), is(2d));
@@ -31,7 +30,7 @@ public class CameraTest {
 
     @Test
     public void testSetYPos() throws NoSuchFieldException, IllegalAccessException {
-        Object y = Whitebox.getInternalState(Camera.class, "y");
+        Object y = Whitebox.getInternalState(StaticCamera.class, "y");
 
         camera.setYPos(2d);
         assertThat(((AtomicDouble) y).get(), is(2d));
@@ -39,4 +38,5 @@ public class CameraTest {
         camera.setYPos(3d);
         assertThat(((AtomicDouble) y).get(), is(3d));
     }
+
 }
