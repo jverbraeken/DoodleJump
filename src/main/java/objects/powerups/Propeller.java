@@ -88,7 +88,7 @@ import system.IServiceLocator;
      */
     @Override
     public void perform(final PowerupOccasion occasion) {
-        if (occasion == PowerupOccasion.constant) {
+        if (occasion == PowerupOccasion.constant && this.owner != null) {
             this.owner.setVerticalSpeed(this.vSpeed);
         }
     }
