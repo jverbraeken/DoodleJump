@@ -14,6 +14,9 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static system.Game.Modes.regular;
 
@@ -167,7 +170,29 @@ public final class Game {
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
         HIGH_SCORES.initHighScores();
-        loop();
+
+
+        start();
+    }
+
+    /**
+     * Starts the "engine", the thread that redraws the interface at set
+     * intervals.
+     */
+    public static void start() {
+        frame.setVisible(true);
+
+        ScheduledExecutorService service = Executors
+                .newSingleThreadScheduledExecutor();
+
+        service.scheduleAtFixedRate(new Runnable() {
+
+            @Override
+            public void run() {
+                loop();
+            }
+        }, 0, 17, TimeUnit.MILLISECONDS);
+
     }
 
     /**

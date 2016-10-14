@@ -1,8 +1,11 @@
 package system;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
+
+import javax.swing.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -11,9 +14,19 @@ public class CrashTest {
 
     private IServiceLocator sL;
 
+    private JFrame frame;
+
     @Before
     public void Init() throws Exception {
+        String[] a = {"a"};
+        Game.main(a);
+        frame = Whitebox.getInternalState(Game.class, "frame");
         sL = Whitebox.getInternalState(Game.class, "serviceLocator");
+    }
+
+    @After
+    public void Close() throws Exception {
+        frame.dispose();
     }
 
     @Test
