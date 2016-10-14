@@ -21,6 +21,7 @@ public final class AudioManager implements IAudioManager {
      * Prevents instantiation from outside the class.
      */
     private AudioManager() {
+
         preload();
     }
 
@@ -426,7 +427,6 @@ public final class AudioManager implements IAudioManager {
         USAUGATEUFO("sounds/usaugateufo.wav"),
         WIN("sounds/win.wav");
 
-
         /**
          * A clip containing the sounds.
          */
@@ -444,7 +444,6 @@ public final class AudioManager implements IAudioManager {
                 logger.info("Sound loaded: \"" + filepath + "\"");
             } catch (FileNotFoundException e) {
                 logger.error(e);
-                System.out.println(filepath);
             }
         }
 

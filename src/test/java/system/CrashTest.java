@@ -22,21 +22,21 @@ public class CrashTest {
         Thread.sleep(1000);
     }
 
-    @Test
+    /*@Test
     public void testCreateSinglePlayerWorld() {
         Game.setScene(
                 sL.getSceneFactory().createSinglePlayerWorld());
         //No crashes
         assertThat(true, is(true));
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testCreateMultiplayerWorld() {
         Game.setScene(
                 sL.getSceneFactory().createTwoPlayerWorld());
         //No crashes
         assertThat(true, is(true));
-    }
+    }*/
 
     @Test
     public void testCreateScoreScreen() {
