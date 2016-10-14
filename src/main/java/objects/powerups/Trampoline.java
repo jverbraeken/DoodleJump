@@ -33,15 +33,12 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public boolean collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         if (doodle.getVerticalSpeed() > 0
         && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight() < this.getYPos()) {
             getLogger().info("Doodle collided with a Trampoline");
             doodle.collide(this);
-            return true;
         }
-
-        return false;
     }
 
     /**

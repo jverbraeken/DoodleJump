@@ -97,15 +97,12 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public boolean collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         if (this.owner == null && this.timer == 0) {
             getLogger().info("Doodle collided with a Propeller");
             this.owner = doodle;
             doodle.setPowerup(this);
-            return true;
         }
-
-        return false;
     }
 
     /**

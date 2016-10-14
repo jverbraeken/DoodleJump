@@ -1,5 +1,6 @@
 package objects.blocks.platform;
 
+import objects.AGameObject;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -88,16 +89,15 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      * {@inheritDoc}
      */
     @Override
-    public boolean collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         if (this.getProps().get(Platform.PlatformProperties.breaks).equals(1)) {
-            if (super.collidesWith(doodle)) {
+            if (doodle.getVerticalSpeed() > 0
+            && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight() < this.getYPos()) {
                 this.getProps().replace(Platform.PlatformProperties.breaks, 2);
                 vSpeed = doodle.getVerticalSpeed() / 2;
-                return true;
+                this.playBreakSound();
             }
         }
-
-        return false;
     }
 
     /**

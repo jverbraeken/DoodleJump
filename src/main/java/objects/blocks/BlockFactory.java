@@ -155,7 +155,7 @@ public final class BlockFactory implements IBlockFactory {
         IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
         IGameObject powerup = powerupFactory.createJetpack(
                 serviceLocator.getConstants().getGameWidth() / 2,
-                (int) (serviceLocator.getConstants().getGameHeight() / initialPlatformHeightDivider)-300);
+                (int) (serviceLocator.getConstants().getGameHeight() / initialPlatformHeightDivider)-500);
         elements.add(powerup);
 
         return platform;
