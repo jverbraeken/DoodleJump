@@ -22,6 +22,8 @@ import objects.enemies.EnemyBuilder;
 import objects.enemies.IEnemyBuilder;
 import objects.powerups.IPowerupFactory;
 import objects.powerups.PowerupFactory;
+import rendering.CameraFactory;
+import rendering.ICameraFactory;
 import rendering.IRenderer;
 import rendering.Renderer;
 import resources.IRes;
@@ -37,7 +39,7 @@ import scenes.SceneFactory;
  * Default implementation for the ServiceLocator. Used to gain access to all services.
  */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
-/* package */ class ServiceLocator implements IServiceLocator {
+/* package */ final class ServiceLocator implements IServiceLocator {
 
     // constants.json
     private IConstants constants;
@@ -52,6 +54,7 @@ import scenes.SceneFactory;
     private IEnemyBuilder enemyBuilder;
 
     // rendering
+    private ICameraFactory cameraFactory;
     private IRenderer renderer;
     private IButtonFactory buttonFactory;
 
@@ -78,10 +81,24 @@ import scenes.SceneFactory;
     private ICalc calc;
 
     /**
+     * The singleton serviceLocator.
+     * Constructed eagerly.
+     */
+    private static final ServiceLocator SERVICE_LOCATOR = new ServiceLocator();
+
+    /**
      * Initialize the ServiceLocator class.
      */
-    /* package */ ServiceLocator() {
+    /* package */ private ServiceLocator() {
         this.init();
+    }
+
+    /**
+     * Getter of the singleton service locator.
+     * @return the service locator.
+     */
+    public static IServiceLocator getServiceLocator() {
+        return SERVICE_LOCATOR;
     }
 
     /** {@inheritDoc} */
@@ -159,6 +176,15 @@ import scenes.SceneFactory;
     public void provide(final ILoggerFactory lF) {
         assert lF != null;
         this.loggerFactory = lF;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void provide(final ICameraFactory cF) {
+        assert cF != null;
+        this.cameraFactory = cF;
     }
 
     /** {@inheritDoc} */
@@ -308,9 +334,19 @@ import scenes.SceneFactory;
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ICameraFactory getCameraFactory() {
+        assert this.cameraFactory != null;
+        return this.cameraFactory;
+    }
+
+    /**
      * Initialize the ServiceLocator.
      */
     private void init() {
+        Res.register(this);
         FileSystem.register(this);
         Constants.register(this);
         LoggerFactory.register(this);
@@ -326,8 +362,8 @@ import scenes.SceneFactory;
         Renderer.register(this);
         SceneFactory.register(this);
         PlatformFactory.register(this);
-        Res.register(this);
         ButtonFactory.register(this);
+        CameraFactory.register(this);
     }
 
 }

@@ -1,9 +1,12 @@
 package objects.doodles;
 
 import input.IKeyInputObserver;
+import input.Keys;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
+import objects.powerups.IPowerup;
+import scenes.World;
 
 /**
  * This class describes the behaviour of the doodle.
@@ -32,10 +35,31 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void collide(final IJumpable jumpable);
 
     /**
-     * Returns the height of the legs of the doodle. When this value is very large, for example 1,
+     * Get the passive of the Doodle.
+     *
+     * @return The passive the Doodle currently has. Note that this can be null!
+     */
+    IPowerup getPowerup();
+
+    /**
+     * Add a passive item to the Doodle.
+     *
+     * @param item The item to add as passive.
+     */
+    void setPowerup(final IPowerup item);
+
+    /**
+     * Removes a passive from the Doodle.
+     *
+     * @param item The item to remove as passive.
+     */
+    void removePowerup(final IPowerup item);
+
+    /**
+     * Returns the height of the legs of the Doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      *
-     * @return The height of the legs of the doodle
+     * @return The height of the legs of the Doodle.
      */
     double getLegsHeight();
 
@@ -55,6 +79,13 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void setSprite(final MovementBehavior.Directions direction, final boolean falling);
 
     /**
+     * Increase the sprite scalar for the Doodle.
+     *
+     * @param inc The value to increase by.
+     */
+    void increaseSpriteScalar(final double inc);
+
+    /**
      * Registers its button to the {@link input.IInputManager input manager}.
      */
     void register();
@@ -63,5 +94,34 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      * Deregisters its button from the {@link input.IInputManager input manager}.
      */
     void deregister();
+
+    /**
+     * Get the direction the Doodle is facing.
+     *
+     * @return The direction of the Doodle.
+     */
+    MovementBehavior.Directions getFacing();
+
+    /**
+     * Get the world the Doodle lives.
+     *
+     * @return The world the Doodle lives in.
+     */
+    World getWorld();
+
+    /**
+     * Get the keys for the Doodle.
+     *
+     * @return An array of Keys.
+     */
+    Keys[] getKeys();
+
+    /**
+     * Set the keys the Doodle react to.
+     *
+     * @param left The key to move to the left.
+     * @param right The key to move to the right.
+     */
+    void setKeys(final Keys left, final Keys right);
 
 }

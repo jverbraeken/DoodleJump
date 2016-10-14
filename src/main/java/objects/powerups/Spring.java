@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.AGameObject;
 import objects.IJumpable;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
@@ -7,15 +8,32 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
+
 /**
  * This class describes the behaviour of the spring powerup.
  */
-/* package */ class Spring extends APowerup implements IPowerup, IJumpable {
+/* package */ final class Spring extends AGameObject implements IJumpable {
 
     /**
      * The BOOST value for the Spring.
      */
     private static final double BOOST = -35;
+    /**
+     * The speed with which the springs retracts after it is being used.
+     */
+    private static final int RETRACT_SPEED = 250;
+
+    /**
+     * The default sprite for the Spring.
+     */
+    private static ISprite defaultSprite;
+    /**
+     * The used sprite for the Spring.
+     */
+    private static ISprite usedSprite;
 
     /**
      * Trampoline constructor.
@@ -26,27 +44,36 @@ import system.IServiceLocator;
      */
     /* package */ Spring(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getSpringSprite(), Spring.class);
+
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        Spring.defaultSprite = spriteFactory.getSpringSprite();
+        Spring.usedSprite = spriteFactory.getSpringUsedSprite();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         doodle.collide(this);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final double getBoost() {
-        //TODO very unexpected behaviour for a getter. Source of bugs as the programmer does not expect this from a getter
+    public double getBoost() {
         this.animate();
         this.playSound();
 
         return Spring.BOOST;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final void render() {
+    public void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
@@ -63,14 +90,17 @@ import system.IServiceLocator;
      */
     private void animate() {
         int oldHeight = getSprite().getHeight();
-
-        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
-        ISprite newSprite = spriteFactory.getSpringUsedSprite();
-
-        int newHeight = newSprite.getHeight();
+        int newHeight = Spring.usedSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
+        this.setSprite(Spring.usedSprite);
 
-        setSprite(newSprite);
+        Spring self = this;
+        new Timer().schedule(new TimerTask() {
+            public void run() {
+                self.addYPos(newHeight - oldHeight);
+                self.setSprite(Spring.defaultSprite);
+            }
+        }, Spring.RETRACT_SPEED);
     }
 
 }

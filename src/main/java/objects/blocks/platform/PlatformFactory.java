@@ -1,6 +1,7 @@
 package objects.blocks.platform;
 
 import resources.sprites.ISprite;
+import system.Game;
 import system.IServiceLocator;
 
 /**
@@ -19,6 +20,11 @@ public final class PlatformFactory implements IPlatformFactory {
     private PlatformFactory() { }
 
     /**
+     * Fifty-fifty chance.
+     */
+    private static final double FIFTY_FIFTY = 0.5d;
+
+    /**
      * Register the block factory into the service locator.
      *
      * @param sL the service locator.
@@ -33,39 +39,35 @@ public final class PlatformFactory implements IPlatformFactory {
     @Override
     public IPlatform createPlatform(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSprite1();
-        return new Platform(serviceLocator, x, y, sprite);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public IPlatform createHoriMovingPlatform(final int x, final int y) {
-        ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSpriteHori();
-        IPlatform platform = new Platform(serviceLocator, x, y, sprite);
-        platform.getProps().put(Platform.PlatformProperties.movingHorizontally, 1);
-
-        return platform;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public IPlatform createVertMovingPlatform(final int x, final int y) {
-        ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSpriteVert();
         IPlatform platform = new Platform(serviceLocator, x, y, sprite);
 
-        Platform.PlatformProperties vertical = Platform.PlatformProperties.movingVertically;
-
-
-        int upOrDown = 1;
-        if (serviceLocator.getCalc().getRandomDouble(1) < 0.50d) {
-            upOrDown = -1;
+        if (Game.getMode().equals(Game.Modes.darkness)) {
+            IPlatform darkness = new PlatformDarkness(serviceLocator, platform);
+            return  darkness;
         }
-        platform.getProps().put(vertical, upOrDown);
-
         return platform;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IPlatform createHorizontalMovingPlatform(final int x, final int y) {
+        IPlatform platform = createPlatform(x, y);
+        IPlatform sideways = new PlatformHorizontal(serviceLocator, platform);
+
+        return sideways;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IPlatform createVerticalMovingPlatform(final int x, final int y) {
+        IPlatform platform = createPlatform(x, y);
+        IPlatform vertical = new PlatformVertical(serviceLocator, platform);
+
+        return vertical;
     }
 
     /**
@@ -75,10 +77,8 @@ public final class PlatformFactory implements IPlatformFactory {
     public IPlatform createBreakPlatform(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getPlatformBrokenSprite1();
         IPlatform platform = new Platform(serviceLocator, x, y, sprite);
-        platform.getProps().put(Platform.PlatformProperties.breaks, 1);
+        IPlatform broken = new PlatformBroken(serviceLocator, platform);
 
-        return platform;
+        return broken;
     }
-
-
 }

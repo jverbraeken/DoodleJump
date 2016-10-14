@@ -1,6 +1,11 @@
 package scenes;
 
+import input.Keys;
 import logging.ILogger;
+import objects.doodles.IDoodle;
+import objects.doodles.IDoodleFactory;
+import rendering.ICamera;
+import system.Game;
 import system.IServiceLocator;
 
 /**
@@ -35,35 +40,89 @@ public final class SceneFactory implements ISceneFactory {
         sL.provide(new SceneFactory());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IScene createMainMenu() {
         logger.info("A new Menu has been created");
         return new Menu(serviceLocator);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IScene createKillScreen() {
         logger.info("A new KillScreen has been created");
         return new KillScreen(serviceLocator);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IScene createPauseScreen() {
         logger.info("A new PauseScreen has been created");
         return new PauseScreen(serviceLocator);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public World newWorld() {
-        logger.info("A new World has been created");
-        return new World(serviceLocator);
+    public IScene createScoreScreen() {
+        logger.info("A new ScoreScreen has been created");
+        return new ScoreScreen(serviceLocator);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public World createSinglePlayerWorld() {
+        logger.info("A new World has been created");
+        World world = new World(serviceLocator);
+
+        IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
+        IDoodle doodle = doodleFactory.createDoodle(world);
+        world.addDoodle(doodle);
+
+        ICamera camera = serviceLocator.getCameraFactory().createDoodleCamera(doodle);
+        serviceLocator.getRenderer().setCamera(camera);
+        world.addUpdatable(camera);
+
+        Game.setPlayerMode(Game.PlayerModes.single);
+        return world;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public World createTwoPlayerWorld() {
+        logger.info("A new TwoPlayerWorld has been created");
+        World world = new World(serviceLocator);
+        IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
+
+        IDoodle doodle1 = doodleFactory.createDoodle(world);
+        doodle1.setKeys(Keys.arrowLeft, Keys.arrowRight);
+        world.addDoodle(doodle1);
+        IDoodle doodle2 = doodleFactory.createDoodle(world);
+        doodle2.setKeys(Keys.a, Keys.d);
+        world.addDoodle(doodle2);
+
+        ICamera camera = serviceLocator.getCameraFactory().createArcadeCamera();
+        serviceLocator.getRenderer().setCamera(camera);
+        world.addUpdatable(camera);
+
+        Game.setPlayerMode(Game.PlayerModes.multi);
+        return world;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ChooseMode newChooseMode() {
         logger.info("A new ChooseMode screen has been created");

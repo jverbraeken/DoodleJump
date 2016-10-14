@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.AGameObject;
 import objects.IJumpable;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
@@ -7,15 +8,31 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * This class describes the behaviour of the trampoline powerup.
  */
-public class Trampoline extends APowerup implements IJumpable {
+/* package */ public final class Trampoline extends AGameObject implements IJumpable {
 
     /**
      * The BOOST value for the Trampoline.
      */
     private static final double BOOST = -50;
+    /**
+     * The speed with which the springs retracts after it is being used.
+     */
+    private static final int RETRACT_SPEED = 250;
+
+    /**
+     * The default sprite for the Trampoline.
+     */
+    private static ISprite defaultSprite;
+    /**
+     * The used sprite for the Trampoline.
+     */
+    private static ISprite usedSprite;
 
     /**
      * Trampoline constructor.
@@ -26,27 +43,36 @@ public class Trampoline extends APowerup implements IJumpable {
      */
     /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite(), Trampoline.class);
+
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        Trampoline.defaultSprite = spriteFactory.getTrampolineSprite();
+        Trampoline.usedSprite = spriteFactory.getTrampolineUsedSprite();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         doodle.collide(this);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final double getBoost() {
-        //TODO This is can cause bugs as the programmer does not a getter to do these kind of things
+    public double getBoost() {
         this.animate();
         this.playSound();
 
         return Trampoline.BOOST;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final void render() {
+    public void render() {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
@@ -63,12 +89,17 @@ public class Trampoline extends APowerup implements IJumpable {
      */
     private void animate() {
         int oldHeight = getSprite().getHeight();
-
-        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
-        ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
-
-        int newHeight = newSprite.getHeight();
+        int newHeight = Trampoline.usedSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
+        this.setSprite(Trampoline.usedSprite);
+
+        Trampoline self = this;
+        new Timer().schedule(new TimerTask() {
+            public void run() {
+                self.addYPos(newHeight - oldHeight);
+                self.setSprite(Trampoline.defaultSprite);
+            }
+        }, Trampoline.RETRACT_SPEED);
     }
 
 }

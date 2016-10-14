@@ -1,11 +1,17 @@
 package objects.doodles;
 
+import scenes.World;
 import system.IServiceLocator;
 
 /**
  * This is a factory creating all doodles.
  */
 public final class DoodleFactory implements IDoodleFactory {
+
+    /**
+     * Initial vertical speed for the Doodle.
+     */
+    private static final int DOODLE_INITIAL_SPEED = -9;
 
     /**
      * Used to gain access to all services.
@@ -30,8 +36,10 @@ public final class DoodleFactory implements IDoodleFactory {
 
     /** {@inheritDoc} */
     @Override
-    public IDoodle createDoodle() {
-        return new Doodle(serviceLocator);
+    public IDoodle createDoodle(final World world) {
+        IDoodle doodle = new Doodle(serviceLocator, world);
+        doodle.setVerticalSpeed(DOODLE_INITIAL_SPEED);
+        return doodle;
     }
 
     /** {@inheritDoc} */

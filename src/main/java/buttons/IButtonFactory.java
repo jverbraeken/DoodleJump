@@ -14,16 +14,25 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a play button.
      */
-    IButton createPlayButton(int x, int y);
+    IButton createPlayButton(final int x, final int y);
 
     /**
-     * Create a press to start playing button.
+     * Create a press to start playing again button.
      *
      * @param x the x position of the button.
      * @param y the y position of the button.
      * @return a play again button.
      */
-    IButton createPlayAgainButton(int x, int y);
+    IButton createPlayAgainButton(final int x, final int y);
+
+    /**
+     * Create a press to start multiplayer playing button.
+     *
+     * @param x the x position of the button.
+     * @param y the y position of the button.
+     * @return a play again button.
+     */
+    IButton createMultiplayerButton(int x, int y);
 
     /**
      * Create a press to resume playing button.
@@ -32,7 +41,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a resume button.
      */
-    IButton createResumeButton(int x, int y);
+    IButton createResumeButton(final int x, final int y);
 
     /**
      * Create a press to go to main menu button.
@@ -41,7 +50,16 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a main menu button.
      */
-    IButton createMainMenuButton(int x, int y);
+    IButton createMainMenuButton(final int x, final int y);
+
+    /**
+     * Create a button to go to the high scores list.
+     *
+     * @param x the x position of the button.
+     * @param y the y position of the button.
+     * @return a score button.
+     */
+    IButton createScoreButton(final int x, final int y);
 
     /**
      * Create a press to go to choose mode button.
@@ -50,7 +68,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a choose mode button.
      */
-    IButton createChooseModeButton(int x, int y);
+    IButton createChooseModeButton(final int x, final int y);
 
     /**
      * Create a press to go set the mode to regular.

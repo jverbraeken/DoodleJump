@@ -22,4 +22,11 @@ public abstract class APowerup extends AGameObject implements IPowerup {
         super(sL, x, y, sprite, powerup);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void perform(final PowerupOccasion occasion) {
+    }
+
 }

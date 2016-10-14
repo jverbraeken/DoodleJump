@@ -29,11 +29,25 @@ public interface ISceneFactory extends IFactory {
     IScene createPauseScreen();
 
     /**
+     * Create a new score screen.
+     *
+     * @return An IScene of the score screen.
+     */
+    IScene createScoreScreen();
+
+    /**
      * Create a new world.
      *
      * @return The created world.
      */
-    World newWorld();
+    World createSinglePlayerWorld();
+
+    /**
+     * Create a new world for multiple players.
+     *
+     * @return The created world.
+     */
+    World createTwoPlayerWorld();
 
     /**
      * Create a choose mode screen.

@@ -15,6 +15,9 @@ import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IServiceLocator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class is a scene that is displays when the game is started.
  */
@@ -25,17 +28,25 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
     /**
-     * The X and Y location for the StartScreen platform.
+     * The X and Y location for the play button.
      */
-    private static final double PLATFORM_X = 0.1d, PLATFORM_Y = 0.78d;
+    private static final double SCORE_BUTTON_X = 0.28d, SCORE_BUTTON_Y = 0.36d;
     /**
-     * The X and Y location for the StartScreen Doodle.
+     * The X and Y location for the play button.
      */
-    private static final double DOODLE_X = 0.1d;
+    private static final double MULTIPLAYER_BUTTON_X = 0.41d, MULTIPLAYER_BUTTON_Y = 0.47d;
     /**
      * The X and Y location for the choose mode button.
      */
     private static final double CHOOSE_MODE_X = 0.6d, CHOOSE_MODE_Y = 0.65d;
+    /**
+     * The X and Y location for the StartScreen platform.
+     */
+    private static final double PLATFORM_X = 0.1d, PLATFORM_Y = 0.78d;
+    /**
+     * The X location for the StartScreen Doodle.
+     */
+    private static final double DOODLE_X = 0.1d;
 
     /**
      * Used to access all services.
@@ -46,13 +57,9 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     private final ILogger logger;
     /**
-     * The button that starts up a new world.
+     * The buttons for the main menu.
      */
-    private final IButton playButton;
-    /**
-     * The button that starts up a scene to choose mode.
-     */
-    private final IButton chooseModeButton;
+    private final List<IButton> buttons = new ArrayList<>(4);
     /**
      * The Doodle for the menu.
      */
@@ -79,12 +86,18 @@ public class Menu implements IScene, IKeyInputObserver {
         cover = spriteFactory.getStartCoverSprite();
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
-        playButton = buttonFactory.createPlayButton(
+        buttons.add(buttonFactory.createPlayButton(
                 (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y));
-        chooseModeButton = buttonFactory.createChooseModeButton(
+                (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y)));
+        buttons.add(buttonFactory.createScoreButton(
+                (int) (sL.getConstants().getGameWidth() * SCORE_BUTTON_X),
+                (int) (sL.getConstants().getGameHeight() * SCORE_BUTTON_Y)));
+        buttons.add(buttonFactory.createMultiplayerButton(
+                (int) (sL.getConstants().getGameWidth() * MULTIPLAYER_BUTTON_X),
+                (int) (sL.getConstants().getGameHeight() * MULTIPLAYER_BUTTON_Y)));
+        buttons.add(buttonFactory.createChooseModeButton(
                 (int) (sL.getConstants().getGameWidth() * CHOOSE_MODE_X),
-                (int) (sL.getConstants().getGameHeight() * CHOOSE_MODE_Y));
+                (int) (sL.getConstants().getGameHeight() * CHOOSE_MODE_Y)));
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createStartScreenDoodle();
@@ -103,8 +116,9 @@ public class Menu implements IScene, IKeyInputObserver {
     /** {@inheritDoc} */
     @Override
     public final void start() {
-        playButton.register();
-        chooseModeButton.register();
+        for (IButton button : buttons) {
+            button.register();
+        }
         serviceLocator.getInputManager().addObserver(this);
         logger.info("The main menu registered itself as an observer of the input manager");
         logger.info("The menu scene is now displaying");
@@ -113,8 +127,9 @@ public class Menu implements IScene, IKeyInputObserver {
     /** {@inheritDoc} */
     @Override
     public final void stop() {
-        playButton.deregister();
-        chooseModeButton.deregister();
+        for (IButton button : buttons) {
+            button.deregister();
+        }
         serviceLocator.getInputManager().removeObserver(this);
         logger.info("The main menu removed itself as an observer from the input manager");
         logger.info("The menu scene is no longer displaying");
@@ -124,8 +139,9 @@ public class Menu implements IScene, IKeyInputObserver {
     @Override
     public final void render() {
         serviceLocator.getRenderer().drawSpriteHUD(this.cover, 0, 0);
-        playButton.render();
-        chooseModeButton.render();
+        for (IButton button : buttons) {
+            button.render();
+        }
         doodle.render();
         platform.render();
     }
@@ -149,7 +165,8 @@ public class Menu implements IScene, IKeyInputObserver {
     @Override
     public final void keyRelease(final Keys key) {
         if (key == Keys.enter || key == Keys.space) {
-            Game.setScene(serviceLocator.getSceneFactory().newWorld());
+            Game.setScene(serviceLocator.getSceneFactory().createSinglePlayerWorld());
         }
     }
+
 }
