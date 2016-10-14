@@ -1,8 +1,6 @@
 package objects.blocks.platform;
 
 import objects.doodles.IDoodle;
-import resources.audio.IAudioManager;
-import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**

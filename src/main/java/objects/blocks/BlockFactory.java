@@ -10,7 +10,12 @@ import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
 import system.IServiceLocator;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 
 /**
  * This class is the factory in which separate blocks get created.
@@ -79,7 +84,7 @@ public final class BlockFactory implements IBlockFactory {
     private static transient IServiceLocator serviceLocator;
 
     /**
-     * BlockFactory constructor.
+     * Initialize the BlockFactory.
      */
     private BlockFactory() {
         initializeGenerationSets();
@@ -101,24 +106,24 @@ public final class BlockFactory implements IBlockFactory {
      */
     private void initializeGenerationSets() {
         List<Double> platWeights = Arrays.asList(
-                WeightsMap.getWeight(PlatformTypes.normalPlatform),
-                WeightsMap.getWeight(PlatformTypes.verticalMovingPlatform),
-                WeightsMap.getWeight(PlatformTypes.horizontalMovingPlatform),
-                WeightsMap.getWeight(PlatformTypes.breakingPlatform));
+                WeightsMap.getWeight(ElementTypes.normalPlatform),
+                WeightsMap.getWeight(ElementTypes.verticalMovingPlatform),
+                WeightsMap.getWeight(ElementTypes.horizontalMovingPlatform),
+                WeightsMap.getWeight(ElementTypes.breakingPlatform));
         List<String> platforms = Arrays.asList("normalPlatform", "verticalMovingPlatform", "horizontalMovingPlatform", "breakingPlatform");
 
         platformGenerationSet = new GenerationSet(serviceLocator, platWeights, platforms);
 
         List<Double> powerupWeights = Arrays.asList(
-                WeightsMap.getWeight(PlatformTypes.spring),
-                WeightsMap.getWeight(PlatformTypes.trampoline),
-                WeightsMap.getWeight(PlatformTypes.jetpack),
-                WeightsMap.getWeight(PlatformTypes.propellor),
-                WeightsMap.getWeight(PlatformTypes.sizeUp),
-                WeightsMap.getWeight(PlatformTypes.sizeDown),
-                WeightsMap.getWeight(PlatformTypes.springShoes),
-                WeightsMap.getWeight(PlatformTypes.cannon),
-                WeightsMap.getWeight(PlatformTypes.rocketLauncher));
+                WeightsMap.getWeight(ElementTypes.spring),
+                WeightsMap.getWeight(ElementTypes.trampoline),
+                WeightsMap.getWeight(ElementTypes.jetpack),
+                WeightsMap.getWeight(ElementTypes.propellor),
+                WeightsMap.getWeight(ElementTypes.sizeUp),
+                WeightsMap.getWeight(ElementTypes.sizeDown),
+                WeightsMap.getWeight(ElementTypes.springShoes),
+                WeightsMap.getWeight(ElementTypes.cannon),
+                WeightsMap.getWeight(ElementTypes.rocketLauncher));
         List<String> powerups = Arrays.asList("spring", "trampoline", "jetpack", "propellor", "sizeUp", "sizeDown", "springShoes", "cannon", "rocketLauncher");
 
         powerupGenerationSet = new GenerationSet(serviceLocator, powerupWeights, powerups);
@@ -258,7 +263,6 @@ public final class BlockFactory implements IBlockFactory {
             yLoc = yLast - (int) maxY;
         }
 
-        //TODO This prohibits platforms from being immutable
         IPlatform platform = (IPlatform) platformGenerationSet.getRandomElement();
         platform.setYPos(yLoc);
         int xLoc = (int) (widthDeviation * (serviceLocator.getConstants().getGameWidth() - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
@@ -297,17 +301,16 @@ public final class BlockFactory implements IBlockFactory {
         double[] hitbox = platform.getHitBox();
         final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
         final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
-        boolean isSpecialPlatform = isSpecialPlatform(platform);
 
-        if (!isSpecialPlatform) {
+        if (!isSpecialPlatform(platform)) {
             IGameObject powerup = powerupGenerationSet.getRandomElement();
             if (powerup != null) {
-                int powerupXLoc = (int) (calc.getRandomDouble(platformWidth));
+                int powerupXPos = (int) (calc.getRandomDouble(platformWidth));
                 double[] powHitbox = powerup.getHitBox();
                 final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
                 final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
 
-                int xPos = (int) platform.getXPos() + powerupXLoc;
+                int xPos = (int) platform.getXPos() + powerupXPos;
                 if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
                     xPos = xPos - powerupWidth;
                 }

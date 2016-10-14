@@ -203,6 +203,7 @@ public final class Game {
 
     /**
      * Get the current playerMode.
+     * @return the playermode of the player.
      */
     public static PlayerModes getPlayerMode() {
         return Game.playerMode;
@@ -210,6 +211,7 @@ public final class Game {
 
     /**
      * Set the current playerMode.
+     * @param m the playermode the player has to be set on.
      */
     public static void setPlayerMode(final PlayerModes m) {
         Game.playerMode = m;
