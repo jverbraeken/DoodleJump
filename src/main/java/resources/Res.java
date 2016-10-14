@@ -24,7 +24,9 @@ public final class Res implements IRes {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        sL.provide(new Res());
+        Res res = new Res();
+        res.resetSkin();
+        sL.provide(res);
     }
 
     /**
