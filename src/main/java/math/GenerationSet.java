@@ -2,7 +2,6 @@ package math;
 
 import objects.IGameObject;
 import objects.blocks.platform.IPlatformFactory;
-import objects.blocks.platform.PlatformFactory;
 import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
@@ -21,15 +20,23 @@ import java.util.Map;
  */
 public class GenerationSet implements IWeightsSet {
 
+    /**
+     * The list with weights, it uses Key-Value pairs in it.
+     */
     private List<MyEntry<Double, String>> weights;
+    /**
+     * The servicelocator of this game.
+     */
     private IServiceLocator serviceLocator;
 
     /**
-     * Create and initialize a WeightsSet
+     * Create and initialize a WeightsSet.
      *
      * @param weights a set with the weights that have to be used.
+     * @param sL the serviceLocator this class should use.
+     * @param elementType the list with strings of the element types.
      */
-    public GenerationSet(IServiceLocator sL, List<Double> weights, List<String> elementType) {
+    public GenerationSet(final IServiceLocator sL, final List<Double> weights, final List<String> elementType) {
         assert weights.size() == elementType.size();
         this.weights = sortWeightsMap(weights, elementType);
 
@@ -38,6 +45,9 @@ public class GenerationSet implements IWeightsSet {
 
     /**
      * Sort the weights by the key value double.
+     *
+     * @param weights a set with the weights that have to be used.
+     * @param elementType the list with strings of the element types.
      */
     private List<MyEntry<Double, String>> sortWeightsMap(List<Double> weights, List<String> elementType) {
         double total = 0;
@@ -55,8 +65,11 @@ public class GenerationSet implements IWeightsSet {
         return sortedWeights;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public IGameObject getRandomElement() {
+    final public IGameObject getRandomElement() {
         double randDouble = serviceLocator.getCalc().getRandomDouble(1);
 
         for (MyEntry<Double, String> entry : weights) {
@@ -72,7 +85,7 @@ public class GenerationSet implements IWeightsSet {
      * @param objectName the name of the object.
      * @return the wanted object as an IGameObject.
      */
-    private IGameObject getGameObject(String objectName) {
+    private IGameObject getGameObject(final String objectName) {
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
         IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
         switch (objectName) {
@@ -85,21 +98,22 @@ public class GenerationSet implements IWeightsSet {
             case ("breakingPlatform"):
                 return platformFactory.createBreakPlatform(0, 0);
             case ("spring"):
-                return powerupFactory.createSpring(0,0);
+                return powerupFactory.createSpring(0, 0);
             case ("trampoline"):
-                return powerupFactory.createTrampoline(0,0);
+                return powerupFactory.createTrampoline(0, 0);
             case ("jetpack"):
-                return powerupFactory.createJetpack(0,0);
+                return powerupFactory.createJetpack(0, 0);
             case ("propellor"):
-                return powerupFactory.createPropeller(0,0);
+                return powerupFactory.createPropeller(0, 0);
             case ("sizeUp"):
-                return powerupFactory.createSizeUp(0,0);
+                return powerupFactory.createSizeUp(0, 0);
             case ("sizeDown"):
-                return powerupFactory.createSizeDown(0,0);
+                return powerupFactory.createSizeDown(0, 0);
             case ("springShoes"):
-                return powerupFactory.createSpringShoes(0,0);
+                return powerupFactory.createSpringShoes(0, 0);
+            default:
+                return null;
         }
-        return null;
     }
 
     /**
@@ -108,26 +122,44 @@ public class GenerationSet implements IWeightsSet {
      * @param <V> the value.
      */
     private final class MyEntry<K, V> implements Map.Entry<K, V> {
+        /**
+         * The key of the Entry.
+         */
         private final K key;
+        /**
+         * The value of the Entry.
+         */
         private V value;
 
-        private MyEntry(K key, V value) {
+        /**
+         * Initialize the MyEntry class.
+         */
+        private MyEntry(final K key, final V value) {
             this.key = key;
             this.value = value;
         }
 
+        /**
+         * Get the key of the Entry.
+         */
         @Override
         public K getKey() {
             return key;
         }
 
+        /**
+         * Get the value of the Entry.
+         */
         @Override
         public V getValue() {
             return value;
         }
 
+        /**
+         * Set the value of the Entry.
+         */
         @Override
-        public V setValue(V value) {
+        public V setValue(final V value) {
             V old = this.value;
             this.value = value;
             return old;
