@@ -9,15 +9,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CrashTest {
 
-    private Game game;
+    private Game game = Whitebox.invokeConstructor(Game.class);
     private IServiceLocator sL;
+
+    public CrashTest() throws Exception {
+    }
 
     @Before
     public void Init() throws Exception {
-        game = Whitebox.invokeConstructor(Game.class);
-        String[] a = {"init", "go"};
-        sL = Whitebox.getInternalState(Game.class, "serviceLocator");
-
     }
 
     @Test
