@@ -1,5 +1,6 @@
 package objects.doodles;
 
+import constants.IConstants;
 import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
@@ -23,10 +24,6 @@ import system.IServiceLocator;
 @SuppressWarnings({"checkstyle:designforextension"})
 public class Doodle extends AGameObject implements IDoodle {
 
-    /**
-     * The relative center of the camera on the y axis.
-     */
-    private static final double CAMERA_POS = 3 / 7d;
     /**
      * The ratio of Doodle to offset the frame size vs panel size.
      */
@@ -240,9 +237,9 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void update(final double delta) {
         this.applyMovementBehavior(delta);
         this.wrap();
-        this.checkHighPosition();
         this.checkDeadPosition();
         this.getPowerup().update(delta);
+        this.updateScore();
     }
 
     /**
@@ -321,20 +318,6 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Check the height position of the Doodle.
-     */
-    private void checkHighPosition() {
-        ICamera camera = getServiceLocator().getRenderer().getCamera();
-        final int height = getServiceLocator().getConstants().getGameHeight();
-
-        final double yThreshold = camera.getYPos() + height * CAMERA_POS;
-        if (getYPos() < yThreshold) {
-            score += (yThreshold - getYPos()) * getServiceLocator().getConstants().getScoreMultiplier();
-            camera.setYPos(getYPos() - height * CAMERA_POS);
-        }
-    }
-
-    /**
      * Check the dead position of the Doodle.
      */
     private void checkDeadPosition() {
@@ -379,6 +362,16 @@ public class Doodle extends AGameObject implements IDoodle {
         }
     }
 
-
+    /**
+     * Update the score for the Doodle.
+     */
+    private void updateScore() {
+        IConstants constants = getServiceLocator().getConstants();
+        double effectiveYPos = this.getYPos() - constants.getGameHeight();
+        double newScore = -1 * effectiveYPos * constants.getScoreMultiplier();
+        if (newScore > this.score) {
+            this.score = newScore;
+        }
+    }
 
 }

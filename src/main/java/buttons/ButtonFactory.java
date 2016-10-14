@@ -88,7 +88,13 @@ public final class ButtonFactory implements IButtonFactory {
         assert serviceLocator != null;
         ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPlayAgainButtonSprite();
-        Runnable playAgainAction = () -> Game.setScene(serviceLocator.getSceneFactory().createSinglePlayerWorld());
+        Runnable playAgainAction = () -> {
+            if (Game.getPlayerMode() == Game.PlayerModes.single) {
+                Game.setScene(serviceLocator.getSceneFactory().createSinglePlayerWorld());
+            } else {
+                Game.setScene(serviceLocator.getSceneFactory().createTwoPlayerWorld());
+            }
+        };
         return new Button(serviceLocator, x, y, buttonSprite, playAgainAction, "playAgain");
     }
 
