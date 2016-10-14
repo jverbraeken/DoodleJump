@@ -325,21 +325,21 @@ public final class ProgressionManager implements IProgressionManager {
                 break;
             case 1:
                 logger.info("New mission was created: level = " + level + ", mission = jumpOnSpring, amount = 2");
-                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
+                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(2, () -> {
                     coins += 20;
                     return null;
                 }));
                 break;
             case 2:
                 logger.info("New mission was created: level = " + level + ", mission = jumpOnSpring, amount = 3");
-                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
+                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(3, () -> {
                     coins += 30;
                     return null;
                 }));
                 break;
             case 3:
                 logger.info("New mission was created: level = " + level + ", mission = jumpOnSpring, amount = 4");
-                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
+                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(4, () -> {
                     coins += 40;
                     return null;
                 }));

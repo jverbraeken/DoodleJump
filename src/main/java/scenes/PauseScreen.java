@@ -5,6 +5,7 @@ import buttons.IButtonFactory;
 import input.IMouseInputObserver;
 import logging.ILogger;
 import progression.Mission;
+import rendering.Color;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -114,12 +115,13 @@ import java.util.List;
         serviceLocator.getRenderer().drawSpriteHUD(coinSprite, coinX, coinY);
 
         final int coinTextX = MARGIN + coinSprite.getHeight() + MARGIN;
-        serviceLocator.getRenderer().drawTextHUD(coinTextX, coinY, Integer.toString(serviceLocator.getProgressionManager().getCoins()));
+        final int coinTextY = coinY + coinSprite.getHeight() / 2;
+        serviceLocator.getRenderer().drawTextHUD(coinTextX, coinTextY, Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
 
         final List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
         final int missionSpriteHeight = serviceLocator.getSpriteFactory().getAchievementSprite().getHeight();
         for (int i = 0; i < missions.size(); i++) {
-            missions.get(i).render(coinY + coinSprite.getHeight() + MARGIN + Math.max(i - 1, 0) * missionSpriteHeight + i * DISTANCE_BETWEEN_MISSIONS);
+            missions.get(i).render(coinY + coinSprite.getHeight() + MARGIN  + i * (missionSpriteHeight + DISTANCE_BETWEEN_MISSIONS));
         }
     }
 

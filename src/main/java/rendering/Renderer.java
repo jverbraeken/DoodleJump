@@ -41,10 +41,6 @@ public final class Renderer implements IRenderer {
      * The font used to draw text with size 24.
      */
     private final Font FONT50;
-    /**
-     * White color
-     */
-    private static final Color WHITE_COLOR = new Color(255, 255, 255);
 
     /**
      * Prevent public instantiations of the Renderer.
@@ -187,7 +183,7 @@ public final class Renderer implements IRenderer {
     @Override
     public void drawText(final int x, final int y, final String msg, final TextAlignment alignment) {
         assert graphics != null;
-        int xPos = prepareDrawText(x, y, msg, alignment);
+        int xPos = prepareDrawText(x, y, msg, alignment, Color.white.getColor(), FONT50);
         graphics.drawString(msg, xPos, (int) (y - camera.getYPos()));
     }
 
@@ -197,8 +193,52 @@ public final class Renderer implements IRenderer {
     @Override
     public void drawTextHUD(final int x, final int y, final String msg, final TextAlignment alignment) {
         assert graphics != null;
-        int xPos = prepareDrawText(x, y, msg, alignment);
+        int xPos = prepareDrawText(x, y, msg, alignment, Color.white.getColor(), FONT50);
         graphics.drawString(msg, xPos, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawText(final int x, final int y, final String msg, final Color color) {
+        drawText(x, y, msg, TextAlignment.left, color);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawTextHUD(final int x, final int y, final String msg, final Color color) {
+        drawTextHUD(x, y, msg, TextAlignment.left, color);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawText(final int x, final int y, final String msg, final TextAlignment alignment, final Color color) {
+        assert graphics != null;
+        java.awt.Color currentColor = graphics.getColor();
+
+        int xPos = prepareDrawText(x, y, msg, alignment, color.getColor(), FONT50);
+        graphics.drawString(msg, xPos, (int) (y - camera.getYPos()));
+
+        graphics.setColor(currentColor);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawTextHUD(final int x, final int y, final String msg, final TextAlignment alignment, final Color color) {
+        assert graphics != null;
+        java.awt.Color currentColor = graphics.getColor();
+
+        int xPos = prepareDrawText(x, y, msg, alignment, color.getColor(), FONT50);
+        graphics.drawString(msg, xPos, y);
+
+        graphics.setColor(currentColor);
     }
 
     /**
@@ -209,8 +249,8 @@ public final class Renderer implements IRenderer {
         assert graphics != null;
         logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - Camera corrected Y-position = " + (y - camera.getYPos()));
 
-        Color currentColor = graphics.getColor();
-        graphics.setColor(color);
+        java.awt.Color currentColor = graphics.getColor();
+        graphics.setColor(color.getColor());
         graphics.fillRect(x, (int) (y - camera.getYPos()), width, height);
         graphics.setColor(currentColor);
     }
@@ -242,9 +282,9 @@ public final class Renderer implements IRenderer {
         return camera;
     }
 
-    private int prepareDrawText(final int x, final int y, final String msg, final TextAlignment alignment) {
-        graphics.setFont(FONT50);
-        graphics.setColor(WHITE_COLOR);
+    private int prepareDrawText(final int x, final int y, final String msg, final TextAlignment alignment, final java.awt.Color color, final Font font) {
+        graphics.setFont(font);
+        graphics.setColor(color);
         int xPos = x;
         switch (alignment) {
             case left:
