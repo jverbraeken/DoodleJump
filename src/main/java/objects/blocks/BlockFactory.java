@@ -1,7 +1,7 @@
 package objects.blocks;
 
-import math.GenerationSet;
 import math.ICalc;
+import math.GenerationSet;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
@@ -113,8 +113,10 @@ public final class BlockFactory implements IBlockFactory {
                 WeightsMap.getWeight(PlatformTypes.propellor),
                 WeightsMap.getWeight(PlatformTypes.sizeUp),
                 WeightsMap.getWeight(PlatformTypes.sizeDown),
-                WeightsMap.getWeight(PlatformTypes.springShoes));
-        List<String> powerups = Arrays.asList("spring", "trampoline", "jetpack", "propellor", "sizeUp", "sizeDown", "springShoes");
+                WeightsMap.getWeight(PlatformTypes.springShoes),
+                WeightsMap.getWeight(PlatformTypes.cannon),
+                WeightsMap.getWeight(PlatformTypes.rocketLauncher));
+        List<String> powerups = Arrays.asList("spring", "trampoline", "jetpack", "propellor", "sizeUp", "sizeDown", "springShoes", "cannon", "rocketLauncher");
 
         powerupGenerationSet = new GenerationSet(serviceLocator, powerupWeights, powerups);
 

@@ -1,8 +1,6 @@
 package objects.blocks;
 
 import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Static class that maps key names to keyCodes.
@@ -69,6 +67,16 @@ public final class WeightsMap {
      */
     private static final double SPRINGSHOES_POWERUP = 0.004;
 
+    /**
+     * The chance of the spring jetpack spawning.
+     */
+    private static final double CANNON_POWERUP = 0.001;
+
+    /**
+     * The chance of the spring jetpack spawning.
+     */
+    private static final double ROCKETLAUNCHER_POWERUP = 0.001;
+
     static {
         // Platforms
         WEIGTS_MAP.put(PlatformTypes.normalPlatform, NORMAL_PLATFORM);
@@ -84,6 +92,8 @@ public final class WeightsMap {
         WEIGTS_MAP.put(PlatformTypes.sizeUp, SIZEUP_POWERUP);
         WEIGTS_MAP.put(PlatformTypes.sizeDown, SIZEDOWN_POWERUP);
         WEIGTS_MAP.put(PlatformTypes.springShoes, SPRINGSHOES_POWERUP);
+        WEIGTS_MAP.put(PlatformTypes.cannon, CANNON_POWERUP);
+        WEIGTS_MAP.put(PlatformTypes.rocketLauncher, ROCKETLAUNCHER_POWERUP);
 
     }
 

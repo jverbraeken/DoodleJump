@@ -134,5 +134,5 @@ public final class PowerupFactory implements IPowerupFactory {
         logger.info("A new Circus Cannon has been created");
         return new RocketLauncher(serviceLocator, x, y);
     }
-    
+
 }
