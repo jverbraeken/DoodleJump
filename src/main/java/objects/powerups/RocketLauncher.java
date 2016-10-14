@@ -14,9 +14,9 @@ import system.IServiceLocator;
 /* package */ public final class RocketLauncher extends AGameObject implements IJumpable {
 
     /**
-     * The BOOST value for the Trampoline.
+     * The BOOST value for the RocketLauncher.
      */
-    private static final double BOOST = -90;
+    private static final double BOOST = -100;
 
     /**
      * RocketLauncher constructor.
@@ -72,6 +72,7 @@ import system.IServiceLocator;
 
         ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
         ISprite newSprite = spriteFactory.getRocketLauncherUsedSprite();
+        setSprite(newSprite);
 
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);

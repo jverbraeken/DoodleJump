@@ -26,24 +26,6 @@ public final class PowerupFactory implements IPowerupFactory {
     }
 
     /**
-     * Threshold to spawn a specific upgradable.
-     */
-    private static final int UPGRADE_THRESHOLD = 9900;
-
-    /**
-     * Threshold to spawn the first upgradable.
-     */
-    private static final int UPGRADE_FIRST_THRESHOLD = 3300;
-
-    /**
-     * Threshold to spawn the second upgradable.
-     */
-    private static final int UPGRADE_LAST_THRESHOLD = 6600;
-
-
-
-
-    /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
      *
      * @param sL The IServiceLocator to which the class should offer its functionality

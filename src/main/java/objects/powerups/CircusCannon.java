@@ -15,7 +15,7 @@ public class CircusCannon extends AGameObject implements IJumpable {
     /**
      * The BOOST value for the Trampoline.
      */
-    private static final double BOOST = -80;
+    private static final double BOOST = -75;
 
     /**
      * Trampoline constructor.
@@ -63,6 +63,7 @@ public class CircusCannon extends AGameObject implements IJumpable {
 
         ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
         ISprite newSprite = spriteFactory.getCannonUsedSprite();
+        setSprite(newSprite);
 
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
