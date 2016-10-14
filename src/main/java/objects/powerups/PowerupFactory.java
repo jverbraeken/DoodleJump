@@ -1,7 +1,9 @@
 package objects.powerups;
 
 import logging.ILogger;
+import math.ICalc;
 import objects.IGameObject;
+import objects.blocks.platform.IPlatform;
 import system.IServiceLocator;
 
 /**
@@ -24,6 +26,24 @@ public final class PowerupFactory implements IPowerupFactory {
     private PowerupFactory() {
         logger = serviceLocator.getLoggerFactory().createLogger(PowerupFactory.class);
     }
+
+    /**
+     * Threshold to spawn a specific upgradable.
+     */
+    private static final int UPGRADE_THRESHOLD = 9900;
+
+    /**
+     * Threshold to spawn the first upgradable.
+     */
+    private static final int UPGRADE_FIRST_THRESHOLD = 3300;
+
+    /**
+     * Threshold to spawn the second upgradable.
+     */
+    private static final int UPGRADE_LAST_THRESHOLD = 6600;
+
+
+
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -106,5 +126,37 @@ public final class PowerupFactory implements IPowerupFactory {
     public IGameObject createCircusCannon(final int x, final int y) {
         logger.info("A new Circus Cannon has been created");
         return new CircusCannon(serviceLocator, x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject createRocketLauncher(final int x, final int y) {
+        logger.info("A new Circus Cannon has been created");
+        return new RocketLauncher(serviceLocator, x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject chooseTrampolineUpgrade(final IPlatform platform, final int X_OFFSET, final int Y_OFFSET, final int platformHeight) {
+        ICalc calc = serviceLocator.getCalc();
+        double randomDouble = calc.getRandomDouble(UPGRADE_THRESHOLD);
+        final int randomNr = (int) (randomDouble);
+        if ( randomNr > UPGRADE_FIRST_THRESHOLD && randomDouble <= UPGRADE_LAST_THRESHOLD) {
+            return createCircusCannon(
+                    (int) platform.getXPos() + X_OFFSET,
+                    (int) platform.getYPos());
+        } else if ( randomNr > UPGRADE_LAST_THRESHOLD) {
+            return createRocketLauncher(
+                    (int) platform.getXPos() + X_OFFSET,
+                    (int) platform.getYPos());
+        } else {
+            return createTrampoline(
+                    (int) platform.getXPos() + X_OFFSET,
+                    (int) platform.getYPos() - platformHeight + Y_OFFSET);
+        }
     }
 }

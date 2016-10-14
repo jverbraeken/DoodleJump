@@ -1,6 +1,7 @@
 package objects.powerups;
 
 import objects.IGameObject;
+import objects.blocks.platform.IPlatform;
 import system.IFactory;
 
 /**
@@ -80,4 +81,22 @@ public interface IPowerupFactory extends IFactory {
      */
     IGameObject createCircusCannon(final int x, final int y);
 
+    /**
+     * Create a new RocketLauncher powerup.
+     *
+     * @param x The X location for the RocketLauncher.
+     * @param y The Y location for the RocketLauncher.
+     * @return A new RocketLauncher instance.
+     */
+    IGameObject createRocketLauncher(final int x, final int y);
+
+    /**
+     * Chooses if a platform should spawn a trampoline or an upgrade of trampoline.
+     *
+     * @param platform The platform where the powerup is going to spawn.
+     * @param X_OFFSET The X offset for the powerup.
+     * @param Y_OFFSET The X location for the powerup.
+     * @return A new Trampoline, CircusCannon or RocketLauncher instance.
+     */
+    IGameObject chooseTrampolineUpgrade(final IPlatform platform, final int X_OFFSET, final int Y_OFFSET, final int platformHeight);
 }

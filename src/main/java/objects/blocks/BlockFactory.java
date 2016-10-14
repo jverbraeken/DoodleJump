@@ -293,9 +293,8 @@ public final class BlockFactory implements IBlockFactory {
             } else if (randomNr >= TRAMPOLINE_THRESHOLD) {
 
                 IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-                IGameObject powerup = powerupFactory.createTrampoline(
-                        (int) platform.getXPos() + TRAMPOLINE_X_OFFSET,
-                        (int) platform.getYPos() - platformHeight + ITEM_Y_OFFSET);
+                IGameObject powerup = powerupFactory.chooseTrampolineUpgrade(
+                        platform, TRAMPOLINE_X_OFFSET, ITEM_Y_OFFSET, platformHeight);
                 elements.add(powerup);
             }
         }
