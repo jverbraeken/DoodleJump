@@ -16,8 +16,10 @@ import system.IUpdatable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.WeakHashMap;
@@ -44,10 +46,6 @@ public class World implements IScene {
      * The amount of blocks kept in a buffer.
      */
     private static final int BLOCK_BUFFER = 4;
-    /**
-     * Maximum amount of drawables.
-     */
-    private static final int MAX_DRAWABLES = 3;
 
     /**
      * Used to access all services.
@@ -64,7 +62,7 @@ public class World implements IScene {
     /**
      * The Doodle for the world.
      */
-    private final Set<IDoodle> doodles = new HashSet<>();
+    private final List<IDoodle> doodles = new ArrayList<>();
     /**
      * <p>Drawables consists of 3 sets, although this can be easily changed. The first set contains the
      * {@link IRenderable renderables} that will be drawn first (eg platforms), the second set contains the
@@ -75,7 +73,7 @@ public class World implements IScene {
      * way to make it (in Java) is by using Collections.newSetFromMap that creates the set for us (and
      * prohibits creating an array by doing that).</p>
      */
-    private final List<Set<IRenderable>> drawables = new ArrayList<>();
+    private final Map<DrawableLevels, Set<IRenderable>> drawables = new EnumMap<>(DrawableLevels.class);
     /**
      * A set of drawables that should be added next time the World is rendered.
      */
@@ -100,6 +98,25 @@ public class World implements IScene {
      * The highest (and thus latest) created block.
      */
     private IBlock topBlock;
+    /**
+     * The levels on which a drawable can be drawn.
+     */
+    private enum DrawableLevels {
+        /**
+         * The things that should be drawn at the front.
+         */
+        front,
+
+        /**
+         * The GameObjects that should be drawn behind the front, but in front of everything else (such as doodles).
+         */
+        middle,
+
+        /**
+         * The things that should be drawn in the back (such as platforms).
+         */
+        back
+    };
 
     /**
      * Package visible constructor so a World can only be created via the SceneFactory.
@@ -111,27 +128,26 @@ public class World implements IScene {
         serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(World.class);
 
-        for (int i = 0; i < MAX_DRAWABLES; i++) {
-            drawables.add(Collections.newSetFromMap(new WeakHashMap<>()));
-        }
+        this.drawables.put(DrawableLevels.back, Collections.newSetFromMap(new WeakHashMap<>()));
+        this.drawables.put(DrawableLevels.middle, Collections.newSetFromMap(new WeakHashMap<>()));
+        this.drawables.put(DrawableLevels.front, Collections.newSetFromMap(new WeakHashMap<>()));
 
         IBlockFactory blockFactory = sL.getBlockFactory();
         this.topBlock = blockFactory.createStartBlock();
         this.blocks.add(this.topBlock);
-        this.drawables.get(0).add(this.topBlock);
+        this.drawables.get(DrawableLevels.back).add(this.topBlock);
         this.updatables.add(this.topBlock);
 
         for (int i = 1; i < BLOCK_BUFFER; i++) {
             this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable());
             this.blocks.add(this.topBlock);
-            this.drawables.get(0).add(this.topBlock);
+            this.drawables.get(DrawableLevels.back).add(this.topBlock);
             this.updatables.add(this.topBlock);
         }
 
         this.background = sL.getSpriteFactory().getBackground();
         this.scoreBar = new ScoreBar();
-
-        this.drawables.get(2).add(this.scoreBar);
+        this.drawables.get(DrawableLevels.front).add(this.scoreBar);
 
         serviceLocator.getAudioManager().playStart();
 
@@ -173,12 +189,12 @@ public class World implements IScene {
     public final void render() {
         serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
 
-        drawables.add(newDrawables);
-        newDrawables.removeAll(newDrawables);
+        drawables.get(DrawableLevels.back).addAll(newDrawables);
+        newDrawables.clear();
 
-        for (Set<IRenderable> set : drawables) {
-            set.forEach(IRenderable::render);
-        }
+        drawables.get(DrawableLevels.back).forEach(IRenderable::render);
+        drawables.get(DrawableLevels.middle).forEach(IRenderable::render);
+        drawables.get(DrawableLevels.front).forEach(IRenderable::render);
     }
 
     /**
@@ -188,10 +204,10 @@ public class World implements IScene {
     public final void update(final double delta) {
         this.updatables.addAll(this.newUpdatables);
 
-        updateObjects(delta);
-        checkCollisions();
-        cleanUp();
-        newBlocks();
+        this.updateObjects(delta);
+        this.cleanUp();
+        this.newBlocks();
+        this.checkCollisions();
     }
 
     /**
@@ -230,10 +246,7 @@ public class World implements IScene {
     /* package */ final void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
         this.updatables.add(doodle);
-
-        Set<IRenderable> test = new HashSet<>();
-        test.add(doodle);
-        this.drawables.add(test);
+        this.drawables.get(DrawableLevels.middle).add(doodle);
     }
 
     /**
@@ -248,20 +261,18 @@ public class World implements IScene {
     }
 
     /**
-     * Check the collisions in the World.
+     * Check the collisions for all the Doodles in the world.
      */
     private void checkCollisions() {
-        for (IDoodle doodle : this.doodles) {
-            this.checkCollisionsForDoodle(doodle);
-        }
+        this.doodles.forEach(this::checkCollisions);
     }
 
     /**
      * Check the collisions in the World for a specific Doodle.
      *
-     * @param doodle The Doodle of interest.
+     * @param doodle The Doodle to check the collisions for.
      */
-    private void checkCollisionsForDoodle(final IDoodle doodle) {
+    private void checkCollisions(final IDoodle doodle) {
         if (doodle.getVerticalSpeed() <= 0) {
             return;
         }
@@ -295,10 +306,10 @@ public class World implements IScene {
     private void newBlocks() {
         if (blocks.size() < BLOCK_BUFFER) {
             IJumpable topPlatform = topBlock.getTopJumpable();
-            topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform);
-            blocks.add(topBlock);
-            drawables.get(0).add(topBlock);
-            updatables.add(topBlock);
+            this.topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform);
+            this.blocks.add(topBlock);
+            this.drawables.get(DrawableLevels.back).add(topBlock);
+            this.updatables.add(topBlock);
         }
     }
 
