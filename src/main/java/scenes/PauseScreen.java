@@ -100,7 +100,8 @@ import java.util.List;
 
         resumeButton.render();
 
-        serviceLocator.getRenderer().drawSpriteHUD(coinSprite[(int) coinSpriteIndex], 10, 10);
+        ISprite sprite = coinSprite[(int) coinSpriteIndex];
+        serviceLocator.getRenderer().drawSpriteHUD(sprite, 10 + sprite.getHeight() / 2 - (int) (((double) sprite.getWidth() / (double) sprite.getHeight()) * (double) sprite.getHeight() / 2d), 10);
 
         List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
         for (int i = 0; i < missions.size(); i++) {
@@ -113,7 +114,7 @@ import java.util.List;
      */
     @Override
     public void update(final double delta) {
-        coinSpriteIndex += 0.5 * delta;
+        coinSpriteIndex += 0.3 * delta;
         coinSpriteIndex = coinSpriteIndex % 10;
     }
 
