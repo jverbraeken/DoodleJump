@@ -26,7 +26,7 @@ public class CircusCannon extends AGameObject implements IJumpable {
      * @param y - The Y location for the trampoline.
      */
     /* package */ CircusCannon(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getCannonSprite(), Trampoline.class);
+        super(sL, x, y - sL.getSpriteFactory().getCannonSprite().getHeight(), sL.getSpriteFactory().getCannonSprite(), Trampoline.class);
     }
 
     /**

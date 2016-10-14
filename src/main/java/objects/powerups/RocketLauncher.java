@@ -26,7 +26,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the rocket launcher.
      */
     /* package */ RocketLauncher(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getRocketLauncherSprite(), Trampoline.class);
+        super(sL, x, y - sL.getSpriteFactory().getRocketLauncherSprite().getHeight(), sL.getSpriteFactory().getRocketLauncherSprite(), Trampoline.class);
     }
 
     /**

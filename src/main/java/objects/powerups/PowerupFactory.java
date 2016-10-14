@@ -137,6 +137,8 @@ public final class PowerupFactory implements IPowerupFactory {
         return new RocketLauncher(serviceLocator, x, y);
     }
 
+
+    // TODO: Should be changed to let the coin system decide which powerup should spawn.
     /**
      * {@inheritDoc}
      */
