@@ -1,9 +1,11 @@
 package rendering;
 
+import system.IUpdatable;
+
 /**
  * Provides a public interface for camera implementations.
  */
-public interface ICamera {
+public interface ICamera extends IUpdatable {
 
     /**
      * Sets the y-position of the camera to the value specified.

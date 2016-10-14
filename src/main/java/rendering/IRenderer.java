@@ -109,4 +109,11 @@ public interface IRenderer {
      */
     ICamera getCamera();
 
+    /**
+     * Set the camera used by the Renderer.
+     *
+     * @param camera A class implementing the ICamera interface.
+     */
+    void setCamera(final ICamera camera);
+
 }
