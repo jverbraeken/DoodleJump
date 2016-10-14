@@ -83,16 +83,6 @@ public class PlatformTest {
     }
 
     /**
-     * Test the updateEnums method.
-     */
-    @Test
-    public void updateEnumsTest() {
-        p.updateEnums(1,1);
-
-        Mockito.verify(serviceLocator, Mockito.times(0)).getConstants();
-    }
-
-    /**
      * Test the getBoost method.
      * @throws NoSuchFieldException if the field does not exist.
      * @throws IllegalAccessException if you can't acces that field.
