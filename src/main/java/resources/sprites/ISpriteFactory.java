@@ -190,6 +190,9 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getUnderwaterModeButton();
 
+    // Coins
+    ISprite getCoinSprite(final int i);
+
     /**
      * Returns a sprite of the digit specified in Doodle Jump font.
      *

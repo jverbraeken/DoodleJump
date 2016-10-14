@@ -826,6 +826,42 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.achievement);
     }
 
+    // Coins
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("checkstyle:magicnumber")
+    @Override
+    public ISprite getCoinSprite(final int digit) {
+        if (digit < 1 || digit > 10) {
+            throw new IllegalArgumentException("The coin animation sprites are between 1 and 10 (both inclusive)");
+        }
+        switch (digit) {
+            case 1:
+                return getSprite(IRes.Sprites.coin1);
+            case 2:
+                return getSprite(IRes.Sprites.coin2);
+            case 3:
+                return getSprite(IRes.Sprites.coin3);
+            case 4:
+                return getSprite(IRes.Sprites.coin4);
+            case 5:
+                return getSprite(IRes.Sprites.coin5);
+            case 6:
+                return getSprite(IRes.Sprites.coin6);
+            case 7:
+                return getSprite(IRes.Sprites.coin7);
+            case 8:
+                return getSprite(IRes.Sprites.coin8);
+            case 9:
+                return getSprite(IRes.Sprites.coin9);
+            case 10:
+                return getSprite(IRes.Sprites.coin10);
+        }
+        return null;
+    }
+
     // Miscellaneous
 
     /**

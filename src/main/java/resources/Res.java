@@ -16,6 +16,21 @@ public final class Res implements IRes {
      * The sprite path used to find the sprites.
      */
     private static final String SPRITE_PATH = "sprites/";
+    /**
+     * A map mapping Sprites enum to String containing the path to the sprite.
+     */
+    private final Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
+
+    // Initializes the sprites.
+    {
+        resetSkin();
+    }
+
+    /**
+     * Prevent instantiation of Res.
+     */
+    private Res() {
+    }
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -28,26 +43,16 @@ public final class Res implements IRes {
     }
 
     /**
-     * A map mapping Sprites enum to String containing the path to the sprite.
+     * {@inheritDoc}
      */
-    private final Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
-
-    // Initializes the sprites.
-    { resetSkin(); }
-
-    /**
-     * Prevent instantiation of Res.
-     */
-    private Res() {
-    }
-
-    /** {@inheritDoc} */
     @Override
     public String getSpritePath(final Sprites sprite) {
         return sprites.get(sprite);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSkin(final Game.Modes mode) {
         switch (mode) {
@@ -148,6 +153,18 @@ public final class Res implements IRes {
         sprites.put(Sprites.invertMode, SPRITE_PATH + "invert-mode@4x.png");
         sprites.put(Sprites.spaceMode, SPRITE_PATH + "space-mode@4x.png");
         sprites.put(Sprites.underwaterMode, SPRITE_PATH + "underwater-mode@4x.png");
+
+        // Coins
+        sprites.put(Sprites.coin1, SPRITE_PATH + "coin1.png");
+        sprites.put(Sprites.coin2, SPRITE_PATH + "coin2.png");
+        sprites.put(Sprites.coin3, SPRITE_PATH + "coin3.png");
+        sprites.put(Sprites.coin4, SPRITE_PATH + "coin4.png");
+        sprites.put(Sprites.coin5, SPRITE_PATH + "coin5.png");
+        sprites.put(Sprites.coin6, SPRITE_PATH + "coin6.png");
+        sprites.put(Sprites.coin7, SPRITE_PATH + "coin7.png");
+        sprites.put(Sprites.coin8, SPRITE_PATH + "coin8.png");
+        sprites.put(Sprites.coin9, SPRITE_PATH + "coin9.png");
+        sprites.put(Sprites.coin10, SPRITE_PATH + "coin10.png");
 
         // Missions
         sprites.put(Sprites.achievement, SPRITE_PATH + "achievement@2x.png");
