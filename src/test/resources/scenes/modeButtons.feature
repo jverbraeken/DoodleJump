@@ -38,3 +38,7 @@ Feature: annotation
       When I press the story-button
       Then the scene should be ChooseMode
       And the mode should be story
+
+  Scenario:
+        When I do nothing
+        Then the scene should be ChooseMode

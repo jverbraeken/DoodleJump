@@ -33,9 +33,15 @@ public class CucumberSteps implements En {
                     Game.setScene(
                             sL.getSceneFactory().newChooseMode());
                     break;
+                case "ScoreScreen":
+                    Game.setScene(
+                            sL.getSceneFactory().createScoreScreen());
+                    break;
             }
         });
 
+        When("^I do nothing$", () -> {
+        });
 
         When("^I press the (.*)-button$", (String button) -> {
             Object scene = Whitebox.getInternalState(Game.class, "scene");
@@ -139,5 +145,7 @@ public class CucumberSteps implements En {
                     break;
             }
         });
+
+
     }
 }

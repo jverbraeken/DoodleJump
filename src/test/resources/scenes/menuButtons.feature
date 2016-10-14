@@ -23,3 +23,7 @@ Feature: annotation
     When I press the multiplayer-button
     Then the scene should be World
     And the score should be 0
+
+  Scenario:
+        When I do nothing
+        Then the scene should be Menu
