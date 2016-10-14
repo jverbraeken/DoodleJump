@@ -1,6 +1,5 @@
 package objects.blocks.platform;
 
-import objects.blocks.BlockFactory;
 import system.IServiceLocator;
 
 /**
@@ -24,14 +23,16 @@ public final class PlatformVertical extends PlatformDecorator implements IPlatfo
     private static final double FIFTY_FIFTY = 0.5d;
 
     /**
-     * Platform constructor.
+     * Vertical moving platform decorator constructor.
      *
      * @param sL       the servicelocator.
      * @param platform the encapsulated platform.
      */
-    PlatformVertical(final IServiceLocator sL, final IPlatform platform) {
+    /* package */PlatformVertical(final IServiceLocator sL, final IPlatform platform) {
         super(sL, platform);
-        getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteVert());
+        if (!getProps().containsKey(Platform.PlatformProperties.breaks)) {
+            getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteVert());
+        }
         getContained().getProps().put(Platform.PlatformProperties.movingVertically, 1);
 
         int gameHeight = sL.getConstants().getGameHeight();
@@ -54,9 +55,7 @@ public final class PlatformVertical extends PlatformDecorator implements IPlatfo
         final double xPos = this.getXPos();
         final double yPos = this.getYPos();
 
-        if (BlockFactory.isSpecialPlatform(this)) {
-            updateEnums(xPos, yPos);
-        }
+        updateEnums(xPos, yPos);
 
         if (getProps().containsKey(Platform.PlatformProperties.movingVertically)) {
 

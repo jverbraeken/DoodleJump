@@ -1,6 +1,5 @@
 package objects.blocks.platform;
 
-import objects.blocks.BlockFactory;
 import system.IServiceLocator;
 
 /**
@@ -9,26 +8,28 @@ import system.IServiceLocator;
 public final class PlatformHorizontal extends PlatformDecorator implements IPlatform {
 
     /**
-     * Platform constructor.
+     * Horizontal moving platform decorator constructor.
      *
-     * @param sL the servicelocator.
+     * @param sL       the servicelocator.
      * @param platform the encapsulated platform.
      */
-     PlatformHorizontal(final IServiceLocator sL, final IPlatform platform) {
-         super(sL, platform);
-         getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteHori());
-         getContained().getProps().put(Platform.PlatformProperties.movingHorizontally, 1);
+    /* package */PlatformHorizontal(final IServiceLocator sL, final IPlatform platform) {
+        super(sL, platform);
+        if (!getProps().containsKey(Platform.PlatformProperties.breaks)) {
+            getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteHori());
+        }
+        getContained().getProps().put(Platform.PlatformProperties.movingHorizontally, 1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(final double delta) {
         double xPos = this.getXPos();
         double yPos = this.getYPos();
 
-        if (BlockFactory.isSpecialPlatform(this)) {
-            updateEnums(xPos, yPos);
-        }
+        updateEnums(xPos, yPos);
 
         if (getContained().getProps().containsKey(Platform.PlatformProperties.movingHorizontally)) {
 
@@ -44,7 +45,9 @@ public final class PlatformHorizontal extends PlatformDecorator implements IPlat
         getContained().update(delta);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateEnums(final double xPos, final double yPos) {
         int gameWidth = getServiceLocator().getConstants().getGameWidth();
