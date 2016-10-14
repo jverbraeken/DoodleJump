@@ -54,6 +54,7 @@ public class Platform extends AGameObject implements IPlatform {
          */
         left
     }
+
     /**
      * An enum to define what the platform does.
      */
@@ -75,9 +76,9 @@ public class Platform extends AGameObject implements IPlatform {
     /**
      * Platform constructor.
      *
-     * @param sL - The games service locator.
-     * @param x - The X location for the platform.
-     * @param y - The Y location for the platform.
+     * @param sL     - The games service locator.
+     * @param x      - The X location for the platform.
+     * @param y      - The Y location for the platform.
      * @param sprite - The sprite for the platform.
      */
     /* package */ Platform(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
@@ -87,18 +88,24 @@ public class Platform extends AGameObject implements IPlatform {
         directions.put(Directions.left, -1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final double getBoost() {
         return Platform.BOOST;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void update(final double delta) {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void render() {
         double xPos = this.getXPos();
@@ -107,12 +114,16 @@ public class Platform extends AGameObject implements IPlatform {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) xPos, (int) yPos);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void updateEnums(final double xPos, final double yPos) {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void collidesWith(final IDoodle doodle) {
         this.playSound();
@@ -127,25 +138,33 @@ public class Platform extends AGameObject implements IPlatform {
         audioManager.playJump();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final Map<PlatformProperties, Integer> getProps() {
         return props;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final Map<Directions, Integer> getDirections() {
         return directions;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void setOffset(final int value) {
         this.offSet = value;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final int getOffset() {
         return offSet;
