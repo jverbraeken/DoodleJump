@@ -1,5 +1,6 @@
 package objects.blocks;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public final class WeightsMap {
     /**
      * Map that maps enums of the key to the keyCode.
      */
-    private static final Map<WeightsEnum, Double> WEIGTS_MAP = new HashMap<>();
+    private static final EnumMap<PlatformTypes, Double> WEIGTS_MAP = new EnumMap<>(PlatformTypes.class);
     /**
      * The chance of the normal platform spawning.
      */
@@ -70,19 +71,19 @@ public final class WeightsMap {
 
     static {
         // Platforms
-        WEIGTS_MAP.put(WeightsEnum.normalPlatform, NORMAL_PLATFORM);
-        WEIGTS_MAP.put(WeightsEnum.horizontalMovingPlatform, HORIZONTAL_MOVING_PLATFORM);
-        WEIGTS_MAP.put(WeightsEnum.verticalMovingPlatform, VERTICAL_MOVING_PLATFORM);
-        WEIGTS_MAP.put(WeightsEnum.breakingPlatform, BREAKING_PLATFORM);
+        WEIGTS_MAP.put(PlatformTypes.normalPlatform, NORMAL_PLATFORM);
+        WEIGTS_MAP.put(PlatformTypes.horizontalMovingPlatform, HORIZONTAL_MOVING_PLATFORM);
+        WEIGTS_MAP.put(PlatformTypes.verticalMovingPlatform, VERTICAL_MOVING_PLATFORM);
+        WEIGTS_MAP.put(PlatformTypes.breakingPlatform, BREAKING_PLATFORM);
 
         // Powerups
-        WEIGTS_MAP.put(WeightsEnum.spring, SPRING_POWERUP);
-        WEIGTS_MAP.put(WeightsEnum.trampoline, TRAMPOLINE_POWERUP);
-        WEIGTS_MAP.put(WeightsEnum.jetpack,JETPACK_POWERUP);
-        WEIGTS_MAP.put(WeightsEnum.propellor, PROPELLOR_POWERUP);
-        WEIGTS_MAP.put(WeightsEnum.sizeUp, SIZEUP_POWERUP);
-        WEIGTS_MAP.put(WeightsEnum.sizeDown, SIZEDOWN_POWERUP);
-        WEIGTS_MAP.put(WeightsEnum.springShoes, SPRINGSHOES_POWERUP);
+        WEIGTS_MAP.put(PlatformTypes.spring, SPRING_POWERUP);
+        WEIGTS_MAP.put(PlatformTypes.trampoline, TRAMPOLINE_POWERUP);
+        WEIGTS_MAP.put(PlatformTypes.jetpack,JETPACK_POWERUP);
+        WEIGTS_MAP.put(PlatformTypes.propellor, PROPELLOR_POWERUP);
+        WEIGTS_MAP.put(PlatformTypes.sizeUp, SIZEUP_POWERUP);
+        WEIGTS_MAP.put(PlatformTypes.sizeDown, SIZEDOWN_POWERUP);
+        WEIGTS_MAP.put(PlatformTypes.springShoes, SPRINGSHOES_POWERUP);
 
     }
 
@@ -96,9 +97,9 @@ public final class WeightsMap {
      * Get the weight given the elementType.
      *
      * @param elementType The integer code of the key
-     * @return The {@link WeightsEnum} enum corresponding with the integer value
+     * @return The {@link PlatformTypes} enum corresponding with the integer value
      */
-    /* package */ static Double getWeight(final WeightsEnum elementType) {
+    /* package */ static Double getWeight(final PlatformTypes elementType) {
         return WEIGTS_MAP.get(elementType);
     }
 

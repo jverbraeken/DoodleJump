@@ -1,15 +1,27 @@
 package math;
 
 import objects.IGameObject;
+import objects.blocks.platform.IPlatformFactory;
+import objects.blocks.platform.PlatformFactory;
+import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
+/**
+ * Keeps a List with weights and elements. Represented as
+ * Doubles and Strings respectively. The getRandomElement
+ * method will return a random element from this list,
+ * according to the weights.
+ */
 public class GenerationSet implements IWeightsSet {
 
-    private ArrayList<MyEntry<Double, String>> weights;
+    private List<MyEntry<Double, String>> weights;
     private IServiceLocator serviceLocator;
 
     /**
@@ -17,7 +29,7 @@ public class GenerationSet implements IWeightsSet {
      *
      * @param weights a set with the weights that have to be used.
      */
-    public GenerationSet(IServiceLocator sL, ArrayList<Double> weights, ArrayList<String> elementType) {
+    public GenerationSet(IServiceLocator sL, List<Double> weights, List<String> elementType) {
         assert weights.size() == elementType.size();
         this.weights = sortWeightsMap(weights, elementType);
 
@@ -27,9 +39,9 @@ public class GenerationSet implements IWeightsSet {
     /**
      * Sort the weights by the key value double.
      */
-    private ArrayList<MyEntry<Double, String>> sortWeightsMap(ArrayList<Double> weights, ArrayList<String> elementType) {
+    private List<MyEntry<Double, String>> sortWeightsMap(List<Double> weights, List<String> elementType) {
         double total = 0;
-        ArrayList<MyEntry<Double, String>> sortedWeights = new ArrayList<>();
+        List<MyEntry<Double, String>> sortedWeights = new ArrayList<>();
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.ENGLISH);
         DecimalFormat formatter = (DecimalFormat) numberFormat;
         formatter.applyPattern("#.####");
@@ -45,7 +57,7 @@ public class GenerationSet implements IWeightsSet {
 
     @Override
     public IGameObject getRandomElement() {
-        double randDouble = serviceLocator.getCalc().getRandomDouble(1) * 0.5;
+        double randDouble = serviceLocator.getCalc().getRandomDouble(1);
 
         for (MyEntry<Double, String> entry : weights) {
             if (entry.getKey() >= randDouble) {
@@ -61,29 +73,31 @@ public class GenerationSet implements IWeightsSet {
      * @return the wanted object as an IGameObject.
      */
     private IGameObject getGameObject(String objectName) {
+        IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
+        IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
         switch (objectName) {
             case ("normalPlatform"):
-                return serviceLocator.getPlatformFactory().createPlatform(0, 0);
+                return platformFactory.createPlatform(0, 0);
             case ("verticalMovingPlatform"):
-                return serviceLocator.getPlatformFactory().createVertMovingPlatform(0, 0);
+                return platformFactory.createVertMovingPlatform(0, 0);
             case ("horizontalMovingPlatform"):
-                return serviceLocator.getPlatformFactory().createHoriMovingPlatform(0, 0);
+                return platformFactory.createHoriMovingPlatform(0, 0);
             case ("breakingPlatform"):
-                return serviceLocator.getPlatformFactory().createBreakPlatform(0, 0);
+                return platformFactory.createBreakPlatform(0, 0);
             case ("spring"):
-                return serviceLocator.getPowerupFactory().createSpring(0,0);
+                return powerupFactory.createSpring(0,0);
             case ("trampoline"):
-                return serviceLocator.getPowerupFactory().createTrampoline(0,0);
+                return powerupFactory.createTrampoline(0,0);
             case ("jetpack"):
-                return serviceLocator.getPowerupFactory().createJetpack(0,0);
+                return powerupFactory.createJetpack(0,0);
             case ("propellor"):
-                return serviceLocator.getPowerupFactory().createPropeller(0,0);
+                return powerupFactory.createPropeller(0,0);
             case ("sizeUp"):
-                return serviceLocator.getPowerupFactory().createSizeUp(0,0);
+                return powerupFactory.createSizeUp(0,0);
             case ("sizeDown"):
-                return serviceLocator.getPowerupFactory().createSizeDown(0,0);
+                return powerupFactory.createSizeDown(0,0);
             case ("springShoes"):
-                return serviceLocator.getPowerupFactory().createSpringShoes(0,0);
+                return powerupFactory.createSpringShoes(0,0);
         }
         return null;
     }
