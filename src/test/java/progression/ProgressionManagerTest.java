@@ -7,6 +7,8 @@ import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.powerups.Powerups;
 import org.junit.*;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
 import system.IServiceLocator;
 
@@ -14,8 +16,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -139,113 +144,6 @@ public class ProgressionManagerTest {
     }
 
     @Test
-    public void testInit1() throws IOException {
-        SaveFile saveFile = LoganSquare.parse(INIT_FILE_CONTENT_1, SaveFile.class);
-        when(fileSystem.parseJson(serviceLocator.getConstants().getSaveFilePath(), SaveFile.class)).thenReturn(saveFile);
-        progressionManager.init();
-
-        expected.add(SCORE_2);
-        expected.add(SCORE_1);
-
-        Object temp = Whitebox.getInternalState(progressionManager, "highScores");
-        List<HighScore> actual = (List<HighScore>) temp;
-
-        assertThat(actual.size(), is(2));
-        assertThat(actual.size(), is(expected.size()));
-
-        assertThat(actual.get(0).getName(), is(equalTo(expected.get(0).getName())));
-        assertThat(actual.get(0).getScore(), is(expected.get(0).getScore()));
-
-        assertThat(actual.get(1).getName(), is(equalTo(expected.get(1).getName())));
-        assertThat(actual.get(1).getScore(), is(expected.get(1).getScore()));
-
-        int coins = Whitebox.getInternalState(progressionManager, "coins");
-
-        assertThat(coins, is(0));
-
-        final Map<Powerups, Integer> expectedPowerupLevels = new EnumMap<>(Powerups.class);
-        expectedPowerupLevels.put(Powerups.JETPACK, 0);
-        expectedPowerupLevels.put(Powerups.PROPELLER, 0);
-        expectedPowerupLevels.put(Powerups.SIZEDOWN, 0);
-        expectedPowerupLevels.put(Powerups.SIZEUP, 0);
-        expectedPowerupLevels.put(Powerups.SPRING, 1);
-        expectedPowerupLevels.put(Powerups.SPRINGSHOES, 0);
-        expectedPowerupLevels.put(Powerups.TRAMPOLINE, 0);
-
-        Map<Powerups, Integer> powerupLevels = Whitebox.getInternalState(progressionManager, "powerupLevels");
-
-        assertThat(powerupLevels, is(equalTo(expectedPowerupLevels)));
-
-    }
-
-    @Test
-    public void testInit2() throws IOException {
-        SaveFile saveFile = LoganSquare.parse(INIT_FILE_CONTENT_2, SaveFile.class);
-        when(fileSystem.parseJson(serviceLocator.getConstants().getSaveFilePath(), SaveFile.class)).thenReturn(saveFile);
-        progressionManager.init();
-
-        expected.add(SCORE_1);
-
-        Object temp = Whitebox.getInternalState(progressionManager, "highScores");
-        List<HighScore> actual = (List<HighScore>) temp;
-
-        assertThat(actual.size(), is(1));
-        assertThat(actual.size(), is(expected.size()));
-
-        assertThat(actual.get(0).getName(), is(equalTo(expected.get(0).getName())));
-        assertThat(actual.get(0).getScore(), is(expected.get(0).getScore()));
-
-        int coins = Whitebox.getInternalState(progressionManager, "coins");
-
-        assertThat(coins, is(1));
-
-        final Map<Powerups, Integer> expectedPowerupLevels = new EnumMap<>(Powerups.class);
-        expectedPowerupLevels.put(Powerups.JETPACK, 0);
-        expectedPowerupLevels.put(Powerups.PROPELLER, 4);
-        expectedPowerupLevels.put(Powerups.SIZEDOWN, 3);
-        expectedPowerupLevels.put(Powerups.SIZEUP, 5);
-        expectedPowerupLevels.put(Powerups.SPRING, 1);
-        expectedPowerupLevels.put(Powerups.SPRINGSHOES, 2);
-        expectedPowerupLevels.put(Powerups.TRAMPOLINE, 0);
-
-        Map<Powerups, Integer> powerupLevels = Whitebox.getInternalState(progressionManager, "powerupLevels");
-
-        assertThat(powerupLevels, is(equalTo(expectedPowerupLevels)));
-
-    }
-
-    @Test
-    public void testInit3() throws IOException {
-        SaveFile saveFile = LoganSquare.parse(INIT_FILE_CONTENT_3, SaveFile.class);
-        when(fileSystem.parseJson(serviceLocator.getConstants().getSaveFilePath(), SaveFile.class)).thenReturn(saveFile);
-        progressionManager.init();
-
-        Object temp = Whitebox.getInternalState(progressionManager, "highScores");
-        List<HighScore> actual = (List<HighScore>) temp;
-
-        assertThat(actual.size(), is(0));
-        assertThat(actual.size(), is(expected.size()));
-
-        int coins = Whitebox.getInternalState(progressionManager, "coins");
-
-        assertThat(coins, is(2));
-
-        final Map<Powerups, Integer> expectedPowerupLevels = new EnumMap<>(Powerups.class);
-        expectedPowerupLevels.put(Powerups.JETPACK, 0);
-        expectedPowerupLevels.put(Powerups.PROPELLER, 0);
-        expectedPowerupLevels.put(Powerups.SIZEDOWN, 0);
-        expectedPowerupLevels.put(Powerups.SIZEUP, 0);
-        expectedPowerupLevels.put(Powerups.SPRING, 1);
-        expectedPowerupLevels.put(Powerups.SPRINGSHOES, 0);
-        expectedPowerupLevels.put(Powerups.TRAMPOLINE, 0);
-
-        Map<Powerups, Integer> powerupLevels = Whitebox.getInternalState(progressionManager, "powerupLevels");
-
-        assertThat(powerupLevels, is(equalTo(expectedPowerupLevels)));
-
-    }
-
-    @Test
     public void testInitFileNotFound() throws IOException {
         when(fileSystem.parseJson(serviceLocator.getConstants().getSaveFilePath(), SaveFile.class)).thenThrow(FileNotFoundException.class);
         progressionManager.init();
@@ -332,5 +230,99 @@ public class ProgressionManagerTest {
         assertThat(actual.size(), is(1));
         assertThat(actual.get(0).getName(), is(expected.get(0).getName()));
         assertThat(actual.get(0).getScore(), is(expected.get(0).getScore()));
+    }
+
+    @Test
+    public void testGetCoins() {
+        final int coins = 42;
+        Whitebox.setInternalState(progressionManager, "coins", coins);
+
+        assertThat(progressionManager.getCoins(), is(coins));
+    }
+
+    @Test
+    public void testGetMissions() {
+        final List missions = mock(List.class);
+        Whitebox.setInternalState(progressionManager, "missions", missions);
+
+        assertThat(progressionManager.getMissions(), is(missions));
+    }
+
+    @Test
+    public void testAddObserver() {
+        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
+        progressionManager.addObserver(ProgressionObservers.spring, observer);
+        assertThat(((Set<IProgressionObserver>) Whitebox.getInternalState(ProgressionObservers.spring, "observers")).contains(observer), is(true));
+
+        final ISpringUsedObserver observer2 = mock(ISpringUsedObserver.class);
+        progressionManager.addObserver(ProgressionObservers.spring, observer2);
+        assertThat(((Set<IProgressionObserver>) Whitebox.getInternalState(ProgressionObservers.spring, "observers")).contains(observer2), is(true));
+    }
+
+    @Test
+    public void testAlertObservers() {
+        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
+        progressionManager.addObserver(ProgressionObservers.spring, observer);
+        progressionManager.alertObservers(ProgressionObservers.spring);
+
+        Mockito.verify(observer).alert();
+    }
+
+    @Test
+    public void testAlertObserversQueue() {
+        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
+        final Mission mission = mock(Mission.class);
+        progressionManager.addObserver(ProgressionObservers.spring, observer);
+        Whitebox.setInternalState(progressionManager, "finishedMissionsQueue", new LinkedList<Mission>() {{
+            add(mission);
+        }});
+        progressionManager.alertObservers(ProgressionObservers.spring);
+
+        Mockito.verify(observer).alert();
+    }
+
+    @Test
+    public void testAlertObserversWithAmount() {
+        final int amount = 1234;
+        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
+        progressionManager.addObserver(ProgressionObservers.spring, observer);
+        progressionManager.alertObservers(ProgressionObservers.spring, amount);
+
+        Mockito.verify(observer).alert(amount);
+    }
+
+    @Test
+    public void testAlertObserversWithAmountAndQueue() {
+        final int amount = 1234;
+        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
+        final Mission mission = mock(Mission.class);
+        progressionManager.addObserver(ProgressionObservers.spring, observer);
+        Whitebox.setInternalState(progressionManager, "finishedMissionsQueue", new LinkedList<Mission>() {{
+            add(mission);
+        }});
+        progressionManager.alertObservers(ProgressionObservers.spring, amount);
+
+        Mockito.verify(observer).alert(amount);
+    }
+
+    @Test(expected = InternalError.class)
+    public void testAlertObserversMissionFinishedUnknownMission() {
+        final Mission mission = mock(Mission.class);
+        progressionManager.alertMissionFinished(mission);
+    }
+
+    @Test
+    public void testAlertObserversMissionFinished() {
+        final Mission mission = mock(Mission.class);
+        final Mission mission2 = mock(Mission.class);
+        final Mission mission3 = mock(Mission.class);
+        final Queue finishedMissionsQueue = mock(Queue.class);
+        Whitebox.setInternalState(progressionManager, "missions", new ArrayList<Mission>() {{
+            add(mission);
+            add(mission2);
+            add(mission3);
+        }});
+        progressionManager.alertMissionFinished(mission);
+        assertThat(((Queue<Mission>) Whitebox.getInternalState(progressionManager, "finishedMissionsQueue")).contains(mission), is(true));
     }
 }
