@@ -257,7 +257,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void increaseSpriteScalar(final double inc) {
-        if (this.spriteScalar > 0.2 && this.spriteScalar < 1.8) {
+        if (this.spriteScalar + inc > 0 && this.spriteScalar + inc < 2) {
             double oldScalar = this.spriteScalar;
             this.spriteScalar += inc;
 
@@ -324,7 +324,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void checkDeadPosition() {
         ICamera camera = getServiceLocator().getRenderer().getCamera();
-        if (getYPos() > camera.getYPos() + getServiceLocator().getConstants().getGameHeight() - DEAD_OFFSET * getHitBox()[HITBOX_BOTTOM]) {
+        if (this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM] > camera.getYPos() + getServiceLocator().getConstants().getGameHeight()) {
             getLogger().info("The Doodle died with score " + this.score);
             this.world.endGameInstance(this.score);
         }
