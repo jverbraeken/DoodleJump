@@ -437,7 +437,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSpriteHori() {
+    public ISprite getPlatformSpriteHorizontal() {
         return getSprite(IRes.Sprites.platformHorizontal);
     }
 
@@ -445,7 +445,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSpriteVert() {
+    public ISprite getPlatformSpriteVertical() {
         return getSprite(IRes.Sprites.platformVertical);
     }
 

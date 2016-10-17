@@ -5,7 +5,7 @@ import java.util.EnumMap;
 /**
  * Static class that maps key names to keyCodes.
  */
-public final class WeightsMap {
+/* package */ final class WeightsMap {
 
     /**
      * Map that maps enums of the key to the keyCode.
@@ -19,7 +19,7 @@ public final class WeightsMap {
     /**
      * The chance of the horizontal moving platform spawning.
      */
-    private static final double HORIZONTAL_MOVING_PLATFORM = 0.05;
+    private static final double HORIZONTAL_MOVING_PLATFORM = 0.5;
 
     /**
      * The chance of the vertical moving platform spawning.

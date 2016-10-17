@@ -53,8 +53,8 @@ public class MovingPlatformsTest {
         when(sprite.getWidth()).thenReturn(0);
 
         spriteFactory = mock(SpriteFactory.class);
-        when(spriteFactory.getPlatformSpriteHori()).thenReturn(sprite);
-        when(spriteFactory.getPlatformSpriteVert()).thenReturn(sprite);
+        when(spriteFactory.getPlatformSpriteHorizontal()).thenReturn(sprite);
+        when(spriteFactory.getPlatformSpriteVertical()).thenReturn(sprite);
 
         calc = mock(Calc.class);
         when(calc.getRandomDouble(1)).thenReturn(0d);

@@ -5,7 +5,7 @@ import system.IServiceLocator;
 /**
  * The platform decorator used to describe vertical movement.
  */
-public final class PlatformVertical extends PlatformDecorator implements IPlatform {
+/* package */ final class PlatformVertical extends PlatformDecorator implements IPlatform {
 
     /**
      * One fifth.
@@ -33,14 +33,13 @@ public final class PlatformVertical extends PlatformDecorator implements IPlatfo
      */
     /* package */PlatformVertical(final IServiceLocator sL, final IPlatform platform) {
         super(sL, platform);
-        getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteVert());
-        getContained().getProps().put(Platform.PlatformProperties.movingVertically, 1);
+        this.getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteVertical());
+        this.getContained().getProps().put(Platform.PlatformProperties.movingVertically, 1);
 
         int gameHeight = sL.getConstants().getGameHeight();
-        movingDistance = (int) (gameHeight * ONE_FIFTH);
+        PlatformVertical.movingDistance = (int) (gameHeight * ONE_FIFTH);
 
         this.speed = (sL.getCalc().getRandomDouble(1) < FIFTY_FIFTY) ? 2 : -2;
-
     }
 
     /**
