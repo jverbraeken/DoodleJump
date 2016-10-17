@@ -50,7 +50,7 @@ public final class Calc implements ICalc {
         if (max <= 0) {
             throw new IllegalArgumentException("The maximum value for a random double should be more than 0, but was [" + max + "] instead");
         }
-        
+
         return RANDOM.nextDouble() * max;
     }
 
