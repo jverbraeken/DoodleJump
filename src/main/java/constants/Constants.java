@@ -72,43 +72,57 @@ public final class Constants implements IConstants {
         sL.provide(new Constants());
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public int getGameWidth() {
         return WIDTH;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public int getGameHeight() {
         return HEIGHT;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public double getGravityAcceleration() {
         return GRAVITY_ACCELERATION;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public double getScoreMultiplier() {
         return SCORE_MULTIPLIER;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public boolean getLogPendingTasks() {
         return LOG_PENDING_TASKS;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public String getLogFile() {
         return logFile.get();
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public String getSaveFilePath() {
         return SAVEFILE_DATA;

@@ -12,7 +12,7 @@ import system.IServiceLocator;
 public final class PlatformBroken extends PlatformDecorator implements IPlatform {
 
     /**
-     * Current vertical speed for the Doodle.
+     * Current vertical speed for the platform.
      */
     private double vSpeed = 0d;
 
@@ -22,7 +22,7 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      * @param sL       the servicelocator.
      * @param platform the encapsulated platform.
      */
-    PlatformBroken(final IServiceLocator sL, final IPlatform platform) {
+    /* package */PlatformBroken(final IServiceLocator sL, final IPlatform platform) {
         super(sL, platform);
         getContained().setSprite(sL.getSpriteFactory().getPlatformBrokenSprite1());
         getContained().getProps().put(Platform.PlatformProperties.breaks, 1);
@@ -89,7 +89,6 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        System.out.println(getProps().get(Platform.PlatformProperties.breaks));
         if (getProps().get(Platform.PlatformProperties.breaks).equals(1)) {
             getProps().replace(Platform.PlatformProperties.breaks, 2);
             vSpeed = doodle.getVerticalSpeed() / 2;

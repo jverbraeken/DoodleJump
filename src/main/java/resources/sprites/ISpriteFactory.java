@@ -89,12 +89,18 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getSmallMonsterSprite(); // By default a very small three eyed red monster
 
+    ISprite getStarSprite1();
+
+    ISprite getStarSprite2();
+
+    ISprite getStarSprite3();
+
     // Platforms
     ISprite getPlatformSprite1();
 
-    ISprite getPlatformSpriteHori();
+    ISprite getPlatformSpriteHorizontal();
 
-    ISprite getPlatformSpriteVert();
+    ISprite getPlatformSpriteVertical();
 
     ISprite getPlatformSprite4();
 

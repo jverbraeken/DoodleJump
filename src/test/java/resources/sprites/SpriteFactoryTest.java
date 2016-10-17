@@ -316,12 +316,12 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetPlatformSprite2() throws Exception {
-        TestSprite(IRes.Sprites.platformHorizontal, () -> spriteFactory.getPlatformSpriteHori());
+        TestSprite(IRes.Sprites.platformHorizontal, () -> spriteFactory.getPlatformSpriteHorizontal());
     }
 
     @Test
     public void TestGetPlatformSprite3() throws Exception {
-        TestSprite(IRes.Sprites.platformVertical, () -> spriteFactory.getPlatformSpriteVert());
+        TestSprite(IRes.Sprites.platformVertical, () -> spriteFactory.getPlatformSpriteVertical());
     }
 
     @Test

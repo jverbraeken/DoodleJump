@@ -384,6 +384,30 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.smallMonster);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getStarSprite1() {
+        return getSprite(IRes.Sprites.confusedStars1);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getStarSprite2() {
+        return getSprite(IRes.Sprites.confusedStars2);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getStarSprite3() {
+        return getSprite(IRes.Sprites.confusedStars3);
+    }
+
 
     // Numbers
 
@@ -437,7 +461,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSpriteHori() {
+    public ISprite getPlatformSpriteHorizontal() {
         return getSprite(IRes.Sprites.platformHorizontal);
     }
 
@@ -445,7 +469,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSpriteVert() {
+    public ISprite getPlatformSpriteVertical() {
         return getSprite(IRes.Sprites.platformVertical);
     }
 
