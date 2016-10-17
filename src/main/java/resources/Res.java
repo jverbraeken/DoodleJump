@@ -60,6 +60,9 @@ public final class Res implements IRes {
             case underwater:
                 setUnderwaterSkin();
                 break;
+            case darkness:
+                setDarknessSkin();
+                break;
             default:
                 resetSkin();
                 break;
@@ -221,6 +224,37 @@ public final class Res implements IRes {
 
         // Top bar
         sprites.put(Sprites.scoreBar, SPRITE_PATH + "underwater-scorebar@2x.png");
+    }
+
+    /**
+     * Set the skin to underwater style.
+     */
+    private void setDarknessSkin() {
+        resetSkin();
+
+        // Covers
+        sprites.put(Sprites.startCover, SPRITE_PATH + "darkness-Default@2x.png");
+        sprites.put(Sprites.background, SPRITE_PATH + "darkness-bck@2x.png");
+
+        // Doodle
+        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "ghost-left@2x.png");
+        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "ghost-left-odskok@2x.png");
+        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "ghost-right@2x.png");
+        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "ghost-right-odskok@2x.png");
+
+        // Platforms
+        sprites.put(Sprites.platform1, SPRITE_PATH + "invisible-platform@2x.png");
+        sprites.put(Sprites.platformHorizontal, SPRITE_PATH + "invisible-platform@2x.png");
+        sprites.put(Sprites.platformVertical, SPRITE_PATH + "invisible-platform@2x.png");
+        sprites.put(Sprites.platformBroken1, SPRITE_PATH + "invisible-platform@2x.png");
+        sprites.put(Sprites.platformBroken2, SPRITE_PATH + "invisible-platform@2x.png");
+        sprites.put(Sprites.platformBroken3, SPRITE_PATH + "invisible-platform@2x.png");
+        sprites.put(Sprites.platformBroken4, SPRITE_PATH + "invisible-platform@2x.png");
+        sprites.put(Sprites.platform4, SPRITE_PATH + "space-platform@2x.png");
+
+
+        // Top bar
+        sprites.put(Sprites.scoreBar, SPRITE_PATH + "space-scorebar@2x.png");
     }
 
 }
