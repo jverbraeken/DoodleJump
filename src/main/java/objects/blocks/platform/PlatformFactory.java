@@ -43,7 +43,7 @@ public final class PlatformFactory implements IPlatformFactory {
         ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSprite1();
         IPlatform platform = new Platform(serviceLocator, x, y, sprite);
 
-        if(Game.getMode().equals(Game.Modes.darkness)) {
+        if (Game.getMode().equals(Game.Modes.darkness)) {
             IPlatform darkness = new PlatformDarkness(serviceLocator, platform);
             return  darkness;
         }

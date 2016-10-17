@@ -2,6 +2,9 @@ package math;
 
 import objects.IGameObject;
 
+/**
+ * An interface for the WeightsSet.
+ */
 /* package */ interface IWeightsSet {
 
     /**
