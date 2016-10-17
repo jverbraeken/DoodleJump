@@ -28,7 +28,7 @@ public interface IPlatform extends IGameObject, IJumpable {
      *
      * @param doodle the Doodle it is colliding with.
      */
-    void collidesWith(IDoodle doodle);
+    void collidesWith(final IDoodle doodle);
 
     /**
      * Returns the Map with properties of the Platform.
@@ -40,10 +40,10 @@ public interface IPlatform extends IGameObject, IJumpable {
     /**
      * Updates the special properties of the Platform.
      *
-     * @param xpos the x position of the platform
-     * @param ypos the y position of the platform
+     * @param xPos the x position of the platform
+     * @param yPos the y position of the platform
      */
-    void updateEnums(double xPos, double yPos);
+    void updateEnums(final double xPos, final double yPos);
 
     /**
      * Returns the Map with directions of the Platform.
@@ -57,7 +57,7 @@ public interface IPlatform extends IGameObject, IJumpable {
      *
      * @param offSet the offSet that this.offSet has to be set to.
      */
-    void setOffset(int offSet);
+    void setOffset(final int offSet);
 
     /**
      * Returns the offSet of the platform.
