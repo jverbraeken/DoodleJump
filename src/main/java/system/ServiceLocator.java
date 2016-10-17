@@ -18,8 +18,8 @@ import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.PlatformFactory;
 import objects.doodles.DoodleFactory;
 import objects.doodles.IDoodleFactory;
-import objects.enemies.EnemyBuilder;
-import objects.enemies.IEnemyBuilder;
+import objects.enemies.EnemyFactory;
+import objects.enemies.IEnemyFactory;
 import objects.powerups.IPowerupFactory;
 import objects.powerups.PowerupFactory;
 import progression.IProgressionManager;
@@ -55,7 +55,7 @@ import scenes.SceneFactory;
     // input
     private IInputManager inputManager;
     // enemies
-    private IEnemyBuilder enemyBuilder;
+    private IEnemyFactory enemyFactory;
     // rendering
     private ICameraFactory cameraFactory;
     private IRenderer renderer;
@@ -109,9 +109,9 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
-    public void provide(final IEnemyBuilder eB) {
-        assert eB != null;
-        this.enemyBuilder = eB;
+    public void provide(final IEnemyFactory eF) {
+        assert eF != null;
+        this.enemyFactory = eF;
     }
 
     /**
@@ -270,9 +270,9 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
-    public IEnemyBuilder getEnemyBuilder() {
-        assert enemyBuilder != null;
-        return enemyBuilder;
+    public IEnemyFactory getEnemyFactory() {
+        assert enemyFactory != null;
+        return enemyFactory;
     }
 
     /**
@@ -430,7 +430,7 @@ import scenes.SceneFactory;
         LoggerFactory.register(this);
 
         AudioManager.register(this);
-        EnemyBuilder.register(this);
+        EnemyFactory.register(this);
         InputManager.register(this);
         Calc.register(this);
         BlockFactory.register(this);

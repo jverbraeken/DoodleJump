@@ -10,6 +10,7 @@ import java.util.Map;
  * This class focuses on the implementation of platforms.
  */
 public interface IPlatform extends IGameObject, IJumpable {
+
     /**
      * Will return the BOOST attribute.
      *
@@ -39,10 +40,10 @@ public interface IPlatform extends IGameObject, IJumpable {
     /**
      * Updates the special properties of the Platform.
      *
-     * @param xpos the x position of the platform
-     * @param ypos the y position of the platform
+     * @param xPos the x position of the platform
+     * @param yPos the y position of the platform
      */
-    void updateEnums(double xpos, double ypos);
+    void updateEnums(double xPos, double yPos);
 
     /**
      * Returns the Map with directions of the Platform.
