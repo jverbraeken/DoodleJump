@@ -8,7 +8,7 @@ import java.util.EnumMap;
 public final class WeightsMap {
 
     /**
-     * Map that maps enums of the key to the keyCode.
+     * Map that maps enums of the elementTypes to the weight.
      */
     private static final EnumMap<ElementTypes, Double> WEIGTS_MAP = new EnumMap<>(ElementTypes.class);
     /**
@@ -97,7 +97,7 @@ public final class WeightsMap {
      * @param elementType The integer code of the key
      * @return The {@link ElementTypes} enum corresponding with the integer value
      */
-    /* package */ static Double getWeight(final ElementTypes elementType) {
+    public static Double getWeight(final ElementTypes elementType) {
         return WEIGTS_MAP.get(elementType);
     }
 

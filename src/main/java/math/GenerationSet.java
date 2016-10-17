@@ -1,6 +1,9 @@
 package math;
 
+import groovy.lang.Tuple2;
 import objects.IGameObject;
+import objects.blocks.ElementTypes;
+import objects.blocks.WeightsMap;
 import objects.blocks.platform.IPlatformFactory;
 import objects.powerups.IPowerupFactory;
 import system.IServiceLocator;
@@ -8,6 +11,7 @@ import system.IServiceLocator;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -23,7 +27,7 @@ public class GenerationSet implements IWeightsSet {
     /**
      * The list with weights, it uses Key-Value pairs in it.
      */
-    private List<MyEntry<Double, String>> weights;
+    private List<Tuple2<Double, ElementTypes>> weights;
     /**
      * The servicelocator of this game.
      */
@@ -32,26 +36,62 @@ public class GenerationSet implements IWeightsSet {
     /**
      * Create and initialize a WeightsSet.
      *
-     * @param weights a set with the weights that have to be used.
      * @param sL the serviceLocator this class should use.
-     * @param elementType the list with strings of the element types.
+     * @param setType a string with what type of GenerationSet this has to be.
      */
-    public GenerationSet(final IServiceLocator sL, final List<Double> weights, final List<String> elementType) {
-        assert weights.size() == elementType.size();
-        this.weights = sortWeightsMap(weights, elementType);
-
+    public GenerationSet(final IServiceLocator sL, String setType) {
         this.serviceLocator = sL;
+
+        if (setType.equals("platforms")) {
+            createAndSortPlatformSet();
+        }
+        else if (setType.equals("powerups")) {
+            createAndSortPowerupSet();
+        }
+
     }
 
+
+    private void createAndSortPlatformSet() {
+        List<Double> platWeights = Arrays.asList(
+                WeightsMap.getWeight(ElementTypes.normalPlatform),
+                WeightsMap.getWeight(ElementTypes.verticalMovingPlatform),
+                WeightsMap.getWeight(ElementTypes.horizontalMovingPlatform),
+                WeightsMap.getWeight(ElementTypes.breakingPlatform));
+        List<ElementTypes> platforms = Arrays.asList(ElementTypes.normalPlatform,
+                ElementTypes.verticalMovingPlatform,
+                ElementTypes.horizontalMovingPlatform,
+                ElementTypes.breakingPlatform);
+        this.weights = sortWeightsMap(platWeights, platforms);
+    }
+
+    private void createAndSortPowerupSet() {
+        List<Double> powerupWeights = Arrays.asList(
+                WeightsMap.getWeight(ElementTypes.spring),
+                WeightsMap.getWeight(ElementTypes.trampoline),
+                WeightsMap.getWeight(ElementTypes.jetpack),
+                WeightsMap.getWeight(ElementTypes.propellor),
+                WeightsMap.getWeight(ElementTypes.sizeUp),
+                WeightsMap.getWeight(ElementTypes.sizeDown),
+                WeightsMap.getWeight(ElementTypes.springShoes));
+        List<ElementTypes> powerups = Arrays.asList(ElementTypes.spring,
+                ElementTypes.trampoline,
+                ElementTypes.jetpack,
+                ElementTypes.propellor,
+                ElementTypes.sizeUp,
+                ElementTypes.sizeDown,
+                ElementTypes.springShoes);
+        this.weights = sortWeightsMap(powerupWeights, powerups);
+    }
     /**
      * Sort the weights by the key value double.
      *
      * @param weights a set with the weights that have to be used.
      * @param elementType the list with strings of the element types.
      */
-    private List<MyEntry<Double, String>> sortWeightsMap(List<Double> weights, List<String> elementType) {
+    private List<Tuple2<Double, ElementTypes>> sortWeightsMap(List<Double> weights, List<ElementTypes> elementType) {
         double total = 0;
-        List<MyEntry<Double, String>> sortedWeights = new ArrayList<>();
+        List<Tuple2<Double, ElementTypes>> sortedWeights = new ArrayList<>();
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.ENGLISH);
         DecimalFormat formatter = (DecimalFormat) numberFormat;
         formatter.applyPattern("#.####");
@@ -59,7 +99,7 @@ public class GenerationSet implements IWeightsSet {
         for (int i = 0; i < weights.size(); i++) {
             String s = formatter.format(total + weights.get(i));
             total = Double.parseDouble(s);
-            sortedWeights.add(new MyEntry<>(total, elementType.get(i)));
+            sortedWeights.add(new Tuple2<>(total, elementType.get(i)));
             assert total <= 1;
         }
         return sortedWeights;
@@ -72,9 +112,9 @@ public class GenerationSet implements IWeightsSet {
     final public IGameObject getRandomElement() {
         double randDouble = serviceLocator.getCalc().getRandomDouble(1);
 
-        for (MyEntry<Double, String> entry : weights) {
-            if (entry.getKey() >= randDouble) {
-                return getGameObject(entry.getValue());
+        for (Tuple2<Double, ElementTypes> entry : weights) {
+            if (entry.getFirst() >= randDouble) {
+                return getGameObject(entry.getSecond());
             }
         }
         return null;
@@ -82,87 +122,37 @@ public class GenerationSet implements IWeightsSet {
 
     /**
      * Returns an instantiation of an IGameObject
-     * @param objectName the name of the object.
+     * @param elementType the enum as type of the object.
      * @return the wanted object as an IGameObject.
      */
-    private IGameObject getGameObject(final String objectName) {
+    private IGameObject getGameObject(final ElementTypes elementType) {
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
         IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
-        switch (objectName) {
-            case ("normalPlatform"):
+        switch (elementType) {
+            case normalPlatform:
                 return platformFactory.createPlatform(0, 0);
-            case ("verticalMovingPlatform"):
+            case verticalMovingPlatform:
                 return platformFactory.createVerticalMovingPlatform(0, 0);
-            case ("horizontalMovingPlatform"):
+            case horizontalMovingPlatform:
                 return platformFactory.createHorizontalMovingPlatform(0, 0);
-            case ("breakingPlatform"):
+            case breakingPlatform:
                 return platformFactory.createBreakPlatform(0, 0);
-            case ("spring"):
+            case spring:
                 return powerupFactory.createSpring(0, 0);
-            case ("trampoline"):
+            case trampoline:
                 return powerupFactory.createTrampoline(0, 0);
-            case ("jetpack"):
+            case jetpack:
                 return powerupFactory.createJetpack(0, 0);
-            case ("propellor"):
+            case propellor:
                 return powerupFactory.createPropeller(0, 0);
-            case ("sizeUp"):
+            case sizeUp:
                 return powerupFactory.createSizeUp(0, 0);
-            case ("sizeDown"):
+            case sizeDown:
                 return powerupFactory.createSizeDown(0, 0);
-            case ("springShoes"):
+            case springShoes:
                 return powerupFactory.createSpringShoes(0, 0);
             default:
                 return null;
-        }
-    }
-
-    /**
-     * A MyEntry class keeps a Key and Value.
-     * @param <K> the key.
-     * @param <V> the value.
-     */
-    private final class MyEntry<K, V> implements Map.Entry<K, V> {
-        /**
-         * The key of the Entry.
-         */
-        private final K key;
-        /**
-         * The value of the Entry.
-         */
-        private V value;
-
-        /**
-         * Initialize the MyEntry class.
-         */
-        private MyEntry(final K key, final V value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        /**
-         * Get the key of the Entry.
-         */
-        @Override
-        public K getKey() {
-            return key;
-        }
-
-        /**
-         * Get the value of the Entry.
-         */
-        @Override
-        public V getValue() {
-            return value;
-        }
-
-        /**
-         * Set the value of the Entry.
-         */
-        @Override
-        public V setValue(final V value) {
-            V old = this.value;
-            this.value = value;
-            return old;
         }
     }
 }
