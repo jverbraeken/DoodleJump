@@ -89,7 +89,6 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        System.out.println(getProps().get(Platform.PlatformProperties.breaks));
         if (getProps().get(Platform.PlatformProperties.breaks).equals(1)) {
             getProps().replace(Platform.PlatformProperties.breaks, 2);
             vSpeed = doodle.getVerticalSpeed() / 2;
