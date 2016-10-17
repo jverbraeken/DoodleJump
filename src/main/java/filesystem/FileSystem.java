@@ -89,7 +89,9 @@ public final class FileSystem implements IFileSystem {
         sL.provide(new FileSystem());
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public List<String> readResourceFile(final String filename) throws FileNotFoundException {
         File file = getResourceFile(filename);
@@ -135,7 +137,9 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public InputStream readBinaryFile(final String filename) throws FileNotFoundException {
         File file = getResourceFile(filename);
@@ -143,7 +147,9 @@ public final class FileSystem implements IFileSystem {
         return new BufferedInputStream(inputStream);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public BufferedImage readImage(final String filename) throws FileNotFoundException {
         File file = getResourceFile(filename);
@@ -156,7 +162,9 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public Clip readSound(final String filename) throws FileNotFoundException {
         File file = getResourceFile(filename);
@@ -173,7 +181,9 @@ public final class FileSystem implements IFileSystem {
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void writeResourceFile(final String filename, final String content) throws FileNotFoundException {
         File file = getResourceFile(filename);
@@ -213,7 +223,9 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void deleteFile(final String filename) {
         File file = new File(filename);
@@ -227,7 +239,9 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void clearFile(final String filename) {
         File file = null;
@@ -248,7 +262,9 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void log(final String content) {
         try {
@@ -261,7 +277,9 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public OutputStream writeBinaryFile(final String filename) throws FileNotFoundException {
         File file = getResourceFile(filename);
@@ -269,7 +287,9 @@ public final class FileSystem implements IFileSystem {
         return new BufferedOutputStream(outputStream);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public File getResourceFile(final String filename) throws FileNotFoundException {
         if (filename == null) {
@@ -288,7 +308,9 @@ public final class FileSystem implements IFileSystem {
         return new File(url.getFile());
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public File getProjectFile(final String filename) throws IOException {
         File f = new File(filename);
@@ -315,7 +337,9 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public Object parseJsonList(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
@@ -332,7 +356,9 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public Object parseJsonMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
