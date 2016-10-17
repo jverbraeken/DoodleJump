@@ -1,7 +1,6 @@
 package objects.enemies;
 
 import objects.AGameObject;
-import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -21,14 +20,6 @@ import system.IServiceLocator;
      */
     /* package */ AEnemy(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final Class<?> enemyClass) {
         super(sL, x, y, sprite, enemyClass);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void collidesWith(final IDoodle doodle) {
-        doodle.collide(this);
     }
 
 }

@@ -8,6 +8,7 @@ import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
+import objects.enemies.IEnemy;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -264,7 +265,7 @@ public class World implements IScene {
      * Check the collisions for all the Doodles in the world.
      */
     private void checkCollisions() {
-        this.doodles.forEach(this::checkCollisions);
+        this.doodles.forEach(this::checkCollisionsForDoodle);
     }
 
     /**
@@ -272,21 +273,33 @@ public class World implements IScene {
      *
      * @param doodle The Doodle to check the collisions for.
      */
-    private void checkCollisions(final IDoodle doodle) {
-        if (doodle.getVerticalSpeed() <= 0) {
-            return;
-        }
-
-        for (IBlock block : blocks) {
-            Set<IGameObject> elements = block.getElements();
-            for (IGameObject element : elements) {
-                if (doodle.checkCollision(element)) {
-                    if (doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < element.getYPos() + element.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
-                        element.collidesWith(doodle);
+    private void checkCollisionsForDoodle(final IDoodle doodle) {
+        if (doodle.isAlive()) {
+            if (doodle.getVerticalSpeed() > 0) {
+                for (IBlock block : blocks) {
+                    Set<IGameObject> elements = block.getElements();
+                    for (IGameObject element : elements) {
+                        if (doodle.checkCollision(element)) {
+                            if (doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < element.getYPos() + element.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
+                                element.collidesWith(doodle);
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (IBlock block : blocks) {
+                    Set<IGameObject> elements = block.getElements();
+                    for (IGameObject element : elements) {
+                        if (element instanceof IEnemy) {
+                            if (doodle.checkCollision(element)) {
+                                element.collidesWith(doodle);
+                            }
+                        }
                     }
                 }
             }
         }
+
     }
 
     /**

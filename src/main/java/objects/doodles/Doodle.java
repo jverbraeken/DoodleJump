@@ -28,7 +28,11 @@ public class Doodle extends AGameObject implements IDoodle {
      * The height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      */
-    private static final double LEGS_HEIGHT = 0.8;
+    private static final double LEGS_HEIGHT = .8;
+    /**
+     * Where the hitbox of the doodle starts in relation to the sprite height.
+     */
+    private static final double HEIGHT_HIT_BOX_TOP = .5;
     /**
      * Where the hitbox of the doodle starts in relation to the sprite width.
      */
@@ -36,11 +40,36 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Where the hitbox of the doodle ends in relation to the sprite width.
      */
-    private static final double WIDTH_HIT_BOX_RIGHT = .7;
+    private static final double WIDTH_HIT_BOX_RIGHT = .8;
     /**
      * An additional offset for the top of the hitbox for the Doodle.
      */
     private static final int TOP_HITBOX_OFFSET = 25;
+
+    /**
+     * Amount of star frames.
+     */
+    private static final double STAR_FRAMES = 9;
+
+    /**
+     * First star animation in frames.
+     */
+    private static final double FIRST_STAR_FRAME = 3;
+
+    /**
+     * Second star animation in frames.
+     */
+    private static final double SECOND_STAR_FRAME = 6;
+
+    /**
+     * Gives true if the doodle is alive.
+     */
+    private boolean alive = true;
+
+    /**
+     * Keeps the number of the star animation when killed by an enemy.
+     */
+    private int starNumber = 0;
 
     /**
      * The world the Doodle lives in.
@@ -67,6 +96,14 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double spriteScalar = 1d;
     /**
+     * The scalar for the Stars sprite.
+     */
+    private static final double STARS_SCALAR = .7;
+    /**
+     * The scalar for the Stars sprite.
+     */
+    private static final int STARS_OFFSET = 20;
+    /**
      * The keys the Doodle responds to.
      */
     private Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
@@ -85,6 +122,7 @@ public class Doodle extends AGameObject implements IDoodle {
                 Doodle.class);
 
         this.updateHitBox();
+
         this.world = w;
         setBehavior(Game.getMode());
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
@@ -222,7 +260,27 @@ public class Doodle extends AGameObject implements IDoodle {
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
+        if (!this.isAlive()) {
+            getServiceLocator().getRenderer().drawSprite(getStarSprite(),
+                    (int) (this.getXPos() + (STARS_OFFSET * this.spriteScalar)),
+                    (int) this.getYPos(),
+                    (int) (getSprite().getWidth() * this.spriteScalar * STARS_SCALAR),
+                    (int) (getSprite().getHeight() * this.spriteScalar * STARS_SCALAR));
+        }
+
         this.getPowerup().render();
+    }
+    /**
+     * Returns the Star sprite by looking at the current starNumber.
+     * @return a star sprite.
+     */
+    private ISprite getStarSprite() {
+        if (starNumber % STAR_FRAMES < FIRST_STAR_FRAME) {
+            return getServiceLocator().getSpriteFactory().getStarSprite1();
+        } else if (starNumber % STAR_FRAMES < SECOND_STAR_FRAME) {
+            return getServiceLocator().getSpriteFactory().getStarSprite2();
+        }
+        return getServiceLocator().getSpriteFactory().getStarSprite3();
     }
 
     /**
@@ -233,6 +291,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.applyMovementBehavior(delta);
         this.wrap();
         this.checkDeadPosition();
+        starNumber++;
         this.getPowerup().update(delta);
         this.updateScore();
     }
@@ -356,6 +415,22 @@ public class Doodle extends AGameObject implements IDoodle {
         } else if (middle > width) {
             this.addXPos(-width);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isAlive() {
+        return alive;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setAlive(final boolean al) {
+        alive = al;
     }
 
     /**

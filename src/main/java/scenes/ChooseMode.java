@@ -113,7 +113,9 @@ import java.util.ArrayList;
 
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void start() {
         for (IButton button : buttons) {
@@ -124,7 +126,9 @@ import java.util.ArrayList;
         logger.info("The choose mode scene is now displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void stop() {
         for (IButton button : buttons) {
@@ -135,7 +139,9 @@ import java.util.ArrayList;
         logger.info("The choose mode scene is no longer displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void render() {
         serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
@@ -144,7 +150,9 @@ import java.util.ArrayList;
         buttons.forEach(IRenderable::render);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void update(final double delta) { }
 
