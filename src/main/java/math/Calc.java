@@ -58,7 +58,9 @@ public final class Calc implements ICalc {
         return calc;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public int getRandomIntBetween(final int lower, final int upper) {
         if (upper < lower) {
@@ -70,7 +72,9 @@ public final class Calc implements ICalc {
         return RANDOM.nextInt(upper - lower) + lower + 1;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public double getRandomDouble(final double max) {
         if (max <= 0) {

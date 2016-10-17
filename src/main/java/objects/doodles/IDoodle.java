@@ -96,6 +96,17 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void deregister();
 
     /**
+     * Returns true if the doodle is alive.
+     * @return the boolean alive.
+     */
+    boolean isAlive();
+
+    /**
+     * Sets the variable alive to alive.
+     * @param alive a boolean if the doodle is dead or alive.
+     */
+    void setAlive(boolean alive);
+    /**
      * Get the direction the Doodle is facing.
      *
      * @return The direction of the Doodle.
