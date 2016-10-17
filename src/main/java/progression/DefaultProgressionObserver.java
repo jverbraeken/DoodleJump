@@ -2,7 +2,7 @@ package progression;
 
 import java.util.concurrent.Callable;
 
-public class DefaultProgressionObserver implements
+public final class DefaultProgressionObserver implements
         IDisappearingPowerupObserver,
         IEquipmentPowerupObserver,
         IHeightObserver,
