@@ -21,7 +21,6 @@ public final class AudioManager implements IAudioManager {
      * Prevents instantiation from outside the class.
      */
     private AudioManager() {
-
         preload();
     }
 
@@ -37,7 +36,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void preload() {
@@ -244,7 +243,7 @@ public final class AudioManager implements IAudioManager {
         Sound.PUCANJE2.play();
     }
 
-    /**s
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -301,7 +300,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playSpringShoes() {
@@ -349,7 +348,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playUnderwaterShoot() {
@@ -365,7 +364,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playUsaugateufo() {

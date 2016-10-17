@@ -20,7 +20,6 @@ public class CrashTest {
     public void Init() throws Exception {
         game = Whitebox.invokeConstructor(Game.class, ServiceLocator2.getServiceLocator());
         sL = Whitebox.getInternalState(Game.class, "serviceLocator");
-        Thread.sleep(100);
     }
 
     @Test
