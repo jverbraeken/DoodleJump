@@ -20,7 +20,21 @@ public class Platform extends AGameObject implements IPlatform {
     private static final double BOOST = -18;
 
     /**
-     * The start y of the platform.
+     * The maximum moving distance the platform can move.
+     */
+    private static double movingDistance;
+
+    /**
+     * The multiplier to calculate the movingDistance.
+     */
+    private static final double MOVING_DISTANCE_HEIGHT_MULTIPLIER = 0.20;
+
+    /**
+     * Current vertical speed for the Platform.
+     */
+    private double vSpeed = 0d;
+    /**
+     * The offSet of the vertical moving platform.
      */
     private int offSet = 0;
     /**
@@ -83,13 +97,10 @@ public class Platform extends AGameObject implements IPlatform {
      */
     /* package */ Platform(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
         super(sL, x, y, sprite, Platform.class);
-
-        directions.put(Directions.right, 1);
-        directions.put(Directions.left, -1);
     }
 
     /**
-     * {@inheritDoc}
+	 * {@inheritDoc}
      */
     @Override
     public final double getBoost() {
@@ -97,7 +108,7 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-     * {@inheritDoc}
+	 * {@inheritDoc}
      */
     @Override
     public final void update(final double delta) {
@@ -110,7 +121,6 @@ public class Platform extends AGameObject implements IPlatform {
     public final void render() {
         double xPos = this.getXPos();
         double yPos = this.getYPos();
-
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) xPos, (int) yPos);
     }
 
@@ -142,7 +152,7 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-     * {@inheritDoc}
+	 * {@inheritDoc}
      */
     @Override
     public final Map<PlatformProperties, Integer> getProps() {
@@ -166,7 +176,7 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-     * {@inheritDoc}
+	 * {@inheritDoc}
      */
     @Override
     public final int getOffset() {

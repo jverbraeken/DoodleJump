@@ -5,7 +5,6 @@ import logging.ILogger;
 import logging.ILoggerFactory;
 import math.ICalc;
 import objects.doodles.IDoodle;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.ServiceLocator;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -86,16 +85,6 @@ public class PlatformTest {
     }
 
     /**
-     * Test the updateEnums method.
-     */
-    @Test
-    public void updateEnumsTest() {
-        p.updateEnums(1,1);
-
-        Mockito.verify(serviceLocator, Mockito.times(0)).getConstants();
-    }
-
-    /**
      * Test the getBoost method.
      * @throws NoSuchFieldException if the field does not exist.
      * @throws IllegalAccessException if you can't acces that field.
@@ -131,9 +120,7 @@ public class PlatformTest {
     }
 
     /**
-     * Test the getOffSet method.
-     * @throws NoSuchFieldException if the field does not exist.
-     * @throws IllegalAccessException if you can't acces that field.
+     * Test the collidesWith method.
      */
     @Test
     public void collidesWith(){
