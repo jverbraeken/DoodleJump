@@ -103,6 +103,8 @@ public final class Game {
      */
     private static IScene pauseScreen;
 
+    private static boolean sound = true;
+
     /**
      * Prevents instantiation from outside the Game class.
      */
@@ -115,6 +117,9 @@ public final class Game {
      * @param argv the arguments to run.
      */
     public static void main(final String[] argv) {
+        if (!sound) {
+            serviceLocator = ServiceLocator2.getServiceLocator();
+        }
         LOGGER.info("The game has been launched");
 
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
