@@ -25,10 +25,6 @@ import system.IServiceLocator;
 public class Doodle extends AGameObject implements IDoodle {
 
     /**
-     * The ratio of Doodle to offset the frame size vs panel size.
-     */
-    private static final double DEAD_OFFSET = 1.5d;
-    /**
      * The height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      */
@@ -41,6 +37,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * Where the hitbox of the doodle ends in relation to the sprite width.
      */
     private static final double WIDTH_HIT_BOX_RIGHT = .7;
+    /**
+     * An additional offset for the top of the hitbox for the Doodle.
+     */
+    private static final int TOP_HITBOX_OFFSET = 25;
 
     /**
      * The world the Doodle lives in.
@@ -222,12 +222,6 @@ public class Doodle extends AGameObject implements IDoodle {
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
-        int x = (int) (this.getXPos() + this.getHitBox()[HITBOX_LEFT]);
-        int y = (int) (this.getYPos() + this.getHitBox()[HITBOX_TOP]);
-        int x2 = (int) (this.getXPos() + this.getHitBox()[HITBOX_RIGHT]);
-        int y2 = (int) (this.getYPos() + this.getHitBox()[HITBOX_BOTTOM]);
-        getServiceLocator().getRenderer().drawRectangle(x, y, x2 - x, y2 - y);
-
         this.getPowerup().render();
     }
 
@@ -381,11 +375,11 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void updateHitBox() {
         ISprite sprite = this.getSprite();
-        int width = (int) (sprite.getWidth() * this.spriteScalar);
-        int height = (int) (sprite.getHeight() * this.spriteScalar);
-        int x = (int) (width * WIDTH_HIT_BOX_LEFT);
-        int y = (int) (width * WIDTH_HIT_BOX_RIGHT);
-        this.setHitBox(x, 0, y, height);
+        int spriteWidth = (int) (sprite.getWidth() * this.spriteScalar);
+        int spriteHeight = (int) (sprite.getHeight() * this.spriteScalar);
+        int left = (int) (spriteWidth * WIDTH_HIT_BOX_LEFT);
+        int right = (int) (spriteWidth * WIDTH_HIT_BOX_RIGHT);
+        this.setHitBox(left, Doodle.TOP_HITBOX_OFFSET, right, spriteHeight);
     }
 
 }
