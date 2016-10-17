@@ -58,12 +58,16 @@ public final class InputManager implements IInputManager {
 
     /* MOUSE EVENTS */
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void mouseClicked(final MouseEvent e) {
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void mousePressed(final MouseEvent e) {
         int x = (2 * e.getX() - 2 * offsetX), y = (2 * e.getY() - 2 * offsetY);
@@ -75,27 +79,37 @@ public final class InputManager implements IInputManager {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void mouseReleased(final MouseEvent e) {
         int x = (2 * e.getX() - 2 * offsetX), y = (2 * e.getY() - 2 * offsetY);
         logger.info("Mouse released, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void mouseEntered(final MouseEvent e) { }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void mouseExited(final MouseEvent e) { }
 
     /* KEY EVENTS */
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void keyTyped(final KeyEvent e) { }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void keyPressed(final KeyEvent e) {
         logger.info("Key pressed, keyCode: " + e.getKeyCode());
@@ -104,7 +118,9 @@ public final class InputManager implements IInputManager {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void keyReleased(final KeyEvent e) {
         logger.info("Key released, keyCode: " + e.getKeyCode());
@@ -113,25 +129,33 @@ public final class InputManager implements IInputManager {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void addObserver(final IMouseInputObserver mouseInputObserver) {
         mouseInputObservers.add(mouseInputObserver);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void addObserver(final IKeyInputObserver keyInputObserver) {
         keyInputObservers.add(keyInputObserver);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void removeObserver(final IMouseInputObserver mouseInputObserver) {
         mouseInputObservers.remove(mouseInputObserver);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void removeObserver(final IKeyInputObserver keyInputObserver) {
         keyInputObservers.remove(keyInputObserver);
