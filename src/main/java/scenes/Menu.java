@@ -113,7 +113,9 @@ public class Menu implements IScene, IKeyInputObserver {
         this.logger = sL.getLoggerFactory().createLogger(this.getClass());
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void start() {
         for (IButton button : buttons) {
@@ -124,7 +126,9 @@ public class Menu implements IScene, IKeyInputObserver {
         logger.info("The menu scene is now displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void stop() {
         for (IButton button : buttons) {
@@ -135,7 +139,9 @@ public class Menu implements IScene, IKeyInputObserver {
         logger.info("The menu scene is no longer displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void render() {
         serviceLocator.getRenderer().drawSpriteHUD(this.cover, 0, 0);
@@ -146,7 +152,9 @@ public class Menu implements IScene, IKeyInputObserver {
         platform.render();
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void update(final double delta) {
         doodle.update(delta);
@@ -157,11 +165,15 @@ public class Menu implements IScene, IKeyInputObserver {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void keyPress(final Keys key) { }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void keyRelease(final Keys key) {
         if (key == Keys.enter || key == Keys.space) {

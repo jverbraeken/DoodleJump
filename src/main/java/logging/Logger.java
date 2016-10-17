@@ -44,28 +44,36 @@ import java.util.concurrent.TimeUnit;
         this.logPendingTasks = sL.getConstants().getLogPendingTasks();
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void error(final String msg) {
         String str = this.generateMessage("ERROR", msg);
         appendStringToTextFile(str);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void error(final Exception exception) {
         String str = this.generateMessage("ERROR", exception.getMessage());
         appendStringToTextFile(str);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void info(final String msg) {
         String str = this.generateMessage("INFO", msg);
         appendStringToTextFile(str);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void warning(final String msg) {
         String str = this.generateMessage("WARNING", msg);
