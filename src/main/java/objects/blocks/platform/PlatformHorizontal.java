@@ -20,7 +20,7 @@ import system.IServiceLocator;
     /**
      * Horizontal moving platform decorator constructor.
      *
-     * @param sL       the servicelocator.
+     * @param sL       the serviceLocator.
      * @param platform the encapsulated platform.
      */
     /* package */PlatformHorizontal(final IServiceLocator sL, final IPlatform platform) {

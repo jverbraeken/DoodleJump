@@ -17,10 +17,6 @@ import system.IServiceLocator;
     private static final double FIFTY_FIFTY = 0.5d;
 
     /**
-     * One third of the game height.
-     */
-    private static int movingDistance;
-    /**
      * The speed of the moving platform.
      */
     private int speed = 2;
@@ -28,16 +24,14 @@ import system.IServiceLocator;
     /**
      * Vertical moving platform decorator constructor.
      *
-     * @param sL       the serviceLocator.
-     * @param platform the encapsulated platform.
+     * @param sL       The serviceLocator.
+     * @param platform The encapsulated platform.
      */
-    /* package */PlatformVertical(final IServiceLocator sL, final IPlatform platform) {
+    /* package */ PlatformVertical(final IServiceLocator sL, final IPlatform platform) {
         super(sL, platform);
         this.getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteVertical());
         this.getContained().getProps().put(Platform.PlatformProperties.movingVertically, 1);
 
-        int gameHeight = sL.getConstants().getGameHeight();
-        PlatformVertical.movingDistance = (int) (gameHeight * ONE_FIFTH);
 
         this.speed = (sL.getCalc().getRandomDouble(1) < FIFTY_FIFTY) ? 2 : -2;
     }
@@ -47,9 +41,11 @@ import system.IServiceLocator;
      */
     @Override
     public void update(final double delta) {
-        if (this.getOffset() > PlatformVertical.movingDistance) {
+        int distance = (int) (this.getServiceLocator().getConstants().getGameHeight() * ONE_FIFTH);
+
+        if (this.getOffset() > distance) {
             this.speed = -2;
-        } else if (this.getOffset() < -PlatformVertical.movingDistance) {
+        } else if (this.getOffset() < -distance) {
             this.speed = 2;
         }
 

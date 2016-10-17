@@ -19,7 +19,7 @@ import java.util.EnumMap;
     /**
      * The chance of the horizontal moving platform spawning.
      */
-    private static final double HORIZONTAL_MOVING_PLATFORM = 0.5;
+    private static final double HORIZONTAL_MOVING_PLATFORM = 0.05;
 
     /**
      * The chance of the vertical moving platform spawning.
