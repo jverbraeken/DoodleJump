@@ -14,7 +14,7 @@ import system.IServiceLocator;
     /**
      * Moving left speed.
      */
-    private static final int MOVING_SPEED = -2;
+    private static final int MOVING_SPEED = 2;
 
     /**
      * The speed of the moving platform.
