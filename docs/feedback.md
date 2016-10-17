@@ -49,7 +49,7 @@ Q4 = 2/2: looks good
 Q5 = 4/4: Excellent
 
 #### Assignment 2 = 7/9:
-Q1 = 1/3: your defenitions are correct, but you don’t discuss aggregation/composition in your own project
+Q1 = 1/3: your defenitions are correct, but you donâ€™t discuss aggregation/composition in your own project
 Q2 = 3/3: excellent
 Q3 = 3/3: excellent
 
@@ -67,7 +67,7 @@ For grading the sprints I will use the rubrics to grade and give feedback about 
 
 ### Sprint Management = 8,4:
 - Definition = 10: excellent
-- Splitting = 6: You should assign at least 2 people per task except for the really small tasks. This way you always have someone to discuss problems/solutions with. Also having one person assigned to testing and nothing else isn’t musch fun for that person, make sure you switch around in tasks.
+- Splitting = 6: You should assign at least 2 people per task except for the really small tasks. This way you always have someone to discuss problems/solutions with. Also having one person assigned to testing and nothing else isnâ€™t musch fun for that person, make sure you switch around in tasks.
 - Responsibility = 10: excellent
 - Estimation = 8: I like when people are working more than they need to, but are you all really making this amount of hours?
 - Prioritization = 7: when define a scale of A-E, make sure to use the whole spectrum
@@ -81,8 +81,8 @@ For grading the sprints I will use the rubrics to grade and give feedback about 
 - Building = 9: still a failing build merged, never do this!
 - Testing = 6: make sure you have that coverage >= 75%. Also include a user testing document for UI testing.
 - Tooling = 9: include cobertura report in maven site
-- Branching = 6: some really large branches/pr’s with different bugs/features/testing activites per branche. Make sure each branch contains only one bug/feature/testing activity
-- Code review = 8: Some pr’s get good code review, other get some LGTM’s. Make sure you do code review on each pr and at least 2 reviewers do this per pr.
+- Branching = 6: some really large branches/prâ€™s with different bugs/features/testing activites per branche. Make sure each branch contains only one bug/feature/testing activity
+- Code review = 8: Some prâ€™s get good code review, other get some LGTMâ€™s. Make sure you do code review on each pr and at least 2 reviewers do this per pr.
 
 ### Assignments = 68/90 = 7,8
 
@@ -100,5 +100,47 @@ q1 = 22/22: excellent
 q2 = 8/8: amazing analysis
 
 ### General Feedback
-you can tag all checkstyle warnings as errors and let the travis build fail on checkstyle errors. Because a failing build is never merged (right?) this would ensure no checkstyle errors in pr’s.
-I still can’t run the project, please include a runnable jar with the next release. That way I can grade before our meeting.
+you can tag all checkstyle warnings as errors and let the travis build fail on checkstyle errors. Because a failing build is never merged (right?) this would ensure no checkstyle errors in prâ€™s.
+I still canâ€™t run the project, please include a runnable jar with the next release. That way I can grade before our meeting.
+
+## Sprint #3 = 7,8:
+For grading the sprints I will use the rubrics to grade and give feedback about sprint management and code evolution quality. Then I will grade and give feedback to the assignment. These grades will construct the final grade for the sprint using a 20% (sprint management), 40% (code quality) and 40% (assignment) weight system.
+
+### Sprint Management = 7,7:
+- Definition = 8: multiple tasks defined in one cell, with only 1 priority and estimated effort assigned
+- Splitting = 9
+- Responsibility = 6: it's not possible to have 2 members responsible for the same task.
+- Estimation = 8: why is so little time devoted to test, this should have a higher focus
+- Prioritization = 6: prioritization doesn't really help if 75% of the tasks gets the A priority
+- Reflection = 8: good reflection, however make sure it is readable, use destinct cells. Some comments on your problems: I don't mind one member writing more lines of code than others, if every member puts in the same effort and is fully involved in important decisions. The #LOC also doesn't at all determine the effort that is put in the code. I'm sorry you don't like the assignments, but with things like 20-time and my assignments this complaint is doesn't really have any ground. You are following a course that is trying to learn you specific things, so focus on those. @Cornel: it is not uncommon to spend half of your time discussing your newly added code with others and improving it, that is the whole point of pull-based development in a scrum team. By discussing your code with your peers the code that is eventually added to the repository is of much higher quality.
+
+### Code Evolution Quality = 8,5:
+- Code change quality = 9: Still using an interface for every class, this is not common practice. It is useful for some of the classes but not for all. As I told you before, consider if you should add an interface when adding a new class.
+- Formatting = 9: some minor inconsistencies in whitespacing
+- Naming = 10
+- Comments = 9: some inline comments could clear up some of the longer methods
+- Building = 9: one failing pr merged, some chains of failing builds (although they were explained in the retrospective :) )
+- Testing = 6: coverage still too low, get this up quickly. This should have a higher priority than arbitrary features.
+- Tooling = 7: mostly correctly setup (except for the maven build not failing on checkstyle errors, add this), but a lot of checkstyle/pmd/findbugs errors. Fix those or explain why you can't
+- Branching = 10: excellent
+- Code review = 9: very good! keep this up.
+
+### Assignments = 63/90 = 7,3:
+
+#### Assignment 1 = 29/30:
+- q1 = 10/10: great explanations and implementations
+- q2 = 9/10: I would have liked to see interaction with other classes in the singleton UML's.
+- q3 = 10/10: Excellent
+
+#### Assignment 2 = 23/30:
+- q1 = 19/22: some improvement could be made (scrolling background when both players are out of screen) etc, but overall nice feature.
+- q2 = 4/8: good UML, however no RDD and CRC cards provided
+
+#### Assignment 3 = 11/30:
+- q1 = 7/22: some points for requirements and part of feature showed in meeting, no finished feature on master though.
+- q2 = 4/8: good UML, however no RDD and CRC cards provided
+
+### General Feedback
+- Already mentioned this: include a runnable jar so I can run the game.
+- why are pull requests open for so long (with no activity). If you have some code you want to add to the repository, urge your peers to take a look. If it doesn't have to be added at the current moment don't make a pr.
+- make sure you get your testing coverage up
