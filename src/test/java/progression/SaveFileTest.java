@@ -2,8 +2,13 @@ package progression;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +16,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(SaveFileHighScoreEntry.class)
 public class SaveFileTest {
     private SaveFile saveFile;
 
@@ -98,6 +106,52 @@ public class SaveFileTest {
 
     }
 
-    // We don't test bad weather behaviours because this class is, as is explicitly noted, not meant for regular use,
-    // but only for JSON (de)serializers (which are extremely predictable programs).
+    @Test
+    public void testToJson() {
+        final SaveFileHighScoreEntry highscore1 = mock(SaveFileHighScoreEntry.class);
+        when(highscore1.toJson()).thenReturn("Baz");
+        final SaveFileHighScoreEntry highscore2 = mock(SaveFileHighScoreEntry.class);
+        when(highscore2.toJson()).thenReturn("Qux");
+
+        saveFile.setCoins(42);
+        saveFile.setPowerupLevels(new HashMap<String, Integer>() {{
+            put("Foo", 1);
+            put("Bar", 5);
+        }});
+        saveFile.setHighScores(new ArrayList<SaveFileHighScoreEntry>() {{
+            add(highscore1);
+            add(highscore2);
+        }});
+
+        assertThat(saveFile.toJson(), is("{\"coins\":42,\"highScores\":[Baz,Qux],\"powerupLevels\":{\"Bar\":5,\"Foo\":1}}"));
+    }
+
+    @Test
+    public void testToJsonNoHighscores() {
+        saveFile.setCoins(42);
+        saveFile.setHighScores(new ArrayList<>());
+        saveFile.setPowerupLevels(new HashMap<String, Integer>() {{
+            put("Foo", 1);
+            put("Bar", 5);
+        }});
+
+        assertThat(saveFile.toJson(), is("{\"coins\":42,\"highScores\":[],\"powerupLevels\":{\"Bar\":5,\"Foo\":1}}"));
+    }
+
+    @Test
+    public void testToJsonNoPowerups() {
+        final SaveFileHighScoreEntry highscore1 = mock(SaveFileHighScoreEntry.class);
+        when(highscore1.toJson()).thenReturn("Baz");
+        final SaveFileHighScoreEntry highscore2 = mock(SaveFileHighScoreEntry.class);
+        when(highscore2.toJson()).thenReturn("Qux");
+
+        saveFile.setCoins(42);
+        saveFile.setHighScores(new ArrayList<SaveFileHighScoreEntry>() {{
+            add(highscore1);
+            add(highscore2);
+        }});
+        saveFile.setPowerupLevels(new HashMap<>());
+
+        assertThat(saveFile.toJson(), is("{\"coins\":42,\"highScores\":[Baz,Qux],\"powerupLevels\":{}}"));
+    }
 }

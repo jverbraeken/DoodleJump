@@ -167,7 +167,7 @@ public interface IFileSystem {
      * @param image The image that should be serialized
      * @return A string containing the serialized image
      */
-    String serializeJson(Object image);
+    String serializeJson(final IToJsonSerializable image);
 
     /**
      * Gets a custom font from a *.ttf file.
@@ -175,5 +175,5 @@ public interface IFileSystem {
      * @param name The name of the ttf font file
      * @return The font loaded from the disk
      */
-    Font getFont(String name);
+    Font getFont(final String name);
 }

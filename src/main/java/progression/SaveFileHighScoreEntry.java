@@ -1,6 +1,7 @@
 package progression;
 
 import com.bluelinelabs.logansquare.annotation.JsonObject;
+import filesystem.IToJsonSerializable;
 
 /**
  * Used to be (de)serialized to save/load the data.
@@ -10,7 +11,7 @@ import com.bluelinelabs.logansquare.annotation.JsonObject;
  * for regular usage in the game!</b>
  */
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
-public final class SaveFileHighScoreEntry {
+public final class SaveFileHighScoreEntry implements IToJsonSerializable {
     /**
      * The name associated with the high score.
      */
@@ -60,5 +61,21 @@ public final class SaveFileHighScoreEntry {
     @Override
     public String toString() {
         return "HighScoreEntry{" + "name='" + name + '\'' + ", score=" + score + '}';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toJson() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("\"name\":");
+        sb.append("\"" + name + "\"");
+        sb.append(",");
+        sb.append("\"score\":");
+        sb.append(score);
+        sb.append("}");
+        return sb.toString();
     }
 }

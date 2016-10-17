@@ -4,9 +4,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 public class SaveFileHighScoreEntryTest {
     private SaveFileHighScoreEntry entry;
@@ -69,6 +74,14 @@ public class SaveFileHighScoreEntryTest {
         assertThat(entry.toString(), is(equalTo(expected)));
     }
 
-    // We don't test bad weather behaviours because this class is, as is explicitly noted, not meant for regular use,
-    // but only for JSON (de)serializers (which are extremely predictable programs).
+    @Test
+    public void testToJson() {
+        entry.setScore(42);
+        entry.setName("Foo");
+        assertThat(entry.toJson(), is("{\"name\":\"Foo\",\"score\":42}"));
+
+        entry.setScore(41);
+        entry.setName("Bar");
+        assertThat(entry.toJson(), is("{\"name\":\"Bar\",\"score\":41}"));
+    }
 }

@@ -356,13 +356,8 @@ public final class FileSystem implements IFileSystem {
 
     /** {@inheritDoc} */
     @Override
-    public String serializeJson(final Object image) {
-        try {
-            return LoganSquare.serialize(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public String serializeJson(final IToJsonSerializable image) {
+        return image.toJson();
     }
 
     /**
