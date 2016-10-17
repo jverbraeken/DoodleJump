@@ -19,7 +19,7 @@
     <node x="1938.0603652300106" y="1434.0000000000005">resources.sprites.ISprite</node>
     <node x="9207.142573497931" y="2339.0">rendering.IRenderer</node>
     <node x="1064.222865230011" y="1494.0000000000005">objects.enemies.Enemy</node>
-    <node x="7784.767573497931" y="2489.0">objects.enemies.IEnemyBuilder</node>
+    <node x="7784.767573497931" y="2489.0">objects.enemies.IEnemyFactory</node>
     <node x="5461.462954307601" y="1138.5">objects.powerups.IPowerup</node>
     <node x="2364.862047476337" y="650.0">objects.AGameObject</node>
     <node x="55.22962097426898" y="4494.0">resources.sprites.SpriteFactory</node>
@@ -655,7 +655,7 @@
       <point x="3969.1921209742686" y="2891.0" />
       <point x="-370.0" y="400.0" />
     </edge>
-    <edge source="objects.enemies.EnemyBuilder" target="objects.enemies.IEnemyBuilder">
+    <edge source="objects.enemies.EnemyBuilder" target="objects.enemies.IEnemyFactory">
       <point x="64.25" y="-40.5" />
       <point x="5882.637047476337" y="3001.0" />
       <point x="7815.017573497931" y="3001.0" />
@@ -721,7 +721,7 @@
       <point x="7068.837954307602" y="2981.0" />
       <point x="-26.666666666666515" y="16.0" />
     </edge>
-    <edge source="system.ServiceLocator" target="objects.enemies.IEnemyBuilder">
+    <edge source="system.ServiceLocator" target="objects.enemies.IEnemyFactory">
       <point x="-486.0" y="-616.5" />
       <point x="9693.629620974269" y="2571.0" />
       <point x="7875.517573497931" y="2571.0" />

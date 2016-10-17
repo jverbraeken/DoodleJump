@@ -52,7 +52,7 @@ public interface IRes {
         gameOver,
         killScreenBottom,
 
-        // Monsters
+        // Enemies
         puddingMonster1,
         puddingMonster2,
         puddingMonster3,
@@ -76,6 +76,9 @@ public interface IRes {
         lowFiveFeetMonster1,
         lowFiveFeetMonster2,
         smallMonster,
+
+        //Stars
+        confusedStars1, confusedStars2, confusedStars3,
 
         // Numbers
         zero, one, two, three, four, five, six, seven, eight, nine,
