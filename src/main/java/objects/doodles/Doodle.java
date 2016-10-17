@@ -222,12 +222,11 @@ public class Doodle extends AGameObject implements IDoodle {
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
-        double[] hitbox = this.getHitBox();
         int x = (int) (this.getXPos() + this.getHitBox()[HITBOX_LEFT]);
         int y = (int) (this.getYPos() + this.getHitBox()[HITBOX_TOP]);
-        int width = (int) (this.getXPos() + this.getHitBox()[HITBOX_RIGHT]);
-        int height = (int) (this.getYPos() + this.getHitBox()[HITBOX_BOTTOM]);
-        getServiceLocator().getRenderer().drawRectangle(x, y, width - x, height - y);
+        int x2 = (int) (this.getXPos() + this.getHitBox()[HITBOX_RIGHT]);
+        int y2 = (int) (this.getYPos() + this.getHitBox()[HITBOX_BOTTOM]);
+        getServiceLocator().getRenderer().drawRectangle(x, y, x2 - x, y2 - y);
 
         this.getPowerup().render();
     }
@@ -258,8 +257,15 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void increaseSpriteScalar(final double inc) {
-        this.spriteScalar += inc;
-        this.updateHitBox();
+        if (this.spriteScalar > 0.2 && this.spriteScalar < 1.8) {
+            double oldScalar = this.spriteScalar;
+            this.spriteScalar += inc;
+
+            double heightDiff = (this.getSprite().getHeight() * oldScalar) - (this.getSprite().getHeight() * this.spriteScalar);
+            this.addYPos(heightDiff);
+
+            this.updateHitBox();
+        }
     }
 
     /**

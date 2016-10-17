@@ -112,6 +112,12 @@ public class Platform extends AGameObject implements IPlatform {
         double yPos = this.getYPos();
 
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) xPos, (int) yPos);
+
+        int x = (int) (this.getXPos() + this.getHitBox()[HITBOX_LEFT]);
+        int y = (int) (this.getYPos() + this.getHitBox()[HITBOX_TOP]);
+        int width = (int) (this.getXPos() + this.getHitBox()[HITBOX_RIGHT]);
+        int height = (int) (this.getYPos() + this.getHitBox()[HITBOX_BOTTOM]);
+        getServiceLocator().getRenderer().drawRectangle(x, y, width - x, height - y);
     }
 
     /**

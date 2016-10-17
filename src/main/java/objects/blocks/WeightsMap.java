@@ -55,12 +55,12 @@ public final class WeightsMap {
     /**
      * The chance of the spring jetpack spawning.
      */
-    private static final double SIZEUP_POWERUP = 0.5;
+    private static final double SIZEUP_POWERUP = 0.8;
 
     /**
      * The chance of the spring jetpack spawning.
      */
-    private static final double SIZEDOWN_POWERUP = 0.5;
+    private static final double SIZEDOWN_POWERUP = 0.005;
 
     /**
      * The chance of the spring jetpack spawning.
