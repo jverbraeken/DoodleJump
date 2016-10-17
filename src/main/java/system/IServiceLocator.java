@@ -11,6 +11,7 @@ import objects.blocks.platform.IPlatformFactory;
 import objects.doodles.IDoodleFactory;
 import objects.enemies.IEnemyFactory;
 import objects.powerups.IPowerupFactory;
+import progression.IProgressionManager;
 import rendering.ICameraFactory;
 import rendering.IRenderer;
 import resources.IRes;
@@ -56,6 +57,8 @@ public interface IServiceLocator {
 
     void provide(ILoggerFactory loggerFactory);
 
+    void provide(IProgressionManager progressionManager);
+
     void provide(ICameraFactory cameraFactory);
 
     IAudioManager getAudioManager();
@@ -89,6 +92,8 @@ public interface IServiceLocator {
     IConstants getConstants();
 
     ILoggerFactory getLoggerFactory();
+
+    IProgressionManager getProgressionManager();
 
     ICameraFactory getCameraFactory();
 

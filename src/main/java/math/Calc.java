@@ -14,20 +14,26 @@ public final class Calc implements ICalc {
      * Random generator.
      */
     private static final Random RANDOM = new Random();
+    /**
+     * Used to gain access to all services.
+     */
+    private static transient IServiceLocator serviceLocator;
 
     /**
      * Prevents instantiation from outside the class.
      */
-    private Calc() { }
+    private Calc() {
+    }
 
     /**
      * Register the FileSystem into the service locator.
      *
-     * @param sL the service locator.
+     * @param serviceLocator the service locator.
      */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        sL.provide(new Calc());
+    public static void register(final IServiceLocator serviceLocator) {
+        assert serviceLocator != null;
+        serviceLocator.provide(new Calc());
+        Calc.serviceLocator = serviceLocator;
     }
 
     /**

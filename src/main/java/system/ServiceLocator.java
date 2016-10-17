@@ -22,6 +22,8 @@ import objects.enemies.EnemyFactory;
 import objects.enemies.IEnemyFactory;
 import objects.powerups.IPowerupFactory;
 import objects.powerups.PowerupFactory;
+import progression.IProgressionManager;
+import progression.ProgressionManager;
 import rendering.CameraFactory;
 import rendering.ICameraFactory;
 import rendering.IRenderer;
@@ -41,60 +43,53 @@ import scenes.SceneFactory;
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 /* package */ final class ServiceLocator implements IServiceLocator {
 
-    // constants.json
-    private IConstants constants;
-
-    // audio
-    private IAudioManager audioManager;
-
-    // input
-    private IInputManager inputManager;
-
-    // enemies
-    private IEnemyFactory enemyFactory;
-
-    // rendering
-    private ICameraFactory cameraFactory;
-    private IRenderer renderer;
-    private IButtonFactory buttonFactory;
-
-    // filesystem
-    private IFileSystem fileSystem;
-
-    // util
-    private ILoggerFactory loggerFactory;
-
-    // objects
-    private IPowerupFactory powerupFactory;
-    private IDoodleFactory doodleFactory;
-    private IBlockFactory blockFactory;
-    private IPlatformFactory platformFactory;
-
-    // resources
-    private ISpriteFactory spriteFactory;
-    private IRes res;
-
-    // scenes
-    private ISceneFactory sceneFactory;
-
-    // utility
-    private ICalc calc;
-
     /**
      * The singleton serviceLocator.
      * Constructed eagerly.
      */
     private static final ServiceLocator SERVICE_LOCATOR = new ServiceLocator();
+    // constants.json
+    private IConstants constants;
+    // audio
+    private IAudioManager audioManager;
+    // input
+    private IInputManager inputManager;
+    // enemies
+    private IEnemyFactory enemyFactory;
+    // rendering
+    private ICameraFactory cameraFactory;
+    private IRenderer renderer;
+    private IButtonFactory buttonFactory;
+    // filesystem
+    private IFileSystem fileSystem;
+    // util
+    private ILoggerFactory loggerFactory;
+    // progression
+    private IProgressionManager progressionManager;
+    // objects
+    private IPowerupFactory powerupFactory;
+    private IDoodleFactory doodleFactory;
+    private IBlockFactory blockFactory;
+    private IPlatformFactory platformFactory;
+    // resources
+    private ISpriteFactory spriteFactory;
+    private IRes res;
+    // scenes
+    private ISceneFactory sceneFactory;
+    // utility
+    private ICalc calc;
 
     /**
      * Initialize the ServiceLocator class.
      */
-    /* package */ private ServiceLocator() {
+    /* package */
+    private ServiceLocator() {
         this.init();
     }
 
     /**
      * Getter of the singleton service locator.
+     *
      * @return the service locator.
      */
     public static IServiceLocator getServiceLocator() {
@@ -102,7 +97,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IAudioManager aM) {
@@ -111,7 +106,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IEnemyFactory eF) {
@@ -120,7 +115,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IFileSystem fS) {
@@ -129,7 +124,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IInputManager iM) {
@@ -138,7 +133,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final ICalc c) {
@@ -147,7 +142,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IBlockFactory bF) {
@@ -156,7 +151,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IDoodleFactory dF) {
@@ -165,7 +160,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IPowerupFactory pF) {
@@ -174,7 +169,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IRenderer r) {
@@ -183,7 +178,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final ISpriteFactory sF) {
@@ -192,7 +187,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final ILoggerFactory lF) {
@@ -209,14 +204,16 @@ import scenes.SceneFactory;
         this.cameraFactory = cF;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void provide(final ISceneFactory sF) {
         assert sF != null;
         this.sceneFactory = sF;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IPlatformFactory pF) {
@@ -225,7 +222,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IRes r) {
@@ -234,7 +231,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IButtonFactory bF) {
@@ -243,7 +240,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IConstants c) {
@@ -252,7 +249,16 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
+     */
+    @Override
+    public void provide(final IProgressionManager progressionManager) {
+        assert progressionManager != null;
+        this.progressionManager = progressionManager;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public IAudioManager getAudioManager() {
@@ -261,7 +267,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IEnemyFactory getEnemyFactory() {
@@ -270,7 +276,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IFileSystem getFileSystem() {
@@ -279,7 +285,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IInputManager getInputManager() {
@@ -288,7 +294,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public ICalc getCalc() {
@@ -297,7 +303,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IBlockFactory getBlockFactory() {
@@ -306,7 +312,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IDoodleFactory getDoodleFactory() {
@@ -315,7 +321,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IPowerupFactory getPowerupFactory() {
@@ -324,7 +330,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IRenderer getRenderer() {
@@ -333,7 +339,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public ISpriteFactory getSpriteFactory() {
@@ -342,7 +348,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public ISceneFactory getSceneFactory() {
@@ -351,7 +357,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IPlatformFactory getPlatformFactory() {
@@ -360,7 +366,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IRes getRes() {
@@ -369,7 +375,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IButtonFactory getButtonFactory() {
@@ -378,7 +384,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IConstants getConstants() {
@@ -387,12 +393,21 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public ILoggerFactory getLoggerFactory() {
         assert loggerFactory != null;
         return loggerFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IProgressionManager getProgressionManager() {
+        assert progressionManager != null;
+        return progressionManager;
     }
 
     /**
@@ -407,6 +422,7 @@ import scenes.SceneFactory;
     /**
      * Initialize the ServiceLocator.
      */
+
     private void init() {
         Res.register(this);
         FileSystem.register(this);
@@ -425,6 +441,7 @@ import scenes.SceneFactory;
         SceneFactory.register(this);
         PlatformFactory.register(this);
         ButtonFactory.register(this);
+        ProgressionManager.register(this);
         CameraFactory.register(this);
     }
 

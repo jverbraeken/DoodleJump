@@ -1,7 +1,5 @@
 package objects.powerups;
 
-import objects.AGameObject;
-import objects.IJumpable;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -14,7 +12,7 @@ import java.util.TimerTask;
 /**
  * This class describes the behaviour of the trampoline powerup.
  */
-/* package */ public final class Trampoline extends AGameObject implements IJumpable {
+/* package */ public final class Trampoline extends APowerup implements IJumpablePowerup {
 
     /**
      * The BOOST value for the Trampoline.
@@ -38,8 +36,8 @@ import java.util.TimerTask;
      * Trampoline constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the trampoline.
-     * @param y - The Y location for the trampoline.
+     * @param x  - The X location for the trampoline.
+     * @param y  - The Y location for the trampoline.
      */
     /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite(), Trampoline.class);

@@ -325,7 +325,7 @@ public final class FileSystem implements IFileSystem {
     @Override
     public Object parseJson(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        readResourceFile(filename).forEach(sb::append);
+        readProjectFile(filename).forEach(sb::append);
         String json = sb.toString();
 
         Object result = null;
@@ -375,4 +375,14 @@ public final class FileSystem implements IFileSystem {
         return result;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public String serializeJson(final Object image) {
+        try {
+            return LoganSquare.serialize(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

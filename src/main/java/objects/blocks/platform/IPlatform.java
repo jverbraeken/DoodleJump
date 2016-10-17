@@ -40,8 +40,8 @@ public interface IPlatform extends IGameObject, IJumpable {
     /**
      * Updates the special properties of the Platform.
      *
-     * @param xpos the x position of the platform
-     * @param ypos the y position of the platform
+     * @param xPos the x position of the platform
+     * @param yPos the y position of the platform
      */
     void updateEnums(double xPos, double yPos);
 
@@ -53,17 +53,16 @@ public interface IPlatform extends IGameObject, IJumpable {
     Map<Platform.Directions, Integer> getDirections();
 
     /**
-     * Sets the variable offSet to the parameter given.
-     *
-     * @param offSet the offSet that this.offSet has to be set to.
-     */
-    void setOffset(int offSet);
-
-    /**
      * Returns the offSet of the platform.
      *
      * @return the offSet of the platform.
      */
     int getOffset();
 
+    /**
+     * Sets the variable offSet to the parameter given.
+     *
+     * @param offSet the offSet that this.offSet has to be set to.
+     */
+    void setOffset(int offSet);
 }

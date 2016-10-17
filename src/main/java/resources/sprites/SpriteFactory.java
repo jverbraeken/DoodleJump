@@ -442,6 +442,7 @@ public final class SpriteFactory implements ISpriteFactory {
             case 9:
                 return getSprite(IRes.Sprites.nine);
             default:
+                logger.error("Internal error: trying to get a digit that's not between 0 and 9...");
                 throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
         }
     }

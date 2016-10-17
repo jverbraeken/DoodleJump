@@ -4,11 +4,10 @@ import buttons.IButton;
 import buttons.IButtonFactory;
 import constants.IConstants;
 import logging.ILogger;
+import progression.HighScore;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
-import system.Game;
-import system.HighScore;
 import system.IServiceLocator;
 
 import java.awt.Color;
@@ -91,7 +90,7 @@ import java.util.List;
         renderer.clear();
 
         // Draw the list of scores.
-        List<HighScore> highScores = Game.HIGH_SCORES.getList();
+        List<HighScore> highScores = serviceLocator.getProgressionManager().getHighscores();
         for (int i = 0; i < highScores.size(); i++) {
             // Entry background
             int backgroundY = scoreListTop + (i - 1) * entryHeight;

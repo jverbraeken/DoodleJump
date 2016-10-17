@@ -63,15 +63,7 @@ public final class Game {
      * The logger for the Game class.
      */
     private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
-    /**
-     * The high scores list for the Game.
-     */
-    public static final HighScoreList HIGH_SCORES = new HighScoreList(serviceLocator);
 
-    /**
-     * The current frame.
-     */
-    private static JFrame frame;
     /**
      * The current panel.
      */
@@ -127,7 +119,7 @@ public final class Game {
         IInputManager inputManager = serviceLocator.getInputManager();
 
         // Initialize frame
-        frame = new JFrame("Doodle Jump");
+        JFrame frame = new JFrame("Doodle Jump");
         frame.addMouseListener(inputManager);
         frame.addKeyListener(inputManager);
         frame.setSize(serviceLocator.getConstants().getGameWidth(), serviceLocator.getConstants().getGameHeight());
@@ -175,7 +167,7 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        HIGH_SCORES.initHighScores();
+        serviceLocator.getProgressionManager().init();
         loop();
     }
 
@@ -309,5 +301,4 @@ public final class Game {
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
     }
-
 }
