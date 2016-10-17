@@ -90,7 +90,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public List<String> readResourceFile(final String filename) throws FileNotFoundException {
@@ -138,7 +138,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public InputStream readBinaryFile(final String filename) throws FileNotFoundException {
@@ -148,7 +148,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public BufferedImage readImage(final String filename) throws FileNotFoundException {
@@ -163,7 +163,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public Clip readSound(final String filename) throws FileNotFoundException {
@@ -182,7 +182,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void writeResourceFile(final String filename, final String content) throws FileNotFoundException {
@@ -224,7 +224,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void deleteFile(final String filename) {
@@ -240,7 +240,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void clearFile(final String filename) {
@@ -263,7 +263,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void log(final String content) {
@@ -278,7 +278,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public OutputStream writeBinaryFile(final String filename) throws FileNotFoundException {
@@ -288,7 +288,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public File getResourceFile(final String filename) throws FileNotFoundException {
@@ -309,7 +309,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public File getProjectFile(final String filename) throws IOException {
@@ -338,7 +338,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public Object parseJsonList(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
@@ -357,7 +357,7 @@ public final class FileSystem implements IFileSystem {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public Object parseJsonMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
