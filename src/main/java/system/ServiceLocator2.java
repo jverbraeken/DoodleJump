@@ -224,7 +224,6 @@ import scenes.SceneFactory;
     /** {@inheritDoc} */
     @Override
     public IAudioManager getAudioManager() {
-        assert audioManager != null;
         return new IAudioManager() {
             @Override
             public void preload() {
@@ -566,7 +565,6 @@ import scenes.SceneFactory;
         Constants.register(this);
         LoggerFactory.register(this);
 
-        AudioManager.register(this);
         EnemyBuilder.register(this);
         InputManager.register(this);
         Calc.register(this);
