@@ -59,7 +59,7 @@ public final class Calc implements ICalc {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public int getRandomIntBetween(final int lower, final int upper) {
@@ -73,7 +73,7 @@ public final class Calc implements ICalc {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public double getRandomDouble(final double max) {

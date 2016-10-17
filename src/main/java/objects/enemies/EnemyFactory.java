@@ -38,7 +38,7 @@ public final class EnemyFactory implements IEnemyFactory {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IGameObject createOrdinaryEnemy(final int x, final int y) {

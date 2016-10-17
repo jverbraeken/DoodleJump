@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void error(final String msg) {
@@ -54,7 +54,7 @@ import java.util.concurrent.TimeUnit;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void error(final Exception exception) {
@@ -63,7 +63,7 @@ import java.util.concurrent.TimeUnit;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void info(final String msg) {
@@ -72,7 +72,7 @@ import java.util.concurrent.TimeUnit;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void warning(final String msg) {

@@ -77,7 +77,7 @@ public abstract class AGameObject implements IGameObject {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void addXPos(final double x) {
@@ -86,7 +86,7 @@ public abstract class AGameObject implements IGameObject {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void addYPos(final double y) {
@@ -95,7 +95,7 @@ public abstract class AGameObject implements IGameObject {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final boolean checkCollision(final IGameObject gameObject) {
@@ -111,7 +111,7 @@ public abstract class AGameObject implements IGameObject {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final double[] getHitBox() {
@@ -119,7 +119,7 @@ public abstract class AGameObject implements IGameObject {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final ISprite getSprite() {
@@ -127,7 +127,7 @@ public abstract class AGameObject implements IGameObject {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final double getXPos() {
@@ -135,7 +135,7 @@ public abstract class AGameObject implements IGameObject {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final double getYPos() {
@@ -143,13 +143,13 @@ public abstract class AGameObject implements IGameObject {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public abstract void render();
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void setHitBox(final int left, final int top, final int right, final int bottom) {
@@ -160,7 +160,7 @@ public abstract class AGameObject implements IGameObject {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void setSprite(final ISprite s) {
@@ -168,7 +168,7 @@ public abstract class AGameObject implements IGameObject {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void setXPos(final double x) {
@@ -176,7 +176,7 @@ public abstract class AGameObject implements IGameObject {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void setYPos(final double y) {
@@ -191,7 +191,7 @@ public abstract class AGameObject implements IGameObject {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void update(final double delta) { }

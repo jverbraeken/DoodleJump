@@ -114,7 +114,7 @@ import java.util.ArrayList;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void start() {
@@ -127,7 +127,7 @@ import java.util.ArrayList;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void stop() {
@@ -140,7 +140,7 @@ import java.util.ArrayList;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void render() {
@@ -151,9 +151,10 @@ import java.util.ArrayList;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) { }
+    public final void update(final double delta) {
+    }
 
 }
