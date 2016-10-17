@@ -120,7 +120,7 @@ For grading the sprints I will use the rubrics to grade and give feedback about 
 - Naming = 10
 - Comments = 9: some inline comments could clear up some of the longer methods
 - Building = 9: one failing pr merged, some chains of failing builds (although they were explained in the retrospective :) )
-- Testing = 3: coverage way to low, get this up quickly. This should have a higher priority than arbitrary features.
+- Testing = 6: coverage still too low, get this up quickly. This should have a higher priority than arbitrary features.
 - Tooling = 7: mostly correctly setup (except for the maven build not failing on checkstyle errors, add this), but a lot of checkstyle/pmd/findbugs errors. Fix those or explain why you can't
 - Branching = 10: excellent
 - Code review = 9: very good! keep this up.
@@ -133,11 +133,11 @@ For grading the sprints I will use the rubrics to grade and give feedback about 
 - q3 = 10/10: Excellent
 
 #### Assignment 2
-- q1 = :
+- q1 = 19/22: some improvement could be made (scrolling background when both players are out of screen) etc, but overall nice feature.
 - q2 = 4/8: good UML, however no RDD and CRC cards provided
 
 #### Assignment 3
-- q1 = :
+- q1 = 7/22: some points for requirements and part of feature showed in meeting, no finished feature on master though.
 - q2 = 4/8: good UML, however no RDD and CRC cards provided
 
 ### General Feedback
