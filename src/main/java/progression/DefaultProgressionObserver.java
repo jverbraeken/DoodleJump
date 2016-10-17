@@ -28,7 +28,7 @@ public class DefaultProgressionObserver implements
         this.counter = 0d;
     }
 
-    /* package */ DefaultProgressionObserver(final int times, final int counter) {
+    /* package */ DefaultProgressionObserver(final int times, final double counter) {
         this.times = times;
         this.action = () -> null;
         this.counter = counter;
@@ -40,7 +40,7 @@ public class DefaultProgressionObserver implements
         this.counter = 0d;
     }
 
-    /* package */ DefaultProgressionObserver(final int times, final Callable<Void> action, final int counter) {
+    /* package */ DefaultProgressionObserver(final int times, final Callable<Void> action, final double counter) {
         this.times = times;
         this.action = action;
         this.counter = counter;

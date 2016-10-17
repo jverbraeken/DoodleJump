@@ -7,8 +7,11 @@ import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.powerups.Powerups;
 import org.junit.*;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import system.IServiceLocator;
 
@@ -16,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +29,12 @@ import java.util.Set;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({SaveFile.class, SaveFileHighScoreEntry.class, Mission.class})
 public class ProgressionManagerTest {
 
     private static IServiceLocator serviceLocator;
@@ -43,11 +50,6 @@ public class ProgressionManagerTest {
     private final static HighScore SCORE_2 = new HighScore("bar", 80);
     private final static HighScore SCORE_3 = new HighScore("Hello", 2);
     private final static HighScore SCORE_4 = new HighScore("World", 1);
-
-    private final static String INIT_FILE_CONTENT_1 = "{\"coins\":0,\"highScores\":[{\"name\":\"Foo\",\"score\":78},{\"name\":\"bar\",\"score\":80}],\"powerupLevels\":{\"JETPACK\":0,\"SPRING\":1,\"SPRINGSHOES\":0,\"SIZEDOWN\":0,\"PROPELLER\":0,\"SIZEUP\":0,\"TRAMPOLINE\":0}}";
-    private final static String INIT_FILE_CONTENT_2 = "{\"coins\":1,\"highScores\":[{\"name\":\"Foo\",\"score\":78}],\"powerupLevels\":{\"JETPACK\":0,\"SPRING\":1,\"SPRINGSHOES\":2,\"SIZEDOWN\":3,\"PROPELLER\":4,\"SIZEUP\":5,\"TRAMPOLINE\":0}}";
-    private final static String INIT_FILE_CONTENT_3 = "{\"coins\":2,\"highScores\":[],\"powerupLevels\":{\"JETPACK\":0,\"SPRING\":1,\"SPRINGSHOES\":0,\"SIZEDOWN\":0,\"PROPELLER\":0,\"SIZEUP\":0,\"TRAMPOLINE\":0}}";
-
     
     @Before
     public void init() throws Exception {
@@ -324,5 +326,42 @@ public class ProgressionManagerTest {
         }});
         progressionManager.alertMissionFinished(mission);
         assertThat(((Queue<Mission>) Whitebox.getInternalState(progressionManager, "finishedMissionsQueue")).contains(mission), is(true));
+    }
+
+    @Test
+    public void testProgressionFromJson() throws Exception {
+        final SaveFile json = mock(SaveFile.class);
+        final SaveFileHighScoreEntry saveFileHighScoreEntry1 = mock(SaveFileHighScoreEntry.class);
+        final SaveFileHighScoreEntry saveFileHighScoreEntry2 = mock(SaveFileHighScoreEntry.class);
+        final SaveFileHighScoreEntry saveFileHighScoreEntry3 = mock(SaveFileHighScoreEntry.class);
+        when(json.getCoins()).thenReturn(42);
+        when(json.getHighScores()).thenReturn(new ArrayList<SaveFileHighScoreEntry>() {{
+            add(saveFileHighScoreEntry1);
+            add(saveFileHighScoreEntry2);
+            add(saveFileHighScoreEntry3);
+        }});
+        final Map<String, Integer> powerupsMap = new HashMap<String, Integer>() {{
+            put("JETPACK", 1);
+            put("PROPELLER", 2);
+            put("SIZEDOWN", 3);
+            put("SIZEUP", 4);
+            put("SPRING", 5);
+            put("SPRINGSHOES", 6);
+            put("TRAMPOLINE", 7);
+        }};
+        when(json.getPowerupLevels()).thenReturn(powerupsMap);
+
+        Whitebox.invokeMethod(progressionManager, "progressionFromJson", json);
+
+        final List<HighScore> expectedHighScores = new ArrayList<HighScore>() {{
+            add(new HighScore(saveFileHighScoreEntry1.getName(), saveFileHighScoreEntry1.getScore()));
+            add(new HighScore(saveFileHighScoreEntry2.getName(), saveFileHighScoreEntry2.getScore()));
+            add(new HighScore(saveFileHighScoreEntry3.getName(), saveFileHighScoreEntry3.getScore()));
+        }};
+        assertThat(Whitebox.getInternalState(progressionManager, "highScores"), is(equalTo(expectedHighScores)));
+
+        final int expectedCoins = 42;
+        assertThat(Whitebox.getInternalState(progressionManager, "coins"), is(expectedCoins));
+
     }
 }
