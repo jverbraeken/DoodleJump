@@ -11,6 +11,7 @@ import java.util.concurrent.Callable;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -96,5 +97,11 @@ public class DefaultProgressionObserverTest {
         final Mission mission = mock(Mission.class);
         observer.setMission(mission);
         assertThat(Whitebox.getInternalState(observer, "mission"), is(equalTo(mission)));
+    }
+
+    @Test
+    public void testSetMissionNull() {
+        observer.setMission(null);
+        assertThat(Whitebox.getInternalState(observer, "mission"), is(equalTo(null)));
     }
 }
