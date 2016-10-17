@@ -18,8 +18,7 @@ public class CrashTest {
 
     @Before
     public void Init() throws Exception {
-        game = Whitebox.invokeConstructor(Game.class);
-        Whitebox.setInternalState(Game.class, "serviceLocator", ServiceLocator2.getServiceLocator());
+        game = Whitebox.invokeConstructor(Game.class, ServiceLocator2.getServiceLocator());
         sL = Whitebox.getInternalState(Game.class, "serviceLocator");
         Thread.sleep(100);
     }
@@ -27,7 +26,7 @@ public class CrashTest {
     @Test
     public void testCreateSinglePlayerWorld() {
         game.setScene(
-                sL.getSceneFactory().createSinglePlayerWorld());
+                ServiceLocator2.getServiceLocator().getSceneFactory().createSinglePlayerWorld());
         //No crashes
         assertThat(true, is(true));
     }

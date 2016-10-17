@@ -44,7 +44,7 @@ public final class Game {
     /**
      * Used to gain access to all services.
      */
-    private static IServiceLocator serviceLocator = ServiceLocator.getServiceLocator();
+    private static IServiceLocator serviceLocator;
 
     /**
      * The time in milliseconds per frame.
@@ -62,14 +62,6 @@ public final class Game {
      * A LOCK to avoid threading issues.
      */
     private static final transient Object LOCK = new Object();
-    /**
-     * The logger for the Game class.
-     */
-    private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
-    /**
-     * The high scores list for the Game.
-     */
-    public static final HighScoreList HIGH_SCORES = new HighScoreList(serviceLocator);
 
     /**
      * The current frame.
@@ -113,9 +105,43 @@ public final class Game {
     private static IScene pauseScreen;
 
     /**
+     * The logger for the Game class.
+     */
+    private static ILogger LOGGER;
+    /**
+     * The high scores list for the Game.
+     */
+    public static HighScoreList HIGH_SCORES;
+
+
+    /**
      * Prevents instantiation from outside the Game class.
      */
     private Game() {
+
+        serviceLocator = ServiceLocator.getServiceLocator();
+        /**
+         * The logger for the Game class.
+         */
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+        /**
+         * The high scores list for the Game.
+         */
+        HIGH_SCORES = new HighScoreList(serviceLocator);
+
+    }
+
+    private Game(IServiceLocator sL) {
+
+        serviceLocator = sL;
+        /**
+         * The logger for the Game class.
+         */
+        LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+        /**
+         * The high scores list for the Game.
+         */
+        HIGH_SCORES = new HighScoreList(serviceLocator);
     }
 
     /**
