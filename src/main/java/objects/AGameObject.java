@@ -76,21 +76,27 @@ public abstract class AGameObject implements IGameObject {
         logger = sL.getLoggerFactory().createLogger(objectClass);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void addXPos(final double x) {
         double current = getXPos();
         this.setXPos(current + x);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void addYPos(final double y) {
         double current = getYPos();
         setYPos(current + y);
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final boolean checkCollision(final IGameObject gameObject) {
         if (gameObject == null) {
@@ -98,41 +104,53 @@ public abstract class AGameObject implements IGameObject {
         }
 
         // If one of these boolean turns false there is no intersection possible between 2 rectangles
-        return this.getXPos() + getHitBox()[HITBOX_LEFT] < gameObject.getXPos() + gameObject.getHitBox()[HITBOX_RIGHT]
-                && this.getXPos() + getHitBox()[HITBOX_RIGHT] > gameObject.getXPos() + gameObject.getHitBox()[HITBOX_LEFT]
-                && this.getYPos() + getHitBox()[HITBOX_TOP] < gameObject.getYPos() + gameObject.getHitBox()[HITBOX_BOTTOM]
-                && this.getYPos() + getHitBox()[HITBOX_BOTTOM] > gameObject.getYPos() + gameObject.getHitBox()[HITBOX_TOP];
+        return this.getXPos() + this.getHitBox()[HITBOX_LEFT] < gameObject.getXPos() + gameObject.getHitBox()[HITBOX_RIGHT]
+                && this.getXPos() + this.getHitBox()[HITBOX_RIGHT] > gameObject.getXPos() + gameObject.getHitBox()[HITBOX_LEFT]
+                && this.getYPos() + this.getHitBox()[HITBOX_TOP] < gameObject.getYPos() + gameObject.getHitBox()[HITBOX_BOTTOM]
+                && this.getYPos() + this.getHitBox()[HITBOX_BOTTOM] > gameObject.getYPos() + gameObject.getHitBox()[HITBOX_TOP];
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final double[] getHitBox() {
         return this.hitBox.clone();
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final ISprite getSprite() {
         return this.sprite;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final double getXPos() {
         return this.xPos;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final double getYPos() {
         return this.yPos;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public abstract void render();
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void setHitBox(final int left, final int top, final int right, final int bottom) {
         this.hitBox[HITBOX_LEFT] = left;
@@ -141,19 +159,25 @@ public abstract class AGameObject implements IGameObject {
         this.hitBox[HITBOX_BOTTOM] = bottom;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void setSprite(final ISprite s) {
         this.sprite = s;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void setXPos(final double x) {
         this.xPos = x;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public final void setYPos(final double y) {
         this.yPos = y;
@@ -166,7 +190,9 @@ public abstract class AGameObject implements IGameObject {
         return logger;
     }
 
-    /** {@inheritDoc} */
+    /**
+	 * {@inheritDoc}
+     */
     @Override
     public void update(final double delta) { }
 
