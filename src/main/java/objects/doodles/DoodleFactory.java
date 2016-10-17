@@ -35,7 +35,7 @@ public final class DoodleFactory implements IDoodleFactory {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IDoodle createDoodle(final World world) {
@@ -45,7 +45,7 @@ public final class DoodleFactory implements IDoodleFactory {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IDoodle createStartScreenDoodle() {

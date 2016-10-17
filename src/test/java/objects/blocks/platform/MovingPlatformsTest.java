@@ -86,7 +86,7 @@ public class MovingPlatformsTest {
      * @throws IllegalAccessException if you can't acces that field.
      */
     @Test
-    public void updateEnumsTestFlip1Horizontal() throws NoSuchFieldException, IllegalAccessException {
+    public void updateEnumsTestFlip1Horizontal() {
         horizontal.setXPos(11);
         horizontal.update(0d);
 
@@ -101,7 +101,7 @@ public class MovingPlatformsTest {
      * @throws IllegalAccessException if you can't acces that field.
      */
     @Test
-    public void updateEnumsTestFlipMin1Horizontal() throws NoSuchFieldException, IllegalAccessException {
+    public void updateEnumsTestFlipMin1Horizontal() {
         horizontal.setXPos(-1);
         horizontal.update(0d);
 
@@ -116,7 +116,7 @@ public class MovingPlatformsTest {
      * @throws IllegalAccessException if you can't acces that field.
      */
     @Test
-    public void updateEnumsTestFlip1Vertical() throws NoSuchFieldException, IllegalAccessException {
+    public void updateEnumsTestFlip1Vertical() {
         vertical.setOffset(100);
         vertical.update(0d);
 
@@ -131,7 +131,7 @@ public class MovingPlatformsTest {
      * @throws IllegalAccessException if you can't acces that field.
      */
     @Test
-    public void updateEnumsTestFlipMin1Vertical() throws NoSuchFieldException, IllegalAccessException {
+    public void updateEnumsTestFlipMin1Vertical() {
         vertical.setOffset(-100);
         vertical.update(0d);
 

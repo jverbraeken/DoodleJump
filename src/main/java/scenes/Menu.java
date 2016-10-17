@@ -114,7 +114,7 @@ public class Menu implements IScene, IKeyInputObserver {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void start() {
@@ -127,7 +127,7 @@ public class Menu implements IScene, IKeyInputObserver {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void stop() {
@@ -140,7 +140,7 @@ public class Menu implements IScene, IKeyInputObserver {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void render() {
@@ -153,7 +153,7 @@ public class Menu implements IScene, IKeyInputObserver {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void update(final double delta) {
@@ -166,13 +166,13 @@ public class Menu implements IScene, IKeyInputObserver {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void keyPress(final Keys key) { }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void keyRelease(final Keys key) {

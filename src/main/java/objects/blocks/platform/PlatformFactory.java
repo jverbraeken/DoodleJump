@@ -36,7 +36,7 @@ public final class PlatformFactory implements IPlatformFactory {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IPlatform createPlatform(final int x, final int y) {
@@ -83,4 +83,5 @@ public final class PlatformFactory implements IPlatformFactory {
 
         return broken;
     }
+
 }
