@@ -103,10 +103,10 @@ q2 = 8/8: amazing analysis
 you can tag all checkstyle warnings as errors and let the travis build fail on checkstyle errors. Because a failing build is never merged (right?) this would ensure no checkstyle errors in pr’s.
 I still can’t run the project, please include a runnable jar with the next release. That way I can grade before our meeting.
 
-## Sprint #3 = :
+## Sprint #3 = 7,8:
 For grading the sprints I will use the rubrics to grade and give feedback about sprint management and code evolution quality. Then I will grade and give feedback to the assignment. These grades will construct the final grade for the sprint using a 20% (sprint management), 40% (code quality) and 40% (assignment) weight system.
 
-### Sprint Management = :
+### Sprint Management = 7,7:
 - Definition = 8: multiple tasks defined in one cell, with only 1 priority and estimated effort assigned
 - Splitting = 9
 - Responsibility = 6: it's not possible to have 2 members responsible for the same task.
@@ -114,7 +114,7 @@ For grading the sprints I will use the rubrics to grade and give feedback about 
 - Prioritization = 6: prioritization doesn't really help if 75% of the tasks gets the A priority
 - Reflection = 8: good reflection, however make sure it is readable, use destinct cells. Some comments on your problems: I don't mind one member writing more lines of code than others, if every member puts in the same effort and is fully involved in important decisions. The #LOC also doesn't at all determine the effort that is put in the code. I'm sorry you don't like the assignments, but with things like 20-time and my assignments this complaint is doesn't really have any ground. You are following a course that is trying to learn you specific things, so focus on those. @Cornel: it is not uncommon to spend half of your time discussing your newly added code with others and improving it, that is the whole point of pull-based development in a scrum team. By discussing your code with your peers the code that is eventually added to the repository is of much higher quality.
 
-### Code Evolution Quality = :
+### Code Evolution Quality = 8,5:
 - Code change quality = 9: Still using an interface for every class, this is not common practice. It is useful for some of the classes but not for all. As I told you before, consider if you should add an interface when adding a new class.
 - Formatting = 9: some minor inconsistencies in whitespacing
 - Naming = 10
@@ -125,18 +125,18 @@ For grading the sprints I will use the rubrics to grade and give feedback about 
 - Branching = 10: excellent
 - Code review = 9: very good! keep this up.
 
-### Assignments = :
+### Assignments = 63/90 = 7,3:
 
 #### Assignment 1 = 29/30:
 - q1 = 10/10: great explanations and implementations
 - q2 = 9/10: I would have liked to see interaction with other classes in the singleton UML's.
 - q3 = 10/10: Excellent
 
-#### Assignment 2
+#### Assignment 2 = 23/30:
 - q1 = 19/22: some improvement could be made (scrolling background when both players are out of screen) etc, but overall nice feature.
 - q2 = 4/8: good UML, however no RDD and CRC cards provided
 
-#### Assignment 3
+#### Assignment 3 = 11/30:
 - q1 = 7/22: some points for requirements and part of feature showed in meeting, no finished feature on master though.
 - q2 = 4/8: good UML, however no RDD and CRC cards provided
 
