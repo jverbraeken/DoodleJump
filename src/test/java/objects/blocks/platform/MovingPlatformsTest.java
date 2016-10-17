@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 import rendering.ICamera;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
@@ -20,6 +21,8 @@ import system.IServiceLocator;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -42,10 +45,12 @@ public class MovingPlatformsTest {
     @Before
     public void init() {
         IConstants constants = mock(IConstants.class);
-        when(constants.getGameWidth()).thenReturn(100);
+        when(constants.getGameWidth()).thenReturn(0);
         when(constants.getGameHeight()).thenReturn(100);
+
         ICamera camera = mock(ICamera.class);
         when(camera.getYPos()).thenReturn(2d);
+
         renderer = mock(IRenderer.class);
         when(renderer.getCamera()).thenReturn(camera);
 
@@ -53,8 +58,8 @@ public class MovingPlatformsTest {
         when(sprite.getWidth()).thenReturn(0);
 
         spriteFactory = mock(SpriteFactory.class);
-        when(spriteFactory.getPlatformSpriteHori()).thenReturn(sprite);
-        when(spriteFactory.getPlatformSpriteVert()).thenReturn(sprite);
+        when(spriteFactory.getPlatformSpriteHorizontal()).thenReturn(sprite);
+        when(spriteFactory.getPlatformSpriteVertical()).thenReturn(sprite);
 
         calc = mock(Calc.class);
         when(calc.getRandomDouble(1)).thenReturn(0d);
@@ -75,36 +80,18 @@ public class MovingPlatformsTest {
     }
 
     /**
-     * Test that the updateEnums method changes nothing for the horizontal direction.
-     * @throws NoSuchFieldException if the field does not exist.
-     * @throws IllegalAccessException if you can't acces that field.
-     */
-    @Test
-    public void updateEnumsTestNothingHori() throws NoSuchFieldException, IllegalAccessException {
-        int expected = 1;
-        Platform.PlatformProperties hori = Platform.PlatformProperties.movingHorizontally;
-        horizontal.getProps().put(hori, expected);
-
-        horizontal.updateEnums(0,0);
-
-        assertThat(horizontal.getProps().get(hori), is(expected));
-    }
-
-    /**
      * Test that the updateEnums method changes the horizontal direction
      * from right to left.
      * @throws NoSuchFieldException if the field does not exist.
      * @throws IllegalAccessException if you can't acces that field.
      */
     @Test
-    public void updateEnumsTestFlip1Hori() throws NoSuchFieldException, IllegalAccessException {
-        int expected = -1;
-        Platform.PlatformProperties hori = Platform.PlatformProperties.movingHorizontally;
-        horizontal.getProps().put(hori, 1);
+    public void updateEnumsTestFlip1Horizontal() throws NoSuchFieldException, IllegalAccessException {
+        horizontal.setXPos(11);
+        horizontal.update(0d);
 
-        horizontal.updateEnums(200,0);
-
-        assertThat(horizontal.getProps().get(hori), is(expected));
+        int speed = Whitebox.getInternalState(horizontal, "speed");
+        assertThat(speed < 0, is(true));
     }
 
     /**
@@ -114,30 +101,12 @@ public class MovingPlatformsTest {
      * @throws IllegalAccessException if you can't acces that field.
      */
     @Test
-    public void updateEnumsTestFlipMin1Hori() throws NoSuchFieldException, IllegalAccessException {
-        int expected = 1;
-        Platform.PlatformProperties hori = Platform.PlatformProperties.movingHorizontally;
-        horizontal.getProps().put(hori, -1);
+    public void updateEnumsTestFlipMin1Horizontal() throws NoSuchFieldException, IllegalAccessException {
+        horizontal.setXPos(-1);
+        horizontal.update(0d);
 
-        horizontal.updateEnums(-200,0);
-
-        assertThat(horizontal.getProps().get(hori), is(expected));
-    }
-
-    /**
-     * Test that the updateEnums method changes nothing for the vertical direction.
-     * @throws NoSuchFieldException if the field does not exist.
-     * @throws IllegalAccessException if you can't acces that field.
-     */
-    @Test
-    public void updateEnumsTestNothingVert() throws NoSuchFieldException, IllegalAccessException {
-        int expected = 1;
-        Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        horizontal.getProps().put(vert, expected);
-
-        horizontal.updateEnums(0,0);
-
-        assertThat(horizontal.getProps().get(vert), is(expected));
+        int speed = Whitebox.getInternalState(horizontal, "speed");
+        assertThat(speed > 0, is(true));
     }
 
     /**
@@ -147,16 +116,12 @@ public class MovingPlatformsTest {
      * @throws IllegalAccessException if you can't acces that field.
      */
     @Test
-    public void updateEnumsTestFlip1Vert() throws NoSuchFieldException, IllegalAccessException {
-        int expected = 1;
-        Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        vertical.getProps().put(vert, -1);
+    public void updateEnumsTestFlip1Vertical() throws NoSuchFieldException, IllegalAccessException {
+        vertical.setOffset(100);
+        vertical.update(0d);
 
-        vertical.setOffset(21);
-
-        vertical.updateEnums(0,0);
-
-        assertThat(vertical.getProps().get(vert), is(expected));
+        int speed = Whitebox.getInternalState(vertical, "speed");
+        assertThat(speed < 0, is(true));
     }
 
     /**
@@ -166,75 +131,34 @@ public class MovingPlatformsTest {
      * @throws IllegalAccessException if you can't acces that field.
      */
     @Test
-    public void updateEnumsTestFlipMin1Vert() throws NoSuchFieldException, IllegalAccessException {
-        int expected = -1;
-        Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        vertical.getProps().put(vert, 1);
+    public void updateEnumsTestFlipMin1Vertical() throws NoSuchFieldException, IllegalAccessException {
+        vertical.setOffset(-100);
+        vertical.update(0d);
 
-        vertical.setOffset(-21);
-
-        vertical.updateEnums(0,0);
-
-        assertThat(vertical.getProps().get(vert), is(expected));
+        int speed = Whitebox.getInternalState(vertical, "speed");
+        assertThat(speed > 0, is(true));
     }
 
     /**
      * Test rendering a horizontal vertical going right.
      */
     @Test
-    public void renderHoriTest() {
-        double expected = horizontal.getXPos() + 2;
-        Platform.PlatformProperties hori = Platform.PlatformProperties.movingHorizontally;
-        horizontal.getProps().put(hori, 1);
-
+    public void renderHorizontalTest() {
+        // 2 times because inheritance (?)
         horizontal.render();
-        horizontal.update(0.05d);
-
-        assertThat(horizontal.getXPos(), is(expected));
-    }
-
-    /**
-     * Test rendering a horizontal vertical going left.
-     */
-    @Test
-    public void renderHoriOppositeTest() {
-        double expected = horizontal.getXPos() - 2;
-        Platform.PlatformProperties hori = Platform.PlatformProperties.movingHorizontally;
-        horizontal.getProps().put(hori, -1);
-
-        horizontal.render();
-        horizontal.update(0.05d);
-
-        assertThat(horizontal.getXPos(), is(expected));
+        verify(serviceLocator, times(2)).getRenderer();
+        verify(renderer, times(2)).drawSprite(sprite, (int) vertical.getXPos(), (int) vertical.getYPos());
     }
 
     /**
      * Test rendering a vertical moving vertical going up.
      */
     @Test
-    public void renderVertTest() {
-        double expected = vertical.getYPos() - 2;
-        Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        vertical.getProps().put(vert, 1);
-
+    public void renderVerticalTest() {
+        // 2 times because inheritance (?)
         vertical.render();
-        vertical.update(0.05d);
-
-        assertThat(vertical.getYPos(), is(expected));
+        verify(serviceLocator, times(2)).getRenderer();
+        verify(renderer, times(2)).drawSprite(sprite, (int) vertical.getXPos(), (int) vertical.getYPos());
     }
 
-    /**
-     * Test rendering a vertical moving vertical going down.
-     */
-    @Test
-    public void renderOppositVertTest() {
-        double expected = vertical.getYPos() + 2;
-        Platform.PlatformProperties vert = Platform.PlatformProperties.movingVertically;
-        vertical.getProps().put(vert, -1);
-
-        vertical.render();
-        vertical.update(0.05d);
-
-        assertThat(vertical.getYPos(), is(expected));
-    }
 }

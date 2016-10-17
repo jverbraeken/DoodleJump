@@ -5,23 +5,30 @@ import system.IServiceLocator;
 /**
  * The platform decorator to support horizontal movement.
  */
-public final class PlatformHorizontal extends PlatformDecorator implements IPlatform {
+/* package */ final class PlatformHorizontal extends PlatformDecorator implements IPlatform {
+
+    /**
+     * Fifty-fifty chance.
+     */
+    private static final double FIFTY_FIFTY = 0.5d;
+
+    /**
+     * The speed of the moving platform.
+     */
+    private int speed = 2;
 
     /**
      * Horizontal moving platform decorator constructor.
      *
-     * @param sL       the servicelocator.
+     * @param sL       the serviceLocator.
      * @param platform the encapsulated platform.
      */
     /* package */PlatformHorizontal(final IServiceLocator sL, final IPlatform platform) {
         super(sL, platform);
-        if (!getProps().containsKey(Platform.PlatformProperties.breaks)) {
-            getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteHori());
-        }
-        getContained().getProps().put(Platform.PlatformProperties.movingHorizontally, 1);
+        this.getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteHorizontal());
+        this.getContained().getProps().put(Platform.PlatformProperties.movingVertically, 1);
 
-        getDirections().put(Platform.Directions.right, 1);
-        getDirections().put(Platform.Directions.left, -1);
+        this.speed = (sL.getCalc().getRandomDouble(1) < FIFTY_FIFTY) ? 2 : -2;
     }
 
     /**
@@ -29,35 +36,15 @@ public final class PlatformHorizontal extends PlatformDecorator implements IPlat
      */
     @Override
     public void update(final double delta) {
-        double xPos = this.getXPos();
-        double yPos = this.getYPos();
-
-        updateEnums(xPos, yPos);
-
-        if (getContained().getProps().containsKey(Platform.PlatformProperties.movingHorizontally)) {
-
-            final int movingProperty = getContained().getProps().get(Platform.PlatformProperties.movingHorizontally);
-
-            if (movingProperty == (getContained().getDirections().get(Platform.Directions.right))) {
-                setXPos(xPos + 2);
-            } else if (movingProperty == getContained().getDirections().get(Platform.Directions.left)) {
-                setXPos(xPos - 2);
-            }
-        }
-
-        getContained().update(delta);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateEnums(final double xPos, final double yPos) {
         int gameWidth = getServiceLocator().getConstants().getGameWidth();
-        if (xPos > gameWidth - this.getSprite().getWidth()) {
-            getProps().replace(Platform.PlatformProperties.movingHorizontally, -1);
-        } else if (xPos < 1) {
-            getProps().replace(Platform.PlatformProperties.movingHorizontally, 1);
+        if (this.getXPos() + this.getSprite().getWidth() > gameWidth) {
+            this.speed = -2;
+        } else if (this.getXPos() < 0) {
+            this.speed = 2;
         }
+
+        this.setXPos(this.getXPos() + this.speed);
+        this.getContained().update(delta);
     }
+
 }
