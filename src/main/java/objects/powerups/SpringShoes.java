@@ -43,7 +43,11 @@ import system.IServiceLocator;
      */
     @Override
     public void perform(final PowerupOccasion occasion) {
-        if (occasion == PowerupOccasion.collision && this.owner != null) {
+        if (this.owner == null) {
+            throw new IllegalArgumentException("Owner cannot be null");
+        }
+
+        if (occasion == PowerupOccasion.collision) {
             this.uses += 1;
             this.owner.setVerticalSpeed(BOOST);
 

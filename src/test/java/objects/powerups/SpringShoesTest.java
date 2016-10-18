@@ -122,6 +122,11 @@ public class SpringShoesTest {
         assertThat(owner == null, is(true));
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testPerformNoOwner() {
+        springShoes.perform(PowerupOccasion.collision);
+    }
+
     @Test
     public void testRenderNoOwner() {
         springShoes.render();
