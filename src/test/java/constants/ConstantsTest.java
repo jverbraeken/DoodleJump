@@ -36,7 +36,7 @@ public class ConstantsTest {
         Map<String, String> jsonObject = new HashMap<>();
         jsonObject.put("logFile", "async.log");
         when(serviceLocator.getFileSystem()).thenReturn(fileSystem);
-        when(fileSystem.parseJsonResourceMap("constants.json", String.class)).thenReturn(jsonObject);
+        when(fileSystem.parseJson("constants.json", Map.class)).thenReturn(jsonObject);
 
         Constants.register(serviceLocator);
         constants = Whitebox.invokeConstructor(Constants.class);
@@ -114,7 +114,7 @@ public class ConstantsTest {
     public void interpretJsonDefaultCaseTest() throws Exception {
         String logFileName = "async.log";
         assertThat(constants.getLogFile(), is(logFileName));
-        
+
         Map<String, String> jsonObject = new HashMap<>();
         jsonObject.put("a", "b");
 

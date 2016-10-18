@@ -1,6 +1,5 @@
 package progression;
 
-import com.bluelinelabs.logansquare.annotation.JsonObject;
 import filesystem.IToJsonSerializable;
 
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.Map;
  * <b>NOTE: this class is designed to be used by JSON (de)serializers only and is not meant
  * for regular usage in the game!</b>
  */
-@JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
 public final class SaveFile implements IToJsonSerializable {
     /**
      * Lists the highscores of the player.

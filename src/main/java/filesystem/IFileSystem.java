@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -135,31 +136,11 @@ public interface IFileSystem {
      * Parse a JSON file consisting of a single Json item.
      *
      * @param filename  The filepath to the Json file.
-     * @param jsonClass The class of the resulting Json object.
+     * @param type The type of the resulting Json object.
      * @return An {@link Object} that must be up-casted to the desired Json class.
      * @throws FileNotFoundException Thrown when the Json file was not found.
      */
-    Object parseJson(final String filename, final Class<?> jsonClass) throws FileNotFoundException;
-
-    /**
-     * Parse a JSON file consisting of a single Json list.
-     *
-     * @param filename  The filepath to the Json file.
-     * @param jsonClass The class of the resulting Json object.
-     * @return An {@link Object} that must be up-casted to a {@link List} containing the desired Json class.
-     * @throws FileNotFoundException Thrown when the Json file was not found.
-     */
-    Object parseJsonResourceList(final String filename, final Class<?> jsonClass) throws FileNotFoundException;
-
-    /**
-     * Parse a JSON file consisting of a single Json item.
-     *
-     * @param filename  The filepath to the Json file.
-     * @param jsonClass The class of the resulting Json object.
-     * @return An {@link Object} that must be up-casted to a {@link java.util.Map} containing the desired Json class.
-     * @throws FileNotFoundException Thrown when the Json file was not found.
-     */
-    Object parseJsonResourceMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException;
+    Object parseJson(final String filename, final Type type) throws FileNotFoundException;
 
     /**
      * Serializes the image specified to a Json string.

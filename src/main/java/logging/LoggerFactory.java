@@ -1,10 +1,13 @@
 package logging;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import filesystem.IFileSystem;
 import system.Game;
 import system.IServiceLocator;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,7 +54,7 @@ public final class LoggerFactory implements ILoggerFactory {
 
         logIgnore = new HashSet<>();
         try {
-            List<String> list = (List<String>) serviceLocator.getFileSystem().parseJsonResourceList(LOG_IGNORE_FILE, String.class);
+            List<String> list = (List<String>) serviceLocator.getFileSystem().parseJson(LOG_IGNORE_FILE, new TypeToken<List<String>>(){}.getType());
             for (String className : list) {
                 try {
                     logIgnore.add(Class.forName(className));
@@ -60,7 +63,7 @@ public final class LoggerFactory implements ILoggerFactory {
                     e.printStackTrace();
                 }
             }
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             logger.error("The file " + LOG_IGNORE_FILE + " requested by LoggerFactory was not found");
             e.printStackTrace();
         }

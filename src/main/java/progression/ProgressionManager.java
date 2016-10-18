@@ -1,6 +1,7 @@
 package progression;
 
 
+import com.google.gson.reflect.TypeToken;
 import logging.ILogger;
 import objects.powerups.Powerups;
 import system.IServiceLocator;
@@ -176,7 +177,7 @@ public final class ProgressionManager implements IProgressionManager {
     private void loadData() {
         Object jsonObject = null;
         try {
-            jsonObject = serviceLocator.getFileSystem().parseJson(serviceLocator.getConstants().getSaveFilePath(), SaveFile.class);
+            jsonObject = serviceLocator.getFileSystem().parseJson(serviceLocator.getConstants().getSaveFilePath(), new TypeToken<SaveFile>(){}.getType());
         } catch (FileNotFoundException e) {
             logger.warning("Save file was not found -> default progression used.");
         }

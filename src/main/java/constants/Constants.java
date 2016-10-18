@@ -45,20 +45,20 @@ public final class Constants implements IConstants {
     /**
      * The file to which the logs will be written to.
      */
-    private static AtomicReference<String> logFile = new AtomicReference<>();
+    private static AtomicReference<String> logFile = new AtomicReference<>("async.log");
 
     /**
      * Prevent public instantiation of Constants.
      */
     private Constants() {
-        try {
+        /*try {
             IFileSystem fileSystem = serviceLocator.getFileSystem();
-            Object jsonObject = fileSystem.parseJsonResourceMap("constants.json", String.class);
+            Object jsonObject = fileSystem.parseJson("constants.json", Map.class);
             Map<String, String> json = (Map<String, String>) jsonObject;
             interpretJson(json);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**

@@ -1,6 +1,5 @@
 package progression;
 
-import com.bluelinelabs.logansquare.annotation.JsonObject;
 import filesystem.IToJsonSerializable;
 
 /**
@@ -10,7 +9,6 @@ import filesystem.IToJsonSerializable;
  * <b>NOTE: this class is designed to be used by JSON (de)serializers only and is not meant
  * for regular usage in the game!</b>
  */
-@JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
 public final class SaveFileHighScoreEntry implements IToJsonSerializable {
     /**
      * The name associated with the high score.

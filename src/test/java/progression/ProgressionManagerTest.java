@@ -1,15 +1,14 @@
 package progression;
 
-import com.bluelinelabs.logansquare.LoganSquare;
 import constants.IConstants;
 import filesystem.IFileSystem;
 import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.powerups.Powerups;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
@@ -29,7 +28,6 @@ import java.util.Set;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -37,20 +35,18 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({SaveFile.class, SaveFileHighScoreEntry.class, Mission.class})
 public class ProgressionManagerTest {
 
-    private static IServiceLocator serviceLocator;
-    private static ILoggerFactory loggerFactory;
-    private static IFileSystem fileSystem;
-    private static IConstants constants;
-
-    private ProgressionManager progressionManager;
-    private IMissionFactory missionFactory;
-    private List<HighScore> expected;
-
     private final static HighScore SCORE_1 = new HighScore("Foo", 78);
     private final static HighScore SCORE_2 = new HighScore("bar", 80);
     private final static HighScore SCORE_3 = new HighScore("Hello", 2);
     private final static HighScore SCORE_4 = new HighScore("World", 1);
-    
+    private static IServiceLocator serviceLocator;
+    private static ILoggerFactory loggerFactory;
+    private static IFileSystem fileSystem;
+    private static IConstants constants;
+    private ProgressionManager progressionManager;
+    private IMissionFactory missionFactory;
+    private List<HighScore> expected;
+
     @Before
     public void init() throws Exception {
         serviceLocator = mock(IServiceLocator.class);

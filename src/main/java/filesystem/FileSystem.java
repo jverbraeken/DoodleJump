@@ -1,33 +1,36 @@
 package filesystem;
 
-import com.bluelinelabs.logansquare.LoganSquare;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import logging.ILogger;
+import rendering.Renderer;
 import system.Game;
 import system.IServiceLocator;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
-import java.io.Writer;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.File;
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.io.OutputStreamWriter;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.BufferedOutputStream;
-import java.awt.image.BufferedImage;
+import java.io.Writer;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -40,6 +43,10 @@ import java.util.List;
 public final class FileSystem implements IFileSystem {
 
     /**
+     * The font used when the font requested could not be found.
+     */
+    private static final Font DEFAULT_FONT = new Font("serif", Font.PLAIN, 24);
+    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
@@ -47,10 +54,6 @@ public final class FileSystem implements IFileSystem {
      * The writer to the log files.
      */
     private final Writer logWriter;
-    /**
-     * The font used when the font requested could not be found.
-     */
-    private static final Font DEFAULT_FONT = new Font("serif", Font.PLAIN, 24);
 
     /**
      * Prevents instantiation from outside the class.
@@ -328,62 +331,22 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public Object parseJson(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
+    public Object parseJson(final String filename, final Type type) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
         readProjectFile(filename).forEach(sb::append);
         String json = sb.toString();
 
-        Object result = null;
-        try {
-            result = LoganSquare.parse(json, jsonClass);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
+        return (new Gson()).fromJson(json, type);
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    public Object parseJsonResourceList(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
-        StringBuilder sb = new StringBuilder();
-        readResourceFile(filename).forEach(sb::append);
-
-        String json = sb.toString();
-
-        Object result = null;
-        try {
-            result = LoganSquare.parseList(json, jsonClass);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Object parseJsonResourceMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
-        StringBuilder sb = new StringBuilder();
-        readResourceFile(filename).forEach(sb::append);
-
-        String json = sb.toString();
-
-        Object result = null;
-        try {
-            result = LoganSquare.parseMap(json, jsonClass);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    /** {@inheritDoc} */
     @Override
     public String serializeJson(final IToJsonSerializable image) {
-        return image.toJson();
+        final Gson gson = new Gson();
+        final String result = gson.toJson(image);
+        return result;
     }
 
     /**
