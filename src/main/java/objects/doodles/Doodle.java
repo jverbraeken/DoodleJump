@@ -25,10 +25,6 @@ import system.IServiceLocator;
 public class Doodle extends AGameObject implements IDoodle {
 
     /**
-     * The ratio of Doodle to offset the frame size vs panel size.
-     */
-    private static final double DEAD_OFFSET = 1.5d;
-    /**
      * The height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      */
@@ -45,6 +41,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * Where the hitbox of the doodle ends in relation to the sprite width.
      */
     private static final double WIDTH_HIT_BOX_RIGHT = .8;
+    /**
+     * An additional offset for the top of the hitbox for the Doodle.
+     */
+    private static final int TOP_HITBOX_OFFSET = 25;
 
     /**
      * Amount of star frames.
@@ -121,11 +121,7 @@ public class Doodle extends AGameObject implements IDoodle {
                 sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0],
                 Doodle.class);
 
-        this.setHitBox(
-                (int) (getSprite().getWidth() * WIDTH_HIT_BOX_LEFT),
-                (int) (getSprite().getHeight() * HEIGHT_HIT_BOX_TOP),
-                (int) (getSprite().getWidth() * WIDTH_HIT_BOX_RIGHT),
-                getSprite().getHeight());
+        this.updateHitBox();
 
         this.world = w;
         setBehavior(Game.getMode());
@@ -314,14 +310,15 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void increaseSpriteScalar(final double inc) {
-        this.spriteScalar += inc;
+        if (this.spriteScalar + inc > 0 && this.spriteScalar + inc < 2) {
+            double oldScalar = this.spriteScalar;
+            this.spriteScalar += inc;
 
-        ISprite sprite = this.getSprite();
-        int width = (int) (sprite.getWidth() * this.spriteScalar);
-        int height = (int) (sprite.getHeight() * this.spriteScalar);
-        this.setHitBox(
-                (int) (width * WIDTH_HIT_BOX_LEFT), height,
-                (int) (width * WIDTH_HIT_BOX_RIGHT), height);
+            double heightDiff = (this.getSprite().getHeight() * oldScalar) - (this.getSprite().getHeight() * this.spriteScalar);
+            this.addYPos(heightDiff);
+
+            this.updateHitBox();
+        }
     }
 
     /**
@@ -380,7 +377,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private void checkDeadPosition() {
         ICamera camera = getServiceLocator().getRenderer().getCamera();
-        if (getYPos() > camera.getYPos() + getServiceLocator().getConstants().getGameHeight() - DEAD_OFFSET * getHitBox()[HITBOX_BOTTOM]) {
+        if (this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM] > camera.getYPos() + getServiceLocator().getConstants().getGameHeight()) {
             getLogger().info("The Doodle died with score " + this.score);
             this.world.endGameInstance(this.score);
         }
@@ -446,6 +443,18 @@ public class Doodle extends AGameObject implements IDoodle {
         if (newScore > this.score) {
             this.score = newScore;
         }
+    }
+
+    /**
+     * Update the hitbox for the Doodle.
+     */
+    private void updateHitBox() {
+        ISprite sprite = this.getSprite();
+        int spriteWidth = (int) (sprite.getWidth() * this.spriteScalar);
+        int spriteHeight = (int) (sprite.getHeight() * this.spriteScalar);
+        int left = (int) (spriteWidth * WIDTH_HIT_BOX_LEFT);
+        int right = (int) (spriteWidth * WIDTH_HIT_BOX_RIGHT);
+        this.setHitBox(left, Doodle.TOP_HITBOX_OFFSET, right, spriteHeight);
     }
 
 }

@@ -5,7 +5,7 @@ import java.util.EnumMap;
 /**
  * Static class that maps key names to keyCodes.
  */
-public final class WeightsMap {
+/* package */ final class WeightsMap {
 
     /**
      * Map that maps enums of the key to the keyCode.

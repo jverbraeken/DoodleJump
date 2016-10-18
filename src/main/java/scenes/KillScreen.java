@@ -82,7 +82,7 @@ import system.IServiceLocator;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void start() {
@@ -94,7 +94,7 @@ import system.IServiceLocator;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void stop() {
@@ -106,7 +106,7 @@ import system.IServiceLocator;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void render() {
@@ -125,9 +125,10 @@ import system.IServiceLocator;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) { }
+    public final void update(final double delta) {
+    }
 
 }

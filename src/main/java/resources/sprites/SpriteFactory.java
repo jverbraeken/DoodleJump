@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
  * <br>
  * Javadoc is not deemed necessary for all individual sprites to have a javadoc.
  */
-@SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod", "checkstyle:MagicNumber"})
+@SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod", "checkstyle:magicnumber"})
 public final class SpriteFactory implements ISpriteFactory {
 
     /**
@@ -461,7 +461,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSpriteHori() {
+    public ISprite getPlatformSpriteHorizontal() {
         return getSprite(IRes.Sprites.platformHorizontal);
     }
 
@@ -469,7 +469,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSpriteVert() {
+    public ISprite getPlatformSpriteVertical() {
         return getSprite(IRes.Sprites.platformVertical);
     }
 

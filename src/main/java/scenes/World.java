@@ -280,7 +280,7 @@ public class World implements IScene {
                     Set<IGameObject> elements = block.getElements();
                     for (IGameObject element : elements) {
                         if (doodle.checkCollision(element)) {
-                            if (doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight() < element.getYPos()) {
+                            if (doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < element.getYPos() + element.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
                                 element.collidesWith(doodle);
                             }
                         }

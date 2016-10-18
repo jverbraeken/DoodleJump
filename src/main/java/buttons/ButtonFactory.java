@@ -38,7 +38,7 @@ public final class ButtonFactory implements IButtonFactory {
      */
     private static synchronized IButtonFactory getButtonFactory() {
         if (buttonFactory == null) {
-           buttonFactory = new ButtonFactory();
+            buttonFactory = new ButtonFactory();
         }
         return buttonFactory;
     }

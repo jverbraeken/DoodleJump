@@ -1,0 +1,20 @@
+Shop requirements
+
+Must haves
+-	In the menu of the game a scene displaying a shop can be opened.
+-	In the pause screen of the game a scene displaying a shop can be accessed.
+-	In the shop, the number of coins a player has earned so far is visible.
+
+Should haves
+-	Items that can be bought with coins are shown in the shop.
+-	The prices of items are shown in the shop.
+-	The upgrades for the trampoline and jetpack can be bought.
+-	If an item is bought the amount of coins of the player is decreased with the price of the product.
+- 	Items with prices greater than the number of coins the player currently has, can not be bought.
+
+Could haves
+-	Skins for the doodle can be bought with the coins.
+-	Different backgrounds can be bought with the coins.
+
+Won't haves
+-	Buying coins with real money.
