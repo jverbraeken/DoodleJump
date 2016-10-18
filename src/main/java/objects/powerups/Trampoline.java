@@ -54,8 +54,11 @@ import java.util.TimerTask;
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        if (doodle.getVerticalSpeed() > 0
-        && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight() < this.getYPos()) {
+        if (doodle == null) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
+        if (doodle.getVerticalSpeed() > 0 && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
             getLogger().info("Doodle collided with a Trampoline");
             doodle.collide(this);
         }

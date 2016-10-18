@@ -88,7 +88,11 @@ import system.IServiceLocator;
      */
     @Override
     public void perform(final PowerupOccasion occasion) {
-        if (occasion == PowerupOccasion.constant && this.owner != null) {
+        if (this.owner == null) {
+            throw new IllegalArgumentException("Owner cannot be null");
+        }
+
+        if (occasion == PowerupOccasion.constant) {
             this.owner.setVerticalSpeed(this.vSpeed);
         }
     }
@@ -98,6 +102,10 @@ import system.IServiceLocator;
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
+        if (doodle == null) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
         if (this.owner == null && this.timer == 0) {
             getLogger().info("Doodle collided with a Propeller");
             this.owner = doodle;

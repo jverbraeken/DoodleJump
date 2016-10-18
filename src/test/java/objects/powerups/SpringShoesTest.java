@@ -128,6 +128,11 @@ public class SpringShoesTest {
         verify(renderer, times(1)).drawSprite(sprite, 0, 0);
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testCollidesWithNull() {
+        springShoes.collidesWith(null);
+    }
+
     @Test
     public void testRenderWithOwner() {
         springShoes.collidesWith(doodle);

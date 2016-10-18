@@ -29,6 +29,10 @@ import system.IServiceLocator;
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
+        if (doodle == null) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
         getLogger().info("Doodle collided with a SizeDown");
         doodle.increaseSpriteScalar(SCALE_INCREASE);
         this.setXPos(this.getSprite().getWidth() * -1); // Hide the powerup so it will be deleted automatically

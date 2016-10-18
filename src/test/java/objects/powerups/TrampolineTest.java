@@ -117,7 +117,7 @@ public class TrampolineTest {
     @Test
     public void testCollidesWith2() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
-        thrown.expect(NullPointerException.class);
+        thrown.expect(IllegalArgumentException.class);
         trampoline.collidesWith(null);
     }
 
@@ -127,7 +127,6 @@ public class TrampolineTest {
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
      */
-
     @Test
     public void testAnimate() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 30, 653);

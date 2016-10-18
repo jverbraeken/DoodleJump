@@ -117,7 +117,7 @@ public class SpringTest {
     @Test
     public void testCollidesWith2() throws Exception {
         spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
-        thrown.expect(NullPointerException.class);
+        thrown.expect(IllegalArgumentException.class);
         spring.collidesWith(null);
     }
 
