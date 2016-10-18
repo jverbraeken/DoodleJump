@@ -100,7 +100,7 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-	 * {@inheritDoc}
+    * {@inheritDoc}
      */
     @Override
     public final double getBoost() {
@@ -108,7 +108,7 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void update(final double delta) {
@@ -149,7 +149,7 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final Map<PlatformProperties, Integer> getProps() {
@@ -173,7 +173,7 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final int getOffset() {

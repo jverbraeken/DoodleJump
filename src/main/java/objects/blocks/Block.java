@@ -52,7 +52,7 @@ public final class Block implements IBlock {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public Set<IGameObject> getElements() {
@@ -60,7 +60,7 @@ public final class Block implements IBlock {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IJumpable getTopJumpable() {
@@ -68,7 +68,7 @@ public final class Block implements IBlock {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void render() {
@@ -76,7 +76,7 @@ public final class Block implements IBlock {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void update(final double delta) {
@@ -84,4 +84,5 @@ public final class Block implements IBlock {
             gameObject.update(delta);
         }
     }
+
 }

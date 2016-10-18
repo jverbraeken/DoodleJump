@@ -134,7 +134,9 @@ public final class BlockFactory implements IBlockFactory {
 
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public synchronized IBlock createStartBlock() {
         final int minPlatforms = 6;
@@ -150,7 +152,7 @@ public final class BlockFactory implements IBlockFactory {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public synchronized IBlock createBlock(final IJumpable topJumpable) {

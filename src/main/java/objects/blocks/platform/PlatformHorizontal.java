@@ -11,6 +11,10 @@ import system.IServiceLocator;
      * Fifty-fifty chance.
      */
     private static final double FIFTY_FIFTY = 0.5d;
+    /**
+     * Moving left speed.
+     */
+    private static final int MOVING_SPEED = 2;
 
     /**
      * The speed of the moving platform.
@@ -28,7 +32,7 @@ import system.IServiceLocator;
         this.getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteHorizontal());
         this.getContained().getProps().put(Platform.PlatformProperties.movingVertically, 1);
 
-        this.speed = (sL.getCalc().getRandomDouble(1) < FIFTY_FIFTY) ? 2 : -2;
+        this.speed = (sL.getCalc().getRandomDouble(1) < FIFTY_FIFTY) ? MOVING_SPEED : -MOVING_SPEED;
     }
 
     /**
@@ -38,9 +42,9 @@ import system.IServiceLocator;
     public void update(final double delta) {
         int gameWidth = getServiceLocator().getConstants().getGameWidth();
         if (this.getXPos() + this.getSprite().getWidth() > gameWidth) {
-            this.speed = -2;
+            this.speed = -MOVING_SPEED;
         } else if (this.getXPos() < 0) {
-            this.speed = 2;
+            this.speed = MOVING_SPEED;
         }
 
         this.setXPos(this.getXPos() + this.speed);

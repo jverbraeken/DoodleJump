@@ -36,7 +36,7 @@ public final class Calc implements ICalc {
     @Override
     public int getRandomIntBetween(final int lower, final int upper) {
         if (upper <= lower) {
-            throw new IllegalArgumentException("The upper-bound cannot equal the lower-bound");
+            throw new IllegalArgumentException("The upper-bound cannot equal to or lower than the lower-bound");
         }
 
         return RANDOM.nextInt(upper - lower) + lower + 1;
