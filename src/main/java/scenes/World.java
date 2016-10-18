@@ -274,6 +274,7 @@ public class World implements IScene {
      * @param doodle The Doodle to check the collisions for.
      */
     private void checkCollisions(final IDoodle doodle) {
+        assert doodle != null;
         if (doodle.isAlive()) {
             for (IBlock block : blocks) {
                 Set<IGameObject> elements = block.getElements();
