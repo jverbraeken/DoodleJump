@@ -35,10 +35,11 @@ import scenes.ISceneFactory;
 import scenes.SceneFactory;
 
 /**
- * Default implementation for the ServiceLocator. Used to gain access to all services.
+ * Default implementation for the ServiceLocatorNoAudio. Used to gain access to all services.
+ * The difference between this ServiceLcoator and the standard one is the absence of Audio services.
  */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
-/* package */ final class ServiceLocator2 implements IServiceLocator {
+/* package */ final class ServiceLocatorNoAudio implements IServiceLocator {
 
     // constants.json
     private IConstants constants;
@@ -80,12 +81,12 @@ import scenes.SceneFactory;
      * The singleton serviceLocator.
      * Constructed eagerly.
      */
-    private static final ServiceLocator2 SERVICE_LOCATOR = new ServiceLocator2();
+    private static final ServiceLocatorNoAudio SERVICE_LOCATOR = new ServiceLocatorNoAudio();
 
     /**
      * Initialize the ServiceLocator class.
      */
-    /* package */ private ServiceLocator2() {
+    /* package */ private ServiceLocatorNoAudio() {
         this.init();
     }
 
