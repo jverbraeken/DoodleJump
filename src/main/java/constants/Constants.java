@@ -73,7 +73,7 @@ public final class Constants implements IConstants {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public int getGameWidth() {
@@ -81,7 +81,7 @@ public final class Constants implements IConstants {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public int getGameHeight() {
@@ -89,7 +89,7 @@ public final class Constants implements IConstants {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public double getGravityAcceleration() {
@@ -97,7 +97,7 @@ public final class Constants implements IConstants {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public double getScoreMultiplier() {
@@ -105,7 +105,7 @@ public final class Constants implements IConstants {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public boolean getLogPendingTasks() {
@@ -113,7 +113,7 @@ public final class Constants implements IConstants {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public String getLogFile() {
@@ -121,7 +121,7 @@ public final class Constants implements IConstants {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public String getSaveFilePath() {

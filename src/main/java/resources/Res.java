@@ -51,7 +51,7 @@ public final class Res implements IRes {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void setSkin(final Game.Modes mode) {

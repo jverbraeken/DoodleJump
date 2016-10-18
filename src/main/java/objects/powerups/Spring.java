@@ -11,7 +11,6 @@ import system.IServiceLocator;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Handler;
 
 /**
  * This class describes the behaviour of the spring powerup.
