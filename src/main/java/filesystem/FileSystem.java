@@ -86,7 +86,7 @@ public final class FileSystem implements IFileSystem {
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         FileSystem.serviceLocator = sL;
-        sL.provide(new FileSystem());
+        FileSystem.serviceLocator.provide(new FileSystem());
     }
 
     /**
@@ -231,12 +231,8 @@ public final class FileSystem implements IFileSystem {
         File file = new File(filename);
         boolean success = file.delete();
 
-        if (!success) {
-            // TODO If logger is a field of FileSystem, FileSystem references LoggerFactory which is created AFTER
-            // FileSystem. Consider a two-step initialisation of dependent objects.
-            ILogger logger = FileSystem.serviceLocator.getLoggerFactory().createLogger(this.getClass());
-            logger.error("The file \"" + filename + "\" could not be deleted!");
-        }
+        ILogger logger = FileSystem.serviceLocator.getLoggerFactory().createLogger(this.getClass());
+        logger.error("The file \"" + filename + "\" has been deleted successfully=" + success);
     }
 
     /**
@@ -269,8 +265,6 @@ public final class FileSystem implements IFileSystem {
     public void log(final String content) {
         try {
             logWriter.write(content + "\n");
-            // Definitely not efficient, but because an application normally crashes soon after a helpful log message
-            // is logged we want to take this performance penalty anyway.
             logWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
