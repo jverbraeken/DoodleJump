@@ -45,7 +45,7 @@ public final class Constants implements IConstants {
     /**
      * The file to which the logs will be written to.
      */
-    private static AtomicReference<String> logFile = new AtomicReference<>("async.log");
+    private final AtomicReference<String> logFile = new AtomicReference<>("async.log");
 
     /**
      * Prevent public instantiation of Constants.

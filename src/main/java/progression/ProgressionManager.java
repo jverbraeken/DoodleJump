@@ -15,7 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.concurrent.Callable;
 
 /**
  * Standard implementation of the ProgressionManager. Used to contain all "global" variables that describe
@@ -61,6 +60,15 @@ public final class ProgressionManager implements IProgressionManager {
      * Incremented by 1 after every mission; used to determine which mission should be created.
      */
     private int level = 0;
+    /**
+     * Contains the data used to create new missions.
+     */
+    private final MissionData[] missionsData = new MissionData[] {
+            new MissionData(MissionType.jumpOnSpring, 1, 10),
+            new MissionData(MissionType.jumpOnSpring, 2, 20),
+            new MissionData(MissionType.jumpOnSpring, 3, 30),
+            new MissionData(MissionType.jumpOnSpring, 4, 40)
+    };
 
     /**
      * Prevents construction from outside the package.
@@ -129,7 +137,7 @@ public final class ProgressionManager implements IProgressionManager {
      * {@inheritDoc}
      */
     @Override
-    public void addObserver(final ProgressionObservers type, final ISpringUsedObserver observer) {
+    public void addObserver(final ProgressionObservers type, final IProgressionObserver observer) {
         type.addObserver(observer);
     }
 
@@ -177,7 +185,8 @@ public final class ProgressionManager implements IProgressionManager {
     private void loadData() {
         Object jsonObject = null;
         try {
-            jsonObject = serviceLocator.getFileSystem().parseJson(serviceLocator.getConstants().getSaveFilePath(), new TypeToken<SaveFile>(){}.getType());
+            jsonObject = serviceLocator.getFileSystem().parseJson(serviceLocator.getConstants().getSaveFilePath(), new TypeToken<SaveFile>() {
+            }.getType());
         } catch (FileNotFoundException e) {
             logger.warning("Save file was not found -> default progression used.");
         }
@@ -316,37 +325,49 @@ public final class ProgressionManager implements IProgressionManager {
      * Create a new missio based on the {@link #level} of the doodle.
      */
     private void createNewMission() {
-        switch (level++) {
-            case 0:
-                logger.info("New mission was created: level = " + level + ", mission = jumpOnSpring, amount = 1");
-                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(1, () -> {
-                    coins += 10;
-                    return null;
-                }));
-                break;
-            case 1:
-                logger.info("New mission was created: level = " + level + ", mission = jumpOnSpring, amount = 2");
-                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(2, () -> {
-                    coins += 20;
-                    return null;
-                }));
-                break;
-            case 2:
-                logger.info("New mission was created: level = " + level + ", mission = jumpOnSpring, amount = 3");
-                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(3, () -> {
-                    coins += 30;
-                    return null;
-                }));
-                break;
-            case 3:
-                logger.info("New mission was created: level = " + level + ", mission = jumpOnSpring, amount = 4");
-                missions.add(serviceLocator.getMissionFactory().createMissionJumpOnSpring(4, () -> {
-                    coins += 40;
-                    return null;
-                }));
-                break;
-            default:
-                logger.info("No new mission was created because the mission list was exhausted: level = " + level);
+        assert missionsData.length < 3;
+        if (level < missionsData.length) {
+            logger.info("New mission was created: level = " +
+                    level +
+                    ", mission = " +
+                    missionsData[level].type.toString() +
+                    ", amount = " +
+                    missionsData[level].amount +
+                    ", reward = " +
+                    missionsData[level].reward);
+            missions.add(serviceLocator.getMissionFactory().createMission(
+                    missionsData[level].type,
+                    missionsData[level].amount,
+                    () -> {
+                        coins += missionsData[level].reward;
+                        return null;
+                    }
+            ));
+        }
+        else {
+            logger.info("Maximum mission limit reached at level" + level + ". Last mission created again...");
+            missions.add(serviceLocator.getMissionFactory().createMission(
+                    missionsData[missionsData.length - 1].type,
+                    missionsData[missionsData.length - 1].amount,
+                    () -> {
+                        coins += missionsData[missionsData.length - 1].reward;
+                        return null;
+                    }
+            ));
+        }
+
+        level++;
+    }
+
+    private final class MissionData {
+        private final MissionType type;
+        private final int amount;
+        private final int reward;
+
+        private MissionData(final MissionType type, final int amount, final int reward) {
+            this.type = type;
+            this.amount = amount;
+            this.reward = reward;
         }
     }
 }

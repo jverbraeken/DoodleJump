@@ -27,16 +27,15 @@ public final class MissionFactory implements IMissionFactory {
      */
     private MissionFactory() { }
 
-    public Mission createMissionJumpOnSpring(final int times, Callable<Void> action) {
+    public Mission createMission(final MissionType type, final int times, Callable<Void> action) {
         final IProgressionObserver observer = new DefaultProgressionObserver(times, action);
 
-        final MissionType missionType = MissionType.jumpOnSpring;
-        final String message = missionType.getMessage(times);
-        Mission mission = new Mission(serviceLocator, missionType, times, message, observer);
+        final String message = type.getMessage(times);
+        Mission mission = new Mission(serviceLocator, type, times, message, observer);
 
         observer.setMission(mission);
 
-        serviceLocator.getProgressionManager().addObserver(ProgressionObservers.spring, (ISpringUsedObserver) observer);
+        serviceLocator.getProgressionManager().addObserver(ProgressionObservers.spring, observer);
 
         return mission;
     }

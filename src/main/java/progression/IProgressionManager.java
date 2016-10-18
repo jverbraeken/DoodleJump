@@ -40,7 +40,7 @@ public interface IProgressionManager {
      *
      * @param observer The observer that should be added
      */
-    void addObserver(ProgressionObservers type, ISpringUsedObserver observer);
+    void addObserver(ProgressionObservers type, IProgressionObserver observer);
 
     /**
      * Alert the observers of a certain type that an action happened.
