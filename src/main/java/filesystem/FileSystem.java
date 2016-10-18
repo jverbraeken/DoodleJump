@@ -75,7 +75,7 @@ public final class FileSystem implements IFileSystem {
             e.printStackTrace();
         }
 
-        logWriter = new BufferedWriter(fw);
+        this.logWriter = new BufferedWriter(fw);
     }
 
     /**
@@ -94,7 +94,7 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public List<String> readResourceFile(final String filename) throws FileNotFoundException {
-        File file = getResourceFile(filename);
+        File file = this.getResourceFile(filename);
         List<String> result = new ArrayList<>();
 
         String line;
@@ -117,7 +117,7 @@ public final class FileSystem implements IFileSystem {
     public List<String> readProjectFile(final String filename) throws FileNotFoundException {
         File file;
         try {
-            file = getProjectFile(filename);
+            file = this.getProjectFile(filename);
         } catch (IOException e) {
             throw new FileNotFoundException(filename + " was not found by the FileSystem");
         }
@@ -142,7 +142,7 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public InputStream readBinaryFile(final String filename) throws FileNotFoundException {
-        File file = getResourceFile(filename);
+        File file = this.getResourceFile(filename);
         InputStream inputStream = new FileInputStream(file);
         return new BufferedInputStream(inputStream);
     }
@@ -152,7 +152,7 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public BufferedImage readImage(final String filename) throws FileNotFoundException {
-        File file = getResourceFile(filename);
+        File file = this.getResourceFile(filename);
 
         try {
             return ImageIO.read(file);
@@ -167,7 +167,7 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public Clip readSound(final String filename) throws FileNotFoundException {
-        File file = getResourceFile(filename);
+        File file = this.getResourceFile(filename);
 
         try {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(file);
@@ -186,7 +186,7 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public void writeResourceFile(final String filename, final String content) throws FileNotFoundException {
-        File file = getResourceFile(filename);
+        File file = this.getResourceFile(filename);
         try (final OutputStream fs = new FileOutputStream(file);
              final Writer ow = new OutputStreamWriter(fs, StandardCharsets.UTF_8);
              final Writer bufferedFileWriter = new BufferedWriter(ow)) {
@@ -206,7 +206,7 @@ public final class FileSystem implements IFileSystem {
     public void writeProjectFile(final String filename, final String content) throws FileNotFoundException {
         File file;
         try {
-            file = getProjectFile(filename);
+            file = this.getProjectFile(filename);
         } catch (IOException e) {
             throw new FileNotFoundException(filename + " was not found by the FileSystem");
         }
@@ -242,7 +242,7 @@ public final class FileSystem implements IFileSystem {
     public void clearFile(final String filename) {
         File file = null;
         try {
-            file = getProjectFile(filename);
+            file = this.getProjectFile(filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -264,8 +264,8 @@ public final class FileSystem implements IFileSystem {
     @Override
     public void log(final String content) {
         try {
-            logWriter.write(content + "\n");
-            logWriter.flush();
+            this.logWriter.write(content + "\n");
+            this.logWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -276,7 +276,7 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public OutputStream writeBinaryFile(final String filename) throws FileNotFoundException {
-        File file = getResourceFile(filename);
+        File file = this.getResourceFile(filename);
         OutputStream outputStream = new FileOutputStream(file);
         return new BufferedOutputStream(outputStream);
     }
