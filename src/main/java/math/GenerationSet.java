@@ -46,10 +46,11 @@ public class GenerationSet implements IWeightsSet {
     /**
      * Sort the weights by the key value double.
      *
-     * @param weights a set with the weights that have to be used.
-     * @param elementType the list with strings of the element types.
+     * @param weights A set with the weights that have to be used.
+     * @param elementType The list with strings of the element types.
+     * @return A list of MyEntry's.
      */
-    private List<MyEntry<Double, String>> sortWeightsMap(List<Double> weights, List<String> elementType) {
+    private List<MyEntry<Double, String>> sortWeightsMap(final List<Double> weights, final List<String> elementType) {
         double total = 0;
         List<MyEntry<Double, String>> sortedWeights = new ArrayList<>();
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.ENGLISH);
@@ -69,7 +70,7 @@ public class GenerationSet implements IWeightsSet {
      * {@inheritDoc}
      */
     @Override
-    final public IGameObject getRandomElement() {
+    public final IGameObject getRandomElement() {
         double randDouble = serviceLocator.getCalc().getRandomDouble(1);
 
         for (MyEntry<Double, String> entry : weights) {
@@ -81,7 +82,8 @@ public class GenerationSet implements IWeightsSet {
     }
 
     /**
-     * Returns an instantiation of an IGameObject
+     * Returns an instantiation of an IGameObject.
+     *
      * @param objectName the name of the object.
      * @return the wanted object as an IGameObject.
      */
@@ -122,6 +124,7 @@ public class GenerationSet implements IWeightsSet {
      * @param <V> the value.
      */
     private final class MyEntry<K, V> implements Map.Entry<K, V> {
+
         /**
          * The key of the Entry.
          */
@@ -133,6 +136,9 @@ public class GenerationSet implements IWeightsSet {
 
         /**
          * Initialize the MyEntry class.
+         *
+         * @param key The key to use.
+         * @param value The value to use.
          */
         private MyEntry(final K key, final V value) {
             this.key = key;
@@ -140,7 +146,7 @@ public class GenerationSet implements IWeightsSet {
         }
 
         /**
-         * Get the key of the Entry.
+         * {@inheritDoc}
          */
         @Override
         public K getKey() {
@@ -148,7 +154,7 @@ public class GenerationSet implements IWeightsSet {
         }
 
         /**
-         * Get the value of the Entry.
+         * {@inheritDoc}
          */
         @Override
         public V getValue() {
@@ -156,7 +162,7 @@ public class GenerationSet implements IWeightsSet {
         }
 
         /**
-         * Set the value of the Entry.
+         * {@inheritDoc}
          */
         @Override
         public V setValue(final V value) {

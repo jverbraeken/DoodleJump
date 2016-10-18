@@ -59,7 +59,7 @@ public class Enemy extends AEnemy {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final double getBoost() {
@@ -67,7 +67,7 @@ public class Enemy extends AEnemy {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void render() {
@@ -76,7 +76,7 @@ public class Enemy extends AEnemy {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void update(final double delta) {
@@ -96,14 +96,13 @@ public class Enemy extends AEnemy {
                 }
             }
             this.setXPos(xPos);
-        }
-        else {
+        } else {
             applyGravity();
         }
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void collidesWith(final IDoodle doodle) {
@@ -120,7 +119,7 @@ public class Enemy extends AEnemy {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final int getOffSet() {
@@ -128,7 +127,7 @@ public class Enemy extends AEnemy {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final double getVerticalSpeed() {

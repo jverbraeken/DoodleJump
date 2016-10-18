@@ -1,0 +1,23 @@
+Shooting requirements
+
+Must haves
+-	When a certain key is pressed, a bullet object will be created at the top of the doodle.
+-	The bullet must travel upwards after the bulled is created.
+
+Should haves
+-	When a bullet collides with an enemy, the bullet is removed from the block it is in.
+-	If a bullet collides with an enemy, the player should be awarded points that will be added to the score.
+-	The bullet is removed after it has traveled a certain distance.
+-	Bullets can be shot in Darkness mode.
+
+Could haves
+-	A bullet can fall after being launched.
+-	If a bullet collides with a doodle, the doodle dies.
+-	The bullet is removed when it is below the screen.
+-	An enemy can take multiple bullets before the enemy dies.
+
+Won't haves
+-	The power of the bullet can not be changed.
+-	A bullet colliding with a doodle does not result in a powerdown for the doodle.
+-	The speed of a bullet can not be changed by a power up object.
+-	In multiplayer mode bullets can not be created when a key is pressed.

@@ -446,7 +446,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Update the hitbox for the Doodle
+     * Update the hitbox for the Doodle.
      */
     private void updateHitBox() {
         ISprite sprite = this.getSprite();
