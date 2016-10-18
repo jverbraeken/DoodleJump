@@ -59,14 +59,14 @@ public final class InputManager implements IInputManager {
     /* MOUSE EVENTS */
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void mouseClicked(final MouseEvent e) {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void mousePressed(final MouseEvent e) {
@@ -80,7 +80,7 @@ public final class InputManager implements IInputManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void mouseReleased(final MouseEvent e) {
@@ -89,26 +89,26 @@ public final class InputManager implements IInputManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void mouseEntered(final MouseEvent e) { }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void mouseExited(final MouseEvent e) { }
 
     /* KEY EVENTS */
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void keyTyped(final KeyEvent e) { }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void keyPressed(final KeyEvent e) {
@@ -119,7 +119,7 @@ public final class InputManager implements IInputManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void keyReleased(final KeyEvent e) {
@@ -130,7 +130,7 @@ public final class InputManager implements IInputManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void addObserver(final IMouseInputObserver mouseInputObserver) {
@@ -138,7 +138,7 @@ public final class InputManager implements IInputManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void addObserver(final IKeyInputObserver keyInputObserver) {
@@ -146,7 +146,7 @@ public final class InputManager implements IInputManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void removeObserver(final IMouseInputObserver mouseInputObserver) {
@@ -154,7 +154,7 @@ public final class InputManager implements IInputManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void removeObserver(final IKeyInputObserver keyInputObserver) {

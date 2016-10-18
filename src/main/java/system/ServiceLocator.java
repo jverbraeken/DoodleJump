@@ -102,7 +102,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IAudioManager aM) {
@@ -111,7 +111,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IEnemyFactory eF) {
@@ -120,7 +120,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IFileSystem fS) {
@@ -129,7 +129,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IInputManager iM) {
@@ -138,7 +138,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final ICalc c) {
@@ -147,7 +147,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IBlockFactory bF) {
@@ -156,7 +156,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IDoodleFactory dF) {
@@ -165,7 +165,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IPowerupFactory pF) {
@@ -174,7 +174,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IRenderer r) {
@@ -183,7 +183,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final ISpriteFactory sF) {
@@ -192,7 +192,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final ILoggerFactory lF) {
@@ -216,7 +216,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IPlatformFactory pF) {
@@ -225,7 +225,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IRes r) {
@@ -234,7 +234,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IButtonFactory bF) {
@@ -243,7 +243,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void provide(final IConstants c) {
@@ -252,7 +252,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IAudioManager getAudioManager() {
@@ -261,7 +261,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IEnemyFactory getEnemyFactory() {
@@ -270,7 +270,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IFileSystem getFileSystem() {
@@ -279,7 +279,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IInputManager getInputManager() {
@@ -288,7 +288,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public ICalc getCalc() {
@@ -297,7 +297,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IBlockFactory getBlockFactory() {
@@ -306,7 +306,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IDoodleFactory getDoodleFactory() {
@@ -315,7 +315,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IPowerupFactory getPowerupFactory() {
@@ -324,7 +324,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IRenderer getRenderer() {
@@ -333,7 +333,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public ISpriteFactory getSpriteFactory() {
@@ -342,7 +342,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public ISceneFactory getSceneFactory() {
@@ -351,7 +351,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IPlatformFactory getPlatformFactory() {
@@ -360,7 +360,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IRes getRes() {
@@ -369,7 +369,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IButtonFactory getButtonFactory() {
@@ -378,7 +378,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IConstants getConstants() {
@@ -387,7 +387,7 @@ import scenes.SceneFactory;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public ILoggerFactory getLoggerFactory() {

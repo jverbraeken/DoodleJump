@@ -98,9 +98,9 @@ public interface ISpriteFactory extends IFactory {
     // Platforms
     ISprite getPlatformSprite1();
 
-    ISprite getPlatformSpriteHori();
+    ISprite getPlatformSpriteHorizontal();
 
-    ISprite getPlatformSpriteVert();
+    ISprite getPlatformSpriteVertical();
 
     ISprite getPlatformSprite4();
 
