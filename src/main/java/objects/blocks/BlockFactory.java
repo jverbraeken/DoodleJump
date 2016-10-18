@@ -324,7 +324,7 @@ public final class BlockFactory implements IBlockFactory {
                     xPos = xPos - powerupWidth;
                 }
                 powerup.setXPos(xPos);
-                powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
+                powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 1.75);
                 elements.add(powerup);
             }
         }
