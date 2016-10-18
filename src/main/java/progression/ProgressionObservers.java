@@ -42,6 +42,10 @@ public enum ProgressionObservers {
         observers.add(observer);
     }
 
+    /* package */ void removeObserver(IProgressionObserver observer) {
+        observers.remove(observer);
+    }
+
     /* package */ void alertObservers() {
         for (IProgressionObserver observer : observers) {
             observer.alert();

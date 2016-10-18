@@ -53,6 +53,11 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private final Queue<Mission> finishedMissionsQueue = new LinkedList<>();
     /**
+     * Used to prevent an {@link java.util.ConcurrentModificationException ConcurrentModificationException}
+     * when deleting a mission while iterating over the missions.
+     */
+    private final Queue<FinishedProgressionObserverTuple> finishedProgressionObserversQueue = new LinkedList<>();
+    /**
      * The amount of coins the player has.
      */
     private int coins;
@@ -64,10 +69,10 @@ public final class ProgressionManager implements IProgressionManager {
      * Contains the data used to create new missions.
      */
     private final MissionData[] missionsData = new MissionData[] {
-            new MissionData(MissionType.jumpOnSpring, 1, 10),
-            new MissionData(MissionType.jumpOnSpring, 2, 20),
-            new MissionData(MissionType.jumpOnSpring, 3, 30),
-            new MissionData(MissionType.jumpOnSpring, 4, 40)
+            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 1, 10),
+            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 2, 20),
+            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 3, 30),
+            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 4, 40)
     };
 
     /**
@@ -137,19 +142,14 @@ public final class ProgressionManager implements IProgressionManager {
      * {@inheritDoc}
      */
     @Override
-    public void addObserver(final ProgressionObservers type, final IProgressionObserver observer) {
-        type.addObserver(observer);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void alertObservers(final ProgressionObservers type) {
         type.alertObservers();
         while (finishedMissionsQueue.size() > 0) {
             missions.remove(finishedMissionsQueue.remove());
             createNewMission();
+        }
+        while (finishedProgressionObserversQueue.size() > 0) {
+            finishedProgressionObserversQueue.peek().type.removeObserver(finishedProgressionObserversQueue.remove().observer);
         }
     }
 
@@ -162,6 +162,9 @@ public final class ProgressionManager implements IProgressionManager {
         while (finishedMissionsQueue.size() > 0) {
             missions.remove(finishedMissionsQueue.remove());
             createNewMission();
+        }
+        while (finishedProgressionObserversQueue.size() > 0) {
+            finishedProgressionObserversQueue.peek().type.removeObserver(finishedProgressionObserversQueue.remove().observer);
         }
     }
 
@@ -177,6 +180,14 @@ public final class ProgressionManager implements IProgressionManager {
         }
         logger.info("Mission succeeded!");
         finishedMissionsQueue.add(mission);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeObserver(final ProgressionObservers type, final IProgressionObserver observer) {
+        this.finishedProgressionObserversQueue.add(new FinishedProgressionObserverTuple(type, observer));
     }
 
     /**
@@ -327,19 +338,21 @@ public final class ProgressionManager implements IProgressionManager {
     private void createNewMission() {
         assert missionsData.length < 3;
         if (level < missionsData.length) {
+            final int levelCopy = level;
             logger.info("New mission was created: level = " +
-                    level +
+                    levelCopy +
                     ", mission = " +
-                    missionsData[level].type.toString() +
+                    missionsData[levelCopy].type.toString() +
                     ", amount = " +
-                    missionsData[level].amount +
+                    missionsData[levelCopy].amount +
                     ", reward = " +
-                    missionsData[level].reward);
+                    missionsData[levelCopy].reward);
             missions.add(serviceLocator.getMissionFactory().createMission(
-                    missionsData[level].type,
-                    missionsData[level].amount,
+                    missionsData[levelCopy].type,
+                    missionsData[levelCopy].observerType,
+                    missionsData[levelCopy].amount,
                     () -> {
-                        coins += missionsData[level].reward;
+                        coins += missionsData[levelCopy].reward;
                         return null;
                     }
             ));
@@ -348,6 +361,7 @@ public final class ProgressionManager implements IProgressionManager {
             logger.info("Maximum mission limit reached at level" + level + ". Last mission created again...");
             missions.add(serviceLocator.getMissionFactory().createMission(
                     missionsData[missionsData.length - 1].type,
+                    missionsData[missionsData.length - 1].observerType,
                     missionsData[missionsData.length - 1].amount,
                     () -> {
                         coins += missionsData[missionsData.length - 1].reward;
@@ -361,13 +375,25 @@ public final class ProgressionManager implements IProgressionManager {
 
     private final class MissionData {
         private final MissionType type;
+        private final ProgressionObservers observerType;
         private final int amount;
         private final int reward;
 
-        private MissionData(final MissionType type, final int amount, final int reward) {
+        private MissionData(final MissionType type, final ProgressionObservers observerType, final int amount, final int reward) {
             this.type = type;
+            this.observerType = observerType;
             this.amount = amount;
             this.reward = reward;
+        }
+    }
+
+    private final class FinishedProgressionObserverTuple {
+        private final ProgressionObservers type;
+        private final IProgressionObserver observer;
+
+        private FinishedProgressionObserverTuple(final ProgressionObservers type, final IProgressionObserver observer) {
+            this.type = type;
+            this.observer = observer;
         }
     }
 }

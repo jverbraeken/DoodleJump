@@ -36,13 +36,6 @@ public interface IProgressionManager {
     List<Mission> getMissions();
 
     /**
-     * Add an observer.
-     *
-     * @param observer The observer that should be added
-     */
-    void addObserver(ProgressionObservers type, IProgressionObserver observer);
-
-    /**
      * Alert the observers of a certain type that an action happened.
      *
      * @param type Indicates which kind of observer should be alerted.
@@ -63,4 +56,11 @@ public interface IProgressionManager {
      * @param mission The mission that's finished
      */
     void alertMissionFinished(Mission mission);
+
+    /**
+     * Removes the observer at the end of the iteration.
+     * @param type The type of observer that should be removed
+     * @param observer The actual observer that should be removed
+     */
+    void removeObserver(ProgressionObservers type, IProgressionObserver observer);
 }

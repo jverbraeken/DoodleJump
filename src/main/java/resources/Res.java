@@ -94,7 +94,7 @@ public final class Res implements IRes {
 
         // Covers
         sprites.put(Sprites.background, SPRITE_PATH + "bck@2x.png");
-        sprites.put(Sprites.pauseCover, SPRITE_PATH + "pause-cover@2x.png");
+        sprites.put(Sprites.pauseCover, SPRITE_PATH + "pause-cover-3@2x.png");
         sprites.put(Sprites.startCover, SPRITE_PATH + "Default@2x.png");
 
         // Doodle

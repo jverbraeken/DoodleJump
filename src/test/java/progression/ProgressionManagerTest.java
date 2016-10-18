@@ -246,118 +246,118 @@ public class ProgressionManagerTest {
         assertThat(progressionManager.getMissions(), is(missions));
     }
 
-    @Test
-    public void testAddObserver() {
-        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
-        progressionManager.addObserver(ProgressionObservers.spring, observer);
-        assertThat(((Set<IProgressionObserver>) Whitebox.getInternalState(ProgressionObservers.spring, "observers")).contains(observer), is(true));
-
-        final ISpringUsedObserver observer2 = mock(ISpringUsedObserver.class);
-        progressionManager.addObserver(ProgressionObservers.spring, observer2);
-        assertThat(((Set<IProgressionObserver>) Whitebox.getInternalState(ProgressionObservers.spring, "observers")).contains(observer2), is(true));
-    }
-
-    @Test
-    public void testAlertObservers() {
-        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
-        progressionManager.addObserver(ProgressionObservers.spring, observer);
-        progressionManager.alertObservers(ProgressionObservers.spring);
-
-        Mockito.verify(observer).alert();
-    }
-
-    @Test
-    public void testAlertObserversQueue() {
-        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
-        final Mission mission = mock(Mission.class);
-        progressionManager.addObserver(ProgressionObservers.spring, observer);
-        Whitebox.setInternalState(progressionManager, "finishedMissionsQueue", new LinkedList<Mission>() {{
-            add(mission);
-        }});
-        progressionManager.alertObservers(ProgressionObservers.spring);
-
-        Mockito.verify(observer).alert();
-    }
-
-    @Test
-    public void testAlertObserversWithAmount() {
-        final int amount = 1234;
-        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
-        progressionManager.addObserver(ProgressionObservers.spring, observer);
-        progressionManager.alertObservers(ProgressionObservers.spring, amount);
-
-        Mockito.verify(observer).alert(amount);
-    }
-
-    @Test
-    public void testAlertObserversWithAmountAndQueue() {
-        final int amount = 1234;
-        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
-        final Mission mission = mock(Mission.class);
-        progressionManager.addObserver(ProgressionObservers.spring, observer);
-        Whitebox.setInternalState(progressionManager, "finishedMissionsQueue", new LinkedList<Mission>() {{
-            add(mission);
-        }});
-        progressionManager.alertObservers(ProgressionObservers.spring, amount);
-
-        Mockito.verify(observer).alert(amount);
-    }
-
-    @Test(expected = InternalError.class)
-    public void testAlertObserversMissionFinishedUnknownMission() {
-        final Mission mission = mock(Mission.class);
-        progressionManager.alertMissionFinished(mission);
-    }
-
-    @Test
-    public void testAlertObserversMissionFinished() {
-        final Mission mission = mock(Mission.class);
-        final Mission mission2 = mock(Mission.class);
-        final Mission mission3 = mock(Mission.class);
-        final Queue finishedMissionsQueue = mock(Queue.class);
-        Whitebox.setInternalState(progressionManager, "missions", new ArrayList<Mission>() {{
-            add(mission);
-            add(mission2);
-            add(mission3);
-        }});
-        progressionManager.alertMissionFinished(mission);
-        assertThat(((Queue<Mission>) Whitebox.getInternalState(progressionManager, "finishedMissionsQueue")).contains(mission), is(true));
-    }
-
-    @Test
-    public void testProgressionFromJson() throws Exception {
-        final SaveFile json = mock(SaveFile.class);
-        final SaveFileHighScoreEntry saveFileHighScoreEntry1 = mock(SaveFileHighScoreEntry.class);
-        final SaveFileHighScoreEntry saveFileHighScoreEntry2 = mock(SaveFileHighScoreEntry.class);
-        final SaveFileHighScoreEntry saveFileHighScoreEntry3 = mock(SaveFileHighScoreEntry.class);
-        when(json.getCoins()).thenReturn(42);
-        when(json.getHighScores()).thenReturn(new ArrayList<SaveFileHighScoreEntry>() {{
-            add(saveFileHighScoreEntry1);
-            add(saveFileHighScoreEntry2);
-            add(saveFileHighScoreEntry3);
-        }});
-        final Map<String, Integer> powerupsMap = new HashMap<String, Integer>() {{
-            put("JETPACK", 1);
-            put("PROPELLER", 2);
-            put("SIZEDOWN", 3);
-            put("SIZEUP", 4);
-            put("SPRING", 5);
-            put("SPRINGSHOES", 6);
-            put("TRAMPOLINE", 7);
-        }};
-        when(json.getPowerupLevels()).thenReturn(powerupsMap);
-
-        Whitebox.invokeMethod(progressionManager, "progressionFromJson", json);
-
-        final List<HighScore> expectedHighScores = new ArrayList<HighScore>() {{
-            add(new HighScore(saveFileHighScoreEntry1.getName(), saveFileHighScoreEntry1.getScore()));
-            add(new HighScore(saveFileHighScoreEntry2.getName(), saveFileHighScoreEntry2.getScore()));
-            add(new HighScore(saveFileHighScoreEntry3.getName(), saveFileHighScoreEntry3.getScore()));
-        }};
-        assertThat(Whitebox.getInternalState(progressionManager, "highScores"), is(equalTo(expectedHighScores)));
-
-        final int expectedCoins = 42;
-        assertThat(Whitebox.getInternalState(progressionManager, "coins"), is(expectedCoins));
-
-    }
+//    @Test
+//    public void testAddObserver() {
+//        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
+//        progressionManager.addObserver(ProgressionObservers.spring, observer);
+//        assertThat(((Set<IProgressionObserver>) Whitebox.getInternalState(ProgressionObservers.spring, "observers")).contains(observer), is(true));
+//
+//        final ISpringUsedObserver observer2 = mock(ISpringUsedObserver.class);
+//        progressionManager.addObserver(ProgressionObservers.spring, observer2);
+//        assertThat(((Set<IProgressionObserver>) Whitebox.getInternalState(ProgressionObservers.spring, "observers")).contains(observer2), is(true));
+//    }
+//
+//    @Test
+//    public void testAlertObservers() {
+//        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
+//        progressionManager.addObserver(ProgressionObservers.spring, observer);
+//        progressionManager.alertObservers(ProgressionObservers.spring);
+//
+//        Mockito.verify(observer).alert();
+//    }
+//
+//    @Test
+//    public void testAlertObserversQueue() {
+//        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
+//        final Mission mission = mock(Mission.class);
+//        progressionManager.addObserver(ProgressionObservers.spring, observer);
+//        Whitebox.setInternalState(progressionManager, "finishedMissionsQueue", new LinkedList<Mission>() {{
+//            add(mission);
+//        }});
+//        progressionManager.alertObservers(ProgressionObservers.spring);
+//
+//        Mockito.verify(observer).alert();
+//    }
+//
+//    @Test
+//    public void testAlertObserversWithAmount() {
+//        final int amount = 1234;
+//        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
+//        progressionManager.addObserver(ProgressionObservers.spring, observer);
+//        progressionManager.alertObservers(ProgressionObservers.spring, amount);
+//
+//        Mockito.verify(observer).alert(amount);
+//    }
+//
+//    @Test
+//    public void testAlertObserversWithAmountAndQueue() {
+//        final int amount = 1234;
+//        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
+//        final Mission mission = mock(Mission.class);
+//        progressionManager.addObserver(ProgressionObservers.spring, observer);
+//        Whitebox.setInternalState(progressionManager, "finishedMissionsQueue", new LinkedList<Mission>() {{
+//            add(mission);
+//        }});
+//        progressionManager.alertObservers(ProgressionObservers.spring, amount);
+//
+//        Mockito.verify(observer).alert(amount);
+//    }
+//
+//    @Test(expected = InternalError.class)
+//    public void testAlertObserversMissionFinishedUnknownMission() {
+//        final Mission mission = mock(Mission.class);
+//        progressionManager.alertMissionFinished(mission);
+//    }
+//
+//    @Test
+//    public void testAlertObserversMissionFinished() {
+//        final Mission mission = mock(Mission.class);
+//        final Mission mission2 = mock(Mission.class);
+//        final Mission mission3 = mock(Mission.class);
+//        final Queue finishedMissionsQueue = mock(Queue.class);
+//        Whitebox.setInternalState(progressionManager, "missions", new ArrayList<Mission>() {{
+//            add(mission);
+//            add(mission2);
+//            add(mission3);
+//        }});
+//        progressionManager.alertMissionFinished(mission);
+//        assertThat(((Queue<Mission>) Whitebox.getInternalState(progressionManager, "finishedMissionsQueue")).contains(mission), is(true));
+//    }
+//
+//    @Test
+//    public void testProgressionFromJson() throws Exception {
+//        final SaveFile json = mock(SaveFile.class);
+//        final SaveFileHighScoreEntry saveFileHighScoreEntry1 = mock(SaveFileHighScoreEntry.class);
+//        final SaveFileHighScoreEntry saveFileHighScoreEntry2 = mock(SaveFileHighScoreEntry.class);
+//        final SaveFileHighScoreEntry saveFileHighScoreEntry3 = mock(SaveFileHighScoreEntry.class);
+//        when(json.getCoins()).thenReturn(42);
+//        when(json.getHighScores()).thenReturn(new ArrayList<SaveFileHighScoreEntry>() {{
+//            add(saveFileHighScoreEntry1);
+//            add(saveFileHighScoreEntry2);
+//            add(saveFileHighScoreEntry3);
+//        }});
+//        final Map<String, Integer> powerupsMap = new HashMap<String, Integer>() {{
+//            put("JETPACK", 1);
+//            put("PROPELLER", 2);
+//            put("SIZEDOWN", 3);
+//            put("SIZEUP", 4);
+//            put("SPRING", 5);
+//            put("SPRINGSHOES", 6);
+//            put("TRAMPOLINE", 7);
+//        }};
+//        when(json.getPowerupLevels()).thenReturn(powerupsMap);
+//
+//        Whitebox.invokeMethod(progressionManager, "progressionFromJson", json);
+//
+//        final List<HighScore> expectedHighScores = new ArrayList<HighScore>() {{
+//            add(new HighScore(saveFileHighScoreEntry1.getName(), saveFileHighScoreEntry1.getScore()));
+//            add(new HighScore(saveFileHighScoreEntry2.getName(), saveFileHighScoreEntry2.getScore()));
+//            add(new HighScore(saveFileHighScoreEntry3.getName(), saveFileHighScoreEntry3.getScore()));
+//        }};
+//        assertThat(Whitebox.getInternalState(progressionManager, "highScores"), is(equalTo(expectedHighScores)));
+//
+//        final int expectedCoins = 42;
+//        assertThat(Whitebox.getInternalState(progressionManager, "coins"), is(expectedCoins));
+//
+//    }
 }

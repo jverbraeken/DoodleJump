@@ -11,5 +11,5 @@ public interface IMissionFactory {
      * @param action The callable that has to be called when the mission is finished successfully
      * @return The mission created
      */
-    Mission createMission(final MissionType type, final int times, final Callable<Void> action);
+    Mission createMission(final MissionType type, final ProgressionObservers progressionObserver, final int times, final Callable<Void> action);
 }
