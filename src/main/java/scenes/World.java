@@ -2,13 +2,11 @@ package scenes;
 
 import buttons.IButton;
 import logging.ILogger;
-import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
-import objects.enemies.IEnemy;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;

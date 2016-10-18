@@ -2,7 +2,6 @@ package objects.blocks.platform;
 
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.doodles.IDoodle;
 
 import java.util.Map;
 
