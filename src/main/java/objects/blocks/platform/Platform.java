@@ -136,8 +136,11 @@ public class Platform extends AGameObject implements IPlatform {
      */
     @Override
     public final void collidesWith(final IDoodle doodle) {
-        if (doodle.getVerticalSpeed() > 0
-        && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight() < this.getYPos()) {
+        if (doodle == null) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
+        if (doodle.getVerticalSpeed() > 0 && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
             this.playSound();
             doodle.collide(this);
         }

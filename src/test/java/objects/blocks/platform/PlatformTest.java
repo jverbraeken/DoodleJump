@@ -130,13 +130,17 @@ public class PlatformTest {
         Mockito.verify(audioManager).playJump();
     }
 
-    
     @Test
     public void collidesWithBreakPlatform(){
         q.collidesWith(doodle);
 
         Mockito.verify(doodle, Mockito.times(0)).collide(q);
         Mockito.verify(audioManager).playLomise();
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void collideNoDoodleTest() {
+        p.collidesWith(null);
     }
 
 }
