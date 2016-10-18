@@ -150,6 +150,7 @@ public final class Game {
      * @param argv the arguments to run.
      */
     public static void main(final String[] argv) {
+        new Game();
         LOGGER.info("The game has been launched");
 
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
