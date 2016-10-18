@@ -39,7 +39,7 @@ import scenes.SceneFactory;
  * The difference between this ServiceLcoator and the standard one is the absence of Audio services.
  */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
-/* package */ final class ServiceLocatorNoAudio implements IServiceLocator {
+/* package */ class ServiceLocatorNoAudio implements IServiceLocator {
 
     // constants.json
     private IConstants constants;
@@ -78,20 +78,20 @@ import scenes.SceneFactory;
     private ICalc calc;
 
     /**
-     * The singleton serviceLocator.
-     * Constructed eagerly.
+     * The serviceLocator.
      */
     private static final ServiceLocatorNoAudio SERVICE_LOCATOR = new ServiceLocatorNoAudio();
 
     /**
      * Initialize the ServiceLocator class.
      */
-    /* package */ private ServiceLocatorNoAudio() {
+    protected ServiceLocatorNoAudio() {
         this.init();
     }
 
     /**
      * Getter of the singleton service locator.
+     *
      * @return the service locator.
      */
     public static IServiceLocator getServiceLocator() {
@@ -204,7 +204,9 @@ import scenes.SceneFactory;
         this.cameraFactory = cF;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void provide(final ISceneFactory sF) {
         assert sF != null;
         this.sceneFactory = sF;
@@ -250,11 +252,11 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("methodlength")
     public IAudioManager getAudioManager() {
         return new IAudioManager() {
             @Override
             public void preload() {
-                
             }
 
             @Override

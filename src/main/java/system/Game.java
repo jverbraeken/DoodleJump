@@ -6,8 +6,12 @@ import math.ICalc;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.concurrent.Executors;
@@ -62,12 +66,12 @@ public final class Game {
     /**
      * The logger for the Game class.
      */
-    private static ILogger LOGGER;
+    private static ILogger logger;
 
     /**
      * The high scores list for the Game.
      */
-    public static HighScoreList HIGH_SCORES;
+    public static HighScoreList highScores;
 
     /**
      * The current frame.
@@ -90,7 +94,33 @@ public final class Game {
      * The enums for the mode.
      */
     public enum Modes {
-        regular, underwater, story, invert, darkness, space
+        /**
+         * The regular game mode.
+         */
+        regular,
+        /**
+         * The game mode taking place underwater.
+         */
+        underwater,
+        /**
+         * The game mode following a story.
+         * UNIMPLEMENTED
+         */
+        story,
+        /**
+         * The game using the invertable platforms.
+         * UNIMPLEMENTED
+         */
+        invert,
+        /**
+         * The game mode with invisible platforms.
+         * The platforms turn visible when touched by a doodle.
+         */
+        darkness,
+        /**
+         * The game mode taking place in space.
+         */
+        space
     }
 
     /**
@@ -102,7 +132,14 @@ public final class Game {
      * The enums for the player mode.
      */
     public enum PlayerModes {
-        single, multi
+        /**
+         * The single player mode.
+         */
+        single,
+        /**
+         * The multi-player mode.
+         */
+        multi
     }
 
     /**
@@ -127,25 +164,28 @@ public final class Game {
         /**
          * The logger for the Game class.
          */
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+        logger = serviceLocator.getLoggerFactory().createLogger(Game.class);
         /**
          * The high scores list for the Game.
          */
-        HIGH_SCORES = new HighScoreList(serviceLocator);
+        highScores = new HighScoreList(serviceLocator);
 
     }
 
-    private Game(IServiceLocator sL) {
+    /**
+     * Prevents instantiation from outside the Game class.
+     */
+    private Game(final IServiceLocator sL) {
 
         serviceLocator = sL;
         /**
          * The logger for the Game class.
          */
-        LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+        logger = serviceLocator.getLoggerFactory().createLogger(Game.class);
         /**
          * The high scores list for the Game.
          */
-        HIGH_SCORES = new HighScoreList(serviceLocator);
+        highScores = new HighScoreList(serviceLocator);
     }
 
     /**
@@ -155,7 +195,7 @@ public final class Game {
      */
     public static void main(final String[] argv) {
         new Game();
-        LOGGER.info("The game has been launched");
+        logger.info("The game has been launched");
 
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
         IInputManager inputManager = serviceLocator.getInputManager();
@@ -209,7 +249,7 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        HIGH_SCORES.initHighScores();
+        highScores.initHighScores();
 
 
         start();
@@ -230,7 +270,7 @@ public final class Game {
             public void run() {
                 loop();
             }
-        }, 0, 17, TimeUnit.MILLISECONDS);
+        }, 0, FRAME_TIME, TimeUnit.MILLISECONDS);
 
     }
 
@@ -253,7 +293,7 @@ public final class Game {
         serviceLocator.getRes().setSkin(m);
         SpriteFactory.register(serviceLocator);
         setScene(serviceLocator.getSceneFactory().newChooseMode());
-        LOGGER.info("The mode is now " + m);
+        logger.info("The mode is now " + m);
     }
 
     /**
@@ -300,10 +340,10 @@ public final class Game {
             try {
                 Thread.sleep(FRAME_TIME - (now - System.nanoTime()) / ICalc.NANOSECONDS);
             } catch (InterruptedException e) {
-                LOGGER.error(e);
+                logger.error(e);
             }
 
-            LOGGER.info("FPS is " + getFPS(updateLength, 0));
+            logger.info("FPS is " + getFPS(updateLength, 0));
         }
     }
 
@@ -345,10 +385,10 @@ public final class Game {
      */
     public static void setPaused(final boolean paused) {
         if (paused) {
-            LOGGER.info("The game has been paused");
+            logger.info("The game has been paused");
             pauseScreen.start();
         } else {
-            LOGGER.info("The game has been resumed");
+            logger.info("The game has been resumed");
             pauseScreen.stop();
         }
 
