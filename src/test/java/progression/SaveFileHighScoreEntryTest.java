@@ -73,15 +73,4 @@ public class SaveFileHighScoreEntryTest {
 
         assertThat(entry.toString(), is(equalTo(expected)));
     }
-
-    @Test
-    public void testToJson() {
-        entry.setScore(42);
-        entry.setName("Foo");
-        assertThat(entry.toJson(), is("{\"name\":\"Foo\",\"score\":42}"));
-
-        entry.setScore(41);
-        entry.setName("Bar");
-        assertThat(entry.toJson(), is("{\"name\":\"Bar\",\"score\":41}"));
-    }
 }

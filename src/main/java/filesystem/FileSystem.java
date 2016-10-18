@@ -1,9 +1,7 @@
 package filesystem;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import logging.ILogger;
-import rendering.Renderer;
 import system.Game;
 import system.IServiceLocator;
 
@@ -343,7 +341,7 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public String serializeJson(final IToJsonSerializable image) {
+    public String serializeJson(final Object image) {
         final Gson gson = new Gson();
         final String result = gson.toJson(image);
         return result;

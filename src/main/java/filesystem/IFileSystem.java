@@ -148,7 +148,7 @@ public interface IFileSystem {
      * @param image The image that should be serialized
      * @return A string containing the serialized image
      */
-    String serializeJson(final IToJsonSerializable image);
+    String serializeJson(final Object image);
 
     /**
      * Gets a custom font from a *.ttf file.

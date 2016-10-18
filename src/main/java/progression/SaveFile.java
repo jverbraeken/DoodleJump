@@ -1,7 +1,5 @@
 package progression;
 
-import filesystem.IToJsonSerializable;
-
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +10,7 @@ import java.util.Map;
  * <b>NOTE: this class is designed to be used by JSON (de)serializers only and is not meant
  * for regular usage in the game!</b>
  */
-public final class SaveFile implements IToJsonSerializable {
+public final class SaveFile {
     /**
      * Lists the highscores of the player.
      */
@@ -73,37 +71,5 @@ public final class SaveFile implements IToJsonSerializable {
      */
     public void setPowerupLevels(final Map<String, Integer> powerupLevels) {
         this.powerupLevels = powerupLevels;
-    }
-
-    @Override
-    public String toJson() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("{\"coins\":");
-        sb.append(coins);
-        sb.append(",\"highScores\":");
-        sb.append("[");
-        for (SaveFileHighScoreEntry entry : this.highScores) {
-            sb.append(entry.toJson());
-            sb.append(",");
-        }
-        if (this.highScores.size() > 0) {
-            sb.setLength(sb.length() - 1);
-        }
-        sb.append("]");
-        sb.append(",");
-        sb.append("\"powerupLevels\":");
-        sb.append("{");
-        for (Map.Entry<String, Integer> entry : this.powerupLevels.entrySet()) {
-            sb.append("\"" + entry.getKey() + "\"");
-            sb.append(":");
-            sb.append(entry.getValue());
-            sb.append(",");
-        }
-        if (this.powerupLevels.size() > 0) {
-            sb.setLength(sb.length() - 1);
-        }
-        sb.append("}");
-        sb.append("}");
-        return sb.toString();
     }
 }
