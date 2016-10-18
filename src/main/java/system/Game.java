@@ -6,12 +6,8 @@ import math.ICalc;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.concurrent.Executors;
@@ -64,6 +60,16 @@ public final class Game {
     private static final transient Object LOCK = new Object();
 
     /**
+     * The logger for the Game class.
+     */
+    private static ILogger LOGGER;
+
+    /**
+     * The high scores list for the Game.
+     */
+    public static HighScoreList HIGH_SCORES;
+
+    /**
      * The current frame.
      */
     private static JFrame frame;
@@ -79,18 +85,26 @@ public final class Game {
      * Track if the game is paused.
      */
     private static boolean isPaused = false;
+
     /**
      * The enums for the mode.
      */
-    public enum Modes { regular, underwater, story, invert, darkness, space }
+    public enum Modes {
+        regular, underwater, story, invert, darkness, space
+    }
+
     /**
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
+
     /**
      * The enums for the player mode.
      */
-    public enum PlayerModes { single, multi }
+    public enum PlayerModes {
+        single, multi
+    }
+
     /**
      * Track the current playerMode of the game.
      */
@@ -103,16 +117,6 @@ public final class Game {
      * The pause screen for the game.
      */
     private static IScene pauseScreen;
-
-    /**
-     * The logger for the Game class.
-     */
-    private static ILogger LOGGER;
-    /**
-     * The high scores list for the Game.
-     */
-    public static HighScoreList HIGH_SCORES;
-
 
     /**
      * Prevents instantiation from outside the Game class.
@@ -218,8 +222,7 @@ public final class Game {
     public static void start() {
         frame.setVisible(true);
 
-        ScheduledExecutorService service = Executors
-                .newSingleThreadScheduledExecutor();
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
 
         service.scheduleAtFixedRate(new Runnable() {
 
@@ -255,6 +258,7 @@ public final class Game {
 
     /**
      * Get the current playerMode.
+     *
      * @return the playermode of the player.
      */
     public static PlayerModes getPlayerMode() {
@@ -263,6 +267,7 @@ public final class Game {
 
     /**
      * Set the current playerMode.
+     *
      * @param m the playermode the player has to be set on.
      */
     public static void setPlayerMode(final PlayerModes m) {
@@ -287,6 +292,8 @@ public final class Game {
             }
             if (!isPaused) {
                 scene.update(delta);
+            } else {
+                pauseScreen.update(delta);
             }
 
             panel.repaint();
@@ -361,5 +368,4 @@ public final class Game {
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
     }
-
 }
