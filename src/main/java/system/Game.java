@@ -158,23 +158,6 @@ public final class Game {
     /**
      * Prevents instantiation from outside the Game class.
      */
-    private Game() {
-
-        serviceLocator = ServiceLocator.getServiceLocator();
-        /**
-         * The logger for the Game class.
-         */
-        logger = serviceLocator.getLoggerFactory().createLogger(Game.class);
-        /**
-         * The high scores list for the Game.
-         */
-        highScores = new HighScoreList(serviceLocator);
-
-    }
-
-    /**
-     * Prevents instantiation from outside the Game class.
-     */
     private Game(final IServiceLocator sL) {
 
         serviceLocator = sL;
@@ -194,7 +177,7 @@ public final class Game {
      * @param argv the arguments to run.
      */
     public static void main(final String[] argv) {
-        new Game();
+        new Game(ServiceLocator.getServiceLocator());
         logger.info("The game has been launched");
 
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
