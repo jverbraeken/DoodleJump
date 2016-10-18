@@ -179,6 +179,19 @@ public class RegularBehaviorTest {
     }
 
     /**
+     * Tests the animate method when the vertical speed is above the threshold.
+     *
+     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
+     *           in the constructor.
+     */
+    @Test
+    public void animatePullInLegsTest() throws Exception {
+        regular.setVerticalSpeed(-16);
+        Whitebox.invokeMethod(regular, "animate", 0d);
+        Mockito.verify(doodle).setSprite(regular.getFacing(), true);
+    }
+
+    /**
      * Tests the moveHorizontally method when moving left.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
