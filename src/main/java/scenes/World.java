@@ -541,9 +541,7 @@ public class World implements IScene {
             private int getHighestScore() {
                 int highestScore = 0;
                 for (IDoodle doodle : World.this.doodles) {
-                    if (doodle.getScore() > highestScore) {
-                        highestScore = (int) doodle.getScore();
-                    }
+                    highestScore = Math.max(highestScore, (int) doodle.getScore());
                 }
 
                 return highestScore;
