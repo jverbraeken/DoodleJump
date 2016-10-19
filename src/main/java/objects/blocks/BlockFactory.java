@@ -296,7 +296,6 @@ public final class BlockFactory implements IBlockFactory {
      * @param elements A set of elements.
      * @param platform The platform a powerup potentially is placed on.
      **/
-    @SuppressWarnings("magicnumber")
     private void chanceForPowerup(final Set<IGameObject> elements, final IPlatform platform) {
         ICalc calc = serviceLocator.getCalc();
 
@@ -312,7 +311,7 @@ public final class BlockFactory implements IBlockFactory {
                 final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
                 int xPos = setXPosOfPowerup(powerup, powerupXPos, (int) platform.getXPos(), platformWidth);
                 powerup.setXPos(xPos);
-                powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 1.75);
+                powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
                 elements.add(powerup);
             }
         }
@@ -381,7 +380,6 @@ public final class BlockFactory implements IBlockFactory {
      * @param platformWidth The width of the platform.
      * @return integer of the X position of the powerup.
      */
-    @SuppressWarnings("checkstyle::magicnumber")
     private int setXPosOfPowerup(final IGameObject powerup, final int powerupXPos, final int xPosPlatform, final int platformWidth) {
         double[] powHitbox = powerup.getHitBox();
         final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
