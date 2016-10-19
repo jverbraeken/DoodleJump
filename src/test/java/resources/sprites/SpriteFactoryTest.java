@@ -246,7 +246,7 @@ public class SpriteFactoryTest {
     // NUMBERS
 
 
-    @Test(expected = IllegalArgumentException.class)
+    /*@Test(expected = IllegalArgumentException.class)
     public void TestGetDigitSpriteNegative() throws Exception {
         spriteFactory.getDigitSprite(-1);
     }
@@ -304,7 +304,7 @@ public class SpriteFactoryTest {
     @Test
     public void TestGetDigitSprite9() throws Exception {
         TestSprite(IRes.Sprites.nine, () -> spriteFactory.getDigitSprite(9));
-    }
+    }*/
 
     // PLATFORMS
 
