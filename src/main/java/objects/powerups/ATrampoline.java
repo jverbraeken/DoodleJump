@@ -4,7 +4,6 @@ import objects.AGameObject;
 import objects.IJumpable;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
-import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
@@ -78,14 +77,13 @@ public abstract class ATrampoline extends AGameObject implements IJumpable {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
-
+    /**
+     * Updates the sprite that should be drawn in the scene.
+     */
     public void animate() {
         int oldHeight = getSprite().getHeight();
-
-        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
         ISprite newSprite = usedSprite;
         setSprite(newSprite);
-
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
     }

@@ -1,5 +1,6 @@
 package objects;
 
+import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IRenderable;
@@ -97,5 +98,12 @@ public interface IGameObject extends IRenderable, IUpdatable {
      * @param yPos the to be y position.
      */
     void setYPos(final double yPos);
+
+    /**
+     * Set the x and y position of the powerup that's spawning on a platform.
+     * @param powerup a IGameObject that's going to be spawning.
+     * @param platform the platform object where the powerup is going to spawn.
+     */
+    void setPositionOnPlatform(final IGameObject powerup, final IPlatform platform);
 
 }

@@ -1,5 +1,8 @@
 package objects.powerups;
 
+import objects.AGameObject;
+import objects.IGameObject;
+import objects.blocks.platform.IPlatform;
 import system.IServiceLocator;
 
 /**
@@ -31,5 +34,16 @@ public class CircusCannon extends ATrampoline {
     @Override
     void playSound() { }
 
+    @Override
+    public void setPositionOnPlatform(final IGameObject powerup, final IPlatform platform) {
+        double[] hitbox = platform.getHitBox();
+        final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
+        final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
+        double[] powHitbox = powerup.getHitBox();
+        final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
+        final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
+        powerup.setXPos((platform.getXPos() + (platformWidth / 2)) - (powerupWidth / 2));
+        powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
+    }
 }
 

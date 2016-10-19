@@ -119,10 +119,8 @@ public final class BlockFactory implements IBlockFactory {
                 WeightsMap.getWeight(ElementTypes.propellor),
                 WeightsMap.getWeight(ElementTypes.sizeUp),
                 WeightsMap.getWeight(ElementTypes.sizeDown),
-                WeightsMap.getWeight(ElementTypes.springShoes),
-                WeightsMap.getWeight(ElementTypes.cannon),
-                WeightsMap.getWeight(ElementTypes.rocketLauncher));
-        List<String> powerups = Arrays.asList("spring", "trampoline", "jetpack", "propellor", "sizeUp", "sizeDown", "springShoes", "cannon", "rocketLauncher");
+                WeightsMap.getWeight(ElementTypes.springShoes));
+        List<String> powerups = Arrays.asList("spring", "trampoline", "jetpack", "propellor", "sizeUp", "sizeDown", "springShoes");
 
         powerupGenerationSet = new GenerationSet(serviceLocator, powerupWeights, powerups);
 
@@ -297,21 +295,10 @@ public final class BlockFactory implements IBlockFactory {
      * @param platform The platform a powerup potentially is placed on.
      **/
     private void chanceForPowerup(final Set<IGameObject> elements, final IPlatform platform) {
-        ICalc calc = serviceLocator.getCalc();
-
-        double[] hitbox = platform.getHitBox();
-        final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
-        final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
-
         if (!isSpecialPlatform(platform)) {
             IGameObject powerup = powerupGenerationSet.getRandomElement();
             if (powerup != null) {
-                int powerupXPos = (int) (calc.getRandomDouble(platformWidth));
-                double[] powHitbox = powerup.getHitBox();
-                final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
-                int xPos = setXPosOfPowerup(powerup, powerupXPos, (int) platform.getXPos(), platformWidth);
-                powerup.setXPos(xPos);
-                powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
+                powerup.setPositionOnPlatform(powerup, platform);
                 elements.add(powerup);
             }
         }
