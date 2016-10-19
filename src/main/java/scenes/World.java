@@ -338,7 +338,7 @@ public class World implements IScene {
         /**
          * The pause button.
          */
-        private final PauseButton pauseButton;
+        private final IButton pauseButton;
         /**
          * The text display of the current score.
          */
@@ -367,7 +367,7 @@ public class World implements IScene {
             int pauseX = (int) (gameWidth - pauseSprite.getWidth() * this.scaling - World.PAUSE_OFFSET);
             int pauseY = (int) (this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d -
                     (double) pauseSprite.getHeight() / 2d);
-            this.pauseButton = new PauseButton(pauseX, pauseY, this.scaling, pauseSprite);
+            this.pauseButton = World.this.serviceLocator.getButtonFactory().createPauseButton(pauseX, pauseY);
         }
 
         /**
@@ -393,76 +393,6 @@ public class World implements IScene {
          */
         private void deregister() {
             this.pauseButton.deregister();
-        }
-
-        /**
-         * This class focuses on the implementation of the pause button.
-         */
-        private final class PauseButton implements IButton {
-
-            /**
-             * The position and size of the pause button.
-             */
-            private final int x, y, width, height;
-            /**
-             * The sprite of the pause button.
-             */
-            private final ISprite sprite;
-
-            /**
-             * Construct the pause button.
-             *
-             * @param xPos the x position of the pause button.
-             * @param yPos the y position of the pause button.
-             * @param scalar the scale of the button.
-             * @param sp the sprite of the button.
-             */
-            private PauseButton(final int xPos, final int yPos, final double scalar, final ISprite sp) {
-                this.x = xPos;
-                this.y = yPos;
-                this.width = (int) (sp.getWidth() * scalar);
-                this.height = (int) (sp.getHeight() * scalar);
-                this.sprite = sp;
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void render() {
-                World.this.serviceLocator.getRenderer().drawSpriteHUD(this.sprite,
-                        this.x, this.y, this.width, this.height);
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void mouseClicked(final int mouseX, final int mouseY) {
-                if (mouseX >= this.x && mouseX < this.x + this.width && mouseY >= this.y && mouseY < this.y + this.height) {
-                    World.this.logger.info("Button clicked: \"pause\"");
-                    Game.setPaused(true);
-                }
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void register() {
-                World.this.serviceLocator.getInputManager().addObserver(this);
-                World.this.logger.info("The button \"PauseButton\" registered itself as an observer of the input manager");
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void deregister() {
-                World.this.serviceLocator.getInputManager().removeObserver(this);
-                World.this.logger.info("The button \"PauseButton\" removed itself as an observer from the input manager");
-            }
-
         }
 
         /**

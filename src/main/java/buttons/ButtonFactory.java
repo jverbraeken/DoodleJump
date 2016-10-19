@@ -204,4 +204,16 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(ButtonFactory.serviceLocator, x, y, buttonSprite, storyMode, "storyMode");
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createPauseButton(int x, int y) {
+        assert ButtonFactory.serviceLocator != null;
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getPauseButtonSprite();
+        Runnable pause = () -> Game.setPaused(true);
+        return new Button(ButtonFactory.serviceLocator, x, y, buttonSprite, pause, "pause");
+    }
+
 }
