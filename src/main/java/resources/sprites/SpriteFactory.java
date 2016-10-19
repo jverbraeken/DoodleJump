@@ -849,10 +849,10 @@ public final class SpriteFactory implements ISpriteFactory {
         return this.getSprite(IRes.Sprites.spaceMode);
     }
 
+
     // Miscellaneous
     /**
      * Loads an ISprite with the name {@code ISpriteName}.
-     *
      * @param spriteName the enumerator defining the requested sprite
      * @return The {@link ISprite sprite} if it was found. null otherwise
      */
@@ -875,7 +875,6 @@ public final class SpriteFactory implements ISpriteFactory {
 
     /**
      * Return the requested sprite.
-     *
      * @param sprite the enumerator defining the requested sprite.
      * @return the sprite.
      */
@@ -892,12 +891,8 @@ public final class SpriteFactory implements ISpriteFactory {
 
     /**
      * Returns the filename from a filepath.
-     * <p>
-     * Example:
-     * <pre>
-     * {@code
-     *     getFileName("resources/Sprites/sprite.png").equals("sprite.png")
-     * }
+     * <br>
+     * Example: {@code getFileName("resources/Sprites/sprite.png").equals("sprite.png")}
      * </pre>
      *
      * @param filepath The full path to the file, the directories seperated by '/'. Cannot be null
