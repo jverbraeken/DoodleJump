@@ -26,7 +26,9 @@ public final class ButtonFactory implements IButtonFactory {
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         ButtonFactory.serviceLocator = sL;
         ButtonFactory.serviceLocator.provide(getButtonFactory());
     }
