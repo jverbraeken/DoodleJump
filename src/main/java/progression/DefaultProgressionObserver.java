@@ -21,10 +21,17 @@ public final class DefaultProgressionObserver implements
     private final int times;
     private final Callable<Void> action;
     private final IServiceLocator serviceLocator;
+    private final ProgressionObservers type;
     private double counter;
     private Mission mission;
-    private final ProgressionObservers type;
 
+    /**
+     * Create a default progression observer to get notifications for i.e. powerups.
+     *
+     * @param serviceLocator The servicelocator
+     * @param type           The progression type being observed
+     * @param times          The amount of times the progression should be raised before the goal is achieved
+     */
     /* package */ DefaultProgressionObserver(final IServiceLocator serviceLocator, final ProgressionObservers type, final int times) {
         this.serviceLocator = serviceLocator;
         this.type = type;
@@ -34,6 +41,14 @@ public final class DefaultProgressionObserver implements
         this.type.addObserver(this);
     }
 
+    /**
+     * Create a default progression observer to get notifications for i.e. powerups.
+     *
+     * @param serviceLocator The servicelocator
+     * @param type           The progression type being observed
+     * @param times          The amount of times the progression should be raised before the goal is achieved
+     * @param counter        The starting value for the counter, counting to {@code} times. 0 by default
+     */
     /* package */ DefaultProgressionObserver(final IServiceLocator serviceLocator, final ProgressionObservers type, final int times, final double counter) {
         this.serviceLocator = serviceLocator;
         this.type = type;
@@ -43,6 +58,14 @@ public final class DefaultProgressionObserver implements
         this.type.addObserver(this);
     }
 
+    /**
+     * Create a default progression observer to get notifications for i.e. powerups.
+     *
+     * @param serviceLocator The servicelocator
+     * @param type           The progression type being observed
+     * @param times          The amount of times the progression should be raised before the goal is achieved
+     * @param action         The action that should be executed after the goal is achieved
+     */
     /* package */ DefaultProgressionObserver(final IServiceLocator serviceLocator, final ProgressionObservers type, final int times, final Callable<Void> action) {
         this.serviceLocator = serviceLocator;
         this.type = type;
@@ -52,6 +75,15 @@ public final class DefaultProgressionObserver implements
         this.type.addObserver(this);
     }
 
+    /**
+     * Create a default progression observer to get notifications for i.e. powerups.
+     *
+     * @param serviceLocator The servicelocator
+     * @param type           The progression type being observed
+     * @param times          The amount of times the progression should be raised before the goal is achieved
+     * @param action         The action that should be executed after the goal is achieved
+     * @param counter        The starting value for the counter, counting to {@code} times. 0 by default
+     */
     /* package */ DefaultProgressionObserver(final IServiceLocator serviceLocator, final ProgressionObservers type, final int times, final Callable<Void> action, final double counter) {
         this.serviceLocator = serviceLocator;
         this.type = type;
