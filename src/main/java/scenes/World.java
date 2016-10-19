@@ -359,10 +359,7 @@ public class World implements IScene {
             scaling = (double) serviceLocator.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth();
             scoreBarHeight = (int) (scaling * scoreBarSprite.getHeight());
 
-            ISprite[] digitSprites = new ISprite[NUMBER_SYSTEM];
-            for (int i = 0; i < NUMBER_SYSTEM; i++) {
-                digitSprites[i] = serviceLocator.getSpriteFactory().getDigitSprite(i);
-            }
+            ISprite[] digitSprites = serviceLocator.getSpriteFactory().getDigitSprites();
             int scoreX = (int) (digitSprites[2].getWidth() * scaling);
             int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2d);
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);

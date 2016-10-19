@@ -244,71 +244,47 @@ public class SpriteFactoryTest {
     }
 
     // NUMBERS
-
-
-    @Test(expected = IllegalArgumentException.class)
-    public void TestGetDigitSpriteNegative() throws Exception {
-        spriteFactory.getDigitSprite(-1);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void TestGetDigitSpriteMoreThan9() throws Exception {
-        spriteFactory.getDigitSprite(10);
-    }
-
     @Test
-    public void TestGetDigitSprite0() throws Exception {
-        TestSprite(IRes.Sprites.zero, () -> spriteFactory.getDigitSprite(0));
+    public void TestGetDigitSprites() throws Exception {
+        ISprite mock0 = mock(ISprite.class);
+        doReturn(mock0).when(spriteFactory, "getSprite", IRes.Sprites.zero);
+        ISprite mock1 = mock(ISprite.class);
+        doReturn(mock1).when(spriteFactory, "getSprite", IRes.Sprites.one);
+        ISprite mock2 = mock(ISprite.class);
+        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.two);
+        ISprite mock3 = mock(ISprite.class);
+        doReturn(mock3).when(spriteFactory, "getSprite", IRes.Sprites.three);
+        ISprite mock4 = mock(ISprite.class);
+        doReturn(mock4).when(spriteFactory, "getSprite", IRes.Sprites.four);
+        ISprite mock5 = mock(ISprite.class);
+        doReturn(mock5).when(spriteFactory, "getSprite", IRes.Sprites.five);
+        ISprite mock6 = mock(ISprite.class);
+        doReturn(mock6).when(spriteFactory, "getSprite", IRes.Sprites.six);
+        ISprite mock7 = mock(ISprite.class);
+        doReturn(mock7).when(spriteFactory, "getSprite", IRes.Sprites.seven);
+        ISprite mock8 = mock(ISprite.class);
+        doReturn(mock8).when(spriteFactory, "getSprite", IRes.Sprites.eight);
+        ISprite mock9 = mock(ISprite.class);
+        doReturn(mock9).when(spriteFactory, "getSprite", IRes.Sprites.nine);
+
+        ISprite[] result = spriteFactory.getDigitSprites();
+        ISprite[] expected = new ISprite[10];
+        expected[0] = mock0;
+        expected[1] = mock1;
+        expected[2] = mock2;
+        expected[3] = mock3;
+        expected[4] = mock4;
+        expected[5] = mock5;
+        expected[6] = mock6;
+        expected[7] = mock7;
+        expected[8] = mock8;
+        expected[9] = mock9;
+
+        assertThat(Arrays.equals(expected, result), is(true));
     }
 
-    @Test
-    public void TestGetDigitSprite1() throws Exception {
-        TestSprite(IRes.Sprites.one, () -> spriteFactory.getDigitSprite(1));
-    }
-
-    @Test
-    public void TestGetDigitSprite2() throws Exception {
-        TestSprite(IRes.Sprites.two, () -> spriteFactory.getDigitSprite(2));
-    }
-
-    @Test
-    public void TestGetDigitSprite3() throws Exception {
-        TestSprite(IRes.Sprites.three, () -> spriteFactory.getDigitSprite(3));
-    }
-
-    @Test
-    public void TestGetDigitSprite4() throws Exception {
-        TestSprite(IRes.Sprites.four, () -> spriteFactory.getDigitSprite(4));
-    }
-
-    @Test
-    public void TestGetDigitSprite5() throws Exception {
-        TestSprite(IRes.Sprites.five, () -> spriteFactory.getDigitSprite(5));
-    }
-
-    @Test
-    public void TestGetDigitSprite6() throws Exception {
-        TestSprite(IRes.Sprites.six, () -> spriteFactory.getDigitSprite(6));
-    }
-
-    @Test
-    public void TestGetDigitSprite7() throws Exception {
-        TestSprite(IRes.Sprites.seven, () -> spriteFactory.getDigitSprite(7));
-    }
-
-    @Test
-    public void TestGetDigitSprite8() throws Exception {
-        TestSprite(IRes.Sprites.eight, () -> spriteFactory.getDigitSprite(8));
-    }
-
-    @Test
-    public void TestGetDigitSprite9() throws Exception {
-        TestSprite(IRes.Sprites.nine, () -> spriteFactory.getDigitSprite(9));
-    }
 
     // PLATFORMS
-
-
     @Test
     public void TestGetPlatformSprite1() throws Exception {
         TestSprite(IRes.Sprites.platform1, () -> spriteFactory.getPlatformSprite1());
@@ -621,4 +597,5 @@ public class SpriteFactoryTest {
         ISprite result = function.call();
         assertEquals(mock, result);
     }
+
 }
