@@ -1,11 +1,8 @@
 package objects.doodle.DoodleBehavior;
 
-import constants.Constants;
 import constants.IConstants;
 import input.Keys;
-import objects.doodles.Doodle;
 import objects.doodles.DoodleBehavior.MovementBehavior;
-import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.UnderwaterBehavior;
 import objects.doodles.IDoodle;
 import objects.powerups.IPowerup;
@@ -22,10 +19,6 @@ import java.lang.reflect.Field;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -34,23 +27,19 @@ import static org.powermock.api.mockito.PowerMockito.when;
  */
 public class UnderwaterBehaviorTest {
 
-    private IServiceLocator serviceLocator;
-    private IConstants constants;
-    private IDoodle doodle;
+    private IServiceLocator serviceLocator = mock(IServiceLocator.class);
+    private IConstants constants = mock(IConstants.class);
+    private IDoodle doodle = mock(IDoodle.class);
+    private IPowerup powerup = mock(IPowerup.class);
     private UnderwaterBehavior underwater;
-    private IPowerup powerup;
 
     @Before
     public void init() throws Exception {
-        constants = mock(IConstants.class);
-        serviceLocator = mock(IServiceLocator.class);
         when(constants.getGravityAcceleration()).thenReturn(.5);
         when(serviceLocator.getConstants()).thenReturn(constants);
-        doodle = mock(IDoodle.class);
-        Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
-        powerup = mock(IPowerup.class);
         when(doodle.getPowerup()).thenReturn(powerup);
-        when(doodle.getKeys()).thenReturn(keys);
+        when(doodle.getKeys()).thenReturn(new Keys[]{Keys.arrowLeft, Keys.arrowRight});
+
         underwater = new UnderwaterBehavior(serviceLocator, doodle);
     }
 

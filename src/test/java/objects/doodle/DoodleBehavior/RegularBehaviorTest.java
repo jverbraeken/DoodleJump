@@ -37,23 +37,19 @@ import static org.powermock.api.mockito.PowerMockito.when;
  */
 public class RegularBehaviorTest {
 
-    private IServiceLocator serviceLocator;
-    private IDoodle doodle;
+    private IServiceLocator serviceLocator = mock(IServiceLocator.class);
+    private IDoodle doodle = mock(IDoodle.class);
+    private IConstants constants = mock(IConstants.class);;
+    private IPowerup powerup = mock(IPowerup.class);
     private RegularBehavior regular;
-    private IConstants constants;
-    private IPowerup powerup;
 
     @Before
     public void init() throws Exception {
-        constants = mock(IConstants.class);
-        serviceLocator = mock(IServiceLocator.class);
         when(constants.getGravityAcceleration()).thenReturn(.5);
         when(serviceLocator.getConstants()).thenReturn(constants);
-        doodle = mock(IDoodle.class);
-        Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
-        powerup = mock(IPowerup.class);
         when(doodle.getPowerup()).thenReturn(powerup);
-        when(doodle.getKeys()).thenReturn(keys);
+        when(doodle.getKeys()).thenReturn(new Keys[]{Keys.arrowLeft, Keys.arrowRight});
+
         regular = new RegularBehavior(serviceLocator, doodle);
     }
 

@@ -33,23 +33,18 @@ import static org.powermock.api.mockito.PowerMockito.when;
  */
 public class SpaceBehaviorTest {
 
-    private IServiceLocator serviceLocator;
-    private IConstants constants;
-    private IDoodle doodle;
+    private IServiceLocator serviceLocator = mock(IServiceLocator.class);
+    private IConstants constants = mock(IConstants.class);
+    private IDoodle doodle = mock(IDoodle.class);
+    private IPowerup powerup = mock(IPowerup.class);
     private SpaceBehavior space;
-    private IPowerup powerup;
 
     @Before
     public void init() throws Exception {
-        constants = mock(IConstants.class);
-        serviceLocator = mock(IServiceLocator.class);
         when(constants.getGravityAcceleration()).thenReturn(.5);
         when(serviceLocator.getConstants()).thenReturn(constants);
-        doodle = mock(IDoodle.class);
-        Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
-        powerup = mock(IPowerup.class);
         when(doodle.getPowerup()).thenReturn(powerup);
-        when(doodle.getKeys()).thenReturn(keys);
+        when(doodle.getKeys()).thenReturn(new Keys[]{Keys.arrowLeft, Keys.arrowRight});
         space = new SpaceBehavior(serviceLocator, doodle);
     }
 
