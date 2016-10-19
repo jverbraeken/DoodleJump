@@ -860,22 +860,16 @@ public final class SpriteFactory implements ISpriteFactory {
         assert spriteName != null;
 
         String filepath = SpriteFactory.serviceLocator.getRes().getSpritePath(spriteName);
-        BufferedImage image = null;
 
         try {
-            image = SpriteFactory.serviceLocator.getFileSystem().readImage(filepath);
+            BufferedImage image = SpriteFactory.serviceLocator.getFileSystem().readImage(filepath);
             this.logger.info("Sprite loaded: \"" + filepath + "\"");
             return new Sprite(getFileName(filepath), image);
         } catch (FileNotFoundException e) {
+            this.logger.error("CRITICAL ERROR: the sprite \"" + spriteName.toString() + "\" could not be found!");
             this.logger.error(e);
             e.printStackTrace();
-        }
-
-        if (image == null) {
-            this.logger.error("CRITICAL ERROR: the sprite \"" + spriteName.toString() + "\" could not be found!");
             return null;
-        } else {
-            return new Sprite(getFileName(filepath), image);
         }
     }
 
