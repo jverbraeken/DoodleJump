@@ -343,10 +343,6 @@ public class World implements IScene {
          * The text display of the current score.
          */
         private final ScoreText scoreText;
-        /**
-         * The logger is used to keep track of all the actions performed in the game.
-         */
-        private final ILogger logger = World.this.serviceLocator.getLoggerFactory().createLogger(ScoreBar.class);
 
         /**
          * Create a new scoreBar.
