@@ -1,6 +1,5 @@
 package objects.powerups;
 
-import cucumber.api.java8.Tr;
 import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
@@ -144,7 +143,7 @@ public class TrampolineTest {
     @Test
     public void testGetBoost() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
-        double boost = Whitebox.getInternalState(trampoline, "BOOST", Trampoline.class);
+        double boost = Whitebox.getInternalState(trampoline, "BOOST", ATrampoline.class);
         assertEquals(boost, trampoline.getBoost(), 0.001);
     }
 
