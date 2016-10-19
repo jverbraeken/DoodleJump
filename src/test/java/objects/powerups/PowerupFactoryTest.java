@@ -62,11 +62,6 @@ public class PowerupFactoryTest {
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
 
         when(loggerFactory.createLogger(PowerupFactory.class)).thenReturn(logger);
-        when(spriteFactory.getJetpackSprite()).thenReturn(sprite);
-        when(spriteFactory.getPropellerSprite()).thenReturn(sprite);
-        when(spriteFactory.getSizeDownSprite()).thenReturn(sprite);
-        when(spriteFactory.getSizeUpSprite()).thenReturn(sprite);
-        when(spriteFactory.getSpringShoesSprite()).thenReturn(sprite);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(sprite.getWidth()).thenReturn(0);
         when(sprite.getHeight()).thenReturn(0);

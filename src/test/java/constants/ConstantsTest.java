@@ -112,7 +112,7 @@ public class ConstantsTest {
 
     @Test
     public void interpretJsonDefaultCaseTest() throws Exception {
-        String logFileName = "async.log";
+        String logFileName = ((AtomicReference<String>) Whitebox.getInternalState(Constants.class, "logFile")).get();
         assertThat(constants.getLogFile(), is(logFileName));
 
         Map<String, String> jsonObject = new HashMap<>();

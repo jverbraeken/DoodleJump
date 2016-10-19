@@ -23,7 +23,6 @@ import com.google.common.util.concurrent.AtomicDouble;
      */
     @Override
     public void setYPos(final double yPos) {
-        StaticCamera.y.set(yPos);
     }
 
     /**

@@ -18,6 +18,8 @@ import system.IServiceLocator;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.anyDouble;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -49,7 +51,7 @@ public class JetpackTest {
         when(doodle.getYPos()).thenReturn(0d);
         when(loggerFactory.createLogger(Jetpack.class)).thenReturn(logger);
         when(sprite.getHeight()).thenReturn(0);
-        when(spriteFactory.getJetpackSprite()).thenReturn(sprite);
+        when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(spriteFactory.getJetpackActiveSprites()).thenReturn(spritePack);
 
         jetpack = new Jetpack(serviceLocator, 0, 0);

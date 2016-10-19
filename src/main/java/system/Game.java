@@ -14,6 +14,9 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static system.Game.Modes.regular;
 import static system.Game.PlayerModes.single;
@@ -39,11 +42,6 @@ public final class Game {
     public static final String LOGFILE_NAME = "async.log";
 
     /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator serviceLocator = ServiceLocator.getServiceLocator();
-
-    /**
      * The time in milliseconds per frame.
      */
     private static final int FRAME_TIME = 16;
@@ -59,15 +57,19 @@ public final class Game {
      * A LOCK to avoid threading issues.
      */
     private static final transient Object LOCK = new Object();
+
+    /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator serviceLocator;
     /**
      * The logger for the Game class.
      */
-    private static final ILogger LOGGER = serviceLocator.getLoggerFactory().createLogger(Game.class);
+    private static ILogger logger;
     /**
-     * The amount of coins the player has.
+     * The current frame.
      */
-    private final CoinManager coinManager = new CoinManager();
-
+    private static JFrame frame;
     /**
      * The current panel.
      */
@@ -80,18 +82,59 @@ public final class Game {
      * Track if the game is paused.
      */
     private static boolean isPaused = false;
+
     /**
      * The enums for the mode.
      */
-    public enum Modes { regular, underwater, story, invert, darkness, space }
+    public enum Modes {
+        /**
+         * The regular game mode.
+         */
+        regular,
+        /**
+         * The game mode taking place underwater.
+         */
+        underwater,
+        /**
+         * The game mode following a story.
+         * UNIMPLEMENTED
+         */
+        story,
+        /**
+         * The game using the invertable platforms.
+         * UNIMPLEMENTED
+         */
+        invert,
+        /**
+         * The game mode with invisible platforms.
+         * The platforms turn visible when touched by a doodle.
+         */
+        darkness,
+        /**
+         * The game mode taking place in space.
+         */
+        space
+    }
+
     /**
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
+
     /**
      * The enums for the player mode.
      */
-    public enum PlayerModes { single, multi }
+    public enum PlayerModes {
+        /**
+         * The single player mode.
+         */
+        single,
+        /**
+         * The multi-player mode.
+         */
+        multi
+    }
+
     /**
      * Track the current playerMode of the game.
      */
@@ -106,9 +149,19 @@ public final class Game {
     private static IScene pauseScreen;
 
     /**
-     * Prevents instantiation from outside the Game class.
+     * Used by Cucumber test.
      */
     private Game() {
+        Game.serviceLocator = ServiceLocatorNoAudio.getServiceLocator();
+        Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
+    }
+
+    /**
+     * Prevents instantiation from outside the Game class.
+     */
+    private Game(final IServiceLocator sL) {
+        Game.serviceLocator = sL;
+        Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
     }
 
     /**
@@ -117,13 +170,14 @@ public final class Game {
      * @param argv the arguments to run.
      */
     public static void main(final String[] argv) {
-        LOGGER.info("The game has been launched");
+        new Game(ServiceLocator.getServiceLocator());
+        logger.info("The game has been launched");
 
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
         IInputManager inputManager = serviceLocator.getInputManager();
 
         // Initialize frame
-        JFrame frame = new JFrame("Doodle Jump");
+        frame = new JFrame("Doodle Jump");
         frame.addMouseListener(inputManager);
         frame.addKeyListener(inputManager);
         frame.setSize(serviceLocator.getConstants().getGameWidth(), serviceLocator.getConstants().getGameHeight());
@@ -172,7 +226,28 @@ public final class Game {
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
         serviceLocator.getProgressionManager().init();
-        loop();
+
+
+        start();
+    }
+
+    /**
+     * Starts the "engine", the thread that redraws the interface at set
+     * intervals.
+     */
+    public static void start() {
+        frame.setVisible(true);
+
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+
+        service.scheduleAtFixedRate(new Runnable() {
+
+            @Override
+            public void run() {
+                loop();
+            }
+        }, 0, FRAME_TIME, TimeUnit.MILLISECONDS);
+
     }
 
     /**
@@ -194,11 +269,12 @@ public final class Game {
         serviceLocator.getRes().setSkin(m);
         SpriteFactory.register(serviceLocator);
         setScene(serviceLocator.getSceneFactory().newChooseMode());
-        LOGGER.info("The mode is now " + m);
+        logger.info("The mode is now " + m);
     }
 
     /**
      * Get the current playerMode.
+     *
      * @return the playermode of the player.
      */
     public static PlayerModes getPlayerMode() {
@@ -207,6 +283,7 @@ public final class Game {
 
     /**
      * Set the current playerMode.
+     *
      * @param m the playermode the player has to be set on.
      */
     public static void setPlayerMode(final PlayerModes m) {
@@ -231,19 +308,19 @@ public final class Game {
             }
             if (!isPaused) {
                 scene.update(delta);
-            }
-            else {
+            } else {
                 pauseScreen.update(delta);
             }
+
 
             panel.repaint();
             try {
                 Thread.sleep(FRAME_TIME - (now - System.nanoTime()) / ICalc.NANOSECONDS);
             } catch (InterruptedException e) {
-                LOGGER.error(e);
+                logger.error(e);
             }
 
-            LOGGER.info("FPS is " + getFPS(updateLength, 0));
+            logger.info("FPS is " + getFPS(updateLength, 0));
         }
     }
 
@@ -285,10 +362,10 @@ public final class Game {
      */
     public static void setPaused(final boolean paused) {
         if (paused) {
-            LOGGER.info("The game has been paused");
+            logger.info("The game has been paused");
             pauseScreen.start();
         } else {
-            LOGGER.info("The game has been resumed");
+            logger.info("The game has been resumed");
             pauseScreen.stop();
         }
 

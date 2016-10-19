@@ -15,6 +15,8 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -44,7 +46,7 @@ public class SizeUpTest {
         when(constants.getGameWidth()).thenReturn(100);
         when(loggerFactory.createLogger(SizeUp.class)).thenReturn(logger);
         when(sprite.getWidth()).thenReturn(0);
-        when(spriteFactory.getSizeUpSprite()).thenReturn(sprite);
+        when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
 
         sizeUp = new SizeUp(serviceLocator, 0, 0);
     }

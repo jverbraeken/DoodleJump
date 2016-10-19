@@ -8,6 +8,7 @@ public enum Powerups {
     PROPELLER("propeller", 50),
     SIZEDOWN("sizeDown", 50),
     SIZEUP("sizeUp", 50),
+    SHIELD("shield", 50),
     SPRING("spring", 0, 50, 150),
     SPRINGSHOES("springShoes", 50),
     TRAMPOLINE("trampoline", 50);

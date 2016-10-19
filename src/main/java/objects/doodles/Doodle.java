@@ -11,6 +11,7 @@ import objects.doodles.DoodleBehavior.UnderwaterBehavior;
 import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
+import objects.powerups.Powerups;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -153,7 +154,7 @@ public class Doodle extends AGameObject implements IDoodle {
             return this.powerup;
         } else {
             IServiceLocator serviceLocator = getServiceLocator();
-            return new APowerup(serviceLocator, 0, 0, serviceLocator.getSpriteFactory().getShieldSprite(), APowerup.class) {
+            return new APowerup(serviceLocator, 0, 0, null, APowerup.class) {
                 @Override
                 public void render() { }
 
