@@ -162,15 +162,22 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite[] getDoodleSprite(final MovementBehavior.Directions direction) {
+    public ISprite[] getDoodleLeftSprites() {
         ISprite[] sprites = new ISprite[2];
-        if (direction == MovementBehavior.Directions.Left) {
-            sprites[0] = this.getSprite(IRes.Sprites.doodleLeftAscend);
-            sprites[1] = this.getSprite(IRes.Sprites.doodleLeftDescend);
-        } else { // Use Right by default
-            sprites[0] = this.getSprite(IRes.Sprites.doodleRightAscend);
-            sprites[1] = this.getSprite(IRes.Sprites.doodleRightDescend);
-        }
+        sprites[0] = this.getSprite(IRes.Sprites.doodleLeftAscend);
+        sprites[1] = this.getSprite(IRes.Sprites.doodleLeftDescend);
+
+        return sprites;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite[] getDoodleRightSprites() {
+        ISprite[] sprites = new ISprite[2];
+        sprites[0] = this.getSprite(IRes.Sprites.doodleRightAscend);
+        sprites[1] = this.getSprite(IRes.Sprites.doodleRightDescend);
 
         return sprites;
     }
