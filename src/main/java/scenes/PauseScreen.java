@@ -2,7 +2,6 @@ package scenes;
 
 import buttons.IButton;
 import buttons.IButtonFactory;
-import input.IMouseInputObserver;
 import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -10,7 +9,7 @@ import system.IServiceLocator;
 /**
  * PauseScreen implementation of a scene.
  */
-/* package */ class PauseScreen implements IScene, IMouseInputObserver {
+/* package */ class PauseScreen implements IScene {
 
     /**
      * The X and Y location for the resume button.
@@ -41,16 +40,16 @@ import system.IServiceLocator;
      */
     /* package */ PauseScreen(final IServiceLocator sL) {
         this.serviceLocator = sL;
-        logger = sL.getLoggerFactory().createLogger(PauseScreen.class);
+        this.logger = sL.getLoggerFactory().createLogger(PauseScreen.class);
 
         // Background
-        background = this.serviceLocator.getSpriteFactory().getPauseCoverSprite();
+        this.background = this.serviceLocator.getSpriteFactory().getPauseCoverSprite();
 
         // Resume button
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
-        int resumeButtonX = (int) (sL.getConstants().getGameWidth() * RESUME_BUTTON_X);
-        int resumeButtonY = (int) (sL.getConstants().getGameHeight() * RESUME_BUTTON_Y);
-        resumeButton = buttonFactory.createResumeButton(resumeButtonX, resumeButtonY);
+        int resumeButtonX = (int) (sL.getConstants().getGameWidth() * PauseScreen.RESUME_BUTTON_X);
+        int resumeButtonY = (int) (sL.getConstants().getGameHeight() * PauseScreen.RESUME_BUTTON_Y);
+        this.resumeButton = buttonFactory.createResumeButton(resumeButtonX, resumeButtonY);
     }
 
     /**
@@ -58,8 +57,8 @@ import system.IServiceLocator;
      */
     @Override
     public void start() {
-        serviceLocator.getInputManager().addObserver(resumeButton);
-        logger.info("The pause scene is now displaying");
+        this.serviceLocator.getInputManager().addObserver(this.resumeButton);
+        this.logger.info("The pause scene is now displaying");
     }
 
     /**
@@ -67,8 +66,8 @@ import system.IServiceLocator;
      */
     @Override
     public void stop() {
-        serviceLocator.getInputManager().removeObserver(resumeButton);
-        logger.info("The pause scene is no longer displaying");
+        this.serviceLocator.getInputManager().removeObserver(this.resumeButton);
+        this.logger.info("The pause scene is no longer displaying");
     }
 
     /**
@@ -76,8 +75,8 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSpriteHUD(background, 0, 0);
-        resumeButton.render();
+        this.serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
+        this.resumeButton.render();
     }
 
     /**
@@ -85,13 +84,6 @@ import system.IServiceLocator;
      */
     @Override
     public void update(final double delta) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void mouseClicked(final int x, final int y) {
     }
 
 }
