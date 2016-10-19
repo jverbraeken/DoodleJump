@@ -39,7 +39,9 @@ public final class SpriteFactory implements ISpriteFactory {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         SpriteFactory.serviceLocator = sL;
         SpriteFactory.serviceLocator.provide(new SpriteFactory());
     }
