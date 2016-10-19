@@ -132,6 +132,14 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.chooseMode);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getShopButtonSprite() {
+        return getSprite(IRes.Sprites.shop);
+    }
+
     // Covers
 
     /**

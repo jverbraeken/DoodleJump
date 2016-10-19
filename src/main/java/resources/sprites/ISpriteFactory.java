@@ -26,6 +26,8 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getChooseModeButtonSprite();
 
+    ISprite getShopButtonSprite();
+
 
     // Covers
     ISprite getBackground();

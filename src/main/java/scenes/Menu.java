@@ -34,11 +34,15 @@ public class Menu implements IScene, IKeyInputObserver {
     /**
      * The X and Y location for the play button.
      */
-    private static final double MULTIPLAYER_BUTTON_X = 0.41d, MULTIPLAYER_BUTTON_Y = 0.47d;
+    private static final double SHOP_BUTTON_X = 0.41d, SHOP_BUTTON_Y = 0.47d;
+    /**
+     * The X and Y location for the play button.
+     */
+    private static final double MULTIPLAYER_BUTTON_X = 0.54d, MULTIPLAYER_BUTTON_Y = 0.58d;
     /**
      * The X and Y location for the choose mode button.
      */
-    private static final double CHOOSE_MODE_X = 0.6d, CHOOSE_MODE_Y = 0.65d;
+    private static final double CHOOSE_MODE_X = 0.67d, CHOOSE_MODE_Y = 0.69d;
     /**
      * The X and Y location for the StartScreen platform.
      */
@@ -95,6 +99,9 @@ public class Menu implements IScene, IKeyInputObserver {
         buttons.add(buttonFactory.createMultiplayerButton(
                 (int) (sL.getConstants().getGameWidth() * MULTIPLAYER_BUTTON_X),
                 (int) (sL.getConstants().getGameHeight() * MULTIPLAYER_BUTTON_Y)));
+        buttons.add(buttonFactory.createShopButton(
+                (int) (sL.getConstants().getGameWidth() * SHOP_BUTTON_X),
+                (int) (sL.getConstants().getGameHeight() * SHOP_BUTTON_Y)));
         buttons.add(buttonFactory.createChooseModeButton(
                 (int) (sL.getConstants().getGameWidth() * CHOOSE_MODE_X),
                 (int) (sL.getConstants().getGameHeight() * CHOOSE_MODE_Y)));

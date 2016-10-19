@@ -100,6 +100,18 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
+    public IButton createShopButton(final int x, final int y) {
+        assert ButtonFactory.serviceLocator != null;
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getShopButtonSprite();
+        Runnable toShop = () -> Game.setScene(ButtonFactory.serviceLocator.getSceneFactory().createShopScreen());
+        return new Button(ButtonFactory.serviceLocator, x, y, buttonSprite, toShop, "shop");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IButton createMainMenuButton(final int x, final int y) {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();

@@ -35,6 +35,15 @@ public interface IButtonFactory extends IFactory {
     IButton createMultiplayerButton(int x, int y);
 
     /**
+     * Create a new button that opens the shop when clicked.
+     *
+     * @param x the x position of the button.
+     * @param y the y position of the button.
+     * @return a shop button.
+     */
+    IButton createShopButton(int x, int y);
+
+    /**
      * Create a press to resume playing button.
      *
      * @param x the x position of the button.
