@@ -5,7 +5,6 @@ import constants.IConstants;
 import input.Keys;
 import objects.doodles.Doodle;
 import objects.doodles.DoodleBehavior.MovementBehavior;
-import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.IDoodle;
 import objects.powerups.IPowerup;
@@ -30,7 +29,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
- * Test class for the RegularBehavior class.
+ * Test class for the SpaceBehavior class.
  */
 public class SpaceBehaviorTest {
 
