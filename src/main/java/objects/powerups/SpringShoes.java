@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.AGameObject;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
@@ -42,6 +43,10 @@ import system.IServiceLocator;
      */
     @Override
     public void perform(final PowerupOccasion occasion) {
+        if (this.owner == null) {
+            throw new IllegalArgumentException("Owner cannot be null");
+        }
+
         if (occasion == PowerupOccasion.collision) {
             this.uses += 1;
             this.owner.setVerticalSpeed(BOOST);
@@ -58,7 +63,11 @@ import system.IServiceLocator;
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        if (this.owner == null) {
+        if (doodle == null) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
+        if (this.owner == null && doodle.getVerticalSpeed() > 0 && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
             getLogger().info("Doodle collided with a pair of SpringShoes");
             this.owner = doodle;
             doodle.setPowerup(this);
