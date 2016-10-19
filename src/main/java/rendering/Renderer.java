@@ -193,7 +193,7 @@ public final class Renderer implements IRenderer {
     @Override
     public void drawTextHUD(final int x, final int y, final String msg, final TextAlignment alignment) {
         assert graphics != null;
-        drawText(x, y, msg, alignment, Color.white);
+        drawTextHUD(x, y, msg, alignment, Color.white);
     }
 
     /**
