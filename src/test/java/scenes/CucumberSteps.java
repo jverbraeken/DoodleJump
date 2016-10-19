@@ -32,7 +32,7 @@ public class CucumberSteps implements En {
                     Game.setScene(
                             sL.getSceneFactory().createMainMenu());
                     break;
-                case "ChooseMode":
+                case "ChooseModeScreen":
                     Game.setScene(
                             sL.getSceneFactory().newChooseMode());
                     break;
@@ -105,8 +105,8 @@ public class CucumberSteps implements En {
                 case "World":
                     assertThat(Whitebox.getInternalState(Game.class, "scene") instanceof World, is(true));
                     break;
-                case "ChooseMode":
-                    assertThat(Whitebox.getInternalState(Game.class, "scene") instanceof ChooseMode, is(true));
+                case "ChooseModeScreen":
+                    assertThat(Whitebox.getInternalState(Game.class, "scene") instanceof ChooseModeScreen, is(true));
                     break;
                 case "ScoreScreen":
                     assertThat(Whitebox.getInternalState(Game.class, "scene") instanceof ScoreScreen, is(true));
