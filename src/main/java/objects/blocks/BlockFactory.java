@@ -296,6 +296,7 @@ public final class BlockFactory implements IBlockFactory {
      * @param elements A set of elements.
      * @param platform The platform a powerup potentially is placed on.
      **/
+    @SuppressWarnings("checkstyle::magicnumber")
     private void chanceForPowerup(final Set<IGameObject> elements, final IPlatform platform) {
         ICalc calc = serviceLocator.getCalc();
 
@@ -344,7 +345,6 @@ public final class BlockFactory implements IBlockFactory {
      * @param heightDividedPlatforms the height devided by the amount of platforms.
      * @return the Enemy as IGameObject.
      */
-    @SuppressWarnings("checkstyle::magicnumber")
     private IGameObject placeEnemy(final IPlatform platform, final int heightDividedPlatforms) {
         ICalc calc = serviceLocator.getCalc();
         double widthDeviation = calc.getRandomDouble(1d);
