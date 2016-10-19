@@ -8,6 +8,7 @@ import objects.powerups.Powerups;
 import progression.IProgressionManager;
 import rendering.Color;
 import rendering.IRenderer;
+import rendering.TextAlignment;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IRenderable;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
     /**
      * The X-position at which the buttons in the first row will be created.
      */
-    private static final double BUTTON_X_START = 0.15d;
+    private static final double BUTTON_X_START = 0.05d;
     /**
      * The X-position at which the buttons in the second row will be created.
      */
@@ -46,6 +47,22 @@ import java.util.ArrayList;
      * The X-distance between the button and the text (button included).
      */
     private static final int BUTTON_TEXT_OFFSET = 100;
+    /**
+     * The relative Y-position of the information about the powerups.
+     */
+    private static final double POWERUP_INFO_Y = 0.3d;
+    /**
+     * The relative X-position of the powerup level label, first column.
+     */
+    private static final double POWERUP_INFO_X = 0.06d;
+    /**
+     * The relative X-position of the powerup level label, second column.
+     */
+    private static final double POWERUP_INFO_X2 = 0.93d;
+    /**
+     * The text used to indicate the current level of the powerup.
+     */
+    private static final String POWERUP_INFO_LEVEL = "Level - Cost";
 
     /**
      * X & Y location in relation to the frame of the {@link objects.powerups.Jetpack} upgrade button.
@@ -217,9 +234,7 @@ import java.util.ArrayList;
     @Override
     public void render() {
         final IRenderer renderer = serviceLocator.getRenderer();
-        final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
         final IConstants constants = serviceLocator.getConstants();
-        final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         final int width = constants.getGameWidth();
         final int height = constants.getGameHeight();
         renderer.drawSpriteHUD(this.background, 0, 0);
@@ -237,42 +252,38 @@ import java.util.ArrayList;
         renderer.drawTextHUD(coinTextX, coinTextY, Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
 
         buttons.forEach(IRenderable::render);
-        // TODO ultra lelijke code
-        if (progressionManager.getPowerupLevel(Powerups.JETPACK) < Powerups.JETPACK.getMaxLevel() - 1) {
-            final int price = Powerups.JETPACK.getPrice(progressionManager.getPowerupLevel(Powerups.JETPACK) + 1);
-            final int yOffset = spriteFactory.getPowerupSprite(Powerups.JETPACK, progressionManager.getPowerupLevel(Powerups.JETPACK)).getHeight() / 2;
-            renderer.drawTextHUD((int) (JETPACK_BUTTON_X * width) + BUTTON_TEXT_OFFSET, (int) (JETPACK_BUTTON_Y * height) + yOffset, Integer.toString(price), Color.black);
+
+        renderer.drawTextHUD((int) (POWERUP_INFO_X * width), (int) (POWERUP_INFO_Y * height), POWERUP_INFO_LEVEL, TextAlignment.left, Color.black);
+        renderer.drawTextHUD((int) (POWERUP_INFO_X2 * width), (int) (POWERUP_INFO_Y * height), POWERUP_INFO_LEVEL, TextAlignment.right, Color.black);
+        
+        drawPowerupText(Powerups.JETPACK, JETPACK_BUTTON_X, JETPACK_BUTTON_Y);
+        drawPowerupText(Powerups.PROPELLER, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y);
+        drawPowerupText(Powerups.SIZEDOWN, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y);
+        drawPowerupText(Powerups.SIZEUP, SIZEUP_BUTTON_X, SIZEUP_BUTTON_Y);
+        drawPowerupText(Powerups.SPRING, SPRING_BUTTON_X, SPRING_BUTTON_Y);
+        drawPowerupText(Powerups.SPRINGSHOES, SPRINGSHOES_BUTTON_X, SPRINGSHOES_BUTTON_Y);
+        drawPowerupText(Powerups.TRAMPOLINE, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y);
+    }
+
+    private void drawPowerupText(Powerups powerup, double jetpackButtonX, double jetpackButtonY) {
+        final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
+        final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        final IRenderer renderer = serviceLocator.getRenderer();
+        final IConstants constants = serviceLocator.getConstants();
+        final int width = constants.getGameWidth();
+        final int height = constants.getGameHeight();
+        
+        final int level = progressionManager.getPowerupLevel(Powerups.JETPACK);
+        String string;
+        if (progressionManager.getPowerupLevel(powerup) < powerup.getMaxLevel() - 1) {
+            final int price = powerup.getPrice(level + 1);
+            string = (level + 1) + " - " + price;
         }
-        if (progressionManager.getPowerupLevel(Powerups.PROPELLER) < Powerups.PROPELLER.getMaxLevel() - 1) {
-            final int price = Powerups.PROPELLER.getPrice(progressionManager.getPowerupLevel(Powerups.PROPELLER) + 1);
-            final int yOffset = spriteFactory.getPowerupSprite(Powerups.SPRING, progressionManager.getPowerupLevel(Powerups.SPRING)).getHeight();
-            renderer.drawTextHUD((int) (PROPELLER_BUTTON_X * width) + BUTTON_TEXT_OFFSET, (int) (PROPELLER_BUTTON_Y * height) + yOffset, Integer.toString(price), Color.black);
+        else {
+            string = Integer.toString(level + 1);
         }
-        if (progressionManager.getPowerupLevel(Powerups.SIZEDOWN) < Powerups.SIZEDOWN.getMaxLevel() - 1) {
-            final int price = Powerups.SIZEDOWN.getPrice(progressionManager.getPowerupLevel(Powerups.SIZEDOWN) + 1);
-            final int yOffset = spriteFactory.getPowerupSprite(Powerups.SPRING, progressionManager.getPowerupLevel(Powerups.SPRING)).getHeight();
-            renderer.drawTextHUD((int) (SIZEDOWN_BUTTON_X * width) + BUTTON_TEXT_OFFSET, (int) (SIZEDOWN_BUTTON_Y * height) + yOffset, Integer.toString(price), Color.black);
-        }
-        if (progressionManager.getPowerupLevel(Powerups.SIZEUP) < Powerups.SIZEUP.getMaxLevel() - 1) {
-            final int price = Powerups.SIZEUP.getPrice(progressionManager.getPowerupLevel(Powerups.SIZEUP) + 1);
-            final int yOffset = spriteFactory.getPowerupSprite(Powerups.SPRING, progressionManager.getPowerupLevel(Powerups.SPRING)).getHeight();
-            renderer.drawTextHUD((int) (SIZEUP_BUTTON_X * width) + BUTTON_TEXT_OFFSET, (int) (SIZEUP_BUTTON_Y * height) + yOffset, Integer.toString(price), Color.black);
-        }
-        if (progressionManager.getPowerupLevel(Powerups.SPRING) < Powerups.SPRING.getMaxLevel() - 1) {
-            final int price = Powerups.SPRING.getPrice(progressionManager.getPowerupLevel(Powerups.SPRING) + 1);
-            final int yOffset = spriteFactory.getPowerupSprite(Powerups.SPRING, progressionManager.getPowerupLevel(Powerups.SPRING)).getHeight();
-            renderer.drawTextHUD((int) (SPRING_BUTTON_X * width) + BUTTON_TEXT_OFFSET, (int) (SPRING_BUTTON_Y * height) + yOffset, Integer.toString(price), Color.black);
-        }
-        if (progressionManager.getPowerupLevel(Powerups.SPRINGSHOES) < Powerups.SPRINGSHOES.getMaxLevel() - 1) {
-            final int price = Powerups.SPRINGSHOES.getPrice(progressionManager.getPowerupLevel(Powerups.SPRINGSHOES) + 1);
-            final int yOffset = spriteFactory.getPowerupSprite(Powerups.SPRING, progressionManager.getPowerupLevel(Powerups.SPRING)).getHeight();
-            renderer.drawTextHUD((int) (SPRINGSHOES_BUTTON_X * width) + BUTTON_TEXT_OFFSET, (int) (SPRINGSHOES_BUTTON_Y * height) + yOffset, Integer.toString(price), Color.black);
-        }
-        if (progressionManager.getPowerupLevel(Powerups.TRAMPOLINE) < Powerups.TRAMPOLINE.getMaxLevel() - 1) {
-            final int price = Powerups.TRAMPOLINE.getPrice(progressionManager.getPowerupLevel(Powerups.JETPACK) + 1);
-            final int yOffset = spriteFactory.getPowerupSprite(Powerups.SPRING, progressionManager.getPowerupLevel(Powerups.SPRING)).getHeight();
-            renderer.drawTextHUD((int) (TRAMPOLINE_BUTTON_X * width) + BUTTON_TEXT_OFFSET, (int) (TRAMPOLINE_BUTTON_Y * height) + yOffset, Integer.toString(price), Color.black);
-        }
+        final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup)).getHeight() / 2;
+        renderer.drawTextHUD((int) (jetpackButtonX * width) + BUTTON_TEXT_OFFSET, (int) (jetpackButtonY * height) + yOffset, string, Color.black);
     }
 
     /**
