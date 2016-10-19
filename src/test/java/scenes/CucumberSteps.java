@@ -7,9 +7,7 @@ import org.powermock.reflect.Whitebox;
 import system.Game;
 import system.IServiceLocator;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -21,7 +19,12 @@ public class CucumberSteps implements En {
 
 
         Given("^that the game is started$", () -> {
-            sL = Whitebox.getInternalState(Game.class, "serviceLocator");
+            try {
+                Whitebox.invokeConstructor(Game.class);
+                sL = Whitebox.getInternalState(Game.class, "serviceLocator");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
         Given("^that the scene is (.*)$", (String scene) -> {
             switch (scene) {
@@ -126,22 +129,22 @@ public class CucumberSteps implements En {
         Then("^the mode should be (.*)$", (String mode) -> {
             switch (mode) {
                 case "regular":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode"),is(Game.Modes.regular));
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.regular));
                     break;
                 case "space":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode"),is(Game.Modes.space));
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.space));
                     break;
                 case "underwater":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode"),is(Game.Modes.underwater));
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.underwater));
                     break;
                 case "darkness":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode"),is(Game.Modes.darkness));
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.darkness));
                     break;
                 case "invert":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode"),is(Game.Modes.invert));
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.invert));
                     break;
                 case "story":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode"),is(Game.Modes.story));
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.story));
                     break;
             }
         });
