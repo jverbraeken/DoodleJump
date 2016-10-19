@@ -191,6 +191,46 @@ public final class ProgressionManager implements IProgressionManager {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getPowerupLevel(final Powerups powerup) {
+        if (powerup == null) {
+            final String error = "The powerup cannot be null";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+        return powerupLevels.get(powerup);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void decreaseCoins(final int amount) {
+        assert coins >= 0;
+
+        if (amount < 0) {
+            final String error = "The amount of coins to be subtracted must be more than 0";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+        this.coins -= amount;
+
+        assert coins >= 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void increasePowerupLevel(final Powerups powerup) {
+        assert this.powerupLevels.containsKey(powerup);
+        final int currentLevel = this.powerupLevels.get(powerup);
+        this.powerupLevels.replace(powerup, currentLevel + 1);
+    }
+
+    /**
      * Loads the progression of the player from the disk.
      */
     private void loadData() {

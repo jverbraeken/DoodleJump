@@ -15,30 +15,6 @@ import java.util.ArrayList;
 /* package */ class ShopScreen implements IScene {
 
     /**
-     * X & Y location in relation to the frame of the regular mode button.
-     */
-    private static final double REGULAR_MODE_X = 0.2, REGULAR_MODE_Y = 0.25;
-    /**
-     * X & Y location in relation to the frame of the underwater mode button.
-     */
-    private static final double UNDERWATER_MODE_X = 0.2, UNDERWATER_MODE_Y = 0.45;
-    /**
-     * X & Y location in relation to the frame of the space mode button.
-     */
-    private static final double SPACE_MODE_X = 0.2, SPACE_MODE_Y = 0.65;
-    /**
-     * X & Y location in relation to the frame of the invert mode button.
-     */
-    private static final double INVERT_MODE_X = 0.6, INVERT_MODE_Y = 0.65;
-    /**
-     * X & Y location in relation to the frame of the story mode button.
-     */
-    private static final double STORY_MODE_X = 0.6, STORY_MODE_Y = 0.25;
-    /**
-     * X & Y location in relation to the frame of the darkness mode button.
-     */
-    private static final double DARKNESS_MODE_X = 0.6, DARKNESS_MODE_Y = 0.45;
-    /**
      * X & Y location in relation to the frame of the main menu button.
      */
     private static final double MAIN_MENU_BUTTON_X = 0.35, MAIN_MENU_BUTTON_Y = 0.1;
@@ -63,10 +39,6 @@ import java.util.ArrayList;
      * An ArrayList of all the buttons.
      */
     private final ArrayList<IButton> buttons = new ArrayList<>();
-    /**
-     * Is the choose mode screen active, should it be displayed.
-     */
-    private boolean active = false;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -85,31 +57,7 @@ import java.util.ArrayList;
         IButton mainMenuButton = buttonFactory.createMainMenuButton(
                 (int) (sL.getConstants().getGameWidth() * MAIN_MENU_BUTTON_X),
                 (int) (sL.getConstants().getGameHeight() * MAIN_MENU_BUTTON_Y));
-        IButton darknessModeButton = buttonFactory.createDarknessModeButton(
-                (int) (sL.getConstants().getGameWidth() * DARKNESS_MODE_X),
-                (int) (sL.getConstants().getGameHeight() * DARKNESS_MODE_Y));
-        IButton storyModeButton = buttonFactory.createStoryModeButton(
-                (int) (sL.getConstants().getGameWidth() * STORY_MODE_X),
-                (int) (sL.getConstants().getGameHeight() * STORY_MODE_Y));
-        IButton spaceModeButton = buttonFactory.createSpaceModeButton(
-                (int) (sL.getConstants().getGameWidth() * SPACE_MODE_X),
-                (int) (sL.getConstants().getGameHeight() * SPACE_MODE_Y));
-        IButton underwaterModeButton = buttonFactory.createUnderwaterModeButton(
-                (int) (sL.getConstants().getGameWidth() * UNDERWATER_MODE_X),
-                (int) (sL.getConstants().getGameHeight() * UNDERWATER_MODE_Y));
-        IButton invertModeButton = buttonFactory.createInvertModeButton(
-                (int) (sL.getConstants().getGameWidth() * INVERT_MODE_X),
-                (int) (sL.getConstants().getGameHeight() * INVERT_MODE_Y));
-        IButton regularModeButton = buttonFactory.createRegularModeButton(
-                (int) (sL.getConstants().getGameWidth() * REGULAR_MODE_X),
-                (int) (sL.getConstants().getGameHeight() * REGULAR_MODE_Y));
         buttons.add(mainMenuButton);
-        buttons.add(darknessModeButton);
-        buttons.add(storyModeButton);
-        buttons.add(spaceModeButton);
-        buttons.add(underwaterModeButton);
-        buttons.add(invertModeButton);
-        buttons.add(regularModeButton);
 
     }
 

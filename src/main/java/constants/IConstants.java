@@ -1,5 +1,7 @@
 package constants;
 
+import objects.powerups.Powerups;
+
 /**
  * Interface for the constants class.
  */
@@ -54,4 +56,11 @@ public interface IConstants {
      */
     String getSaveFilePath();
 
+    /**
+     * Returns the price to upgrade a certain powerup.
+     * @param powerup The powerup you want the price of the upgrade from
+     * @param powerupLevel The level of the upgrade
+     * @return The price in coins of the upgrade of the powerup to the level specified
+     */
+    int getPowerupPrice(final Powerups powerup, final int powerupLevel);
 }

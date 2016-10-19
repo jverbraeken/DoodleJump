@@ -1,5 +1,9 @@
 package buttons;
 
+import constants.IConstants;
+import objects.powerups.PowerupOccasion;
+import objects.powerups.Powerups;
+import progression.IProgressionManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
@@ -213,6 +217,32 @@ public final class ButtonFactory implements IButtonFactory {
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getStoryModeButton();
         Runnable storyMode = () -> Game.setMode(Game.Modes.story);
+        return new Button(ButtonFactory.serviceLocator, x, y, buttonSprite, storyMode, "storyMode");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createShopJetpackButton(final int x, final int y) {
+        assert ButtonFactory.serviceLocator != null;
+
+        final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
+        final Powerups powerup = Powerups.JETPACK;
+        final int currentPowerupLevel = progressionManager.getPowerupLevel(powerup);
+
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getJetpackSprite();
+        Runnable storyMode = () -> {
+
+            final IConstants constants = serviceLocator.getConstants();
+            final int price = constants.getPowerupPrice(powerup, currentPowerupLevel);
+            if (progressionManager.getCoins() >= price) {
+                progressionManager.decreaseCoins(price);
+                progressionManager.increasePowerupLevel(powerup);
+            }
+
+        };
         return new Button(ButtonFactory.serviceLocator, x, y, buttonSprite, storyMode, "storyMode");
     }
 
