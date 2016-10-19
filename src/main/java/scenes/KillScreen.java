@@ -2,8 +2,11 @@ package scenes;
 
 import buttons.IButton;
 import buttons.IButtonFactory;
+import constants.IConstants;
 import logging.ILogger;
+import rendering.IRenderer;
 import resources.sprites.ISprite;
+import system.IRenderable;
 import system.IServiceLocator;
 
 /**
@@ -54,27 +57,25 @@ import system.IServiceLocator;
     private ISprite background;
 
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
+     * Package protected constructor, only allowing the SceneFactory to create a KillScreen.
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     /* package */ KillScreen(final IServiceLocator sL) {
         assert sL != null;
         this.serviceLocator = sL;
-        logger = sL.getLoggerFactory().createLogger(KillScreen.class);
+        this.logger = sL.getLoggerFactory().createLogger(KillScreen.class);
 
-        background = sL.getSpriteFactory().getBackground();
-        bottomKillScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
-        gameOverSprite = sL.getSpriteFactory().getGameOverSprite();
+        this.background = sL.getSpriteFactory().getBackground();
+        this.bottomKillScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
+        this.gameOverSprite = sL.getSpriteFactory().getGameOverSprite();
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
-        playAgainButton = buttonFactory.createPlayAgainButton(
-                (int) (sL.getConstants().getGameWidth() * PLAY_AGAIN_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * PLAY_AGAIN_BUTTON_Y));
-        mainMenuButton = buttonFactory.createMainMenuButton(
-                (int) (sL.getConstants().getGameWidth() * MAIN_MENU_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * MAIN_MENU_BUTTON_Y));
-
+        this.playAgainButton = buttonFactory.createPlayAgainButton(
+                (int) (sL.getConstants().getGameWidth() * KillScreen.PLAY_AGAIN_BUTTON_X),
+                (int) (sL.getConstants().getGameHeight() * KillScreen.PLAY_AGAIN_BUTTON_Y));
+        this.mainMenuButton = buttonFactory.createMainMenuButton(
+                (int) (sL.getConstants().getGameWidth() * KillScreen.MAIN_MENU_BUTTON_X),
+                (int) (sL.getConstants().getGameHeight() * KillScreen.MAIN_MENU_BUTTON_Y));
     }
 
     /**
@@ -82,10 +83,9 @@ import system.IServiceLocator;
      */
     @Override
     public final void start() {
-        playAgainButton.register();
-        mainMenuButton.register();
-
-        logger.info("The kill screen scene is now displaying");
+        this.playAgainButton.register();
+        this.mainMenuButton.register();
+        this.logger.info("The kill screen scene is now displaying");
     }
 
     /**
@@ -93,10 +93,9 @@ import system.IServiceLocator;
      */
     @Override
     public final void stop() {
-        playAgainButton.deregister();
-        mainMenuButton.deregister();
-
-        logger.info("The kill screen scene is no longer displaying");
+        this.playAgainButton.deregister();
+        this.mainMenuButton.deregister();
+        this.logger.info("The kill screen scene is no longer displaying");
     }
 
     /**
@@ -104,16 +103,18 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
-        serviceLocator.getRenderer().drawSpriteHUD(
-                this.gameOverSprite,
-                (int) (serviceLocator.getConstants().getGameWidth() * GAME_OVER_TEXT_X),
-                (int) (serviceLocator.getConstants().getGameHeight() * GAME_OVER_TEXT_Y));
+        IConstants constants = this.serviceLocator.getConstants();
+        IRenderer renderer = this.serviceLocator.getRenderer();
 
-        double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
-        serviceLocator.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
-        playAgainButton.render();
-        mainMenuButton.render();
+        renderer.drawSpriteHUD(this.background, 0, 0);
+        renderer.drawSpriteHUD(this.gameOverSprite,
+                (int) (constants.getGameWidth() * KillScreen.GAME_OVER_TEXT_X),
+                (int) (constants.getGameHeight() * KillScreen.GAME_OVER_TEXT_Y));
+
+        double y = (double) constants.getGameHeight() - (double) this.bottomKillScreen.getHeight();
+        renderer.drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
+        this.playAgainButton.render();
+        this.mainMenuButton.render();
     }
 
     /**
