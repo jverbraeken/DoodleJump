@@ -34,6 +34,9 @@ public abstract class ATrampoline extends AGameObject implements IJumpable {
         this.BOOST = boost;
     }
 
+    /**
+     * Plays the sound of the ATrampoline object.
+     */
     abstract void playSound();
 
     /**
@@ -80,7 +83,7 @@ public abstract class ATrampoline extends AGameObject implements IJumpable {
         int oldHeight = getSprite().getHeight();
 
         ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
-        ISprite newSprite = spriteFactory.getCannonUsedSprite();
+        ISprite newSprite = usedSprite;
         setSprite(newSprite);
 
         int newHeight = newSprite.getHeight();
