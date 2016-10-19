@@ -1,23 +1,15 @@
 package math;
 
 /**
- * This class handles all advanced calculations.
+ * Interface for the class handles all advanced calculations.
  * Examples are random integers and doubles.
  */
 public interface ICalc {
 
     /**
-     * The amount of microseconds in a second.
-     */
-    int MICROSECONDS = 1000000;
-    /**
      * The amount of nanoseconds in a second.
      */
     int NANOSECONDS = 1000000000;
-    /**
-     * The amount of seconds in a nanosecond.
-     */
-    double NANOSECONDS_INV = 1 / NANOSECONDS;
 
     /**
      * Returns a random int within the range specified by {@code lower} and {@code upper}.

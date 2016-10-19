@@ -12,4 +12,5 @@ import objects.IGameObject;
      * @return a random IGameObject.
      */
     IGameObject getRandomElement();
+
 }

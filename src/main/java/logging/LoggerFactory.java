@@ -20,13 +20,13 @@ public final class LoggerFactory implements ILoggerFactory {
     private static final String LOG_IGNORE_FILE = "logIgnore.json";
 
     /**
-     * The file to which the log data should be written.
-     */
-    private static String logFile;
-    /**
      * Used to gain access to all services.
      */
     private static IServiceLocator serviceLocator;
+    /**
+     * The file to which the log data should be written.
+     */
+    private static String logFile;
     /**
      * The logger for LoggerFactory.
      */
@@ -37,22 +37,33 @@ public final class LoggerFactory implements ILoggerFactory {
     private final Set<Class<?>> logIgnore;
 
     /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     * @param sL The IServiceLocator to which the class should offer its functionality.
+     */
+    public static void register(final IServiceLocator sL) {
+        assert sL != null;
+        LoggerFactory.serviceLocator = sL;
+        LoggerFactory.serviceLocator.provide(new LoggerFactory());
+    }
+
+    /**
      * Hidden constructor to prevent instantiation.
      */
     private LoggerFactory() {
-        logFile = LoggerFactory.serviceLocator.getConstants().getLogFile();
+        IFileSystem fileSystem = LoggerFactory.serviceLocator.getFileSystem();
 
+        LoggerFactory.logFile = LoggerFactory.serviceLocator.getConstants().getLogFile();
         if (Game.CLEAR_LOG_ON_STARTUP) {
-            IFileSystem fileSystem = LoggerFactory.serviceLocator.getFileSystem();
             fileSystem.clearFile(logFile);
         }
 
-        logger = new Logger(serviceLocator, this.getClass());
+        this.logger = new Logger(serviceLocator, this.getClass());
 
-        logIgnore = new HashSet<>();
+        this.logIgnore = new HashSet<>();
         try {
-            List<String> list = (List<String>) serviceLocator.getFileSystem().parseJsonList(LOG_IGNORE_FILE, String.class);
-            for (String className : list) {
+            List<String> ignoreList = (List<String>) fileSystem.parseJsonList(
+                    LoggerFactory.LOG_IGNORE_FILE, String.class);
+            for (String className : ignoreList) {
                 try {
                     logIgnore.add(Class.forName(className));
                 } catch (ClassNotFoundException e) {
@@ -61,20 +72,9 @@ public final class LoggerFactory implements ILoggerFactory {
                 }
             }
         } catch (FileNotFoundException e) {
-            logger.error("The file " + LOG_IGNORE_FILE + " requested by LoggerFactory was not found");
+            logger.error("The file " + LoggerFactory.LOG_IGNORE_FILE + " requested by LoggerFactory was not found");
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality.
-     */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        LoggerFactory.serviceLocator = sL;
-        sL.provide(new LoggerFactory());
     }
 
     /**
@@ -82,7 +82,7 @@ public final class LoggerFactory implements ILoggerFactory {
      */
     @Override
     public ILogger createLogger(final Class<?> cl) {
-        if (logIgnore.contains(cl)) {
+        if (this.logIgnore.contains(cl)) {
             return new ILogger() {
 
                 @Override
@@ -100,9 +100,10 @@ public final class LoggerFactory implements ILoggerFactory {
                 @Override
                 public void warning(final String msg) {
                 }
+
             };
         } else {
-            return new Logger(serviceLocator, cl);
+            return new Logger(LoggerFactory.serviceLocator, cl);
         }
     }
 

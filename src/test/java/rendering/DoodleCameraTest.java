@@ -56,7 +56,7 @@ public class DoodleCameraTest {
     @Test
     public void testUpdate() {
         camera.update(0d);
-        verify(doodle, times(2)).getYPos();
+        verify(doodle, times(1)).getYPos();
     }
 
 }
