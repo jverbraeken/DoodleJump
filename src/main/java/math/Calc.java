@@ -20,7 +20,9 @@ public final class Calc implements ICalc {
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         sL.provide(new Calc());
     }
 

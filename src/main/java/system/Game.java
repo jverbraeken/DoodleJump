@@ -42,11 +42,6 @@ public final class Game {
     public static final String LOGFILE_NAME = "async.log";
 
     /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator serviceLocator;
-
-    /**
      * The time in milliseconds per frame.
      */
     private static final int FRAME_TIME = 16;
@@ -64,15 +59,17 @@ public final class Game {
     private static final transient Object LOCK = new Object();
 
     /**
+     * Used to gain access to all services.
+     */
+    private static IServiceLocator serviceLocator;
+    /**
      * The logger for the Game class.
      */
     private static ILogger logger;
-
     /**
      * The high scores list for the Game.
      */
     public static HighScoreList highScores;
-
     /**
      * The current frame.
      */
@@ -156,19 +153,21 @@ public final class Game {
     private static IScene pauseScreen;
 
     /**
+     * Used by Cucumber test.
+     */
+    private Game() {
+        Game.serviceLocator = ServiceLocatorNoAudio.getServiceLocator();
+        Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
+        Game.highScores = new HighScoreList(Game.serviceLocator);
+    }
+
+    /**
      * Prevents instantiation from outside the Game class.
      */
     private Game(final IServiceLocator sL) {
-
-        serviceLocator = sL;
-        /**
-         * The logger for the Game class.
-         */
-        logger = serviceLocator.getLoggerFactory().createLogger(Game.class);
-        /**
-         * The high scores list for the Game.
-         */
-        highScores = new HighScoreList(serviceLocator);
+        Game.serviceLocator = sL;
+        Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
+        Game.highScores = new HighScoreList(Game.serviceLocator);
     }
 
     /**
@@ -391,4 +390,5 @@ public final class Game {
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
     }
+
 }

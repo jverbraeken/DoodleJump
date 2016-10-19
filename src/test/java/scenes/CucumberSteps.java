@@ -13,11 +13,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class CucumberSteps implements En {
+
     private IServiceLocator sL;
 
     public CucumberSteps() {
-
-
         Given("^that the game is started$", () -> {
             try {
                 Whitebox.invokeConstructor(Game.class);
