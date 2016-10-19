@@ -58,9 +58,7 @@ public class HighScoreList {
      */
     /* package */ final void initHighScores() {
         String plain = this.loadFromFile();
-        if (plain != null) {
-            this.parseHighScoreString(plain);
-        }
+        this.parseHighScoreString(plain);
     }
 
     /**
@@ -91,7 +89,7 @@ public class HighScoreList {
             logger.warning("High scores file not found, starting with empty high scores list");
         }
 
-        return null;
+        return "";
     }
 
     /**
