@@ -33,7 +33,7 @@ public final class AudioManager implements IAudioManager {
      * Prevents instantiation from outside the class.
      */
     private AudioManager() {
-        preload();
+        this.preload();
     }
 
     /**
@@ -433,7 +433,7 @@ public final class AudioManager implements IAudioManager {
         private Clip clip;
 
         /**
-         * Used to preload all files.
+         * Preload a sound.
          * @param filepath The path of the file of the sound.
          */
         Sound(final String filepath) {
@@ -457,10 +457,7 @@ public final class AudioManager implements IAudioManager {
          * Play a sound.
          */
         public void play() {
-            if (this.clip.isRunning()) {
-                this.clip.stop();
-            }
-
+            this.clip.stop();
             this.clip.setFramePosition(0);
             this.clip.start();
         }
