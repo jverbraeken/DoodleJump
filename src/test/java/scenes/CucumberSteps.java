@@ -22,7 +22,6 @@ public class CucumberSteps implements En {
                 Whitebox.invokeConstructor(Game.class);
                 sL = Whitebox.getInternalState(Game.class, "serviceLocator");
             } catch (Exception e) {
-                System.out.println("hoi---------------" + sL);
                 e.printStackTrace();
             }
         });
