@@ -130,8 +130,7 @@ import java.util.List;
      */
     @Override
     public void update(final double delta) {
-        coinSpriteIndex += 0.3 * delta;
-        coinSpriteIndex = coinSpriteIndex % 10;
+        coinSpriteIndex = (coinSpriteIndex + 0.3 * delta) % 10;
     }
 
     /**

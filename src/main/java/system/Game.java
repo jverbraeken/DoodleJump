@@ -385,15 +385,4 @@ public final class Game {
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
     }
-
-    /**
-     * Use a seperate class to manage the coins, because Game is static and thus cannot be registered as observer to
-     * other classes.
-     */
-    public class CoinManager {
-        private int coins;
-        private CoinManager() {
-
-        }
-    }
 }
