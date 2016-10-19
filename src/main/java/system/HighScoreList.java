@@ -75,14 +75,12 @@ public class HighScoreList {
     private String loadFromFile() {
         IFileSystem fileSystem = this.serviceLocator.getFileSystem();
         IConstants constants = this.serviceLocator.getConstants();
+
         try {
             List<String> content = fileSystem.readProjectFile(constants.getHighScoresFilePath());
-
-            if (content.size() > 0) {
-                return content.get(0);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            return content.get(0);
+        } catch (Exception e) {
+            this.logger.error(e);
             this.logger.warning("High scores file not found, starting with empty high scores list");
         }
 
