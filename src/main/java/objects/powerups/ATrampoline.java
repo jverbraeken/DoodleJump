@@ -4,6 +4,7 @@ import objects.AGameObject;
 import objects.IJumpable;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
@@ -33,8 +34,20 @@ public abstract class ATrampoline extends AGameObject implements IJumpable {
         this.BOOST = boost;
     }
 
-    abstract void animate();
     abstract void playSound();
+
+    /**
+     * Returns the usedSprite when a doodle collides with this object.
+     * @return a ISprite object.
+     */
+    final public ISprite getUsedSprite() { return this.usedSprite; }
+
+    /**
+     * Returns the default sprite.
+     * @return a ISprite object.
+     */
+    final public ISprite getDefaultSprite() { return this.defaultSprite; }
+
     /**
      * {@inheritDoc}
      */
@@ -62,8 +75,16 @@ public abstract class ATrampoline extends AGameObject implements IJumpable {
         getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
-    final public ISprite getUsedSprite() { return this.usedSprite; }
 
-    final public ISprite getDefaultSprite() { return this.defaultSprite; }
+    public void animate() {
+        int oldHeight = getSprite().getHeight();
+
+        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
+        ISprite newSprite = spriteFactory.getCannonUsedSprite();
+        setSprite(newSprite);
+
+        int newHeight = newSprite.getHeight();
+        this.addYPos(oldHeight - newHeight);
+    }
 
 }

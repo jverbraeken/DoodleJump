@@ -1,7 +1,5 @@
 package objects.powerups;
 
-import resources.sprites.ISprite;
-import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
@@ -26,26 +24,12 @@ public class CircusCannon extends ATrampoline {
                 sL.getSpriteFactory().getCannonUsedSprite(),
                 Trampoline.class);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     void playSound() { }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    void animate() {
-        int oldHeight = getSprite().getHeight();
-
-        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
-        ISprite newSprite = spriteFactory.getCannonUsedSprite();
-        setSprite(newSprite);
-
-        int newHeight = newSprite.getHeight();
-        this.addYPos(oldHeight - newHeight);
-    }
 }
 

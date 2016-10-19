@@ -64,7 +64,7 @@ import java.util.TimerTask;
      * {@inheritDoc}
      */
     @Override
-    void animate() {
+    public void animate() {
         int oldHeight = getSprite().getHeight();
         int newHeight = this.getUsedSprite().getHeight();
         this.addYPos(oldHeight - newHeight);
