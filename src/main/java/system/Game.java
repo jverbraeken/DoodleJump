@@ -16,6 +16,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import static system.Game.Modes.regular;
+import static system.Game.PlayerModes.single;
 
 /**
  * This is the main class that runs the game.
@@ -91,6 +92,14 @@ public final class Game {
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
+    /**
+     * The enums for the player mode.
+     */
+    public enum PlayerModes { single, multi }
+    /**
+     * Track the current playerMode of the game.
+     */
+    private static PlayerModes playerMode = single;
     /**
      * The scale of the game.
      */
@@ -190,6 +199,22 @@ public final class Game {
         SpriteFactory.register(serviceLocator);
         setScene(serviceLocator.getSceneFactory().newChooseMode());
         LOGGER.info("The mode is now " + m);
+    }
+
+    /**
+     * Get the current playerMode.
+     * @return the playermode of the player.
+     */
+    public static PlayerModes getPlayerMode() {
+        return Game.playerMode;
+    }
+
+    /**
+     * Set the current playerMode.
+     * @param m the playermode the player has to be set on.
+     */
+    public static void setPlayerMode(final PlayerModes m) {
+        Game.playerMode = m;
     }
 
     /**

@@ -8,6 +8,9 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * This class describes the behaviour of the trampoline powerup.
  */
@@ -17,6 +20,19 @@ import system.IServiceLocator;
      * The BOOST value for the Trampoline.
      */
     private static final double BOOST = -50;
+    /**
+     * The speed with which the springs retracts after it is being used.
+     */
+    private static final int RETRACT_SPEED = 250;
+
+    /**
+     * The default sprite for the Trampoline.
+     */
+    private static ISprite defaultSprite;
+    /**
+     * The used sprite for the Trampoline.
+     */
+    private static ISprite usedSprite;
 
     /**
      * Trampoline constructor.
@@ -27,6 +43,10 @@ import system.IServiceLocator;
      */
     /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite(), Trampoline.class);
+
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+        Trampoline.defaultSprite = spriteFactory.getTrampolineSprite();
+        Trampoline.usedSprite = spriteFactory.getTrampolineUsedSprite();
     }
 
     /**
@@ -34,7 +54,14 @@ import system.IServiceLocator;
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        doodle.collide(this);
+        if (doodle == null) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
+        if (doodle.getVerticalSpeed() > 0 && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
+            getLogger().info("Doodle collided with a Trampoline");
+            doodle.collide(this);
+        }
     }
 
     /**
@@ -69,12 +96,17 @@ import system.IServiceLocator;
      */
     private void animate() {
         int oldHeight = getSprite().getHeight();
-
-        ISpriteFactory spriteFactory = getServiceLocator().getSpriteFactory();
-        ISprite newSprite = spriteFactory.getTrampolineUsedSprite();
-
-        int newHeight = newSprite.getHeight();
+        int newHeight = Trampoline.usedSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
+        this.setSprite(Trampoline.usedSprite);
+
+        Trampoline self = this;
+        new Timer().schedule(new TimerTask() {
+            public void run() {
+                self.addYPos(newHeight - oldHeight);
+                self.setSprite(Trampoline.defaultSprite);
+            }
+        }, Trampoline.RETRACT_SPEED);
     }
 
 }

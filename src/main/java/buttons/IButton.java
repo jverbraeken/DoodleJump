@@ -17,4 +17,5 @@ public interface IButton extends IRenderable, IMouseInputObserver {
      * Deregisters its button from the {@link input.IInputManager input manager}.
      */
     void deregister();
+
 }

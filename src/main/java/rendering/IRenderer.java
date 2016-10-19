@@ -93,7 +93,7 @@ public interface IRenderer {
      * @param height the height of the rectangle.
      * @param color the color of the rectangle.
      */
-    void fillRectangle(int x, int y, int width, int height, Color color);
+    void fillRectangle(final int x, final int y, final int width, final int height, final Color color);
 
     /**
      * Create a graphics buffer for smooth animations and rendering.
@@ -108,5 +108,12 @@ public interface IRenderer {
      * @return The camera the Renderer is using
      */
     ICamera getCamera();
+
+    /**
+     * Set the camera used by the Renderer.
+     *
+     * @param camera A class implementing the ICamera interface.
+     */
+    void setCamera(final ICamera camera);
 
 }

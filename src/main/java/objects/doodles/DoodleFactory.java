@@ -34,7 +34,9 @@ public final class DoodleFactory implements IDoodleFactory {
         sL.provide(new DoodleFactory());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IDoodle createDoodle(final World world) {
         IDoodle doodle = new Doodle(serviceLocator, world);
@@ -42,7 +44,9 @@ public final class DoodleFactory implements IDoodleFactory {
         return doodle;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IDoodle createStartScreenDoodle() {
         return new StartScreenDoodle(serviceLocator);

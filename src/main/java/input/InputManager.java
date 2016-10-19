@@ -42,12 +42,11 @@ public final class InputManager implements IInputManager {
      * Prevents instantiation from outside the class.
      */
     private InputManager() {
-        logger = serviceLocator.getLoggerFactory().createLogger(InputManager.class);
+        this.logger = serviceLocator.getLoggerFactory().createLogger(InputManager.class);
     }
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
@@ -57,89 +56,114 @@ public final class InputManager implements IInputManager {
     }
 
     /* MOUSE EVENTS */
-
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseClicked(final MouseEvent e) {
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mousePressed(final MouseEvent e) {
         int x = (2 * e.getX() - 2 * offsetX), y = (2 * e.getY() - 2 * offsetY);
-        logger.info("Mouse pressed, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
+        this.logger.info("Mouse pressed, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
 
-        Set<IMouseInputObserver> observers = (HashSet<IMouseInputObserver>) mouseInputObservers.clone();
+        Set<IMouseInputObserver> observers = (HashSet<IMouseInputObserver>) this.mouseInputObservers.clone();
         for (IMouseInputObserver observer : observers) {
             observer.mouseClicked(x, y);
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseReleased(final MouseEvent e) {
         int x = (2 * e.getX() - 2 * offsetX), y = (2 * e.getY() - 2 * offsetY);
-        logger.info("Mouse released, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
+        this.logger.info("Mouse released, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void mouseEntered(final MouseEvent e) { }
+    public void mouseEntered(final MouseEvent e) {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void mouseExited(final MouseEvent e) { }
+    public void mouseExited(final MouseEvent e) {
+    }
 
     /* KEY EVENTS */
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void keyTyped(final KeyEvent e) { }
+    public void keyTyped(final KeyEvent e) {
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void keyPressed(final KeyEvent e) {
-        logger.info("Key pressed, keyCode: " + e.getKeyCode());
-        for (IKeyInputObserver observer : keyInputObservers) {
+        this.logger.info("Key pressed, keyCode: " + e.getKeyCode());
+        for (IKeyInputObserver observer : this.keyInputObservers) {
             observer.keyPress(KeyCode.getKey(e.getKeyCode()));
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void keyReleased(final KeyEvent e) {
-        logger.info("Key released, keyCode: " + e.getKeyCode());
-        for (IKeyInputObserver observer : keyInputObservers) {
+        this.logger.info("Key released, keyCode: " + e.getKeyCode());
+        for (IKeyInputObserver observer : this.keyInputObservers) {
             observer.keyRelease(KeyCode.getKey(e.getKeyCode()));
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addObserver(final IMouseInputObserver mouseInputObserver) {
-        mouseInputObservers.add(mouseInputObserver);
+        this.mouseInputObservers.add(mouseInputObserver);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addObserver(final IKeyInputObserver keyInputObserver) {
-        keyInputObservers.add(keyInputObserver);
+        this.keyInputObservers.add(keyInputObserver);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeObserver(final IMouseInputObserver mouseInputObserver) {
-        mouseInputObservers.remove(mouseInputObserver);
+        this.mouseInputObservers.remove(mouseInputObserver);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeObserver(final IKeyInputObserver keyInputObserver) {
-        keyInputObservers.remove(keyInputObserver);
+        this.keyInputObservers.remove(keyInputObserver);
     }
 
     /**
      * Set the main border size, used for mouse inputs.
-     *
      * @param windowLBSize The size of the left border.
      * @param windowTBSize The size of the top border.
      */

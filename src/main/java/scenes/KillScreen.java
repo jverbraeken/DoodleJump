@@ -81,7 +81,9 @@ import system.IServiceLocator;
 
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void start() {
         playAgainButton.register();
@@ -91,7 +93,9 @@ import system.IServiceLocator;
         logger.info("The kill screen scene is now displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void stop() {
         playAgainButton.deregister();
@@ -101,7 +105,9 @@ import system.IServiceLocator;
         logger.info("The kill screen scene is no longer displaying");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         if (active) {
@@ -118,8 +124,11 @@ import system.IServiceLocator;
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public final void update(final double delta) { }
+    public final void update(final double delta) {
+    }
 
 }

@@ -8,7 +8,7 @@ import system.IServiceLocator;
 /**
  * Standard implementation of the EnemyBuilder. Used to generate enemies.
  */
-public final class EnemyBuilder implements IEnemyBuilder {
+public final class EnemyFactory implements IEnemyFactory {
 
     /**
      * Used to gain access to all services.
@@ -22,8 +22,8 @@ public final class EnemyBuilder implements IEnemyBuilder {
     /**
      * Private constructor to prevent instantiation from outside the class.
      */
-    private EnemyBuilder() {
-        logger = serviceLocator.getLoggerFactory().createLogger(EnemyBuilder.class);
+    private EnemyFactory() {
+        logger = serviceLocator.getLoggerFactory().createLogger(EnemyFactory.class);
     }
 
     /**
@@ -33,14 +33,17 @@ public final class EnemyBuilder implements IEnemyBuilder {
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
-        EnemyBuilder.serviceLocator = sL;
-        EnemyBuilder.serviceLocator.provide(new EnemyBuilder());
+        EnemyFactory.serviceLocator = sL;
+        EnemyFactory.serviceLocator.provide(new EnemyFactory());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public IGameObject createEnemy(final int x, final int y, final ISprite sprite) {
-        logger.info("A new Enemy has been created: x = " + x + ", y = " + y + " sprite = " + sprite.toString());
+    public IGameObject createOrdinaryEnemy(final int x, final int y) {
+        ISprite sprite = serviceLocator.getSpriteFactory().getOrdinaryMonsterSprite();
+        logger.info("A new Ordinary Enemy has been created: x = " + x + ", y = " + y);
         return new Enemy(serviceLocator, x, y, sprite);
 
     }

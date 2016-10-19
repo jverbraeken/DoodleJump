@@ -1,6 +1,7 @@
 package objects.blocks.platform;
 
 import resources.sprites.ISprite;
+import system.Game;
 import system.IServiceLocator;
 
 /**
@@ -34,11 +35,19 @@ public final class PlatformFactory implements IPlatformFactory {
         sL.provide(new PlatformFactory());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IPlatform createPlatform(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSprite1();
-        return new Platform(serviceLocator, x, y, sprite);
+        IPlatform platform = new Platform(serviceLocator, x, y, sprite);
+
+        if (Game.getMode().equals(Game.Modes.darkness)) {
+            IPlatform darkness = new PlatformDarkness(serviceLocator, platform);
+            return  darkness;
+        }
+        return platform;
     }
 
     /**
@@ -70,10 +79,9 @@ public final class PlatformFactory implements IPlatformFactory {
     public IPlatform createBreakPlatform(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getPlatformBrokenSprite1();
         IPlatform platform = new Platform(serviceLocator, x, y, sprite);
-        platform.getProps().put(Platform.PlatformProperties.breaks, 1);
+        IPlatform broken = new PlatformBroken(serviceLocator, platform);
 
-        return platform;
+        return broken;
     }
-
 
 }

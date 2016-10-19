@@ -5,7 +5,6 @@ import logging.ILogger;
 import logging.ILoggerFactory;
 import math.ICalc;
 import objects.doodles.IDoodle;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.ServiceLocator;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,6 +14,7 @@ import rendering.ICamera;
 import rendering.IRenderer;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import java.lang.reflect.Field;
@@ -27,6 +27,8 @@ import static org.powermock.api.mockito.PowerMockito.when;
 public class PlatformTest {
 
     private IPlatform p;
+    private IPlatform q;
+    private ISpriteFactory sf;
     private IServiceLocator serviceLocator;
     private IRenderer renderer;
     private ISprite sprite;
@@ -50,17 +52,25 @@ public class PlatformTest {
         audioManager = mock(IAudioManager.class);
         doodle = mock(IDoodle.class);
 
+        sprite = mock(ISprite.class);
+        sf = mock(ISpriteFactory.class);
+        when(sf.getPlatformBrokenSprite1()).thenReturn(sprite);
+        when(sf.getPlatformSprite1()).thenReturn(sprite);
+
         serviceLocator = mock(IServiceLocator.class);
         ILogger logger = mock(ILogger.class);
         ILoggerFactory logFac = mock(ILoggerFactory.class);
         when(logFac.createLogger(Platform.class)).thenReturn(logger);
         when(serviceLocator.getLoggerFactory()).thenReturn(logFac);
-
+        when(serviceLocator.getSpriteFactory()).thenReturn(sf);
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
-        sprite = mock(ISprite.class);
+        when(doodle.getVerticalSpeed()).thenReturn(1d);
+        when(doodle.getHitBox()).thenReturn(new double[4]);
+
         p = new Platform(serviceLocator, 1, 1, sprite);
+        q = new PlatformBroken(serviceLocator, p);
     }
 
     /**
@@ -72,16 +82,6 @@ public class PlatformTest {
 
         Mockito.verify(serviceLocator).getRenderer();
         Mockito.verify(renderer).drawSprite(sprite, 1, 1);
-    }
-
-    /**
-     * Test the updateEnums method.
-     */
-    @Test
-    public void updateEnumsTest() {
-        p.updateEnums(1,1);
-
-        Mockito.verify(serviceLocator, Mockito.times(0)).getConstants();
     }
 
     /**
@@ -120,9 +120,7 @@ public class PlatformTest {
     }
 
     /**
-     * Test the getOffSet method.
-     * @throws NoSuchFieldException if the field does not exist.
-     * @throws IllegalAccessException if you can't acces that field.
+     * Test the collidesWith method.
      */
     @Test
     public void collidesWith(){
@@ -132,14 +130,17 @@ public class PlatformTest {
         Mockito.verify(audioManager).playJump();
     }
 
-    
     @Test
     public void collidesWithBreakPlatform(){
-        p.getProps().put(Platform.PlatformProperties.breaks, 1);
-        p.collidesWith(doodle);
+        q.collidesWith(doodle);
 
-        Mockito.verify(doodle, Mockito.times(0)).collide(p);
+        Mockito.verify(doodle, Mockito.times(0)).collide(q);
         Mockito.verify(audioManager).playLomise();
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void collideNoDoodleTest() {
+        p.collidesWith(null);
     }
 
 }

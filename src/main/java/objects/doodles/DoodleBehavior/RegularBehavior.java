@@ -70,6 +70,7 @@ public class RegularBehavior implements MovementBehavior {
     @Override
     public final void move(final double delta) {
         moveHorizontally(delta);
+
         applyGravity(delta);
         animate(delta);
 

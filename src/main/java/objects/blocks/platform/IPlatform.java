@@ -2,7 +2,6 @@ package objects.blocks.platform;
 
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.doodles.IDoodle;
 
 import java.util.Map;
 
@@ -10,6 +9,7 @@ import java.util.Map;
  * This class focuses on the implementation of platforms.
  */
 public interface IPlatform extends IGameObject, IJumpable {
+
     /**
      * Will return the BOOST attribute.
      *
@@ -23,13 +23,6 @@ public interface IPlatform extends IGameObject, IJumpable {
     void render();
 
     /**
-     * Will send to the Doodle that it is colliding with this platform.
-     *
-     * @param doodle the Doodle it is colliding with.
-     */
-    void collidesWith(IDoodle doodle);
-
-    /**
      * Returns the Map with properties of the Platform.
      *
      * @return the Map with properties
@@ -39,10 +32,10 @@ public interface IPlatform extends IGameObject, IJumpable {
     /**
      * Updates the special properties of the Platform.
      *
-     * @param xpos the x position of the platform
-     * @param ypos the y position of the platform
+     * @param xPos the x position of the platform
+     * @param yPos the y position of the platform
      */
-    void updateEnums(double xpos, double ypos);
+    void updateEnums(final double xPos, final double yPos);
 
     /**
      * Returns the Map with directions of the Platform.
@@ -56,7 +49,7 @@ public interface IPlatform extends IGameObject, IJumpable {
      *
      * @param offSet the offSet that this.offSet has to be set to.
      */
-    void setOffset(int offSet);
+    void setOffset(final int offSet);
 
     /**
      * Returns the offSet of the platform.
@@ -64,4 +57,5 @@ public interface IPlatform extends IGameObject, IJumpable {
      * @return the offSet of the platform.
      */
     int getOffset();
+
 }
