@@ -8,6 +8,8 @@ import java.util.Map;
 
 /**
  * Resources class, containing information about sprites.
+ * <br>
+ * It is not deemed necessary for all individual resources to have a JavaDoc.
  */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class Res implements IRes {
@@ -18,8 +20,12 @@ public final class Res implements IRes {
     private static final String SPRITE_PATH = "sprites/";
 
     /**
+     * A map mapping Sprites enum to String containing the path to the sprite.
+     */
+    private final Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
+
+    /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
@@ -28,17 +34,10 @@ public final class Res implements IRes {
     }
 
     /**
-     * A map mapping Sprites enum to String containing the path to the sprite.
-     */
-    private final Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
-
-    // Initializes the sprites.
-    { resetSkin(); }
-
-    /**
      * Prevent instantiation of Res.
      */
     private Res() {
+        resetSkin();
     }
 
     /**
@@ -77,7 +76,6 @@ public final class Res implements IRes {
      * Reset the skin to the regular settings.
      */
     private void resetSkin() {
-        // TODO this should be removed in the final version when all Sprites are ready
         for (Sprites sprite : Sprites.values()) {
             sprites.put(sprite, SPRITE_PATH + "unimplemented.jpg");
         }
@@ -113,11 +111,10 @@ public final class Res implements IRes {
         sprites.put(Sprites.vampireMonster4, SPRITE_PATH + "vampireMonster4.png");
         sprites.put(Sprites.vampireMonster5, SPRITE_PATH + "vampireMonster5.png");
 
-        //Stars
+        // Stars
         sprites.put(Sprites.confusedStars1, SPRITE_PATH + "stars1@2x.png");
         sprites.put(Sprites.confusedStars2, SPRITE_PATH + "stars2@2x.png");
         sprites.put(Sprites.confusedStars3, SPRITE_PATH + "stars3@2x.png");
-
 
         // Kill screen
         sprites.put(Sprites.gameOver, SPRITE_PATH + "gameover@2x.png");
@@ -156,7 +153,6 @@ public final class Res implements IRes {
         sprites.put(Sprites.shield, SPRITE_PATH + "powerup-shield@2x.png");
         sprites.put(Sprites.sizeUp, SPRITE_PATH + "powerup-size-up@2x.png");
         sprites.put(Sprites.sizeDown, SPRITE_PATH + "powerup-size-down@2x.png");
-        // Passive
         sprites.put(Sprites.jetpack0, SPRITE_PATH + "jetpack-0@2x.png");
         sprites.put(Sprites.jetpack1, SPRITE_PATH + "jetpack-1@2x.png");
         sprites.put(Sprites.jetpack2, SPRITE_PATH + "jetpack-2@2x.png");
@@ -272,7 +268,6 @@ public final class Res implements IRes {
         sprites.put(Sprites.platformBroken3, SPRITE_PATH + "invisible-platform@2x.png");
         sprites.put(Sprites.platformBroken4, SPRITE_PATH + "invisible-platform@2x.png");
         sprites.put(Sprites.platform4, SPRITE_PATH + "space-platform@2x.png");
-
 
         // Top bar
         sprites.put(Sprites.scoreBar, SPRITE_PATH + "space-scorebar@2x.png");
