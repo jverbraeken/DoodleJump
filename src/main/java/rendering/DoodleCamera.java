@@ -29,7 +29,6 @@ import system.IServiceLocator;
 
     /**
      * Package constructor to prevent instantiation from outside the package.
-     *
      * @param sL The serviceLocator for the Game.
      * @param d The Doodle that should be used as reference point.
      */
@@ -59,11 +58,9 @@ import system.IServiceLocator;
      */
     @Override
     public void update(final double delta) {
-         int height = serviceLocator.getConstants().getGameHeight();
-         double yThreshold = this.getYPos() + height * DOODLE_THRESHOLD;
-         if (this.doodle.getYPos() < yThreshold) {
-             this.setYPos(doodle.getYPos() - height * DOODLE_THRESHOLD);
-         }
+        int height = this.serviceLocator.getConstants().getGameHeight();
+        double newY = Math.min(this.getYPos(), this.doodle.getYPos() - height * DoodleCamera.DOODLE_THRESHOLD);
+        this.setYPos(newY);
     }
 
 }

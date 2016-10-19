@@ -1,8 +1,7 @@
 package objects.powerups;
 
+import objects.AGameObject;
 import objects.doodles.IDoodle;
-import progression.IPowerupObserver;
-import progression.ISpringUsedObserver;
 import progression.ProgressionObservers;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -55,7 +54,14 @@ import java.util.TimerTask;
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        doodle.collide(this);
+        if (doodle == null) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
+        if (doodle.getVerticalSpeed() > 0 && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
+            getLogger().info("Doodle collided with a Spring");
+            doodle.collide(this);
+        }
     }
 
     /**

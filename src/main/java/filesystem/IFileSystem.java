@@ -62,8 +62,8 @@ public interface IFileSystem {
     Clip readSound(final String filename) throws FileNotFoundException;
 
     /**
-     * Writes {@code content} to the resource text-file given by the filepath {@code filename}. The path to the file must
-     * exist.
+     * Writes {@code content} to the resource text-file given by the filepath {@code filename}. The path to the file
+     * must exist.
      *
      * @param filename The full path to the file.
      * @param content  The text to write to the file.
@@ -120,8 +120,9 @@ public interface IFileSystem {
      * @param filename The name of the file.
      * @return A {@link File} class embedding the specified file.
      * @throws FileNotFoundException Thrown when the file specified was not found.
+     * @throws IllegalArgumentException When filename is null.
      */
-    File getResourceFile(final String filename) throws FileNotFoundException;
+    File getResourceFile(final String filename) throws FileNotFoundException, IllegalArgumentException;
 
     /**
      * Loads the project file specified by {@code filename} and checks if it is a valid file.

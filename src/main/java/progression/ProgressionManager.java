@@ -336,7 +336,7 @@ public final class ProgressionManager implements IProgressionManager {
      * Create a new missio based on the {@link #level} of the doodle.
      */
     private void createNewMission() {
-        assert missionsData.length < 3;
+        assert missions.size() < 3;
         if (level < missionsData.length) {
             final int levelCopy = level;
             logger.info("New mission was created: level = " +

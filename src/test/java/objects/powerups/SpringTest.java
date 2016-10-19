@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.Before;
@@ -36,6 +37,7 @@ public class SpringTest {
     private IDoodle doodle;
     private ILoggerFactory loggerFactory;
     private IProgressionManager progressionManager;
+    private ILogger logger;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -54,7 +56,9 @@ public class SpringTest {
         doodle = mock(IDoodle.class);
         loggerFactory = mock(ILoggerFactory.class);
         progressionManager = mock(IProgressionManager.class);
+        logger = mock(ILogger.class);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
+        when(loggerFactory.createLogger(Spring.class)).thenReturn(logger);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(spriteFactory.getSpringSprite()).thenReturn(sprite);
         when(spriteFactory.getSpringUsedSprite()).thenReturn(usedSprite);
@@ -63,6 +67,10 @@ public class SpringTest {
         when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
         when(sprite.getHeight()).thenReturn(20);
         when(usedSprite.getHeight()).thenReturn(40);
+        when(doodle.getHitBox()).thenReturn(new double[]{0, 0, 0, 0});
+        when(doodle.getYPos()).thenReturn(-2d);
+        when(doodle.getLegsHeight()).thenReturn(0d);
+        when(doodle.getVerticalSpeed()).thenReturn(1d);
     }
 
     /**
@@ -113,7 +121,7 @@ public class SpringTest {
     @Test
     public void testCollidesWith2() throws Exception {
         spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
-        thrown.expect(NullPointerException.class);
+        thrown.expect(IllegalArgumentException.class);
         spring.collidesWith(null);
     }
 
