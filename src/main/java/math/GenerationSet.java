@@ -23,29 +23,42 @@ public class GenerationSet implements IWeightsSet {
     /**
      * The list with weights, it uses Key-Value pairs in it.
      */
-    private List<MyEntry<Double, String>> weights;
+    private final List<MyEntry<Double, String>> weights;
     /**
-     * The servicelocator of this game.
+     * The serviceLocator of this game.
      */
-    private IServiceLocator serviceLocator;
+    private final IServiceLocator serviceLocator;
 
     /**
      * Create and initialize a WeightsSet.
-     *
-     * @param weights a set with the weights that have to be used.
      * @param sL the serviceLocator this class should use.
+     * @param weights a set with the weights that have to be used.
      * @param elementType the list with strings of the element types.
      */
     public GenerationSet(final IServiceLocator sL, final List<Double> weights, final List<String> elementType) {
         assert weights.size() == elementType.size();
-        this.weights = sortWeightsMap(weights, elementType);
 
+        this.weights = this.sortWeightsMap(weights, elementType);
         this.serviceLocator = sL;
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final IGameObject getRandomElement() {
+        double randDouble = this.serviceLocator.getCalc().getRandomDouble(1);
+
+        for (MyEntry<Double, String> entry : this.weights) {
+            if (entry.getKey() >= randDouble) {
+                return this.getGameObject(entry.getValue());
+            }
+        }
+        return null;
+    }
+
+    /**
      * Sort the weights by the key value double.
-     *
      * @param weights A set with the weights that have to be used.
      * @param elementType The list with strings of the element types.
      * @return A list of MyEntry's.
@@ -67,29 +80,13 @@ public class GenerationSet implements IWeightsSet {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final IGameObject getRandomElement() {
-        double randDouble = serviceLocator.getCalc().getRandomDouble(1);
-
-        for (MyEntry<Double, String> entry : weights) {
-            if (entry.getKey() >= randDouble) {
-                return getGameObject(entry.getValue());
-            }
-        }
-        return null;
-    }
-
-    /**
      * Returns an instantiation of an IGameObject.
-     *
      * @param objectName the name of the object.
      * @return the wanted object as an IGameObject.
      */
     private IGameObject getGameObject(final String objectName) {
-        IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-        IPowerupFactory powerupFactory = serviceLocator.getPowerupFactory();
+        IPlatformFactory platformFactory = this.serviceLocator.getPlatformFactory();
+        IPowerupFactory powerupFactory = this.serviceLocator.getPowerupFactory();
         switch (objectName) {
             case ("normalPlatform"):
                 return platformFactory.createPlatform(0, 0);
@@ -140,7 +137,6 @@ public class GenerationSet implements IWeightsSet {
 
         /**
          * Initialize the MyEntry class.
-         *
          * @param key The key to use.
          * @param value The value to use.
          */
@@ -174,5 +170,7 @@ public class GenerationSet implements IWeightsSet {
             this.value = value;
             return old;
         }
+
     }
+
 }

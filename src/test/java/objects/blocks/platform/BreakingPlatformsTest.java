@@ -3,7 +3,6 @@ package objects.blocks.platform;
 import constants.IConstants;
 import logging.ILogger;
 import logging.ILoggerFactory;
-import logging.LoggerFactory;
 import math.Calc;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({SpriteFactory.class, Calc.class, Sprite.class})
 public class BreakingPlatformsTest {
@@ -132,4 +132,10 @@ public class BreakingPlatformsTest {
         p.render();
         assertThat(p.getYPos(), is(oldYpos + 3));
     }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void collideNoDoodleTest() {
+        p.collidesWith(null);
+    }
+
 }

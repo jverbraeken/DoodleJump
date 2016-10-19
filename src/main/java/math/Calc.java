@@ -16,18 +16,18 @@ public final class Calc implements ICalc {
     private static final Random RANDOM = new Random();
 
     /**
-     * Prevents instantiation from outside the class.
-     */
-    private Calc() { }
-
-    /**
      * Register the FileSystem into the service locator.
-     *
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         sL.provide(new Calc());
+    }
+
+    /**
+     * Prevents instantiation from outside the class.
+     */
+    private Calc() {
     }
 
     /**
@@ -48,7 +48,8 @@ public final class Calc implements ICalc {
     @Override
     public double getRandomDouble(final double max) {
         if (max <= 0) {
-            throw new IllegalArgumentException("The maximum value for a random double should be more than 0, but was [" + max + "] instead");
+            throw new IllegalArgumentException("The maximum value for a random double should be more than 0, but was ["
+                    + max + "] instead");
         }
 
         return RANDOM.nextDouble() * max;

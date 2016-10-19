@@ -35,13 +35,6 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final void keyPress(final Keys key) {
     }
 

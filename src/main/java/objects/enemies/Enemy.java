@@ -63,7 +63,7 @@ public class Enemy extends AEnemy {
      */
     @Override
     public final double getBoost() {
-        return this.BOOST;
+        return Enemy.BOOST;
     }
 
     /**
