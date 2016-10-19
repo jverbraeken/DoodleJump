@@ -413,9 +413,6 @@ public final class SpriteFactory implements ISpriteFactory {
     @SuppressWarnings("checkstyle:magicnumber")
     @Override
     public ISprite getDigitSprite(final int digit) {
-        if (digit < 0 || digit > 9) {
-            throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
-        }
         switch (digit) {
             case 0:
                 return this.getSprite(IRes.Sprites.zero);

@@ -37,7 +37,7 @@ public final class Res implements IRes {
      * Prevent instantiation of Res.
      */
     private Res() {
-        resetSkin();
+        this.setDefaultSkin();
     }
 
     /**
@@ -45,7 +45,7 @@ public final class Res implements IRes {
      */
     @Override
     public String getSpritePath(final Sprites sprite) {
-        return sprites.get(sprite);
+        return this.sprites.get(sprite);
     }
 
     /**
@@ -55,19 +55,19 @@ public final class Res implements IRes {
     public void setSkin(final Game.Modes mode) {
         switch (mode) {
             case regular:
-                resetSkin();
+                this.setDefaultSkin();
                 break;
             case space:
-                setSpaceSkin();
+                this.setSpaceSkin();
                 break;
             case underwater:
-                setUnderwaterSkin();
+                this.setUnderwaterSkin();
                 break;
             case darkness:
-                setDarknessSkin();
+                this.setDarknessSkin();
                 break;
             default:
-                resetSkin();
+                this.setDefaultSkin();
                 break;
         }
     }
@@ -75,7 +75,7 @@ public final class Res implements IRes {
     /**
      * Reset the skin to the regular settings.
      */
-    private void resetSkin() {
+    private void setDefaultSkin() {
         for (Sprites sprite : Sprites.values()) {
             sprites.put(sprite, SPRITE_PATH + "unimplemented.jpg");
         }
@@ -191,7 +191,7 @@ public final class Res implements IRes {
      * Set the skin to space style.
      */
     private void setSpaceSkin() {
-        resetSkin();
+        setDefaultSkin();
 
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "space-Default@2x.png");
@@ -218,7 +218,7 @@ public final class Res implements IRes {
      * Set the skin to underwater style.
      */
     private void setUnderwaterSkin() {
-        resetSkin();
+        setDefaultSkin();
 
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "underwater-Default@2x.png");
@@ -247,7 +247,7 @@ public final class Res implements IRes {
      * Set the skin to underwater style.
      */
     private void setDarknessSkin() {
-        resetSkin();
+        setDefaultSkin();
 
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "darkness-Default@2x.png");
