@@ -126,9 +126,9 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
-    public ChooseMode newChooseMode() {
-        logger.info("A new ChooseMode screen has been created");
-        return new ChooseMode(serviceLocator);
+    public ChooseModeScreen newChooseMode() {
+        logger.info("A new ChooseModeScreen screen has been created");
+        return new ChooseModeScreen(serviceLocator);
     }
 
 }
