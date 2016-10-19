@@ -52,10 +52,6 @@ import system.IServiceLocator;
      * Sprites to be displayed on the background of the KillScreen.
      */
     private ISprite background;
-    /**
-     * Is the kill screen active, should it be displayed.
-     */
-    private boolean active = false;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -89,7 +85,6 @@ import system.IServiceLocator;
         playAgainButton.register();
         mainMenuButton.register();
 
-        active = true;
         logger.info("The kill screen scene is now displaying");
     }
 
@@ -101,7 +96,6 @@ import system.IServiceLocator;
         playAgainButton.deregister();
         mainMenuButton.deregister();
 
-        active = false;
         logger.info("The kill screen scene is no longer displaying");
     }
 
@@ -110,18 +104,16 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        if (active) {
-            serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
-            serviceLocator.getRenderer().drawSpriteHUD(
-                    this.gameOverSprite,
-                    (int) (serviceLocator.getConstants().getGameWidth() * GAME_OVER_TEXT_X),
-                    (int) (serviceLocator.getConstants().getGameHeight() * GAME_OVER_TEXT_Y));
+        serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
+        serviceLocator.getRenderer().drawSpriteHUD(
+                this.gameOverSprite,
+                (int) (serviceLocator.getConstants().getGameWidth() * GAME_OVER_TEXT_X),
+                (int) (serviceLocator.getConstants().getGameHeight() * GAME_OVER_TEXT_Y));
 
-            double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
-            serviceLocator.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
-            playAgainButton.render();
-            mainMenuButton.render();
-        }
+        double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomKillScreen.getHeight();
+        serviceLocator.getRenderer().drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
+        playAgainButton.render();
+        mainMenuButton.render();
     }
 
     /**
