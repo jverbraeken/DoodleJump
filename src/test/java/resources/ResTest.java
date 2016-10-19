@@ -54,7 +54,7 @@ public class ResTest {
      */
     @Test(expected = AssertionError.class)
     public void testRegisterNullInput() {
-        thrown.expect(NullPointerException.class);
+        thrown.expect(IllegalArgumentException.class);
         Res.register(null);
     }
 
