@@ -62,6 +62,11 @@ public class JetpackTest {
         assertThat(owner, is(doodle));
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testCollidesWithNull() {
+        jetpack.collidesWith(null);
+    }
+
     @Test
     public void testRenderNoOwner() {
         jetpack.render();
@@ -85,10 +90,15 @@ public class JetpackTest {
     }
 
     @Test
-    public void testPerformInvalid() {
+    public void testPerformInvalidOccasion() {
         jetpack.collidesWith(doodle);
         jetpack.perform(PowerupOccasion.collision);
         verify(doodle, times(0)).setVerticalSpeed(anyDouble());
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testPerformNoOwner() {
+        jetpack.perform(PowerupOccasion.constant);
     }
 
 }

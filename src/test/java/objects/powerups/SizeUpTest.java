@@ -55,6 +55,11 @@ public class SizeUpTest {
         verify(doodle, times(1)).increaseSpriteScalar(sizeUpScalar);
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testCollidesWithNull() {
+        sizeUp.collidesWith(null);
+    }
+
     @Test
     public void testRender() {
         sizeUp.render();
