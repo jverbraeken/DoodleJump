@@ -46,7 +46,7 @@ public abstract class PlatformDecorator implements IPlatform {
      *
      * @return the platform.
      */
-    public IPlatform getContained() {
+    /* package */ IPlatform getContained() {
         return contained;
     }
 

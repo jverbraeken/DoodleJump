@@ -32,4 +32,5 @@ public final class PlatformDarkness extends PlatformDecorator implements IPlatfo
         getContained().setSprite(getServiceLocator().getSpriteFactory().getPlatformSprite4());
         getContained().collidesWith(doodle);
     }
+
 }
