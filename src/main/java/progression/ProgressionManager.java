@@ -217,6 +217,8 @@ public final class ProgressionManager implements IProgressionManager {
         }
         this.coins -= amount;
 
+        saveData();
+
         assert coins >= 0;
     }
 
@@ -225,9 +227,18 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void increasePowerupLevel(final Powerups powerup) {
+        if (powerup == null) {
+            throw new IllegalArgumentException("The level of the null powerup cannot be increased");
+        }
         assert this.powerupLevels.containsKey(powerup);
+
         final int currentLevel = this.powerupLevels.get(powerup);
+
+        assert currentLevel + 1 < powerup.getMaxLevel();
+
         this.powerupLevels.replace(powerup, currentLevel + 1);
+
+        saveData();
     }
 
     /**

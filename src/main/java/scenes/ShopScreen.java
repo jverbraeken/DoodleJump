@@ -265,7 +265,7 @@ import java.util.ArrayList;
         drawPowerupText(Powerups.TRAMPOLINE, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y);
     }
 
-    private void drawPowerupText(Powerups powerup, double jetpackButtonX, double jetpackButtonY) {
+    private void drawPowerupText(final Powerups powerup, final double jetpackButtonX, final double jetpackButtonY) {
         final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         final IRenderer renderer = serviceLocator.getRenderer();
@@ -273,7 +273,7 @@ import java.util.ArrayList;
         final int width = constants.getGameWidth();
         final int height = constants.getGameHeight();
         
-        final int level = progressionManager.getPowerupLevel(Powerups.JETPACK);
+        final int level = progressionManager.getPowerupLevel(powerup);
         String string;
         if (progressionManager.getPowerupLevel(powerup) < powerup.getMaxLevel() - 1) {
             final int price = powerup.getPrice(level + 1);
