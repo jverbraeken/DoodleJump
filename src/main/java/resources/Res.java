@@ -191,7 +191,7 @@ public final class Res implements IRes {
      * Set the skin to space style.
      */
     private void setSpaceSkin() {
-        setDefaultSkin();
+        this.setDefaultSkin();
 
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "space-Default@2x.png");
@@ -218,7 +218,7 @@ public final class Res implements IRes {
      * Set the skin to underwater style.
      */
     private void setUnderwaterSkin() {
-        setDefaultSkin();
+        this.setDefaultSkin();
 
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "underwater-Default@2x.png");
@@ -247,7 +247,7 @@ public final class Res implements IRes {
      * Set the skin to underwater style.
      */
     private void setDarknessSkin() {
-        setDefaultSkin();
+        this.setDefaultSkin();
 
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "darkness-Default@2x.png");
