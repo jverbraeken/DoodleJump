@@ -95,10 +95,10 @@ public final class Res implements IRes {
         sprites.put(Sprites.startCover, SPRITE_PATH + "Default@2x.png");
 
         // Doodle
-        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "blue-lik-Left@2x.png");
-        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "blue-lik-Left-odskok@2x.png");
-        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-Right@2x.png");
-        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-Right-odskok@2x.png");
+        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "blue-lik-left@2x.png");
+        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "blue-lik-left-odskok@2x.png");
+        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-right@2x.png");
+        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-right-odskok@2x.png");
 
         // Enemies
         sprites.put(Sprites.ordinaryMonster, SPRITE_PATH + "ordinaryMonster.png");
@@ -173,7 +173,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.scoreScreenTop, SPRITE_PATH + "high-scores-top@2x.png");
 
         // Top bar
-        sprites.put(Sprites.scoreBar, SPRITE_PATH + "scoreBar.png");
+        sprites.put(Sprites.scoreBar, SPRITE_PATH + "scorebar.png");
 
         // Choose mode icons
         sprites.put(Sprites.storyMode, SPRITE_PATH + "story-mode@4x.png");
