@@ -1,20 +1,18 @@
 package objects.blocks;
 
-import math.ICalc;
 import math.GenerationSet;
+import math.ICalc;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
+import objects.powerups.CircusCannon;
+import objects.powerups.RocketLauncher;
 import system.IServiceLocator;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -316,13 +314,8 @@ public final class BlockFactory implements IBlockFactory {
             if (powerup != null) {
                 int powerupXPos = (int) (calc.getRandomDouble(platformWidth));
                 double[] powHitbox = powerup.getHitBox();
-                final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
                 final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
-
-                int xPos = (int) platform.getXPos() + powerupXPos;
-                if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
-                    xPos = xPos - powerupWidth;
-                }
+                int xPos = setXPosOfPowerup(powerup, powerupXPos, (int) platform.getXPos(), platformWidth);
                 powerup.setXPos(xPos);
                 powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 1.75);
                 elements.add(powerup);
@@ -385,4 +378,25 @@ public final class BlockFactory implements IBlockFactory {
         return false;
     }
 
+    /**
+     * Sets the X position of the powerup depending on the type of the powerup.
+     * @param powerup The powerup object that's going to be set.
+     * @param powerupXPos The X position on the platform that has been randomly chosen.
+     * @param xPosPlatform The X position of the platform.
+     * @param platformWidth The width of the platform.
+     * @return integer of the X position of the powerup.
+     */
+    private int setXPosOfPowerup(IGameObject powerup, int powerupXPos, final int xPosPlatform, final int platformWidth) {
+        double[] powHitbox = powerup.getHitBox();
+        final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
+        if( powerup instanceof RocketLauncher || powerup instanceof CircusCannon){
+            return (xPosPlatform + (platformWidth / 2)) - (powerupWidth / 2);
+        } else {
+            int xPos = xPosPlatform + powerupXPos;
+            if (xPos > xPosPlatform + platformWidth - powerupWidth) {
+                xPos = xPos - powerupWidth;
+            }
+            return xPos;
+        }
+    }
 }
