@@ -412,34 +412,19 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @SuppressWarnings("checkstyle:magicnumber")
     @Override
-    public ISprite getDigitSprite(final int digit) {
-        if (digit < 0 || digit > 9) {
-            throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
-        }
-        switch (digit) {
-            case 0:
-                return this.getSprite(IRes.Sprites.zero);
-            case 1:
-                return this.getSprite(IRes.Sprites.one);
-            case 2:
-                return this.getSprite(IRes.Sprites.two);
-            case 3:
-                return this.getSprite(IRes.Sprites.three);
-            case 4:
-                return this.getSprite(IRes.Sprites.four);
-            case 5:
-                return this.getSprite(IRes.Sprites.five);
-            case 6:
-                return this.getSprite(IRes.Sprites.six);
-            case 7:
-                return this.getSprite(IRes.Sprites.seven);
-            case 8:
-                return this.getSprite(IRes.Sprites.eight);
-            case 9:
-                return this.getSprite(IRes.Sprites.nine);
-            default:
-                throw new IllegalArgumentException("A digit must be between 0 and 9 (inclusive)");
-        }
+    public ISprite[] getDigitSprites() {
+        return new ISprite[] {
+            this.getSprite(IRes.Sprites.zero),
+            this.getSprite(IRes.Sprites.one),
+            this.getSprite(IRes.Sprites.two),
+            this.getSprite(IRes.Sprites.three),
+            this.getSprite(IRes.Sprites.four),
+            this.getSprite(IRes.Sprites.five),
+            this.getSprite(IRes.Sprites.six),
+            this.getSprite(IRes.Sprites.seven),
+            this.getSprite(IRes.Sprites.eight),
+            this.getSprite(IRes.Sprites.nine)
+        };
     }
 
 
