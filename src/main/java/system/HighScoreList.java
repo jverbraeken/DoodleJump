@@ -78,7 +78,7 @@ public class HighScoreList {
         try {
             List<String> content = fileSystem.readProjectFile(constants.getHighScoresFilePath());
 
-            if (content.size() > 0 && !content.get(0).equals("")) {
+            if (content.size() > 0) {
                 return content.get(0);
             }
         } catch (FileNotFoundException e) {
@@ -95,8 +95,8 @@ public class HighScoreList {
      */
     private void parseHighScoreString(final String plain) {
         String[] scores = plain.split("\\s+");
-        for (int i = 0; i < scores.length; i += 2) {
-            HighScore score = new HighScore(scores[i], scores[i + 1]);
+        for (int i = 1; i < scores.length; i += 2) {
+            HighScore score = new HighScore(scores[i - 1], scores[i]);
             this.highScores.add(score);
         }
     }
