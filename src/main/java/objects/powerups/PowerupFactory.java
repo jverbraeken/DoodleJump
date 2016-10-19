@@ -99,4 +99,13 @@ public final class PowerupFactory implements IPowerupFactory {
         return new Trampoline(serviceLocator, x, y);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject createSpaceRocket(final int x, final int y) {
+        logger.info("A new Trampoline has been created");
+        return new SpaceRocket(serviceLocator, x, y);
+    }
+
 }
