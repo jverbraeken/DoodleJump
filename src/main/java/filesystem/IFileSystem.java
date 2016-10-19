@@ -118,8 +118,9 @@ public interface IFileSystem {
      * @param filename The name of the file.
      * @return A {@link File} class embedding the specified file.
      * @throws FileNotFoundException Thrown when the file specified was not found.
+     * @throws IllegalArgumentException When filename is null.
      */
-    File getResourceFile(final String filename) throws FileNotFoundException;
+    File getResourceFile(final String filename) throws FileNotFoundException, IllegalArgumentException;
 
     /**
      * Loads the project file specified by {@code filename} and checks if it is a valid file.

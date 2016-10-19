@@ -285,14 +285,14 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public File getResourceFile(final String filename) throws FileNotFoundException {
+    public File getResourceFile(final String filename) throws FileNotFoundException, IllegalArgumentException {
         if (filename == null) {
             throw new IllegalArgumentException("filename cannot be null");
         }
         String newFilename = filename.replaceAll("\\\\", "/");
 
         if (newFilename.charAt(0) != '/') {
-            newFilename = "/" + newFilename;
+            newFilename = '/' + newFilename;
         }
 
         URL url = getClass().getResource(newFilename);

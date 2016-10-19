@@ -10,20 +10,13 @@ import system.IServiceLocator;
 public final class CameraFactory implements ICameraFactory {
 
     /**
-     * The logger for the SceneFactory class.
-     */
-    private final ILogger logger;
-    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
-
     /**
-     * Private constructor to prevent instantiation from outside the class.
+     * The logger for the SceneFactory class.
      */
-    private CameraFactory() {
-        logger = serviceLocator.getLoggerFactory().createLogger(CameraFactory.class);
-    }
+    private final ILogger logger;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -33,7 +26,14 @@ public final class CameraFactory implements ICameraFactory {
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         CameraFactory.serviceLocator = sL;
-        sL.provide(new CameraFactory());
+        CameraFactory.serviceLocator.provide(new CameraFactory());
+    }
+
+    /**
+     * Private constructor to prevent instantiation from outside the class.
+     */
+    private CameraFactory() {
+        this.logger = CameraFactory.serviceLocator.getLoggerFactory().createLogger(CameraFactory.class);
     }
 
     /**
@@ -41,7 +41,7 @@ public final class CameraFactory implements ICameraFactory {
      */
     @Override
     public ICamera createStaticCamera() {
-        logger.info("A new StaticCamera has been created");
+        this.logger.info("A new StaticCamera has been created");
         return new StaticCamera();
     }
 
@@ -50,7 +50,7 @@ public final class CameraFactory implements ICameraFactory {
      */
     @Override
     public ICamera createDoodleCamera(final IDoodle doodle) {
-        logger.info("A new DoodleCamera has been created");
+        this.logger.info("A new DoodleCamera has been created");
         return new DoodleCamera(serviceLocator, doodle);
     }
 
@@ -59,7 +59,7 @@ public final class CameraFactory implements ICameraFactory {
      */
     @Override
     public ICamera createArcadeCamera() {
-        logger.info("A new ArcadeCamera has been created");
+        this.logger.info("A new ArcadeCamera has been created");
         return new ArcadeCamera();
     }
 
