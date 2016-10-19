@@ -105,7 +105,8 @@ public interface IFileSystem {
     /**
      * Returns an {@link OutputStream} that can be used to write binary data to the binary file.
      * The path to the file must exist.
-     * <p>
+     * <br>
+     * <br>
      * <b><font color="red">Warning:</font> The file MUST be closed explicitly to prevent resource leaks</b>
      *
      * @param filename The full path to the file.
@@ -119,7 +120,7 @@ public interface IFileSystem {
      *
      * @param filename The name of the file.
      * @return A {@link File} class embedding the specified file.
-     * @throws FileNotFoundException Thrown when the file specified was not found.
+     * @throws FileNotFoundException    Thrown when the file specified was not found.
      * @throws IllegalArgumentException When filename is null.
      */
     File getResourceFile(final String filename) throws FileNotFoundException, IllegalArgumentException;
@@ -136,8 +137,8 @@ public interface IFileSystem {
     /**
      * Parse a JSON file consisting of a single Json item.
      *
-     * @param filename  The filepath to the Json file.
-     * @param type The type of the resulting Json object.
+     * @param filename The filepath to the Json file.
+     * @param type     The type of the resulting Json object.
      * @return An {@link Object} that must be up-casted to the desired Json class.
      * @throws FileNotFoundException Thrown when the Json file was not found.
      */

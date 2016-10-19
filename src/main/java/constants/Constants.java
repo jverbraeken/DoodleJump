@@ -62,14 +62,6 @@ public final class Constants implements IConstants {
      * Prevent public instantiation of Constants.
      */
     private Constants() {
-        /*try {
-            IFileSystem fileSystem = serviceLocator.getFileSystem();
-            Object jsonObject = fileSystem.parseJson("constants.json", Map.class);
-            Map<String, String> json = (Map<String, String>) jsonObject;
-            interpretJson(json);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }*/
     }
 
     /**
