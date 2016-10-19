@@ -357,6 +357,11 @@ public final class ProgressionManager implements IProgressionManager {
                     break;
             }
         }
+        for (Powerups powerup : Powerups.values()) {
+            if (!powerupLevels.containsKey(powerup)) {
+                powerupLevels.put(powerup, 0);
+            }
+        }
     }
 
     /**

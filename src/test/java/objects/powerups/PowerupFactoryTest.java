@@ -16,6 +16,8 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.verifyNew;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -64,9 +66,8 @@ public class PowerupFactoryTest {
         when(spriteFactory.getPropellerSprite()).thenReturn(sprite);
         when(spriteFactory.getSizeDownSprite()).thenReturn(sprite);
         when(spriteFactory.getSizeUpSprite()).thenReturn(sprite);
-        when(spriteFactory.getSpringSprite()).thenReturn(sprite);
         when(spriteFactory.getSpringShoesSprite()).thenReturn(sprite);
-        when(spriteFactory.getTrampolineSprite()).thenReturn(sprite);
+        when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(sprite.getWidth()).thenReturn(0);
         when(sprite.getHeight()).thenReturn(0);
 
