@@ -55,6 +55,11 @@ public class SizeDownTest {
         verify(doodle, times(1)).increaseSpriteScalar(sizeDownScalar);
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testCollidesWithNull() {
+        sizeDown.collidesWith(null);
+    }
+
     @Test
     public void testRender() {
         sizeDown.render();
