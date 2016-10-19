@@ -113,7 +113,7 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createRocketLauncher(final int x, final int y) {
-        logger.info("A new Circus Cannon has been created");
+        logger.info("A new Rocket Launcher has been created");
         return new RocketLauncher(serviceLocator, x, y);
     }
 

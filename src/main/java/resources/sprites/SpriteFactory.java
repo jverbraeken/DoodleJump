@@ -749,9 +749,9 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
-     * Returns a list of sprites for the jetpack.
-     * @return a list of ISprite objects
+     * {@inheritDoc}
      */
+    @Override
     public ISprite[] getJetpackActiveSprites() {
         ISprite[] sprites = new ISprite[9];
         sprites[0] = getSprite(IRes.Sprites.jetpack0);
@@ -768,9 +768,9 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
-     * Returns a list of sprites used by the propeller.
-     * @return a list of ISprite objects.
+     * {@inheritDoc}
      */
+    @Override
     public ISprite[] getPropellerActiveSprites() {
         ISprite[] sprites = new ISprite[4];
         sprites[0] = getSprite(IRes.Sprites.propeller0);

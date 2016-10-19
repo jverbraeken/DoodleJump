@@ -37,16 +37,6 @@ public final class BlockFactory implements IBlockFactory {
      * Offset to place the trampoline on the proper place of a platform.
      */
     private static final int TRAMPOLINE_X_OFFSET = 20;
-    /**
-     * Threshold in order to spawn a trampoline.
-     * random int(10.000 > 9900)
-     */
-    private static final int TRAMPOLINE_THRESHOLD = 9900;
-    /**
-     * Threshold in order to spawn a trampoline.
-     * random int(9500 < x < 9900)
-     */
-    private static final int SPRING_THRESHOLD = 9500;
 
     /**
      * The chance that an enemy will spawn.
@@ -350,6 +340,7 @@ public final class BlockFactory implements IBlockFactory {
      * @param heightDividedPlatforms the height devided by the amount of platforms.
      * @return the Enemy as IGameObject.
      */
+    @SuppressWarnings("checkstyle::magicnumber")
     private IGameObject placeEnemy(final IPlatform platform, final int heightDividedPlatforms) {
         ICalc calc = serviceLocator.getCalc();
         double widthDeviation = calc.getRandomDouble(1d);
@@ -386,10 +377,11 @@ public final class BlockFactory implements IBlockFactory {
      * @param platformWidth The width of the platform.
      * @return integer of the X position of the powerup.
      */
-    private int setXPosOfPowerup(IGameObject powerup, int powerupXPos, final int xPosPlatform, final int platformWidth) {
+    @SuppressWarnings("checkstyle::magicnumber")
+    private int setXPosOfPowerup(final IGameObject powerup, final int powerupXPos, final int xPosPlatform, final int platformWidth) {
         double[] powHitbox = powerup.getHitBox();
         final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
-        if( powerup instanceof RocketLauncher || powerup instanceof CircusCannon){
+        if (powerup instanceof RocketLauncher || powerup instanceof CircusCannon) {
             return (xPosPlatform + (platformWidth / 2)) - (powerupWidth / 2);
         } else {
             int xPos = xPosPlatform + powerupXPos;

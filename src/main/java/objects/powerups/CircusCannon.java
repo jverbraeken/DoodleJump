@@ -8,7 +8,7 @@ import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
- * Created by Michael on 10/11/2016.
+ * This class defines the behaviour of a Circus cannon object.
  */
 public class CircusCannon extends AGameObject implements IJumpable {
 

@@ -43,8 +43,6 @@ import system.IServiceLocator;
     @Override
     public double getBoost() {
         this.animate();
-        //this.playSound();
-
         return RocketLauncher.BOOST;
     }
 
