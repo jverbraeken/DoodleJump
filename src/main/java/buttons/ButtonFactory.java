@@ -1,6 +1,7 @@
 package buttons;
 
 import constants.IConstants;
+import logging.ILogger;
 import objects.powerups.PowerupOccasion;
 import objects.powerups.Powerups;
 import progression.IProgressionManager;
@@ -23,6 +24,10 @@ public final class ButtonFactory implements IButtonFactory {
      * Constructed using synchronization.
      */
     private static IButtonFactory buttonFactory;
+    /**
+     * The logger.
+     */
+    private final ILogger logger;
 
     /**
      * Register the platform factory into the service locator.
@@ -32,18 +37,22 @@ public final class ButtonFactory implements IButtonFactory {
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         ButtonFactory.serviceLocator = sL;
-        ButtonFactory.serviceLocator.provide(getButtonFactory());
+        ButtonFactory.serviceLocator.provide(getButtonFactory(serviceLocator));
     }
 
     /**
      * The synchronized getter of the singleton buttonFactory.
      * @return the button factory
      */
-    private static synchronized IButtonFactory getButtonFactory() {
+    private static synchronized IButtonFactory getButtonFactory(final IServiceLocator serviceLocator) {
         if (ButtonFactory.buttonFactory == null) {
-            ButtonFactory.buttonFactory = new ButtonFactory();
+            ButtonFactory.buttonFactory = new ButtonFactory(serviceLocator);
         }
         return ButtonFactory.buttonFactory;
+    }
+
+    private ButtonFactory(IServiceLocator serviceLocator) {
+        this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }
 
     /**
@@ -224,19 +233,23 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createShopJetpackButton(final int x, final int y) {
+    public IButton createShopPowerupButton(final Powerups powerup, final int x, final int y) {
         assert ButtonFactory.serviceLocator != null;
 
+        if (powerup == null) {
+            final String error = "There cannot a button be created for a null powerup";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+
         final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
-        final Powerups powerup = Powerups.JETPACK;
         final int currentPowerupLevel = progressionManager.getPowerupLevel(powerup);
 
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getJetpackSprite();
+        ISprite buttonSprite = spriteFactory.getPowerupSprite(powerup, currentPowerupLevel);
         Runnable storyMode = () -> {
 
-            final IConstants constants = serviceLocator.getConstants();
-            final int price = constants.getPowerupPrice(powerup, currentPowerupLevel);
+            final int price = powerup.getPrice(currentPowerupLevel + 1);
             if (progressionManager.getCoins() >= price) {
                 progressionManager.decreaseCoins(price);
                 progressionManager.increasePowerupLevel(powerup);

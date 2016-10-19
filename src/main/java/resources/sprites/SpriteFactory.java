@@ -5,6 +5,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import logging.ILogger;
 import objects.doodles.DoodleBehavior.MovementBehavior;
+import objects.powerups.Powerups;
 import resources.IRes;
 import system.IServiceLocator;
 
@@ -34,6 +35,7 @@ public final class SpriteFactory implements ISpriteFactory {
      * The cache for the SpriteFactory.
      */
     private final LoadingCache<IRes.Sprites, ISprite> cache;
+
     /**
      * Prevents instantiation from outside the class.
      */
@@ -648,8 +650,26 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getTrampolineSprite() {
-        return getSprite(IRes.Sprites.trampoline);
+    public ISprite getPowerupSprite(final Powerups powerup, final int level) {
+        // TODO parameter checking
+        switch (powerup) {
+            case JETPACK:
+                return getSprite(IRes.Sprites.jetpack);
+            case PROPELLER:
+                return getSprite(IRes.Sprites.propeller);
+            case SIZEDOWN:
+                return getSprite(IRes.Sprites.sizeDown);
+            case SIZEUP:
+                return getSprite(IRes.Sprites.sizeUp);
+            case SPRING:
+                return getSprite(IRes.Sprites.spring);
+            case SPRINGSHOES:
+                return getSprite(IRes.Sprites.springShoes);
+            case TRAMPOLINE:
+                return getSprite(IRes.Sprites.trampoline);
+        }
+        // ERROR
+        return null;
     }
 
     /**
@@ -658,14 +678,6 @@ public final class SpriteFactory implements ISpriteFactory {
     @Override
     public ISprite getTrampolineUsedSprite() {
         return getSprite(IRes.Sprites.trampolineUsed);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getSpringSprite() {
-        return getSprite(IRes.Sprites.spring);
     }
 
     /**
@@ -725,6 +737,7 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     // Passive
+
     /**
      * {@inheritDoc}
      */

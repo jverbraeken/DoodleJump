@@ -1,5 +1,6 @@
 package buttons;
 
+import objects.powerups.Powerups;
 import system.IFactory;
 
 /**
@@ -141,63 +142,10 @@ public interface IButtonFactory extends IFactory {
     /**
      * Create a button to upgrade the {@link objects.powerups.Jetpack} powerup.
      *
+     * @param powerup The kind of powerup you want to create an upgrade button for
      * @param x the x position of the button.
      * @param y the y position of the button.
      * @return A button that can upgrade the {@link objects.powerups.Jetpack} powerup
      */
-    IButton createShopJetpackButton(final int x, final int y);
-
-    /**
-     * Create a button to upgrade the {@link objects.powerups.Propeller} powerup.
-     *
-     * @param x the x position of the button.
-     * @param y the y position of the button.
-     * @return A button that can upgrade the {@link objects.powerups.Propeller} powerup
-     */
-    IButton createShopPropellerButton(final int x, final int y);
-
-    /**
-     * Create a button to upgrade the {@link objects.powerups.SizeDown} powerup.
-     *
-     * @param x the x position of the button.
-     * @param y the y position of the button.
-     * @return A button that can upgrade the {@link objects.powerups.SizeDown} powerup
-     */
-    IButton createShopSizeDownButton(final int x, final int y);
-
-    /**
-     * Create a button to upgrade the {@link objects.powerups.SizeUp} powerup.
-     *
-     * @param x the x position of the button.
-     * @param y the y position of the button.
-     * @return A button that can upgrade the {@link objects.powerups.SizeUp} powerup
-     */
-    IButton createShopSizeUpButton(final int x, final int y);
-
-    /**
-     * Create a button to upgrade the {@link objects.powerups.Spring} powerup.
-     *
-     * @param x the x position of the button.
-     * @param y the y position of the button.
-     * @return A button that can upgrade the {@link objects.powerups.Spring} powerup
-     */
-    IButton createShopSpringButton(final int x, final int y);
-
-    /**
-     * Create a button to upgrade the {@link objects.powerups.SpringShoes} powerup.
-     *
-     * @param x the x position of the button.
-     * @param y the y position of the button.
-     * @return A button that can upgrade the {@link objects.powerups.SpringShoes} powerup
-     */
-    IButton createShopSpringShoesButton(final int x, final int y);
-
-    /**
-     * Create a button to upgrade the {@link objects.powerups.Trampoline} powerup.
-     *
-     * @param x the x position of the button.
-     * @param y the y position of the button.
-     * @return A button that can upgrade the {@link objects.powerups.Trampoline} powerup
-     */
-    IButton createShopTrampolineButton(final int x, final int y);
+    IButton createShopPowerupButton(final Powerups powerup, final int x, final int y);
 }

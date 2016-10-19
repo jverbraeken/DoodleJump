@@ -21,16 +21,29 @@ public enum Powerups {
      */
     private final String name;
 
+    /**
+     * Construct a new powerup.
+     * @param name The name of the powerup, only used for debugging purposes
+     * @param price The prices of all levels of the powerup, must be in the same order as the levels
+     */
     Powerups(final String name, final int... price) {
         this.name = name;
         this.price = price;
     }
 
-    int getMaxLevel() {
+    /**
+     * @return The maximum level of the powerup
+     */
+    public int getMaxLevel() {
         return price.length;
     }
 
-    int getPrice(final int level) {
+    /**
+     * Returns the price to upgrade to a certain level
+     * @param level The level you want the amount of coins it costs to upgrade to from
+     * @return The price in coins of the upgrade to the level specified
+     */
+    public int getPrice(final int level) {
         if (level <= 0) {
             throw new IllegalArgumentException("Powerups do not have levels lower than 0");
         }

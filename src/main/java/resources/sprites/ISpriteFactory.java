@@ -1,6 +1,7 @@
 package resources.sprites;
 
 import objects.doodles.DoodleBehavior.MovementBehavior;
+import objects.powerups.Powerups;
 import system.IFactory;
 
 /**
@@ -145,11 +146,9 @@ public interface ISpriteFactory extends IFactory {
     ISprite getPlatformShiningSprite3();
 
     // Powerups
-    ISprite getTrampolineSprite();
+    ISprite getPowerupSprite(Powerups powerup, int currentPowerupLevel);
 
     ISprite getTrampolineUsedSprite();
-
-    ISprite getSpringSprite();
 
     ISprite getSpringUsedSprite();
 
@@ -216,5 +215,4 @@ public interface ISpriteFactory extends IFactory {
     // Missions
 
     ISprite getAchievementSprite();
-
 }
