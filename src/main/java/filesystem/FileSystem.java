@@ -349,10 +349,6 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public Font getFont(String name) {
-        if (name == null) {
-            return DEFAULT_FONT;
-        }
-
         Font font;
         try {
             File fontFile = getResourceFile("fonts/" + name);
