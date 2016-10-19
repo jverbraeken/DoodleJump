@@ -410,7 +410,6 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("checkstyle:magicnumber")
     @Override
     public ISprite getDigitSprite(final int digit) {
         if (digit < 0 || digit > 9) {
@@ -879,7 +878,6 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("checkstyle:magicnumber")
     @Override
     public ISprite getCoinSprite(final int digit) {
         if (digit < 1 || digit > 10) {
