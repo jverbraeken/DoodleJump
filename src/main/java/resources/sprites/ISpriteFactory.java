@@ -167,6 +167,12 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite[] getPropellerActiveSprites();
 
+    /**
+     * Resturns a list with sprites when a doodle has collided with the doodle.
+     * @return list of sprites.
+     */
+    ISprite[] getSpaceRocketActiveSprites();
+
     // Score screen
     ISprite getScoreScreenBottom();
 
