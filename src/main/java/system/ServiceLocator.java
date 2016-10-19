@@ -75,8 +75,6 @@ import scenes.SceneFactory;
         this.audioManager = aM;
     }
 
-
-
     /**
      * {@inheritDoc}
      */
