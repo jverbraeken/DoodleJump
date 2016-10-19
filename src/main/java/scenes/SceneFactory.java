@@ -35,7 +35,9 @@ public final class SceneFactory implements ISceneFactory {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         SceneFactory.serviceLocator = sL;
         sL.provide(new SceneFactory());
     }

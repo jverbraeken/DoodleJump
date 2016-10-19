@@ -41,7 +41,9 @@ public final class LoggerFactory implements ILoggerFactory {
      * @param sL The IServiceLocator to which the class should offer its functionality.
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         LoggerFactory.serviceLocator = sL;
         LoggerFactory.serviceLocator.provide(new LoggerFactory());
     }
