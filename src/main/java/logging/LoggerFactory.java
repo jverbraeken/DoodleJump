@@ -18,6 +18,28 @@ public final class LoggerFactory implements ILoggerFactory {
      * The file to which the log data should be written.
      */
     private static final String LOG_IGNORE_FILE = "logIgnore.json";
+    /**
+     * A fake logger which shall be returned when a class is being ignored.
+     */
+    private static final ILogger FAKE_LOGGER = new ILogger() {
+
+        @Override
+        public void error(final String msg) {
+        }
+
+        @Override
+        public void error(final Exception exception) {
+        }
+
+        @Override
+        public void info(final String msg) {
+        }
+
+        @Override
+        public void warning(final String msg) {
+        }
+
+    };
 
     /**
      * Used to gain access to all services.
@@ -85,25 +107,7 @@ public final class LoggerFactory implements ILoggerFactory {
     @Override
     public ILogger createLogger(final Class<?> cl) {
         if (this.logIgnore.contains(cl)) {
-            return new ILogger() {
-
-                @Override
-                public void error(final String msg) {
-                }
-
-                @Override
-                public void error(final Exception exception) {
-                }
-
-                @Override
-                public void info(final String msg) {
-                }
-
-                @Override
-                public void warning(final String msg) {
-                }
-
-            };
+            return LoggerFactory.FAKE_LOGGER;
         } else {
             return new Logger(LoggerFactory.serviceLocator, cl);
         }
