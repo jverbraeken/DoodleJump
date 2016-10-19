@@ -296,7 +296,7 @@ public final class BlockFactory implements IBlockFactory {
      * @param elements A set of elements.
      * @param platform The platform a powerup potentially is placed on.
      **/
-    @SuppressWarnings("checkstyle::magicnumber")
+    @SuppressWarnings("magicnumber")
     private void chanceForPowerup(final Set<IGameObject> elements, final IPlatform platform) {
         ICalc calc = serviceLocator.getCalc();
 
