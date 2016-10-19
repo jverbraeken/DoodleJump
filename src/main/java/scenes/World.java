@@ -511,13 +511,7 @@ public class World implements IScene {
              */
             @Override
             public void render() {
-                int roundedScore = 0;
-                for (IDoodle doodle : World.this.doodles) {
-                    if (doodle.getScore() > roundedScore) {
-                        roundedScore = (int) doodle.getScore();
-                    }
-                }
-
+                int roundedScore = this.getHighestScore();
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();
                 while (roundedScore != 0) {
@@ -537,6 +531,22 @@ public class World implements IScene {
                             this.digitData[digit * World.DIGIT_MULTIPLIER + 2]);
                     pos += this.digitData[digit * World.DIGIT_MULTIPLIER + 1] + 1;
                 }
+            }
+
+            /**
+             * Get the highest score of all the Doodles in the Game.
+             *
+             * @return The highest score in the game.
+             */
+            private int getHighestScore() {
+                int highestScore = 0;
+                for (IDoodle doodle : World.this.doodles) {
+                    if (doodle.getScore() > highestScore) {
+                        highestScore = (int) doodle.getScore();
+                    }
+                }
+
+                return highestScore;
             }
 
         }
