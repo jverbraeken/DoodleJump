@@ -109,6 +109,11 @@ public class Doodle extends AGameObject implements IDoodle {
     private Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
 
     /**
+     * The shooting observer of this Doodle.
+     */
+    private ShootingObserver shootingObserver;
+
+    /**
      * Doodle constructor.
      *
      * @param sL The service locator.
@@ -129,6 +134,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.spritePack = new ISprite[2][2];
         this.spritePack[0] = spriteFactory.getDoodleLeftSprites();
         this.spritePack[1] = spriteFactory.getDoodleRightSprites();
+        shootingObserver = new ShootingObserver(sL, ShootingObserver.class);
     }
 
     /**
@@ -303,6 +309,7 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void register() {
         getServiceLocator().getInputManager().addObserver(this);
         getLogger().info("The doodle registered itself as an observer of the input manager");
+        shootingObserver.register();
     }
 
     /**
