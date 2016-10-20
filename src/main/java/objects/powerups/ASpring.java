@@ -7,16 +7,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by Michael on 10/20/2016.
+ * This class describes the abstract functionality of ASprings.
  */
 public abstract class ASpring extends AJumpablePowerup {
 
     /**
-     * The speed with which the springs retracts after it is being used.
+     * The speed with which the ASpring retracts after it is being used.
      */
     private int retractSpeed;
     /**
-     * The constructor of the ATrampoline object.
+     * The constructor of the ASpring object.
      * @param sL           The locator providing services to the powerup
      * @param x            The X-coordinate of the powerup
      * @param y            The Y-coordinate of the powerup

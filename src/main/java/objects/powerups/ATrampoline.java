@@ -28,8 +28,9 @@ public abstract class ATrampoline extends AJumpablePowerup {
 
 
     /**
-     * Updates the sprite that should be drawn in the scene.
+     * {@inheritDoc}
      */
+    @Override
     public void animate() {
         int oldHeight = getSprite().getHeight();
         ISprite newSprite = getUsedSprite();

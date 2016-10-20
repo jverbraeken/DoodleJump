@@ -9,7 +9,7 @@ import system.IServiceLocator;
 /* package */ public final class RocketLauncher extends ATrampoline {
 
     /**
-     * The BOOST value for the ATrampoline.
+     * The BOOST value for the RocketLauncher.
      */
     private static double BOOST = -100;
 

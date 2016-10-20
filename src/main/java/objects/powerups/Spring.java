@@ -22,7 +22,7 @@ import system.IServiceLocator;
 
 
     /**
-     * Trampoline constructor.
+     * Spring constructor.
      *
      * @param sL - The Games service locator.
      * @param x - The X location for the trampoline.

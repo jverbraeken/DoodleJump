@@ -25,7 +25,7 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
     private ISprite usedSprite;
 
     /**
-     * The constructor of the ATrampoline object.
+     * The constructor of the AJumpablePowerUp object.
      * @param sL           The locator providing services to the powerup
      * @param x            The X-coordinate of the powerup
      * @param y            The Y-coordinate of the powerup
@@ -42,7 +42,7 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
     }
 
     /**
-     * Plays the sound of the ATrampoline object.
+     * Plays the sound of the this object.
      */
     abstract void playSound();
 

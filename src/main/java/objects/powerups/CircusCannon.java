@@ -9,12 +9,12 @@ import system.IServiceLocator;
 public class CircusCannon extends ATrampoline {
 
     /**
-     * The BOOST value for the ATrampoline.
+     * The BOOST value for the circus cannon.
      */
     private static double BOOST = -75;
 
     /**
-     * Trampoline constructor.
+     * CircusCannon constructor.
      *
      * @param sL - The Games service locator.
      * @param x - The X location for the trampoline.
