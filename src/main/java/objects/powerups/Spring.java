@@ -54,8 +54,9 @@ import java.util.TimerTask;
     }
 
     /**
-     * Animate the Spring.
+     * {@inheritDoc}
      */
+    @Override
     public void animate() {
         int oldHeight = getSprite().getHeight();
         int newHeight = this.getUsedSprite().getHeight();

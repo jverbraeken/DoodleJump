@@ -726,7 +726,7 @@ public final class SpriteFactory implements ISpriteFactory {
     public ISprite getRocketLauncherUsedSprite() {
         return getSprite(IRes.Sprites.rocketLauncherUsed);
     }
-    
+
     /**
      * {@inheritDoc}
      */
