@@ -1,6 +1,7 @@
 package objects.doodle.DoodleBehavior;
 
 import constants.Constants;
+import constants.IConstants;
 import input.Keys;
 import objects.doodles.Doodle;
 import objects.doodles.DoodleBehavior.MovementBehavior;
@@ -19,41 +20,35 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * Test class for the RegularBehavior class.
  */
 public class UnderwaterBehaviorTest {
 
-    private IServiceLocator serviceLocator;
-    private Constants constants;
-    private IDoodle doodle;
-    private UnderwaterBehavior regular;
+    private IServiceLocator serviceLocator = Mockito.mock(IServiceLocator.class);
+    private IDoodle doodle = Mockito.mock(Doodle.class);
+    private IConstants constants = Mockito.mock(IConstants.class);
+    private UnderwaterBehavior behavior;
 
     @Before
     public void init() throws Exception {
-        serviceLocator = mock(IServiceLocator.class);
-        doodle = Mockito.mock(Doodle.class);
-        regular = Whitebox.invokeConstructor(UnderwaterBehavior.class, serviceLocator, doodle);
-    }
+        when(serviceLocator.getConstants()).thenReturn(constants);
+        when(constants.getGravityAcceleration()).thenReturn(0d);
+        when(doodle.getKeyLeft()).thenReturn(Keys.arrowLeft);
+        when(doodle.getKeyRight()).thenReturn(Keys.arrowRight);
 
-    /**
-     * Tests that for the gravity method is called.
-     *
-     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
-     *                   in the constructor.
-     */
+        behavior = new UnderwaterBehavior(serviceLocator, doodle);
+    }
     @Test
     public void testApplyGravity() throws Exception {
-        java.lang.reflect.Method m = Whitebox.getMethod(RegularBehavior.class, "applyGravity", double.class);
-        assertNotNull(m);
+        Whitebox.invokeMethod(behavior, "applyGravity", 0d);
+        verify(serviceLocator, times(1)).getConstants();
+        verify(constants, times(1)).getGravityAcceleration();
     }
 
-    @After
-    public void cleanUp() {
-        serviceLocator = null;
-        doodle = null;
-    }
 }
 
