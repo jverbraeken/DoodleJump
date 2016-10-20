@@ -123,7 +123,10 @@ public class World implements IScene {
      * @param sL The service locator.
      */
     /* package */ World(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
+
         serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(World.class);
 
@@ -233,7 +236,7 @@ public class World implements IScene {
      * @param score The score the player got.
      */
     public final void endGameInstance(final double score) {
-        Game.HIGH_SCORES.addHighScore("Doodle", score);
+        Game.highScores.addHighScore("Doodle", score);
         Game.setScene(serviceLocator.getSceneFactory().createKillScreen());
     }
 
@@ -356,10 +359,7 @@ public class World implements IScene {
             scaling = (double) serviceLocator.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth();
             scoreBarHeight = (int) (scaling * scoreBarSprite.getHeight());
 
-            ISprite[] digitSprites = new ISprite[NUMBER_SYSTEM];
-            for (int i = 0; i < NUMBER_SYSTEM; i++) {
-                digitSprites[i] = serviceLocator.getSpriteFactory().getDigitSprite(i);
-            }
+            ISprite[] digitSprites = serviceLocator.getSpriteFactory().getDigitSprites();
             int scoreX = (int) (digitSprites[2].getWidth() * scaling);
             int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2d);
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);

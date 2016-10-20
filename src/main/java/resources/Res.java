@@ -8,6 +8,8 @@ import java.util.Map;
 
 /**
  * Resources class, containing information about sprites.
+ * <br>
+ * It is not deemed necessary for all individual resources to have a JavaDoc.
  */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class Res implements IRes {
@@ -18,27 +20,26 @@ public final class Res implements IRes {
     private static final String SPRITE_PATH = "sprites/";
 
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality
-     */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        sL.provide(new Res());
-    }
-
-    /**
      * A map mapping Sprites enum to String containing the path to the sprite.
      */
     private final Map<Sprites, String> sprites = new EnumMap<>(Sprites.class);
 
-    // Initializes the sprites.
-    { resetSkin(); }
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     * @param sL The IServiceLocator to which the class should offer its functionality
+     */
+    public static void register(final IServiceLocator sL) {
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
+        sL.provide(new Res());
+    }
 
     /**
      * Prevent instantiation of Res.
      */
     private Res() {
+        this.setDefaultSkin();
     }
 
     /**
@@ -46,7 +47,7 @@ public final class Res implements IRes {
      */
     @Override
     public String getSpritePath(final Sprites sprite) {
-        return sprites.get(sprite);
+        return this.sprites.get(sprite);
     }
 
     /**
@@ -56,19 +57,19 @@ public final class Res implements IRes {
     public void setSkin(final Game.Modes mode) {
         switch (mode) {
             case regular:
-                resetSkin();
+                this.setDefaultSkin();
                 break;
             case space:
-                setSpaceSkin();
+                this.setSpaceSkin();
                 break;
             case underwater:
-                setUnderwaterSkin();
+                this.setUnderwaterSkin();
                 break;
             case darkness:
-                setDarknessSkin();
+                this.setDarknessSkin();
                 break;
             default:
-                resetSkin();
+                this.setDefaultSkin();
                 break;
         }
     }
@@ -76,8 +77,7 @@ public final class Res implements IRes {
     /**
      * Reset the skin to the regular settings.
      */
-    private void resetSkin() {
-        // TODO this should be removed in the final version when all Sprites are ready
+    private void setDefaultSkin() {
         for (Sprites sprite : Sprites.values()) {
             sprites.put(sprite, SPRITE_PATH + "unimplemented.jpg");
         }
@@ -97,10 +97,10 @@ public final class Res implements IRes {
         sprites.put(Sprites.startCover, SPRITE_PATH + "Default@2x.png");
 
         // Doodle
-        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "blue-lik-Left@2x.png");
-        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "blue-lik-Left-odskok@2x.png");
-        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-Right@2x.png");
-        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-Right-odskok@2x.png");
+        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "blue-lik-left@2x.png");
+        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "blue-lik-left-odskok@2x.png");
+        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-right@2x.png");
+        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-right-odskok@2x.png");
 
         // Enemies
         sprites.put(Sprites.ordinaryMonster, SPRITE_PATH + "ordinaryMonster.png");
@@ -113,11 +113,10 @@ public final class Res implements IRes {
         sprites.put(Sprites.vampireMonster4, SPRITE_PATH + "vampireMonster4.png");
         sprites.put(Sprites.vampireMonster5, SPRITE_PATH + "vampireMonster5.png");
 
-        //Stars
+        // Stars
         sprites.put(Sprites.confusedStars1, SPRITE_PATH + "stars1@2x.png");
         sprites.put(Sprites.confusedStars2, SPRITE_PATH + "stars2@2x.png");
         sprites.put(Sprites.confusedStars3, SPRITE_PATH + "stars3@2x.png");
-
 
         // Kill screen
         sprites.put(Sprites.gameOver, SPRITE_PATH + "gameover@2x.png");
@@ -158,6 +157,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.sizeDown, SPRITE_PATH + "powerup-size-down@2x.png");
         sprites.put(Sprites.spaceRocket, SPRITE_PATH + "space-rocket-0.png");
         // Passive
+
         sprites.put(Sprites.jetpack0, SPRITE_PATH + "jetpack-0@2x.png");
         sprites.put(Sprites.jetpack1, SPRITE_PATH + "jetpack-1@2x.png");
         sprites.put(Sprites.jetpack2, SPRITE_PATH + "jetpack-2@2x.png");
@@ -184,7 +184,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.scoreScreenTop, SPRITE_PATH + "high-scores-top@2x.png");
 
         // Top bar
-        sprites.put(Sprites.scoreBar, SPRITE_PATH + "scoreBar.png");
+        sprites.put(Sprites.scoreBar, SPRITE_PATH + "scorebar.png");
 
         // Choose mode icons
         sprites.put(Sprites.storyMode, SPRITE_PATH + "story-mode@4x.png");
@@ -202,7 +202,7 @@ public final class Res implements IRes {
      * Set the skin to space style.
      */
     private void setSpaceSkin() {
-        resetSkin();
+        this.setDefaultSkin();
 
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "space-Default@2x.png");
@@ -229,7 +229,7 @@ public final class Res implements IRes {
      * Set the skin to underwater style.
      */
     private void setUnderwaterSkin() {
-        resetSkin();
+        this.setDefaultSkin();
 
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "underwater-Default@2x.png");
@@ -258,7 +258,7 @@ public final class Res implements IRes {
      * Set the skin to underwater style.
      */
     private void setDarknessSkin() {
-        resetSkin();
+        this.setDefaultSkin();
 
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "darkness-Default@2x.png");
@@ -279,7 +279,6 @@ public final class Res implements IRes {
         sprites.put(Sprites.platformBroken3, SPRITE_PATH + "invisible-platform@2x.png");
         sprites.put(Sprites.platformBroken4, SPRITE_PATH + "invisible-platform@2x.png");
         sprites.put(Sprites.platform4, SPRITE_PATH + "space-platform@2x.png");
-
 
         // Top bar
         sprites.put(Sprites.scoreBar, SPRITE_PATH + "space-scorebar@2x.png");

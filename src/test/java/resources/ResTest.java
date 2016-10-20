@@ -54,7 +54,7 @@ public class ResTest {
      */
     @Test(expected = AssertionError.class)
     public void testRegisterNullInput() {
-        thrown.expect(NullPointerException.class);
+        thrown.expect(IllegalArgumentException.class);
         Res.register(null);
     }
 
@@ -73,8 +73,8 @@ public class ResTest {
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testResetSkinButtons() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+    public void testSetDefaultSkinButtons() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.menu));
         assertTrue(insertedSprites.containsKey(Sprites.play));
@@ -89,8 +89,8 @@ public class ResTest {
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testResetSkinCovers() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+    public void testsetDefaultSkinCovers() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.background));
         assertTrue(insertedSprites.containsKey(Sprites.startCover));
@@ -102,8 +102,8 @@ public class ResTest {
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testResetSkinDoodle() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+    public void testsetDefaultSkinDoodle() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.doodleLeftAscend));
         assertTrue(insertedSprites.containsKey(Sprites.doodleLeftDescend));
@@ -116,8 +116,8 @@ public class ResTest {
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testResetSkinKillScreen() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+    public void testsetDefaultSkinKillScreen() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.gameOver));
         assertTrue(insertedSprites.containsKey(Sprites.killScreenBottom));
@@ -128,8 +128,8 @@ public class ResTest {
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testResetSkinNumbers() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+    public void testsetDefaultSkinNumbers() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.pause));
         assertTrue(insertedSprites.containsKey(Sprites.zero));
@@ -149,8 +149,8 @@ public class ResTest {
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testResetSkinPlatforms() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+    public void testsetDefaultSkinPlatforms() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.platform1));
         assertTrue(insertedSprites.containsKey(Sprites.platformHorizontal));
@@ -166,8 +166,8 @@ public class ResTest {
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testResetSkinPowerUps() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+    public void testsetDefaultSkinPowerUps() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.propeller));
         assertTrue(insertedSprites.containsKey(Sprites.jetpack));
@@ -187,7 +187,7 @@ public class ResTest {
      */
     @Test
     public void testResetScoreScreen() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+        Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.scoreScreenBottom));
         assertTrue(insertedSprites.containsKey(Sprites.scoreScreenLeft));
@@ -199,8 +199,8 @@ public class ResTest {
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testResetSkinTopBar() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+    public void testsetDefaultSkinTopBar() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.scoreBar));
     }
@@ -210,8 +210,8 @@ public class ResTest {
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testResetSkinIcons() throws Exception {
-        Whitebox.invokeMethod(res, "resetSkin");
+    public void testsetDefaultSkinIcons() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.storyMode));
         assertTrue(insertedSprites.containsKey(Sprites.regularMode));
@@ -344,19 +344,19 @@ public class ResTest {
     }
 
     /**
-     * Tests if the resetSkin method is called when the input is the regular game mode
+     * Tests if the setDefaultSkin method is called when the input is the regular game mode
      * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
      */
     @Test
     public void testSetSkinRegular() throws Exception {
         Res mockedRes = spy(Whitebox.invokeConstructor(Res.class));
-        doNothing().when(mockedRes, "resetSkin");
+        doNothing().when(mockedRes, "setDefaultSkin");
         mockedRes.setSkin(Game.Modes.regular);
-        verifyPrivate(mockedRes).invoke("resetSkin");
+        verifyPrivate(mockedRes).invoke("setDefaultSkin");
     }
 
     /**
-     * Tests if the resetSkin method is called when the input is the regular game mode
+     * Tests if the setDefaultSkin method is called when the input is the regular game mode
      * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
      */
     @Test

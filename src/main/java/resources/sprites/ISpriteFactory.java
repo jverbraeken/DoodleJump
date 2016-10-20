@@ -5,6 +5,8 @@ import system.IFactory;
 
 /**
  * Interface for a SpriteFactory.
+ * <br>
+ * It is not deemed necessary for all individual sprites to have a JavaDoc.
  */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface ISpriteFactory extends IFactory {
@@ -25,7 +27,6 @@ public interface ISpriteFactory extends IFactory {
     ISprite getScoreButtonSprite();
 
     ISprite getChooseModeButtonSprite();
-
 
     // Covers
     ISprite getBackground();
@@ -89,6 +90,7 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getSmallMonsterSprite(); // By default a very small three eyed red monster
 
+    // Stars
     ISprite getStarSprite1();
 
     ISprite getStarSprite2();
@@ -162,7 +164,7 @@ public interface ISpriteFactory extends IFactory {
     ISprite getSizeUpSprite();
 
     ISprite getSizeDownSprite();
-    // Passives
+
     ISprite[] getJetpackActiveSprites();
 
     ISprite[] getPropellerActiveSprites();
@@ -206,12 +208,7 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getUnderwaterModeButton();
 
-    /**
-     * Returns a sprite of the digit specified in Doodle Jump font.
-     *
-     * @param digit Between 0 and 10
-     * @return A sprite expressing the digit
-     */
-    ISprite getDigitSprite(int digit);
+    // Digits
+    ISprite[] getDigitSprites();
 
 }
