@@ -2,6 +2,7 @@ package system;
 
 import constants.IConstants;
 import filesystem.IFileSystem;
+import logging.ILogger;
 import logging.ILoggerFactory;
 import org.junit.*;
 import org.powermock.reflect.Whitebox;
@@ -21,6 +22,7 @@ public class HighScoreListTest {
     private ILoggerFactory loggerFactory;
     private IFileSystem fileSystem;
     private IConstants constants;
+    private ILogger logger;
 
     private HighScoreList highScores;
     private ArrayList<HighScore> expected;
@@ -41,10 +43,12 @@ public class HighScoreListTest {
         this.loggerFactory = mock(ILoggerFactory.class);
         this.fileSystem = mock(IFileSystem.class);
         this.constants = mock(IConstants.class);
+        this.logger = mock(ILogger.class);
+
         when(serviceLocator.getLoggerFactory()).thenReturn(this.loggerFactory);
         when(serviceLocator.getFileSystem()).thenReturn(this.fileSystem);
         when(serviceLocator.getConstants()).thenReturn(this.constants);
-        when(loggerFactory.createLogger(HighScoreList.class)).thenReturn(null);
+        when(loggerFactory.createLogger(HighScoreList.class)).thenReturn(this.logger);
 
         highScores = new HighScoreList(serviceLocator);
         expected = new ArrayList<>();
@@ -172,7 +176,7 @@ public class HighScoreListTest {
     }
 
     @Test
-    public void testInitHighScores3() throws FileNotFoundException {
+    public void testInitHighScores3() throws Exception {
         when(fileSystem.readResourceFile(constants.getHighScoresFilePath())).thenReturn(INIT_FILE_CONTENT_3);
         highScores.initHighScores();
 

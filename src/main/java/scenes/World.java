@@ -315,7 +315,7 @@ public class World implements IScene {
 
     /**
      * IMMUTABLE.
-     * <p>
+     * <br>
      * The bar on top of the screen displaying the score and pause button
      */
     private final class ScoreBar implements IRenderable {
@@ -341,34 +341,32 @@ public class World implements IScene {
         /**
          * The pause button.
          */
-        private final PauseButton pauseButton;
+        private final IButton pauseButton;
         /**
          * The text display of the current score.
          */
         private final ScoreText scoreText;
-        /**
-         * The logger is used to keep track of all the actions performed in the game.
-         */
-        private final ILogger logger = serviceLocator.getLoggerFactory().createLogger(ScoreBar.class);
 
         /**
          * Create a new scoreBar.
          */
         private ScoreBar() {
-            scoreBarSprite = serviceLocator.getSpriteFactory().getScoreBarSprite();
-            scaling = (double) serviceLocator.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth();
-            scoreBarHeight = (int) (scaling * scoreBarSprite.getHeight());
+            this.scoreBarSprite = World.this.serviceLocator.getSpriteFactory().getScoreBarSprite();
+            this.scaling = (double) World.this.serviceLocator.getConstants().getGameWidth() /
+                    (double) this.scoreBarSprite.getWidth();
+            this.scoreBarHeight = (int) (this.scaling * this.scoreBarSprite.getHeight());
 
-            ISprite[] digitSprites = serviceLocator.getSpriteFactory().getDigitSprites();
-            int scoreX = (int) (digitSprites[2].getWidth() * scaling);
-            int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2d);
-            scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);
+            ISprite[] digitSprites = World.this.serviceLocator.getSpriteFactory().getDigitSprites();
+            int scoreX = (int) (digitSprites[2].getWidth() * this.scaling);
+            int scoreY = (int) (this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d);
+            this.scoreText = new ScoreText(scoreX, scoreY, this.scaling, digitSprites);
 
-            ISprite pauseSprite = serviceLocator.getSpriteFactory().getPauseButtonSprite();
-            final int gameWidth = serviceLocator.getConstants().getGameWidth();
-            int pauseX = (int) (gameWidth - pauseSprite.getWidth() * scaling - PAUSE_OFFSET);
-            int pauseY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2d - (double) pauseSprite.getHeight() / 2d);
-            pauseButton = new PauseButton(pauseX, pauseY, scaling, pauseSprite);
+            ISprite pauseSprite = World.this.serviceLocator.getSpriteFactory().getPauseButtonSprite();
+            final int gameWidth = World.this.serviceLocator.getConstants().getGameWidth();
+            int pauseX = (int) (gameWidth - pauseSprite.getWidth() * this.scaling - World.PAUSE_OFFSET);
+            int pauseY = (int) (this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d -
+                    (double) pauseSprite.getHeight() / 2d);
+            this.pauseButton = World.this.serviceLocator.getButtonFactory().createPauseButton(pauseX, pauseY);
         }
 
         /**
@@ -376,91 +374,24 @@ public class World implements IScene {
          */
         @Override
         public void render() {
-            serviceLocator.getRenderer().drawSpriteHUD(scoreBarSprite, 0, 0, serviceLocator.getConstants().getGameWidth(), scoreBarHeight);
-            scoreText.render();
-            pauseButton.render();
+            World.this.serviceLocator.getRenderer().drawSpriteHUD(this.scoreBarSprite, 0, 0,
+                    World.this.serviceLocator.getConstants().getGameWidth(), this.scoreBarHeight);
+            this.scoreText.render();
+            this.pauseButton.render();
         }
 
         /**
          * Registers its button to the {@link input.IInputManager input manager}.
          */
         private void register() {
-            pauseButton.register();
+            this.pauseButton.register();
         }
 
         /**
          * Deregisters its button from the {@link input.IInputManager input manager}.
          */
         private void deregister() {
-            pauseButton.deregister();
-        }
-
-        /**
-         * This class focuses on the implementation of the pause button.
-         */
-        private final class PauseButton implements IButton {
-
-            /**
-             * The position and size of the pause button.
-             */
-            private final int x, y, width, height;
-            /**
-             * The sprite of the pause button.
-             */
-            private final ISprite sprite;
-
-            /**
-             * Construct the pause button.
-             *
-             * @param xx the x position of the pause button.
-             * @param yy the y position of the pause button.
-             * @param sc the scale of the button.
-             * @param sp the sprite of the button.
-             */
-            private PauseButton(final int xx, final int yy, final double sc, final ISprite sp) {
-                this.x = xx;
-                this.y = yy;
-                this.width = (int) (sp.getWidth() * sc);
-                this.height = (int) (sp.getHeight() * sc);
-                this.sprite = sp;
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void render() {
-                serviceLocator.getRenderer().drawSpriteHUD(sprite, x, y, width, height);
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void mouseClicked(final int mouseX, final int mouseY) {
-                if (mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height) {
-                    logger.info("Button clicked: \"pause\"");
-                    Game.setPaused(true);
-                }
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void register() {
-                serviceLocator.getInputManager().addObserver(this);
-                logger.info("The button \"PauseButton\" registered itself as an observer of the input manager");
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void deregister() {
-                serviceLocator.getInputManager().removeObserver(this);
-                logger.info("The button \"PauseButton\" removed itself as an observer from the input manager");
-            }
+            this.pauseButton.deregister();
         }
 
         /**
@@ -489,17 +420,17 @@ public class World implements IScene {
              *
              * @param xPos    x position.
              * @param yCenter center y of the score text.
-             * @param s       the scale.
+             * @param scalar  the scale.
              * @param dS      the digit sprites.
              */
-            private ScoreText(final int xPos, final int yCenter, final double s, final ISprite[] dS) {
-                assert dS.length == NUMBER_SYSTEM;
+            private ScoreText(final int xPos, final int yCenter, final double scalar, final ISprite[] dS) {
+                assert dS.length == World.NUMBER_SYSTEM;
                 this.x = xPos;
-                digitData = new byte[DIGIT_MULTIPLIER * NUMBER_SYSTEM];
+                this.digitData = new byte[World.DIGIT_MULTIPLIER * World.NUMBER_SYSTEM];
                 for (int i = 0; i < NUMBER_SYSTEM; i++) {
-                    digitData[i * DIGIT_MULTIPLIER] = (byte) (yCenter - dS[i].getHeight() / 2);
-                    digitData[i * DIGIT_MULTIPLIER + 1] = (byte) (dS[i].getWidth() * s);
-                    digitData[i * DIGIT_MULTIPLIER + 2] = (byte) (dS[i].getHeight() * s);
+                    this.digitData[i * World.DIGIT_MULTIPLIER] = (byte) (yCenter - dS[i].getHeight() / 2);
+                    this.digitData[i * World.DIGIT_MULTIPLIER + 1] = (byte) (dS[i].getWidth() * scalar);
+                    this.digitData[i * World.DIGIT_MULTIPLIER + 2] = (byte) (dS[i].getHeight() * scalar);
                 }
                 this.digitSprites = dS;
             }
@@ -509,32 +440,40 @@ public class World implements IScene {
              */
             @Override
             public void render() {
-                int roundedScore = 0;
-                for (IDoodle doodle : doodles) {
-                    if (doodle.getScore() > roundedScore) {
-                        roundedScore = (int) doodle.getScore();
-                    }
-                }
-
+                int roundedScore = this.getHighestScore();
                 int digit;
                 Stack<Integer> scoreDigits = new Stack<>();
                 while (roundedScore != 0) {
-                    digit = roundedScore % NUMBER_SYSTEM;
-                    roundedScore = roundedScore / NUMBER_SYSTEM;
+                    digit = roundedScore % World.NUMBER_SYSTEM;
+                    roundedScore = roundedScore / World.NUMBER_SYSTEM;
                     scoreDigits.push(digit);
                 }
 
-                int pos = x;
+                int pos = this.x;
                 ISprite sprite;
                 while (!scoreDigits.isEmpty()) {
                     digit = scoreDigits.pop();
-                    sprite = digitSprites[digit];
-                    serviceLocator.getRenderer().drawSpriteHUD(sprite, pos,
-                            digitData[digit * DIGIT_MULTIPLIER],
-                            digitData[digit * DIGIT_MULTIPLIER + 1],
-                            digitData[digit * DIGIT_MULTIPLIER + 2]);
-                    pos += digitData[digit * DIGIT_MULTIPLIER + 1] + 1;
+                    sprite = this.digitSprites[digit];
+                    World.this.serviceLocator.getRenderer().drawSpriteHUD(sprite, pos,
+                            this.digitData[digit * World.DIGIT_MULTIPLIER],
+                            this.digitData[digit * World.DIGIT_MULTIPLIER + 1],
+                            this.digitData[digit * World.DIGIT_MULTIPLIER + 2]);
+                    pos += this.digitData[digit * World.DIGIT_MULTIPLIER + 1] + 1;
                 }
+            }
+
+            /**
+             * Get the highest score of all the Doodles in the Game.
+             *
+             * @return The highest score in the game.
+             */
+            private int getHighestScore() {
+                int highestScore = 0;
+                for (IDoodle doodle : World.this.doodles) {
+                    highestScore = Math.max(highestScore, (int) doodle.getScore());
+                }
+
+                return highestScore;
             }
 
         }
