@@ -8,15 +8,10 @@ import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
-import objects.powerups.CircusCannon;
-import objects.powerups.RocketLauncher;
+import objects.powerups.IPowerup;
 import system.IServiceLocator;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -296,7 +291,7 @@ public final class BlockFactory implements IBlockFactory {
      **/
     private void chanceForPowerup(final Set<IGameObject> elements, final IPlatform platform) {
         if (!isSpecialPlatform(platform)) {
-            IGameObject powerup = powerupGenerationSet.getRandomElement();
+            IPowerup powerup = (IPowerup) powerupGenerationSet.getRandomElement();
             if (powerup != null) {
                 powerup.setPositionOnPlatform(powerup, platform);
                 elements.add(powerup);
@@ -357,27 +352,5 @@ public final class BlockFactory implements IBlockFactory {
             }
         }
         return false;
-    }
-
-    /**
-     * Sets the X position of the powerup depending on the type of the powerup.
-     * @param powerup The powerup object that's going to be set.
-     * @param powerupXPos The X position on the platform that has been randomly chosen.
-     * @param xPosPlatform The X position of the platform.
-     * @param platformWidth The width of the platform.
-     * @return integer of the X position of the powerup.
-     */
-    private int setXPosOfPowerup(final IGameObject powerup, final int powerupXPos, final int xPosPlatform, final int platformWidth) {
-        double[] powHitbox = powerup.getHitBox();
-        final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
-        if (powerup instanceof RocketLauncher || powerup instanceof CircusCannon) {
-            return (xPosPlatform + (platformWidth / 2)) - (powerupWidth / 2);
-        } else {
-            int xPos = xPosPlatform + powerupXPos;
-            if (xPos > xPosPlatform + platformWidth - powerupWidth) {
-                xPos = xPos - powerupWidth;
-            }
-            return xPos;
-        }
     }
 }
