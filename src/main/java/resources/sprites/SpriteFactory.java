@@ -705,6 +705,38 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
+    public ISprite getCannonSprite() {
+        return getSprite(IRes.Sprites.cannon);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getCannonUsedSprite() {
+        return getSprite(IRes.Sprites.cannonUsed);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRocketLauncherSprite() {
+        return getSprite(IRes.Sprites.rocketLauncher);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRocketLauncherUsedSprite() {
+        return getSprite(IRes.Sprites.rocketLauncherUsed);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ISprite[] getJetpackActiveSprites() {
         ISprite[] sprites = new ISprite[9];
         sprites[0] = this.getSprite(IRes.Sprites.jetpack0);
@@ -751,6 +783,8 @@ public final class SpriteFactory implements ISpriteFactory {
     public ISprite getAvoidSprite() {
         return this.getSprite(IRes.Sprites.avoid);
     }
+
+
 
 
     // Score Screen

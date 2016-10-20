@@ -89,7 +89,6 @@ public final class HighScore implements Comparable<HighScore> {
 
     /**
      * Get the name.
-     *
      * @return the name.
      */
     public String getName() {
@@ -98,7 +97,6 @@ public final class HighScore implements Comparable<HighScore> {
 
     /**
      * Get the score.
-     *
      * @return the score.
      */
     public int getScore() {
