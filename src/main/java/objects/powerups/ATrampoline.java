@@ -1,15 +1,15 @@
 package objects.powerups;
 
-import objects.AGameObject;
 import objects.IJumpable;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
- * Created by Michael on 10/19/2016.
+ * /**
+ * This class describes the abstract functionality of ATrampoline objects.
  */
-public abstract class ATrampoline extends AGameObject implements IJumpable {
+public abstract class ATrampoline extends APowerup implements IJumpable {
 
     /**
      * The BOOST value for the ATrampoline.

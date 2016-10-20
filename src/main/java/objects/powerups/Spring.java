@@ -1,11 +1,8 @@
 package objects.powerups;
 
 import objects.AGameObject;
-import objects.IJumpable;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
-import resources.sprites.ISprite;
-import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import java.util.Timer;
@@ -14,25 +11,13 @@ import java.util.TimerTask;
 /**
  * This class describes the behaviour of the spring powerup.
  */
-/* package */ final class Spring extends AGameObject implements IJumpable {
+/* package */ final class Spring extends ATrampoline {
 
-    /**
-     * The BOOST value for the Spring.
-     */
-    private static final double BOOST = -35;
     /**
      * The speed with which the springs retracts after it is being used.
      */
     private static final int RETRACT_SPEED = 250;
 
-    /**
-     * The default sprite for the Spring.
-     */
-    private static ISprite defaultSprite;
-    /**
-     * The used sprite for the Spring.
-     */
-    private static ISprite usedSprite;
 
     /**
      * Trampoline constructor.
@@ -42,11 +27,7 @@ import java.util.TimerTask;
      * @param y - The Y location for the trampoline.
      */
     /* package */ Spring(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getSpringSprite(), Spring.class);
-
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        Spring.defaultSprite = spriteFactory.getSpringSprite();
-        Spring.usedSprite = spriteFactory.getSpringUsedSprite();
+        super(sL, x, y, -35, sL.getSpriteFactory().getSpringSprite(), sL.getSpriteFactory().getSpringUsedSprite(), Spring.class);
     }
 
     /**
@@ -65,28 +46,9 @@ import java.util.TimerTask;
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double getBoost() {
-        this.animate();
-        this.playSound();
-
-        return Spring.BOOST;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void render() {
-        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
-    }
-
-    /**
      * Play the sound for the Spring.
      */
-    private void playSound() {
+    void playSound() {
         IAudioManager audioManager = getServiceLocator().getAudioManager();
         audioManager.playFeder();
     }
@@ -94,17 +56,17 @@ import java.util.TimerTask;
     /**
      * Animate the Spring.
      */
-    private void animate() {
+    public void animate() {
         int oldHeight = getSprite().getHeight();
-        int newHeight = Spring.usedSprite.getHeight();
+        int newHeight = this.getUsedSprite().getHeight();
         this.addYPos(oldHeight - newHeight);
-        this.setSprite(Spring.usedSprite);
+        this.setSprite(this.getUsedSprite());
 
         Spring self = this;
         new Timer().schedule(new TimerTask() {
             public void run() {
                 self.addYPos(newHeight - oldHeight);
-                self.setSprite(Spring.defaultSprite);
+                self.setSprite(self.getDefaultSprite());
             }
         }, Spring.RETRACT_SPEED);
     }
