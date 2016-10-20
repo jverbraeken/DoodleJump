@@ -120,13 +120,6 @@ public class UnderwaterBehavior implements MovementBehavior {
         return facing;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final Directions getMoving() {
-        return moving;
-    }
 
     /**
      * {@inheritDoc}

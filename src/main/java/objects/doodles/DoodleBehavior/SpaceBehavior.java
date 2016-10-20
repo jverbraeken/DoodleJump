@@ -117,14 +117,6 @@ public class SpaceBehavior implements MovementBehavior {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final Directions getMoving() {
-        return moving;
-    }
-
-    /**
      * Returns if a key is pressed.
      *
      * @return if a key is pressed.

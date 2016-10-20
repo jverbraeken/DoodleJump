@@ -121,18 +121,6 @@ public class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final Directions getMoving() {
-        if (this.movingLeft) {
-            return Directions.Left;
-        } else {
-            return Directions.Right;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final Runnable keyPress(final Keys key) {
         return this.keyPressActions.get(key);
     }
