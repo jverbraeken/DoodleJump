@@ -1,6 +1,8 @@
 package objects.powerups;
 
-import objects.IJumpable;
+import objects.AGameObject;
+import objects.IGameObject;
+import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -9,22 +11,7 @@ import system.IServiceLocator;
  * /**
  * This class describes the abstract functionality of ATrampoline objects.
  */
-public abstract class ATrampoline extends APowerup implements IJumpable {
-
-    /**
-     * The BOOST value for the ATrampoline.
-     */
-    private double boost;
-
-    /**
-     * The default sprite for the ATrampoline.
-     */
-    private static ISprite defaultSprite;
-
-    /**
-     * The used sprite for the ATrampoline.
-     */
-    private ISprite usedSprite;
+public abstract class ATrampoline extends AJumpablePowerup {
 
     /**
      * The constructor of the ATrampoline object.
@@ -37,42 +24,7 @@ public abstract class ATrampoline extends APowerup implements IJumpable {
      * @param powerup      The class of the powerup
      */
     public ATrampoline(final IServiceLocator sL, final int x, final int y, final double boost, final ISprite defaultSprite, final ISprite usedSprite, final Class<?> powerup) {
-        super(sL, x, y, defaultSprite, powerup);
-        this.usedSprite = usedSprite;
-        this.defaultSprite = defaultSprite;
-        this.boost = boost;
-    }
-
-    /**
-     * Plays the sound of the ATrampoline object.
-     */
-    abstract void playSound();
-
-    /**
-     * Returns the usedSprite when a doodle collides with this object.
-     * @return a ISprite object.
-     */
-    public final ISprite getUsedSprite() {
-        return this.usedSprite;
-    }
-
-    /**
-     * Returns the default sprite.
-     * @return a ISprite object.
-     */
-    public final ISprite getDefaultSprite() {
-        return this.defaultSprite;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final double getBoost() {
-        this.animate();
-        this.playSound();
-
-        return this.boost;
+        super(sL, x, y, boost, defaultSprite, usedSprite, powerup);
     }
 
     /**
@@ -83,23 +35,30 @@ public abstract class ATrampoline extends APowerup implements IJumpable {
         doodle.collide(this);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void render() {
-        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
-    }
 
     /**
      * Updates the sprite that should be drawn in the scene.
      */
     public void animate() {
         int oldHeight = getSprite().getHeight();
-        ISprite newSprite = usedSprite;
+        ISprite newSprite = getUsedSprite();
         setSprite(newSprite);
         int newHeight = newSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPositionOnPlatform(final IGameObject powerup, final IPlatform platform) {
+        double[] hitbox = platform.getHitBox();
+        final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
+        final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
+        double[] powHitbox = powerup.getHitBox();
+        final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
+        final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
+        powerup.setXPos((platform.getXPos() + (platformWidth / 2)) - (powerupWidth / 2));
+        powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
+    }
 }
