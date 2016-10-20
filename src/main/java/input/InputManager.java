@@ -3,9 +3,13 @@ package input;
 import logging.ILogger;
 import system.IServiceLocator;
 
+import javax.swing.text.html.HTMLDocument;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -28,7 +32,8 @@ public final class InputManager implements IInputManager {
     /**
      * The set of observable key inputs.
      */
-    private final HashSet<IKeyInputObserver> keyInputObservers = new HashSet<>();
+    //private final HashSet<IKeyInputObserver> keyInputObservers = new HashSet<>();
+    private final HashMap<Integer, IKeyInputObserver> keyInputObservers = new HashMap<Integer, IKeyInputObserver>();
     /**
      * Offset for the mouse position X.
      */
@@ -114,8 +119,14 @@ public final class InputManager implements IInputManager {
     @Override
     public void keyPressed(final KeyEvent e) {
         this.logger.info("Key pressed, keyCode: " + e.getKeyCode());
-        for (IKeyInputObserver observer : this.keyInputObservers) {
-            observer.keyPress(KeyCode.getKey(e.getKeyCode()));
+        Iterator it = this.keyInputObservers.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            if ((int) pair.getKey() == e.getKeyCode()) {
+                IKeyInputObserver observer = (IKeyInputObserver) pair.getValue();
+                observer.keyPress(KeyCode.getKey(e.getKeyCode()));
+            }
+            //it.remove(); // avoids a ConcurrentModificationException
         }
     }
 
@@ -125,8 +136,14 @@ public final class InputManager implements IInputManager {
     @Override
     public void keyReleased(final KeyEvent e) {
         this.logger.info("Key released, keyCode: " + e.getKeyCode());
-        for (IKeyInputObserver observer : this.keyInputObservers) {
-            observer.keyRelease(KeyCode.getKey(e.getKeyCode()));
+        Iterator it = this.keyInputObservers.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            if ((int) pair.getKey() == e.getKeyCode()) {
+                IKeyInputObserver observer = (IKeyInputObserver) pair.getValue();
+                observer.keyRelease(KeyCode.getKey(e.getKeyCode()));
+            }
+            //it.remove(); // avoids a ConcurrentModificationException
         }
     }
 
@@ -142,8 +159,8 @@ public final class InputManager implements IInputManager {
      * {@inheritDoc}
      */
     @Override
-    public void addObserver(final IKeyInputObserver keyInputObserver) {
-        this.keyInputObservers.add(keyInputObserver);
+    public void addObserver(final Keys key, final IKeyInputObserver keyInputObserver) {
+        this.keyInputObservers.put(KeyCode.getKeyCode(key), keyInputObserver);
     }
 
     /**
@@ -159,7 +176,14 @@ public final class InputManager implements IInputManager {
      */
     @Override
     public void removeObserver(final IKeyInputObserver keyInputObserver) {
-        this.keyInputObservers.remove(keyInputObserver);
+        Iterator it = this.keyInputObservers.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            if (pair.getValue().equals(keyInputObserver)) {
+                this.keyInputObservers.remove(pair.getKey(), pair.getValue());
+            }
+            //it.remove(); // avoids a ConcurrentModificationException
+        }
     }
 
     /**

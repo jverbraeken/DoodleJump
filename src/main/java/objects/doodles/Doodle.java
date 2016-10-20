@@ -1,6 +1,7 @@
 package objects.doodles;
 
 import constants.IConstants;
+import input.KeyCode;
 import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
@@ -270,6 +271,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
         this.getPowerup().render();
     }
+
     /**
      * Returns the Star sprite by looking at the current starNumber.
      * @return a star sprite.
@@ -301,7 +303,8 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void register() {
-        getServiceLocator().getInputManager().addObserver(this);
+        getServiceLocator().getInputManager().addObserver(this.keys[0], this);
+        getServiceLocator().getInputManager().addObserver(this.keys[1], this);
         getLogger().info("The doodle registered itself as an observer of the input manager");
     }
 
