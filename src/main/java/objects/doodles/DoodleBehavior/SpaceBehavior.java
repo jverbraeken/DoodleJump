@@ -59,7 +59,7 @@ public class SpaceBehavior implements MovementBehavior {
     /**
      * The direction the Doodle is facing.
      */
-    private Directions facing;
+    private Directions facing = Directions.Left;
     /**
      * Keep track if a useful button is pressed.
      */
@@ -163,9 +163,9 @@ public class SpaceBehavior implements MovementBehavior {
     private void animate(final double delta) {
         // If the Doodle moves up quickly shorten its legs
         if (getVerticalSpeed() < RELATIVE_SPEED * JUMPING_THRESHOLD) {
-            doodle.setSprite(getFacing(), true);
+            doodle.setSprite(true);
         } else {
-            doodle.setSprite(getFacing(), false);
+            doodle.setSprite(false);
         }
     }
 

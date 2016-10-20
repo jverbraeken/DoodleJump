@@ -57,7 +57,7 @@ public class RegularBehavior implements MovementBehavior {
     /**
      * The direction the Doodle is facing.
      */
-    private Directions facing;
+    private Directions facing = Directions.Left;
 
     /**
      * The constructor of the regular behavior.
@@ -77,8 +77,8 @@ public class RegularBehavior implements MovementBehavior {
             this.movingLeft = false;
             this.movingRight = true;
             this.facing = Directions.Right; });
-        this.keyReleaseActions.put(d.getKeyLeft(), () -> { this.movingLeft = false; });
-        this.keyReleaseActions.put(d.getKeyRight(), () -> { this.movingRight = false; });
+        this.keyReleaseActions.put(d.getKeyLeft(), () -> this.movingLeft = false);
+        this.keyReleaseActions.put(d.getKeyRight(), () -> this.movingRight = false);
     }
 
     /**
@@ -140,9 +140,9 @@ public class RegularBehavior implements MovementBehavior {
     private void animate(final double delta) {
         // If the Doodle moves up quickly shorten its legs
         if (getVerticalSpeed() < JUMPING_THRESHOLD) {
-            doodle.setSprite(getFacing(), true);
+            doodle.setSprite(true);
         } else {
-            doodle.setSprite(getFacing(), false);
+            doodle.setSprite(false);
         }
     }
 

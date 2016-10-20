@@ -19,6 +19,8 @@ import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
+import java.util.EnumMap;
+
 /**
  * This class describes the behaviour of the Doodle.
  */
@@ -70,7 +72,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
-    private ISprite[][] spritePack;
+    private EnumMap<MovementBehavior.Directions, ISprite[]> sprites = new EnumMap<>(MovementBehavior.Directions.class);
     /**
      * The current score of the doodle.
      */
@@ -114,13 +116,11 @@ public class Doodle extends AGameObject implements IDoodle {
                 Doodle.class);
 
         this.updateHitBox();
-
-        this.world = w;
-        setBehavior(Game.getMode());
+        this.setBehavior(Game.getMode());
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        this.spritePack = new ISprite[2][2];
-        this.spritePack[0] = spriteFactory.getDoodleLeftSprites();
-        this.spritePack[1] = spriteFactory.getDoodleRightSprites();
+        this.sprites.put(MovementBehavior.Directions.Left, spriteFactory.getDoodleLeftSprites());
+        this.sprites.put(MovementBehavior.Directions.Right, spriteFactory.getDoodleRightSprites());
+        this.world = w;
     }
 
     /**
@@ -144,13 +144,15 @@ public class Doodle extends AGameObject implements IDoodle {
         if (this.powerup != null) {
             return this.powerup;
         } else {
-            IServiceLocator serviceLocator = getServiceLocator();
+            IServiceLocator serviceLocator = Doodle.getServiceLocator();
             return new APowerup(serviceLocator, 0, 0, serviceLocator.getSpriteFactory().getShieldSprite(), APowerup.class) {
                 @Override
-                public void render() { }
+                public void render() {
+                }
 
                 @Override
-                public void collidesWith(final IDoodle doodle) { }
+                public void collidesWith(final IDoodle doodle) {
+                }
             };
         }
     }
@@ -200,12 +202,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void setSprite(final MovementBehavior.Directions direction, final boolean falling) {
-        if (direction == MovementBehavior.Directions.Left) {
-            setSprite(this.spritePack[0][falling ? 1 : 0]);
-        } else if (direction == MovementBehavior.Directions.Right) {
-            setSprite(this.spritePack[1][falling ? 1 : 0]);
-        }
+    public final void setSprite(final boolean falling) {
+        MovementBehavior.Directions direction = this.behavior.getFacing();
+        ISprite[] sprites = this.sprites.get(direction);
+        setSprite(sprites[falling ? 1 : 0]);
     }
 
     /**
