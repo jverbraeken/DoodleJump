@@ -21,6 +21,7 @@ public abstract class ASpring extends AJumpablePowerup {
      * @param x            The X-coordinate of the powerup
      * @param y            The Y-coordinate of the powerup
      * @param boost        The value of the boost of the powerup
+     * @param retractSpeed  The speed with which the spring retracts
      * @param defaultSprite The sprite when the object has not collided with a doodle
      * @param usedSprite    The sprite when the object has collided with a doodle
      * @param powerup      The class of the powerup

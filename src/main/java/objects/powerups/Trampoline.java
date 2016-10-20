@@ -16,7 +16,7 @@ import java.util.TimerTask;
     /**
      * The BOOST value for the ATrampoline.
      */
-    private static double BOOST = -50;
+    private static final double BOOST = -50;
 
     /**
      * The speed with which the springs retracts after it is being used.

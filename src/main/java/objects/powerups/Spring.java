@@ -13,7 +13,7 @@ import system.IServiceLocator;
     /**
      * The BOOST value for the ATrampoline.
      */
-    private static double BOOST = -35;
+    private static final double BOOST = -35;
 
     /**
      * The speed with which the springs retracts after it is being used.

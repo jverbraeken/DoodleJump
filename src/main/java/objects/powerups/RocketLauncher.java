@@ -11,7 +11,7 @@ import system.IServiceLocator;
     /**
      * The BOOST value for the RocketLauncher.
      */
-    private static double BOOST = -100;
+    private static final double BOOST = -100;
 
     /**
      * RocketLauncher constructor.
