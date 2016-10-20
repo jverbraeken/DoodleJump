@@ -59,7 +59,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      * @param platformWidth The width of the platform.
      * @return integer of the X position of the powerup.
      */
-    private int setXPosOfPowerup(final IGameObject powerup, final int powerupXPos, final int xPosPlatform, final int platformWidth) {
+    public int setXPosOfPowerup(final IGameObject powerup, final int powerupXPos, final int xPosPlatform, final int platformWidth) {
         double[] powHitbox = powerup.getHitBox();
         final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
 

@@ -26,6 +26,7 @@ import java.util.TimerTask;
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
+    @SuppressWarnings("magicnumber")
     /* package */ Spring(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, -35, sL.getSpriteFactory().getSpringSprite(), sL.getSpriteFactory().getSpringUsedSprite(), Spring.class);
     }

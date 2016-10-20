@@ -11,7 +11,11 @@ import objects.blocks.platform.Platform;
 import objects.powerups.IPowerup;
 import system.IServiceLocator;
 
-import java.util.*;
+import java.util.List;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Map;
 
 
 /**
@@ -28,14 +32,6 @@ public final class BlockFactory implements IBlockFactory {
      * The minimum amount of platforms per block.
      */
     private static final int MIN_PLATFORMS = 5;
-    /**
-     * Offset to place the trampoline on the proper place of a platform.
-     */
-    private static final int ITEM_Y_OFFSET = 5;
-    /**
-     * Offset to place the trampoline on the proper place of a platform.
-     */
-    private static final int TRAMPOLINE_X_OFFSET = 20;
 
     /**
      * The chance that an enemy will spawn.

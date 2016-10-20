@@ -17,6 +17,7 @@ import system.IServiceLocator;
      * @param x - The X location for the rocket launcher.
      * @param y - The Y location for the rocket launcher.
      */
+    @SuppressWarnings("magicnumber")
     /* package */ RocketLauncher(final IServiceLocator sL, final int x, final int y) {
         super(sL,
                 x,

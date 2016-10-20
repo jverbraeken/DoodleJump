@@ -14,7 +14,7 @@ public abstract class ATrampoline extends APowerup implements IJumpable {
     /**
      * The BOOST value for the ATrampoline.
      */
-    private double BOOST;
+    private double boost;
 
     /**
      * The default sprite for the ATrampoline.
@@ -26,11 +26,21 @@ public abstract class ATrampoline extends APowerup implements IJumpable {
      */
     private ISprite usedSprite;
 
+    /**
+     * The constructor of the ATrampoline object.
+     * @param sL           The locator providing services to the powerup
+     * @param x            The X-coordinate of the powerup
+     * @param y            The Y-coordinate of the powerup
+     * @param boost        The value of the boost of the powerup
+     * @param defaultSprite The sprite when the object has not collided with a doodle
+     * @param usedSprite    The sprite when the object has collided with a doodle
+     * @param powerup      The class of the powerup
+     */
     public ATrampoline(final IServiceLocator sL, final int x, final int y, final double boost, final ISprite defaultSprite, final ISprite usedSprite, final Class<?> powerup) {
         super(sL, x, y, defaultSprite, powerup);
         this.usedSprite = usedSprite;
         this.defaultSprite = defaultSprite;
-        this.BOOST = boost;
+        this.boost = boost;
     }
 
     /**
@@ -42,23 +52,27 @@ public abstract class ATrampoline extends APowerup implements IJumpable {
      * Returns the usedSprite when a doodle collides with this object.
      * @return a ISprite object.
      */
-    final public ISprite getUsedSprite() { return this.usedSprite; }
+    public final ISprite getUsedSprite() {
+        return this.usedSprite;
+    }
 
     /**
      * Returns the default sprite.
      * @return a ISprite object.
      */
-    final public ISprite getDefaultSprite() { return this.defaultSprite; }
+    public final ISprite getDefaultSprite() {
+        return this.defaultSprite;
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    final public double getBoost() {
+    public final double getBoost() {
         this.animate();
         this.playSound();
 
-        return this.BOOST;
+        return this.boost;
     }
 
     /**

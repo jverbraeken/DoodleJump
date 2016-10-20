@@ -18,6 +18,7 @@ public class CircusCannon extends ATrampoline {
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
+    @SuppressWarnings("magicnumber")
     /* package */ CircusCannon(final IServiceLocator sL, final int x, final int y) {
         super(sL,
                 x,
