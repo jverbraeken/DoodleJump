@@ -4,14 +4,14 @@ package objects.powerups;
  * Indicates which types of powerups are available
  */
 public enum Powerups {
-    JETPACK("jetpack", 50),
-    PROPELLER("propeller", 50),
-    SIZEDOWN("sizeDown", 50),
-    SIZEUP("sizeUp", 50),
-    SHIELD("shield", 50),
-    SPRING("spring", 0, 50, 150),
-    SPRINGSHOES("springShoes", 50),
-    TRAMPOLINE("trampoline", 50);
+    jetpack("jetpack", 50),
+    propeller("propeller", 50),
+    sizeDown("sizeDown", 50),
+    sizeUp("sizeUp", 50),
+    shield("shield", 50),
+    spring("spring", 0, 50, 150),
+    springShoes("springShoes", 50),
+    trampoline("trampoline", 50);
 
     /**
      * The prices of the levels of the powerup.

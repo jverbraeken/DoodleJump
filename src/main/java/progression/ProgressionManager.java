@@ -298,7 +298,7 @@ public final class ProgressionManager implements IProgressionManager {
         for (Powerups powerup : Powerups.values()) {
             powerupLevels.put(powerup, 0);
         }
-        powerupLevels.put(Powerups.SPRING, 1);
+        powerupLevels.put(Powerups.spring, 1);
 
         coins = 0;
 
@@ -335,32 +335,32 @@ public final class ProgressionManager implements IProgressionManager {
         powerupLevels.clear();
         for (Map.Entry<String, Integer> entry : json.getPowerupLevels().entrySet()) {
             switch (entry.getKey()) {
-                case "JETPACK":
-                    powerupLevels.put(Powerups.JETPACK, entry.getValue());
+                case "jetpack":
+                    powerupLevels.put(Powerups.jetpack, entry.getValue());
                     logger.info("Jetpack level is loaded from save file: " + entry.getValue());
                     break;
-                case "PROPELLER":
-                    powerupLevels.put(Powerups.PROPELLER, entry.getValue());
+                case "propeller":
+                    powerupLevels.put(Powerups.propeller, entry.getValue());
                     logger.info("Propeller level is loaded from save file: " + entry.getValue());
                     break;
-                case "SIZEDOWN":
-                    powerupLevels.put(Powerups.SIZEDOWN, entry.getValue());
+                case "sizeDown":
+                    powerupLevels.put(Powerups.sizeDown, entry.getValue());
                     logger.info("SizeDown level is loaded from save file: " + entry.getValue());
                     break;
-                case "SIZEUP":
-                    powerupLevels.put(Powerups.SIZEUP, entry.getValue());
+                case "sizeUp":
+                    powerupLevels.put(Powerups.sizeUp, entry.getValue());
                     logger.info("SizeUp level is loaded from save file: " + entry.getValue());
                     break;
-                case "SPRING":
-                    powerupLevels.put(Powerups.SPRING, entry.getValue());
+                case "spring":
+                    powerupLevels.put(Powerups.spring, entry.getValue());
                     logger.info("Spring level is loaded from save file: " + entry.getValue());
                     break;
-                case "SPRINGSHOES":
-                    powerupLevels.put(Powerups.SPRINGSHOES, entry.getValue());
+                case "springShoes":
+                    powerupLevels.put(Powerups.springShoes, entry.getValue());
                     logger.info("SpringShoes level is loaded from save file: " + entry.getValue());
                     break;
-                case "TRAMPOLINE":
-                    powerupLevels.put(Powerups.TRAMPOLINE, entry.getValue());
+                case "trampoline":
+                    powerupLevels.put(Powerups.trampoline, entry.getValue());
                     logger.info("Trampoline level is loaded from save file: " + entry.getValue());
                     break;
                 default:

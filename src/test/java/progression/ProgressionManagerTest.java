@@ -8,7 +8,6 @@ import objects.powerups.Powerups;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
@@ -18,12 +17,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -157,13 +152,13 @@ public class ProgressionManagerTest {
         assertThat(coins, is(0));
 
         final Map<Powerups, Integer> expectedPowerupLevels = new EnumMap<>(Powerups.class);
-        expectedPowerupLevels.put(Powerups.JETPACK, 0);
-        expectedPowerupLevels.put(Powerups.PROPELLER, 0);
-        expectedPowerupLevels.put(Powerups.SIZEDOWN, 0);
-        expectedPowerupLevels.put(Powerups.SIZEUP, 0);
-        expectedPowerupLevels.put(Powerups.SPRING, 1);
-        expectedPowerupLevels.put(Powerups.SPRINGSHOES, 0);
-        expectedPowerupLevels.put(Powerups.TRAMPOLINE, 0);
+        expectedPowerupLevels.put(Powerups.jetpack, 0);
+        expectedPowerupLevels.put(Powerups.propeller, 0);
+        expectedPowerupLevels.put(Powerups.sizeDown, 0);
+        expectedPowerupLevels.put(Powerups.sizeUp, 0);
+        expectedPowerupLevels.put(Powerups.spring, 1);
+        expectedPowerupLevels.put(Powerups.springShoes, 0);
+        expectedPowerupLevels.put(Powerups.trampoline, 0);
 
         Map<Powerups, Integer> powerupLevels = Whitebox.getInternalState(progressionManager, "powerupLevels");
 
@@ -337,13 +332,13 @@ public class ProgressionManagerTest {
 //            add(saveFileHighScoreEntry3);
 //        }});
 //        final Map<String, Integer> powerupsMap = new HashMap<String, Integer>() {{
-//            put("JETPACK", 1);
-//            put("PROPELLER", 2);
-//            put("SIZEDOWN", 3);
-//            put("SIZEUP", 4);
-//            put("SPRING", 5);
-//            put("SPRINGSHOES", 6);
-//            put("TRAMPOLINE", 7);
+//            put("jetpack", 1);
+//            put("propeller", 2);
+//            put("sizeDown", 3);
+//            put("sizeUp", 4);
+//            put("spring", 5);
+//            put("springShoes", 6);
+//            put("trampoline", 7);
 //        }};
 //        when(json.getPowerupLevels()).thenReturn(powerupsMap);
 //

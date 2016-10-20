@@ -629,9 +629,9 @@ public final class SpriteFactory implements ISpriteFactory {
     public ISprite getPowerupSprite(final Powerups powerup, final int level) {
         // TODO parameter checking
         switch (powerup) {
-            case JETPACK:
+            case jetpack:
                 return getSprite(IRes.Sprites.jetpack);
-            case PROPELLER:
+            case propeller:
                 return getSprite(IRes.Sprites.propeller);
             case SIZEDOWN:
                 return getSprite(IRes.Sprites.sizeDown);

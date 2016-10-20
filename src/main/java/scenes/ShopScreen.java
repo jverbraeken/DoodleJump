@@ -152,14 +152,14 @@ import java.util.ArrayList;
         buttons.add(mainMenuButton);
         buttons.add(
                 buttonFactory.createShopPowerupButton(
-                        Powerups.JETPACK,
+                        Powerups.jetpack,
                         (int) (sL.getConstants().getGameWidth() * JETPACK_BUTTON_X),
                         (int) (sL.getConstants().getGameHeight() * JETPACK_BUTTON_Y)
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
-                        Powerups.PROPELLER,
+                        Powerups.propeller,
                         (int) (sL.getConstants().getGameWidth() * PROPELLER_BUTTON_X),
                         (int) (sL.getConstants().getGameHeight() * PROPELLER_BUTTON_Y)
                 )
@@ -256,8 +256,8 @@ import java.util.ArrayList;
         renderer.drawTextHUD((int) (POWERUP_INFO_X * width), (int) (POWERUP_INFO_Y * height), POWERUP_INFO_LEVEL, TextAlignment.left, Color.black);
         renderer.drawTextHUD((int) (POWERUP_INFO_X2 * width), (int) (POWERUP_INFO_Y * height), POWERUP_INFO_LEVEL, TextAlignment.right, Color.black);
         
-        drawPowerupText(Powerups.JETPACK, JETPACK_BUTTON_X, JETPACK_BUTTON_Y);
-        drawPowerupText(Powerups.PROPELLER, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y);
+        drawPowerupText(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y);
+        drawPowerupText(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y);
         drawPowerupText(Powerups.SIZEDOWN, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y);
         drawPowerupText(Powerups.SIZEUP, SIZEUP_BUTTON_X, SIZEUP_BUTTON_Y);
         drawPowerupText(Powerups.SPRING, SPRING_BUTTON_X, SPRING_BUTTON_Y);
