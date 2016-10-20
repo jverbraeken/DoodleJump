@@ -171,6 +171,9 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite[] getPropellerActiveSprites();
 
+    // Projectiles
+    ISprite getRegularProjectileSprite();
+
     // Score screen
     ISprite getScoreScreenBottom();
 

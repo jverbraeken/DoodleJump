@@ -2,6 +2,7 @@ package objects.doodles;
 
 import input.IMouseInputObserver;
 import logging.ILogger;
+import objects.IGameObject;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -9,9 +10,11 @@ public class ShootingObserver implements IMouseInputObserver {
 
     private ILogger logger;
     private IServiceLocator serviceLocator;
+    private Doodle doodle;
 
-    ShootingObserver(final IServiceLocator sL, final Class<?> objectClass) {
+    ShootingObserver(final IServiceLocator sL, final Doodle d, final Class<?> objectClass) {
         serviceLocator = sL;
+        doodle = d;
         logger = sL.getLoggerFactory().createLogger(objectClass);
     }
     /**
@@ -27,8 +30,9 @@ public class ShootingObserver implements IMouseInputObserver {
      */
     @Override
     public void mouseClicked(int x, int y) {
-        System.out.println("ScHIET");
-        getLogger().info("The mouse has been clicked in-game, this means shooting.");
+        IGameObject projectile = serviceLocator.getProjectileFactory().createRegularProjectile((int) doodle.getXPos(), (int) doodle.getYPos());
+        doodle.addProjectile(projectile);
+        getLogger().info("The mouse has been clicked in-game, a projectile has been created.");
     }
 
 

@@ -736,6 +736,15 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
 
+    //Projectiles
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRegularProjectileSprite() {
+        return this.getSprite(IRes.Sprites.regularProjectile);
+    }
+
     // Misc
     /**
      * {@inheritDoc}

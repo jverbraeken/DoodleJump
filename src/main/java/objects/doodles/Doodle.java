@@ -3,6 +3,7 @@ package objects.doodles;
 import constants.IConstants;
 import input.Keys;
 import objects.AGameObject;
+import objects.IGameObject;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
@@ -17,6 +18,11 @@ import resources.sprites.ISpriteFactory;
 import scenes.World;
 import system.Game;
 import system.IServiceLocator;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * This class describes the behaviour of the Doodle.
@@ -107,6 +113,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * The keys the Doodle responds to.
      */
     private Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
+    /**
+     * A set of all the game objects in this block.
+     */
+    private final Set<IGameObject> projectiles = new HashSet<>();
 
     /**
      * The shooting observer of this Doodle.
@@ -134,7 +144,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.spritePack = new ISprite[2][2];
         this.spritePack[0] = spriteFactory.getDoodleLeftSprites();
         this.spritePack[1] = spriteFactory.getDoodleRightSprites();
-        shootingObserver = new ShootingObserver(sL, ShootingObserver.class);
+        shootingObserver = new ShootingObserver(sL, this, ShootingObserver.class);
     }
 
     /**
@@ -275,6 +285,16 @@ public class Doodle extends AGameObject implements IDoodle {
         }
 
         this.getPowerup().render();
+        renderProjectiles();
+    }
+
+    /**
+     * Render the projectiles this Doodle has shot.
+     */
+    private void renderProjectiles() {
+        for (IGameObject projectile : projectiles) {
+            projectile.render();
+        }
     }
     /**
      * Returns the Star sprite by looking at the current starNumber.
@@ -300,6 +320,15 @@ public class Doodle extends AGameObject implements IDoodle {
         starNumber++;
         this.getPowerup().update(delta);
         this.updateScore();
+        updateProjectiles(delta);
+    }
+    /**
+     * Update the projectiles this Doodle has shot.
+     */
+    private void updateProjectiles(final double delta) {
+        for (IGameObject projectile : projectiles) {
+            projectile.update(delta);
+        }
     }
 
     /**
@@ -462,6 +491,13 @@ public class Doodle extends AGameObject implements IDoodle {
         int left = (int) (spriteWidth * WIDTH_HIT_BOX_LEFT);
         int right = (int) (spriteWidth * WIDTH_HIT_BOX_RIGHT);
         this.setHitBox(left, Doodle.TOP_HITBOX_OFFSET, right, spriteHeight);
+    }
+
+    /**
+     * Adds a projectile to the Set with Projectiles.
+     */
+    void addProjectile(IGameObject projectile) {
+        projectiles.add(projectile);
     }
 
 }

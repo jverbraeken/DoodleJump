@@ -18,6 +18,8 @@ import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.PlatformFactory;
 import objects.doodles.DoodleFactory;
 import objects.doodles.IDoodleFactory;
+import objects.doodles.Projectiles.IProjectileFactory;
+import objects.doodles.Projectiles.ProjectileFactory;
 import objects.enemies.EnemyFactory;
 import objects.enemies.IEnemyFactory;
 import objects.powerups.IPowerupFactory;
@@ -66,6 +68,7 @@ import scenes.SceneFactory;
     private IDoodleFactory doodleFactory;
     private IBlockFactory blockFactory;
     private IPlatformFactory platformFactory;
+    private IProjectileFactory projectileFactory;
 
     // resources
     private ISpriteFactory spriteFactory;
@@ -166,6 +169,15 @@ import scenes.SceneFactory;
     public void provide(final IPowerupFactory pF) {
         assert pF != null;
         this.powerupFactory = pF;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void provide(final IProjectileFactory pF) {
+        assert pF != null;
+        this.projectileFactory = pF;
     }
 
     /**
@@ -616,6 +628,15 @@ import scenes.SceneFactory;
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IProjectileFactory getProjectileFactory() {
+        assert this.projectileFactory != null;
+        return this.projectileFactory;
+    }
+
+    /**
      * Initialize the ServiceLocator.
      */
     private void init() {
@@ -636,6 +657,7 @@ import scenes.SceneFactory;
         PlatformFactory.register(this);
         ButtonFactory.register(this);
         CameraFactory.register(this);
+        ProjectileFactory.register(this);
     }
 
 }
