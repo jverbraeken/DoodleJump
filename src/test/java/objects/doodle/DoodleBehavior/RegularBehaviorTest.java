@@ -65,7 +65,7 @@ public class RegularBehaviorTest {
         regular.keyPress(Keys.arrowRight);
         assertThat(MovementBehavior.Directions.Right, is(regular.getFacing()));
         assertThat(MovementBehavior.Directions.Right, is(regular.getMoving()));
-        }
+     }
 
      /**
       * Tests if the key press is processed.
@@ -121,17 +121,21 @@ public class RegularBehaviorTest {
     public void testApplyGravity() throws Exception {
         Whitebox.invokeMethod(regular, "applyGravity", 0d);
 
-        Mockito.verify(serviceLocator).getConstants();
-        Mockito.verify(constants).getGravityAcceleration();
+        Mockito.verify(serviceLocator, Mockito.times(1)).getConstants();
+        Mockito.verify(constants, Mockito.times(1)).getGravityAcceleration();
         assertThat(regular.getVerticalSpeed(), is(.5));
     }
 
     /**
      * Tests the getVerticalSpeed method.
+     *
+     * @throws Exception when the field cant be found or an Illegal argument is given.
      */
     @Test
-    public void testGetVerticalSpeed() {
-        assertThat(regular.getVerticalSpeed(), is(0d));
+    public void testGetVerticalSpeed() throws Exception {
+        Field vSpeed = RegularBehavior.class.getDeclaredField("vSpeed");
+        vSpeed.setAccessible(true);
+        assertThat(regular.getVerticalSpeed(), is(vSpeed.get(regular)));
     }
 
     /**
@@ -168,10 +172,10 @@ public class RegularBehaviorTest {
      * Tests the move method.
      */
     @Test
-    public void moveTest() {
+    public void testPerformPowerupOnMove() {
         regular.move(0d);
-        Mockito.verify(doodle).getPowerup();
-        Mockito.verify(powerup).perform(PowerupOccasion.constant);
+        Mockito.verify(doodle, Mockito.times(1)).getPowerup();
+        Mockito.verify(powerup, Mockito.times(1)).perform(PowerupOccasion.constant);
     }
 
     /**
@@ -184,7 +188,7 @@ public class RegularBehaviorTest {
     public void animatePullInLegsTest() throws Exception {
         regular.setVerticalSpeed(-16);
         Whitebox.invokeMethod(regular, "animate", 0d);
-        Mockito.verify(doodle).setSprite(regular.getFacing(), true);
+        Mockito.verify(doodle, Mockito.times(1)).setSprite(regular.getFacing(), true);
     }
 
     /**

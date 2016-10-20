@@ -94,13 +94,11 @@ public class SpaceBehaviorTest {
      */
     @Test
     public void testKeyPressLeftRight() throws Exception{
-        Field pressedField = SpaceBehavior.class.getDeclaredField("pressed");
-        pressedField.setAccessible(true);
         space.keyPress(Keys.arrowLeft);
         space.keyPress(Keys.arrowRight);
         assertThat(MovementBehavior.Directions.Right, is(space.getFacing()));
         assertThat(MovementBehavior.Directions.Right, is(space.getMoving()));
-        assertThat(pressedField.get(space), is(true));
+        assertThat(Whitebox.getInternalState(space, "pressed"), is(true));
     }
 
     /**
@@ -111,13 +109,11 @@ public class SpaceBehaviorTest {
      */
     @Test
     public void testKeyPressRightLeft() throws Exception{
-        Field pressedField = SpaceBehavior.class.getDeclaredField("pressed");
-        pressedField.setAccessible(true);
         space.keyPress(Keys.arrowRight);
         space.keyPress(Keys.arrowLeft);
         assertThat(MovementBehavior.Directions.Left, is(space.getFacing()));
         assertThat(MovementBehavior.Directions.Left, is(space.getMoving()));
-        assertThat(pressedField.get(space), is(true));
+        assertThat(Whitebox.getInternalState(space, "pressed"), is(true));
     }
 
     /**
@@ -127,15 +123,12 @@ public class SpaceBehaviorTest {
      */
     @Test
     public void testKeyReleaseLeft() throws Exception {
-        Field pressedField = SpaceBehavior.class.getDeclaredField("pressed");
-        pressedField.setAccessible(true);
-
         space.keyPress(Keys.arrowLeft);
         assertThat(MovementBehavior.Directions.Left, is(space.getFacing()));
         assertThat(MovementBehavior.Directions.Left, is(space.getMoving()));
         space.keyRelease(Keys.arrowLeft);
         assertThat(space.getMoving(), is(MovementBehavior.Directions.Left));
-        assertThat(pressedField.get(space), is(false));
+        assertThat(Whitebox.getInternalState(space, "pressed"), is(false));
     }
 
     /**
@@ -145,15 +138,12 @@ public class SpaceBehaviorTest {
      */
     @Test
     public void testKeyReleaseRight() throws Exception {
-        Field pressedField = SpaceBehavior.class.getDeclaredField("pressed");
-        pressedField.setAccessible(true);
-
         space.keyPress(Keys.arrowRight);
         assertThat(MovementBehavior.Directions.Right, is(space.getFacing()));
         assertThat(MovementBehavior.Directions.Right, is(space.getMoving()));
         space.keyRelease(Keys.arrowRight);
         assertThat(space.getMoving(), is(MovementBehavior.Directions.Right));
-        assertThat(pressedField.get(space), is(false));
+        assertThat(Whitebox.getInternalState(space, "pressed"), is(false));
     }
 
     /**
@@ -166,17 +156,17 @@ public class SpaceBehaviorTest {
     public void animatePullInLegsTest() throws Exception {
         space.setVerticalSpeed(-16);
         Whitebox.invokeMethod(space, "animate", 0d);
-        Mockito.verify(doodle).setSprite(space.getFacing(), true);
+        Mockito.verify(doodle, Mockito.times(1)).setSprite(space.getFacing(), true);
     }
 
     /**
      * Tests the move method.
      */
     @Test
-    public void moveTest() {
+    public void testPerformPowerupOnMove() {
         space.move(0d);
-        Mockito.verify(doodle).getPowerup();
-        Mockito.verify(powerup).perform(PowerupOccasion.constant);
+        Mockito.verify(doodle, Mockito.times(1)).getPowerup();
+        Mockito.verify(powerup, Mockito.times(1)).perform(PowerupOccasion.constant);
     }
 
     /**
@@ -238,9 +228,9 @@ public class SpaceBehaviorTest {
         double expected = (double) relative_gravity.get(space) * 0.5;
         Whitebox.invokeMethod(space, "applyGravity", 0d);
 
-        Mockito.verify(serviceLocator).getConstants();
-        Mockito.verify(constants).getGravityAcceleration();
-        Mockito.verify(doodle).addYPos(expected);
+        Mockito.verify(serviceLocator, Mockito.times(1)).getConstants();
+        Mockito.verify(constants, Mockito.times(1)).getGravityAcceleration();
+        Mockito.verify(doodle, Mockito.times(1)).addYPos(expected);
         assertThat(space.getVerticalSpeed(), is(expected));
     }
 
