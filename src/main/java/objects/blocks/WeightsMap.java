@@ -45,7 +45,7 @@ import java.util.EnumMap;
     /**
      * The chance of the jetpack spawning.
      */
-    private static final double JETPACK_POWERUP = 0.003;
+    private static final double JETPACK_POWERUP = 0.1;
 
     /**
      * The chance of the propellor spawning.

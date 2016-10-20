@@ -4,7 +4,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import logging.ILogger;
-import objects.doodles.DoodleBehavior.MovementBehavior;
 import resources.IRes;
 import system.IServiceLocator;
 
@@ -738,6 +737,14 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
+    public ISprite getSpaceRocketSprite() {
+        return getSprite(IRes.Sprites.spaceRocket);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ISprite[] getJetpackActiveSprites() {
         ISprite[] sprites = new ISprite[9];
         sprites[0] = this.getSprite(IRes.Sprites.jetpack0);
@@ -773,11 +780,15 @@ public final class SpriteFactory implements ISpriteFactory {
     @Override
     public ISprite[] getSpaceRocketActiveSprites() {
         ISprite[] sprites = new ISprite[5];
-        sprites[0] = getSprite(IRes.Sprites.spaceRocket1);
-        sprites[1] = getSprite(IRes.Sprites.spaceRocket2);
-        sprites[2] = getSprite(IRes.Sprites.spaceRocket3);
-        sprites[3] = getSprite(IRes.Sprites.spaceRocket4);
-        sprites[4] = getSprite(IRes.Sprites.spaceRocket5);
+        sprites[0] = getSprite(IRes.Sprites.spaceRocket0);
+        sprites[1] = getSprite(IRes.Sprites.spaceRocket1);
+        sprites[2] = getSprite(IRes.Sprites.spaceRocket2);
+        sprites[3] = getSprite(IRes.Sprites.spaceRocket3);
+        sprites[4] = getSprite(IRes.Sprites.spaceRocket4);
+        sprites[5] = getSprite(IRes.Sprites.spaceRocket5);
+        sprites[6] = getSprite(IRes.Sprites.spaceRocket6);
+        sprites[7] = getSprite(IRes.Sprites.spaceRocket7);
+        sprites[8] = getSprite(IRes.Sprites.spaceRocket8);
 
         return sprites;
     }

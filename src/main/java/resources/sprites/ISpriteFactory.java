@@ -1,6 +1,5 @@
 package resources.sprites;
 
-import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IFactory;
 
 /**
@@ -150,6 +149,8 @@ public interface ISpriteFactory extends IFactory {
     ISprite getTrampolineSprite();
 
     ISprite getTrampolineUsedSprite();
+
+    ISprite getSpaceRocketSprite();
 
     ISprite getSpringSprite();
 
