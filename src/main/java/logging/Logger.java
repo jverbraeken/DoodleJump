@@ -85,12 +85,14 @@ import java.util.concurrent.TimeUnit;
      * @param str The string to append.
      */
     private void appendStringToTextFile(final String str) {
-        Runnable runnable = () -> this.fileSystem.log(str);
-        Logger.LOGGING_THREAD_EXECUTOR.execute(runnable);
         if (this.logPendingTasks) {
+            Runnable runnable = () -> this.fileSystem.log(str);
+            Logger.LOGGING_THREAD_EXECUTOR.execute(runnable);
+
             long submitted = Logger.LOGGING_THREAD_EXECUTOR.getTaskCount();
             long completed = Logger.LOGGING_THREAD_EXECUTOR.getCompletedTaskCount();
             long notCompleted = submitted - completed;
+
             this.fileSystem.log("Pending logging tasks: " + notCompleted);
         }
     }

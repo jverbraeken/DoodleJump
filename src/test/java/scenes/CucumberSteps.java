@@ -13,11 +13,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class CucumberSteps implements En {
+
     private IServiceLocator sL;
 
     public CucumberSteps() {
-
-
         Given("^that the game is started$", () -> {
             try {
                 Whitebox.invokeConstructor(Game.class);
@@ -32,7 +31,7 @@ public class CucumberSteps implements En {
                     Game.setScene(
                             sL.getSceneFactory().createMainMenu());
                     break;
-                case "ChooseMode":
+                case "ChooseModeScreen":
                     Game.setScene(
                             sL.getSceneFactory().newChooseMode());
                     break;
@@ -105,8 +104,8 @@ public class CucumberSteps implements En {
                 case "World":
                     assertThat(Whitebox.getInternalState(Game.class, "scene") instanceof World, is(true));
                     break;
-                case "ChooseMode":
-                    assertThat(Whitebox.getInternalState(Game.class, "scene") instanceof ChooseMode, is(true));
+                case "ChooseModeScreen":
+                    assertThat(Whitebox.getInternalState(Game.class, "scene") instanceof ChooseModeScreen, is(true));
                     break;
                 case "ScoreScreen":
                     assertThat(Whitebox.getInternalState(Game.class, "scene") instanceof ScoreScreen, is(true));

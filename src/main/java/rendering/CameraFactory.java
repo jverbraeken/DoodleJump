@@ -24,7 +24,9 @@ public final class CameraFactory implements ICameraFactory {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         CameraFactory.serviceLocator = sL;
         CameraFactory.serviceLocator.provide(new CameraFactory());
     }

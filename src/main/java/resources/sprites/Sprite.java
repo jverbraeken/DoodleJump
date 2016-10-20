@@ -4,9 +4,9 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 /**
- * IMMUTABLE
- *
  * Class representing a sprite.
+ *
+ * <b>IMMUTABLE</b>
  */
 public class Sprite implements ISprite {
 
@@ -29,7 +29,6 @@ public class Sprite implements ISprite {
 
     /**
      * Package constructor only allowing instantiations by the SpriteFactory.
-     *
      * @param n The name for the sprite.
      * @param i The image for the sprite.
      */
@@ -46,7 +45,7 @@ public class Sprite implements ISprite {
      */
     @Override
     public final String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -54,7 +53,7 @@ public class Sprite implements ISprite {
      */
     @Override
     public final Image getImage() {
-        return image;
+        return this.image;
     }
 
     /**
@@ -62,7 +61,7 @@ public class Sprite implements ISprite {
      */
     @Override
     public final int getWidth() {
-        return width;
+        return this.width;
     }
 
     /**
@@ -70,7 +69,7 @@ public class Sprite implements ISprite {
      */
     @Override
     public final int getHeight() {
-        return height;
+        return this.height;
     }
 
     /**
@@ -78,7 +77,7 @@ public class Sprite implements ISprite {
      */
     @Override
     public final double getRatio() {
-        return ratio;
+        return this.ratio;
     }
 
 }
