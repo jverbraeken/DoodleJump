@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
@@ -19,7 +20,6 @@ import system.IServiceLocator;
      * @param x - The X location for the rocket launcher.
      * @param y - The Y location for the rocket launcher.
      */
-    @SuppressWarnings("magicnumber")
     /* package */ RocketLauncher(final IServiceLocator sL, final int x, final int y) {
         super(sL,
                 x,
@@ -35,5 +35,13 @@ import system.IServiceLocator;
      */
     @Override
     public void playSound() { }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collidesWith(final IDoodle doodle) {
+        doodle.collide(this);
+    }
 
 }

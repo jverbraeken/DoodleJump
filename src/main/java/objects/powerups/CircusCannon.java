@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
@@ -7,6 +8,10 @@ import system.IServiceLocator;
  */
 public class CircusCannon extends ATrampoline {
 
+    /**
+     * The BOOST value for the ATrampoline.
+     */
+    private static double BOOST = -75;
 
     /**
      * Trampoline constructor.
@@ -15,12 +20,11 @@ public class CircusCannon extends ATrampoline {
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
-    @SuppressWarnings("magicnumber")
     /* package */ CircusCannon(final IServiceLocator sL, final int x, final int y) {
         super(sL,
                 x,
                 y - sL.getSpriteFactory().getCannonSprite().getHeight(),
-                -75,
+                BOOST,
                 sL.getSpriteFactory().getCannonSprite(),
                 sL.getSpriteFactory().getCannonUsedSprite(),
                 Trampoline.class);
@@ -31,6 +35,14 @@ public class CircusCannon extends ATrampoline {
      */
     @Override
     void playSound() { }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collidesWith(final IDoodle doodle) {
+        doodle.collide(this);
+    }
 
 }
 

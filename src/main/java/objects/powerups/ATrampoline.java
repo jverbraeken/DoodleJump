@@ -3,7 +3,6 @@ package objects.powerups;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.blocks.platform.IPlatform;
-import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -25,14 +24,6 @@ public abstract class ATrampoline extends AJumpablePowerup {
      */
     public ATrampoline(final IServiceLocator sL, final int x, final int y, final double boost, final ISprite defaultSprite, final ISprite usedSprite, final Class<?> powerup) {
         super(sL, x, y, boost, defaultSprite, usedSprite, powerup);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void collidesWith(final IDoodle doodle) {
-        doodle.collide(this);
     }
 
 
