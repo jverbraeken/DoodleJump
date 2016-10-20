@@ -188,14 +188,10 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @param delta the time used in a frame.
      */
     private void moveHorizontally(final double delta) {
-        if (this.movingLeft) {
-            if (this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed -= RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
-            }
-        } else if (this.movingRight) {
-            if (this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed += RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
-            }
+        if (this.movingLeft && this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed -= RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
+        } else if (this.movingRight && this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed += RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
         }
 
         doodle.addXPos((int) this.hSpeed);

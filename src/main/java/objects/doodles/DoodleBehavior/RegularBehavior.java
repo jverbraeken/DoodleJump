@@ -172,14 +172,10 @@ public class RegularBehavior implements MovementBehavior {
      * @param delta the frame duration
      */
     private void moveHorizontally(final double delta) {
-        if (this.movingLeft) {
-            if (this.hSpeed > -RegularBehavior.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed -= RegularBehavior.HORIZONTAL_ACCELERATION;
-            }
-        } else if (this.movingRight) {
-            if (this.hSpeed < RegularBehavior.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION;
-            }
+        if (this.movingLeft && this.hSpeed > -RegularBehavior.HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed -= RegularBehavior.HORIZONTAL_ACCELERATION;
+        } else if (this.movingRight && this.hSpeed < RegularBehavior.HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION;
         } else {
             if (this.hSpeed < 0) {
                 this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION;

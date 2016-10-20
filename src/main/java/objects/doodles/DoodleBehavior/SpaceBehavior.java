@@ -187,14 +187,10 @@ public class SpaceBehavior implements MovementBehavior {
      * @param delta Delta time since previous frame.
      */
     private void moveHorizontally(final double delta) {
-        if (this.movingLeft) {
-            if (this.hSpeed > -SpaceBehavior.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed -= SpaceBehavior.RELATIVE_SPEED_SQUARED * SpaceBehavior.HORIZONTAL_ACCELERATION;
-            }
-        } else if (this.movingRight) {
-            if (this.hSpeed < SpaceBehavior.HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed += SpaceBehavior.RELATIVE_SPEED_SQUARED * SpaceBehavior.HORIZONTAL_ACCELERATION;
-            }
+        if (this.movingLeft && this.hSpeed > -SpaceBehavior.HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed -= SpaceBehavior.RELATIVE_SPEED_SQUARED * SpaceBehavior.HORIZONTAL_ACCELERATION;
+        } else if (this.movingRight && this.hSpeed < SpaceBehavior.HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed += SpaceBehavior.RELATIVE_SPEED_SQUARED * SpaceBehavior.HORIZONTAL_ACCELERATION;
         }
 
         doodle.addXPos((int) this.hSpeed);
