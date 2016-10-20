@@ -2,7 +2,10 @@ package objects.doodles.Projectiles;
 
 import system.IServiceLocator;
 
-public class ProjectileFactory implements IProjectileFactory {
+/**
+ * The ProjectileFactory class, which creates projectiles.
+ */
+public final class ProjectileFactory implements IProjectileFactory {
 
     /**
      * Used to gain access to all services.

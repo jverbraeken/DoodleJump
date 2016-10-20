@@ -19,9 +19,7 @@ import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -144,7 +142,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.spritePack = new ISprite[2][2];
         this.spritePack[0] = spriteFactory.getDoodleLeftSprites();
         this.spritePack[1] = spriteFactory.getDoodleRightSprites();
-        shootingObserver = new ShootingObserver(sL, this, ShootingObserver.class);
+        shootingObserver = new ShootingObserver(sL, this);
     }
 
     /**
@@ -324,6 +322,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
     /**
      * Update the projectiles this Doodle has shot.
+     * @param delta The time in milliseconds that has passed between the last frame and the new frame
      */
     private void updateProjectiles(final double delta) {
         for (IGameObject projectile : projectiles) {
@@ -495,8 +494,9 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Adds a projectile to the Set with Projectiles.
+     * @param projectile the projectile that has to be added.
      */
-    void addProjectile(IGameObject projectile) {
+    void addProjectile(final IGameObject projectile) {
         projectiles.add(projectile);
     }
 

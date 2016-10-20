@@ -1,6 +1,5 @@
 package resources.sprites;
 
-import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IFactory;
 
 /**

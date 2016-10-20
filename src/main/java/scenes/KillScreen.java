@@ -6,7 +6,6 @@ import constants.IConstants;
 import logging.ILogger;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
-import system.IRenderable;
 import system.IServiceLocator;
 
 /**

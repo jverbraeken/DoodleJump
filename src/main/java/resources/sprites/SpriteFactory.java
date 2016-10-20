@@ -4,7 +4,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import logging.ILogger;
-import objects.doodles.DoodleBehavior.MovementBehavior;
 import resources.IRes;
 import system.IServiceLocator;
 
@@ -909,7 +908,6 @@ public final class SpriteFactory implements ISpriteFactory {
      * Returns the filename from a filepath.
      * <br>
      * Example: {@code getFileName("resources/Sprites/sprite.png").equals("sprite.png")}
-     * </pre>
      *
      * @param filepath The full path to the file, the directories seperated by '/'. Cannot be null
      * @return The name of the file
