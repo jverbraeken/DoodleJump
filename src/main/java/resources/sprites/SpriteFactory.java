@@ -633,15 +633,15 @@ public final class SpriteFactory implements ISpriteFactory {
                 return getSprite(IRes.Sprites.jetpack);
             case propeller:
                 return getSprite(IRes.Sprites.propeller);
-            case SIZEDOWN:
+            case sizeDown:
                 return getSprite(IRes.Sprites.sizeDown);
-            case SIZEUP:
+            case sizeUp:
                 return getSprite(IRes.Sprites.sizeUp);
-            case SPRING:
+            case spring:
                 return getSprite(IRes.Sprites.spring);
-            case SPRINGSHOES:
+            case springShoes:
                 return getSprite(IRes.Sprites.springShoes);
-            case TRAMPOLINE:
+            case trampoline:
                 return getSprite(IRes.Sprites.trampoline);
         }
         // ERROR

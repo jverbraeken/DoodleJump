@@ -42,10 +42,10 @@ import java.util.TimerTask;
      * @param y - The Y location for the trampoline.
      */
     /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.TRAMPOLINE, 1), Trampoline.class);
+        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.trampoline, 1), Trampoline.class);
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        Trampoline.defaultSprite = spriteFactory.getPowerupSprite(Powerups.TRAMPOLINE, 1);
+        Trampoline.defaultSprite = spriteFactory.getPowerupSprite(Powerups.trampoline, 1);
         Trampoline.usedSprite = spriteFactory.getTrampolineUsedSprite();
     }
 

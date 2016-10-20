@@ -35,7 +35,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the SpringShoes.
      */
     /* package */ SpringShoes(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.SPRINGSHOES, 1), SpringShoes.class);
+        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.springShoes, 1), SpringShoes.class);
     }
 
     /**

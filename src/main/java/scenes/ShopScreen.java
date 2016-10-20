@@ -166,35 +166,35 @@ import java.util.ArrayList;
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
-                        Powerups.SIZEDOWN,
+                        Powerups.sizeDown,
                         (int) (sL.getConstants().getGameWidth() * SIZEDOWN_BUTTON_X),
                         (int) (sL.getConstants().getGameHeight() * SIZEDOWN_BUTTON_Y)
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
-                        Powerups.SIZEUP,
+                        Powerups.sizeUp,
                         (int) (sL.getConstants().getGameWidth() * SIZEUP_BUTTON_X),
                         (int) (sL.getConstants().getGameHeight() * SIZEUP_BUTTON_Y)
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
-                        Powerups.SPRING,
+                        Powerups.spring,
                         (int) (sL.getConstants().getGameWidth() * SPRING_BUTTON_X),
                         (int) (sL.getConstants().getGameHeight() * SPRING_BUTTON_Y)
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
-                        Powerups.SPRINGSHOES,
+                        Powerups.springShoes,
                         (int) (sL.getConstants().getGameWidth() * SPRINGSHOES_BUTTON_X),
                         (int) (sL.getConstants().getGameHeight() * SPRINGSHOES_BUTTON_Y)
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
-                        Powerups.TRAMPOLINE,
+                        Powerups.trampoline,
                         (int) (sL.getConstants().getGameWidth() * TRAMPOLINE_BUTTON_X),
                         (int) (sL.getConstants().getGameHeight() * TRAMPOLINE_BUTTON_Y)
                 )
@@ -258,11 +258,11 @@ import java.util.ArrayList;
         
         drawPowerupText(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y);
         drawPowerupText(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y);
-        drawPowerupText(Powerups.SIZEDOWN, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y);
-        drawPowerupText(Powerups.SIZEUP, SIZEUP_BUTTON_X, SIZEUP_BUTTON_Y);
-        drawPowerupText(Powerups.SPRING, SPRING_BUTTON_X, SPRING_BUTTON_Y);
-        drawPowerupText(Powerups.SPRINGSHOES, SPRINGSHOES_BUTTON_X, SPRINGSHOES_BUTTON_Y);
-        drawPowerupText(Powerups.TRAMPOLINE, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y);
+        drawPowerupText(Powerups.sizeDown, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y);
+        drawPowerupText(Powerups.sizeUp, SIZEUP_BUTTON_X, SIZEUP_BUTTON_Y);
+        drawPowerupText(Powerups.spring, SPRING_BUTTON_X, SPRING_BUTTON_Y);
+        drawPowerupText(Powerups.springShoes, SPRINGSHOES_BUTTON_X, SPRINGSHOES_BUTTON_Y);
+        drawPowerupText(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y);
     }
 
     private void drawPowerupText(final Powerups powerup, final double jetpackButtonX, final double jetpackButtonY) {
