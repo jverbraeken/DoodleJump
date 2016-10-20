@@ -143,7 +143,7 @@ public class TrampolineTest {
     @Test
     public void testGetBoost() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
-        double boost = Whitebox.getInternalState(trampoline, "BOOST", ATrampoline.class);
+        double boost = Whitebox.getInternalState(trampoline, "boost", ATrampoline.class);
         assertEquals(boost, trampoline.getBoost(), 0.001);
     }
 
