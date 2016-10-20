@@ -202,9 +202,18 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void setSprite(final MovementBehavior.Directions facing, final int falling) {
-        ISprite[] sprites = this.sprites.get(facing);
-        this.setSprite(sprites[falling]);
+    public final void updateActiveSprite() {
+        // -- Get the sprite array
+        ISprite[] sprites = this.sprites.get(this.getFacing());
+
+        // -- Get the index of the correct sprite in the array
+        // Compare always returns -1, 0, 1
+        int compare = Double.compare(this.getVerticalSpeed(), this.getJumpingThreshold());
+        // Math.max() makes sure this is 0 or 1
+        int index = Math.max(0, compare);
+
+        // -- Set the sprite
+        this.setSprite(sprites[index]);
     }
 
     /**
@@ -366,6 +375,22 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isAlive() {
+        return alive;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setAlive(final boolean al) {
+        alive = al;
+    }
+
+    /**
      * Move the doodle.
      *
      * @param delta Delta time since previous animate.
@@ -420,22 +445,6 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isAlive() {
-        return alive;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setAlive(final boolean al) {
-        alive = al;
-    }
-
-    /**
      * Update the score for the Doodle.
      */
     private void updateScore() {
@@ -457,6 +466,14 @@ public class Doodle extends AGameObject implements IDoodle {
         int left = (int) (spriteWidth * WIDTH_HIT_BOX_LEFT);
         int right = (int) (spriteWidth * WIDTH_HIT_BOX_RIGHT);
         this.setHitBox(left, Doodle.TOP_HITBOX_OFFSET, right, spriteHeight);
+    }
+
+    /**
+     * Get the jumping threshold for the Doodle.
+     * @return A double representing the jumping threshold.
+     */
+    private double getJumpingThreshold() {
+        return this.behavior.getJumpingThreshold();
     }
 
 }

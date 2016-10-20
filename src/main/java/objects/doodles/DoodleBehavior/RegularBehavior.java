@@ -2,7 +2,6 @@ package objects.doodles.DoodleBehavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
-import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import system.IServiceLocator;
 
@@ -96,6 +95,14 @@ public class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
+    public double getJumpingThreshold() {
+        return RegularBehavior.JUMPING_THRESHOLD;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final double getVerticalSpeed() {
         return vSpeed;
     }
@@ -137,8 +144,7 @@ public class RegularBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void animate(final double delta) {
-        int index = Math.max(0, Double.compare(this.getVerticalSpeed(), RegularBehavior.JUMPING_THRESHOLD));
-        doodle.setSprite(this.getFacing(), index);
+        doodle.updateActiveSprite();
     }
 
     /**

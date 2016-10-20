@@ -116,13 +116,13 @@ public class SpaceBehavior implements MovementBehavior {
         return facing;
     }
 
+
     /**
-     * Returns if a key is pressed.
-     *
-     * @return if a key is pressed.
+     * {@inheritDoc}
      */
-    public final boolean getPressed() {
-        return pressed;
+    @Override
+    public double getJumpingThreshold() {
+        return SpaceBehavior.JUMPING_THRESHOLD;
     }
 
     /**
@@ -161,8 +161,7 @@ public class SpaceBehavior implements MovementBehavior {
      * @param delta Delta time since previous frame.
      */
     private void animate(final double delta) {
-        int index = Math.max(0, Double.compare(this.getVerticalSpeed(), SpaceBehavior.JUMPING_THRESHOLD));
-        doodle.setSprite(this.getFacing(), index);
+        doodle.updateActiveSprite();
     }
 
     /**

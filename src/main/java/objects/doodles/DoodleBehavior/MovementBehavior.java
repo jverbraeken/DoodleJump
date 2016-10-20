@@ -35,6 +35,12 @@ public interface MovementBehavior extends IKeyInputObserver {
     void move(final double delta);
 
     /**
+     * Get the jumping threshold according to the behaviour.
+     * @return A double representing the jumping threshold.
+     */
+    double getJumpingThreshold();
+
+    /**
      * Enum with Directions for the Doodle.
      */
     enum Directions {

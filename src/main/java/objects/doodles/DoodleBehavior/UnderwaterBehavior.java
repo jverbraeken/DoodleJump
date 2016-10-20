@@ -100,6 +100,14 @@ public class UnderwaterBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
+    public double getJumpingThreshold() {
+        return UnderwaterBehavior.JUMPING_THRESHOLD;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final double getVerticalSpeed() {
         return vSpeed;
     }
@@ -158,8 +166,7 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void animate(final double delta) {
-        int index = Math.max(0, Double.compare(this.getVerticalSpeed(), UnderwaterBehavior.JUMPING_THRESHOLD));
-        doodle.setSprite(this.getFacing(), index);
+        doodle.updateActiveSprite();
     }
 
     /**
