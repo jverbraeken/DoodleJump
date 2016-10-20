@@ -5,13 +5,15 @@ import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import system.IServiceLocator;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * This class describes the behaviour of the spring powerup.
  */
-/* package */ final class Spring extends ATrampoline {
+/* package */ final class Spring extends ASpring {
+
+    /**
+     * The BOOST value for the ATrampoline.
+     */
+    private static double BOOST = -35;
 
     /**
      * The speed with which the springs retracts after it is being used.
@@ -20,15 +22,14 @@ import java.util.TimerTask;
 
 
     /**
-     * Trampoline constructor.
+     * Spring constructor.
      *
      * @param sL - The Games service locator.
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
-    @SuppressWarnings("magicnumber")
     /* package */ Spring(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, -35, sL.getSpriteFactory().getSpringSprite(), sL.getSpriteFactory().getSpringUsedSprite(), Spring.class);
+        super(sL, x, y, BOOST, RETRACT_SPEED, sL.getSpriteFactory().getSpringSprite(), sL.getSpriteFactory().getSpringUsedSprite(), Spring.class);
     }
 
     /**
@@ -52,25 +53,6 @@ import java.util.TimerTask;
     void playSound() {
         IAudioManager audioManager = getServiceLocator().getAudioManager();
         audioManager.playFeder();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void animate() {
-        int oldHeight = getSprite().getHeight();
-        int newHeight = this.getUsedSprite().getHeight();
-        this.addYPos(oldHeight - newHeight);
-        this.setSprite(this.getUsedSprite());
-
-        Spring self = this;
-        new Timer().schedule(new TimerTask() {
-            public void run() {
-                self.addYPos(newHeight - oldHeight);
-                self.setSprite(self.getDefaultSprite());
-            }
-        }, Spring.RETRACT_SPEED);
     }
 
 }

@@ -14,6 +14,11 @@ import java.util.TimerTask;
 /* package */ public final class Trampoline extends ATrampoline {
 
     /**
+     * The BOOST value for the ATrampoline.
+     */
+    private static double BOOST = -50;
+
+    /**
      * The speed with which the springs retracts after it is being used.
      */
     private static final int RETRACT_SPEED = 250;
@@ -26,12 +31,11 @@ import java.util.TimerTask;
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
-    @SuppressWarnings("magicnumber")
     /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
         super(sL,
                 x,
                 y,
-                -50,
+                BOOST,
                 sL.getSpriteFactory().getTrampolineSprite(),
                 sL.getSpriteFactory().getTrampolineUsedSprite(),
                 Trampoline.class);

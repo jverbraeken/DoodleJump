@@ -36,7 +36,9 @@ public interface ISpriteFactory extends IFactory {
     ISprite getStartCoverSprite();
 
     // Doodle
-    ISprite[] getDoodleSprite(final MovementBehavior.Directions direction);
+    ISprite[] getDoodleLeftSprites();
+
+    ISprite[] getDoodleRightSprites();
 
     // Kill screen
     ISprite getGameOverSprite();
