@@ -28,7 +28,7 @@ public class RegularBehavior implements MovementBehavior {
     /**
      * The threshold the Doodle for it to show to be jumping.
      */
-    private static final double JUMPING_THRESHOLD = -15;
+    private static final double JUMPING_THRESHOLD = -15d;
 
     /**
      * Used to access all services.
@@ -137,7 +137,8 @@ public class RegularBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void animate(final double delta) {
-        doodle.setSprite(this.getVerticalSpeed() < JUMPING_THRESHOLD);
+        int index = Math.max(0, Double.compare(this.getVerticalSpeed(), RegularBehavior.JUMPING_THRESHOLD));
+        doodle.setSprite(this.getFacing(), index);
     }
 
     /**

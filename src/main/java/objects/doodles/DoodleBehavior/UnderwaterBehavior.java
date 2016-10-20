@@ -158,12 +158,8 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void animate(final double delta) {
-        // If the Doodle moves up quickly shorten its legs
-        if (getVerticalSpeed() < RELATIVE_SPEED * JUMPING_THRESHOLD) {
-            doodle.setSprite(true);
-        } else {
-            doodle.setSprite(false);
-        }
+        int index = Math.max(0, Double.compare(this.getVerticalSpeed(), UnderwaterBehavior.JUMPING_THRESHOLD));
+        doodle.setSprite(this.getFacing(), index);
     }
 
     /**

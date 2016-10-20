@@ -30,7 +30,7 @@ public class SpaceBehavior implements MovementBehavior {
     /**
      * The threshold the Doodle for it to show to be jumping.
      */
-    private static final double JUMPING_THRESHOLD = -15;
+    private static final double JUMPING_THRESHOLD = -15d;
     /**
      * Relative gravity for the Doodle.
      */
@@ -161,12 +161,8 @@ public class SpaceBehavior implements MovementBehavior {
      * @param delta Delta time since previous frame.
      */
     private void animate(final double delta) {
-        // If the Doodle moves up quickly shorten its legs
-        if (getVerticalSpeed() < RELATIVE_SPEED * JUMPING_THRESHOLD) {
-            doodle.setSprite(true);
-        } else {
-            doodle.setSprite(false);
-        }
+        int index = Math.max(0, Double.compare(this.getVerticalSpeed(), SpaceBehavior.JUMPING_THRESHOLD));
+        doodle.setSprite(this.getFacing(), index);
     }
 
     /**

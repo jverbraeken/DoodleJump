@@ -73,10 +73,9 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     /**
      * Set the sprite pack of the doodle.
      *
-     * @param direction The direction is Doodle is going to
      * @param falling   True if the doodle is going down
      */
-    void setSprite(final boolean falling);
+    void setSprite(final MovementBehavior.Directions directions, final int falling);
 
     /**
      * Increase the sprite scalar for the Doodle.

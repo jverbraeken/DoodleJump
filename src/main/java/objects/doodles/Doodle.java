@@ -202,10 +202,9 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void setSprite(final boolean falling) {
-        MovementBehavior.Directions direction = this.behavior.getFacing();
-        ISprite[] sprites = this.sprites.get(direction);
-        setSprite(sprites[falling ? 1 : 0]);
+    public final void setSprite(final MovementBehavior.Directions facing, final int falling) {
+        ISprite[] sprites = this.sprites.get(facing);
+        this.setSprite(sprites[falling]);
     }
 
     /**
