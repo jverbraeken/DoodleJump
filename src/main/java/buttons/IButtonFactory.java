@@ -135,7 +135,6 @@ public interface IButtonFactory extends IFactory {
     IButton createStoryModeButton(final int x, final int y);
 
 
-
     /////   SHOP
 
 
@@ -148,4 +147,13 @@ public interface IButtonFactory extends IFactory {
      * @return A button that can upgrade the {@link objects.powerups.Jetpack} powerup
      */
     IButton createShopPowerupButton(final Powerups powerup, final int x, final int y);
+
+    /**
+     * Create a pause button for in game.
+     *
+     * @param x The x position of the button.
+     * @param y The y position of the button.
+     * @return A pause button.
+     */
+    IButton createPauseButton(final int x, final int y);
 }

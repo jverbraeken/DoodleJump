@@ -2,7 +2,7 @@ Feature: annotation
 
   Background:
   Given that the game is started
-  And that the scene is ChooseMode
+  Then I press the mode-button
 
 #Scenario with AND
   Scenario:

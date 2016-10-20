@@ -1,8 +1,6 @@
 package buttons;
 
-import constants.IConstants;
 import logging.ILogger;
-import objects.powerups.PowerupOccasion;
 import objects.powerups.Powerups;
 import progression.IProgressionManager;
 import resources.sprites.ISprite;
@@ -29,6 +27,10 @@ public final class ButtonFactory implements IButtonFactory {
      */
     private final ILogger logger;
 
+    private ButtonFactory(IServiceLocator serviceLocator) {
+        this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+    }
+
     /**
      * Register the platform factory into the service locator.
      *
@@ -44,6 +46,7 @@ public final class ButtonFactory implements IButtonFactory {
 
     /**
      * The synchronized getter of the singleton buttonFactory.
+     *
      * @return the button factory
      */
     private static synchronized IButtonFactory getButtonFactory(final IServiceLocator serviceLocator) {
@@ -51,10 +54,6 @@ public final class ButtonFactory implements IButtonFactory {
             ButtonFactory.buttonFactory = new ButtonFactory(serviceLocator);
         }
         return ButtonFactory.buttonFactory;
-    }
-
-    private ButtonFactory(IServiceLocator serviceLocator) {
-        this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }
 
     /**
@@ -261,6 +260,18 @@ public final class ButtonFactory implements IButtonFactory {
 
         };
         return new Button(ButtonFactory.serviceLocator, x, y, buttonSprite, storyMode, "storyMode");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createPauseButton(int x, int y) {
+        assert ButtonFactory.serviceLocator != null;
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getPauseButtonSprite();
+        Runnable pause = () -> Game.setPaused(true);
+        return new Button(ButtonFactory.serviceLocator, x, y, buttonSprite, pause, "pause");
     }
 
 }
