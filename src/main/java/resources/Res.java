@@ -184,6 +184,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.spaceRocket5, SPRITE_PATH + "rocket-5@2x.png");
         sprites.put(Sprites.spaceRocket6, SPRITE_PATH + "rocket-6@2x.png");
         sprites.put(Sprites.spaceRocket7, SPRITE_PATH + "rocket-7@2x.png");
+        sprites.put(Sprites.spaceRocket8, SPRITE_PATH + "rocket-8@2x.png");
 
 
 

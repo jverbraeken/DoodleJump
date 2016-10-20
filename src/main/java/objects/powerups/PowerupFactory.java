@@ -106,7 +106,7 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createSpaceRocket(final int x, final int y) {
-        logger.info("A new Trampoline has been created");
+        logger.info("A new Space Rocket has been created");
         return new SpaceRocket(serviceLocator, x, y);
     }
 

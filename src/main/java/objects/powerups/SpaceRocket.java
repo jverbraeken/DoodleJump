@@ -11,12 +11,13 @@ import system.IServiceLocator;
     /**
      * The boost the SpaceRocket gives.
      */
-    private static final double MAX_BOOST = -20d;
+    private static final double MAX_BOOST = -75d;
 
     /**
      * Y offset for drawing the SpaceRocket when on Doodle.
      */
-    private static final int OWNED_Y_OFFSET = -26;
+    private static final int OWNED_Y_OFFSET = -70;
+
 
     /**
      * SpaceRocket constructor.
@@ -26,7 +27,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the SpaceRocket.
      */
     /* package */ SpaceRocket(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, MAX_BOOST, sL.getSpriteFactory().getSpaceRocketSprite(), sL.getSpriteFactory().getSpaceRocketActiveSprites(), Propeller.class);
+        super(sL, x, y, MAX_BOOST, sL.getSpriteFactory().getSpaceRocketSprite(), sL.getSpriteFactory().getSpaceRocketActiveSprites(), SpaceRocket.class);
     }
 
 
@@ -51,7 +52,8 @@ import system.IServiceLocator;
      */
     @Override
     public void setPosition() {
-
+        this.setXPos(((this.getOwner().getSprite().getWidth() - this.getSprite().getWidth()) / 2) + this.getOwner().getXPos());
+        this.setYPos(this.getOwner().getYPos() + OWNED_Y_OFFSET);
     }
 
 

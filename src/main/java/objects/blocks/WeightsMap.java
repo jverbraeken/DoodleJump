@@ -40,12 +40,12 @@ import java.util.EnumMap;
     /**
      * The chance of the trampoline spawning.
      */
-    private static final double TRAMPOLINE_POWERUP = 0.1;
+    private static final double TRAMPOLINE_POWERUP = 0.008;
 
     /**
      * The chance of the jetpack spawning.
      */
-    private static final double JETPACK_POWERUP = 0.1;
+    private static final double JETPACK_POWERUP = 0.0001;
 
     /**
      * The chance of the propellor spawning.
@@ -70,7 +70,7 @@ import java.util.EnumMap;
     /**
      * The chance of the space rocket spawning.
      */
-    private static final double SPACEROCKET_POWERUP = 0.0001;
+    private static final double SPACEROCKET_POWERUP = 0.5;
 
 
     static {

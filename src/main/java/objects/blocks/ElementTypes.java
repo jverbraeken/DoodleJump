@@ -62,6 +62,6 @@ package objects.blocks;
     /**
      * The spaceRocket powerup.
      */
-    spaceRocket,
+    spaceRocket
 
 }
