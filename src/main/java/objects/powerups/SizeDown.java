@@ -12,6 +12,10 @@ import system.IServiceLocator;
      * The scale increase provided by the SizeUp powerup.
      */
     private static final double SCALE_INCREASE = -0.4d;
+    /**
+     * Multiplier to hide the SizeDown when picked up.
+     */
+    private static final int HIDE_MULTIPLIER = -2;
 
     /**
      * SizeUp constructor.
@@ -29,9 +33,15 @@ import system.IServiceLocator;
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        getLogger().info("Doodle collided with a SizeDown");
-        doodle.increaseSpriteScalar(SCALE_INCREASE);
-        this.setXPos(this.getSprite().getWidth() * -1);
+        if (doodle == null) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
+        this.getLogger().info("Doodle collided with a SizeDown");
+        doodle.increaseSpriteScalar(SizeDown.SCALE_INCREASE);
+
+        // Hide the powerup so it will be deleted automatically
+        this.setXPos(this.getSprite().getWidth() * SizeDown.HIDE_MULTIPLIER);
     }
 
     /**
@@ -39,7 +49,9 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        int x = (int) this.getXPos();
+        int y = (int) this.getYPos();
+        SizeDown.getServiceLocator().getRenderer().drawSprite(this.getSprite(), x, y);
     }
 
 }

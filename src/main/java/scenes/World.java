@@ -2,13 +2,11 @@ package scenes;
 
 import buttons.IButton;
 import logging.ILogger;
-import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
-import objects.enemies.IEnemy;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -125,7 +123,10 @@ public class World implements IScene {
      * @param sL The service locator.
      */
     /* package */ World(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
+
         serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(World.class);
 
@@ -235,7 +236,7 @@ public class World implements IScene {
      * @param score The score the player got.
      */
     public final void endGameInstance(final double score) {
-        Game.HIGH_SCORES.addHighScore("Doodle", score);
+        Game.highScores.addHighScore("Doodle", score);
         Game.setScene(serviceLocator.getSceneFactory().createKillScreen());
     }
 
@@ -265,7 +266,7 @@ public class World implements IScene {
      * Check the collisions for all the Doodles in the world.
      */
     private void checkCollisions() {
-        this.doodles.forEach(this::checkCollisionsForDoodle);
+        this.doodles.forEach(this::checkCollisions);
     }
 
     /**
@@ -273,28 +274,14 @@ public class World implements IScene {
      *
      * @param doodle The Doodle to check the collisions for.
      */
-    private void checkCollisionsForDoodle(final IDoodle doodle) {
+    private void checkCollisions(final IDoodle doodle) {
+        assert doodle != null;
         if (doodle.isAlive()) {
-            if (doodle.getVerticalSpeed() > 0) {
-                for (IBlock block : blocks) {
-                    Set<IGameObject> elements = block.getElements();
-                    for (IGameObject element : elements) {
-                        if (doodle.checkCollision(element)) {
-                            if (doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < element.getYPos() + element.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
-                                element.collidesWith(doodle);
-                            }
-                        }
-                    }
-                }
-            } else {
-                for (IBlock block : blocks) {
-                    Set<IGameObject> elements = block.getElements();
-                    for (IGameObject element : elements) {
-                        if (element instanceof IEnemy) {
-                            if (doodle.checkCollision(element)) {
-                                element.collidesWith(doodle);
-                            }
-                        }
+            for (IBlock block : blocks) {
+                Set<IGameObject> elements = block.getElements();
+                for (IGameObject element : elements) {
+                    if (doodle.checkCollision(element)) {
+                        element.collidesWith(doodle);
                     }
                 }
             }
@@ -372,10 +359,7 @@ public class World implements IScene {
             scaling = (double) serviceLocator.getConstants().getGameWidth() / (double) scoreBarSprite.getWidth();
             scoreBarHeight = (int) (scaling * scoreBarSprite.getHeight());
 
-            ISprite[] digitSprites = new ISprite[NUMBER_SYSTEM];
-            for (int i = 0; i < NUMBER_SYSTEM; i++) {
-                digitSprites[i] = serviceLocator.getSpriteFactory().getDigitSprite(i);
-            }
+            ISprite[] digitSprites = serviceLocator.getSpriteFactory().getDigitSprites();
             int scoreX = (int) (digitSprites[2].getWidth() * scaling);
             int scoreY = (int) (scaling * (scoreBarSprite.getHeight() - SCORE_BAR_DEAD_ZONE) / 2d);
             scoreText = new ScoreText(scoreX, scoreY, scaling, digitSprites);

@@ -1,5 +1,6 @@
 package objects.blocks.platform;
 
+import objects.AGameObject;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -57,7 +58,6 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      * @return the sprite belonging to this animation phase
      */
     private ISprite getBrokenSprite(final int numberOfAnimation) {
-
         switch (numberOfAnimation) {
             case (2):
                 getProps().replace(Platform.PlatformProperties.breaks, 3);
@@ -89,12 +89,17 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        if (getProps().get(Platform.PlatformProperties.breaks).equals(1)) {
+        if (doodle == null) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
+        if (getProps().get(Platform.PlatformProperties.breaks).equals(1)
+                && doodle.getVerticalSpeed() > 0
+                && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
             getProps().replace(Platform.PlatformProperties.breaks, 2);
             vSpeed = doodle.getVerticalSpeed() / 2;
             playBreakSound();
         }
-
     }
 
     /**
