@@ -1,5 +1,7 @@
 package input;
 
+import java.util.HashMap;
+
 /**
  * This Class is called when the user interacts with a key.
  * Note: this method should only be called by an {@link IInputManager}.
@@ -11,13 +13,13 @@ public interface IKeyInputObserver {
      *
      * @param key The key that is pressed.
      */
-    void keyPress(final Keys key);
+    Runnable keyPress(final Keys key);
 
     /**
      * This method is called when the user has released a key.
      *
      * @param key The key that is released.
      */
-    void keyRelease(final Keys key);
+    Runnable keyRelease(final Keys key);
 
 }

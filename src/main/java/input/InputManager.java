@@ -33,7 +33,7 @@ public final class InputManager implements IInputManager {
      * The set of observable key inputs.
      */
     //private final HashSet<IKeyInputObserver> keyInputObservers = new HashSet<>();
-    private final HashMap<Integer, IKeyInputObserver> keyInputObservers = new HashMap<Integer, IKeyInputObserver>();
+    private final HashMap<Integer, IKeyInputObserver> keyInputObservers = new HashMap<>();
     /**
      * Offset for the mouse position X.
      */
@@ -117,14 +117,19 @@ public final class InputManager implements IInputManager {
      * {@inheritDoc}
      */
     @Override
-    public void keyPressed(final KeyEvent e) {
-        this.logger.info("Key pressed, keyCode: " + e.getKeyCode());
+    public void keyPressed(final KeyEvent event) {
+        this.logger.info("Key pressed, keyCode: " + event.getKeyCode());
         Iterator it = this.keyInputObservers.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
-            if ((int) pair.getKey() == e.getKeyCode()) {
+            if ((int) pair.getKey() == event.getKeyCode()) {
                 IKeyInputObserver observer = (IKeyInputObserver) pair.getValue();
-                observer.keyPress(KeyCode.getKey(e.getKeyCode()));
+                Runnable runnable = observer.keyPress(KeyCode.getKey(event.getKeyCode()));
+                try {
+                    runnable.run();
+                } catch (Exception e) {
+                    logger.warning("runnable not found");
+                }
             }
             //it.remove(); // avoids a ConcurrentModificationException
         }
@@ -141,7 +146,8 @@ public final class InputManager implements IInputManager {
             Map.Entry pair = (Map.Entry) it.next();
             if ((int) pair.getKey() == e.getKeyCode()) {
                 IKeyInputObserver observer = (IKeyInputObserver) pair.getValue();
-                observer.keyRelease(KeyCode.getKey(e.getKeyCode()));
+                Runnable runnable = observer.keyRelease(KeyCode.getKey(e.getKeyCode()));
+                runnable.run();
             }
             //it.remove(); // avoids a ConcurrentModificationException
         }

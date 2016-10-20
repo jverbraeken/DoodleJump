@@ -35,14 +35,16 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void keyPress(final Keys key) {
+    public final Runnable keyPress(final Keys key) {
+        return null;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void keyRelease(final Keys key) {
+    public final Runnable keyRelease(final Keys key) {
+        return null;
     }
 
 }

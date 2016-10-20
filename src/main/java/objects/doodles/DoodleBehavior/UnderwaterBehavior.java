@@ -132,8 +132,9 @@ public class UnderwaterBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void keyPress(final Keys key) {
-        if (this.isLeftPressed(key)) {
+    public final Runnable keyPress(final Keys key) {
+        return null;
+        /*if (this.isLeftPressed(key)) {
             this.moving = Directions.Left;
             this.facing = Directions.Left;
             this.pressed = true;
@@ -141,22 +142,22 @@ public class UnderwaterBehavior implements MovementBehavior {
             this.moving = Directions.Right;
             this.facing = Directions.Right;
             this.pressed = true;
-        }
+        }*/
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void keyRelease(final Keys key) {
-        if (this.isLeftPressed(key)) {
+    public final Runnable keyRelease(final Keys key) {
+        return null;
+        /*if (this.isLeftPressed(key)) {
             this.pressed = false;
             hSpeed = SLOWING * hSpeed;
         } else if (this.isRightPressed(key)) {
             this.pressed = false;
             hSpeed = SLOWING * hSpeed;
-
-        }
+        }*/
     }
 
     /**

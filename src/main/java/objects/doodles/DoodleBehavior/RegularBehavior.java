@@ -6,6 +6,8 @@ import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import system.IServiceLocator;
 
+import java.util.HashMap;
+
 /**
  * This class describes the regular movement of the Doodle.
  */
@@ -116,26 +118,36 @@ public class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void keyPress(final Keys key) {
-        if (this.isLeftPressed(key)) {
+    public final Runnable keyPress(final Keys key) {
+        HashMap<Keys, Runnable> actions =  new HashMap<>();
+        actions.put(this.doodle.getKeys()[0], () -> { this.moving = Directions.Left; this.facing = Directions.Left; });
+        actions.put(this.doodle.getKeys()[1], () -> { this.moving = Directions.Right; this.facing = Directions.Right; });
+
+        return actions.get(key);
+        /*if (this.isLeftPressed(key)) {
             this.moving = Directions.Left;
             this.facing = Directions.Left;
         } else if (this.isRightPressed(key)) {
             this.moving = Directions.Right;
             this.facing = Directions.Right;
-        }
+        }*/
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void keyRelease(final Keys key) {
-        if (this.isLeftPressed(key) && this.moving == Directions.Left) {
+    public final Runnable keyRelease(final Keys key) {
+        HashMap<Keys, Runnable> actions =  new HashMap<>();
+        actions.put(this.doodle.getKeys()[0], () -> this.moving = null);
+        actions.put(this.doodle.getKeys()[1], () -> this.moving = null);
+
+        return actions.get(key);
+        /*if (this.isLeftPressed(key) && this.moving == Directions.Left) {
             this.moving = null;
         } else if (this.isRightPressed(key) && this.moving == Directions.Right) {
             this.moving = null;
-        }
+        }*/
     }
 
     /**
