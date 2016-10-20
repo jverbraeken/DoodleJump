@@ -176,11 +176,14 @@ public final class Res implements IRes {
         sprites.put(Sprites.propeller0, SPRITE_PATH + "propeller-0@2x.png");
         sprites.put(Sprites.propeller1, SPRITE_PATH + "propeller-1@2x.png");
         sprites.put(Sprites.propeller2, SPRITE_PATH + "propeller-2@2x.png");
-        sprites.put(Sprites.spaceRocket1, SPRITE_PATH + "space-rocket-1.png");
-        sprites.put(Sprites.spaceRocket2, SPRITE_PATH + "space-rocket-2.png");
-        sprites.put(Sprites.spaceRocket3, SPRITE_PATH + "space-rocket-3.png");
-        sprites.put(Sprites.spaceRocket4, SPRITE_PATH + "space-rocket-4.png");
-        sprites.put(Sprites.spaceRocket5, SPRITE_PATH + "space-rocket-5.png");
+        sprites.put(Sprites.spaceRocket0, SPRITE_PATH + "rocket-0@2x.png");
+        sprites.put(Sprites.spaceRocket1, SPRITE_PATH + "rocket-1@2x.png");
+        sprites.put(Sprites.spaceRocket2, SPRITE_PATH + "rocket-2@2x.png");
+        sprites.put(Sprites.spaceRocket3, SPRITE_PATH + "rocket-3@2x.png");
+        sprites.put(Sprites.spaceRocket4, SPRITE_PATH + "rocket-4@2x.png");
+        sprites.put(Sprites.spaceRocket5, SPRITE_PATH + "rocket-5@2x.png");
+        sprites.put(Sprites.spaceRocket6, SPRITE_PATH + "rocket-6@2x.png");
+        sprites.put(Sprites.spaceRocket7, SPRITE_PATH + "rocket-7@2x.png");
 
 
 
