@@ -84,6 +84,23 @@ public class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
+    public final void updateActions() {
+        this.keyPressActions.put(this.doodle.getKeyLeft(), () -> {
+            this.movingLeft = true;
+            this.movingRight = false;
+            this.facing = Directions.Left; });
+        this.keyPressActions.put(this.doodle.getKeyRight(), () -> {
+            this.movingLeft = false;
+            this.movingRight = true;
+            this.facing = Directions.Right; });
+        this.keyReleaseActions.put(this.doodle.getKeyLeft(), () -> this.movingLeft = false);
+        this.keyReleaseActions.put(this.doodle.getKeyRight(), () -> this.movingRight = false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final Runnable keyPress(final Keys key) {
         return this.keyPressActions.get(key);
     }

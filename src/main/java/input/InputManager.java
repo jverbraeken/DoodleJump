@@ -3,13 +3,11 @@ package input;
 import logging.ILogger;
 import system.IServiceLocator;
 
-import javax.swing.text.html.HTMLDocument;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +16,11 @@ import java.util.Set;
  * This class manages the inputs given into the game.
  */
 public final class InputManager implements IInputManager {
+
+    /**
+     * An empty list used as default for keyInputObservers.get().
+     */
+    private static final List<IKeyInputObserver> EMPTY_LIST = new ArrayList<>();
 
     /**
      * Used to gain access to all services.
@@ -34,7 +37,7 @@ public final class InputManager implements IInputManager {
     /**
      * The set of observable key inputs.
      */
-    private final HashMap<Integer, List<IKeyInputObserver>> keyInputObservers = new HashMap<>();
+    private final Map<Keys, List<IKeyInputObserver>> keyInputObservers = new EnumMap<>(Keys.class);
     /**
      * Offset for the mouse position X.
      */
@@ -66,14 +69,14 @@ public final class InputManager implements IInputManager {
      * {@inheritDoc}
      */
     @Override
-    public void mouseClicked(final MouseEvent e) {
+    public synchronized void mouseClicked(final MouseEvent e) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void mousePressed(final MouseEvent e) {
+    public synchronized void mousePressed(final MouseEvent e) {
         int x = (2 * e.getX() - 2 * offsetX), y = (2 * e.getY() - 2 * offsetY);
         this.logger.info("Mouse pressed, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
 
@@ -87,7 +90,7 @@ public final class InputManager implements IInputManager {
      * {@inheritDoc}
      */
     @Override
-    public void mouseReleased(final MouseEvent e) {
+    public synchronized void mouseReleased(final MouseEvent e) {
         int x = (2 * e.getX() - 2 * offsetX), y = (2 * e.getY() - 2 * offsetY);
         this.logger.info("Mouse released, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
     }
@@ -96,14 +99,14 @@ public final class InputManager implements IInputManager {
      * {@inheritDoc}
      */
     @Override
-    public void mouseEntered(final MouseEvent e) {
+    public synchronized void mouseEntered(final MouseEvent e) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void mouseExited(final MouseEvent e) {
+    public synchronized void mouseExited(final MouseEvent e) {
     }
 
     /* KEY EVENTS */
@@ -111,17 +114,18 @@ public final class InputManager implements IInputManager {
      * {@inheritDoc}
      */
     @Override
-    public void keyTyped(final KeyEvent e) {
+    public synchronized void keyTyped(final KeyEvent e) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void keyPressed(final KeyEvent event) {
+    public synchronized void keyPressed(final KeyEvent event) {
         this.logger.info("Key pressed, keyCode: " + event.getKeyCode());
 
-        List<IKeyInputObserver> observers = this.keyInputObservers.get(event.getKeyCode());
+        Keys key = KeyCode.getKey(event.getKeyCode());
+        List<IKeyInputObserver> observers = this.keyInputObservers.getOrDefault(key, InputManager.EMPTY_LIST);
         for (IKeyInputObserver observer : observers) {
             Runnable runnable = observer.keyPress(KeyCode.getKey(event.getKeyCode()));
             try {
@@ -136,10 +140,11 @@ public final class InputManager implements IInputManager {
      * {@inheritDoc}
      */
     @Override
-    public void keyReleased(final KeyEvent event) {
+    public synchronized void keyReleased(final KeyEvent event) {
         this.logger.info("Key released, keyCode: " + event.getKeyCode());
 
-        List<IKeyInputObserver> observers = this.keyInputObservers.get(event.getKeyCode());
+        Keys key = KeyCode.getKey(event.getKeyCode());
+        List<IKeyInputObserver> observers = this.keyInputObservers.getOrDefault(key, InputManager.EMPTY_LIST);
         for (IKeyInputObserver observer : observers) {
             Runnable runnable = observer.keyRelease(KeyCode.getKey(event.getKeyCode()));
             try {
@@ -154,7 +159,7 @@ public final class InputManager implements IInputManager {
      * {@inheritDoc}
      */
     @Override
-    public void addObserver(final IMouseInputObserver mouseInputObserver) {
+    public synchronized void addObserver(final IMouseInputObserver mouseInputObserver) {
         this.mouseInputObservers.add(mouseInputObserver);
     }
 
@@ -162,18 +167,17 @@ public final class InputManager implements IInputManager {
      * {@inheritDoc}
      */
     @Override
-    public void addObserver(final Keys key, final IKeyInputObserver keyInputObserver) {
-        int keyCode = KeyCode.getKeyCode(key);
-        List<IKeyInputObserver> observers = this.keyInputObservers.getOrDefault(keyCode, new ArrayList<>());
+    public synchronized void addObserver(final Keys key, final IKeyInputObserver keyInputObserver) {
+        List<IKeyInputObserver> observers = this.keyInputObservers.getOrDefault(key, InputManager.EMPTY_LIST);
         observers.add(keyInputObserver);
-        this.keyInputObservers.put(keyCode, observers);
+        this.keyInputObservers.put(key, observers);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void removeObserver(final IMouseInputObserver mouseInputObserver) {
+    public synchronized void removeObserver(final IMouseInputObserver mouseInputObserver) {
         this.mouseInputObservers.remove(mouseInputObserver);
     }
 
@@ -181,8 +185,8 @@ public final class InputManager implements IInputManager {
      * {@inheritDoc}
      */
     @Override
-    public void removeObserver(final Keys key, final IKeyInputObserver keyInputObserver) {
-        List<IKeyInputObserver> observers = this.keyInputObservers.get(KeyCode.getKeyCode(key));
+    public synchronized void removeObserver(final Keys key, final IKeyInputObserver keyInputObserver) {
+        List<IKeyInputObserver> observers = this.keyInputObservers.getOrDefault(key, InputManager.EMPTY_LIST);
         observers.remove(keyInputObserver);
     }
 
@@ -191,7 +195,7 @@ public final class InputManager implements IInputManager {
      * @param windowLBSize The size of the left border.
      * @param windowTBSize The size of the top border.
      */
-    public void setMainWindowBorderSize(final int windowLBSize, final int windowTBSize) {
+    public synchronized void setMainWindowBorderSize(final int windowLBSize, final int windowTBSize) {
         this.offsetX = windowLBSize;
         this.offsetY = windowTBSize;
     }

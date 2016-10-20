@@ -204,6 +204,7 @@ public class Doodle extends AGameObject implements IDoodle {
     public void setKeys(final Keys left, final Keys right) {
         this.keys[0] = left;
         this.keys[1] = right;
+        this.behavior.updateActions();
     }
 
     /**

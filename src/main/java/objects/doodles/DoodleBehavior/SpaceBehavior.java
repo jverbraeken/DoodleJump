@@ -80,17 +80,24 @@ public class SpaceBehavior implements MovementBehavior {
     public SpaceBehavior(final IServiceLocator sL, final IDoodle d) {
         this.serviceLocator = sL;
         this.doodle = d;
+        this.updateActions();
+    }
 
-        this.keyPressActions.put(d.getKeyLeft(), () -> {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void updateActions() {
+        this.keyPressActions.put(this.doodle.getKeyLeft(), () -> {
             this.movingLeft = true;
             this.movingRight = false;
             this.facing = Directions.Left; });
-        this.keyPressActions.put(d.getKeyRight(), () -> {
+        this.keyPressActions.put(this.doodle.getKeyRight(), () -> {
             this.movingLeft = false;
             this.movingRight = true;
             this.facing = Directions.Right; });
-        this.keyReleaseActions.put(d.getKeyLeft(), () -> this.movingLeft = false);
-        this.keyReleaseActions.put(d.getKeyRight(), () -> this.movingRight = false);
+        this.keyReleaseActions.put(this.doodle.getKeyLeft(), () -> this.movingLeft = false);
+        this.keyReleaseActions.put(this.doodle.getKeyRight(), () -> this.movingRight = false);
     }
 
     /**

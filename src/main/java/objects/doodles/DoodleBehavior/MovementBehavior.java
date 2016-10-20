@@ -7,6 +7,8 @@ import input.IKeyInputObserver;
  */
 public interface MovementBehavior extends IKeyInputObserver {
 
+    void updateActions();
+
     /**
      * Return the vertical speed.
      *

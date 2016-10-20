@@ -80,19 +80,26 @@ public class UnderwaterBehavior implements MovementBehavior {
     public UnderwaterBehavior(final IServiceLocator sL, final IDoodle d) {
         this.serviceLocator = sL;
         this.doodle = d;
+        this.updateActions();
+    }
 
-        this.keyPressActions.put(d.getKeyLeft(), () -> {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void updateActions() {
+        this.keyPressActions.put(this.doodle.getKeyLeft(), () -> {
             this.movingLeft = true;
             this.movingRight = false;
             this.facing = Directions.Left; });
-        this.keyPressActions.put(d.getKeyRight(), () -> {
+        this.keyPressActions.put(this.doodle.getKeyRight(), () -> {
             this.movingLeft = false;
             this.movingRight = true;
             this.facing = Directions.Right; });
-        this.keyReleaseActions.put(d.getKeyLeft(), () -> {
+        this.keyReleaseActions.put(this.doodle.getKeyLeft(), () -> {
             this.movingLeft = false;
             this.hSpeed = UnderwaterBehavior.SLOWING * this.hSpeed; });
-        this.keyReleaseActions.put(d.getKeyLeft(), () -> {
+        this.keyReleaseActions.put(this.doodle.getKeyLeft(), () -> {
             this.movingRight = false;
             this.hSpeed = UnderwaterBehavior.SLOWING * this.hSpeed; });
     }
