@@ -80,8 +80,9 @@ public class HighScoreList {
             List<String> content = fileSystem.readProjectFile(constants.getHighScoresFilePath());
             return content.get(0);
         } catch (Exception e) {
+            e.printStackTrace();
             this.logger.error(e);
-            this.logger.warning("High scores file not found, starting with empty high scores list");
+            this.logger.warning("High scores file not found OR empty, starting with empty high scores list");
         }
 
         return "";
