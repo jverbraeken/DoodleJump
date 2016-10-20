@@ -7,6 +7,9 @@ import input.IKeyInputObserver;
  */
 public interface MovementBehavior extends IKeyInputObserver {
 
+    /**
+     * Update the actions of the Doodle.
+     */
     void updateActions();
 
     /**

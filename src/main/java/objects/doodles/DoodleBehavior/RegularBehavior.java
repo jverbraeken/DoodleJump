@@ -5,7 +5,8 @@ import objects.doodles.IDoodle;
 import objects.powerups.PowerupOccasion;
 import system.IServiceLocator;
 
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * This class describes the regular movement of the Doodle.
@@ -40,7 +41,7 @@ public class RegularBehavior implements MovementBehavior {
     /**
      * HashMaps for the actions performed by the Doodle when a key is pressed/released.
      */
-    private final HashMap<Keys, Runnable> keyPressActions = new HashMap<>(), keyReleaseActions = new HashMap<>();
+    private Map<Keys, Runnable> keyPressActions, keyReleaseActions;
     /**
      * Current horizontal speed for the Doodle.
      */
@@ -67,17 +68,7 @@ public class RegularBehavior implements MovementBehavior {
     public RegularBehavior(final IServiceLocator sL, final IDoodle d) {
         this.serviceLocator = sL;
         this.doodle = d;
-
-        this.keyPressActions.put(d.getKeyLeft(), () -> {
-            this.movingLeft = true;
-            this.movingRight = false;
-            this.facing = Directions.Left; });
-        this.keyPressActions.put(d.getKeyRight(), () -> {
-            this.movingLeft = false;
-            this.movingRight = true;
-            this.facing = Directions.Right; });
-        this.keyReleaseActions.put(d.getKeyLeft(), () -> this.movingLeft = false);
-        this.keyReleaseActions.put(d.getKeyRight(), () -> this.movingRight = false);
+        this.updateActions();
     }
 
     /**
@@ -85,6 +76,9 @@ public class RegularBehavior implements MovementBehavior {
      */
     @Override
     public final void updateActions() {
+        this.keyPressActions = new EnumMap<>(Keys.class);
+        this.keyReleaseActions = new EnumMap<>(Keys.class);
+
         this.keyPressActions.put(this.doodle.getKeyLeft(), () -> {
             this.movingLeft = true;
             this.movingRight = false;

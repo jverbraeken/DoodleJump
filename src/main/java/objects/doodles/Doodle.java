@@ -202,8 +202,10 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void setKeys(final Keys left, final Keys right) {
+        this.deregister();
         this.keys[0] = left;
         this.keys[1] = right;
+        this.register();
         this.behavior.updateActions();
     }
 

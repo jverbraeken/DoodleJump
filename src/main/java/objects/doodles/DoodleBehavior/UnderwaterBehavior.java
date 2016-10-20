@@ -2,11 +2,11 @@ package objects.doodles.DoodleBehavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
-import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import system.IServiceLocator;
 
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * This class describes the underwater movement of the Doodle.
@@ -53,7 +53,7 @@ public class UnderwaterBehavior implements MovementBehavior {
     /**
      * HashMaps for the actions performed by the Doodle when a key is pressed/released.
      */
-    private final HashMap<Keys, Runnable> keyPressActions = new HashMap<>(), keyReleaseActions = new HashMap<>();
+    private Map<Keys, Runnable> keyPressActions, keyReleaseActions;
     /**
      * Current horizontal speed for the Doodle.
      */
@@ -88,6 +88,9 @@ public class UnderwaterBehavior implements MovementBehavior {
      */
     @Override
     public final void updateActions() {
+        this.keyPressActions = new EnumMap<>(Keys.class);
+        this.keyReleaseActions = new EnumMap<>(Keys.class);
+
         this.keyPressActions.put(this.doodle.getKeyLeft(), () -> {
             this.movingLeft = true;
             this.movingRight = false;
