@@ -33,6 +33,14 @@ public abstract class APowerup extends AGameObject implements IPowerup {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void render() {
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+    }
+
+    /**
      * Set the x and y position of the powerup that's spawning on a platform.
      * @param powerup a IGameObject that's going to be spawning.
      * @param platform the platform object where the powerup is going to spawn.
