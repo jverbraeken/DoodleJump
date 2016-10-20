@@ -162,15 +162,22 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite[] getDoodleSprite(final MovementBehavior.Directions direction) {
+    public ISprite[] getDoodleLeftSprites() {
         ISprite[] sprites = new ISprite[2];
-        if (direction == MovementBehavior.Directions.Left) {
-            sprites[0] = this.getSprite(IRes.Sprites.doodleLeftAscend);
-            sprites[1] = this.getSprite(IRes.Sprites.doodleLeftDescend);
-        } else { // Use Right by default
-            sprites[0] = this.getSprite(IRes.Sprites.doodleRightAscend);
-            sprites[1] = this.getSprite(IRes.Sprites.doodleRightDescend);
-        }
+        sprites[0] = this.getSprite(IRes.Sprites.doodleLeftAscend);
+        sprites[1] = this.getSprite(IRes.Sprites.doodleLeftDescend);
+
+        return sprites;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite[] getDoodleRightSprites() {
+        ISprite[] sprites = new ISprite[2];
+        sprites[0] = this.getSprite(IRes.Sprites.doodleRightAscend);
+        sprites[1] = this.getSprite(IRes.Sprites.doodleRightDescend);
 
         return sprites;
     }
@@ -896,7 +903,6 @@ public final class SpriteFactory implements ISpriteFactory {
     // Miscellaneous
     /**
      * Loads an ISprite with the name {@code ISpriteName}.
-     *
      * @param spriteName the enumerator defining the requested sprite
      * @return The {@link ISprite sprite} if it was found. null otherwise
      */
@@ -904,28 +910,21 @@ public final class SpriteFactory implements ISpriteFactory {
         assert spriteName != null;
 
         String filepath = SpriteFactory.serviceLocator.getRes().getSpritePath(spriteName);
-        BufferedImage image = null;
 
         try {
-            image = SpriteFactory.serviceLocator.getFileSystem().readImage(filepath);
+            BufferedImage image = SpriteFactory.serviceLocator.getFileSystem().readImage(filepath);
             this.logger.info("Sprite loaded: \"" + filepath + "\"");
             return new Sprite(getFileName(filepath), image);
         } catch (FileNotFoundException e) {
+            this.logger.error("CRITICAL ERROR: the sprite \"" + spriteName.toString() + "\" could not be found!");
             this.logger.error(e);
             e.printStackTrace();
-        }
-
-        if (image == null) {
-            this.logger.error("CRITICAL ERROR: the sprite \"" + spriteName.toString() + "\" could not be found!");
             return null;
-        } else {
-            return new Sprite(getFileName(filepath), image);
         }
     }
 
     /**
      * Return the requested sprite.
-     *
      * @param sprite the enumerator defining the requested sprite.
      * @return the sprite.
      */
@@ -942,12 +941,8 @@ public final class SpriteFactory implements ISpriteFactory {
 
     /**
      * Returns the filename from a filepath.
-     * <p>
-     * Example:
-     * <pre>
-     * {@code
-     *     getFileName("resources/Sprites/sprite.png").equals("sprite.png")
-     * }
+     * <br>
+     * Example: {@code getFileName("resources/Sprites/sprite.png").equals("sprite.png")}
      * </pre>
      *
      * @param filepath The full path to the file, the directories seperated by '/'. Cannot be null

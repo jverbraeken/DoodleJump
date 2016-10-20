@@ -159,8 +159,7 @@ public class Menu implements IScene, IKeyInputObserver {
     public final void update(final double delta) {
         doodle.update(delta);
 
-        double doodleY = doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight();
-        if (doodle.checkCollision(platform) && doodleY < platform.getYPos()) {
+        if (doodle.checkCollision(platform)) {
             platform.collidesWith(this.doodle);
         }
     }

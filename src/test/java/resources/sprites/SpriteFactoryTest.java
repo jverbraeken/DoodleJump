@@ -95,7 +95,7 @@ public class SpriteFactoryTest {
         doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.doodleLeftAscend);
         ISprite mock2 = mock(ISprite.class);
         doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.doodleLeftDescend);
-        ISprite[] result = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Left);
+        ISprite[] result = spriteFactory.getDoodleLeftSprites();
         ISprite[] expected = new ISprite[2];
         expected[0] = mock;
         expected[1] = mock2;
@@ -108,7 +108,7 @@ public class SpriteFactoryTest {
         doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.doodleRightAscend);
         ISprite mock2 = mock(ISprite.class);
         doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.doodleRightDescend);
-        ISprite[] result = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Right);
+        ISprite[] result = spriteFactory.getDoodleRightSprites();
         ISprite[] expected = new ISprite[2];
         expected[0] = mock;
         expected[1] = mock2;
