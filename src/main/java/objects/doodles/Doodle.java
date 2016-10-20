@@ -108,16 +108,17 @@ public class Doodle extends AGameObject implements IDoodle {
      * @param sL The service locator.
      * @param w The world the Doodle lives in.
      */
-     /* package */ Doodle(final IServiceLocator sL, final World w) {
+    /* package */ Doodle(final IServiceLocator sL, final World w) {
         super(sL,
                 sL.getConstants().getGameWidth() / 2,
                 sL.getConstants().getGameHeight() / 2,
                 sL.getSpriteFactory().getDoodleLeftSprites()[0],
                 Doodle.class);
 
+        ISpriteFactory spriteFactory = sL.getSpriteFactory();
+
         this.updateHitBox();
         this.setBehavior(Game.getMode());
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.sprites.put(MovementBehavior.Directions.Left, spriteFactory.getDoodleLeftSprites());
         this.sprites.put(MovementBehavior.Directions.Right, spriteFactory.getDoodleRightSprites());
         this.world = w;
@@ -127,34 +128,26 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void collide(final IJumpable jumpable) {
-        double boost = jumpable.getBoost();
-        behavior.setVerticalSpeed(boost);
-
-        if (this.powerup != null) {
-            this.powerup.perform(PowerupOccasion.collision);
-        }
+    public boolean isAlive() {
+        return this.alive;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final IPowerup getPowerup() {
-        if (this.powerup != null) {
-            return this.powerup;
-        } else {
-            IServiceLocator serviceLocator = Doodle.getServiceLocator();
-            return new APowerup(serviceLocator, 0, 0, serviceLocator.getSpriteFactory().getShieldSprite(), APowerup.class) {
-                @Override
-                public void render() {
-                }
+    public void setAlive(final boolean al) {
+        this.alive = al;
+    }
 
-                @Override
-                public void collidesWith(final IDoodle doodle) {
-                }
-            };
-        }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collide(final IJumpable jumpable) {
+        double boost = jumpable.getBoost();
+        this.behavior.setVerticalSpeed(boost);
+        this.getPowerup().perform(PowerupOccasion.collision);
     }
 
     /**
@@ -162,175 +155,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final double getLegsHeight() {
-        return LEGS_HEIGHT;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final double getScore() {
-        return score;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void setPowerup(final IPowerup item) {
-        this.powerup = item;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void removePowerup(final IPowerup item) {
-        if (this.powerup.equals(item)) {
-            this.powerup = null;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void updateActiveSprite() {
-        // -- Get the sprite array
-        ISprite[] sprites = this.sprites.get(this.getFacing());
-
-        // -- Get the index of the correct sprite in the array
-        // Compare always returns -1, 0, 1
-        int compare = Double.compare(this.getVerticalSpeed(), this.getJumpingThreshold());
-        // Math.max() makes sure this is 0 or 1
-        int index = Math.max(0, compare);
-
-        // -- Set the sprite
-        this.setSprite(sprites[index]);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final double getVerticalSpeed() {
-        return behavior.getVerticalSpeed();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void setVerticalSpeed(final double vSpeed) {
-        behavior.setVerticalSpeed(vSpeed);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Runnable keyPress(final Keys key) {
-        return behavior.keyPress(key);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Runnable keyRelease(final Keys key) {
-        return behavior.keyRelease(key);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void render() {
-        ISprite sprite = this.getSprite();
-        getServiceLocator().getRenderer().drawSprite(sprite,
-                (int) this.getXPos(),
-                (int) this.getYPos(),
-                (int) (sprite.getWidth() * this.spriteScalar),
-                (int) (sprite.getHeight() * this.spriteScalar));
-
-        if (!this.isAlive()) {
-            getServiceLocator().getRenderer().drawSprite(getStarSprite(),
-                    (int) (this.getXPos() + (STARS_OFFSET * this.spriteScalar)),
-                    (int) this.getYPos(),
-                    (int) (getSprite().getWidth() * this.spriteScalar * STARS_SCALAR),
-                    (int) (getSprite().getHeight() * this.spriteScalar * STARS_SCALAR));
-        }
-
-        this.getPowerup().render();
-    }
-
-    /**
-     * Returns the Star sprite by looking at the current starNumber.
-     * @return a star sprite.
-     */
-    private ISprite getStarSprite() {
-        if (starNumber % STAR_FRAMES < FIRST_STAR_FRAME) {
-            return getServiceLocator().getSpriteFactory().getStarSprite1();
-        } else if (starNumber % STAR_FRAMES < SECOND_STAR_FRAME) {
-            return getServiceLocator().getSpriteFactory().getStarSprite2();
-        }
-        return getServiceLocator().getSpriteFactory().getStarSprite3();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void update(final double delta) {
-        this.applyMovementBehavior(delta);
-        this.wrap();
-        this.checkDeadPosition();
-        starNumber++;
-        this.getPowerup().update(delta);
-        this.updateScore();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void increaseSpriteScalar(final double inc) {
-        if (this.spriteScalar + inc > 0 && this.spriteScalar + inc < 2) {
-            double oldScalar = this.spriteScalar;
-            this.spriteScalar += inc;
-
-            double heightDiff = (this.getSprite().getHeight() * oldScalar) - (this.getSprite().getHeight() * this.spriteScalar);
-            this.addYPos(heightDiff);
-
-            this.updateHitBox();
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void register() {
-        getServiceLocator().getInputManager().addObserver(this.getKeyLeft(), this);
-        getServiceLocator().getInputManager().addObserver(this.getKeyRight(), this);
-        getLogger().info("The doodle registered itself as an observer of the input manager");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void deregister() {
-        getServiceLocator().getInputManager().removeObserver(this.getKeyLeft(), this);
-        getServiceLocator().getInputManager().removeObserver(this.getKeyRight(), this);
-        getLogger().info("The doodle removed itself as an observer from the input manager");
     }
 
     /**
@@ -345,8 +169,16 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public World getWorld() {
-        return this.world;
+    public Runnable keyPress(final Keys key) {
+        return this.behavior.keyPress(key);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Runnable keyRelease(final Keys key) {
+        return this.behavior.keyRelease(key);
     }
 
     /**
@@ -378,16 +210,170 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public boolean isAlive() {
-        return alive;
+    public final double getLegsHeight() {
+        return Doodle.LEGS_HEIGHT;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setAlive(final boolean al) {
-        alive = al;
+    public final IPowerup getPowerup() {
+        if (this.powerup != null) {
+            return this.powerup;
+        } else {
+            IServiceLocator serviceLocator = Doodle.getServiceLocator();
+            return new APowerup(serviceLocator, 0, 0, serviceLocator.getSpriteFactory().getShieldSprite(), APowerup.class) {
+                @Override
+                public void render() {
+                }
+
+                @Override
+                public void collidesWith(final IDoodle doodle) {
+                }
+            };
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setPowerup(final IPowerup item) {
+        this.powerup = item;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void removePowerup(final IPowerup item) {
+        if (this.powerup.equals(item)) {
+            this.powerup = null;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void register() {
+        Doodle.getServiceLocator().getInputManager().addObserver(this.getKeyLeft(), this);
+        Doodle.getServiceLocator().getInputManager().addObserver(this.getKeyRight(), this);
+        this.getLogger().info("The doodle registered itself as an observer of the input manager");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void deregister() {
+        Doodle.getServiceLocator().getInputManager().removeObserver(this.getKeyLeft(), this);
+        Doodle.getServiceLocator().getInputManager().removeObserver(this.getKeyRight(), this);
+        this.getLogger().info("The doodle removed itself as an observer from the input manager");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void render() {
+        ISprite sprite = this.getSprite();
+        Doodle.getServiceLocator().getRenderer().drawSprite(sprite,
+                (int) this.getXPos(),
+                (int) this.getYPos(),
+                (int) (sprite.getWidth() * this.spriteScalar),
+                (int) (sprite.getHeight() * this.spriteScalar));
+
+        if (!this.isAlive()) {
+            Doodle.getServiceLocator().getRenderer().drawSprite(getStarSprite(),
+                    (int) (this.getXPos() + (STARS_OFFSET * this.spriteScalar)),
+                    (int) this.getYPos(),
+                    (int) (getSprite().getWidth() * this.spriteScalar * STARS_SCALAR),
+                    (int) (getSprite().getHeight() * this.spriteScalar * STARS_SCALAR));
+        }
+
+        this.getPowerup().render();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final double getScore() {
+        return this.score;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void updateActiveSprite() {
+        // -- Get the sprite array
+        ISprite[] sprites = this.sprites.get(this.getFacing());
+
+        // -- Get the index of the correct sprite in the array
+        // Compare always returns -1, 0, 1
+        int compare = Double.compare(this.getVerticalSpeed(), this.getJumpingThreshold());
+        // Math.max() makes sure this is 0 or 1
+        int index = Math.max(0, compare);
+
+        // -- Set the sprite
+        this.setSprite(sprites[index]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void increaseSpriteScalar(final double inc) {
+        if (this.spriteScalar + inc > 0 && this.spriteScalar + inc < 2) {
+            double oldScalar = this.spriteScalar;
+            this.spriteScalar += inc;
+
+            double heightDiff = (this.getSprite().getHeight() * oldScalar) - (this.getSprite().getHeight() * this.spriteScalar);
+            this.addYPos(heightDiff);
+
+            this.updateHitBox();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final double getVerticalSpeed() {
+        return this.behavior.getVerticalSpeed();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setVerticalSpeed(final double vSpeed) {
+        this.behavior.setVerticalSpeed(vSpeed);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void update(final double delta) {
+        this.starNumber++;
+
+        this.applyMovementBehavior(delta);
+        this.checkDeadPosition();
+        this.getPowerup().update(delta);
+        this.updateScore();
+        this.wrap();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public World getWorld() {
+        return this.world;
     }
 
     /**
@@ -396,7 +382,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * @param delta Delta time since previous animate.
      */
     private void applyMovementBehavior(final double delta) {
-        behavior.move(delta);
+        this.behavior.move(delta);
     }
 
     /**
@@ -474,6 +460,19 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double getJumpingThreshold() {
         return this.behavior.getJumpingThreshold();
+    }
+
+    /**
+     * Returns the Star sprite by looking at the current starNumber.
+     * @return a star sprite.
+     */
+    private ISprite getStarSprite() {
+        if (starNumber % STAR_FRAMES < FIRST_STAR_FRAME) {
+            return getServiceLocator().getSpriteFactory().getStarSprite1();
+        } else if (starNumber % STAR_FRAMES < SECOND_STAR_FRAME) {
+            return getServiceLocator().getSpriteFactory().getStarSprite2();
+        }
+        return getServiceLocator().getSpriteFactory().getStarSprite3();
     }
 
 }

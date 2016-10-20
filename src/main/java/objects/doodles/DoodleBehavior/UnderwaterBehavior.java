@@ -6,6 +6,8 @@ import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import system.IServiceLocator;
 
+import java.util.HashMap;
+
 /**
  * This class describes the underwater movement of the Doodle.
  */
@@ -49,6 +51,10 @@ public class UnderwaterBehavior implements MovementBehavior {
      */
     private final IDoodle doodle;
     /**
+     * HashMaps for the actions performed by the Doodle when a key is pressed/released.
+     */
+    private final HashMap<Keys, Runnable> keyPressActions = new HashMap<>(), keyReleaseActions = new HashMap<>();
+    /**
      * Current horizontal speed for the Doodle.
      */
     private double hSpeed = 0d;
@@ -59,15 +65,11 @@ public class UnderwaterBehavior implements MovementBehavior {
     /**
      * The direction the Doodle is moving towards.
      */
-    private Directions moving;
+    private boolean movingLeft = false, movingRight = false;
     /**
      * The direction the Doodle is facing.
      */
     private Directions facing = Directions.Left;
-    /**
-     * Keep track if a useful button is pressed.
-     */
-    private boolean pressed;
 
     /**
      * The constructor of the regular behavior.
@@ -76,9 +78,39 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @param sL the ServiceLocator.
      */
     public UnderwaterBehavior(final IServiceLocator sL, final IDoodle d) {
-        serviceLocator = sL;
-        doodle = d;
-        pressed = false;
+        this.serviceLocator = sL;
+        this.doodle = d;
+
+        this.keyPressActions.put(d.getKeyLeft(), () -> {
+            this.movingLeft = true;
+            this.movingRight = false;
+            this.facing = Directions.Left; });
+        this.keyPressActions.put(d.getKeyRight(), () -> {
+            this.movingLeft = false;
+            this.movingRight = true;
+            this.facing = Directions.Right; });
+        this.keyReleaseActions.put(d.getKeyLeft(), () -> {
+            this.movingLeft = false;
+            this.hSpeed = UnderwaterBehavior.SLOWING * this.hSpeed; });
+        this.keyReleaseActions.put(d.getKeyLeft(), () -> {
+            this.movingRight = false;
+            this.hSpeed = UnderwaterBehavior.SLOWING * this.hSpeed; });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Runnable keyPress(final Keys key)  {
+        return this.keyPressActions.get(key);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Runnable keyRelease(final Keys key)  {
+        return this.keyReleaseActions.get(key);
     }
 
     /**
@@ -86,14 +118,18 @@ public class UnderwaterBehavior implements MovementBehavior {
      */
     @Override
     public final void move(final double delta) {
-        moveHorizontally(delta);
-        applyGravity(delta);
-        animate(delta);
+        this.animate(delta);
+        this.applyGravity(delta);
+        this.moveHorizontally(delta);
+        this.doodle.getPowerup().perform(PowerupOccasion.constant);
+    }
 
-        IPowerup powerup = this.doodle.getPowerup();
-        if (powerup != null) {
-            powerup.perform(PowerupOccasion.constant);
-        }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Directions getFacing() {
+        return this.facing;
     }
 
     /**
@@ -109,7 +145,7 @@ public class UnderwaterBehavior implements MovementBehavior {
      */
     @Override
     public final double getVerticalSpeed() {
-        return vSpeed;
+        return this.vSpeed;
     }
 
     /**
@@ -117,48 +153,7 @@ public class UnderwaterBehavior implements MovementBehavior {
      */
     @Override
     public final void setVerticalSpeed(final double v) {
-        vSpeed = RELATIVE_SPEED * v;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final Directions getFacing() {
-        return facing;
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final Runnable keyPress(final Keys key) {
-        return null;
-        /*if (this.isLeftPressed(key)) {
-            this.moving = Directions.Left;
-            this.facing = Directions.Left;
-            this.pressed = true;
-        } else if (this.isRightPressed(key)) {
-            this.moving = Directions.Right;
-            this.facing = Directions.Right;
-            this.pressed = true;
-        }*/
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final Runnable keyRelease(final Keys key) {
-        return null;
-        /*if (this.isLeftPressed(key)) {
-            this.pressed = false;
-            hSpeed = SLOWING * hSpeed;
-        } else if (this.isRightPressed(key)) {
-            this.pressed = false;
-            hSpeed = SLOWING * hSpeed;
-        }*/
+        this.vSpeed = UnderwaterBehavior.RELATIVE_SPEED * v;
     }
 
     /**
@@ -166,7 +161,7 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void animate(final double delta) {
-        doodle.updateActiveSprite();
+        this.doodle.updateActiveSprite();
     }
 
     /**
@@ -174,30 +169,8 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void applyGravity(final double delta) {
-        this.vSpeed += RELATIVE_GRAVITY * serviceLocator.getConstants().getGravityAcceleration();
-        doodle.addYPos(this.vSpeed);
-    }
-
-    /**
-     * Check if the Left key for the Doodle is pressed.
-     *
-     * @param key The key that's pressed
-     * @return A boolean indicating whether the key for Left is pressed.
-     */
-    private boolean isLeftPressed(final Keys key) {
-        Keys keys = this.doodle.getKeyLeft();
-        return key == keys;
-    }
-
-    /**
-     * Check if the Right key for the Doodle is pressed.
-     *
-     * @param key The key that's released
-     * @return A boolean indicating whether the key for Right is pressed.
-     */
-    private boolean isRightPressed(final Keys key) {
-        Keys keys = this.doodle.getKeyRight();
-        return key == keys;
+        this.vSpeed += UnderwaterBehavior.RELATIVE_GRAVITY * this.serviceLocator.getConstants().getGravityAcceleration();
+        this.doodle.addYPos(this.vSpeed);
     }
 
     /**
@@ -205,11 +178,11 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @param delta the time used in a frame.
      */
     private void moveHorizontally(final double delta) {
-        if (pressed && moving == Directions.Left) {
+        if (this.movingLeft) {
             if (this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
                 this.hSpeed -= RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
             }
-        } else if (pressed && moving == Directions.Right) {
+        } else if (this.movingRight) {
             if (this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
                 this.hSpeed += RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
             }

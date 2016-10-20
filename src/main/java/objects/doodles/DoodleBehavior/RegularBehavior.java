@@ -84,11 +84,35 @@ public class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
+    public final Runnable keyPress(final Keys key) {
+        return this.keyPressActions.get(key);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Runnable keyRelease(final Keys key) {
+        return this.keyReleaseActions.get(key);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final void move(final double delta) {
-        this.moveHorizontally(delta);
-        this.applyGravity(delta);
         this.animate(delta);
+        this.applyGravity(delta);
+        this.moveHorizontally(delta);
         this.doodle.getPowerup().perform(PowerupOccasion.constant);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Directions getFacing() {
+        return this.facing;
     }
 
     /**
@@ -104,7 +128,7 @@ public class RegularBehavior implements MovementBehavior {
      */
     @Override
     public final double getVerticalSpeed() {
-        return vSpeed;
+        return this.vSpeed;
     }
 
     /**
@@ -112,31 +136,7 @@ public class RegularBehavior implements MovementBehavior {
      */
     @Override
     public final void setVerticalSpeed(final double v) {
-        vSpeed = v;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final Directions getFacing() {
-        return facing;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final Runnable keyPress(final Keys key) {
-        return this.keyPressActions.get(key);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final Runnable keyRelease(final Keys key) {
-        return this.keyReleaseActions.get(key);
+        this.vSpeed = v;
     }
 
     /**
@@ -144,7 +144,7 @@ public class RegularBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void animate(final double delta) {
-        doodle.updateActiveSprite();
+        this.doodle.updateActiveSprite();
     }
 
     /**
@@ -161,19 +161,19 @@ public class RegularBehavior implements MovementBehavior {
      * @param delta the frame duration
      */
     private void moveHorizontally(final double delta) {
-        if (movingLeft) {
-            if (this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed -= HORIZONTAL_ACCELERATION;
+        if (this.movingLeft) {
+            if (this.hSpeed > -RegularBehavior.HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed -= RegularBehavior.HORIZONTAL_ACCELERATION;
             }
-        } else if (movingRight) {
-            if (this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
-                this.hSpeed += HORIZONTAL_ACCELERATION;
+        } else if (this.movingRight) {
+            if (this.hSpeed < RegularBehavior.HORIZONTAL_SPEED_LIMIT) {
+                this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION;
             }
         } else {
             if (this.hSpeed < 0) {
-                this.hSpeed += HORIZONTAL_ACCELERATION;
+                this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION;
             } else if (this.hSpeed > 0) {
-                this.hSpeed -= HORIZONTAL_ACCELERATION;
+                this.hSpeed -= RegularBehavior.HORIZONTAL_ACCELERATION;
             }
         }
 
