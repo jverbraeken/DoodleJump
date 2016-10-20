@@ -143,7 +143,7 @@ public class RegularBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void animate(final double delta) {
-        // If the Doodle moves up quickly shorten its legs
+        // If the Doodle moves up let him pull in its legs
         if (getVerticalSpeed() < JUMPING_THRESHOLD) {
             doodle.setSprite(getFacing(), true);
         } else {

@@ -11,7 +11,7 @@ public class CircusCannon extends ATrampoline {
     /**
      * The BOOST value for the circus cannon.
      */
-    private static double BOOST = -75;
+    private static final double BOOST = -75;
 
     /**
      * CircusCannon constructor.
