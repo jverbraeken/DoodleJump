@@ -34,7 +34,6 @@ public final class InputManager implements IInputManager {
     /**
      * The set of observable key inputs.
      */
-    //private final HashSet<IKeyInputObserver> keyInputObservers = new HashSet<>();
     private final HashMap<Integer, List<IKeyInputObserver>> keyInputObservers = new HashMap<>();
     /**
      * Offset for the mouse position X.

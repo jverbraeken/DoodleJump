@@ -189,8 +189,8 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @return A boolean indicating whether the key for Left is pressed.
      */
     private boolean isLeftPressed(final Keys key) {
-        Keys[] keys = this.doodle.getKeys();
-        return key == keys[0];
+        Keys keys = this.doodle.getKeyLeft();
+        return key == keys;
     }
 
     /**
@@ -200,8 +200,8 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @return A boolean indicating whether the key for Right is pressed.
      */
     private boolean isRightPressed(final Keys key) {
-        Keys[] keys = this.doodle.getKeys();
-        return key == keys[1];
+        Keys keys = this.doodle.getKeyRight();
+        return key == keys;
     }
 
     /**

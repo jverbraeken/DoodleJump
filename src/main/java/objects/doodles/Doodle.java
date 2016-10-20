@@ -31,10 +31,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private static final double LEGS_HEIGHT = .8;
     /**
-     * Where the hitbox of the doodle starts in relation to the sprite height.
-     */
-    private static final double HEIGHT_HIT_BOX_TOP = .5;
-    /**
      * Where the hitbox of the doodle starts in relation to the sprite width.
      */
     private static final double WIDTH_HIT_BOX_LEFT = .3;
@@ -46,17 +42,14 @@ public class Doodle extends AGameObject implements IDoodle {
      * An additional offset for the top of the hitbox for the Doodle.
      */
     private static final int TOP_HITBOX_OFFSET = 25;
-
     /**
      * Amount of star frames.
      */
     private static final double STAR_FRAMES = 9;
-
     /**
      * First star animation in frames.
      */
     private static final double FIRST_STAR_FRAME = 3;
-
     /**
      * Second star animation in frames.
      */
@@ -66,12 +59,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * Gives true if the doodle is alive.
      */
     private boolean alive = true;
-
     /**
      * Keeps the number of the star animation when killed by an enemy.
      */
     private int starNumber = 0;
-
     /**
      * The world the Doodle lives in.
      */
@@ -302,16 +293,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void register() {
-        getServiceLocator().getInputManager().addObserver(this.keys[0], this);
-        getServiceLocator().getInputManager().addObserver(this.keys[1], this);
-        getLogger().info("The doodle registered itself as an observer of the input manager");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final void increaseSpriteScalar(final double inc) {
         if (this.spriteScalar + inc > 0 && this.spriteScalar + inc < 2) {
             double oldScalar = this.spriteScalar;
@@ -328,9 +309,19 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
+    public final void register() {
+        getServiceLocator().getInputManager().addObserver(this.getKeyLeft(), this);
+        getServiceLocator().getInputManager().addObserver(this.getKeyRight(), this);
+        getLogger().info("The doodle registered itself as an observer of the input manager");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final void deregister() {
-        getServiceLocator().getInputManager().removeObserver(this.keys[0], this);
-        getServiceLocator().getInputManager().removeObserver(this.keys[1], this);
+        getServiceLocator().getInputManager().removeObserver(this.getKeyLeft(), this);
+        getServiceLocator().getInputManager().removeObserver(this.getKeyRight(), this);
         getLogger().info("The doodle removed itself as an observer from the input manager");
     }
 
@@ -354,8 +345,16 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public Keys[] getKeys() {
-        return this.keys;
+    public Keys getKeyLeft() {
+        return this.keys[0];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Keys getKeyRight() {
+        return this.keys[1];
     }
 
     /**

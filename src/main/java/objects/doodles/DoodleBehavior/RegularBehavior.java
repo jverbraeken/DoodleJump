@@ -39,6 +39,10 @@ public class RegularBehavior implements MovementBehavior {
      */
     private final IDoodle doodle;
     /**
+     * HashMaps for the actions performed by the Doodle when a key is pressed/released.
+     */
+    private final HashMap<Keys, Runnable> keyPressActions = new HashMap<>(), keyReleaseActions = new HashMap<>();
+    /**
      * Current horizontal speed for the Doodle.
      */
     private double hSpeed = 0d;
@@ -49,7 +53,7 @@ public class RegularBehavior implements MovementBehavior {
     /**
      * The direction the Doodle is moving towards.
      */
-    private Directions moving;
+    private boolean movingLeft = false, movingRight = false;
     /**
      * The direction the Doodle is facing.
      */
@@ -62,8 +66,19 @@ public class RegularBehavior implements MovementBehavior {
      * @param sL the ServiceLocator.
      */
     public RegularBehavior(final IServiceLocator sL, final IDoodle d) {
-        serviceLocator = sL;
-        doodle = d;
+        this.serviceLocator = sL;
+        this.doodle = d;
+
+        this.keyPressActions.put(d.getKeyLeft(), () -> {
+            this.movingLeft = true;
+            this.movingRight = false;
+            this.facing = Directions.Left; });
+        this.keyPressActions.put(d.getKeyRight(), () -> {
+            this.movingLeft = false;
+            this.movingRight = true;
+            this.facing = Directions.Right; });
+        this.keyReleaseActions.put(d.getKeyLeft(), () -> { this.movingLeft = false; });
+        this.keyReleaseActions.put(d.getKeyRight(), () -> { this.movingRight = false; });
     }
 
     /**
@@ -71,15 +86,11 @@ public class RegularBehavior implements MovementBehavior {
      */
     @Override
     public final void move(final double delta) {
-        moveHorizontally(delta);
+        this.moveHorizontally(delta);
+        this.applyGravity(delta);
+        this.animate(delta);
 
-        applyGravity(delta);
-        animate(delta);
-
-        IPowerup powerup = this.doodle.getPowerup();
-        if (powerup != null) {
-            powerup.perform(PowerupOccasion.constant);
-        }
+        this.doodle.getPowerup().perform(PowerupOccasion.constant);
     }
 
     /**
@@ -111,7 +122,11 @@ public class RegularBehavior implements MovementBehavior {
      */
     @Override
     public final Directions getMoving() {
-        return moving;
+        if (this.movingLeft) {
+            return Directions.Left;
+        } else {
+            return Directions.Right;
+        }
     }
 
     /**
@@ -119,18 +134,7 @@ public class RegularBehavior implements MovementBehavior {
      */
     @Override
     public final Runnable keyPress(final Keys key) {
-        HashMap<Keys, Runnable> actions =  new HashMap<>();
-        actions.put(this.doodle.getKeys()[0], () -> { this.moving = Directions.Left; this.facing = Directions.Left; });
-        actions.put(this.doodle.getKeys()[1], () -> { this.moving = Directions.Right; this.facing = Directions.Right; });
-
-        return actions.get(key);
-        /*if (this.isLeftPressed(key)) {
-            this.moving = Directions.Left;
-            this.facing = Directions.Left;
-        } else if (this.isRightPressed(key)) {
-            this.moving = Directions.Right;
-            this.facing = Directions.Right;
-        }*/
+        return this.keyPressActions.get(key);
     }
 
     /**
@@ -138,16 +142,7 @@ public class RegularBehavior implements MovementBehavior {
      */
     @Override
     public final Runnable keyRelease(final Keys key) {
-        HashMap<Keys, Runnable> actions =  new HashMap<>();
-        actions.put(this.doodle.getKeys()[0], () -> this.moving = null);
-        actions.put(this.doodle.getKeys()[1], () -> this.moving = null);
-
-        return actions.get(key);
-        /*if (this.isLeftPressed(key) && this.moving == Directions.Left) {
-            this.moving = null;
-        } else if (this.isRightPressed(key) && this.moving == Directions.Right) {
-            this.moving = null;
-        }*/
+        return this.keyReleaseActions.get(key);
     }
 
     /**
@@ -168,30 +163,8 @@ public class RegularBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void applyGravity(final double delta) {
-        this.vSpeed += serviceLocator.getConstants().getGravityAcceleration();
-        doodle.addYPos(this.vSpeed);
-    }
-
-    /**
-     * Check if the Left key for the Doodle is pressed.
-     *
-     * @param key The key that's pressed
-     * @return A boolean indicating whether the key for Left is pressed.
-     */
-    private boolean isLeftPressed(final Keys key) {
-        Keys[] keys = this.doodle.getKeys();
-        return key == keys[0];
-    }
-
-    /**
-     * Check if the Right key for the Doodle is pressed.
-     *
-     * @param key The key that's released
-     * @return A boolean indicating whether the key for Right is pressed.
-     */
-    private boolean isRightPressed(final Keys key) {
-        Keys[] keys = this.doodle.getKeys();
-        return key == keys[1];
+        this.vSpeed += this.serviceLocator.getConstants().getGravityAcceleration();
+        this.doodle.addYPos(this.vSpeed);
     }
 
     /**
@@ -199,11 +172,11 @@ public class RegularBehavior implements MovementBehavior {
      * @param delta the frame duration
      */
     private void moveHorizontally(final double delta) {
-        if (moving == Directions.Left) {
+        if (movingLeft) {
             if (this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
                 this.hSpeed -= HORIZONTAL_ACCELERATION;
             }
-        } else if (moving == Directions.Right) {
+        } else if (movingRight) {
             if (this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
                 this.hSpeed += HORIZONTAL_ACCELERATION;
             }
