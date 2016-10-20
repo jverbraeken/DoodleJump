@@ -1,11 +1,8 @@
 package objects.powerups;
 
 import objects.AGameObject;
-import objects.IJumpable;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
-import resources.sprites.ISprite;
-import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import java.util.Timer;
@@ -14,25 +11,13 @@ import java.util.TimerTask;
 /**
  * This class describes the behaviour of the trampoline powerup.
  */
-/* package */ public final class Trampoline extends AGameObject implements IJumpable {
+/* package */ public final class Trampoline extends ATrampoline {
 
-    /**
-     * The BOOST value for the Trampoline.
-     */
-    private static final double BOOST = -50;
     /**
      * The speed with which the springs retracts after it is being used.
      */
     private static final int RETRACT_SPEED = 250;
 
-    /**
-     * The default sprite for the Trampoline.
-     */
-    private static ISprite defaultSprite;
-    /**
-     * The used sprite for the Trampoline.
-     */
-    private static ISprite usedSprite;
 
     /**
      * Trampoline constructor.
@@ -41,12 +26,15 @@ import java.util.TimerTask;
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
+    @SuppressWarnings("magicnumber")
     /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getTrampolineSprite(), Trampoline.class);
-
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        Trampoline.defaultSprite = spriteFactory.getTrampolineSprite();
-        Trampoline.usedSprite = spriteFactory.getTrampolineUsedSprite();
+        super(sL,
+                x,
+                y,
+                -50,
+                sL.getSpriteFactory().getTrampolineSprite(),
+                sL.getSpriteFactory().getTrampolineUsedSprite(),
+                Trampoline.class);
     }
 
     /**
@@ -68,43 +56,26 @@ import java.util.TimerTask;
      * {@inheritDoc}
      */
     @Override
-    public double getBoost() {
-        this.animate();
-        this.playSound();
-
-        return Trampoline.BOOST;
+    void playSound() {
+        IAudioManager audioManager = getServiceLocator().getAudioManager();
+        audioManager.playTrampoline();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void render() {
-        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
-    }
-
-    /**
-     * Play the sound for the Trampoline.
-     */
-    private void playSound() {
-        IAudioManager audioManager = getServiceLocator().getAudioManager();
-        audioManager.playTrampoline();
-    }
-
-    /**
-     * Animate the Trampoline.
-     */
-    private void animate() {
+    public void animate() {
         int oldHeight = getSprite().getHeight();
-        int newHeight = Trampoline.usedSprite.getHeight();
+        int newHeight = this.getUsedSprite().getHeight();
         this.addYPos(oldHeight - newHeight);
-        this.setSprite(Trampoline.usedSprite);
+        this.setSprite(this.getUsedSprite());
 
-        Trampoline self = this;
+        ATrampoline self = this;
         new Timer().schedule(new TimerTask() {
             public void run() {
                 self.addYPos(newHeight - oldHeight);
-                self.setSprite(Trampoline.defaultSprite);
+                self.setSprite(self.getDefaultSprite());
             }
         }, Trampoline.RETRACT_SPEED);
     }

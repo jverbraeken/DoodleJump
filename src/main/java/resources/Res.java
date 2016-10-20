@@ -156,6 +156,11 @@ public final class Res implements IRes {
         sprites.put(Sprites.sizeUp, SPRITE_PATH + "powerup-size-up@2x.png");
         sprites.put(Sprites.sizeDown, SPRITE_PATH + "powerup-size-down@2x.png");
         sprites.put(Sprites.spaceRocket, SPRITE_PATH + "space-rocket-0.png");
+        sprites.put(Sprites.cannon, SPRITE_PATH + "circuscannon-unused.png");
+        sprites.put(Sprites.cannonUsed, SPRITE_PATH + "circuscannon-used.png");
+        sprites.put(Sprites.rocketLauncher, SPRITE_PATH + "rocketlauncher-unused.png");
+        sprites.put(Sprites.rocketLauncherUsed, SPRITE_PATH + "rocketlauncher-used.png");
+
         // Passive
 
         sprites.put(Sprites.jetpack0, SPRITE_PATH + "jetpack-0@2x.png");
@@ -176,6 +181,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.spaceRocket3, SPRITE_PATH + "space-rocket-3.png");
         sprites.put(Sprites.spaceRocket4, SPRITE_PATH + "space-rocket-4.png");
         sprites.put(Sprites.spaceRocket5, SPRITE_PATH + "space-rocket-5.png");
+
 
 
         // Score screen
