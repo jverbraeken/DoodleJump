@@ -329,7 +329,8 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void deregister() {
-        getServiceLocator().getInputManager().removeObserver(this);
+        getServiceLocator().getInputManager().removeObserver(this.keys[0], this);
+        getServiceLocator().getInputManager().removeObserver(this.keys[1], this);
         getLogger().info("The doodle removed itself as an observer from the input manager");
     }
 
