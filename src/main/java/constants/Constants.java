@@ -41,18 +41,29 @@ public final class Constants implements IConstants {
      * The service locator for the Constants class.
      */
     private static transient IServiceLocator serviceLocator;
-
     /**
      * The file to which the logs will be written to.
      */
     private static AtomicReference<String> logFile = new AtomicReference<>();
 
     /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     * @param sL The IServiceLocator to which the class should offer its functionality.
+     */
+    public static void register(final IServiceLocator sL) {
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
+        Constants.serviceLocator = sL;
+        Constants.serviceLocator.provide(new Constants());
+    }
+
+    /**
      * Prevent public instantiation of Constants.
      */
     private Constants() {
         try {
-            IFileSystem fileSystem = serviceLocator.getFileSystem();
+            IFileSystem fileSystem = Constants.serviceLocator.getFileSystem();
             Object jsonObject = fileSystem.parseJsonMap("constants.json", String.class);
             Map<String, String> json = (Map<String, String>) jsonObject;
             interpretJson(json);
@@ -62,22 +73,11 @@ public final class Constants implements IConstants {
     }
 
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
-     * @param sL The IServiceLocator to which the class should offer its functionality.
-     */
-    public static void register(final IServiceLocator sL) {
-        assert sL != null;
-        Constants.serviceLocator = sL;
-        sL.provide(new Constants());
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public int getGameWidth() {
-        return WIDTH;
+        return Constants.WIDTH;
     }
 
     /**
@@ -85,7 +85,7 @@ public final class Constants implements IConstants {
      */
     @Override
     public int getGameHeight() {
-        return HEIGHT;
+        return Constants.HEIGHT;
     }
 
     /**
@@ -93,7 +93,7 @@ public final class Constants implements IConstants {
      */
     @Override
     public double getGravityAcceleration() {
-        return GRAVITY_ACCELERATION;
+        return Constants.GRAVITY_ACCELERATION;
     }
 
     /**
@@ -101,7 +101,7 @@ public final class Constants implements IConstants {
      */
     @Override
     public double getScoreMultiplier() {
-        return SCORE_MULTIPLIER;
+        return Constants.SCORE_MULTIPLIER;
     }
 
     /**
@@ -109,7 +109,7 @@ public final class Constants implements IConstants {
      */
     @Override
     public boolean getLogPendingTasks() {
-        return LOG_PENDING_TASKS;
+        return Constants.LOG_PENDING_TASKS;
     }
 
     /**
@@ -117,7 +117,7 @@ public final class Constants implements IConstants {
      */
     @Override
     public String getLogFile() {
-        return logFile.get();
+        return Constants.logFile.get();
     }
 
     /**
@@ -125,7 +125,7 @@ public final class Constants implements IConstants {
      */
     @Override
     public String getHighScoresFilePath() {
-        return HIGHCORES_DATA;
+        return Constants.HIGHCORES_DATA;
     }
 
     /**
@@ -137,7 +137,7 @@ public final class Constants implements IConstants {
         for (Map.Entry<String, String> entry : json.entrySet()) {
             switch (entry.getKey()) {
                 case "logFile":
-                    logFile.set(entry.getValue());
+                    Constants.logFile.set(entry.getValue());
                     break;
                 default:
                     String msg = "The json entry \"" + entry.getKey()

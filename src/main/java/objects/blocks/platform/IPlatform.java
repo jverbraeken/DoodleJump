@@ -2,7 +2,6 @@ package objects.blocks.platform;
 
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.doodles.IDoodle;
 
 import java.util.Map;
 
@@ -22,13 +21,6 @@ public interface IPlatform extends IGameObject, IJumpable {
      * Renders the Platform inside of the scene.
      */
     void render();
-
-    /**
-     * Will send to the Doodle that it is colliding with this platform.
-     *
-     * @param doodle the Doodle it is colliding with.
-     */
-    void collidesWith(final IDoodle doodle);
 
     /**
      * Returns the Map with properties of the Platform.

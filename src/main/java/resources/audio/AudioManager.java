@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 
 /**
  * Standard implementation of the AudioManager. Used to load an play audio.
+ * <br>
+ * It is not deemed necessary for all individual sounds to have a JavaDoc.
  */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class AudioManager implements IAudioManager {
@@ -18,21 +20,22 @@ public final class AudioManager implements IAudioManager {
     private static transient IServiceLocator serviceLocator;
 
     /**
-     * Prevents instantiation from outside the class.
-     */
-    private AudioManager() {
-        preload();
-    }
-
-    /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         AudioManager.serviceLocator = sL;
-        sL.provide(new AudioManager());
+        AudioManager.serviceLocator.provide(new AudioManager());
+    }
+
+    /**
+     * Prevents instantiation from outside the class.
+     */
+    private AudioManager() {
+        this.preload();
     }
 
     /**
@@ -432,14 +435,13 @@ public final class AudioManager implements IAudioManager {
         private Clip clip;
 
         /**
-         * Used to preload all files.
-         *
+         * Preload a sound.
          * @param filepath The path of the file of the sound.
          */
         Sound(final String filepath) {
-            ILogger logger = serviceLocator.getLoggerFactory().createLogger(AudioManager.class);
+            ILogger logger = AudioManager.serviceLocator.getLoggerFactory().createLogger(AudioManager.class);
             try {
-                clip = serviceLocator.getFileSystem().readSound(filepath);
+                this.clip = AudioManager.serviceLocator.getFileSystem().readSound(filepath);
                 logger.info("Sound loaded: \"" + filepath + "\"");
             } catch (FileNotFoundException e) {
                 logger.error(e);
@@ -457,12 +459,9 @@ public final class AudioManager implements IAudioManager {
          * Play a sound.
          */
         public void play() {
-            if (clip.isRunning()) {
-                clip.stop();
-            }
-
-            clip.setFramePosition(0);
-            clip.start();
+            this.clip.stop();
+            this.clip.setFramePosition(0);
+            this.clip.start();
         }
     }
 

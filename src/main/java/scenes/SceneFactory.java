@@ -35,7 +35,9 @@ public final class SceneFactory implements ISceneFactory {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         SceneFactory.serviceLocator = sL;
         sL.provide(new SceneFactory());
     }
@@ -124,9 +126,9 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
-    public ChooseMode newChooseMode() {
-        logger.info("A new ChooseMode screen has been created");
-        return new ChooseMode(serviceLocator);
+    public ChooseModeScreen newChooseMode() {
+        logger.info("A new ChooseModeScreen screen has been created");
+        return new ChooseModeScreen(serviceLocator);
     }
 
 }

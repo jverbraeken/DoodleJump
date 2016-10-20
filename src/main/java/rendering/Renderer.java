@@ -49,9 +49,11 @@ public final class Renderer implements IRenderer {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         Renderer.serviceLocator = sL;
-        sL.provide(new Renderer());
+        Renderer.serviceLocator.provide(new Renderer());
     }
 
     /**
@@ -59,8 +61,8 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public void clear() {
-        IConstants constants = serviceLocator.getConstants();
-        graphics.clearRect(0, 0, constants.getGameWidth(), constants.getGameHeight());
+        IConstants constants = Renderer.serviceLocator.getConstants();
+        this.graphics.clearRect(0, 0, constants.getGameWidth(), constants.getGameHeight());
     }
 
     /**
@@ -68,13 +70,13 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public void drawRectangle(final int x, final int y, final int width, final int height) {
-        assert graphics != null;
+        assert this.graphics != null;
 
         String drawMsg = "drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - ";
-        String cameraMsg = "DoodleCamera corrected Y-position = " + (y - camera.getYPos());
-        logger.info(drawMsg + cameraMsg);
+        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        this.logger.info(drawMsg + cameraMsg);
 
-        graphics.drawRect(x, (int) (y - camera.getYPos()), width, height);
+        this.graphics.drawRect(x, (int) (y - this.camera.getYPos()), width, height);
     }
 
     /**
@@ -82,16 +84,16 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public void drawSprite(final ISprite sprite, final int x, final int y) {
-        assert graphics != null;
+        assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
         String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - ";
-        String cameraMsg = "DoodleCamera corrected Y-position = " + (y - camera.getYPos());
-        logger.info(drawMsg + cameraMsg);
+        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        this.logger.info(drawMsg + cameraMsg);
 
-        graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), null);
+        this.graphics.drawImage(sprite.getImage(), x, (int) (y - this.camera.getYPos()), null);
     }
 
     /**
@@ -99,16 +101,16 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public void drawSprite(final ISprite sprite, final int x, final int y, final int width, final int height) {
-        assert graphics != null;
+        assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
         String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - ";
-        String cameraMsg = "DoodleCamera corrected Y-position = " + (y - camera.getYPos());
-        logger.info(drawMsg + cameraMsg);
+        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        this.logger.info(drawMsg + cameraMsg);
 
-        graphics.drawImage(sprite.getImage(), x, (int) (y - camera.getYPos()), width, height, null);
+        this.graphics.drawImage(sprite.getImage(), x, (int) (y - this.camera.getYPos()), width, height, null);
     }
 
     /**
@@ -116,11 +118,10 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public void drawRectangleHUD(final int x, final int y, final int width, final int height) {
-        assert graphics != null;
+        assert this.graphics != null;
 
-        logger.info("drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
-
-        graphics.drawRect(x, y, width, height);
+        this.logger.info("drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
+        this.graphics.drawRect(x, y, width, height);
     }
 
     /**
@@ -128,14 +129,13 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public void drawSpriteHUD(final ISprite sprite, final int x, final int y) {
-        assert graphics != null;
+        assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        logger.info("drawImage(" + x + ", " + y + ")");
-
-        graphics.drawImage(sprite.getImage(), x, y, null);
+        this.logger.info("drawImage(" + x + ", " + y + ")");
+        this.graphics.drawImage(sprite.getImage(), x, y, null);
     }
 
     /**
@@ -143,14 +143,13 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public void drawSpriteHUD(final ISprite sprite, final int x, final int y, final int width, final int height) {
-        assert graphics != null;
+        assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        logger.info("drawSprite(" + x + ", " + y + ")");
-
-        graphics.drawImage(sprite.getImage(), x, y, width, height, null);
+        this.logger.info("drawSprite(" + x + ", " + y + ")");
+        this.graphics.drawImage(sprite.getImage(), x, y, width, height, null);
     }
 
     /**
@@ -158,8 +157,10 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public void drawText(final int x, final int y, final String msg) {
-        assert graphics != null;
-        graphics.drawString(msg, x, y);
+        assert this.graphics != null;
+
+        this.logger.info("drawString(" + msg + ", " + x + ", " + y + ")");
+        this.graphics.drawString(msg, x, y);
     }
 
     /**
@@ -167,13 +168,16 @@ public final class Renderer implements IRenderer {
      */
     @Override
     public void fillRectangle(final int x, final int y, final int width, final int height, final Color color) {
-        assert graphics != null;
-        logger.info("drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - DoodleCamera corrected Y-position = " + (y - camera.getYPos()));
+        assert this.graphics != null;
 
-        Color currentColor = graphics.getColor();
-        graphics.setColor(color);
-        graphics.fillRect(x, (int) (y - camera.getYPos()), width, height);
-        graphics.setColor(currentColor);
+        String drawMsg = "drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        this.logger.info(drawMsg + cameraMsg);
+
+        Color currentColor = this.graphics.getColor();
+        this.graphics.setColor(color);
+        this.graphics.fillRect(x, (int) (y - this.camera.getYPos()), width, height);
+        this.graphics.setColor(currentColor);
     }
 
     /**
@@ -186,7 +190,7 @@ public final class Renderer implements IRenderer {
         }
 
         this.graphics = g;
-        this.graphics.setFont(new Font("Comic Sans", 0, FONT_SIZE));
+        this.graphics.setFont(new Font("Comic Sans", 0, Renderer.FONT_SIZE));
     }
 
     /**
@@ -201,8 +205,8 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void setCamera(final ICamera cam) {
-        this.camera = cam;
+    public void setCamera(final ICamera c) {
+        this.camera = c;
     }
 
 }

@@ -91,7 +91,7 @@ import java.util.List;
         renderer.clear();
 
         // Draw the list of scores.
-        List<HighScore> highScores = Game.HIGH_SCORES.getList();
+        List<HighScore> highScores = Game.highScores.getList();
         for (int i = 0; i < highScores.size(); i++) {
             // Entry background
             int backgroundY = scoreListTop + (i - 1) * entryHeight;

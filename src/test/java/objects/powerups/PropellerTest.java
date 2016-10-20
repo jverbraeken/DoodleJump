@@ -71,6 +71,11 @@ public class PropellerTest {
         assertThat(owner, is(doodle));
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testCollidesWithNull() {
+        propeller.collidesWith(null);
+    }
+
     @Test
     public void testPerform() {
         propeller.collidesWith(doodle);
@@ -80,10 +85,15 @@ public class PropellerTest {
     }
 
     @Test
-    public void testPerformInvalid() {
+    public void testPerformInvalidOccasion() {
         propeller.collidesWith(doodle);
         propeller.perform(PowerupOccasion.collision);
         verify(doodle, times(0)).setVerticalSpeed(anyDouble());
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testPerformNoOwner() {
+        propeller.perform(PowerupOccasion.constant);
     }
 
     @Test
