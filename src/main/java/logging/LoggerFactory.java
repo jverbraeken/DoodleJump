@@ -89,12 +89,14 @@ public final class LoggerFactory implements ILoggerFactory {
         this.logIgnore = new HashSet<>();
         try {
             List<String> list = (List<String>) serviceLocator.getFileSystem().parseJson(LoggerFactory.LOG_IGNORE_FILE, new TypeToken<List<String>>(){}.getType());
-            for (String className : list) {
-                try {
-                    logIgnore.add(Class.forName(className));
-                } catch (ClassNotFoundException e) {
-                    logger.warning("LoggerFactory could not find class requested to ignore logging for: " + className);
-                    e.printStackTrace();
+            if (list != null) {
+                for (String className : list) {
+                    try {
+                        logIgnore.add(Class.forName(className));
+                    } catch (ClassNotFoundException e) {
+                        logger.warning("LoggerFactory could not find class requested to ignore logging for: " + className);
+                        e.printStackTrace();
+                    }
                 }
             }
         } catch (Exception e) {
