@@ -89,7 +89,6 @@ public class RegularBehavior implements MovementBehavior {
         this.moveHorizontally(delta);
         this.applyGravity(delta);
         this.animate(delta);
-
         this.doodle.getPowerup().perform(PowerupOccasion.constant);
     }
 
@@ -138,12 +137,7 @@ public class RegularBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void animate(final double delta) {
-        // If the Doodle moves up quickly shorten its legs
-        if (getVerticalSpeed() < JUMPING_THRESHOLD) {
-            doodle.setSprite(true);
-        } else {
-            doodle.setSprite(false);
-        }
+        doodle.setSprite(this.getVerticalSpeed() < JUMPING_THRESHOLD);
     }
 
     /**
