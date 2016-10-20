@@ -38,6 +38,15 @@ class RegularProjectile extends AGameObject {
      */
     @Override
     public void update(final double delta) {
-        setYPos(getYPos() - 5);
+        checkEnemyCollisions();
+        setYPos(getYPos() - 15);
+    }
+
+    /**
+     * Checks for all enemies currently in the blocks and if this
+     * projectile collides with one of them.
+     */
+    private void checkEnemyCollisions() {
+        
     }
 }
