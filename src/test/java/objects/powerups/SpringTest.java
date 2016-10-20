@@ -144,7 +144,7 @@ public class SpringTest {
     @Test
     public void testGetBoost() throws Exception {
         spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0);
-        double boost = Whitebox.getInternalState(spring, "BOOST", Spring.class);
+        double boost = Whitebox.getInternalState(spring, "BOOST", ATrampoline.class);
         assertEquals(boost, spring.getBoost(), 0.001);
     }
 
