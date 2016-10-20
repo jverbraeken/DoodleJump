@@ -56,7 +56,23 @@ public class Doodle extends AGameObject implements IDoodle {
      * Second star animation in frames.
      */
     private static final double SECOND_STAR_FRAME = 6;
+    /**
+     * The scalar for the Stars sprite.
+     */
+    private static final double STARS_SCALAR = .7;
+    /**
+     * The scalar for the Stars sprite.
+     */
+    private static final int STARS_OFFSET = 20;
 
+    /**
+     * The world the Doodle lives in.
+     */
+    private final World world;
+    /**
+     * Fake Powerup instance to return when actual powerup value is null.
+     */
+    private static APowerup fakePowerup;
     /**
      * Gives true if the doodle is alive.
      */
@@ -65,10 +81,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * Keeps the number of the star animation when killed by an enemy.
      */
     private int starNumber = 0;
-    /**
-     * The world the Doodle lives in.
-     */
-    private final World world;
     /**
      * The sprite pack for the Doodle, containing all Sprites for one direction.
      */
@@ -90,14 +102,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double spriteScalar = 1d;
     /**
-     * The scalar for the Stars sprite.
-     */
-    private static final double STARS_SCALAR = .7;
-    /**
-     * The scalar for the Stars sprite.
-     */
-    private static final int STARS_OFFSET = 20;
-    /**
      * The keys the Doodle responds to.
      */
     private Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
@@ -114,6 +118,16 @@ public class Doodle extends AGameObject implements IDoodle {
                 sL.getConstants().getGameHeight() / 2,
                 sL.getSpriteFactory().getDoodleLeftSprites()[0],
                 Doodle.class);
+
+        Doodle.fakePowerup = new APowerup(sL, 0, 0, sL.getSpriteFactory().getShieldSprite(), APowerup.class) {
+            @Override
+            public void render() {
+            }
+
+            @Override
+            public void collidesWith(final IDoodle doodle) {
+            }
+        };
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
 
@@ -225,16 +239,7 @@ public class Doodle extends AGameObject implements IDoodle {
         if (this.powerup != null) {
             return this.powerup;
         } else {
-            IServiceLocator serviceLocator = Doodle.getServiceLocator();
-            return new APowerup(serviceLocator, 0, 0, serviceLocator.getSpriteFactory().getShieldSprite(), APowerup.class) {
-                @Override
-                public void render() {
-                }
-
-                @Override
-                public void collidesWith(final IDoodle doodle) {
-                }
-            };
+            return Doodle.fakePowerup;
         }
     }
 
