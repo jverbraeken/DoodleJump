@@ -92,9 +92,9 @@ public class SpriteFactoryTest {
     @Test
     public void TestGetDoodleSpriteLeft() throws Exception {
         ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.doodleLeftAscend);
+        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.doodleLeftDescend);
         ISprite mock2 = mock(ISprite.class);
-        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.doodleLeftDescend);
+        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.doodleLeftAscend);
         ISprite[] result = spriteFactory.getDoodleLeftSprites();
         ISprite[] expected = new ISprite[2];
         expected[0] = mock;
@@ -105,9 +105,9 @@ public class SpriteFactoryTest {
     @Test
     public void TestGetDoodleSpriteRight() throws Exception {
         ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.doodleRightAscend);
+        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.doodleRightDescend);
         ISprite mock2 = mock(ISprite.class);
-        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.doodleRightDescend);
+        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.doodleRightAscend);
         ISprite[] result = spriteFactory.getDoodleRightSprites();
         ISprite[] expected = new ISprite[2];
         expected[0] = mock;

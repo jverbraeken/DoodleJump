@@ -21,4 +21,10 @@ public interface IPowerup extends IGameObject {
      * @param platform the platform object where the powerup is going to spawn.
      */
     void setPositionOnPlatform(final IGameObject powerup, final IPlatform platform);
+
+    /**
+     * End the activity of the current powerup.
+     */
+    void endPowerup();
+
 }

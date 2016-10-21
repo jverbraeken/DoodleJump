@@ -33,6 +33,14 @@ public abstract class APowerup extends AGameObject implements IPowerup {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void endPowerup() {
+        // Most powerups do not need any code here
+    }
+
+    /**
      * Set the x and y position of the powerup that's spawning on a platform.
      * @param powerup a IGameObject that's going to be spawning.
      * @param platform the platform object where the powerup is going to spawn.
@@ -49,7 +57,6 @@ public abstract class APowerup extends AGameObject implements IPowerup {
         powerup.setXPos(setXPosOfPowerup(powerup, powerupXPos, (int) platform.getXPos(), platformWidth));
         powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
     }
-
 
     /**
      * Sets the X position of the powerup depending on the type of the powerup.

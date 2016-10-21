@@ -2,8 +2,7 @@ package scenes;
 
 import buttons.IButton;
 import buttons.IButtonFactory;
-import input.IKeyInputObserver;
-import input.Keys;
+import constants.IConstants;
 import logging.ILogger;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
@@ -11,7 +10,6 @@ import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
-import system.Game;
 import system.IServiceLocator;
 
 import java.util.ArrayList;
@@ -20,7 +18,7 @@ import java.util.List;
 /**
  * This class is a scene that is displays when the game is started.
  */
-public class Menu implements IScene, IKeyInputObserver {
+public class Menu implements IScene {
 
     /**
      * The X-position at which the first button will be created.
@@ -94,7 +92,6 @@ public class Menu implements IScene, IKeyInputObserver {
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     /* package */ Menu(final IServiceLocator sL) {
@@ -102,35 +99,38 @@ public class Menu implements IScene, IKeyInputObserver {
         this.serviceLocator = sL;
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        cover = spriteFactory.getStartCoverSprite();
+        this.cover = spriteFactory.getStartCoverSprite();
+
+        IConstants constants = sL.getConstants();
+        final int gameWidth = constants.getGameWidth();
+        final int gameHeight = constants.getGameHeight();
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
-        buttons.add(buttonFactory.createPlayButton(
-                (int) (sL.getConstants().getGameWidth() * PLAY_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * PLAY_BUTTON_Y)));
-        buttons.add(buttonFactory.createScoreButton(
-                (int) (sL.getConstants().getGameWidth() * SCORE_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * SCORE_BUTTON_Y)));
-        buttons.add(buttonFactory.createMultiplayerButton(
-                (int) (sL.getConstants().getGameWidth() * MULTIPLAYER_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * MULTIPLAYER_BUTTON_Y)));
-        buttons.add(buttonFactory.createShopButton(
-                (int) (sL.getConstants().getGameWidth() * SHOP_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * SHOP_BUTTON_Y)));
-        buttons.add(buttonFactory.createChooseModeButton(
-                (int) (sL.getConstants().getGameWidth() * CHOOSE_MODE_X),
-                (int) (sL.getConstants().getGameHeight() * CHOOSE_MODE_Y)));
+        this.buttons.add(buttonFactory.createPlayButton(
+                (int) (gameWidth * Menu.PLAY_BUTTON_X),
+                (int) (gameHeight * Menu.PLAY_BUTTON_Y)));
+        this.buttons.add(buttonFactory.createScoreButton(
+                (int) (gameWidth * Menu.SCORE_BUTTON_X),
+                (int) (gameHeight * Menu.SCORE_BUTTON_Y)));
+        this.buttons.add(buttonFactory.createMultiplayerButton(
+                (int) (gameWidth * Menu.MULTIPLAYER_BUTTON_X),
+                (int) (gameHeight * Menu.MULTIPLAYER_BUTTON_Y)));
+        this.buttons.add(buttonFactory.createShopButton(
+                (int) (gameWidth * SHOP_BUTTON_X),
+                (int) (gameHeight * SHOP_BUTTON_Y)));
+        this.buttons.add(buttonFactory.createChooseModeButton(
+                (int) (gameWidth * Menu.CHOOSE_MODE_X),
+                (int) (gameHeight * Menu.CHOOSE_MODE_Y)));
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createStartScreenDoodle();
-        this.doodle.setXPos((int) (sL.getConstants().getGameWidth() * DOODLE_X));
+        this.doodle.setXPos((int) (gameWidth * Menu.DOODLE_X));
         this.doodle.setVerticalSpeed(-1);
 
         IPlatformFactory platformFactory = sL.getPlatformFactory();
-        platform = platformFactory.createPlatform(
-                (int) (sL.getConstants().getGameWidth() * PLATFORM_X),
-                (int) (sL.getConstants().getGameHeight() * PLATFORM_Y)
-        );
+        this.platform = platformFactory.createPlatform(
+                (int) (gameWidth * Menu.PLATFORM_X),
+                (int) (gameHeight * Menu.PLATFORM_Y) );
 
         this.logger = sL.getLoggerFactory().createLogger(this.getClass());
     }
@@ -140,12 +140,11 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     @Override
     public final void start() {
-        for (IButton button : buttons) {
+        for (IButton button : this.buttons) {
             button.register();
         }
-        serviceLocator.getInputManager().addObserver(this);
-        logger.info("The main menu registered itself as an observer of the input manager");
-        logger.info("The menu scene is now displaying");
+        this.logger.info("The main menu registered itself as an observer of the input manager");
+        this.logger.info("The menu scene is now displaying");
     }
 
     /**
@@ -156,7 +155,8 @@ public class Menu implements IScene, IKeyInputObserver {
         for (IButton button : this.buttons) {
             button.deregister();
         }
-        logger.info("The menu scene is no longer displaying");
+        this.logger.info("The main menu removed itself as an observer from the input manager");
+        this.logger.info("The menu scene is no longer displaying");
     }
 
     /**
@@ -164,12 +164,12 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     @Override
     public final void render() {
-        serviceLocator.getRenderer().drawSpriteHUD(this.cover, 0, 0);
-        for (IButton button : buttons) {
+        this.serviceLocator.getRenderer().drawSpriteHUD(this.cover, 0, 0);
+        for (IButton button : this.buttons) {
             button.render();
         }
-        doodle.render();
-        platform.render();
+        this.doodle.render();
+        this.platform.render();
     }
 
     /**
@@ -177,27 +177,10 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     @Override
     public final void update(final double delta) {
-        doodle.update(delta);
+        this.doodle.update(delta);
 
-        if (doodle.checkCollision(platform)) {
-            platform.collidesWith(this.doodle);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void keyPress(final Keys key) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void keyRelease(final Keys key) {
-        if (key == Keys.enter || key == Keys.space) {
-            Game.setScene(serviceLocator.getSceneFactory().createSinglePlayerWorld());
+        if (this.doodle.checkCollision(this.platform)) {
+            this.platform.collidesWith(this.doodle);
         }
     }
 

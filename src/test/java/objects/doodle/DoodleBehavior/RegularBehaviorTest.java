@@ -1,36 +1,26 @@
 package objects.doodle.DoodleBehavior;
 
-import constants.Constants;
 import constants.IConstants;
 import input.Keys;
-import objects.IGameObject;
-import objects.blocks.Block;
-import objects.doodles.Doodle;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
-import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.IDoodle;
-import objects.enemies.Enemy;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.internal.runners.statements.InvokeMethod;
 import org.mockito.Mockito;
-import org.objectweb.asm.commons.Method;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
-import scenes.World;
 import system.IServiceLocator;
 
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import java.lang.reflect.Field;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
+
 
 /**
  * Test class for the RegularBehavior class.
@@ -41,16 +31,17 @@ public class RegularBehaviorTest {
     private IDoodle doodle = mock(IDoodle.class);
     private IConstants constants = mock(IConstants.class);;
     private IPowerup powerup = mock(IPowerup.class);
-    private RegularBehavior regular;
+    private RegularBehavior behavior;
 
     @Before
     public void init() throws Exception {
         when(constants.getGravityAcceleration()).thenReturn(.5);
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(doodle.getPowerup()).thenReturn(powerup);
-        when(doodle.getKeys()).thenReturn(new Keys[]{Keys.arrowLeft, Keys.arrowRight});
+        when(doodle.getKeyLeft()).thenReturn(Keys.arrowLeft);
+        when(doodle.getKeyRight()).thenReturn(Keys.arrowRight);
 
-        regular = new RegularBehavior(serviceLocator, doodle);
+        behavior = new RegularBehavior(serviceLocator, doodle);
     }
 
     /**
@@ -60,11 +51,15 @@ public class RegularBehaviorTest {
      *                   in the constructor.
      */
      @Test
-     public void testKeyPressLeftRight() throws Exception{
-        regular.keyPress(Keys.arrowLeft);
-        regular.keyPress(Keys.arrowRight);
-        assertThat(MovementBehavior.Directions.Right, is(regular.getFacing()));
-        assertThat(MovementBehavior.Directions.Right, is(regular.getMoving()));
+     public void testKeyPressLeftRight() throws Exception {
+        behavior.keyPress(Keys.arrowLeft);
+        behavior.keyPress(Keys.arrowRight);
+        assertThat(MovementBehavior.Directions.Right, is(behavior.getFacing()));
+
+         boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+         boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+         assertThat(movingLeft, is(false));
+         assertThat(movingRight, is(true));
      }
 
      /**
@@ -75,10 +70,14 @@ public class RegularBehaviorTest {
       */
     @Test
     public void testKeyPressRightLeft() throws Exception{
-        regular.keyPress(Keys.arrowRight);
-        regular.keyPress(Keys.arrowLeft);
-        assertThat(MovementBehavior.Directions.Left, is(regular.getFacing()));
-        assertThat(MovementBehavior.Directions.Left, is(regular.getMoving()));
+        behavior.keyPress(Keys.arrowRight);
+        behavior.keyPress(Keys.arrowLeft);
+        assertThat(MovementBehavior.Directions.Left, is(behavior.getFacing()));
+
+        boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(true));
+        assertThat(movingRight, is(false));
     }
 
     /**
@@ -89,11 +88,13 @@ public class RegularBehaviorTest {
      */
     @Test
     public void testKeyReleaseLeft() {
-        regular.keyPress(Keys.arrowLeft);
-        assertThat(MovementBehavior.Directions.Left, is(regular.getFacing()));
-        assertThat(MovementBehavior.Directions.Left, is(regular.getMoving()));
-        regular.keyRelease(Keys.arrowLeft);
-        assertThat(regular.getMoving(), is(nullValue()));
+        behavior.keyPress(Keys.arrowLeft);
+        behavior.keyRelease(Keys.arrowLeft);
+
+        boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(false));
+        assertThat(movingRight, is(false));
     }
 
     /**
@@ -104,26 +105,20 @@ public class RegularBehaviorTest {
      */
     @Test
     public void testKeyReleaseRight() {
-        regular.keyPress(Keys.arrowRight);
-        assertThat(MovementBehavior.Directions.Right, is(regular.getFacing()));
-        assertThat(MovementBehavior.Directions.Right, is(regular.getMoving()));
-        regular.keyRelease(Keys.arrowRight);
-        assertThat(regular.getMoving(), is(nullValue()));
+        behavior.keyPress(Keys.arrowRight);
+        behavior.keyRelease(Keys.arrowRight);
+
+        boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(false));
+        assertThat(movingRight, is(false));
     }
 
-    /**
-     * Tests that for the gravity method is called.
-     *
-     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
-     *                   in the constructor.
-     */
     @Test
     public void testApplyGravity() throws Exception {
-        Whitebox.invokeMethod(regular, "applyGravity", 0d);
-
+        Whitebox.invokeMethod(behavior, "applyGravity", 1d);
         Mockito.verify(serviceLocator, Mockito.times(1)).getConstants();
         Mockito.verify(constants, Mockito.times(1)).getGravityAcceleration();
-        assertThat(regular.getVerticalSpeed(), is(.5));
     }
 
     /**
@@ -135,7 +130,7 @@ public class RegularBehaviorTest {
     public void testGetVerticalSpeed() throws Exception {
         Field vSpeed = RegularBehavior.class.getDeclaredField("vSpeed");
         vSpeed.setAccessible(true);
-        assertThat(regular.getVerticalSpeed(), is(vSpeed.get(regular)));
+        assertThat(behavior.getVerticalSpeed(), is(vSpeed.get(behavior)));
     }
 
     /**
@@ -143,9 +138,9 @@ public class RegularBehaviorTest {
      */
     @Test
     public void testSetVerticalSpeed() {
-        assertThat(regular.getVerticalSpeed(), is(0d));
-        regular.setVerticalSpeed(5d);
-        assertThat(regular.getVerticalSpeed(), is(5d));
+        assertThat(behavior.getVerticalSpeed(), is(0d));
+        behavior.setVerticalSpeed(5d);
+        assertThat(behavior.getVerticalSpeed(), is(5d));
     }
 
     /**
@@ -153,9 +148,17 @@ public class RegularBehaviorTest {
      */
     @Test
     public void testGetMoving() {
-        assertThat(regular.getMoving(), is(nullValue()));
-        regular.keyPress(Keys.arrowRight);
-        assertThat(regular.getMoving(), is(MovementBehavior.Directions.Right));
+        boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(false));
+        assertThat(movingRight, is(false));
+
+        behavior.keyPress(Keys.arrowRight);
+
+        movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(false));
+        assertThat(movingRight, is(true));
     }
 
     /**
@@ -163,9 +166,8 @@ public class RegularBehaviorTest {
      */
     @Test
     public void testGetFacing() {
-        assertThat(regular.getFacing(), is(nullValue()));
-        regular.keyPress(Keys.arrowRight);
-        assertThat(regular.getFacing(), is(MovementBehavior.Directions.Right));
+        behavior.keyPress(Keys.arrowRight);
+        assertThat(behavior.getFacing(), is(MovementBehavior.Directions.Right));
     }
 
     /**
@@ -173,7 +175,7 @@ public class RegularBehaviorTest {
      */
     @Test
     public void testPerformPowerupOnMove() {
-        regular.move(0d);
+        behavior.move(0d);
         Mockito.verify(doodle, Mockito.times(1)).getPowerup();
         Mockito.verify(powerup, Mockito.times(1)).perform(PowerupOccasion.constant);
     }
@@ -185,10 +187,10 @@ public class RegularBehaviorTest {
      *           in the constructor.
      */
     @Test
-    public void animatePullInLegsTest() throws Exception {
-        regular.setVerticalSpeed(-16);
-        Whitebox.invokeMethod(regular, "animate", 0d);
-        Mockito.verify(doodle, Mockito.times(1)).setSprite(regular.getFacing(), true);
+    public void animateCallsUpdateActiveSpriteTest() throws Exception {
+        behavior.setVerticalSpeed(-16);
+        Whitebox.invokeMethod(behavior, "animate", 0d);
+        Mockito.verify(doodle, Mockito.times(1)).updateActiveSprite();
     }
 
     /**
@@ -199,17 +201,10 @@ public class RegularBehaviorTest {
      */
     @Test
     public void moveHorizontallyLeftTest() throws Exception {
-        Field hSpeedField = RegularBehavior.class.getDeclaredField("hSpeed");
-        Field horAccField = RegularBehavior.class.getDeclaredField("HORIZONTAL_ACCELERATION");
-        hSpeedField.setAccessible(true);
-        horAccField.setAccessible(true);
-
-        double oldHSpeed = (double) hSpeedField.get(regular);
-        double expectedValue = oldHSpeed - (double) horAccField.get(regular);
-
-        regular.keyPress(Keys.arrowLeft);
-        Whitebox.invokeMethod(regular, "moveHorizontally", 0d);
-        assertThat(hSpeedField.get(regular), is(expectedValue));
+        Whitebox.setInternalState(behavior, "movingLeft", true);
+        Whitebox.invokeMethod(behavior, "moveHorizontally", 1d);
+        double hSpeed = Whitebox.getInternalState(behavior, "hSpeed");
+        assertTrue(hSpeed < 0);
     }
 
     /**
@@ -220,17 +215,10 @@ public class RegularBehaviorTest {
      */
     @Test
     public void moveHorizontallyRightTest() throws Exception {
-        Field hSpeedField = RegularBehavior.class.getDeclaredField("hSpeed");
-        Field horAccField = RegularBehavior.class.getDeclaredField("HORIZONTAL_ACCELERATION");
-        hSpeedField.setAccessible(true);
-        horAccField.setAccessible(true);
-
-        double oldHSpeed = (double) hSpeedField.get(regular);
-        double expectedValue = oldHSpeed + (double) horAccField.get(regular);
-
-        regular.keyPress(Keys.arrowRight);
-        Whitebox.invokeMethod(regular, "moveHorizontally", 0d);
-        assertThat(hSpeedField.get(regular), is(expectedValue));
+        Whitebox.setInternalState(behavior, "movingRight", true);
+        Whitebox.invokeMethod(behavior, "moveHorizontally", 1d);
+        double hSpeed = Whitebox.getInternalState(behavior, "hSpeed");
+        assertTrue(hSpeed > 0);
     }
 
     /**
@@ -246,13 +234,13 @@ public class RegularBehaviorTest {
         hSpeedField.setAccessible(true);
         horAccField.setAccessible(true);
 
-        double oldHSpeed = (double) hSpeedField.get(regular);
+        double oldHSpeed = (double) hSpeedField.get(behavior);
 
-        regular.keyPress(Keys.arrowLeft);
-        Whitebox.invokeMethod(regular, "moveHorizontally", 0d);
-        regular.keyRelease(Keys.arrowLeft);
-        Whitebox.invokeMethod(regular, "moveHorizontally", 0d);
-        assertThat(hSpeedField.get(regular), is(oldHSpeed));
+        behavior.keyPress(Keys.arrowLeft);
+        Whitebox.invokeMethod(behavior, "moveHorizontally", 0d);
+        behavior.keyRelease(Keys.arrowLeft);
+        Whitebox.invokeMethod(behavior, "moveHorizontally", 0d);
+        assertThat(hSpeedField.get(behavior), is(oldHSpeed));
     }
 
     /**
@@ -268,19 +256,14 @@ public class RegularBehaviorTest {
         hSpeedField.setAccessible(true);
         horAccField.setAccessible(true);
 
-        double oldHSpeed = (double) hSpeedField.get(regular);
+        double oldHSpeed = (double) hSpeedField.get(behavior);
 
-        regular.keyPress(Keys.arrowRight);
-        Whitebox.invokeMethod(regular, "moveHorizontally", 0d);
-        regular.keyRelease(Keys.arrowRight);
-        Whitebox.invokeMethod(regular, "moveHorizontally", 0d);
-        assertThat(hSpeedField.get(regular), is(oldHSpeed));
+        behavior.keyPress(Keys.arrowRight);
+        Whitebox.invokeMethod(behavior, "moveHorizontally", 0d);
+        behavior.keyRelease(Keys.arrowRight);
+        Whitebox.invokeMethod(behavior, "moveHorizontally", 0d);
+        assertThat(hSpeedField.get(behavior), is(oldHSpeed));
     }
 
-    @After
-    public void cleanUp() {
-        serviceLocator = null;
-        doodle = null;
-    }
 }
 

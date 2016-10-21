@@ -72,11 +72,8 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
 
     /**
      * Set the sprite pack of the doodle.
-     *
-     * @param direction The direction is Doodle is going to
-     * @param falling   True if the doodle is going down
      */
-    void setSprite(final MovementBehavior.Directions direction, final boolean falling);
+    void updateActiveSprite();
 
     /**
      * Increase the sprite scalar for the Doodle.
@@ -121,11 +118,16 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     World getWorld();
 
     /**
-     * Get the keys for the Doodle.
-     *
-     * @return An array of Keys.
+     * Get the key for the Doodle to move to the left.
+     * @return The Key the Doodle uses to move to the left.
      */
-    Keys[] getKeys();
+    Keys getKeyLeft();
+
+    /**
+     * Get the key for the Doodle to move to the right.
+     * @return The Key the Doodle uses to move to the right.
+     */
+    Keys getKeyRight();
 
     /**
      * Set the keys the Doodle react to.
