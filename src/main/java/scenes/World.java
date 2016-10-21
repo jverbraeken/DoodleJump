@@ -363,9 +363,9 @@ public class World implements IScene {
 
             ISprite pauseSprite = World.this.serviceLocator.getSpriteFactory().getPauseButtonSprite();
             final int gameWidth = World.this.serviceLocator.getConstants().getGameWidth();
-            int pauseX = (int) (gameWidth - pauseSprite.getWidth() * this.scaling - World.PAUSE_OFFSET);
-            int pauseY = (int) (this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d -
-                    (double) pauseSprite.getHeight() / 2d);
+            double pauseX = 1d - pauseSprite.getWidth() * this.scaling / gameWidth - World.PAUSE_OFFSET * this.scaling / gameWidth;
+            double pauseY = this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d / gameWidth -
+                    (double) pauseSprite.getHeight() * this.scaling / 2d / gameWidth;
             this.pauseButton = World.this.serviceLocator.getButtonFactory().createPauseButton(pauseX, pauseY);
         }
 

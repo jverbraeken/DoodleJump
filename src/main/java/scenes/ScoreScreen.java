@@ -72,9 +72,7 @@ import java.util.List;
         this.top = spriteFactory.getScoreScreenTop();
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
-        int menuButtonX = (int) (sL.getConstants().getGameWidth() * MENU_BUTTON_X);
-        int menuButtonY = (int) (sL.getConstants().getGameHeight() * MENU_BUTTON_Y);
-        this.menuButton = buttonFactory.createMainMenuButton(menuButtonX, menuButtonY);
+        this.menuButton = buttonFactory.createMainMenuButton(ScoreScreen.MENU_BUTTON_X, ScoreScreen.MENU_BUTTON_Y);
 
         entryHeight = (int) (serviceLocator.getConstants().getGameHeight() * ENTRY_HEIGHT);
         scoreListTopY = this.top.getHeight() + scoreListTopYOffset;
