@@ -163,7 +163,7 @@ public class RegularBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void applyGravity(final double delta) {
-        this.vSpeed += this.serviceLocator.getConstants().getGravityAcceleration();
+        this.vSpeed += this.serviceLocator.getConstants().getGravityAcceleration() * delta;
         this.doodle.addYPos(this.vSpeed);
     }
 
@@ -173,14 +173,14 @@ public class RegularBehavior implements MovementBehavior {
      */
     private void moveHorizontally(final double delta) {
         if (this.movingLeft && this.hSpeed > -RegularBehavior.HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed -= RegularBehavior.HORIZONTAL_ACCELERATION;
+            this.hSpeed -= RegularBehavior.HORIZONTAL_ACCELERATION * delta;
         } else if (this.movingRight && this.hSpeed < RegularBehavior.HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION;
+            this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION * delta;
         } else {
             if (this.hSpeed < 0) {
-                this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION;
+                this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION * delta;
             } else if (this.hSpeed > 0) {
-                this.hSpeed -= RegularBehavior.HORIZONTAL_ACCELERATION;
+                this.hSpeed -= RegularBehavior.HORIZONTAL_ACCELERATION * delta;
             }
         }
 

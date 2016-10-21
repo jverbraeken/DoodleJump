@@ -179,7 +179,8 @@ public class UnderwaterBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void applyGravity(final double delta) {
-        this.vSpeed += UnderwaterBehavior.RELATIVE_GRAVITY * this.serviceLocator.getConstants().getGravityAcceleration();
+        final double gravityAcceleration = this.serviceLocator.getConstants().getGravityAcceleration();
+        this.vSpeed += UnderwaterBehavior.RELATIVE_GRAVITY * gravityAcceleration * delta;
         this.doodle.addYPos(this.vSpeed);
     }
 
@@ -189,9 +190,9 @@ public class UnderwaterBehavior implements MovementBehavior {
      */
     private void moveHorizontally(final double delta) {
         if (this.movingLeft && this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed -= RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
+            this.hSpeed -= RELATIVE_SPEED * HORIZONTAL_ACCELERATION * delta;
         } else if (this.movingRight && this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed += RELATIVE_SPEED * HORIZONTAL_ACCELERATION;
+            this.hSpeed += RELATIVE_SPEED * HORIZONTAL_ACCELERATION * delta;
         }
 
         doodle.addXPos((int) this.hSpeed);

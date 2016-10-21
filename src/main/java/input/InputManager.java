@@ -126,7 +126,6 @@ public final class InputManager implements IInputManager {
 
         Keys key = KeyCode.getKey(event.getKeyCode());
         List<IKeyInputObserver> observers = this.keyInputObservers.getOrDefault(key, InputManager.EMPTY_LIST);
-        System.out.println(observers.size() + " - " + key);
         for (IKeyInputObserver observer : observers) {
             observer.keyPress(KeyCode.getKey(event.getKeyCode()));
         }

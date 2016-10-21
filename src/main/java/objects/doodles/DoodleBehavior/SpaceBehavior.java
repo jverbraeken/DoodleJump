@@ -177,7 +177,8 @@ public class SpaceBehavior implements MovementBehavior {
      * @param delta Delta time since previous frame.
      */
     private void applyGravity(final double delta) {
-        this.vSpeed += SpaceBehavior.RELATIVE_GRAVITY * this.serviceLocator.getConstants().getGravityAcceleration();
+        final double gravityAcceleration = this.serviceLocator.getConstants().getGravityAcceleration();
+        this.vSpeed += SpaceBehavior.RELATIVE_GRAVITY * gravityAcceleration * delta;
         this.doodle.addYPos(this.vSpeed);
     }
 
@@ -188,9 +189,9 @@ public class SpaceBehavior implements MovementBehavior {
      */
     private void moveHorizontally(final double delta) {
         if (this.movingLeft && this.hSpeed > -SpaceBehavior.HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed -= SpaceBehavior.RELATIVE_SPEED_SQUARED * SpaceBehavior.HORIZONTAL_ACCELERATION;
+            this.hSpeed -= SpaceBehavior.RELATIVE_SPEED_SQUARED * SpaceBehavior.HORIZONTAL_ACCELERATION * delta;
         } else if (this.movingRight && this.hSpeed < SpaceBehavior.HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed += SpaceBehavior.RELATIVE_SPEED_SQUARED * SpaceBehavior.HORIZONTAL_ACCELERATION;
+            this.hSpeed += SpaceBehavior.RELATIVE_SPEED_SQUARED * SpaceBehavior.HORIZONTAL_ACCELERATION * delta;
         }
 
         doodle.addXPos((int) this.hSpeed);
