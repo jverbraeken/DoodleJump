@@ -40,12 +40,12 @@ import java.util.EnumMap;
     /**
      * The chance of the trampoline spawning.
      */
-    private static final double TRAMPOLINE_POWERUP = 0.008;
+    private static final double TRAMPOLINE_POWERUP = 0.1;
 
     /**
      * The chance of the jetpack spawning.
      */
-    private static final double JETPACK_POWERUP = 0.0001;
+    private static final double JETPACK_POWERUP = 0.003;
 
     /**
      * The chance of the propellor spawning.
@@ -67,11 +67,6 @@ import java.util.EnumMap;
      */
     private static final double SPRINGSHOES_POWERUP = 0.004;
 
-    /**
-     * The chance of the space rocket spawning.
-     */
-    private static final double SPACEROCKET_POWERUP = 0.3;
-
 
     static {
         // Platforms
@@ -89,7 +84,6 @@ import java.util.EnumMap;
         WEIGTS_MAP.put(ElementTypes.sizeUp, SIZEUP_POWERUP);
         WEIGTS_MAP.put(ElementTypes.sizeDown, SIZEDOWN_POWERUP);
         WEIGTS_MAP.put(ElementTypes.springShoes, SPRINGSHOES_POWERUP);
-        WEIGTS_MAP.put(ElementTypes.spaceRocket, SPACEROCKET_POWERUP);
 
     }
 

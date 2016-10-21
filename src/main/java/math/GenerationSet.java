@@ -110,8 +110,6 @@ public class GenerationSet implements IWeightsSet {
                 return powerupFactory.createSizeDown(0, 0);
             case ("springShoes"):
                 return powerupFactory.createSpringShoes(0, 0);
-            case ("spaceRocket"):
-                return powerupFactory.createSpaceRocket(0, 0);
             default:
                 return null;
         }

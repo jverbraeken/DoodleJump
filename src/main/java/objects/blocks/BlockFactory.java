@@ -112,9 +112,8 @@ public final class BlockFactory implements IBlockFactory {
                 WeightsMap.getWeight(ElementTypes.propellor),
                 WeightsMap.getWeight(ElementTypes.sizeUp),
                 WeightsMap.getWeight(ElementTypes.sizeDown),
-                WeightsMap.getWeight(ElementTypes.springShoes),
-                WeightsMap.getWeight(ElementTypes.spaceRocket));
-        List<String> powerups = Arrays.asList("spring", "trampoline", "jetpack", "propellor", "sizeUp", "sizeDown", "springShoes", "spaceRocket");
+                WeightsMap.getWeight(ElementTypes.springShoes));
+        List<String> powerups = Arrays.asList("spring", "trampoline", "jetpack", "propellor", "sizeUp", "sizeDown", "springShoes");
 
         powerupGenerationSet = new GenerationSet(serviceLocator, powerupWeights, powerups);
 

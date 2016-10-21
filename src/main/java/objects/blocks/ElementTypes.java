@@ -57,11 +57,6 @@ package objects.blocks;
     /**
      * The springShoes powerup.
      */
-    springShoes,
-
-    /**
-     * The spaceRocket powerup.
-     */
-    spaceRocket
+    springShoes
 
 }
