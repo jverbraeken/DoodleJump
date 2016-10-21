@@ -30,7 +30,7 @@ public class HighScoreList {
     /**
      * A list of high scores for the game.
      */
-    private final ArrayList<HighScore> highScores = new ArrayList<>(MAX_ENTRIES + 1);
+    private final List<HighScore> highScores = new ArrayList<>(MAX_ENTRIES + 1);
 
     /**
      * Package protected constructor allowing Game to make an instance.

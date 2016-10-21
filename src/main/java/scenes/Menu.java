@@ -82,8 +82,8 @@ public class Menu implements IScene {
         this.cover = spriteFactory.getStartCoverSprite();
 
         IConstants constants = sL.getConstants();
-        int gameWidth = constants.getGameWidth();
-        int gameHeight = constants.getGameHeight();
+        final int gameWidth = constants.getGameWidth();
+        final int gameHeight = constants.getGameHeight();
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         this.buttons.add(buttonFactory.createPlayButton(

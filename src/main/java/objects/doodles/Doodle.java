@@ -31,35 +31,35 @@ public class Doodle extends AGameObject implements IDoodle {
      * The height of the legs of the doodle. When this value is very large, for example 1,
      * the doodle can jump on a platform if it only hits it with its head.
      */
-    private static final double LEGS_HEIGHT = .8;
+    private static final double LEGS_HEIGHT = .8d;
     /**
      * Where the hitbox of the doodle starts in relation to the sprite width.
      */
-    private static final double WIDTH_HIT_BOX_LEFT = .3;
+    private static final double WIDTH_HIT_BOX_LEFT = .3d;
     /**
      * Where the hitbox of the doodle ends in relation to the sprite width.
      */
-    private static final double WIDTH_HIT_BOX_RIGHT = .8;
+    private static final double WIDTH_HIT_BOX_RIGHT = .8d;
     /**
      * An additional offset for the top of the hitbox for the Doodle.
      */
-    private static final int TOP_HITBOX_OFFSET = 25;
+    private static final double TOP_HITBOX_OFFSET = 25d;
     /**
      * Amount of star frames.
      */
-    private static final double STAR_FRAMES = 9;
+    private static final double STAR_FRAMES = 9d;
     /**
      * First star animation in frames.
      */
-    private static final double FIRST_STAR_FRAME = 3;
+    private static final double FIRST_STAR_FRAME = 3d;
     /**
      * Second star animation in frames.
      */
-    private static final double SECOND_STAR_FRAME = 6;
+    private static final double SECOND_STAR_FRAME = 6d;
     /**
      * The scalar for the Stars sprite.
      */
-    private static final double STARS_SCALAR = .7;
+    private static final double STARS_SCALAR = .7d;
     /**
      * The scalar for the Stars sprite.
      */
@@ -104,7 +104,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * The keys the Doodle responds to.
      */
-    private Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
+    private Keys[] keys = new Keys[] { Keys.arrowLeft, Keys.arrowRight };
 
     /**
      * Doodle constructor.
@@ -459,7 +459,7 @@ public class Doodle extends AGameObject implements IDoodle {
         int spriteHeight = (int) (sprite.getHeight() * this.spriteScalar);
         int left = (int) (spriteWidth * WIDTH_HIT_BOX_LEFT);
         int right = (int) (spriteWidth * WIDTH_HIT_BOX_RIGHT);
-        this.setHitBox(left, Doodle.TOP_HITBOX_OFFSET, right, spriteHeight);
+        this.setHitBox(left, (int) Doodle.TOP_HITBOX_OFFSET, right, spriteHeight);
     }
 
     /**
