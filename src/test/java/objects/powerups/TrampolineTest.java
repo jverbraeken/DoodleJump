@@ -28,7 +28,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
  */
 public class TrampolineTest {
 
-    private IAudioManager audioManager;
+    /*private IAudioManager audioManager;
     private IServiceLocator serviceLocator;
     private ISpriteFactory spriteFactory;
     private ISprite sprite, usedSprite;
@@ -41,9 +41,9 @@ public class TrampolineTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    /**
+    *//**
      * Initialisation of variables for the test cases.
-     */
+     *//*
     @Before
     public void init() {
         serviceLocator = mock(IServiceLocator.class);
@@ -70,12 +70,12 @@ public class TrampolineTest {
         when(doodle.getVerticalSpeed()).thenReturn(1d);
     }
 
-    /**
+    *//**
      * Tests if the playFeder method of the audio manager is called when playSound method is called.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
-     */
+     *//*
     @Test
     public void testPlaySound() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
@@ -83,12 +83,12 @@ public class TrampolineTest {
         verify(audioManager).playTrampoline();
     }
 
-    /**
+    *//**
      * Tests if the drawSprite method is called when the render method of the trampoline is called.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
-     */
+     *//*
     @Test
     public void testRenderer() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
@@ -96,12 +96,12 @@ public class TrampolineTest {
         verify(renderer).drawSprite(sprite, (int) trampoline.getXPos(), (int) trampoline.getYPos());
     }
 
-    /**
+    *//**
      * Tests if the collide method of the doodle is called when the method collidesWith of the trampoline is called.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
-     */
+     *//*
     @Test
     public void testCollidesWith() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
@@ -109,12 +109,12 @@ public class TrampolineTest {
         verify(doodle).collide(trampoline);
     }
 
-    /**
+    *//**
      * Tests if the collide method returns a NullPointerException is the parameter is null.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
-     */
+     *//*
     @Test
     public void testCollidesWith2() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
@@ -122,12 +122,12 @@ public class TrampolineTest {
         trampoline.collidesWith(null);
     }
 
-    /**
+    *//**
      * Tests is the Y position of the spring is properly adjusted when the animate method is called.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
-     */
+     *//*
     @Test
     public void testAnimate() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 30, 653);
@@ -136,17 +136,17 @@ public class TrampolineTest {
         assertEquals(633, trampoline.getYPos(), 0.001);
     }
 
-    /**
+    *//**
      * Tests if the getBoost method of the trampoline object properly returns the value of BOOST.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
-     */
+     *//*
     @Test
     public void testGetBoost() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
         double boost = Whitebox.getInternalState(trampoline, "boost", AJumpablePowerup.class);
         assertEquals(boost, trampoline.getBoost(), 0.001);
-    }
+    }*/
 
 }

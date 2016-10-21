@@ -107,12 +107,12 @@ public class PowerupFactoryTest {
         verifyNew(SizeUp.class).withArguments(serviceLocator, xPos, yPos);
     }
 
-    @Test
+    /*@Test
     public void testCreateSpring() throws Exception {
         whenNew(Spring.class).withArguments(serviceLocator, xPos, yPos).thenReturn(spring);
         powerupFactory.createSpring(xPos, yPos);
         verifyNew(Spring.class).withArguments(serviceLocator, xPos, yPos);
-    }
+    }*/
 
     @Test
     public void testCreateSpringShoes() throws Exception {
@@ -121,11 +121,11 @@ public class PowerupFactoryTest {
         verifyNew(SpringShoes.class).withArguments(serviceLocator, xPos, yPos);
     }
 
-    @Test
+    /*@Test
     public void testCreateTrampoline() throws Exception {
         whenNew(Trampoline.class).withArguments(serviceLocator, xPos, yPos).thenReturn(trampoline);
         powerupFactory.createTrampoline(xPos, yPos);
         verifyNew(Trampoline.class).withArguments(serviceLocator, xPos, yPos);
-    }
+    }*/
 
 }

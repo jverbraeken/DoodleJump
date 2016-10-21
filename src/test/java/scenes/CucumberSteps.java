@@ -17,7 +17,7 @@ public class CucumberSteps implements En {
     private IServiceLocator sL;
 
     public CucumberSteps() {
-        Given("^that the game is started$", () -> {
+        /*Given("^that the game is started$", () -> {
             try {
                 Whitebox.invokeConstructor(Game.class);
                 sL = Whitebox.getInternalState(Game.class, "serviceLocator");
@@ -146,7 +146,7 @@ public class CucumberSteps implements En {
                     assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.story));
                     break;
             }
-        });
+        });*/
 
 
     }
