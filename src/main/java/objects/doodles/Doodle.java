@@ -248,6 +248,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void setPowerup(final IPowerup item) {
+        this.getPowerup().endPowerup();
         this.powerup = item;
     }
 

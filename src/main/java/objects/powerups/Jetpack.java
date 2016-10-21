@@ -202,7 +202,8 @@ import system.IServiceLocator;
     /**
      * Ends the powerup.
      */
-    private void endPowerup() {
+    @Override
+    public void endPowerup() {
         this.setSprite(spritePack[spritePack.length - 1]);
         this.vSpeed = INITIAL_DROP_SPEED;
 
