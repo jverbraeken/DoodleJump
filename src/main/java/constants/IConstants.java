@@ -48,10 +48,10 @@ public interface IConstants {
     String getLogFile();
 
     /**
-     * Get the file where the high scores are saved.
+     * Get the file where all progression of the player is saved.
      *
-     * @return The name of the high scores file.
+     * @return The name of the save file.
      */
-    String getHighScoresFilePath();
+    String getSaveFilePath();
 
 }

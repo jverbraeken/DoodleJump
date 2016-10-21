@@ -7,7 +7,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the Propeller powerup.
  */
-/* package */ final class Propeller extends APowerup {
+/* package */ final class Propeller extends APowerup implements IEquipmentPowerup {
 
     /**
      * The acceleration provided by the Propeller.

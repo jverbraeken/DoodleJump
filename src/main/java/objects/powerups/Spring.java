@@ -2,6 +2,7 @@ package objects.powerups;
 
 import objects.AGameObject;
 import objects.doodles.IDoodle;
+import progression.ProgressionObservers;
 import resources.audio.IAudioManager;
 import system.IServiceLocator;
 

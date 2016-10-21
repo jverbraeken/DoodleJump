@@ -1,4 +1,4 @@
-package system;
+package progression;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -19,22 +19,24 @@ public final class HighScore implements Comparable<HighScore> {
 
     /**
      * Package protected constructor so only Game can create a score.
-     * @param n The name for the score.
-     * @param s The actual score.
+     *
+     * @param name The name for the score.
+     * @param score The actual score.
      */
-    /* package */ HighScore(final String n, final double s) {
-        this.name = n;
-        this.score = (int) s;
+    /* package */ HighScore(final String name, final double score) {
+        this.name = name;
+        this.score = (int) score;
     }
 
     /**
      * Package protected constructor so only Game can create a score.
-     * @param n The name for the score.
-     * @param s The actual score.
+     *
+     * @param name The name for the score.
+     * @param score The actual score.
      */
-    /* package */ HighScore(final String n, final String s) {
-        this.name = n;
-        this.score = Integer.parseInt(s);
+    /* package */ HighScore(final String name, final String score) {
+        this.name = name;
+        this.score = Integer.parseInt(score);
     }
 
     /**

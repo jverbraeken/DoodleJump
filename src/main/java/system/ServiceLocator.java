@@ -22,6 +22,10 @@ import objects.enemies.EnemyFactory;
 import objects.enemies.IEnemyFactory;
 import objects.powerups.IPowerupFactory;
 import objects.powerups.PowerupFactory;
+import progression.IMissionFactory;
+import progression.IProgressionManager;
+import progression.MissionFactory;
+import progression.ProgressionManager;
 import rendering.CameraFactory;
 import rendering.ICameraFactory;
 import rendering.IRenderer;
@@ -60,6 +64,7 @@ import scenes.SceneFactory;
 
     /**
      * Getter of the singleton service locator.
+     *
      * @return the service locator.
      */
     public static IServiceLocator getServiceLocator() {

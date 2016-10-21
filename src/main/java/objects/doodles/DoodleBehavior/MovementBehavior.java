@@ -8,6 +8,11 @@ import input.IKeyInputObserver;
 public interface MovementBehavior extends IKeyInputObserver {
 
     /**
+     * Update the actions of the Doodle.
+     */
+    void updateActions();
+
+    /**
      * Return the vertical speed.
      *
      * @return the speed.
@@ -35,11 +40,10 @@ public interface MovementBehavior extends IKeyInputObserver {
     void move(final double delta);
 
     /**
-     * Get the direction we are moving.
-     *
-     * @return the direction
+     * Get the jumping threshold according to the behaviour.
+     * @return A double representing the jumping threshold.
      */
-    Directions getMoving();
+    double getJumpingThreshold();
 
     /**
      * Enum with Directions for the Doodle.

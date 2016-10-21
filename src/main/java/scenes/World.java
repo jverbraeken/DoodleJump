@@ -236,7 +236,7 @@ public class World implements IScene {
      * @param score The score the player got.
      */
     public final void endGameInstance(final double score) {
-        Game.highScores.addHighScore("Doodle", score);
+        serviceLocator.getProgressionManager().addHighScore("Doodle", score);
         Game.setScene(serviceLocator.getSceneFactory().createKillScreen());
     }
 
