@@ -222,9 +222,6 @@ import java.util.ArrayList;
      */
     @Override
     public final void stop() {
-        for (IButton button : buttons) {
-            button.deregister();
-        }
         logger.info("The choose mode scene is no longer displaying");
     }
 
@@ -255,7 +252,7 @@ import java.util.ArrayList;
 
         renderer.drawTextHUD((int) (POWERUP_INFO_X * width), (int) (POWERUP_INFO_Y * height), POWERUP_INFO_LEVEL, TextAlignment.left, Color.black);
         renderer.drawTextHUD((int) (POWERUP_INFO_X2 * width), (int) (POWERUP_INFO_Y * height), POWERUP_INFO_LEVEL, TextAlignment.right, Color.black);
-        
+
         drawPowerupText(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y);
         drawPowerupText(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y);
         drawPowerupText(Powerups.sizeDown, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y);
@@ -272,17 +269,17 @@ import java.util.ArrayList;
         final IConstants constants = serviceLocator.getConstants();
         final int width = constants.getGameWidth();
         final int height = constants.getGameHeight();
-        
+
         final int level = progressionManager.getPowerupLevel(powerup);
         String string;
-        if (progressionManager.getPowerupLevel(powerup) < powerup.getMaxLevel() - 1) {
+        if (level < powerup.getMaxLevel()) {
             final int price = powerup.getPrice(level + 1);
-            string = (level + 1) + " - " + price;
+            string = ((level == 0) ? "X" : level) + " - " + price;
         }
         else {
-            string = Integer.toString(level + 1);
+            string = Integer.toString(level);
         }
-        final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup)).getHeight() / 2;
+        final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup) + 1).getHeight() / 2;
         renderer.drawTextHUD((int) (jetpackButtonX * width) + BUTTON_TEXT_OFFSET, (int) (jetpackButtonY * height) + yOffset, string, Color.black);
     }
 

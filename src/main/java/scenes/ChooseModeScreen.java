@@ -63,10 +63,6 @@ import java.util.ArrayList;
      * An ArrayList of all the buttons.
      */
     private final ArrayList<IButton> buttons = new ArrayList<>();
-    /**
-     * Is the choose mode screen active, should it be displayed.
-     */
-    private boolean active = false;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -118,11 +114,6 @@ import java.util.ArrayList;
      */
     @Override
     public final void start() {
-        for (IButton button : buttons) {
-            button.register();
-        }
-
-        active = true;
         logger.info("The choose mode scene is now displaying");
     }
 
@@ -131,11 +122,6 @@ import java.util.ArrayList;
      */
     @Override
     public final void stop() {
-        for (IButton button : buttons) {
-            button.deregister();
-        }
-
-        active = false;
         logger.info("The choose mode scene is no longer displaying");
     }
 

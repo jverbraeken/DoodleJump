@@ -26,9 +26,13 @@ public final class ButtonFactory implements IButtonFactory {
      * The logger.
      */
     private final ILogger logger;
+    private final int gameWidth;
+    private final int gameHeight;
 
     private ButtonFactory(IServiceLocator serviceLocator) {
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+        this.gameWidth = serviceLocator.getConstants().getGameWidth();
+        this.gameHeight = serviceLocator.getConstants().getGameHeight();
     }
 
     /**
@@ -126,12 +130,12 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createMainMenuButton(final int x, final int y) {
+    public IButton createMainMenuButton(final double x, final double y) {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getMenuButtonSprite();
         Runnable mainMenu = () -> Game.setScene(ButtonFactory.serviceLocator.getSceneFactory().createMainMenu());
-        return new Button(ButtonFactory.serviceLocator, x, y, buttonSprite, mainMenu, "mainMenu");
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, mainMenu, "mainMenu");
     }
 
     /**
@@ -247,14 +251,15 @@ public final class ButtonFactory implements IButtonFactory {
         final int currentPowerupLevel = progressionManager.getPowerupLevel(powerup);
 
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getPowerupSprite(powerup, currentPowerupLevel);
+        ISprite buttonSprite = spriteFactory.getPowerupSprite(powerup, currentPowerupLevel + 1);
         Runnable shop = () -> {
             final int powerupLevel = progressionManager.getPowerupLevel(powerup);
-            if (powerupLevel + 1 < powerup.getMaxLevel()) {
+            if (powerupLevel < powerup.getMaxLevel()) {
                 final int price = powerup.getPrice(powerupLevel + 1);
                 if (progressionManager.getCoins() >= price) {
                     progressionManager.decreaseCoins(price);
                     progressionManager.increasePowerupLevel(powerup);
+                    Game.setScene(ButtonFactory.serviceLocator.getSceneFactory().createShopScreen());
                 }
             }
 

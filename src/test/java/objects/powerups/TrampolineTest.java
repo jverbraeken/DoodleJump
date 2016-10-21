@@ -59,7 +59,7 @@ public class TrampolineTest {
         when(loggerFactory.createLogger(Trampoline.class)).thenReturn(logger);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
-        when(spriteFactory.getTrampolineUsedSprite()).thenReturn(usedSprite);
+        //when(spriteFactory.getTrampolineUsedSprite()).thenReturn(usedSprite);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(sprite.getHeight()).thenReturn(20);

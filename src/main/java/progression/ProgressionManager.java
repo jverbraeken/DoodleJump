@@ -142,36 +142,6 @@ public final class ProgressionManager implements IProgressionManager {
      * {@inheritDoc}
      */
     @Override
-    public void alertObservers(final ProgressionObservers type) {
-        type.alertObservers();
-        while (finishedMissionsQueue.size() > 0) {
-            missions.remove(finishedMissionsQueue.remove());
-            createNewMission();
-        }
-        while (finishedProgressionObserversQueue.size() > 0) {
-            finishedProgressionObserversQueue.peek().type.removeObserver(finishedProgressionObserversQueue.remove().observer);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void alertObservers(final ProgressionObservers type, final double amount) {
-        type.alertObservers(amount);
-        while (finishedMissionsQueue.size() > 0) {
-            missions.remove(finishedMissionsQueue.remove());
-            createNewMission();
-        }
-        while (finishedProgressionObserversQueue.size() > 0) {
-            finishedProgressionObserversQueue.peek().type.removeObserver(finishedProgressionObserversQueue.remove().observer);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void alertMissionFinished(Mission mission) {
         if (!missions.contains(mission)) {
             final String error = "The mission that's said to be finished is not an active mission";
@@ -186,8 +156,11 @@ public final class ProgressionManager implements IProgressionManager {
      * {@inheritDoc}
      */
     @Override
-    public void removeObserver(final ProgressionObservers type, final IProgressionObserver observer) {
-        this.finishedProgressionObserversQueue.add(new FinishedProgressionObserverTuple(type, observer));
+    public void update() {
+        while (finishedMissionsQueue.size() > 0) {
+            missions.remove(finishedMissionsQueue.remove());
+            createNewMission();
+        }
     }
 
     /**
@@ -303,7 +276,7 @@ public final class ProgressionManager implements IProgressionManager {
         for (Powerups powerup : Powerups.values()) {
             powerupLevels.put(powerup, 0);
         }
-        powerupLevels.put(Powerups.spring, 1);
+        powerupLevels.replace(Powerups.spring, 1);
 
         coins = 0;
 
@@ -332,7 +305,6 @@ public final class ProgressionManager implements IProgressionManager {
             highScores.add(new HighScore(entry.getName(), entry.getScore()));
             logger.info("A highscore is added: " + entry.getName() + " - " + entry.getScore());
         }
-        updateHighScores();
 
         coins = json.getCoins();
         logger.info("Coins is set to: " + coins);
@@ -378,6 +350,7 @@ public final class ProgressionManager implements IProgressionManager {
                 powerupLevels.put(powerup, 0);
             }
         }
+        updateHighScores();
     }
 
     /**

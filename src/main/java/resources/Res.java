@@ -149,16 +149,20 @@ public final class Res implements IRes {
         sprites.put(Sprites.jetpack, SPRITE_PATH + "powerup-jetpack@2x.png");
         sprites.put(Sprites.spring, SPRITE_PATH + "powerup-spring@2x.png");
         sprites.put(Sprites.springUsed, SPRITE_PATH + "powerup-spring-used@2x.png");
+        sprites.put(Sprites.doubleSpring, SPRITE_PATH + "powerup-double-spring@2x.png");
+        sprites.put(Sprites.doubleSpringUsed, SPRITE_PATH + "powerup-double-spring-used@2x.png");
+        sprites.put(Sprites.titaniumSpring, SPRITE_PATH + "powerup-titanium-spring@2x.png");
+        sprites.put(Sprites.titaniumSpringUsed, SPRITE_PATH + "powerup-titanium-spring-used@2x.png");
         sprites.put(Sprites.springShoes, SPRITE_PATH + "powerup-springshoes-3@2x.png");
         sprites.put(Sprites.trampoline, SPRITE_PATH + "powerup-trampoline@2x.png");
         sprites.put(Sprites.trampolineUsed, SPRITE_PATH + "powerup-trampoline-used@2x.png");
+        sprites.put(Sprites.circusCannon, SPRITE_PATH + "powerup-circusCannon@2x.png");
+        sprites.put(Sprites.circusCannonUsed, SPRITE_PATH + "powerup-circusCannon-used@2x.png");
+        sprites.put(Sprites.rocketLauncher, SPRITE_PATH + "powerup-rocketLauncher@2x.png");
+        sprites.put(Sprites.rocketLauncherUsed, SPRITE_PATH + "powerup-rocketLauncher-used@2x.png");
         sprites.put(Sprites.shield, SPRITE_PATH + "powerup-shield@2x.png");
         sprites.put(Sprites.sizeUp, SPRITE_PATH + "powerup-size-up@2x.png");
         sprites.put(Sprites.sizeDown, SPRITE_PATH + "powerup-size-down@2x.png");
-        sprites.put(Sprites.cannon, SPRITE_PATH + "circuscannon-unused.png");
-        sprites.put(Sprites.cannonUsed, SPRITE_PATH + "circuscannon-used.png");
-        sprites.put(Sprites.rocketLauncher, SPRITE_PATH + "rocketlauncher-unused.png");
-        sprites.put(Sprites.rocketLauncherUsed, SPRITE_PATH + "rocketlauncher-used.png");
 
         // Passive
 
