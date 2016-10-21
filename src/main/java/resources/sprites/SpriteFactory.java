@@ -416,7 +416,6 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("checkstyle:magicnumber")
     @Override
     public ISprite[] getDigitSprites() {
         return new ISprite[] {
@@ -705,6 +704,38 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
+    public ISprite getCannonSprite() {
+        return getSprite(IRes.Sprites.cannon);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getCannonUsedSprite() {
+        return getSprite(IRes.Sprites.cannonUsed);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRocketLauncherSprite() {
+        return getSprite(IRes.Sprites.rocketLauncher);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRocketLauncherUsedSprite() {
+        return getSprite(IRes.Sprites.rocketLauncherUsed);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ISprite[] getJetpackActiveSprites() {
         ISprite[] sprites = new ISprite[9];
         sprites[0] = this.getSprite(IRes.Sprites.jetpack0);
@@ -760,6 +791,8 @@ public final class SpriteFactory implements ISpriteFactory {
     public ISprite getAvoidSprite() {
         return this.getSprite(IRes.Sprites.avoid);
     }
+
+
 
 
     // Score Screen
@@ -864,6 +897,50 @@ public final class SpriteFactory implements ISpriteFactory {
         return this.getSprite(IRes.Sprites.spaceMode);
     }
 
+    // Missions
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getAchievementSprite() {
+        return getSprite(IRes.Sprites.achievement);
+    }
+
+    // Coins
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getCoinSprite(final int digit) {
+        if (digit < 1 || digit > 10) {
+            throw new IllegalArgumentException("The coin animation sprites are between 1 and 10 (both inclusive)");
+        }
+        switch (digit) {
+            case 1:
+                return getSprite(IRes.Sprites.coin1);
+            case 2:
+                return getSprite(IRes.Sprites.coin2);
+            case 3:
+                return getSprite(IRes.Sprites.coin3);
+            case 4:
+                return getSprite(IRes.Sprites.coin4);
+            case 5:
+                return getSprite(IRes.Sprites.coin5);
+            case 6:
+                return getSprite(IRes.Sprites.coin6);
+            case 7:
+                return getSprite(IRes.Sprites.coin7);
+            case 8:
+                return getSprite(IRes.Sprites.coin8);
+            case 9:
+                return getSprite(IRes.Sprites.coin9);
+            case 10:
+                return getSprite(IRes.Sprites.coin10);
+        }
+        return null;
+    }
 
     // Miscellaneous
     /**

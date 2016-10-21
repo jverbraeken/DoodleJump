@@ -12,6 +12,8 @@ import objects.doodles.IDoodleFactory;
 import objects.doodles.Projectiles.IProjectileFactory;
 import objects.enemies.IEnemyFactory;
 import objects.powerups.IPowerupFactory;
+import progression.IMissionFactory;
+import progression.IProgressionManager;
 import rendering.ICameraFactory;
 import rendering.IRenderer;
 import resources.IRes;
@@ -57,6 +59,10 @@ public interface IServiceLocator {
 
     void provide(ILoggerFactory loggerFactory);
 
+    void provide(IProgressionManager progressionManager);
+
+    void provide(IMissionFactory missionFactory);
+
     void provide(ICameraFactory cameraFactory);
 
     void provide(IProjectileFactory projectileFactory);
@@ -92,6 +98,10 @@ public interface IServiceLocator {
     IConstants getConstants();
 
     ILoggerFactory getLoggerFactory();
+
+    IProgressionManager getProgressionManager();
+
+    IMissionFactory getMissionFactory();
 
     ICameraFactory getCameraFactory();
 

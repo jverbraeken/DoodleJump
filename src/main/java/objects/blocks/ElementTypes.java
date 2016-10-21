@@ -59,4 +59,14 @@ package objects.blocks;
      */
     springShoes,
 
+    /**
+     * The SpringCannon powerup.
+     */
+    cannon,
+
+    /**
+     * The RocketLauncher powerup.
+     */
+    rocketLauncher
+
 }

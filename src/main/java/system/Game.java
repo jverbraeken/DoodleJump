@@ -67,10 +67,6 @@ public final class Game {
      */
     private static ILogger logger;
     /**
-     * The high scores list for the Game.
-     */
-    public static HighScoreList highScores;
-    /**
      * The current frame.
      */
     private static JFrame frame;
@@ -158,7 +154,6 @@ public final class Game {
     private Game() {
         Game.serviceLocator = ServiceLocatorNoAudio.getServiceLocator();
         Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
-        Game.highScores = new HighScoreList(Game.serviceLocator);
     }
 
     /**
@@ -168,7 +163,6 @@ public final class Game {
     private Game(final IServiceLocator sL) {
         Game.serviceLocator = sL;
         Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
-        Game.highScores = new HighScoreList(Game.serviceLocator);
     }
 
     /**
@@ -232,7 +226,7 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        highScores.initHighScores();
+        serviceLocator.getProgressionManager().init();
 
 
         start();
@@ -319,6 +313,7 @@ public final class Game {
                 pauseScreen.update(delta);
             }
 
+
             panel.repaint();
             try {
                 Thread.sleep(FRAME_TIME - (now - System.nanoTime()) / ICalc.NANOSECONDS);
@@ -391,5 +386,4 @@ public final class Game {
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
     }
-
 }

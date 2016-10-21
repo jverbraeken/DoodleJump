@@ -18,7 +18,6 @@ public final class Res implements IRes {
      * The sprite path used to find the sprites.
      */
     private static final String SPRITE_PATH = "sprites/";
-
     /**
      * A map mapping Sprites enum to String containing the path to the sprite.
      */
@@ -93,7 +92,7 @@ public final class Res implements IRes {
 
         // Covers
         sprites.put(Sprites.background, SPRITE_PATH + "bck@2x.png");
-        sprites.put(Sprites.pauseCover, SPRITE_PATH + "pause-cover@2x.png");
+        sprites.put(Sprites.pauseCover, SPRITE_PATH + "pause-cover-3@2x.png");
         sprites.put(Sprites.startCover, SPRITE_PATH + "Default@2x.png");
 
         // Doodle
@@ -158,6 +157,13 @@ public final class Res implements IRes {
         sprites.put(Sprites.shield, SPRITE_PATH + "powerup-shield@2x.png");
         sprites.put(Sprites.sizeUp, SPRITE_PATH + "powerup-size-up@2x.png");
         sprites.put(Sprites.sizeDown, SPRITE_PATH + "powerup-size-down@2x.png");
+        sprites.put(Sprites.cannon, SPRITE_PATH + "circuscannon-unused.png");
+        sprites.put(Sprites.cannonUsed, SPRITE_PATH + "circuscannon-used.png");
+        sprites.put(Sprites.rocketLauncher, SPRITE_PATH + "rocketlauncher-unused.png");
+        sprites.put(Sprites.rocketLauncherUsed, SPRITE_PATH + "rocketlauncher-used.png");
+
+        // Passive
+
         sprites.put(Sprites.jetpack0, SPRITE_PATH + "jetpack-0@2x.png");
         sprites.put(Sprites.jetpack1, SPRITE_PATH + "jetpack-1@2x.png");
         sprites.put(Sprites.jetpack2, SPRITE_PATH + "jetpack-2@2x.png");
@@ -171,6 +177,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.propeller0, SPRITE_PATH + "propeller-0@2x.png");
         sprites.put(Sprites.propeller1, SPRITE_PATH + "propeller-1@2x.png");
         sprites.put(Sprites.propeller2, SPRITE_PATH + "propeller-2@2x.png");
+
 
         // Score screen
         sprites.put(Sprites.scoreScreenBottom, SPRITE_PATH + "high-scores-bottom@2x.png");
@@ -187,6 +194,21 @@ public final class Res implements IRes {
         sprites.put(Sprites.invertMode, SPRITE_PATH + "invert-mode@4x.png");
         sprites.put(Sprites.spaceMode, SPRITE_PATH + "space-mode@4x.png");
         sprites.put(Sprites.underwaterMode, SPRITE_PATH + "underwater-mode@4x.png");
+
+        // Coins
+        sprites.put(Sprites.coin1, SPRITE_PATH + "coin1.png");
+        sprites.put(Sprites.coin2, SPRITE_PATH + "coin2.png");
+        sprites.put(Sprites.coin3, SPRITE_PATH + "coin3.png");
+        sprites.put(Sprites.coin4, SPRITE_PATH + "coin4.png");
+        sprites.put(Sprites.coin5, SPRITE_PATH + "coin5.png");
+        sprites.put(Sprites.coin6, SPRITE_PATH + "coin6.png");
+        sprites.put(Sprites.coin7, SPRITE_PATH + "coin7.png");
+        sprites.put(Sprites.coin8, SPRITE_PATH + "coin8.png");
+        sprites.put(Sprites.coin9, SPRITE_PATH + "coin9.png");
+        sprites.put(Sprites.coin10, SPRITE_PATH + "coin10.png");
+
+        // Missions
+        sprites.put(Sprites.achievement, SPRITE_PATH + "achievement@2x.png");
 
         // Unimplemented
         sprites.put(Sprites.unimplemented, SPRITE_PATH + "unimplemented.jpg");

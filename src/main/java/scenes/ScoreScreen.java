@@ -4,14 +4,14 @@ import buttons.IButton;
 import buttons.IButtonFactory;
 import constants.IConstants;
 import logging.ILogger;
+import rendering.Color;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
-import system.HighScore;
+import progression.HighScore;
 import system.IServiceLocator;
 
-import java.awt.Color;
 import java.util.List;
 
 /**
@@ -27,11 +27,6 @@ import java.util.List;
      * Height of a score entry.
      */
     private static final double ENTRY_HEIGHT = .05;
-    /**
-     * The color of score entries.
-     */
-    private static final Color COLOR_EVEN = new Color(235, 224, 206),
-            COLOR_UNEVEN = new Color(241, 234, 224);
 
     /**
      * The height of an entry in the ScoreScreen.
@@ -91,11 +86,11 @@ import java.util.List;
         renderer.clear();
 
         // Draw the list of scores.
-        List<HighScore> highScores = Game.highScores.getList();
+        List<HighScore> highScores = serviceLocator.getProgressionManager().getHighscores();
         for (int i = 0; i < highScores.size(); i++) {
             // Entry background
             int backgroundY = scoreListTop + (i - 1) * entryHeight;
-            Color color = i % 2 == 1 ? COLOR_EVEN : COLOR_UNEVEN;
+            Color color = i % 2 == 1 ? Color.scoreEntryEven : Color.scoreEntryUneven;
             renderer.fillRectangle(0, backgroundY, constants.getGameWidth(), entryHeight, color);
 
             // Entry name & value

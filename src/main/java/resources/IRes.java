@@ -124,6 +124,11 @@ public interface IRes {
         shield,
         sizeUp,
         sizeDown,
+        cannon,
+        cannonUsed,
+        rocketLauncher,
+        rocketLauncherUsed,
+
         // Passive
         jetpack0,
         jetpack1,
@@ -138,6 +143,7 @@ public interface IRes {
         propeller0,
         propeller1,
         propeller2,
+
 
         // Score screen
         scoreScreenBottom,
@@ -162,6 +168,13 @@ public interface IRes {
         underwaterMode,
         spaceMode,
         storyMode,
+
+        // coins
+        coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10,
+
+        // Missions
+
+        achievement,
 
         // Unimplemented
         unimplemented
