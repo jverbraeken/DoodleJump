@@ -33,7 +33,7 @@ public class JetpackTest {
 
     private Jetpack jetpack;
     private ISprite[] spritePack = new ISprite[10];
-    
+
 
     @Before
     public void init() {

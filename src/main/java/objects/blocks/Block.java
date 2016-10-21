@@ -85,4 +85,12 @@ public final class Block implements IBlock {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeElement(final IGameObject element) {
+        elements.remove(element);
+    }
+
 }

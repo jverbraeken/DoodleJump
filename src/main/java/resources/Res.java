@@ -102,6 +102,9 @@ public final class Res implements IRes {
         sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-right@2x.png");
         sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-right-odskok@2x.png");
 
+        // Projectiles
+        sprites.put(Sprites.regularProjectile, SPRITE_PATH + "regular-projectile@2x.png");
+
         // Enemies
         sprites.put(Sprites.ordinaryMonster, SPRITE_PATH + "ordinaryMonster.png");
         sprites.put(Sprites.threeEyedMonster1, SPRITE_PATH + "threeEyedMonster1.png");

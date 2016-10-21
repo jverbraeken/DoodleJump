@@ -9,6 +9,7 @@ import math.ICalc;
 import objects.blocks.IBlockFactory;
 import objects.blocks.platform.IPlatformFactory;
 import objects.doodles.IDoodleFactory;
+import objects.doodles.Projectiles.IProjectileFactory;
 import objects.enemies.IEnemyFactory;
 import objects.powerups.IPowerupFactory;
 import progression.IMissionFactory;
@@ -64,6 +65,8 @@ public interface IServiceLocator {
 
     void provide(ICameraFactory cameraFactory);
 
+    void provide(IProjectileFactory projectileFactory);
+
     IAudioManager getAudioManager();
 
     IEnemyFactory getEnemyFactory();
@@ -101,5 +104,7 @@ public interface IServiceLocator {
     IMissionFactory getMissionFactory();
 
     ICameraFactory getCameraFactory();
+
+    IProjectileFactory getProjectileFactory();
 
 }

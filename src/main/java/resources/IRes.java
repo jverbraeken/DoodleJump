@@ -51,6 +51,9 @@ public interface IRes {
         doodleRightAscend,
         doodleRightDescend,
 
+        // Projectiles
+        regularProjectile,
+
         // Kill screen
         gameOver,
         killScreenBottom,

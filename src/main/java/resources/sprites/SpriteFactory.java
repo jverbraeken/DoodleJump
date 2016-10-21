@@ -768,6 +768,16 @@ public final class SpriteFactory implements ISpriteFactory {
         return sprites;
     }
 
+    //Projectiles
+
+    /**
+     * {@inheritDoc}
+     */
+    public ISprite getRegularProjectileSprite() {
+        return this.getSprite(IRes.Sprites.regularProjectile);
+
+    }
+
     // Misc
 
     /**
@@ -1026,7 +1036,6 @@ public final class SpriteFactory implements ISpriteFactory {
      * Returns the filename from a filepath.
      * <br>
      * Example: {@code getFileName("resources/Sprites/sprite.png").equals("sprite.png")}
-     * </pre>
      *
      * @param filepath The full path to the file, the directories seperated by '/'. Cannot be null
      * @return The name of the file

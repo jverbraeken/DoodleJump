@@ -168,6 +168,7 @@ public final class Game {
 
     /**
      * Prevents instantiation from outside the Game class.
+     * @param sL the ServiceLocator of this game.
      */
     private Game(final IServiceLocator sL) {
         Game.serviceLocator = sL;
