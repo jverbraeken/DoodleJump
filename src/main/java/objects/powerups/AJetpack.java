@@ -5,7 +5,7 @@ import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
- * Created by Michael on 10/21/2016.
+ * Class that describes the behaviour of subclasses of AJetpack.
  */
 public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
     /**
@@ -86,11 +86,11 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
     private int spriteIndex = 0;
 
     /**
-     * Jetpack constructor.
+     * AJetpack constructor.
      *
-     * @param sL - The Games service locator.
-     * @param x - The X location for the Jetpack.
-     * @param y - The Y location for the Jetpack.
+     * @param sL - The Game's service locator.
+     * @param x - The X location for the AJetpack.
+     * @param y - The Y location for the AJetpack.
      */
     public AJetpack(final IServiceLocator sL, final int x, final int y, final int maxTime, final ISprite defaultSprite, final ISprite[] sprites, final Class<?> powerup) {
         super(sL, x, y, defaultSprite, Jetpack.class);
@@ -103,7 +103,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * {@inheritDoc}
      */
     @Override
-    public void update(final double delta) {
+    public final void update(final double delta) {
         if (this.owner != null) {
             this.updateOwned();
         } else if (this.timer > 0) {
@@ -115,7 +115,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * {@inheritDoc}
      */
     @Override
-    public void perform(final PowerupOccasion occasion) {
+    public final void perform(final PowerupOccasion occasion) {
         if (this.owner.equals(null)) {
             throw new IllegalArgumentException("Owner cannot be null");
         }
@@ -129,13 +129,14 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
+    public final void collidesWith(final IDoodle doodle) {
         if (doodle.equals(null)) {
             throw new IllegalArgumentException("Doodle cannot be null");
         }
 
-        if (this.owner == null) {   // For some reason the game crashes upon collision when equals method is
-                                    // used to check is the value of owner's address is null.
+        // The game crashes upon collision when equals method is used to check if the value of owner's address
+        // is the same as a null reference resulting in a NullPointerReference.
+        if (this.owner == null) {
             getLogger().info("Doodle collided with a Jetpack");
             this.owner = doodle;
             doodle.setPowerup(this);
@@ -143,17 +144,9 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
-    }
-
-    /**
      * Update method for when the Jetpack is owned.
      */
-    private void updateOwned() {
+    private final void updateOwned() {
         timer++;
 
         if (timer >= timeLimit) {
@@ -180,7 +173,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
     }
 
     /**
-     * Update method for when the Jetpack is falling.
+     * Update method for when the AJetpack is falling.
      */
     private final void updateFalling() {
         this.applyGravity();
@@ -188,7 +181,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
     }
 
     /**
-     * Applies gravity to the Propeller when needed.
+     * Applies gravity to the AJetpack when needed.
      */
     private final void applyGravity() {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
@@ -199,7 +192,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * Ends the powerup.
      */
     @Override
-    public void endPowerup() {
+    public final void endPowerup() {
         this.setSprite(defaultSprite);
         this.vSpeed = INITIAL_DROP_SPEED;
 
@@ -209,5 +202,9 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
         this.owner = null;
     }
 
+    /**
+     * Sets the position of the powerup when equipped.
+     * @param doodle The doodle that is wearing this powerup.
+     */
     abstract void setPosition(IDoodle doodle);
 }

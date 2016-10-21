@@ -106,20 +106,13 @@ import system.IServiceLocator;
             throw new IllegalArgumentException("Doodle cannot be null");
         }
 
-        if (this.owner == null && this.timer == 0) {    // For some reason the game crashes upon collision when equals method is
-                                                        // used to check is the value of owner's address is null.
+        // The game crashes upon collision when equals method is used to check if the value of owner's address
+        // is the same as a null reference resulting in a NullPointerReference.
+        if (this.owner == null && this.timer == 0) {
             getLogger().info("Doodle collided with a Propeller");
             this.owner = doodle;
             doodle.setPowerup(this);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /**

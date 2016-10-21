@@ -5,12 +5,12 @@ import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
- * Created by Michael on 10/20/2016.
+ * Class that desribes the behaviour of jumpable powerups.
  */
 public abstract class AJumpablePowerup extends APowerup implements IJumpable {
 
     /**
-     * The BOOST value for the ATrampoline.
+     * The BOOST value for the AJumpable.
      */
     private double boost;
 
@@ -60,14 +60,6 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
         this.playSound();
 
         return this.boost;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void render() {
-        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /**

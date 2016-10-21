@@ -5,32 +5,36 @@ import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
- * This class describes the behaviour of the Jetpack powerup.
+ * This class describes the behaviour of the afterburner powerup.
  */
-/* package */ final class Jetpack extends AJetpack {
+/* package */ final class Afterburner extends AJetpack {
 
     /**
-     * The maximum time the Jetpack is active.
+     * The maximum time the afterburner is active.
      */
-    private static final int MAX_TIMER = 175;
+    private static final int MAX_TIMER = 200;
     /**
-     * Y offset for drawing the Jetpack when on Doodle.
+     * Y offset for drawing the afterburner when on Doodle.
      */
     private static final int OWNED_Y_OFFSET = 35;
 
     /**
-     * Jetpack constructor.
+     * Afterburner constructor.
      *
-     * @param sL - The Games service locator.
-     * @param x - The X location for the Jetpack.
-     * @param y - The Y location for the Jetpack.
+     * @param sL - The Game's service locator.
+     * @param x - The X location for the afterburner.
+     * @param y - The Y location for the afterburner.
      */
-    /* package */ Jetpack(final IServiceLocator sL, final int x, final int y) {
+    /* package */ Afterburner(final IServiceLocator sL, final int x, final int y) {
+        // Because sprites for this object has't been found or created yet, this object will use jetpack sprites.
         super(sL, x, y, MAX_TIMER, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 1), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
     }
 
+    /**
+     *{@inheritDoc}
+     */
     public void setPosition(IDoodle owner) {
-        if (owner != null) {
+        if (!owner.equals(null)) {
             MovementBehavior.Directions facing = owner.getFacing();
             if (facing.equals(MovementBehavior.Directions.Left)) {
                 this.setXPos((int) owner.getXPos() + owner.getHitBox()[HITBOX_RIGHT]);
