@@ -2,12 +2,13 @@ package buttons;
 
 import logging.ILogger;
 import resources.sprites.ISprite;
+import system.Game;
 import system.IServiceLocator;
 
 /**
- * This class focuses on the implementation of button.
+ * This IMMUTABLE class focuses on the implementation of button.
  */
-/* package */ class Button implements IButton {
+/* package */ final class Button implements IButton {
 
     /**
      * Used to gain access to all services.
@@ -85,7 +86,7 @@ import system.IServiceLocator;
 
         if (x > this.topLeft[0] && x < this.bottomRight[0] && y > this.topLeft[1] && y < this.bottomRight[1]) {
             this.logger.info("Button clicked: \"" + this.name + "\"");
-            this.action.run();
+            Game.schedule(this.action);
         }
     }
 

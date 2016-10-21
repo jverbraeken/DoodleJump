@@ -1,5 +1,9 @@
 package resources.sprites;
 
+import objects.powerups.Powerups;
+
+import objects.doodles.DoodleBehavior.MovementBehavior;
+
 import system.IFactory;
 
 /**
@@ -27,6 +31,7 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getChooseModeButtonSprite();
 
+    ISprite getShopButtonSprite();
     // Covers
     ISprite getBackground();
 
@@ -146,25 +151,11 @@ public interface ISpriteFactory extends IFactory {
     ISprite getPlatformShiningSprite3();
 
     // Powerups
-    ISprite getTrampolineSprite();
+    ISprite getPowerupSprite(final Powerups powerup, final int currentPowerupLevel);
 
-    ISprite getTrampolineUsedSprite();
+    ISprite getTrampolineUsedSprite(final int currentPowerupLevel);
 
-    ISprite getSpringSprite();
-
-    ISprite getSpringUsedSprite();
-
-    ISprite getSpringShoesSprite();
-
-    ISprite getJetpackSprite();
-
-    ISprite getPropellerSprite();
-
-    ISprite getShieldSprite();
-
-    ISprite getSizeUpSprite();
-
-    ISprite getSizeDownSprite();
+    ISprite getSpringUsedSprite(final int currentPowerupLevel);
 
     ISprite getRocketSprite();
 
@@ -174,13 +165,6 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite[] getRocketActiveSprites();
 
-    ISprite getCannonSprite();
-
-    ISprite getCannonUsedSprite();
-
-    ISprite getRocketLauncherSprite();
-
-    ISprite getRocketLauncherUsedSprite();
 
     // Score screen
     ISprite getScoreScreenBottom();
@@ -223,5 +207,4 @@ public interface ISpriteFactory extends IFactory {
     // Missions
 
     ISprite getAchievementSprite();
-
 }

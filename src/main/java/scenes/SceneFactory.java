@@ -82,6 +82,15 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
+    public IScene createShopScreen() {
+        logger.info("A new ShopScreen has been created");
+        return new ShopScreen(serviceLocator);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public World createSinglePlayerWorld() {
         logger.info("A new World has been created");
         World world = new World(serviceLocator);

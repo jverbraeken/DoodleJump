@@ -1,7 +1,6 @@
 package objects.doodles;
 
 import constants.IConstants;
-import input.KeyCode;
 import input.Keys;
 import objects.AGameObject;
 import objects.IJumpable;
@@ -64,15 +63,14 @@ public class Doodle extends AGameObject implements IDoodle {
      * The scalar for the Stars sprite.
      */
     private static final int STARS_OFFSET = 20;
-
-    /**
-     * The world the Doodle lives in.
-     */
-    private final World world;
     /**
      * Fake Powerup instance to return when actual powerup value is null.
      */
     private static APowerup fakePowerup;
+    /**
+     * The world the Doodle lives in.
+     */
+    private final World world;
     /**
      * Gives true if the doodle is alive.
      */
@@ -104,13 +102,13 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * The keys the Doodle responds to.
      */
-    private Keys[] keys = new Keys[] { Keys.arrowLeft, Keys.arrowRight };
+    private Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
 
     /**
      * Doodle constructor.
      *
      * @param sL The service locator.
-     * @param w The world the Doodle lives in.
+     * @param w  The world the Doodle lives in.
      */
     /* package */ Doodle(final IServiceLocator sL, final World w) {
         super(sL,
@@ -119,7 +117,7 @@ public class Doodle extends AGameObject implements IDoodle {
                 sL.getSpriteFactory().getDoodleLeftSprites()[0],
                 Doodle.class);
 
-        Doodle.fakePowerup = new APowerup(sL, 0, 0, sL.getSpriteFactory().getShieldSprite(), APowerup.class) {
+        Doodle.fakePowerup = new APowerup(sL, 0, 0, sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
             @Override
             public void render() {
             }
@@ -463,6 +461,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Get the jumping threshold for the Doodle.
+     *
      * @return A double representing the jumping threshold.
      */
     private double getJumpingThreshold() {
@@ -471,6 +470,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Returns the Star sprite by looking at the current starNumber.
+     *
      * @return a star sprite.
      */
     private ISprite getStarSprite() {

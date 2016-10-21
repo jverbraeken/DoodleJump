@@ -5,10 +5,10 @@ import java.util.EnumMap;
 /**
  * Static class that maps key names to keyCodes.
  */
-/* package */ final class WeightsMap {
+public final class WeightsMap {
 
     /**
-     * Map that maps enums of the key to the keyCode.
+     * Map that maps enums of the elementTypes to the weight.
      */
     private static final EnumMap<ElementTypes, Double> WEIGTS_MAP = new EnumMap<>(ElementTypes.class);
     /**
@@ -35,12 +35,7 @@ import java.util.EnumMap;
     /**
      * The chance of the spring powerup spawning.
      */
-    private static final double SPRING_POWERUP = 0.03;
-
-    /**
-     * The chance of the spring trampoline spawning.
-     */
-    private static final double TRAMPOLINE_POWERUP = 0.1;
+    private static final double SPRING_POWERUP = 0.3;
 
     /**
      * The chance of the spring jetpack spawning.
@@ -71,6 +66,10 @@ import java.util.EnumMap;
      * The chance of the spring jetpack spawning.
      */
     private static final double ROCKET_POWERUP = 0.01;
+    /**
+     * The chance of the spring trampoline spawning.
+     */
+    private static final double TRAMPOLINE_POWERUP = 0.03;
 
 
     static {
@@ -105,7 +104,7 @@ import java.util.EnumMap;
      * @param elementType The integer code of the key
      * @return The {@link ElementTypes} enum corresponding with the integer value
      */
-    /* package */ static Double getWeight(final ElementTypes elementType) {
+    public static Double getWeight(final ElementTypes elementType) {
         return WEIGTS_MAP.get(elementType);
     }
 

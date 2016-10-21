@@ -1,5 +1,6 @@
 package buttons;
 
+import objects.powerups.Powerups;
 import system.IFactory;
 
 /**
@@ -14,7 +15,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a play button.
      */
-    IButton createPlayButton(final int x, final int y);
+    IButton createPlayButton(final double x, final double y);
 
     /**
      * Create a press to start playing again button.
@@ -23,7 +24,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a play again button.
      */
-    IButton createPlayAgainButton(final int x, final int y);
+    IButton createPlayAgainButton(final double x, final double y);
 
     /**
      * Create a press to start multiplayer playing button.
@@ -32,7 +33,16 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a play again button.
      */
-    IButton createMultiplayerButton(int x, int y);
+    IButton createMultiplayerButton(final double x, final double y);
+
+    /**
+     * Create a new button that opens the shop when clicked.
+     *
+     * @param x the x position of the button.
+     * @param y the y position of the button.
+     * @return a shop button.
+     */
+    IButton createShopButton(final double x, final double y);
 
     /**
      * Create a press to resume playing button.
@@ -41,7 +51,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a resume button.
      */
-    IButton createResumeButton(final int x, final int y);
+    IButton createResumeButton(final double x, final double y);
 
     /**
      * Create a press to go to main menu button.
@@ -50,7 +60,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a main menu button.
      */
-    IButton createMainMenuButton(final int x, final int y);
+    IButton createMainMenuButton(final double x, final double y);
 
     /**
      * Create a button to go to the high scores list.
@@ -59,7 +69,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a score button.
      */
-    IButton createScoreButton(final int x, final int y);
+    IButton createScoreButton(final double x, final double y);
 
     /**
      * Create a press to go to choose mode button.
@@ -68,7 +78,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a choose mode button.
      */
-    IButton createChooseModeButton(final int x, final int y);
+    IButton createChooseModeButton(final double x, final double y);
 
     /**
      * Create a press to go set the mode to regular.
@@ -77,7 +87,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a regular mode button.
      */
-    IButton createRegularModeButton(final int x, final int y);
+    IButton createRegularModeButton(final double x, final double y);
 
     /**
      * Create a press to go set the mode to darkness.
@@ -86,7 +96,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a darkness mode button.
      */
-    IButton createDarknessModeButton(final int x, final int y);
+    IButton createDarknessModeButton(final double x, final double y);
 
     /**
      * Create a press to go set the mode to invert.
@@ -95,7 +105,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return an invert mode button.
      */
-    IButton createInvertModeButton(final int x, final int y);
+    IButton createInvertModeButton(final double x, final double y);
 
     /**
      * Create a press to go set the mode to underwater.
@@ -104,7 +114,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return an underwater mode button.
      */
-    IButton createUnderwaterModeButton(final int x, final int y);
+    IButton createUnderwaterModeButton(final double x, final double y);
 
     /**
      * Create a press to go set the mode to space.
@@ -113,7 +123,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a space mode button.
      */
-    IButton createSpaceModeButton(final int x, final int y);
+    IButton createSpaceModeButton(final double x, final double y);
 
     /**
      * Create a press to go set the mode to story.
@@ -122,7 +132,21 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a story mode button.
      */
-    IButton createStoryModeButton(final int x, final int y);
+    IButton createStoryModeButton(final double x, final double y);
+
+
+    /////   SHOP
+
+
+    /**
+     * Create a button to upgrade the {@link objects.powerups.Jetpack} powerup.
+     *
+     * @param powerup The kind of powerup you want to create an upgrade button for
+     * @param x the x position of the button relative to the screen
+     * @param y the y position of the button relative to the screen
+     * @return A button that can upgrade the {@link objects.powerups.Jetpack} powerup
+     */
+    IButton createShopPowerupButton(final Powerups powerup, final double x, final double y);
 
     /**
      * Create a pause button for in game.
@@ -131,6 +155,5 @@ public interface IButtonFactory extends IFactory {
      * @param y The y position of the button.
      * @return A pause button.
      */
-    IButton createPauseButton(final int x, final int y);
-
+    IButton createPauseButton(final double x, final double y);
 }

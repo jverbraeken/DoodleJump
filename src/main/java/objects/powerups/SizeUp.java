@@ -25,7 +25,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the SizeUp.
      */
     /* package */ SizeUp(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getSizeUpSprite(), SizeUp.class);
+        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.sizeUp, 1), SizeUp.class);
     }
 
     /**

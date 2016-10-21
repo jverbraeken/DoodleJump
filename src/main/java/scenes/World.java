@@ -97,25 +97,6 @@ public class World implements IScene {
      * The highest (and thus latest) created block.
      */
     private IBlock topBlock;
-    /**
-     * The levels on which a drawable can be drawn.
-     */
-    private enum DrawableLevels {
-        /**
-         * The things that should be drawn at the front.
-         */
-        front,
-
-        /**
-         * The GameObjects that should be drawn behind the front, but in front of everything else (such as doodles).
-         */
-        middle,
-
-        /**
-         * The things that should be drawn in the back (such as platforms).
-         */
-        back
-    };
 
     /**
      * Package visible constructor so a World can only be created via the SceneFactory.
@@ -157,6 +138,8 @@ public class World implements IScene {
         logger.info("Level started");
     }
 
+    ;
+
     /**
      * {@inheritDoc}
      */
@@ -180,7 +163,6 @@ public class World implements IScene {
         for (IDoodle doodle : this.doodles) {
             doodle.deregister();
         }
-
         logger.info("The world scene is stopped");
     }
 
@@ -245,7 +227,8 @@ public class World implements IScene {
      *
      * @param doodle The Doodle to add.
      */
-    /* package */ final void addDoodle(final IDoodle doodle) {
+    /* package */
+    final void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
         this.updatables.add(doodle);
         this.drawables.get(DrawableLevels.middle).add(doodle);
@@ -314,6 +297,26 @@ public class World implements IScene {
     }
 
     /**
+     * The levels on which a drawable can be drawn.
+     */
+    private enum DrawableLevels {
+        /**
+         * The things that should be drawn at the front.
+         */
+        front,
+
+        /**
+         * The GameObjects that should be drawn behind the front, but in front of everything else (such as doodles).
+         */
+        middle,
+
+        /**
+         * The things that should be drawn in the back (such as platforms).
+         */
+        back
+    }
+
+    /**
      * IMMUTABLE.
      * <br>
      * The bar on top of the screen displaying the score and pause button
@@ -363,9 +366,9 @@ public class World implements IScene {
 
             ISprite pauseSprite = World.this.serviceLocator.getSpriteFactory().getPauseButtonSprite();
             final int gameWidth = World.this.serviceLocator.getConstants().getGameWidth();
-            int pauseX = (int) (gameWidth - pauseSprite.getWidth() * this.scaling - World.PAUSE_OFFSET);
-            int pauseY = (int) (this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d -
-                    (double) pauseSprite.getHeight() / 2d);
+            double pauseX = 1d - pauseSprite.getWidth() * this.scaling / gameWidth - World.PAUSE_OFFSET * this.scaling / gameWidth;
+            double pauseY = this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d / gameWidth -
+                    (double) pauseSprite.getHeight() * this.scaling / 2d / gameWidth;
             this.pauseButton = World.this.serviceLocator.getButtonFactory().createPauseButton(pauseX, pauseY);
         }
 

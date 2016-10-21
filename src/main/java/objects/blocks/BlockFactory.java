@@ -76,7 +76,8 @@ public final class BlockFactory implements IBlockFactory {
      * Initialize the BlockFactory.
      */
     private BlockFactory() {
-        initializeGenerationSets();
+        platformGenerationSet = new GenerationSet(serviceLocator, "platforms");
+        powerupGenerationSet = new GenerationSet(serviceLocator, "powerups");
     }
 
     /**
@@ -90,35 +91,6 @@ public final class BlockFactory implements IBlockFactory {
         }
         BlockFactory.serviceLocator = sL;
         BlockFactory.serviceLocator.provide(new BlockFactory());
-    }
-
-    /**
-     * Create the GenerationSets for the Powerups, Platforms and Enemies.
-     */
-    private void initializeGenerationSets() {
-        List<Double> platWeights = Arrays.asList(
-                WeightsMap.getWeight(ElementTypes.normalPlatform),
-                WeightsMap.getWeight(ElementTypes.verticalMovingPlatform),
-                WeightsMap.getWeight(ElementTypes.horizontalMovingPlatform),
-                WeightsMap.getWeight(ElementTypes.breakingPlatform));
-        List<String> platforms = Arrays.asList("normalPlatform", "verticalMovingPlatform", "horizontalMovingPlatform", "breakingPlatform");
-
-        platformGenerationSet = new GenerationSet(serviceLocator, platWeights, platforms);
-
-        List<Double> powerupWeights = Arrays.asList(
-                WeightsMap.getWeight(ElementTypes.spacerocket),
-                WeightsMap.getWeight(ElementTypes.spring),
-                WeightsMap.getWeight(ElementTypes.trampoline),
-                WeightsMap.getWeight(ElementTypes.jetpack),
-                WeightsMap.getWeight(ElementTypes.propellor),
-                WeightsMap.getWeight(ElementTypes.sizeUp),
-                WeightsMap.getWeight(ElementTypes.sizeDown),
-                WeightsMap.getWeight(ElementTypes.springShoes));
-        List<String> powerups = Arrays.asList( "spacerocket",
-                "spring", "trampoline", "jetpack", "propellor", "sizeUp", "sizeDown", "springShoes");
-
-        powerupGenerationSet = new GenerationSet(serviceLocator, powerupWeights, powerups);
-
     }
 
     /**

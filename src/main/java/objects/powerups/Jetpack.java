@@ -26,7 +26,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the Jetpack.
      */
     /* package */ Jetpack(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, MAX_TIMER, sL.getSpriteFactory().getJetpackSprite(), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
+        super(sL, x, y, MAX_TIMER, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 1), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
     }
 
     public void setPosition(IDoodle owner) {

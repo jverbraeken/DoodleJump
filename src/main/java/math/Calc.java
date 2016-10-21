@@ -2,7 +2,10 @@ package math;
 
 import system.IServiceLocator;
 
+import java.lang.ref.WeakReference;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * This class handles all advanced calculations.
