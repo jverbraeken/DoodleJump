@@ -37,10 +37,6 @@ import java.util.List;
      */
     private final ISprite[] coinSprites = new ISprite[10];
     /**
-     * The background sprite.
-     */
-    private ISprite background;
-    /**
      * The index of the coin animation. Must be between 0 (inclusive) and 10 (exclusive).
      */
     private double coinSpriteIndex;
@@ -48,6 +44,10 @@ import java.util.List;
      * Default margin for the HUD grid.
      */
     private static final int MARGIN = 10;
+    /**
+     * The background sprite.
+     */
+    private ISprite background;
     /**
      * The distance between the missions drawn at the screen.
      */

@@ -1,5 +1,8 @@
 package buttons;
 
+import logging.ILogger;
+import objects.powerups.Powerups;
+import progression.IProgressionManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
@@ -19,6 +22,14 @@ public final class ButtonFactory implements IButtonFactory {
      * Constructed using synchronization.
      */
     private static IButtonFactory buttonFactory;
+    /**
+     * The logger.
+     */
+    private final ILogger logger;
+
+    private ButtonFactory(IServiceLocator serviceLocator) {
+        this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+    }
 
     /**
      * Register the platform factory into the service locator.
@@ -30,16 +41,17 @@ public final class ButtonFactory implements IButtonFactory {
             throw new IllegalArgumentException("The service locator cannot be null");
         }
         ButtonFactory.serviceLocator = sL;
-        ButtonFactory.serviceLocator.provide(getButtonFactory());
+        ButtonFactory.serviceLocator.provide(getButtonFactory(serviceLocator));
     }
 
     /**
      * The synchronized getter of the singleton buttonFactory.
+     *
      * @return the button factory
      */
-    private static synchronized IButtonFactory getButtonFactory() {
+    private static synchronized IButtonFactory getButtonFactory(final IServiceLocator serviceLocator) {
         if (ButtonFactory.buttonFactory == null) {
-            ButtonFactory.buttonFactory = new ButtonFactory();
+            ButtonFactory.buttonFactory = new ButtonFactory(serviceLocator);
         }
         return ButtonFactory.buttonFactory;
     }
@@ -96,6 +108,18 @@ public final class ButtonFactory implements IButtonFactory {
             }
         };
         return new Button(ButtonFactory.serviceLocator, x, y, buttonSprite, playAgainAction, "playAgain");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createShopButton(final int x, final int y) {
+        assert ButtonFactory.serviceLocator != null;
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getShopButtonSprite();
+        Runnable toShop = () -> Game.setScene(ButtonFactory.serviceLocator.getSceneFactory().createShopScreen());
+        return new Button(ButtonFactory.serviceLocator, x, y, buttonSprite, toShop, "shop");
     }
 
     /**
@@ -204,6 +228,40 @@ public final class ButtonFactory implements IButtonFactory {
         ISprite buttonSprite = spriteFactory.getStoryModeButton();
         Runnable storyMode = () -> Game.setMode(Game.Modes.story);
         return new Button(ButtonFactory.serviceLocator, x, y, buttonSprite, storyMode, "storyMode");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createShopPowerupButton(final Powerups powerup, final double x, final double y) {
+        assert ButtonFactory.serviceLocator != null;
+
+        if (powerup == null) {
+            final String error = "There cannot a button be created for a null powerup";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+
+        final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
+        final int currentPowerupLevel = progressionManager.getPowerupLevel(powerup);
+
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getPowerupSprite(powerup, currentPowerupLevel);
+        Runnable shop = () -> {
+            final int powerupLevel = progressionManager.getPowerupLevel(powerup);
+            if (powerupLevel + 1 < powerup.getMaxLevel()) {
+                final int price = powerup.getPrice(powerupLevel + 1);
+                if (progressionManager.getCoins() >= price) {
+                    progressionManager.decreaseCoins(price);
+                    progressionManager.increasePowerupLevel(powerup);
+                }
+            }
+
+        };
+        final int width = serviceLocator.getConstants().getGameWidth();
+        final int height = serviceLocator.getConstants().getGameHeight();
+        return new Button(ButtonFactory.serviceLocator, (int) (width * x), (int) (height * y), buttonSprite, shop, "shop");
     }
 
     /**

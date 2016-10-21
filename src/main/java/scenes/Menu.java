@@ -21,21 +21,41 @@ import java.util.List;
 public class Menu implements IScene {
 
     /**
-     * The X and Y location for the play button.
+     * The X-position at which the first button will be created.
      */
-    private static final double PLAY_BUTTON_X = 0.15d, PLAY_BUTTON_Y = 0.25d;
+    private static final double BUTTON_X_START = 0.15d;
+    /**
+     * The Y-position at which the first button will be created.
+     */
+    private static final double BUTTON_Y_START = 0.25d;
+    /**
+     * The X-distance between the buttons (buttons themselves including).
+     */
+    private static final double BUTTON_X_OFFSET = 0.1d;
+    /**
+     * The Y-distance between the buttons (buttons themselves including).
+     */
+    private static final double BUTTON_Y_OFFSET = 0.11d;
     /**
      * The X and Y location for the play button.
      */
-    private static final double SCORE_BUTTON_X = 0.28d, SCORE_BUTTON_Y = 0.36d;
+    private static final double PLAY_BUTTON_X = BUTTON_X_START + BUTTON_X_OFFSET * 0, PLAY_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 0;
     /**
      * The X and Y location for the play button.
      */
-    private static final double MULTIPLAYER_BUTTON_X = 0.41d, MULTIPLAYER_BUTTON_Y = 0.47d;
+    private static final double SCORE_BUTTON_X = BUTTON_X_START + BUTTON_X_OFFSET * 1, SCORE_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 1;
+    /**
+     * The X and Y location for the play button.
+     */
+    private static final double SHOP_BUTTON_X = BUTTON_X_START + BUTTON_X_OFFSET * 2, SHOP_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 2;
+    /**
+     * The X and Y location for the play button.
+     */
+    private static final double MULTIPLAYER_BUTTON_X = BUTTON_X_START + BUTTON_X_OFFSET * 3, MULTIPLAYER_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 3;
     /**
      * The X and Y location for the choose mode button.
      */
-    private static final double CHOOSE_MODE_X = 0.6d, CHOOSE_MODE_Y = 0.65d;
+    private static final double CHOOSE_MODE_X = BUTTON_X_START + BUTTON_X_OFFSET * 4, CHOOSE_MODE_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 4;
     /**
      * The X and Y location for the StartScreen platform.
      */
@@ -95,6 +115,9 @@ public class Menu implements IScene {
         this.buttons.add(buttonFactory.createMultiplayerButton(
                 (int) (gameWidth * Menu.MULTIPLAYER_BUTTON_X),
                 (int) (gameHeight * Menu.MULTIPLAYER_BUTTON_Y)));
+        this.buttons.add(buttonFactory.createShopButton(
+                (int) (gameWidth * SHOP_BUTTON_X),
+                (int) (gameHeight * SHOP_BUTTON_Y)));
         this.buttons.add(buttonFactory.createChooseModeButton(
                 (int) (gameWidth * Menu.CHOOSE_MODE_X),
                 (int) (gameHeight * Menu.CHOOSE_MODE_Y)));

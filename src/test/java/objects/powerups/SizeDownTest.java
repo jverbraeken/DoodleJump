@@ -15,6 +15,8 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -43,7 +45,7 @@ public class SizeDownTest {
 
         when(constants.getGameWidth()).thenReturn(100);
         when(sprite.getWidth()).thenReturn(0);
-        when(spriteFactory.getSizeDownSprite()).thenReturn(sprite);
+        when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(loggerFactory.createLogger(SizeDown.class)).thenReturn(logger);
 
         sizeDown = new SizeDown(serviceLocator, 0, 0);
