@@ -19,7 +19,6 @@ public final class HighScore implements Comparable<HighScore> {
 
     /**
      * Package protected constructor so only Game can create a score.
-     *
      * @param n The name for the score.
      * @param s The actual score.
      */
@@ -30,7 +29,6 @@ public final class HighScore implements Comparable<HighScore> {
 
     /**
      * Package protected constructor so only Game can create a score.
-     *
      * @param n The name for the score.
      * @param s The actual score.
      */
@@ -89,7 +87,6 @@ public final class HighScore implements Comparable<HighScore> {
 
     /**
      * Get the name.
-     *
      * @return the name.
      */
     public String getName() {
@@ -98,7 +95,6 @@ public final class HighScore implements Comparable<HighScore> {
 
     /**
      * Get the score.
-     *
      * @return the score.
      */
     public int getScore() {
