@@ -1,5 +1,7 @@
 package constants;
 
+import objects.powerups.Powerups;
+
 /**
  * Interface for the constants class.
  */
@@ -53,5 +55,4 @@ public interface IConstants {
      * @return The name of the save file.
      */
     String getSaveFilePath();
-
 }

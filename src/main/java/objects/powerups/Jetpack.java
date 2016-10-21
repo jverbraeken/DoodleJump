@@ -25,12 +25,12 @@ import system.IServiceLocator;
     /**
      * Jetpack constructor.
      *
-     * @param sL - The Games service locator.
+     * @param sL - The Game's service locator.
      * @param x - The X location for the Jetpack.
      * @param y - The Y location for the Jetpack.
      */
     /* package */ Jetpack(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getJetpackSprite(), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
+        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 1), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
     }
 
     /**

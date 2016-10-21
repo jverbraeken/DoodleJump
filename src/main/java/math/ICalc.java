@@ -1,5 +1,11 @@
 package math;
 
+import input.IKeyInputObserver;
+
+import java.lang.ref.WeakReference;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Interface for the class handles all advanced calculations.
  * Examples are random integers and doubles.
@@ -27,5 +33,4 @@ public interface ICalc {
      * @return A random double between 0 (inclusive) and {@code max} (inclusive).
      */
     double getRandomDouble(final double max);
-
 }

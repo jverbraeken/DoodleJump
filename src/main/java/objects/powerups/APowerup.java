@@ -41,7 +41,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
     }
 
     public void endPowerup() {
-        // Most powerups can't be ended, but all powerups should have the method for ease of use.
+        // Most powerups do not need any code here
     }
 
     /**

@@ -4,26 +4,13 @@ import system.IServiceLocator;
 
 import java.util.concurrent.Callable;
 
-public final class DefaultProgressionObserver implements
-        IDisappearingPowerupObserver,
-        IEquipmentPowerupObserver,
-        IHeightObserver,
-        IJetpackUsedObserver,
-        IJumpablePowerupObserver,
-        IPowerupObserver,
-        IProgressionObserver,
-        IPropellerUsedObserver,
-        ISizeDownUsedObserver,
-        ISizeUpUserObserver,
-        ISpringShoesUsedObserver,
-        ISpringUsedObserver,
-        ITrampolineJumpedObserver {
+public abstract class DefaultProgressionObserver implements IProgressionObserver {
+    private Mission mission;
+    private final IServiceLocator serviceLocator;
     private final int times;
     private final Callable<Void> action;
-    private final IServiceLocator serviceLocator;
     private final ProgressionObservers type;
     private double counter;
-    private Mission mission;
 
     /**
      * Create a default progression observer to get notifications for i.e. powerups.
@@ -38,7 +25,6 @@ public final class DefaultProgressionObserver implements
         this.times = times;
         this.action = () -> null;
         this.counter = 0d;
-        this.type.addObserver(this);
     }
 
     /**
@@ -55,7 +41,6 @@ public final class DefaultProgressionObserver implements
         this.times = times;
         this.action = () -> null;
         this.counter = counter;
-        this.type.addObserver(this);
     }
 
     /**
@@ -72,7 +57,6 @@ public final class DefaultProgressionObserver implements
         this.times = times;
         this.action = action;
         this.counter = 0d;
-        this.type.addObserver(this);
     }
 
     /**
@@ -90,62 +74,65 @@ public final class DefaultProgressionObserver implements
         this.times = times;
         this.action = action;
         this.counter = counter;
-        this.type.addObserver(this);
     }
 
     /**
-     * {@inheritDoc}
+     * Of course we rather use notify, but as that name is occupied already by java.lang it's not possible
+     * to use that name unfortunately.
      */
-    @Override
-    public void alert() {
+    protected final void alert() {
         counter++;
         checkFinished();
     }
 
     /**
-     * {@inheritDoc}
+     * Of course we rather use notify, but as that name is occupied already by java.lang it's not possible
+     * to use that name unfortunately.
+     *
+     * @param amount The amount of which the variable that caused the trigger to alert the observers has been changed.
      */
-    @Override
-    public void alert(final double amount) {
+    protected final void alert(final double amount) {
         counter += amount;
         checkFinished();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double getProgression() {
+    public final double getProgression() {
         return counter;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void reset() {
+    public final void reset() {
         counter = 0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setMission(final Mission mission) {
+    public final void setMission(final Mission mission) {
         this.mission = mission;
     }
 
+    protected final void finished() {
+        try {
+            action.call();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (mission != null) {
+            mission.alertFinished();
+        }
+        finishedExtension();
+    }
+
+    protected void finishedExtension() {
+
+    }
+
+    protected final IServiceLocator getServiceLocator() {
+        return serviceLocator;
+    }
+
     private void checkFinished() {
-        if (counter >= times) {
-            try {
-                action.call();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (mission != null) {
-                mission.alertFinished();
-            }
-            serviceLocator.getProgressionManager().removeObserver(this.type, this);
+        if (counter == times) {
+            finished();
         }
     }
+
+    /* package */ abstract IProgressionObserver getThis();
 }

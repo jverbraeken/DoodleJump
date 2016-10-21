@@ -402,41 +402,16 @@ public class SpriteFactoryTest {
 
     // POWERUPS
 
+    //TODO test the getPowerupSprite method
 
-    @Test
-    public void TestGetTrampolineSprite() throws Exception {
-        TestSprite(IRes.Sprites.trampoline, () -> spriteFactory.getTrampolineSprite());
-    }
-
-    @Test
+    /*@Test
     public void TestGetTrampolineUsedSprite() throws Exception {
         TestSprite(IRes.Sprites.trampolineUsed, () -> spriteFactory.getTrampolineUsedSprite());
     }
-
-    @Test
-    public void TestGetSpringSprite() throws Exception {
-        TestSprite(IRes.Sprites.spring, () -> spriteFactory.getSpringSprite());
-    }
-
     @Test
     public void TestGetSpringUsedSprite() throws Exception {
-        TestSprite(IRes.Sprites.springUsed, () -> spriteFactory.getSpringUsedSprite());
-    }
-
-    @Test
-    public void TestGetRocketSprite() throws Exception {
-        TestSprite(IRes.Sprites.jetpack, () -> spriteFactory.getJetpackSprite());
-    }
-
-    @Test
-    public void TestGetPropellorSprite() throws Exception {
-        TestSprite(IRes.Sprites.propeller, () -> spriteFactory.getPropellerSprite());
-    }
-
-    @Test
-    public void TestGetShieldSprite() throws Exception {
-        TestSprite(IRes.Sprites.shield, () -> spriteFactory.getShieldSprite());
-    }
+        TestSprite(IRes.Sprites.alertSpringUsed, () -> spriteFactory.getSpringUsedSprite());
+    }*/
 
     // TEXT
 

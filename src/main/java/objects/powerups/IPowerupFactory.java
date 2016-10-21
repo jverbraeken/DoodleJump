@@ -63,7 +63,7 @@ public interface IPowerupFactory extends IFactory {
     IGameObject createSpringShoes(final int x, final int y);
 
     /**
-     * Create a new Trampoline powerup.
+     * Create a new Trampoline powerup, the exact implementation dependent on the level of the Trampoline powerup.
      *
      * @param x The X location for the Trampoline.
      * @param y The Y location for the Trampoline.
@@ -71,5 +71,11 @@ public interface IPowerupFactory extends IFactory {
      */
     IGameObject createTrampoline(final int x, final int y);
 
+    void addObserver(final ISpringCreatedObserver springCreatedObserver);
 
+    void addObserver(final ITrampolineCreatedObserver trampolineCreatedObserver);
+
+    void removeObserver(final ISpringCreatedObserver springCreatedObserver);
+
+    void removeObserver(final ITrampolineCreatedObserver trampolineCreatedObserver);
 }

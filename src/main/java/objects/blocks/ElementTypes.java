@@ -3,7 +3,7 @@ package objects.blocks;
 /**
  * Public enum to identify keys.
  */
-/* package */ enum ElementTypes {
+public enum ElementTypes {
 
     // Platforms
     /**

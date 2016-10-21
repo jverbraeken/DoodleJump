@@ -35,7 +35,11 @@ import java.util.List;
     /**
      * The height of the top part of the ScoreScreen.
      */
-    private static int scoreListTop;
+    private static int scoreListTopY;
+    /**
+     * Y-offset for the scores
+     */
+    private static final int scoreListTopYOffset = 15;
     /**
      * Used to gain access to all services.
      */
@@ -68,12 +72,10 @@ import java.util.List;
         this.top = spriteFactory.getScoreScreenTop();
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
-        int menuButtonX = (int) (sL.getConstants().getGameWidth() * MENU_BUTTON_X);
-        int menuButtonY = (int) (sL.getConstants().getGameHeight() * MENU_BUTTON_Y);
-        this.menuButton = buttonFactory.createMainMenuButton(menuButtonX, menuButtonY);
+        this.menuButton = buttonFactory.createMainMenuButton(ScoreScreen.MENU_BUTTON_X, ScoreScreen.MENU_BUTTON_Y);
 
         entryHeight = (int) (serviceLocator.getConstants().getGameHeight() * ENTRY_HEIGHT);
-        scoreListTop = this.top.getHeight();
+        scoreListTopY = this.top.getHeight() + scoreListTopYOffset;
     }
 
     /**
@@ -89,15 +91,15 @@ import java.util.List;
         List<HighScore> highScores = serviceLocator.getProgressionManager().getHighscores();
         for (int i = 0; i < highScores.size(); i++) {
             // Entry background
-            int backgroundY = scoreListTop + (i - 1) * entryHeight;
+            int backgroundY = scoreListTopY + (i - 1) * entryHeight;
             Color color = i % 2 == 1 ? Color.scoreEntryEven : Color.scoreEntryUneven;
             renderer.fillRectangle(0, backgroundY, constants.getGameWidth(), entryHeight, color);
 
             // Entry name & value
             HighScore score = highScores.get(i);
-            int entryY = scoreListTop + i * entryHeight;
+            int entryY = scoreListTopY + i * entryHeight;
             String msg = score.getName() + " - " + score.getScore();
-            renderer.drawText(this.left.getWidth(), entryY, msg);
+            renderer.drawText(this.left.getWidth(), entryY, msg, Color.black);
         }
 
         // Draw the hud.
@@ -114,7 +116,7 @@ import java.util.List;
      */
     @Override
     public void start() {
-        serviceLocator.getInputManager().addObserver(this.menuButton);
+        this.menuButton.register();
         logger.info("The score scene is now displaying");
     }
 
@@ -123,7 +125,7 @@ import java.util.List;
      */
     @Override
     public void stop() {
-        serviceLocator.getInputManager().removeObserver(this.menuButton);
+        this.menuButton.deregister();
         logger.info("The score scene is no longer displaying");
     }
 
