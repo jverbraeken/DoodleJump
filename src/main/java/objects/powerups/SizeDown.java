@@ -32,6 +32,14 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
+    public void render() {
+        SizeDown.getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void collidesWith(final IDoodle doodle) {
         if (doodle == null) {
             throw new IllegalArgumentException("Doodle cannot be null");
