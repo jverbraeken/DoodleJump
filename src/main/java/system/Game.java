@@ -14,6 +14,8 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -147,6 +149,14 @@ public final class Game {
      * The pause screen for the game.
      */
     private static IScene pauseScreen;
+    /**
+     * Runnables scheduled to run during the next iteration.
+     */
+    private static volatile Queue<Runnable> runnables = new LinkedList<>();
+    /**
+     * Use a double buffer to prevent ConcurrentModificationErrors.
+     */
+    private static volatile Queue<Runnable> addToRunnables = new LinkedList<>();
 
     /**
      * Used by Cucumber test.
@@ -307,8 +317,16 @@ public final class Game {
             if (lastFpsTime >= ICalc.NANOSECONDS) {
                 lastFpsTime = 0;
             }
+
+            while (addToRunnables.size() > 0) {
+                runnables.add(addToRunnables.remove());
+            }
+            while (runnables.size() > 0) {
+                (runnables.remove()).run();
+            }
             if (!isPaused) {
                 scene.update(delta);
+                serviceLocator.getProgressionManager().update();
             } else {
                 pauseScreen.update(delta);
             }
@@ -342,6 +360,14 @@ public final class Game {
             Game.scene.stop();
             startScene(scene);
         }
+    }
+
+    /**
+     * Use a buffer to prevent ConcurrentModificationExceptions.
+     * @param runnable The runnable to be executed during the next run
+     */
+    public static void schedule(Runnable runnable) {
+        Game.addToRunnables.add(runnable);
     }
 
     /**

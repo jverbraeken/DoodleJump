@@ -11,7 +11,7 @@ public enum Powerups {
     shield("shield", 50),
     spring("spring", 0, 50, 150),
     springShoes("springShoes", 50),
-    trampoline("trampoline", 50);
+    trampoline("trampoline", 50, 150, 300);
 
     /**
      * The prices of the levels of the powerup.
@@ -46,9 +46,9 @@ public enum Powerups {
      */
     public int getPrice(final int level) {
         if (level <= 0) {
-            throw new IllegalArgumentException("Powerups do not have levels lower than 0");
+            throw new IllegalArgumentException("Powerups do not have levels lower than or equal to 0");
         }
-        if (level >= price.length) {
+        if (level > price.length) {
             throw new IllegalArgumentException("The maximum level of the powerup \"" +
                     this.name +
                     "\" is " +
@@ -56,6 +56,6 @@ public enum Powerups {
                     ", while price was asked for a level exceeding this maximum level: " +
                     level);
         }
-        return this.price[level];
+        return this.price[level - 1]; // The array is 0-indexed, the input 1-indexed
     }
 }

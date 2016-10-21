@@ -148,11 +148,11 @@ public interface ISpriteFactory extends IFactory {
     ISprite getPlatformShiningSprite3();
 
     // Powerups
-    ISprite getPowerupSprite(Powerups powerup, int currentPowerupLevel);
+    ISprite getPowerupSprite(final Powerups powerup, final int currentPowerupLevel);
 
-    ISprite getTrampolineUsedSprite();
+    ISprite getTrampolineUsedSprite(final int currentPowerupLevel);
 
-    ISprite getSpringUsedSprite();
+    ISprite getSpringUsedSprite(final int currentPowerupLevel);
 
     ISprite[] getJetpackActiveSprites();
 

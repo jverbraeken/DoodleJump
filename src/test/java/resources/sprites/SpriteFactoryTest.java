@@ -404,14 +404,14 @@ public class SpriteFactoryTest {
 
     //TODO test the getPowerupSprite method
 
-    @Test
+    /*@Test
     public void TestGetTrampolineUsedSprite() throws Exception {
         TestSprite(IRes.Sprites.trampolineUsed, () -> spriteFactory.getTrampolineUsedSprite());
     }
     @Test
     public void TestGetSpringUsedSprite() throws Exception {
-        TestSprite(IRes.Sprites.springUsed, () -> spriteFactory.getSpringUsedSprite());
-    }
+        TestSprite(IRes.Sprites.alertSpringUsed, () -> spriteFactory.getSpringUsedSprite());
+    }*/
 
     // TEXT
 

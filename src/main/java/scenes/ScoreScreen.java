@@ -118,7 +118,6 @@ import java.util.List;
      */
     @Override
     public void start() {
-        serviceLocator.getInputManager().addObserver(this.menuButton);
         logger.info("The score scene is now displaying");
     }
 
@@ -127,7 +126,7 @@ import java.util.List;
      */
     @Override
     public void stop() {
-        serviceLocator.getInputManager().removeObserver(this.menuButton);
+        this.menuButton.deregister();
         logger.info("The score scene is no longer displaying");
     }
 

@@ -3,6 +3,7 @@ package objects.powerups;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.blocks.platform.IPlatform;
+import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -52,5 +53,20 @@ public abstract class ATrampoline extends AJumpablePowerup {
         final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
         powerup.setXPos((platform.getXPos() + (platformWidth / 2)) - (powerupWidth / 2));
         powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collidesWith(final IDoodle doodle) {
+        if (doodle == null) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
+        if (doodle.getVerticalSpeed() > 0 && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
+            getLogger().info("Doodle collided with a Trampoline");
+            doodle.collide(this);
+        }
     }
 }

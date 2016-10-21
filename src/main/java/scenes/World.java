@@ -99,25 +99,6 @@ public class World implements IScene {
      * The highest (and thus latest) created block.
      */
     private IBlock topBlock;
-    /**
-     * The levels on which a drawable can be drawn.
-     */
-    private enum DrawableLevels {
-        /**
-         * The things that should be drawn at the front.
-         */
-        front,
-
-        /**
-         * The GameObjects that should be drawn behind the front, but in front of everything else (such as doodles).
-         */
-        middle,
-
-        /**
-         * The things that should be drawn in the back (such as platforms).
-         */
-        back
-    };
 
     /**
      * Package visible constructor so a World can only be created via the SceneFactory.
@@ -159,6 +140,8 @@ public class World implements IScene {
         logger.info("Level started");
     }
 
+    ;
+
     /**
      * {@inheritDoc}
      */
@@ -182,7 +165,6 @@ public class World implements IScene {
         for (IDoodle doodle : this.doodles) {
             doodle.deregister();
         }
-
         logger.info("The world scene is stopped");
     }
 
@@ -247,7 +229,8 @@ public class World implements IScene {
      *
      * @param doodle The Doodle to add.
      */
-    /* package */ final void addDoodle(final IDoodle doodle) {
+    /* package */
+    final void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
         this.updatables.add(doodle);
         this.drawables.get(DrawableLevels.middle).add(doodle);
@@ -328,6 +311,26 @@ public class World implements IScene {
             this.drawables.get(DrawableLevels.back).add(topBlock);
             this.updatables.add(topBlock);
         }
+    }
+
+    /**
+     * The levels on which a drawable can be drawn.
+     */
+    private enum DrawableLevels {
+        /**
+         * The things that should be drawn at the front.
+         */
+        front,
+
+        /**
+         * The GameObjects that should be drawn behind the front, but in front of everything else (such as doodles).
+         */
+        middle,
+
+        /**
+         * The things that should be drawn in the back (such as platforms).
+         */
+        back
     }
 
     /**

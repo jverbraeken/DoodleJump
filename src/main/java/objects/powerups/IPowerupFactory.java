@@ -1,6 +1,9 @@
 package objects.powerups;
 
 import objects.IGameObject;
+import progression.ISpringUsedObserver;
+import progression.ITrampolineJumpedObserver;
+import progression.SpringUsedObserver;
 import system.IFactory;
 
 /**
@@ -63,7 +66,7 @@ public interface IPowerupFactory extends IFactory {
     IGameObject createSpringShoes(final int x, final int y);
 
     /**
-     * Create a new Trampoline powerup.
+     * Create a new Trampoline powerup, the exact implementation dependent on the level of the Trampoline powerup.
      *
      * @param x The X location for the Trampoline.
      * @param y The Y location for the Trampoline.
@@ -71,22 +74,11 @@ public interface IPowerupFactory extends IFactory {
      */
     IGameObject createTrampoline(final int x, final int y);
 
-    /**
-     * Create a new Cannon powerup.
-     *
-     * @param x The X location for the Circus Cannon.
-     * @param y The Y location for the Circus Cannon.
-     * @return A new CircusCannon instance.
-     */
-    IGameObject createCircusCannon(final int x, final int y);
+    void addObserver(final ISpringCreatedObserver springCreatedObserver);
 
-    /**
-     * Create a new RocketLauncher powerup.
-     *
-     * @param x The X location for the RocketLauncher.
-     * @param y The Y location for the RocketLauncher.
-     * @return A new RocketLauncher instance.
-     */
-    IGameObject createRocketLauncher(final int x, final int y);
+    void addObserver(final ITrampolineCreatedObserver trampolineCreatedObserver);
 
+    void removeObserver(final ISpringCreatedObserver springCreatedObserver);
+
+    void removeObserver(final ITrampolineCreatedObserver trampolineCreatedObserver);
 }

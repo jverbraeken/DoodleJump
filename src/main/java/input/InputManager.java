@@ -10,7 +10,6 @@ import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * This class manages the inputs given into the game.
@@ -56,6 +55,7 @@ public final class InputManager implements IInputManager {
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
@@ -67,6 +67,7 @@ public final class InputManager implements IInputManager {
     }
 
     /* MOUSE EVENTS */
+
     /**
      * {@inheritDoc}
      */
@@ -82,8 +83,7 @@ public final class InputManager implements IInputManager {
         int x = (2 * e.getX() - 2 * offsetX), y = (2 * e.getY() - 2 * offsetY);
         this.logger.info("Mouse pressed, button: " + e.getButton() + ", position: (" + x + "," + y + ")");
 
-        Set<IMouseInputObserver> observers = (HashSet<IMouseInputObserver>) this.mouseInputObservers.clone();
-        for (IMouseInputObserver observer : observers) {
+        for (IMouseInputObserver observer : mouseInputObservers) {
             observer.mouseClicked(x, y);
         }
     }
@@ -112,6 +112,7 @@ public final class InputManager implements IInputManager {
     }
 
     /* KEY EVENTS */
+
     /**
      * {@inheritDoc}
      */
@@ -185,6 +186,7 @@ public final class InputManager implements IInputManager {
 
     /**
      * Set the main border size, used for mouse inputs.
+     *
      * @param windowLBSize The size of the left border.
      * @param windowTBSize The size of the top border.
      */

@@ -82,7 +82,7 @@ import java.util.List;
      */
     @Override
     public void start() {
-        this.serviceLocator.getInputManager().addObserver(this.resumeButton);
+        this.resumeButton.register();
         this.logger.info("The pause scene is now displaying");
     }
 
@@ -91,7 +91,7 @@ import java.util.List;
      */
     @Override
     public void stop() {
-        this.serviceLocator.getInputManager().removeObserver(this.resumeButton);
+        this.resumeButton.deregister();
         this.logger.info("The pause scene is no longer displaying");
     }
 

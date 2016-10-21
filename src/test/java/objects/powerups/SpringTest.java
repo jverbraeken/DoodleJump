@@ -63,7 +63,7 @@ public class SpringTest {
         when(loggerFactory.createLogger(Spring.class)).thenReturn(logger);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
-        when(spriteFactory.getSpringUsedSprite()).thenReturn(usedSprite);
+        //when(spriteFactory.getSpringUsedSprite()).thenReturn(usedSprite);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
