@@ -36,7 +36,7 @@ import java.util.TimerTask;
                 x,
                 y,
                 BOOST,
-                sL.getSpriteFactory().getTrampolineSprite(),
+                sL.getSpriteFactory().getPowerupSprite(Powerups.trampoline, 1),
                 sL.getSpriteFactory().getTrampolineUsedSprite(),
                 Trampoline.class);
     }

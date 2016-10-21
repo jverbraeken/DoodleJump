@@ -56,4 +56,10 @@ public interface ISceneFactory extends IFactory {
      */
     IScene newChooseMode();
 
+    /**
+     * Create a shop.
+     *
+     * @return An IScene of the shop screen.
+     */
+    IScene createShopScreen();
 }

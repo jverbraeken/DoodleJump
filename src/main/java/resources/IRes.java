@@ -38,6 +38,7 @@ public interface IRes {
         resume,
         scoreButton,
         chooseMode,
+        shop,
 
         // Covers
         background,

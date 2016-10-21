@@ -20,6 +20,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -56,7 +57,7 @@ public class PropellerTest {
         when(doodle.getWorld()).thenReturn(world);
         when(loggerFactory.createLogger(Propeller.class)).thenReturn(logger);
         when(sprite.getHeight()).thenReturn(0);
-        when(spriteFactory.getPropellerSprite()).thenReturn(sprite);
+        when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(spriteFactory.getPropellerActiveSprites()).thenReturn(spritePack);
         Whitebox.setInternalState(world, "newDrawables", new HashSet<>());
         Whitebox.setInternalState(world, "newUpdatables", new ArrayList<>());

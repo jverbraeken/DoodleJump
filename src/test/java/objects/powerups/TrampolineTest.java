@@ -15,6 +15,8 @@ import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -56,7 +58,7 @@ public class TrampolineTest {
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(loggerFactory.createLogger(Trampoline.class)).thenReturn(logger);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
-        when(spriteFactory.getTrampolineSprite()).thenReturn(sprite);
+        when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(spriteFactory.getTrampolineUsedSprite()).thenReturn(usedSprite);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
         when(serviceLocator.getRenderer()).thenReturn(renderer);

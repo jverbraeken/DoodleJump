@@ -5,9 +5,9 @@ import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
- * This class focuses on the implementation of button.
+ * This IMMUTABLE class focuses on the implementation of button.
  */
-/* package */ class Button implements IButton {
+/* package */ final class Button implements IButton {
 
     /**
      * Used to gain access to all services.
