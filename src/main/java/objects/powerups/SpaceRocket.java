@@ -11,7 +11,7 @@ import system.IServiceLocator;
     /**
      * The boost the SpaceRocket gives.
      */
-    private static final double MAX_BOOST = -75d;
+    private static final int MAX_TIME = 225;
 
     /**
      * Y offset for drawing the SpaceRocket when on Doodle.
@@ -27,7 +27,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the SpaceRocket.
      */
     /* package */ SpaceRocket(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, MAX_BOOST, sL.getSpriteFactory().getSpaceRocketSprite(), sL.getSpriteFactory().getSpaceRocketActiveSprites(), SpaceRocket.class);
+        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getSpaceRocketSprite(), sL.getSpriteFactory().getSpaceRocketActiveSprites(), SpaceRocket.class);
     }
 
 

@@ -12,7 +12,7 @@ import system.IServiceLocator;
     /**
      * The boost the Jetpack gives.
      */
-    private static final double MAX_BOOST = -25d;
+    private static final int MAX_TIME = 175;
 
     /**
      * Y offset for drawing the Jetpack when on Doodle.
@@ -27,7 +27,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the Jetpack.
      */
     /* package */ Jetpack(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, MAX_BOOST, sL.getSpriteFactory().getJetpackSprite(), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
+        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getJetpackSprite(), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
     }
 
     /**

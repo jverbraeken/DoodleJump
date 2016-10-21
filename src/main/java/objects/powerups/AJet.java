@@ -10,6 +10,10 @@ import system.IServiceLocator;
 public abstract class AJet extends APowerup {
 
     /**
+     * The boost the Jetpack gives.
+     */
+    private static final double MAX_BOOST = -25d;
+    /**
      * The acceleration provided by the Jetpack.
      */
     private static final double ACCELERATION = -2d;
@@ -37,10 +41,7 @@ public abstract class AJet extends APowerup {
      * The refresh rate for the active animation.
      */
     private static final int ANIMATION_REFRESH_RATE = 3;
-    /**
-     * The maximum time the Jetpack is active.
-     */
-    private static final int MAX_TIMER = 175;
+
     /**
      * Offset for the initial phase of the Jetpack animation.
      */
@@ -54,6 +55,7 @@ public abstract class AJet extends APowerup {
      */
     private static final int ANIMATION_OFFSET_THREE = 6;
 
+    private ISprite defaultSprite;
     /**
      * The sprites for an active rocket.
      */
@@ -64,10 +66,9 @@ public abstract class AJet extends APowerup {
     private IDoodle owner;
 
     /**
-     * The boost the Jetpack gives.
+     * The maximum time the Jetpack is active.
      */
-    private double maxBoost;
-
+    private int timeLimit;
     /**
      * The active timer for the Jetpack.
      */
@@ -91,12 +92,13 @@ public abstract class AJet extends APowerup {
     public AJet(final IServiceLocator sL,
                 final int x,
                 final int y,
-                final double maxBoost,
+                final int maxTime,
                 final ISprite sprite,
                 final ISprite[] sprites,
                 final Class<?> powerup) {
         super(sL, x, y, sprite, powerup);
-        this.maxBoost = maxBoost;
+        this.timeLimit = maxTime;
+        this.defaultSprite = sprite;
         this.spritePack = sprites;
     }
 
@@ -149,7 +151,7 @@ public abstract class AJet extends APowerup {
      * Ends the powerup.
      */
     private final void endPowerup() {
-        this.setSprite(spritePack[spritePack.length - 1]);
+        this.setSprite(defaultSprite);
         this.vSpeed = INITIAL_DROP_SPEED;
 
         this.owner.removePowerup(this);
@@ -164,15 +166,15 @@ public abstract class AJet extends APowerup {
     private final void updateOwned() {
         timer++;
 
-        if (timer >= MAX_TIMER) {
+        if (timer >= timeLimit) {
             this.endPowerup();
             return;
-        } else if (this.vSpeed > maxBoost) {
+        } else if (this.vSpeed > MAX_BOOST) {
             this.vSpeed += ACCELERATION;
         }
 
         if (this.timer % ANIMATION_REFRESH_RATE == 0) {
-            double percentage = (double) timer / (double) MAX_TIMER;
+            double percentage = (double) timer / (double) timeLimit;
             int offset = ANIMATION_OFFSET_ONE;
             if (percentage > ANIMATION_PHASE_ONE && percentage < ANIMATION_PHASE_TWO) {
                 offset = ANIMATION_OFFSET_TWO;
@@ -196,5 +198,6 @@ public abstract class AJet extends APowerup {
     public final void setOwner(final IDoodle doodle) {
         this.owner = doodle;
     }
+
 
 }
