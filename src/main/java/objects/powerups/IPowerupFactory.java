@@ -71,31 +71,5 @@ public interface IPowerupFactory extends IFactory {
      */
     IGameObject createTrampoline(final int x, final int y);
 
-    /**
-     * Create a new SpaceRocket powerup.
-     *
-     * @param x The X location for the SpaceRocket.
-     * @param y The Y location for the SpaceRocket.
-     * @return A new Trampoline instance.
-     */
-    IGameObject createSpaceRocket(final int x, final int y);
-
-     /**
-     * Create a new Cannon powerup.
-     * @param x The X location for the Circus Cannon.
-     * @param y The Y location for the Circus Cannon.
-     * @return A new CircusCannon instance.
-     */
-    IGameObject createCircusCannon(final int x, final int y);
-
-    /**
-     * Create a new RocketLauncher powerup.
-     *
-     * @param x The X location for the RocketLauncher.
-     * @param y The Y location for the RocketLauncher.
-     * @return A new RocketLauncher instance.
-     */
-    IGameObject createRocketLauncher(final int x, final int y);
-
 
 }

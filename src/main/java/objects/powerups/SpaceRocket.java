@@ -1,12 +1,11 @@
 package objects.powerups;
 
-import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
  * This class describes the behaviour of the SpaceRocket powerup.
  */
-/* package */ final class SpaceRocket extends AJet {
+/* package */ final class SpaceRocket extends AJetpack {
 
     /**
      * The boost the SpaceRocket gives.
@@ -28,23 +27,6 @@ import system.IServiceLocator;
      */
     /* package */ SpaceRocket(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getSpaceRocketSprite(), sL.getSpriteFactory().getSpaceRocketActiveSprites(), SpaceRocket.class);
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void collidesWith(final IDoodle doodle) {
-        if (doodle == null) {
-            throw new IllegalArgumentException("Doodle cannot be null");
-        }
-
-        if (this.getOwner() == null) {
-            getLogger().info("Doodle collided with a SpaceRocket");
-            this.setOwner(doodle);
-            doodle.setPowerup(this);
-        }
     }
 
     /**

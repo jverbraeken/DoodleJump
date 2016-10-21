@@ -1,7 +1,6 @@
 package objects.powerups;
 
 import objects.doodles.DoodleBehavior.MovementBehavior;
-import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
@@ -10,7 +9,7 @@ import system.IServiceLocator;
 
 
 
-/* package */ final class Jetpack extends AJet {
+/* package */ final class Jetpack extends AJetpack {
 
 
     /**
@@ -38,25 +37,9 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
-        if (doodle == null) {
-            throw new IllegalArgumentException("Doodle cannot be null");
-        }
-
-        if (this.getOwner() == null) {
-            getLogger().info("Doodle collided with a Jetpack");
-            this.setOwner(doodle);
-            doodle.setPowerup(this);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void setPosition() {
         MovementBehavior.Directions facing = this.getOwner().getFacing();
-        if (facing == MovementBehavior.Directions.Left) {
+        if (facing.equals(MovementBehavior.Directions.Left)) {
             this.setXPos((int) this.getOwner().getXPos() + this.getOwner().getHitBox()[HITBOX_RIGHT]);
         } else {
             this.setXPos((int) this.getOwner().getXPos());

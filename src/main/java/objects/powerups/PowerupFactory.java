@@ -101,27 +101,4 @@ public final class PowerupFactory implements IPowerupFactory {
         return new Trampoline(serviceLocator, x, y);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public IGameObject createSpaceRocket(final int x, final int y) {
-        logger.info("A new Space Rocket has been created");
-        return new SpaceRocket(serviceLocator, x, y);
-    }
-
-    public IGameObject createCircusCannon(final int x, final int y) {
-        logger.info("A new Circus Cannon has been created");
-        return new CircusCannon(serviceLocator, x, y);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public IGameObject createRocketLauncher(final int x, final int y) {
-        logger.info("A new Rocket Launcher has been created");
-        return new RocketLauncher(serviceLocator, x, y);
-    }
-
 }

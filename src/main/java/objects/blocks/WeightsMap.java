@@ -53,7 +53,7 @@ import java.util.EnumMap;
     private static final double PROPELLOR_POWERUP = 0.005;
 
     /**
-     * The chance of the size down powerup spawning.
+     * The chance of the size up powerup spawning.
      */
     private static final double SIZEUP_POWERUP = 0.005;
 

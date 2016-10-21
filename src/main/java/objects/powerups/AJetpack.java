@@ -7,7 +7,7 @@ import system.IServiceLocator;
 /**
  * Created by Michael on 10/20/2016.
  */
-public abstract class AJet extends APowerup implements IEquipmentPowerup{
+public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
 
     /**
      * The boost the AJet object provides.
@@ -28,7 +28,7 @@ public abstract class AJet extends APowerup implements IEquipmentPowerup{
     /**
      * Percentage for the initial phase of the AJet animation.
      */
-    private static final double ANIMATION_PHASE_ONE = 0.15d;
+    private static final double ANIMATION_PHASE_ONE = 0.1d;
     /**
      * Percentage for the second phase of the AJet animation.
      */
@@ -93,7 +93,7 @@ public abstract class AJet extends APowerup implements IEquipmentPowerup{
      * @param x - The X location for the AJet.
      * @param y - The Y location for the AJet.
      */
-    public AJet(final IServiceLocator sL,
+    public AJetpack(final IServiceLocator sL,
                 final int x,
                 final int y,
                 final int maxTime,
@@ -113,7 +113,7 @@ public abstract class AJet extends APowerup implements IEquipmentPowerup{
      */
     @Override
     public final void perform(final PowerupOccasion occasion) {
-        if (this.owner == null) {
+        if (this.owner.equals(null)) {
             throw new IllegalArgumentException("Owner cannot be null");
         }
 
@@ -127,7 +127,7 @@ public abstract class AJet extends APowerup implements IEquipmentPowerup{
      */
     @Override
     public final void update(final double delta) {
-        if (this.owner != null) {
+        if (!(this.owner.equals(null))) {
             this.updateOwned();
         } else if (this.timer > 0) {
             this.updateFalling();
@@ -162,6 +162,22 @@ public abstract class AJet extends APowerup implements IEquipmentPowerup{
         this.owner.getWorld().addDrawable(this);
         this.owner.getWorld().addUpdatable(this);
         this.owner = null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collidesWith(final IDoodle doodle) {
+        if (doodle.equals(null)) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
+        if (this.getOwner().equals(null)) {
+            getLogger().info("Doodle collided with an AJetpack");
+            this.setOwner(doodle);
+            doodle.setPowerup(this);
+        }
     }
 
     /**
