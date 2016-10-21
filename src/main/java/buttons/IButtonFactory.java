@@ -1,5 +1,6 @@
 package buttons;
 
+import objects.powerups.Powerups;
 import system.IFactory;
 
 /**
@@ -33,6 +34,15 @@ public interface IButtonFactory extends IFactory {
      * @return a play again button.
      */
     IButton createMultiplayerButton(int x, int y);
+
+    /**
+     * Create a new button that opens the shop when clicked.
+     *
+     * @param x the x position of the button.
+     * @param y the y position of the button.
+     * @return a shop button.
+     */
+    IButton createShopButton(int x, int y);
 
     /**
      * Create a press to resume playing button.
@@ -124,6 +134,20 @@ public interface IButtonFactory extends IFactory {
      */
     IButton createStoryModeButton(final int x, final int y);
 
+
+    /////   SHOP
+
+
+    /**
+     * Create a button to upgrade the {@link objects.powerups.Jetpack} powerup.
+     *
+     * @param powerup The kind of powerup you want to create an upgrade button for
+     * @param x the x position of the button relative to the screen
+     * @param y the y position of the button relative to the screen
+     * @return A button that can upgrade the {@link objects.powerups.Jetpack} powerup
+     */
+    IButton createShopPowerupButton(final Powerups powerup, final double x, final double y);
+
     /**
      * Create a pause button for in game.
      *
@@ -132,5 +156,4 @@ public interface IButtonFactory extends IFactory {
      * @return A pause button.
      */
     IButton createPauseButton(final int x, final int y);
-
 }

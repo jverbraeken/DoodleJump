@@ -4,6 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import logging.ILogger;
+import objects.powerups.Powerups;
 import resources.IRes;
 import system.IServiceLocator;
 
@@ -129,6 +130,13 @@ public final class SpriteFactory implements ISpriteFactory {
         return this.getSprite(IRes.Sprites.chooseMode);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getShopButtonSprite() {
+        return getSprite(IRes.Sprites.shop);
+    }
 
     // Covers
     /**
@@ -624,8 +632,26 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getTrampolineSprite() {
-        return this.getSprite(IRes.Sprites.trampoline);
+    public ISprite getPowerupSprite(final Powerups powerup, final int level) {
+        // TODO parameter checking
+        switch (powerup) {
+            case jetpack:
+                return getSprite(IRes.Sprites.jetpack);
+            case propeller:
+                return getSprite(IRes.Sprites.propeller);
+            case sizeDown:
+                return getSprite(IRes.Sprites.sizeDown);
+            case sizeUp:
+                return getSprite(IRes.Sprites.sizeUp);
+            case spring:
+                return getSprite(IRes.Sprites.spring);
+            case springShoes:
+                return getSprite(IRes.Sprites.springShoes);
+            case trampoline:
+                return getSprite(IRes.Sprites.trampoline);
+        }
+        // ERROR
+        return null;
     }
 
     /**
@@ -640,65 +666,11 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getSpringSprite() {
-        return this.getSprite(IRes.Sprites.spring);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public ISprite getSpringUsedSprite() {
         return this.getSprite(IRes.Sprites.springUsed);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getSpringShoesSprite() {
-        return this.getSprite(IRes.Sprites.springShoes);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getJetpackSprite() {
-        return this.getSprite(IRes.Sprites.jetpack);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPropellerSprite() {
-        return this.getSprite(IRes.Sprites.propeller);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getShieldSprite() {
-        return this.getSprite(IRes.Sprites.shield);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getSizeUpSprite() {
-        return this.getSprite(IRes.Sprites.sizeUp);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getSizeDownSprite() {
-        return this.getSprite(IRes.Sprites.sizeDown);
-    }
+    // PASSIVE
 
     /**
      * {@inheritDoc}

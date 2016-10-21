@@ -67,7 +67,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the Propeller.
      */
     /* package */ Propeller(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPropellerSprite(), Propeller.class);
+        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);
         Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
     }
 
@@ -162,11 +162,11 @@ import system.IServiceLocator;
     }
 
     /**
-     * Ends the powerup.
+     * {@inheritDoc}
      */
     @Override
     public void endPowerup() {
-        this.setSprite(getServiceLocator().getSpriteFactory().getPropellerSprite());
+            this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
         this.vSpeed = INITIAL_DROP_SPEED;
 
         this.owner.removePowerup(this);

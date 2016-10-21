@@ -17,6 +17,8 @@ import system.IServiceLocator;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -48,7 +50,7 @@ public class SpringShoesTest {
         when(doodle.getSprite()).thenReturn(sprite);
         when(loggerFactory.createLogger(SpringShoes.class)).thenReturn(logger);
         when(sprite.getWidth()).thenReturn(0);
-        when(spriteFactory.getSpringShoesSprite()).thenReturn(sprite);
+        when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(doodle.getHitBox()).thenReturn(new double[]{0, 0, 0, 0});
         when(doodle.getYPos()).thenReturn(-2d);
         when(doodle.getLegsHeight()).thenReturn(0d);

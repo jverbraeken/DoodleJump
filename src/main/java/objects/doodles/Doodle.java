@@ -13,6 +13,7 @@ import objects.doodles.DoodleBehavior.UnderwaterBehavior;
 import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
+import objects.powerups.Powerups;
 import rendering.ICamera;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -133,7 +134,7 @@ public class Doodle extends AGameObject implements IDoodle {
                 sL.getSpriteFactory().getDoodleLeftSprites()[0],
                 Doodle.class);
 
-        Doodle.fakePowerup = new APowerup(sL, 0, 0, sL.getSpriteFactory().getShieldSprite(), APowerup.class) {
+        Doodle.fakePowerup = new APowerup(sL, 0, 0, sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
             @Override
             public void render() {
             }
