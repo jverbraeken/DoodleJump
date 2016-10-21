@@ -32,13 +32,15 @@ public final class EnemyFactory implements IEnemyFactory {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         EnemyFactory.serviceLocator = sL;
         EnemyFactory.serviceLocator.provide(new EnemyFactory());
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IGameObject createOrdinaryEnemy(final int x, final int y) {

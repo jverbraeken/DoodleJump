@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
      */
     private static final ThreadPoolExecutor LOGGING_THREAD_EXECUTOR = new ThreadPoolExecutor(
             0, 50000, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());
+
     /**
      * Reference to the file system to write.
      */
@@ -34,7 +35,6 @@ import java.util.concurrent.TimeUnit;
 
     /**
      * Only create Logger in LoggerFactory.
-     *
      * @param sL The serviceLocator.
      * @param targetClass The class the Logger is serving.
      */
@@ -45,60 +45,60 @@ import java.util.concurrent.TimeUnit;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void error(final String msg) {
         String str = this.generateMessage("ERROR", msg);
-        appendStringToTextFile(str);
+        this.appendStringToTextFile(str);
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void error(final Exception exception) {
         String str = this.generateMessage("ERROR", exception.getMessage());
-        appendStringToTextFile(str);
+        this.appendStringToTextFile(str);
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void info(final String msg) {
         String str = this.generateMessage("INFO", msg);
-        appendStringToTextFile(str);
+        this.appendStringToTextFile(str);
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void warning(final String msg) {
         String str = this.generateMessage("WARNING", msg);
-        appendStringToTextFile(str);
+        this.appendStringToTextFile(str);
     }
 
     /**
      * Append a string to a text file.
-     *
      * @param str The string to append.
      */
     private void appendStringToTextFile(final String str) {
-        Runnable runnable = () -> fileSystem.log(str);
-        LOGGING_THREAD_EXECUTOR.execute(runnable);
-        if (logPendingTasks) {
-            long submitted = LOGGING_THREAD_EXECUTOR.getTaskCount();
-            long completed = LOGGING_THREAD_EXECUTOR.getCompletedTaskCount();
+        if (this.logPendingTasks) {
+            Runnable runnable = () -> this.fileSystem.log(str);
+            Logger.LOGGING_THREAD_EXECUTOR.execute(runnable);
+
+            long submitted = Logger.LOGGING_THREAD_EXECUTOR.getTaskCount();
+            long completed = Logger.LOGGING_THREAD_EXECUTOR.getCompletedTaskCount();
             long notCompleted = submitted - completed;
-            fileSystem.log("Pending logging tasks: " + notCompleted);
+
+            this.fileSystem.log("Pending logging tasks: " + notCompleted);
         }
     }
 
     /**
      * Generate the full message to log.
-     *
      * @param type The type of message.
      * @param msg  The message to log.
      * @return The generated message.
@@ -106,7 +106,7 @@ import java.util.concurrent.TimeUnit;
     private String generateMessage(final String type, final String msg) {
         Date date = new Date();
         return new Timestamp(date.getTime()) + " | "
-                + "ORIGIN: '" + cl.getName() + "' | "
+                + "ORIGIN: '" + this.cl.getName() + "' | "
                 + type + ": '" + msg + "'";
     }
 

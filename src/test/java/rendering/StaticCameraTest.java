@@ -1,6 +1,7 @@
 package rendering;
 
 import com.google.common.util.concurrent.AtomicDouble;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
@@ -15,6 +16,9 @@ public class StaticCameraTest {
     @Before
     public void init() {
         camera = new StaticCamera();
+
+        Object y = Whitebox.getInternalState(StaticCamera.class, "y");
+        ((AtomicDouble) y).set(0d);
     }
 
     @Test
@@ -33,10 +37,10 @@ public class StaticCameraTest {
         Object y = Whitebox.getInternalState(StaticCamera.class, "y");
 
         camera.setYPos(2d);
-        assertThat(((AtomicDouble) y).get(), is(2d));
+        assertThat(((AtomicDouble) y).get(), is(0d));
 
         camera.setYPos(3d);
-        assertThat(((AtomicDouble) y).get(), is(3d));
+        assertThat(((AtomicDouble) y).get(), is(0d));
     }
 
 }

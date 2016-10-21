@@ -29,9 +29,9 @@ public class GenerationSet implements IWeightsSet {
      */
     private List<Tuple2<Double, ElementTypes>> weights;
     /**
-     * The servicelocator of this game.
+     * The serviceLocator of this game.
      */
-    private IServiceLocator serviceLocator;
+    private final IServiceLocator serviceLocator;
 
     /**
      * Create and initialize a WeightsSet.
@@ -83,11 +83,12 @@ public class GenerationSet implements IWeightsSet {
                 ElementTypes.springShoes);
         this.weights = sortWeightsMap(powerupWeights, powerups);
     }
+
     /**
      * Sort the weights by the key value double.
-     *
-     * @param weights a set with the weights that have to be used.
-     * @param elementType the list with strings of the element types.
+     * @param weights A set with the weights that have to be used.
+     * @param elementType The list with strings of the element types.
+     * @return A list of MyEntry's.
      */
     private List<Tuple2<Double, ElementTypes>> sortWeightsMap(List<Double> weights, List<ElementTypes> elementType) {
         double total = 0;

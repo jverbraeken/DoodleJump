@@ -114,7 +114,7 @@ public class Menu implements IScene, IKeyInputObserver {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void start() {
@@ -127,7 +127,7 @@ public class Menu implements IScene, IKeyInputObserver {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void stop() {
@@ -140,7 +140,7 @@ public class Menu implements IScene, IKeyInputObserver {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void render() {
@@ -153,26 +153,25 @@ public class Menu implements IScene, IKeyInputObserver {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void update(final double delta) {
         doodle.update(delta);
 
-        double doodleY = doodle.getYPos() + this.doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] * doodle.getLegsHeight();
-        if (doodle.checkCollision(platform) && doodleY < platform.getYPos()) {
+        if (doodle.checkCollision(platform)) {
             platform.collidesWith(this.doodle);
         }
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void keyPress(final Keys key) { }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void keyRelease(final Keys key) {

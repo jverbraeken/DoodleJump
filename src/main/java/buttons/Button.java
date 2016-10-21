@@ -10,14 +10,13 @@ import system.IServiceLocator;
 /* package */ class Button implements IButton {
 
     /**
-     * The logger for the Button class.
-     */
-    private final ILogger logger;
-
-    /**
      * Used to gain access to all services.
      */
     private final IServiceLocator serviceLocator;
+    /**
+     * The logger for the Button class.
+     */
+    private final ILogger logger;
     /**
      * The sprite of the button.
      */
@@ -41,7 +40,6 @@ import system.IServiceLocator;
 
     /**
      * Constructor of a new button.
-     *
      * @param sL the service locator.
      * @param x  the x position of the button
      * @param y  the y position of the button
@@ -74,7 +72,8 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSpriteHUD(sprite, topLeft[0], topLeft[1], width, height);
+        this.serviceLocator.getRenderer().drawSpriteHUD(
+                this.sprite, this.topLeft[0], this.topLeft[1], this.width, this.height);
     }
 
     /**
@@ -84,9 +83,9 @@ import system.IServiceLocator;
     public final void mouseClicked(final int x, final int y) {
         assert x >= 0 && y >= 0;
 
-        if (x > topLeft[0] && x < bottomRight[0] && y > topLeft[1] && y < bottomRight[1]) {
-            logger.info("Button clicked: \"" + name + "\"");
-            action.run();
+        if (x > this.topLeft[0] && x < this.bottomRight[0] && y > this.topLeft[1] && y < this.bottomRight[1]) {
+            this.logger.info("Button clicked: \"" + this.name + "\"");
+            this.action.run();
         }
     }
 
@@ -95,8 +94,8 @@ import system.IServiceLocator;
      */
     @Override
     public void register() {
-        serviceLocator.getInputManager().addObserver(this);
-        logger.info("The button \"" + this.name + "\" registered itself as an observer of the input manager");
+        this.serviceLocator.getInputManager().addObserver(this);
+        this.logger.info("The button \"" + this.name + "\" registered itself as an observer of the input manager");
     }
 
     /**
@@ -104,7 +103,8 @@ import system.IServiceLocator;
      */
     @Override
     public void deregister() {
-        serviceLocator.getInputManager().removeObserver(this);
-        logger.info("The button \"" + this.name + "\" removed itself as an observer from the input manager");
+        this.serviceLocator.getInputManager().removeObserver(this);
+        this.logger.info("The button \"" + this.name + "\" removed itself as an observer from the input manager");
     }
+
 }

@@ -100,7 +100,7 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-	 * {@inheritDoc}
+    * {@inheritDoc}
      */
     @Override
     public final double getBoost() {
@@ -108,7 +108,7 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void update(final double delta) {
@@ -136,8 +136,14 @@ public class Platform extends AGameObject implements IPlatform {
      */
     @Override
     public final void collidesWith(final IDoodle doodle) {
-        this.playSound();
-        doodle.collide(this);
+        if (doodle == null) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
+        if (doodle.getVerticalSpeed() > 0 && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
+            this.playSound();
+            doodle.collide(this);
+        }
     }
 
     /**
@@ -149,7 +155,7 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final Map<PlatformProperties, Integer> getProps() {
@@ -173,7 +179,7 @@ public class Platform extends AGameObject implements IPlatform {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final int getOffset() {

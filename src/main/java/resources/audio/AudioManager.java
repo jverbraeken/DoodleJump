@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 
 /**
  * Standard implementation of the AudioManager. Used to load an play audio.
+ * <br>
+ * It is not deemed necessary for all individual sounds to have a JavaDoc.
  */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class AudioManager implements IAudioManager {
@@ -18,25 +20,26 @@ public final class AudioManager implements IAudioManager {
     private static transient IServiceLocator serviceLocator;
 
     /**
-     * Prevents instantiation from outside the class.
-     */
-    private AudioManager() {
-        preload();
-    }
-
-    /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         AudioManager.serviceLocator = sL;
-        sL.provide(new AudioManager());
+        AudioManager.serviceLocator.provide(new AudioManager());
     }
 
     /**
-	 * {@inheritDoc}
+     * Prevents instantiation from outside the class.
+     */
+    private AudioManager() {
+        this.preload();
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public void preload() {
@@ -44,7 +47,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playBijeli() {
@@ -52,7 +55,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playBlizzard() {
@@ -60,7 +63,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playBubbles1() {
@@ -68,7 +71,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playBubbles2() {
@@ -76,7 +79,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playChill() {
@@ -84,7 +87,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playCollect() {
@@ -92,7 +95,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playCrnarupa() {
@@ -100,7 +103,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playEggMonsterHit() {
@@ -108,7 +111,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playExplodingPlatform() {
@@ -116,7 +119,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playExplodingPlatform2() {
@@ -124,7 +127,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playFeder() {
@@ -132,7 +135,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playJetpack() {
@@ -140,7 +143,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playJump() {
@@ -148,7 +151,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playJumpOnMonster() {
@@ -156,7 +159,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playLomise() {
@@ -164,7 +167,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playMatchSound() {
@@ -172,7 +175,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playMonsterCrash() {
@@ -180,7 +183,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playMonsterBlizu() {
@@ -188,7 +191,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playMonsterPogodak() {
@@ -196,7 +199,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playOogapucanje() {
@@ -204,7 +207,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playOogapucanje2() {
@@ -212,7 +215,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playPada() {
@@ -220,7 +223,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playPropeller() {
@@ -228,7 +231,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playPucanje() {
@@ -236,7 +239,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playPucanje2() {
@@ -244,7 +247,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playRain() {
@@ -252,7 +255,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playRocket() {
@@ -260,7 +263,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playSnowballMonsterHit() {
@@ -268,7 +271,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playSnowballThrow() {
@@ -276,7 +279,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playSnowballThrow2() {
@@ -284,7 +287,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playSoccerMonsterCrash() {
@@ -292,7 +295,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playSoccerMonsterHit() {
@@ -300,7 +303,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playSpringShoes() {
@@ -308,7 +311,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playStart() {
@@ -316,7 +319,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playThunder() {
@@ -324,7 +327,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playTrampoline() {
@@ -332,7 +335,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playUFO() {
@@ -340,7 +343,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playUFOPogodak() {
@@ -348,7 +351,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playUnderwaterShoot() {
@@ -356,7 +359,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playUnderwaterShoot2() {
@@ -364,7 +367,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playUsaugateufo() {
@@ -372,7 +375,7 @@ public final class AudioManager implements IAudioManager {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void playWin() {
@@ -432,14 +435,13 @@ public final class AudioManager implements IAudioManager {
         private Clip clip;
 
         /**
-         * Used to preload all files.
-         *
+         * Preload a sound.
          * @param filepath The path of the file of the sound.
          */
         Sound(final String filepath) {
-            ILogger logger = serviceLocator.getLoggerFactory().createLogger(AudioManager.class);
+            ILogger logger = AudioManager.serviceLocator.getLoggerFactory().createLogger(AudioManager.class);
             try {
-                clip = serviceLocator.getFileSystem().readSound(filepath);
+                this.clip = AudioManager.serviceLocator.getFileSystem().readSound(filepath);
                 logger.info("Sound loaded: \"" + filepath + "\"");
             } catch (FileNotFoundException e) {
                 logger.error(e);
@@ -457,12 +459,9 @@ public final class AudioManager implements IAudioManager {
          * Play a sound.
          */
         public void play() {
-            if (clip.isRunning()) {
-                clip.stop();
-            }
-
-            clip.setFramePosition(0);
-            clip.start();
+            this.clip.stop();
+            this.clip.setFramePosition(0);
+            this.clip.start();
         }
     }
 

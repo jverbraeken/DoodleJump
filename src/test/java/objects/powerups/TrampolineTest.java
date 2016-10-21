@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.Before;
@@ -33,6 +34,7 @@ public class TrampolineTest {
     private Trampoline trampoline;
     private IDoodle doodle;
     private ILoggerFactory loggerFactory;
+    private ILogger logger;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -50,7 +52,9 @@ public class TrampolineTest {
         renderer = mock(IRenderer.class);
         doodle = mock(IDoodle.class);
         loggerFactory = mock(ILoggerFactory.class);
+        logger = mock(ILogger.class);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
+        when(loggerFactory.createLogger(Trampoline.class)).thenReturn(logger);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(spriteFactory.getTrampolineSprite()).thenReturn(sprite);
         when(spriteFactory.getTrampolineUsedSprite()).thenReturn(usedSprite);
@@ -58,6 +62,10 @@ public class TrampolineTest {
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(sprite.getHeight()).thenReturn(20);
         when(usedSprite.getHeight()).thenReturn(40);
+        when(doodle.getHitBox()).thenReturn(new double[]{0, 0, 0, 0});
+        when(doodle.getYPos()).thenReturn(-2d);
+        when(doodle.getLegsHeight()).thenReturn(0d);
+        when(doodle.getVerticalSpeed()).thenReturn(1d);
     }
 
     /**
@@ -108,7 +116,7 @@ public class TrampolineTest {
     @Test
     public void testCollidesWith2() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
-        thrown.expect(NullPointerException.class);
+        thrown.expect(IllegalArgumentException.class);
         trampoline.collidesWith(null);
     }
 
@@ -118,7 +126,6 @@ public class TrampolineTest {
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
      */
-
     @Test
     public void testAnimate() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 30, 653);
@@ -136,7 +143,7 @@ public class TrampolineTest {
     @Test
     public void testGetBoost() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0);
-        double boost = Whitebox.getInternalState(trampoline, "BOOST", Trampoline.class);
+        double boost = Whitebox.getInternalState(trampoline, "boost", AJumpablePowerup.class);
         assertEquals(boost, trampoline.getBoost(), 0.001);
     }
 

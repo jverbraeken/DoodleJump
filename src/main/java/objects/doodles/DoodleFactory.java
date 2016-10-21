@@ -29,13 +29,15 @@ public final class DoodleFactory implements IDoodleFactory {
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         DoodleFactory.serviceLocator = sL;
         sL.provide(new DoodleFactory());
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IDoodle createDoodle(final World world) {
@@ -45,7 +47,7 @@ public final class DoodleFactory implements IDoodleFactory {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public IDoodle createStartScreenDoodle() {

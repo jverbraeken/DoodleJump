@@ -9,6 +9,7 @@ import system.IServiceLocator;
  * A sample enemy class.
  */
 public class Enemy extends AEnemy {
+
     /**
      * The boost the Doodle gets from colliding with the Enemy.
      */
@@ -58,15 +59,15 @@ public class Enemy extends AEnemy {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final double getBoost() {
-        return this.BOOST;
+        return Enemy.BOOST;
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void render() {
@@ -75,7 +76,7 @@ public class Enemy extends AEnemy {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void update(final double delta) {
@@ -95,14 +96,13 @@ public class Enemy extends AEnemy {
                 }
             }
             this.setXPos(xPos);
-        }
-        else {
+        } else {
             applyGravity();
         }
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final void collidesWith(final IDoodle doodle) {
@@ -119,7 +119,7 @@ public class Enemy extends AEnemy {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final int getOffSet() {
@@ -127,7 +127,7 @@ public class Enemy extends AEnemy {
     }
 
     /**
-	 * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public final double getVerticalSpeed() {
@@ -157,8 +157,5 @@ public class Enemy extends AEnemy {
     public final void setAlive(final boolean alive) {
         this.alive = alive;
     }
-
-
-
 
 }

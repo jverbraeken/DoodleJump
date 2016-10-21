@@ -4,6 +4,8 @@ import system.Game;
 
 /**
  * Interface for the resources.
+ * <br>
+ * It is not deemed necessary for all individual resources to have a JavaDoc.
  */
 @SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface IRes {
@@ -119,6 +121,11 @@ public interface IRes {
         shield,
         sizeUp,
         sizeDown,
+        cannon,
+        cannonUsed,
+        rocketLauncher,
+        rocketLauncherUsed,
+
         // Passive
         jetpack0,
         jetpack1,
@@ -133,6 +140,7 @@ public interface IRes {
         propeller0,
         propeller1,
         propeller2,
+
 
         // Score screen
         scoreScreenBottom,

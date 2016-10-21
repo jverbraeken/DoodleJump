@@ -66,6 +66,8 @@ public class PlatformTest {
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
+        when(doodle.getVerticalSpeed()).thenReturn(1d);
+        when(doodle.getHitBox()).thenReturn(new double[4]);
 
         p = new Platform(serviceLocator, 1, 1, sprite);
         q = new PlatformBroken(serviceLocator, p);
@@ -128,13 +130,17 @@ public class PlatformTest {
         Mockito.verify(audioManager).playJump();
     }
 
-    
     @Test
     public void collidesWithBreakPlatform(){
         q.collidesWith(doodle);
 
         Mockito.verify(doodle, Mockito.times(0)).collide(q);
         Mockito.verify(audioManager).playLomise();
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void collideNoDoodleTest() {
+        p.collidesWith(null);
     }
 
 }

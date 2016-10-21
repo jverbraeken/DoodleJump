@@ -118,7 +118,7 @@ public class Doodle extends AGameObject implements IDoodle {
         super(sL,
                 sL.getConstants().getGameWidth() / 2,
                 sL.getConstants().getGameHeight() / 2,
-                sL.getSpriteFactory().getDoodleSprite(MovementBehavior.Directions.Right)[0],
+                sL.getSpriteFactory().getDoodleLeftSprites()[0],
                 Doodle.class);
 
         this.updateHitBox();
@@ -127,8 +127,8 @@ public class Doodle extends AGameObject implements IDoodle {
         setBehavior(Game.getMode());
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.spritePack = new ISprite[2][2];
-        this.spritePack[0] = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Left);
-        this.spritePack[1] = spriteFactory.getDoodleSprite(MovementBehavior.Directions.Right);
+        this.spritePack[0] = spriteFactory.getDoodleLeftSprites();
+        this.spritePack[1] = spriteFactory.getDoodleRightSprites();
     }
 
     /**
@@ -446,7 +446,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Update the hitbox for the Doodle
+     * Update the hitbox for the Doodle.
      */
     private void updateHitBox() {
         ISprite sprite = this.getSprite();
