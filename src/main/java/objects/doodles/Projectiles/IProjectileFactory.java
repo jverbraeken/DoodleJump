@@ -16,5 +16,5 @@ public interface IProjectileFactory extends IFactory {
      * @param y the y location.
      * @return The new RegularProjectile.
      */
-    RegularProjectile createRegularProjectile(final int x, final int y);
+    RegularProjectile createRegularProjectile(final int x, final int y, final int xDir, final int yDir);
 }

@@ -34,7 +34,7 @@ public final class ProjectileFactory implements IProjectileFactory {
      * {@inheritDoc}
      */
     @Override
-    public RegularProjectile createRegularProjectile(final int x, final int y) {
-        return new RegularProjectile(serviceLocator, x, y);
+    public RegularProjectile createRegularProjectile(final int x, final int y, final int xDir, final int yDir) {
+        return new RegularProjectile(serviceLocator, x, y, xDir, yDir);
     }
 }

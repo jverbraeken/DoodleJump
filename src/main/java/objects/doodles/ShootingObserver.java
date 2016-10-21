@@ -48,7 +48,16 @@ public class ShootingObserver implements IMouseInputObserver {
      */
     @Override
     public final void mouseClicked(final int x, final int y) {
-        IGameObject projectile = serviceLocator.getProjectileFactory().createRegularProjectile((int) doodle.getXPos(), (int) doodle.getYPos());
+        int doodleXPos = (int) (doodle.getXPos() + doodle.getHitBox()[1]/2);
+        int doodleYPos = (int) doodle.getYPos();
+        int xDir = 0;
+        if (doodleYPos - y < 0) {
+            xDir = (-(doodleXPos - x)) /2;
+        } else {
+            xDir = (doodleXPos - x) /2;
+        }
+
+        IGameObject projectile = serviceLocator.getProjectileFactory().createRegularProjectile(doodleXPos, doodleYPos, xDir, 0);
         this.doodle.addProjectile(projectile);
         this.logger.info("The mouse has been clicked in-game, a projectile has been created.");
     }

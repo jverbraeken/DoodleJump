@@ -7,6 +7,8 @@ import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
+import objects.doodles.Projectiles.RegularProjectile;
+import objects.enemies.IEnemy;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -283,7 +285,22 @@ public class World implements IScene {
                     if (doodle.checkCollision(element)) {
                         element.collidesWith(doodle);
                     }
+                    if (element instanceof IEnemy) {
+                        HashSet<IGameObject> projectilesToRemove = new HashSet<>();
+                        for (IGameObject projectile : doodle.getProjectiles()) {
+                            if (projectile.checkCollision(element)) {
+                                element.setXPos(1000);
+                                //((IEnemy) element).setAlive(false);
+                                projectilesToRemove.add(projectile);
+                            }
+                        }
+                        for (IGameObject projectile : projectilesToRemove) {
+                            doodle.removeProjectile(projectile);
+                        }
+
+                    }
                 }
+
             }
         }
 
