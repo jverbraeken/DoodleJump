@@ -41,7 +41,7 @@ import system.IServiceLocator;
         }
 
         if (this.getOwner() == null) {
-            getLogger().info("Doodle collided with a Jetpack");
+            getLogger().info("Doodle collided with a SpaceRocket");
             this.setOwner(doodle);
             doodle.setPowerup(this);
         }

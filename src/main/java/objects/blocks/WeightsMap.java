@@ -70,7 +70,7 @@ import java.util.EnumMap;
     /**
      * The chance of the space rocket spawning.
      */
-    private static final double SPACEROCKET_POWERUP = 0.5;
+    private static final double SPACEROCKET_POWERUP = 0.3;
 
 
     static {
