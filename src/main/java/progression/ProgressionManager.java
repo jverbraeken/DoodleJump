@@ -188,6 +188,11 @@ public final class ProgressionManager implements IProgressionManager {
             logger.error(error);
             throw new IllegalArgumentException(error);
         }
+        if (coins - amount < 0) {
+            final String error = "Insufficient coins available: coins = " + coins + ", subtraction amount = " + amount;
+            logger.error(error);
+            throw new InsufficientCoinsException(error);
+        }
         this.coins -= amount;
 
         saveData();
@@ -422,6 +427,12 @@ public final class ProgressionManager implements IProgressionManager {
         private FinishedProgressionObserverTuple(final ProgressionObservers type, final IProgressionObserver observer) {
             this.type = type;
             this.observer = observer;
+        }
+    }
+
+    private final class InsufficientCoinsException extends RuntimeException {
+        private InsufficientCoinsException(final String message) {
+            super(message);
         }
     }
 }

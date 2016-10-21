@@ -147,56 +147,56 @@ import java.util.ArrayList;
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         IButton mainMenuButton = buttonFactory.createMainMenuButton(
-                (int) (sL.getConstants().getGameWidth() * MAIN_MENU_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * MAIN_MENU_BUTTON_Y));
+                (int) (MAIN_MENU_BUTTON_X),
+                (int) (MAIN_MENU_BUTTON_Y));
         buttons.add(mainMenuButton);
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.jetpack,
-                        (int) (sL.getConstants().getGameWidth() * JETPACK_BUTTON_X),
-                        (int) (sL.getConstants().getGameHeight() * JETPACK_BUTTON_Y)
+                        (int) (JETPACK_BUTTON_X),
+                        (int) (JETPACK_BUTTON_Y)
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.propeller,
-                        (int) (sL.getConstants().getGameWidth() * PROPELLER_BUTTON_X),
-                        (int) (sL.getConstants().getGameHeight() * PROPELLER_BUTTON_Y)
+                        (int) (PROPELLER_BUTTON_X),
+                        (int) (PROPELLER_BUTTON_Y)
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.sizeDown,
-                        (int) (sL.getConstants().getGameWidth() * SIZEDOWN_BUTTON_X),
-                        (int) (sL.getConstants().getGameHeight() * SIZEDOWN_BUTTON_Y)
+                        (int) (SIZEDOWN_BUTTON_X),
+                        (int) (SIZEDOWN_BUTTON_Y)
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.sizeUp,
-                        (int) (sL.getConstants().getGameWidth() * SIZEUP_BUTTON_X),
-                        (int) (sL.getConstants().getGameHeight() * SIZEUP_BUTTON_Y)
+                        (int) (SIZEUP_BUTTON_X),
+                        (int) (SIZEUP_BUTTON_Y)
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.spring,
-                        (int) (sL.getConstants().getGameWidth() * SPRING_BUTTON_X),
-                        (int) (sL.getConstants().getGameHeight() * SPRING_BUTTON_Y)
+                        (int) (SPRING_BUTTON_X),
+                        (int) (SPRING_BUTTON_Y)
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.springShoes,
-                        (int) (sL.getConstants().getGameWidth() * SPRINGSHOES_BUTTON_X),
-                        (int) (sL.getConstants().getGameHeight() * SPRINGSHOES_BUTTON_Y)
+                        (int) (SPRINGSHOES_BUTTON_X),
+                        (int) (SPRINGSHOES_BUTTON_Y)
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.trampoline,
-                        (int) (sL.getConstants().getGameWidth() * TRAMPOLINE_BUTTON_X),
-                        (int) (sL.getConstants().getGameHeight() * TRAMPOLINE_BUTTON_Y)
+                        (int) (TRAMPOLINE_BUTTON_X),
+                        (int) (TRAMPOLINE_BUTTON_Y)
                 )
         );
 

@@ -63,8 +63,8 @@ import system.IServiceLocator;
      * Propeller constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the Propeller.
-     * @param y - The Y location for the Propeller.
+     * @param x  - The X location for the Propeller.
+     * @param y  - The Y location for the Propeller.
      */
     /* package */ Propeller(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);

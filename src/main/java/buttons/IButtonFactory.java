@@ -60,7 +60,7 @@ public interface IButtonFactory extends IFactory {
      * @param y the y position of the button.
      * @return a main menu button.
      */
-    IButton createMainMenuButton(final int x, final int y);
+    IButton createMainMenuButton(final double x, final double y);
 
     /**
      * Create a button to go to the high scores list.
@@ -142,11 +142,11 @@ public interface IButtonFactory extends IFactory {
      * Create a button to upgrade the {@link objects.powerups.Jetpack} powerup.
      *
      * @param powerup The kind of powerup you want to create an upgrade button for
-     * @param x the x position of the button.
-     * @param y the y position of the button.
+     * @param x the x position of the button relative to the screen
+     * @param y the y position of the button relative to the screen
      * @return A button that can upgrade the {@link objects.powerups.Jetpack} powerup
      */
-    IButton createShopPowerupButton(final Powerups powerup, final int x, final int y);
+    IButton createShopPowerupButton(final Powerups powerup, final double x, final double y);
 
     /**
      * Create a pause button for in game.
