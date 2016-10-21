@@ -45,7 +45,7 @@ import java.util.EnumMap;
     /**
      * The chance of the spring jetpack spawning.
      */
-    private static final double JETPACK_POWERUP = 0.003;
+    private static final double JETPACK_POWERUP = 0.03;
 
     /**
      * The chance of the spring jetpack spawning.
@@ -67,6 +67,11 @@ import java.util.EnumMap;
      */
     private static final double SPRINGSHOES_POWERUP = 0.004;
 
+    /**
+     * The chance of the spring jetpack spawning.
+     */
+    private static final double ROCKET_POWERUP = 0.00;
+
 
     static {
         // Platforms
@@ -84,6 +89,7 @@ import java.util.EnumMap;
         WEIGTS_MAP.put(ElementTypes.sizeUp, SIZEUP_POWERUP);
         WEIGTS_MAP.put(ElementTypes.sizeDown, SIZEDOWN_POWERUP);
         WEIGTS_MAP.put(ElementTypes.springShoes, SPRINGSHOES_POWERUP);
+        WEIGTS_MAP.put(ElementTypes.rocket, ROCKET_POWERUP);
 
     }
 

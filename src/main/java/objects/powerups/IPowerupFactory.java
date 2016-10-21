@@ -89,4 +89,13 @@ public interface IPowerupFactory extends IFactory {
      */
     IGameObject createRocketLauncher(final int x, final int y);
 
+    /**
+     * Create a new RocketLauncher powerup.
+     *
+     * @param x The X location for the RocketLauncher.
+     * @param y The Y location for the RocketLauncher.
+     * @return A new RocketLauncher instance.
+     */
+    IGameObject createSpaceRocket(final int x, final int y);
+
 }

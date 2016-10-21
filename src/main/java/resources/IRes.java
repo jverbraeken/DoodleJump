@@ -125,6 +125,7 @@ public interface IRes {
         cannonUsed,
         rocketLauncher,
         rocketLauncherUsed,
+        rocket,
 
         // Passive
         jetpack0,
@@ -140,6 +141,15 @@ public interface IRes {
         propeller0,
         propeller1,
         propeller2,
+        rocket0,
+        rocket1,
+        rocket2,
+        rocket3,
+        rocket4,
+        rocket5,
+        rocket6,
+        rocket7,
+        rocket8,
 
 
         // Score screen

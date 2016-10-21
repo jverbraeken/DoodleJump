@@ -119,4 +119,13 @@ public final class PowerupFactory implements IPowerupFactory {
         return new RocketLauncher(serviceLocator, x, y);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject createSpaceRocket(final int x, final int y) {
+        logger.info("A new Rocket Launcher has been created");
+        return new SpaceRocket(serviceLocator, x, y);
+    }
+
 }

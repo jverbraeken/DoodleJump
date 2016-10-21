@@ -67,6 +67,8 @@ package objects.blocks;
     /**
      * The RocketLauncher powerup.
      */
-    rocketLauncher
+    rocketLauncher,
+
+    rocket
 
 }

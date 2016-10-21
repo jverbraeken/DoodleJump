@@ -5,12 +5,13 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the Jetpack powerup.
  */
-/* package */ final class Jetpack extends AJetpack {
+/* package */ final class SpaceRocket extends AJetpack {
 
     /**
      * The maximum time the Jetpack is active.
      */
-    private static final int MAX_TIMER = 175;
+    private static final int MAX_TIMER = 225;
+
     /**
      * Y offset for drawing the Jetpack when on Doodle.
      */
@@ -23,8 +24,9 @@ import system.IServiceLocator;
      * @param x - The X location for the Jetpack.
      * @param y - The Y location for the Jetpack.
      */
-    /* package */ Jetpack(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, MAX_TIMER, sL.getSpriteFactory().getJetpackSprite(), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
+    /* package */ SpaceRocket(final IServiceLocator sL, final int x, final int y) {
+        super(sL, x, y, MAX_TIMER, sL.getSpriteFactory().getRocketSprite(), sL.getSpriteFactory().getRocketActiveSprites(), SpaceRocket.class);
     }
 
+    
 }
