@@ -58,6 +58,15 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private final Queue<FinishedProgressionObserverTuple> finishedProgressionObserversQueue = new LinkedList<>();
     /**
+     * Contains the data used to create new missions.
+     */
+    private final MissionData[] missionsData = new MissionData[]{
+            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 1, 10),
+            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 2, 20),
+            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 3, 30),
+            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 4, 40)
+    };
+    /**
      * The amount of coins the player has.
      */
     private int coins;
@@ -65,15 +74,6 @@ public final class ProgressionManager implements IProgressionManager {
      * Incremented by 1 after every mission; used to determine which mission should be created.
      */
     private int level = 0;
-    /**
-     * Contains the data used to create new missions.
-     */
-    private final MissionData[] missionsData = new MissionData[] {
-            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 1, 10),
-            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 2, 20),
-            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 3, 30),
-            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 4, 40)
-    };
 
     /**
      * Prevents construction from outside the package.
@@ -142,36 +142,6 @@ public final class ProgressionManager implements IProgressionManager {
      * {@inheritDoc}
      */
     @Override
-    public void alertObservers(final ProgressionObservers type) {
-        type.alertObservers();
-        while (finishedMissionsQueue.size() > 0) {
-            missions.remove(finishedMissionsQueue.remove());
-            createNewMission();
-        }
-        while (finishedProgressionObserversQueue.size() > 0) {
-            finishedProgressionObserversQueue.peek().type.removeObserver(finishedProgressionObserversQueue.remove().observer);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void alertObservers(final ProgressionObservers type, final double amount) {
-        type.alertObservers(amount);
-        while (finishedMissionsQueue.size() > 0) {
-            missions.remove(finishedMissionsQueue.remove());
-            createNewMission();
-        }
-        while (finishedProgressionObserversQueue.size() > 0) {
-            finishedProgressionObserversQueue.peek().type.removeObserver(finishedProgressionObserversQueue.remove().observer);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void alertMissionFinished(Mission mission) {
         if (!missions.contains(mission)) {
             final String error = "The mission that's said to be finished is not an active mission";
@@ -186,8 +156,11 @@ public final class ProgressionManager implements IProgressionManager {
      * {@inheritDoc}
      */
     @Override
-    public void removeObserver(final ProgressionObservers type, final IProgressionObserver observer) {
-        this.finishedProgressionObserversQueue.add(new FinishedProgressionObserverTuple(type, observer));
+    public void update() {
+        while (finishedMissionsQueue.size() > 0) {
+            missions.remove(finishedMissionsQueue.remove());
+            createNewMission();
+        }
     }
 
     /**
@@ -412,8 +385,7 @@ public final class ProgressionManager implements IProgressionManager {
                         return null;
                     }
             ));
-        }
-        else {
+        } else {
             logger.info("Maximum mission limit reached at level" + level + ". Last mission created again...");
             missions.add(serviceLocator.getMissionFactory().createMission(
                     missionsData[missionsData.length - 1].type,

@@ -5,7 +5,6 @@ import buttons.IButtonFactory;
 import input.IKeyInputObserver;
 import input.Keys;
 import logging.ILogger;
-import objects.AGameObject;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.doodles.IDoodle;
@@ -154,11 +153,9 @@ public class Menu implements IScene, IKeyInputObserver {
      */
     @Override
     public final void stop() {
-        for (IButton button : buttons) {
+        for (IButton button : this.buttons) {
             button.deregister();
         }
-        serviceLocator.getInputManager().removeObserver(this);
-        logger.info("The main menu removed itself as an observer from the input manager");
         logger.info("The menu scene is no longer displaying");
     }
 
@@ -191,7 +188,8 @@ public class Menu implements IScene, IKeyInputObserver {
      * {@inheritDoc}
      */
     @Override
-    public void keyPress(final Keys key) { }
+    public void keyPress(final Keys key) {
+    }
 
     /**
      * {@inheritDoc}

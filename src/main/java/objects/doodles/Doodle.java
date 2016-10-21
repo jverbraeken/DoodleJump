@@ -326,15 +326,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public final void deregister() {
-        getServiceLocator().getInputManager().removeObserver(this);
-        getLogger().info("The doodle removed itself as an observer from the input manager");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public MovementBehavior.Directions getFacing() {
         return this.behavior.getFacing();
     }
@@ -360,8 +351,19 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void setKeys(final Keys left, final Keys right) {
+        this.deregister();
         this.keys[0] = left;
         this.keys[1] = right;
+        this.register();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void deregister() {
+        Doodle.getServiceLocator().getInputManager().removeObserver(this);
+        this.getLogger().info("The doodle removed itself as an observer from the input manager");
     }
 
     /**

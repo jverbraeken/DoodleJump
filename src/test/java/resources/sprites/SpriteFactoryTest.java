@@ -410,7 +410,7 @@ public class SpriteFactoryTest {
     }
     @Test
     public void TestGetSpringUsedSprite() throws Exception {
-        TestSprite(IRes.Sprites.springUsed, () -> spriteFactory.getSpringUsedSprite());
+        TestSprite(IRes.Sprites.alertSpringUsed, () -> spriteFactory.getSpringUsedSprite());
     }*/
 
     // TEXT

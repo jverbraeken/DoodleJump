@@ -222,9 +222,6 @@ import java.util.ArrayList;
      */
     @Override
     public final void stop() {
-        for (IButton button : buttons) {
-            button.deregister();
-        }
         logger.info("The choose mode scene is no longer displaying");
     }
 

@@ -1,6 +1,9 @@
 package objects.powerups;
 
 import objects.IGameObject;
+import progression.ISpringUsedObserver;
+import progression.ITrampolineJumpedObserver;
+import progression.SpringUsedObserver;
 import system.IFactory;
 
 /**
@@ -71,4 +74,11 @@ public interface IPowerupFactory extends IFactory {
      */
     IGameObject createTrampoline(final int x, final int y);
 
+    void addObserver(final ISpringCreatedObserver springCreatedObserver);
+
+    void addObserver(final ITrampolineCreatedObserver trampolineCreatedObserver);
+
+    void removeObserver(final ISpringCreatedObserver springCreatedObserver);
+
+    void removeObserver(final ITrampolineCreatedObserver trampolineCreatedObserver);
 }

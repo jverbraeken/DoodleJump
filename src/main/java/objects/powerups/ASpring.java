@@ -1,11 +1,17 @@
 package objects.powerups;
 
+import logging.ILogger;
 import objects.AGameObject;
 import objects.doodles.IDoodle;
+import progression.ISpringUsedObserver;
+import progression.SpringUsedObserver;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,10 +23,21 @@ public abstract class ASpring extends AJumpablePowerup {
     /**
      * The speed with which the ASpring retracts after it is being used.
      */
-    private int retractSpeed;
+    private final int retractSpeed;
+
+    /**
+     * A list containing the observer that want to get a notification when the doodle jumps upon a Spring.
+     */
+    private final List<WeakReference<ISpringUsedObserver>> springUsedObservers = new ArrayList<>();
+
+    /**
+     * The logger.
+     */
+    private final ILogger logger;
+
     /**
      * The constructor of the ASpring object.
-     * @param sL           The locator providing services to the powerup
+     * @param serviceLocator           The locator providing services to the powerup
      * @param x            The X-coordinate of the powerup
      * @param y            The Y-coordinate of the powerup
      * @param boost        The value of the boost of the powerup
@@ -29,7 +46,7 @@ public abstract class ASpring extends AJumpablePowerup {
      * @param usedSprite    The sprite when the object has collided with a doodle
      * @param powerup      The class of the powerup
      */
-    public ASpring(final IServiceLocator sL,
+    /* package */ ASpring(final IServiceLocator serviceLocator,
                    final int x,
                    final int y,
                    final double boost,
@@ -37,8 +54,9 @@ public abstract class ASpring extends AJumpablePowerup {
                    final ISprite defaultSprite,
                    final ISprite usedSprite,
                    final Class<?> powerup) {
-        super(sL, x, y, boost, defaultSprite, usedSprite, powerup);
+        super(serviceLocator, x, y, boost, defaultSprite, usedSprite, powerup);
         this.retractSpeed = retractSpeed;
+        this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }
 
     /**
@@ -72,6 +90,11 @@ public abstract class ASpring extends AJumpablePowerup {
         if (doodle.getVerticalSpeed() > 0 && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
             getLogger().info("Doodle collided with a Spring");
             doodle.collide(this);
+            for (WeakReference<ISpringUsedObserver> observer : springUsedObservers) {
+                if (observer.get() != null) {
+                    observer.get().alertSpringUsed();
+                }
+            }
         }
     }
 
@@ -81,5 +104,14 @@ public abstract class ASpring extends AJumpablePowerup {
     void playSound() {
         IAudioManager audioManager = getServiceLocator().getAudioManager();
         audioManager.playFeder();
+    }
+
+    public void addObserver(final SpringUsedObserver springUsedObserver) {
+        if (springUsedObserver == null) {
+            final String error = "Cannot add a null springUsedObserver";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+        this.springUsedObservers.add(new WeakReference<>(springUsedObserver));
     }
 }
