@@ -678,6 +678,7 @@ public final class SpriteFactory implements ISpriteFactory {
             case 2:
                 return this.getSprite(IRes.Sprites.circusCannonUsed);
             case 3:
+            case 4:
                 return this.getSprite(IRes.Sprites.rocketLauncherUsed);
             default:
                 logger.error("The sprite of a trampoline of level " + powerupLevel + " could not be found");
@@ -696,6 +697,7 @@ public final class SpriteFactory implements ISpriteFactory {
             case 2:
                 return this.getSprite(IRes.Sprites.doubleSpringUsed);
             case 3:
+            case 4:
                 return this.getSprite(IRes.Sprites.titaniumSpringUsed);
             default:
                 logger.error("The sprite of a spring of level " + powerupLevel + " could not be found");

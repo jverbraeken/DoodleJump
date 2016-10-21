@@ -298,7 +298,7 @@ public final class ProgressionManager implements IProgressionManager {
         for (Powerups powerup : Powerups.values()) {
             powerupLevels.put(powerup, 0);
         }
-        powerupLevels.put(Powerups.spring, 1);
+        powerupLevels.replace(Powerups.spring, 1);
 
         coins = 0;
 
@@ -327,7 +327,6 @@ public final class ProgressionManager implements IProgressionManager {
             highScores.add(new HighScore(entry.getName(), entry.getScore()));
             logger.info("A highscore is added: " + entry.getName() + " - " + entry.getScore());
         }
-        updateHighScores();
 
         coins = json.getCoins();
         logger.info("Coins is set to: " + coins);
@@ -373,6 +372,7 @@ public final class ProgressionManager implements IProgressionManager {
                 powerupLevels.put(powerup, 0);
             }
         }
+        updateHighScores();
     }
 
     /**

@@ -255,6 +255,7 @@ public final class ButtonFactory implements IButtonFactory {
                 if (progressionManager.getCoins() >= price) {
                     progressionManager.decreaseCoins(price);
                     progressionManager.increasePowerupLevel(powerup);
+                    Game.setScene(ButtonFactory.serviceLocator.getSceneFactory().createShopScreen());
                 }
             }
 

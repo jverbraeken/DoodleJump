@@ -107,4 +107,8 @@ import system.IServiceLocator;
         this.logger.info("The button \"" + this.name + "\" removed itself as an observer from the input manager");
     }
 
+    private void setSprite() {
+
+    }
+
 }

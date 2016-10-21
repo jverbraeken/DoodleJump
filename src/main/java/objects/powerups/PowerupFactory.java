@@ -80,8 +80,23 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createSpring(final int x, final int y) {
-        logger.info("A new Spring has been created");
-        return new Spring(serviceLocator, x, y);
+        final Powerups type = Powerups.spring;
+        final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
+        final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        switch (level) {
+            case 1:
+                logger.info("A new Spring has been created");
+                return new Spring(serviceLocator, x, y, spriteFactory.getPowerupSprite(type, 1), spriteFactory.getSpringUsedSprite(1));
+            case 2:
+                logger.info("A new Double Spring has been created");
+                return new Spring(serviceLocator, x, y, spriteFactory.getPowerupSprite(type, 2), spriteFactory.getSpringUsedSprite(2));
+            case 3:
+                logger.info("A new Titanium Spring has been created");
+                return new Spring(serviceLocator, x, y, spriteFactory.getPowerupSprite(type, 3), spriteFactory.getSpringUsedSprite(3));
+            default:
+                logger.warning("The level of the " + type.name() + " is " + (level < 1 ? "lower" : "higher") + " than the PowerupFactory can handle: " + level);
+                return null;
+        }
     }
 
     /**
@@ -98,18 +113,19 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createTrampoline(final int x, final int y) {
-        final int level = serviceLocator.getProgressionManager().getPowerupLevel(Powerups.trampoline);
+        final Powerups type = Powerups.trampoline;
+        final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         switch (level) {
             case 1:
                 logger.info("A new Trampoline has been created");
-                return new Trampoline(serviceLocator, x, y, spriteFactory.getPowerupSprite(Powerups.trampoline, 1), spriteFactory.getTrampolineUsedSprite(1));
+                return new Trampoline(serviceLocator, x, y, spriteFactory.getPowerupSprite(type, 1), spriteFactory.getTrampolineUsedSprite(1));
             case 2:
                 logger.info("A new Circus Cannon has been created");
-                return new Trampoline(serviceLocator, x, y, spriteFactory.getPowerupSprite(Powerups.trampoline, 2), spriteFactory.getTrampolineUsedSprite(2));
+                return new Trampoline(serviceLocator, x, y, spriteFactory.getPowerupSprite(type, 2), spriteFactory.getTrampolineUsedSprite(2));
             case 3:
                 logger.info("A new Rocket Launcher has been created");
-                return new Trampoline(serviceLocator, x, y, spriteFactory.getPowerupSprite(Powerups.trampoline, 3), spriteFactory.getTrampolineUsedSprite(3));
+                return new Trampoline(serviceLocator, x, y, spriteFactory.getPowerupSprite(type, 3), spriteFactory.getTrampolineUsedSprite(3));
             default:
                 logger.warning("The level of the trampoline is " + (level < 1 ? "lower" : "higher") + " than the PowerupFactory can handle: " + level);
                 return null;
