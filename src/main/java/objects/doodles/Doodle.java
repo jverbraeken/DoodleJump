@@ -20,7 +20,9 @@ import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.EnumMap;
 
@@ -109,9 +111,9 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private Keys[] keys = new Keys[] { Keys.arrowLeft, Keys.arrowRight };
     /**
-     * A set of all the game objects in this block.
+     * A list of all the projectiles shot by this Enemy.
      */
-    private final Set<IGameObject> projectiles = new HashSet<>();
+    private final List<IGameObject> projectiles = new ArrayList<>();
 
     /**
      * The shooting observer of this Doodle.
@@ -357,11 +359,9 @@ public class Doodle extends AGameObject implements IDoodle {
             }
             toRemove.add(projectile);
         }
-
         for (IGameObject projectile : toRemove) {
             projectiles.remove(projectile);
         }
-
     }
 
     /**
@@ -534,6 +534,22 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     void addProjectile(final IGameObject projectile) {
         projectiles.add(projectile);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeProjectile(final IGameObject projectile) {
+        projectiles.remove(projectile);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<IGameObject> getProjectiles() {
+        return projectiles;
     }
 
 }
