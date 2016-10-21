@@ -127,7 +127,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      */
     @Override
     public final void update(final double delta) {
-        if (!(this.owner.equals(null))) {
+        if (owner != null) {
             this.updateOwned();
         } else if (this.timer > 0) {
             this.updateFalling();
@@ -172,7 +172,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
             throw new IllegalArgumentException("Doodle cannot be null");
         }
 
-        if (this.getOwner().equals(null)) {
+        if (this.getOwner() == null) {
             getLogger().info("Doodle collided with an AJetpack");
             this.setOwner(doodle);
             doodle.setPowerup(this);
