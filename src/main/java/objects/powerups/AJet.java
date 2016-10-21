@@ -7,34 +7,34 @@ import system.IServiceLocator;
 /**
  * Created by Michael on 10/20/2016.
  */
-public abstract class AJet extends APowerup {
+public abstract class AJet extends APowerup implements IEquipmentPowerup{
 
     /**
-     * The boost the Jetpack gives.
+     * The boost the AJet object provides.
      */
     private static final double MAX_BOOST = -25d;
     /**
-     * The acceleration provided by the Jetpack.
+     * The acceleration provided by the AJet.
      */
     private static final double ACCELERATION = -2d;
     /**
-     * The boost for the Jetpack when it is being dropped.
+     * The boost for the AJet when it is being dropped.
      */
     private static final double INITIAL_DROP_SPEED = -25d;
     /**
-     * The horizontal speed for a Jetpack.
+     * The horizontal speed for a AJet.
      */
     private static final double HORIZONTAL_SPEED = 1.2d;
     /**
-     * Percentage for the initial phase of the Jetpack animation.
+     * Percentage for the initial phase of the AJet animation.
      */
     private static final double ANIMATION_PHASE_ONE = 0.15d;
     /**
-     * Percentage for the second phase of the Jetpack animation.
+     * Percentage for the second phase of the AJet animation.
      */
     private static final double ANIMATION_PHASE_TWO = 0.8d;
     /**
-     * Percentage for the third phase of the Jetpack animation.
+     * Percentage for the third phase of the AJet animation.
      */
     private static final double ANIMATION_PHASE_THREE = 1d;
     /**
@@ -43,38 +43,42 @@ public abstract class AJet extends APowerup {
     private static final int ANIMATION_REFRESH_RATE = 3;
 
     /**
-     * Offset for the initial phase of the Jetpack animation.
+     * Offset for the initial phase of the AJet animation.
      */
     private static final int ANIMATION_OFFSET_ONE = 0;
     /**
-     * Offset for the second phase of the Jetpack animation.
+     * Offset for the second phase of the AJet animation.
      */
     private static final int ANIMATION_OFFSET_TWO = 3;
     /**
-     * Offset for the third phase of the Jetpack animation.
+     * Offset for the third phase of the AJet animation.
      */
     private static final int ANIMATION_OFFSET_THREE = 6;
 
-    private ISprite defaultSprite;
     /**
-     * The sprites for an active rocket.
+     * Default sprite of this AJet object.
+     */
+    private ISprite defaultSprite;
+
+    /**
+     * The sprites for an active AJet.
      */
     private ISprite[] spritePack;
     /**
-     * The Doodle that owns this Jetpack.
+     * The Doodle that owns this AJet.
      */
     private IDoodle owner;
 
     /**
-     * The maximum time the Jetpack is active.
+     * The maximum time the AJet is active.
      */
     private int timeLimit;
     /**
-     * The active timer for the Jetpack.
+     * The active timer for the AJet.
      */
     private int timer = 0;
     /**
-     * The vertical speed of the Jetpack.
+     * The vertical speed of the AJet.
      */
     private double vSpeed = 0d;
     /**
@@ -83,11 +87,11 @@ public abstract class AJet extends APowerup {
     private int spriteIndex = 0;
 
     /**
-     * Jetpack constructor.
+     * AJet constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the Jetpack.
-     * @param y - The Y location for the Jetpack.
+     * @param x - The X location for the AJet.
+     * @param y - The Y location for the AJet.
      */
     public AJet(final IServiceLocator sL,
                 final int x,
@@ -132,7 +136,7 @@ public abstract class AJet extends APowerup {
 
 
     /**
-     * Update method for when the Jetpack is falling.
+     * Update method for when the AJet is falling.
      */
     private final void updateFalling() {
         this.applyGravity();
@@ -140,7 +144,7 @@ public abstract class AJet extends APowerup {
     }
 
     /**
-     * Applies gravity to the Propeller when needed.
+     * Applies gravity to the AJet when needed.
      */
     private final void applyGravity() {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
@@ -161,7 +165,7 @@ public abstract class AJet extends APowerup {
     }
 
     /**
-     * Update method for when the Jetpack is owned.
+     * Update method for when the AJet is owned.
      */
     private final void updateOwned() {
         timer++;

@@ -4,7 +4,7 @@ import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
- * This class describes the behaviour of the Propeller powerup.
+ * This class describes the behaviour of the SpaceRocket powerup.
  */
 /* package */ final class SpaceRocket extends AJet {
 

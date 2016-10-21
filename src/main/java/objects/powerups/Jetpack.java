@@ -10,7 +10,7 @@ import system.IServiceLocator;
 
 
 
-/* package */ final class Jetpack extends APowerup implements IEquipmentPowerup {
+/* package */ final class Jetpack extends AJet {
 
 
     /**
