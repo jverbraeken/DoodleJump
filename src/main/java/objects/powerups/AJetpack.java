@@ -154,10 +154,9 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
     /**
      * Ends the powerup.
      */
-    private final void endPowerup() {
+     public void endPowerup() {
         this.setSprite(defaultSprite);
         this.vSpeed = INITIAL_DROP_SPEED;
-
         this.owner.removePowerup(this);
         this.owner.getWorld().addDrawable(this);
         this.owner.getWorld().addUpdatable(this);

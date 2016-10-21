@@ -157,7 +157,8 @@ import system.IServiceLocator;
     /**
      * Ends the powerup.
      */
-    private void endPowerup() {
+    @Override
+    public void endPowerup() {
         this.setSprite(getServiceLocator().getSpriteFactory().getPropellerSprite());
         this.vSpeed = INITIAL_DROP_SPEED;
 

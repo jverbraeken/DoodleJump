@@ -40,6 +40,10 @@ public abstract class APowerup extends AGameObject implements IPowerup {
         getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
+    public void endPowerup() {
+        // Most powerups can't be ended, but all powerups should have the method for ease of use.
+    }
+
     /**
      * Set the x and y position of the powerup that's spawning on a platform.
      * @param powerup a IGameObject that's going to be spawning.
@@ -57,7 +61,6 @@ public abstract class APowerup extends AGameObject implements IPowerup {
         powerup.setXPos(setXPosOfPowerup(powerup, powerupXPos, (int) platform.getXPos(), platformWidth));
         powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
     }
-
 
     /**
      * Sets the X position of the powerup depending on the type of the powerup.
