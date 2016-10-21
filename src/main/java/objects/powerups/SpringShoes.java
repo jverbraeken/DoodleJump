@@ -88,4 +88,12 @@ import system.IServiceLocator;
         }
     }
 
+    /**
+     *
+     */
+    @Override
+    public void endPowerup() {
+
+    }
+
 }

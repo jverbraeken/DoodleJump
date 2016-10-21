@@ -162,10 +162,11 @@ import system.IServiceLocator;
     }
 
     /**
-     * Ends the powerup.
+     * {@inheritDoc}
      */
-    private void endPowerup() {
-        this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
+    @Override
+    public void endPowerup() {
+            this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
         this.vSpeed = INITIAL_DROP_SPEED;
 
         this.owner.removePowerup(this);
