@@ -13,11 +13,6 @@ import system.IServiceLocator;
 /* package */ final class Spring extends ASpring {
 
     /**
-     * The BOOST value for the ATrampoline.
-     */
-    private static final double BOOST = -35;
-
-    /**
      * The speed with which the springs retracts after it is being used.
      */
     private static final int RETRACT_SPEED = 250;
@@ -30,8 +25,8 @@ import system.IServiceLocator;
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
-    /* package */ Spring(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final ISprite usedSprite) {
-        super(sL, x, y, BOOST, RETRACT_SPEED, sprite, usedSprite, Spring.class);
+    /* package */ Spring(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final ISprite usedSprite, final int boost) {
+        super(sL, x, y, boost, RETRACT_SPEED, sprite, usedSprite, Spring.class);
     }
 
 }

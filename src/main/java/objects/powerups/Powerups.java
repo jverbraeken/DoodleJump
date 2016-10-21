@@ -11,7 +11,7 @@ public enum Powerups {
     shield("shield", 50),
     spring("spring", 0, 50, 150),
     springShoes("springShoes", 50),
-    trampoline("trampoline", 50);
+    trampoline("trampoline", 50, 150, 300);
 
     /**
      * The prices of the levels of the powerup.

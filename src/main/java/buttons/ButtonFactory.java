@@ -247,7 +247,7 @@ public final class ButtonFactory implements IButtonFactory {
         final int currentPowerupLevel = progressionManager.getPowerupLevel(powerup);
 
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getPowerupSprite(powerup, currentPowerupLevel);
+        ISprite buttonSprite = spriteFactory.getPowerupSprite(powerup, currentPowerupLevel + 1);
         Runnable storyMode = () -> {
             final int powerupLevel = progressionManager.getPowerupLevel(powerup);
             if (powerupLevel < powerup.getMaxLevel()) {

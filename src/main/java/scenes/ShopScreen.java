@@ -282,7 +282,7 @@ import java.util.ArrayList;
         else {
             string = Integer.toString(level);
         }
-        final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup)).getHeight() / 2;
+        final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup) + 1).getHeight() / 2;
         renderer.drawTextHUD((int) (jetpackButtonX * width) + BUTTON_TEXT_OFFSET, (int) (jetpackButtonY * height) + yOffset, string, Color.black);
     }
 

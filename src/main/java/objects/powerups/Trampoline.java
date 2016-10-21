@@ -1,7 +1,5 @@
 package objects.powerups;
 
-import objects.AGameObject;
-import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -15,11 +13,6 @@ import java.util.TimerTask;
 /* package */ public final class Trampoline extends ATrampoline {
 
     /**
-     * The BOOST value for the ATrampoline.
-     */
-    private static final double BOOST = -50;
-
-    /**
      * The speed with which the springs retracts after it is being used.
      */
     private static final int RETRACT_SPEED = 250;
@@ -28,15 +21,18 @@ import java.util.TimerTask;
     /**
      * Trampoline constructor.
      *
-     * @param sL - The Games service locator.
-     * @param x - The X location for the trampoline.
-     * @param y - The Y location for the trampoline.
+     * @param sL         The Games service locator.
+     * @param x          The X location for the trampoline
+     * @param y          The Y location for the trampoline
+     * @param sprite     The sprite that's used for the Trampoline
+     * @param usedSprite The sprite that's used when the Doodle has jumped upon it
+     * @param boost      The boost the Doodle gets when it jumps upon it
      */
-    /* package */ Trampoline(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final ISprite usedSprite) {
+    /* package */ Trampoline(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final ISprite usedSprite, final int boost) {
         super(sL,
                 x,
                 y,
-                BOOST,
+                boost,
                 sprite,
                 usedSprite,
                 Trampoline.class);
