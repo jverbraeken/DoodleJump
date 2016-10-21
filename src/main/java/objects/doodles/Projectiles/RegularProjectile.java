@@ -10,12 +10,17 @@ import system.IServiceLocator;
 class RegularProjectile extends AGameObject {
 
     /**
+     * The speed this projectile is going up.
+     */
+    private static final int VERTICAL_SPEED = -40;
+
+    /**
      * Create and initialize a RegularProjectile.
      * @param sL the servicelocator of this game.
      * @param x the x location.
      * @param y the y location.
      */
-    RegularProjectile(final IServiceLocator sL, final int x, final int y) {
+    /* package */RegularProjectile(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getRegularProjectileSprite(), RegularProjectile.class);
     }
 
@@ -23,7 +28,7 @@ class RegularProjectile extends AGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(IDoodle doodle) {}
+    public void collidesWith(final IDoodle doodle) { }
 
     /**
      * {@inheritDoc}
@@ -38,6 +43,6 @@ class RegularProjectile extends AGameObject {
      */
     @Override
     public void update(final double delta) {
-        setYPos(getYPos() - 5);
+        setYPos(getYPos() + VERTICAL_SPEED);
     }
 }

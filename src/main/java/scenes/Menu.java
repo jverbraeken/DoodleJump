@@ -5,7 +5,6 @@ import buttons.IButtonFactory;
 import input.IKeyInputObserver;
 import input.Keys;
 import logging.ILogger;
-import objects.AGameObject;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.doodles.IDoodle;

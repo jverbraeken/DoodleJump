@@ -11,8 +11,17 @@ import system.IServiceLocator;
  */
 public class ShootingObserver implements IMouseInputObserver {
 
+    /**
+     * The logger of this game.
+     */
     private ILogger logger;
+    /**
+     * The serviceLocator of this game.
+     */
     private IServiceLocator serviceLocator;
+    /**
+     * The Doodle in this world.
+     */
     private Doodle doodle;
 
     /**
@@ -20,7 +29,7 @@ public class ShootingObserver implements IMouseInputObserver {
      * @param sL the servicelocator of this game.
      * @param d the Doodle this observer belongs to.
      */
-    ShootingObserver(final IServiceLocator sL, final Doodle d) {
+    /* package */ ShootingObserver(final IServiceLocator sL, final Doodle d) {
         serviceLocator = sL;
         doodle = d;
         logger = sL.getLoggerFactory().createLogger(ShootingObserver.class);
@@ -30,8 +39,8 @@ public class ShootingObserver implements IMouseInputObserver {
      * Registers this ShootingObserver at the InputManager.
      */
     public final void register() {
-        getServiceLocator().getInputManager().addObserver(this);
-        getLogger().info("The doodle registered an observer to observe the mouse input for shooting.");
+        this.serviceLocator.getInputManager().addObserver(this);
+        this.logger.info("The doodle registered an observer to observe the mouse input for shooting.");
     }
 
     /**
@@ -40,24 +49,7 @@ public class ShootingObserver implements IMouseInputObserver {
     @Override
     public final void mouseClicked(final int x, final int y) {
         IGameObject projectile = serviceLocator.getProjectileFactory().createRegularProjectile((int) doodle.getXPos(), (int) doodle.getYPos());
-        doodle.addProjectile(projectile);
-        getLogger().info("The mouse has been clicked in-game, a projectile has been created.");
-    }
-
-
-    /**
-     * Will return the serviceLocator.
-     * @return The serviceLocator of this game.
-     */
-    public final IServiceLocator getServiceLocator() {
-        return serviceLocator;
-    }
-
-    /**
-     * Will return the logger of this observer.
-     * @return The logger of this observer.
-     */
-    public final ILogger getLogger() {
-        return logger;
+        this.doodle.addProjectile(projectile);
+        this.logger.info("The mouse has been clicked in-game, a projectile has been created.");
     }
 }
