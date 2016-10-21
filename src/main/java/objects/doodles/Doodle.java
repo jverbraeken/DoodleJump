@@ -445,9 +445,7 @@ public class Doodle extends AGameObject implements IDoodle {
         IConstants constants = getServiceLocator().getConstants();
         double effectiveYPos = this.getYPos() - constants.getGameHeight();
         double newScore = -1 * effectiveYPos * constants.getScoreMultiplier();
-        if (newScore > this.score) {
-            this.score = newScore;
-        }
+        this.score = Math.max(this.score, newScore);
     }
 
     /**
