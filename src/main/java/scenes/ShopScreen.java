@@ -147,56 +147,56 @@ import java.util.ArrayList;
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         IButton mainMenuButton = buttonFactory.createMainMenuButton(
-                (int) (MAIN_MENU_BUTTON_X),
-                (int) (MAIN_MENU_BUTTON_Y));
+                MAIN_MENU_BUTTON_X,
+                MAIN_MENU_BUTTON_Y);
         buttons.add(mainMenuButton);
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.jetpack,
-                        (int) (JETPACK_BUTTON_X),
-                        (int) (JETPACK_BUTTON_Y)
+                        JETPACK_BUTTON_X,
+                        JETPACK_BUTTON_Y
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.propeller,
-                        (int) (PROPELLER_BUTTON_X),
-                        (int) (PROPELLER_BUTTON_Y)
+                        PROPELLER_BUTTON_X,
+                        PROPELLER_BUTTON_Y
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.sizeDown,
-                        (int) (SIZEDOWN_BUTTON_X),
-                        (int) (SIZEDOWN_BUTTON_Y)
+                        SIZEDOWN_BUTTON_X,
+                        SIZEDOWN_BUTTON_Y
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.sizeUp,
-                        (int) (SIZEUP_BUTTON_X),
-                        (int) (SIZEUP_BUTTON_Y)
+                        SIZEUP_BUTTON_X,
+                        SIZEUP_BUTTON_Y
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.spring,
-                        (int) (SPRING_BUTTON_X),
-                        (int) (SPRING_BUTTON_Y)
+                        SPRING_BUTTON_X,
+                        SPRING_BUTTON_Y
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.springShoes,
-                        (int) (SPRINGSHOES_BUTTON_X),
-                        (int) (SPRINGSHOES_BUTTON_Y)
+                        SPRINGSHOES_BUTTON_X,
+                        SPRINGSHOES_BUTTON_Y
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.trampoline,
-                        (int) (TRAMPOLINE_BUTTON_X),
-                        (int) (TRAMPOLINE_BUTTON_Y)
+                        TRAMPOLINE_BUTTON_X,
+                        TRAMPOLINE_BUTTON_Y
                 )
         );
 
@@ -222,6 +222,9 @@ import java.util.ArrayList;
      */
     @Override
     public final void stop() {
+        for (IButton button : buttons) {
+            button.deregister();
+        }
         logger.info("The choose mode scene is no longer displaying");
     }
 

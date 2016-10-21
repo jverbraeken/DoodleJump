@@ -70,11 +70,11 @@ import system.IServiceLocator;
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         this.playAgainButton = buttonFactory.createPlayAgainButton(
-                (int) (sL.getConstants().getGameWidth() * KillScreen.PLAY_AGAIN_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * KillScreen.PLAY_AGAIN_BUTTON_Y));
+                KillScreen.PLAY_AGAIN_BUTTON_X,
+                KillScreen.PLAY_AGAIN_BUTTON_Y);
         this.mainMenuButton = buttonFactory.createMainMenuButton(
-                (int) (sL.getConstants().getGameWidth() * KillScreen.MAIN_MENU_BUTTON_X),
-                (int) (sL.getConstants().getGameHeight() * KillScreen.MAIN_MENU_BUTTON_Y));
+                KillScreen.MAIN_MENU_BUTTON_X,
+                KillScreen.MAIN_MENU_BUTTON_Y);
     }
 
     /**

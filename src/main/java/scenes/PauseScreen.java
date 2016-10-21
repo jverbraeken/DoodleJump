@@ -72,9 +72,7 @@ import java.util.List;
 
         // Resume button
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
-        int resumeButtonX = (int) (sL.getConstants().getGameWidth() * PauseScreen.RESUME_BUTTON_X);
-        int resumeButtonY = (int) (sL.getConstants().getGameHeight() * PauseScreen.RESUME_BUTTON_Y);
-        this.resumeButton = buttonFactory.createResumeButton(resumeButtonX, resumeButtonY);
+        this.resumeButton = buttonFactory.createResumeButton(PauseScreen.RESUME_BUTTON_X, PauseScreen.RESUME_BUTTON_Y);
     }
 
     /**

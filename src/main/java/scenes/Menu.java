@@ -107,30 +107,30 @@ public class Menu implements IScene {
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         this.buttons.add(buttonFactory.createPlayButton(
-                (int) (gameWidth * Menu.PLAY_BUTTON_X),
-                (int) (gameHeight * Menu.PLAY_BUTTON_Y)));
+                Menu.PLAY_BUTTON_X,
+                Menu.PLAY_BUTTON_Y));
         this.buttons.add(buttonFactory.createScoreButton(
-                (int) (gameWidth * Menu.SCORE_BUTTON_X),
-                (int) (gameHeight * Menu.SCORE_BUTTON_Y)));
+                Menu.SCORE_BUTTON_X,
+                Menu.SCORE_BUTTON_Y));
         this.buttons.add(buttonFactory.createMultiplayerButton(
-                (int) (gameWidth * Menu.MULTIPLAYER_BUTTON_X),
-                (int) (gameHeight * Menu.MULTIPLAYER_BUTTON_Y)));
+                Menu.MULTIPLAYER_BUTTON_X,
+                Menu.MULTIPLAYER_BUTTON_Y));
         this.buttons.add(buttonFactory.createShopButton(
-                (int) (gameWidth * SHOP_BUTTON_X),
-                (int) (gameHeight * SHOP_BUTTON_Y)));
+                SHOP_BUTTON_X,
+                SHOP_BUTTON_Y));
         this.buttons.add(buttonFactory.createChooseModeButton(
-                (int) (gameWidth * Menu.CHOOSE_MODE_X),
-                (int) (gameHeight * Menu.CHOOSE_MODE_Y)));
+                Menu.CHOOSE_MODE_X,
+                Menu.CHOOSE_MODE_Y));
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createStartScreenDoodle();
-        this.doodle.setXPos((int) (gameWidth * Menu.DOODLE_X));
+        this.doodle.setXPos(Menu.DOODLE_X);
         this.doodle.setVerticalSpeed(-1);
 
         IPlatformFactory platformFactory = sL.getPlatformFactory();
         this.platform = platformFactory.createPlatform(
                 (int) (gameWidth * Menu.PLATFORM_X),
-                (int) (gameHeight * Menu.PLATFORM_Y) );
+                (int) (gameHeight * Menu.PLATFORM_Y));
 
         this.logger = sL.getLoggerFactory().createLogger(this.getClass());
     }
