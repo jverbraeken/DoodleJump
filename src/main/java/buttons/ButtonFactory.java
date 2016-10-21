@@ -26,9 +26,13 @@ public final class ButtonFactory implements IButtonFactory {
      * The logger.
      */
     private final ILogger logger;
+    private final int gameWidth;
+    private final int gameHeight;
 
     private ButtonFactory(IServiceLocator serviceLocator) {
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+        this.gameWidth = serviceLocator.getConstants().getGameWidth();
+        this.gameHeight = serviceLocator.getConstants().getGameHeight();
     }
 
     /**
