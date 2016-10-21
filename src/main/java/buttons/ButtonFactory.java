@@ -250,7 +250,7 @@ public final class ButtonFactory implements IButtonFactory {
         ISprite buttonSprite = spriteFactory.getPowerupSprite(powerup, currentPowerupLevel);
         Runnable storyMode = () -> {
             final int powerupLevel = progressionManager.getPowerupLevel(powerup);
-            if (powerupLevel + 1 < powerup.getMaxLevel()) {
+            if (powerupLevel < powerup.getMaxLevel()) {
                 final int price = powerup.getPrice(powerupLevel + 1);
                 if (progressionManager.getCoins() >= price) {
                     progressionManager.decreaseCoins(price);
