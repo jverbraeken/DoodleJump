@@ -2,6 +2,7 @@ package objects.powerups;
 
 import logging.ILogger;
 import objects.IGameObject;
+import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 /**
@@ -97,26 +98,21 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createTrampoline(final int x, final int y) {
-        logger.info("A new Trampoline has been created");
-        return new Trampoline(serviceLocator, x, y);
+        final int level = serviceLocator.getProgressionManager().getPowerupLevel(Powerups.trampoline);
+        final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        switch (level) {
+            case 1:
+                logger.info("A new Trampoline has been created");
+                return new Trampoline(serviceLocator, x, y, spriteFactory.getPowerupSprite(Powerups.trampoline, 1), spriteFactory.getTrampolineUsedSprite(1));
+            case 2:
+                logger.info("A new Circus Cannon has been created");
+                return new Trampoline(serviceLocator, x, y, spriteFactory.getPowerupSprite(Powerups.trampoline, 2), spriteFactory.getTrampolineUsedSprite(2));
+            case 3:
+                logger.info("A new Rocket Launcher has been created");
+                return new Trampoline(serviceLocator, x, y, spriteFactory.getPowerupSprite(Powerups.trampoline, 3), spriteFactory.getTrampolineUsedSprite(3));
+            default:
+                logger.warning("The level of the trampoline is " + (level < 1 ? "lower" : "higher") + " than the PowerupFactory can handle: " + level);
+                return null;
+        }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public IGameObject createCircusCannon(final int x, final int y) {
-        logger.info("A new Circus Cannon has been created");
-        return new CircusCannon(serviceLocator, x, y);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public IGameObject createRocketLauncher(final int x, final int y) {
-        logger.info("A new Rocket Launcher has been created");
-        return new RocketLauncher(serviceLocator, x, y);
-    }
-
 }

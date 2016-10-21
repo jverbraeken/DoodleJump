@@ -1,5 +1,8 @@
 package objects.powerups;
 
+import objects.AGameObject;
+import objects.doodles.IDoodle;
+import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -55,5 +58,28 @@ public abstract class ASpring extends AJumpablePowerup {
                 self.setSprite(self.getDefaultSprite());
             }
         }, retractSpeed);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collidesWith(final IDoodle doodle) {
+        if (doodle == null) {
+            throw new IllegalArgumentException("Doodle cannot be null");
+        }
+
+        if (doodle.getVerticalSpeed() > 0 && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
+            getLogger().info("Doodle collided with a Spring");
+            doodle.collide(this);
+        }
+    }
+
+    /**
+     * Play the sound for the Spring.
+     */
+    void playSound() {
+        IAudioManager audioManager = getServiceLocator().getAudioManager();
+        audioManager.playFeder();
     }
 }

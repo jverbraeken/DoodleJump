@@ -3,6 +3,7 @@ package objects.powerups;
 import objects.AGameObject;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
+import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 import java.util.Timer;
@@ -31,29 +32,14 @@ import java.util.TimerTask;
      * @param x - The X location for the trampoline.
      * @param y - The Y location for the trampoline.
      */
-    /* package */ Trampoline(final IServiceLocator sL, final int x, final int y) {
+    /* package */ Trampoline(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final ISprite usedSprite) {
         super(sL,
                 x,
                 y,
                 BOOST,
-                sL.getSpriteFactory().getPowerupSprite(Powerups.trampoline, 1),
-                sL.getSpriteFactory().getTrampolineUsedSprite(),
+                sprite,
+                usedSprite,
                 Trampoline.class);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void collidesWith(final IDoodle doodle) {
-        if (doodle == null) {
-            throw new IllegalArgumentException("Doodle cannot be null");
-        }
-
-        if (doodle.getVerticalSpeed() > 0 && doodle.getYPos() + doodle.getHitBox()[AGameObject.HITBOX_BOTTOM] < this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM]) {
-            getLogger().info("Doodle collided with a Trampoline");
-            doodle.collide(this);
-        }
     }
 
     /**

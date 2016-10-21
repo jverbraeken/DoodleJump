@@ -4,12 +4,12 @@ import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
- * This class defines the behaviour of a Circus cannon object.
+ * This class defines the behaviour of a Circus circusCannon object.
  */
 public class CircusCannon extends ATrampoline {
 
     /**
-     * The BOOST value for the circus cannon.
+     * The BOOST value for the circus circusCannon.
      */
     private static final double BOOST = -75;
 
