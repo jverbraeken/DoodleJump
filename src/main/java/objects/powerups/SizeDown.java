@@ -44,14 +44,4 @@ import system.IServiceLocator;
         this.setXPos(this.getSprite().getWidth() * SizeDown.HIDE_MULTIPLIER);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void render() {
-        int x = (int) this.getXPos();
-        int y = (int) this.getYPos();
-        SizeDown.getServiceLocator().getRenderer().drawSprite(this.getSprite(), x, y);
-    }
-
 }

@@ -1,6 +1,5 @@
 package resources.sprites;
 
-import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IFactory;
 
 /**
@@ -151,6 +150,8 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getTrampolineUsedSprite();
 
+    ISprite getSpaceRocketSprite();
+
     ISprite getSpringSprite();
 
     ISprite getSpringUsedSprite();
@@ -170,6 +171,12 @@ public interface ISpriteFactory extends IFactory {
     ISprite[] getJetpackActiveSprites();
 
     ISprite[] getPropellerActiveSprites();
+
+    /**
+     * Resturns a list with sprites when a doodle has collided with the doodle.
+     * @return list of sprites.
+     */
+    ISprite[] getSpaceRocketActiveSprites();
 
     ISprite getCannonSprite();
 
