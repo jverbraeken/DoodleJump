@@ -27,3 +27,7 @@ target/
 # Generated files
 *.log
 *.data
+
+# Custom files
+logIgnore.json
+highScores.data

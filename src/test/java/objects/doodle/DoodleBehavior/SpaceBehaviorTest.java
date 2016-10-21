@@ -1,31 +1,21 @@
 package objects.doodle.DoodleBehavior;
 
-import constants.Constants;
 import constants.IConstants;
 import input.Keys;
-import objects.doodles.Doodle;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.IDoodle;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 import system.IServiceLocator;
-
-import java.lang.reflect.Field;
-
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
@@ -37,15 +27,17 @@ public class SpaceBehaviorTest {
     private IConstants constants = mock(IConstants.class);
     private IDoodle doodle = mock(IDoodle.class);
     private IPowerup powerup = mock(IPowerup.class);
-    private SpaceBehavior space;
+    private SpaceBehavior behavior;
 
     @Before
     public void init() throws Exception {
         when(constants.getGravityAcceleration()).thenReturn(.5);
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(doodle.getPowerup()).thenReturn(powerup);
-        when(doodle.getKeys()).thenReturn(new Keys[]{Keys.arrowLeft, Keys.arrowRight});
-        space = new SpaceBehavior(serviceLocator, doodle);
+        when(doodle.getKeyLeft()).thenReturn(Keys.arrowLeft);
+        when(doodle.getKeyRight()).thenReturn(Keys.arrowRight);
+
+        behavior = new SpaceBehavior(serviceLocator, doodle);
     }
 
     /**
@@ -53,7 +45,7 @@ public class SpaceBehaviorTest {
      */
     @Test
     public void testGetVerticalSpeed() {
-        assertThat(space.getVerticalSpeed(), is(0d));
+        assertThat(behavior.getVerticalSpeed(), is(0d));
     }
 
     /**
@@ -61,19 +53,9 @@ public class SpaceBehaviorTest {
      */
     @Test
     public void testSetVerticalSpeed() {
-        assertThat(space.getVerticalSpeed(), is(0d));
-        space.setVerticalSpeed(5d);
-        assertThat(space.getVerticalSpeed(), is(2.5d));
-    }
-
-    /**
-     * Tests the getMoving method.
-     */
-    @Test
-    public void testGetMoving() {
-        assertThat(space.getMoving(), is(nullValue()));
-        space.keyPress(Keys.arrowRight);
-        assertThat(space.getMoving(), is(MovementBehavior.Directions.Right));
+        assertThat(behavior.getVerticalSpeed(), is(0d));
+        behavior.setVerticalSpeed(5d);
+        assertThat(behavior.getVerticalSpeed(), is(2.5d));
     }
 
     /**
@@ -81,9 +63,8 @@ public class SpaceBehaviorTest {
      */
     @Test
     public void testGetFacing() {
-        assertThat(space.getFacing(), is(nullValue()));
-        space.keyPress(Keys.arrowRight);
-        assertThat(space.getFacing(), is(MovementBehavior.Directions.Right));
+        behavior.keyPress(Keys.arrowRight);
+        assertThat(behavior.getFacing(), is(MovementBehavior.Directions.Right));
     }
 
     /**
@@ -93,12 +74,15 @@ public class SpaceBehaviorTest {
      *                   in the constructor.
      */
     @Test
-    public void testKeyPressLeftRight() throws Exception{
-        space.keyPress(Keys.arrowLeft);
-        space.keyPress(Keys.arrowRight);
-        assertThat(MovementBehavior.Directions.Right, is(space.getFacing()));
-        assertThat(MovementBehavior.Directions.Right, is(space.getMoving()));
-        assertThat(Whitebox.getInternalState(space, "pressed"), is(true));
+    public void testKeyPressLeftRight() throws Exception {
+        behavior.keyPress(Keys.arrowLeft);
+        behavior.keyPress(Keys.arrowRight);
+        assertThat(MovementBehavior.Directions.Right, is(behavior.getFacing()));
+
+        boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(false));
+        assertThat(movingRight, is(true));
     }
 
     /**
@@ -108,12 +92,15 @@ public class SpaceBehaviorTest {
      *                   in the constructor.
      */
     @Test
-    public void testKeyPressRightLeft() throws Exception{
-        space.keyPress(Keys.arrowRight);
-        space.keyPress(Keys.arrowLeft);
-        assertThat(MovementBehavior.Directions.Left, is(space.getFacing()));
-        assertThat(MovementBehavior.Directions.Left, is(space.getMoving()));
-        assertThat(Whitebox.getInternalState(space, "pressed"), is(true));
+    public void testKeyPressRightLeft() throws Exception {
+        behavior.keyPress(Keys.arrowRight);
+        behavior.keyPress(Keys.arrowLeft);
+        assertThat(MovementBehavior.Directions.Left, is(behavior.getFacing()));
+
+        boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(true));
+        assertThat(movingRight, is(false));
     }
 
     /**
@@ -123,12 +110,13 @@ public class SpaceBehaviorTest {
      */
     @Test
     public void testKeyReleaseLeft() throws Exception {
-        space.keyPress(Keys.arrowLeft);
-        assertThat(MovementBehavior.Directions.Left, is(space.getFacing()));
-        assertThat(MovementBehavior.Directions.Left, is(space.getMoving()));
-        space.keyRelease(Keys.arrowLeft);
-        assertThat(space.getMoving(), is(MovementBehavior.Directions.Left));
-        assertThat(Whitebox.getInternalState(space, "pressed"), is(false));
+        behavior.keyPress(Keys.arrowLeft);
+        behavior.keyRelease(Keys.arrowLeft);
+
+        boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(false));
+        assertThat(movingRight, is(false));
     }
 
     /**
@@ -138,12 +126,13 @@ public class SpaceBehaviorTest {
      */
     @Test
     public void testKeyReleaseRight() throws Exception {
-        space.keyPress(Keys.arrowRight);
-        assertThat(MovementBehavior.Directions.Right, is(space.getFacing()));
-        assertThat(MovementBehavior.Directions.Right, is(space.getMoving()));
-        space.keyRelease(Keys.arrowRight);
-        assertThat(space.getMoving(), is(MovementBehavior.Directions.Right));
-        assertThat(Whitebox.getInternalState(space, "pressed"), is(false));
+        behavior.keyPress(Keys.arrowRight);
+        behavior.keyRelease(Keys.arrowRight);
+
+        boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(false));
+        assertThat(movingRight, is(false));
     }
 
     /**
@@ -153,10 +142,10 @@ public class SpaceBehaviorTest {
      *           in the constructor.
      */
     @Test
-    public void animatePullInLegsTest() throws Exception {
-        space.setVerticalSpeed(-16);
-        Whitebox.invokeMethod(space, "animate", 0d);
-        Mockito.verify(doodle, Mockito.times(1)).setSprite(space.getFacing(), true);
+    public void animateCallsUpdateActiveSpriteTest() throws Exception {
+        behavior.setVerticalSpeed(-16);
+        Whitebox.invokeMethod(behavior, "animate", 0d);
+        Mockito.verify(doodle, Mockito.times(1)).updateActiveSprite();
     }
 
     /**
@@ -164,7 +153,7 @@ public class SpaceBehaviorTest {
      */
     @Test
     public void testPerformPowerupOnMove() {
-        space.move(0d);
+        behavior.move(0d);
         Mockito.verify(doodle, Mockito.times(1)).getPowerup();
         Mockito.verify(powerup, Mockito.times(1)).perform(PowerupOccasion.constant);
     }
@@ -177,19 +166,10 @@ public class SpaceBehaviorTest {
      */
     @Test
     public void moveHorizontallyLeftTest() throws Exception {
-        Field hSpeedField = SpaceBehavior.class.getDeclaredField("hSpeed");
-        Field horAccField = SpaceBehavior.class.getDeclaredField("HORIZONTAL_ACCELERATION");
-        Field relAccField = SpaceBehavior.class.getDeclaredField("RELATIVE_SPEED");
-        hSpeedField.setAccessible(true);
-        horAccField.setAccessible(true);
-        relAccField.setAccessible(true);
-
-        double oldHSpeed = (double) hSpeedField.get(space);
-        double expectedValue = oldHSpeed - (double) relAccField.get(space) * (double) relAccField.get(space) * (double) horAccField.get(space);
-
-        space.keyPress(Keys.arrowLeft);
-        Whitebox.invokeMethod(space, "moveHorizontally", 0d);
-        assertThat(hSpeedField.get(space), is(expectedValue));
+        Whitebox.setInternalState(behavior, "movingLeft", true);
+        Whitebox.invokeMethod(behavior, "moveHorizontally", 1d);
+        double hSpeed = Whitebox.getInternalState(behavior, "hSpeed");
+        assertTrue(hSpeed < 0);
     }
 
     /**
@@ -200,45 +180,18 @@ public class SpaceBehaviorTest {
      */
     @Test
     public void moveHorizontallyRightTest() throws Exception {
-        Field hSpeedField = SpaceBehavior.class.getDeclaredField("hSpeed");
-        Field horAccField = SpaceBehavior.class.getDeclaredField("HORIZONTAL_ACCELERATION");
-        Field relAccField = SpaceBehavior.class.getDeclaredField("RELATIVE_SPEED");
-        hSpeedField.setAccessible(true);
-        horAccField.setAccessible(true);
-        relAccField.setAccessible(true);
-
-        double oldHSpeed = (double) hSpeedField.get(space);
-        double expectedValue = oldHSpeed + (double) relAccField.get(space) * (double) relAccField.get(space) * (double) horAccField.get(space);
-
-        space.keyPress(Keys.arrowRight);
-        Whitebox.invokeMethod(space, "moveHorizontally", 0d);
-        assertThat(hSpeedField.get(space), is(expectedValue));
+        Whitebox.setInternalState(behavior, "movingRight", true);
+        Whitebox.invokeMethod(behavior, "moveHorizontally", 1d);
+        double hSpeed = Whitebox.getInternalState(behavior, "hSpeed");
+        assertTrue(hSpeed > 0);
     }
 
-    /**
-     * Tests that for the gravity method is called.
-     *
-     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
-     *                   in the constructor.
-     */
     @Test
     public void testApplyGravity() throws Exception {
-        Field relative_gravity = SpaceBehavior.class.getDeclaredField("RELATIVE_GRAVITY");
-        relative_gravity.setAccessible(true);
-        double expected = (double) relative_gravity.get(space) * 0.5;
-        Whitebox.invokeMethod(space, "applyGravity", 0d);
-
+        Whitebox.invokeMethod(behavior, "applyGravity", 1d);
         Mockito.verify(serviceLocator, Mockito.times(1)).getConstants();
         Mockito.verify(constants, Mockito.times(1)).getGravityAcceleration();
-        Mockito.verify(doodle, Mockito.times(1)).addYPos(expected);
-        assertThat(space.getVerticalSpeed(), is(expected));
     }
 
-
-    @After
-    public void cleanUp() {
-        serviceLocator = null;
-        doodle = null;
-    }
 }
 

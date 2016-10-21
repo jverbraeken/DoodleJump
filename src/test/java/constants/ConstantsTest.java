@@ -2,11 +2,6 @@ package constants;
 
 import filesystem.FileSystem;
 import filesystem.IFileSystem;
-import math.Calc;
-import math.ICalc;
-import objects.blocks.platform.Platform;
-import org.codehaus.plexus.component.configurator.converters.basic.DoubleConverter;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.ServiceLocator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +12,6 @@ import system.IServiceLocator;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -42,7 +36,7 @@ public class ConstantsTest {
         Map<String, String> jsonObject = new HashMap<>();
         jsonObject.put("logFile", "async.log");
         when(serviceLocator.getFileSystem()).thenReturn(fileSystem);
-        when(fileSystem.parseJsonMap("constants.json", String.class)).thenReturn(jsonObject);
+        when(fileSystem.parseJson("constants.json", Map.class)).thenReturn(jsonObject);
 
         Constants.register(serviceLocator);
         constants = Whitebox.invokeConstructor(Constants.class);
@@ -98,11 +92,11 @@ public class ConstantsTest {
     }
 
     @Test
-    public void getHighScoresFilePathTest() throws NoSuchFieldException, IllegalAccessException {
-        Field field = Constants.class.getDeclaredField("HIGHCORES_DATA");
+    public void getSaveFilePathTest() throws NoSuchFieldException, IllegalAccessException {
+        Field field = Constants.class.getDeclaredField("SAVEFILE_DATA");
         field.setAccessible(true);
-        assertThat(constants.getHighScoresFilePath(), is(field.get(constants)));
-        assertThat(constants.getHighScoresFilePath(), instanceOf(String.class));
+        assertThat(constants.getSaveFilePath(), is(field.get(constants)));
+        assertThat(constants.getSaveFilePath(), instanceOf(String.class));
     }
 
     @Test
@@ -118,9 +112,9 @@ public class ConstantsTest {
 
     @Test
     public void interpretJsonDefaultCaseTest() throws Exception {
-        String logFileName = "async.log";
+        String logFileName = ((AtomicReference<String>) Whitebox.getInternalState(Constants.class, "logFile")).get();
         assertThat(constants.getLogFile(), is(logFileName));
-        
+
         Map<String, String> jsonObject = new HashMap<>();
         jsonObject.put("a", "b");
 

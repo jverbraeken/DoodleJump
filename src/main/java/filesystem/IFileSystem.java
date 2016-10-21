@@ -1,12 +1,14 @@
 package filesystem;
 
 import javax.sound.sampled.Clip;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -103,7 +105,8 @@ public interface IFileSystem {
     /**
      * Returns an {@link OutputStream} that can be used to write binary data to the binary file.
      * The path to the file must exist.
-     *
+     * <br>
+     * <br>
      * <b><font color="red">Warning:</font> The file MUST be closed explicitly to prevent resource leaks</b>
      *
      * @param filename The full path to the file.
@@ -117,7 +120,7 @@ public interface IFileSystem {
      *
      * @param filename The name of the file.
      * @return A {@link File} class embedding the specified file.
-     * @throws FileNotFoundException Thrown when the file specified was not found.
+     * @throws FileNotFoundException    Thrown when the file specified was not found.
      * @throws IllegalArgumentException When filename is null.
      */
     File getResourceFile(final String filename) throws FileNotFoundException, IllegalArgumentException;
@@ -134,31 +137,26 @@ public interface IFileSystem {
     /**
      * Parse a JSON file consisting of a single Json item.
      *
-     * @param filename  The filepath to the Json file.
-     * @param jsonClass The class of the resulting Json object.
+     * @param filename The filepath to the Json file.
+     * @param type     The type of the resulting Json object.
      * @return An {@link Object} that must be up-casted to the desired Json class.
      * @throws FileNotFoundException Thrown when the Json file was not found.
      */
-    Object parseJson(final String filename, final Class<?> jsonClass) throws FileNotFoundException;
+    Object parseJson(final String filename, final Type type) throws FileNotFoundException;
 
     /**
-     * Parse a JSON file consisting of a single Json list.
+     * Serializes the image specified to a Json string.
      *
-     * @param filename  The filepath to the Json file.
-     * @param jsonClass The class of the resulting Json object.
-     * @return An {@link Object} that must be up-casted to a {@link List} containing the desired Json class.
-     * @throws FileNotFoundException Thrown when the Json file was not found.
+     * @param image The image that should be serialized
+     * @return A string containing the serialized image
      */
-    Object parseJsonList(final String filename, final Class<?> jsonClass) throws FileNotFoundException;
+    String serializeJson(final Object image);
 
     /**
-     * Parse a JSON file consisting of a single Json item.
+     * Gets a custom font from a *.ttf file.
      *
-     * @param filename  The filepath to the Json file.
-     * @param jsonClass The class of the resulting Json object.
-     * @return An {@link Object} that must be up-casted to a {@link java.util.Map} containing the desired Json class.
-     * @throws FileNotFoundException Thrown when the Json file was not found.
+     * @param name The name of the ttf font file
+     * @return The font loaded from the disk
      */
-    Object parseJsonMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException;
-
+    Font getFont(final String name);
 }

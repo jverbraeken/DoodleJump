@@ -92,9 +92,9 @@ public class SpriteFactoryTest {
     @Test
     public void TestGetDoodleSpriteLeft() throws Exception {
         ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.doodleLeftAscend);
+        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.doodleLeftDescend);
         ISprite mock2 = mock(ISprite.class);
-        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.doodleLeftDescend);
+        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.doodleLeftAscend);
         ISprite[] result = spriteFactory.getDoodleLeftSprites();
         ISprite[] expected = new ISprite[2];
         expected[0] = mock;
@@ -105,9 +105,9 @@ public class SpriteFactoryTest {
     @Test
     public void TestGetDoodleSpriteRight() throws Exception {
         ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.doodleRightAscend);
+        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.doodleRightDescend);
         ISprite mock2 = mock(ISprite.class);
-        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.doodleRightDescend);
+        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.doodleRightAscend);
         ISprite[] result = spriteFactory.getDoodleRightSprites();
         ISprite[] expected = new ISprite[2];
         expected[0] = mock;
@@ -501,6 +501,69 @@ public class SpriteFactoryTest {
     @Test
     public void TestGetUnderwaterModeButton() throws Exception {
         TestSprite(IRes.Sprites.underwaterMode, () -> spriteFactory.getUnderwaterModeButton());
+    }
+    
+    // COINS
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void TestGetCoinLessThan1() throws Exception {
+        spriteFactory.getCoinSprite(0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void TestGetCoinSpriteMoreThan10() throws Exception {
+        spriteFactory.getCoinSprite(11);
+    }
+
+    @Test
+    public void TestGetCoinSprite1() throws Exception {
+        TestSprite(IRes.Sprites.coin1, () -> spriteFactory.getCoinSprite(1));
+    }
+
+    @Test
+    public void TestGetCoinSprite2() throws Exception {
+        TestSprite(IRes.Sprites.coin2, () -> spriteFactory.getCoinSprite(2));
+    }
+
+    @Test
+    public void TestGetCoinSprite3() throws Exception {
+        TestSprite(IRes.Sprites.coin3, () -> spriteFactory.getCoinSprite(3));
+    }
+
+    @Test
+    public void TestGetCoinSprite4() throws Exception {
+        TestSprite(IRes.Sprites.coin4, () -> spriteFactory.getCoinSprite(4));
+    }
+
+    @Test
+    public void TestGetCoinSprite5() throws Exception {
+        TestSprite(IRes.Sprites.coin5, () -> spriteFactory.getCoinSprite(5));
+    }
+
+    @Test
+    public void TestGetCoinSprite6() throws Exception {
+        TestSprite(IRes.Sprites.coin6, () -> spriteFactory.getCoinSprite(6));
+    }
+
+    @Test
+    public void TestGetCoinSprite7() throws Exception {
+        TestSprite(IRes.Sprites.coin7, () -> spriteFactory.getCoinSprite(7));
+    }
+
+    @Test
+    public void TestGetCoinSprite8() throws Exception {
+        TestSprite(IRes.Sprites.coin8, () -> spriteFactory.getCoinSprite(8));
+    }
+
+    @Test
+    public void TestGetCoinSprite9() throws Exception {
+        TestSprite(IRes.Sprites.coin9, () -> spriteFactory.getCoinSprite(9));
+    }
+
+    @Test
+    public void TestGetCoinSprite10() throws Exception {
+        TestSprite(IRes.Sprites.coin10, () -> spriteFactory.getCoinSprite(10));
     }
 
     // getFileName

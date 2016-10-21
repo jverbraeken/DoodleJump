@@ -219,7 +219,13 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getUnderwaterModeButton();
 
-    // Digits
+    // Coins
+    ISprite getCoinSprite(final int i);
+
     ISprite[] getDigitSprites();
+
+    // Missions
+
+    ISprite getAchievementSprite();
 
 }
