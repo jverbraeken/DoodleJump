@@ -58,6 +58,15 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private final Queue<FinishedProgressionObserverTuple> finishedProgressionObserversQueue = new LinkedList<>();
     /**
+     * Contains the data used to create new missions.
+     */
+    private final MissionData[] missionsData = new MissionData[]{
+            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 1, 10),
+            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 2, 20),
+            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 3, 30),
+            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 4, 40)
+    };
+    /**
      * The amount of coins the player has.
      */
     private int coins;
@@ -65,15 +74,6 @@ public final class ProgressionManager implements IProgressionManager {
      * Incremented by 1 after every mission; used to determine which mission should be created.
      */
     private int level = 0;
-    /**
-     * Contains the data used to create new missions.
-     */
-    private final MissionData[] missionsData = new MissionData[] {
-            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 1, 10),
-            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 2, 20),
-            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 3, 30),
-            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 4, 40)
-    };
 
     /**
      * Prevents construction from outside the package.
@@ -214,6 +214,11 @@ public final class ProgressionManager implements IProgressionManager {
             final String error = "The amount of coins to be subtracted must be more than 0";
             logger.error(error);
             throw new IllegalArgumentException(error);
+        }
+        if (coins - amount < 0) {
+            final String error = "Insufficient coins available: coins = " + coins + ", subtraction amount = " + amount;
+            logger.error(error);
+            throw new InsufficientCoinsException(error);
         }
         this.coins -= amount;
 
@@ -412,8 +417,7 @@ public final class ProgressionManager implements IProgressionManager {
                         return null;
                     }
             ));
-        }
-        else {
+        } else {
             logger.info("Maximum mission limit reached at level" + level + ". Last mission created again...");
             missions.add(serviceLocator.getMissionFactory().createMission(
                     missionsData[missionsData.length - 1].type,
@@ -450,6 +454,12 @@ public final class ProgressionManager implements IProgressionManager {
         private FinishedProgressionObserverTuple(final ProgressionObservers type, final IProgressionObserver observer) {
             this.type = type;
             this.observer = observer;
+        }
+    }
+
+    private final class InsufficientCoinsException extends RuntimeException {
+        private InsufficientCoinsException(final String message) {
+            super(message);
         }
     }
 }

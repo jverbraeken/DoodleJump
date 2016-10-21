@@ -234,7 +234,7 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createShopPowerupButton(final Powerups powerup, final int x, final int y) {
+    public IButton createShopPowerupButton(final Powerups powerup, final double x, final double y) {
         assert ButtonFactory.serviceLocator != null;
 
         if (powerup == null) {
@@ -248,7 +248,7 @@ public final class ButtonFactory implements IButtonFactory {
 
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPowerupSprite(powerup, currentPowerupLevel);
-        Runnable storyMode = () -> {
+        Runnable shop = () -> {
             final int powerupLevel = progressionManager.getPowerupLevel(powerup);
             if (powerupLevel + 1 < powerup.getMaxLevel()) {
                 final int price = powerup.getPrice(powerupLevel + 1);
@@ -259,7 +259,9 @@ public final class ButtonFactory implements IButtonFactory {
             }
 
         };
-        return new Button(ButtonFactory.serviceLocator, x, y, buttonSprite, storyMode, "storyMode");
+        final int width = serviceLocator.getConstants().getGameWidth();
+        final int height = serviceLocator.getConstants().getGameHeight();
+        return new Button(ButtonFactory.serviceLocator, (int) (width * x), (int) (height * y), buttonSprite, shop, "shop");
     }
 
     /**
