@@ -116,6 +116,7 @@ import java.util.List;
      */
     @Override
     public void start() {
+        this.menuButton.register();
         logger.info("The score scene is now displaying");
     }
 
