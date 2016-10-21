@@ -69,6 +69,6 @@ package objects.blocks;
      */
     rocketLauncher,
 
-    rocket
+    spacerocket
 
 }

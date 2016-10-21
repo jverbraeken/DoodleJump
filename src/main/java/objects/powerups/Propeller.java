@@ -106,7 +106,8 @@ import system.IServiceLocator;
             throw new IllegalArgumentException("Doodle cannot be null");
         }
 
-        if (this.owner == null && this.timer == 0) {
+        if (this.owner == null && this.timer == 0) {    // For some reason the game crashes upon collision when equals method is
+                                                        // used to check is the value of owner's address is null.
             getLogger().info("Doodle collided with a Propeller");
             this.owner = doodle;
             doodle.setPowerup(this);

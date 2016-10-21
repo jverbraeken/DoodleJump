@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
@@ -15,7 +16,7 @@ import system.IServiceLocator;
     /**
      * Y offset for drawing the Jetpack when on Doodle.
      */
-    private static final int OWNED_Y_OFFSET = 35;
+    private static final int OWNED_Y_OFFSET = 70;
 
     /**
      * Jetpack constructor.
@@ -28,5 +29,11 @@ import system.IServiceLocator;
         super(sL, x, y, MAX_TIMER, sL.getSpriteFactory().getRocketSprite(), sL.getSpriteFactory().getRocketActiveSprites(), SpaceRocket.class);
     }
 
-    
+    public void setPosition(IDoodle owner) {
+        if (!owner.equals(null)) {
+            this.setXPos((int) owner.getXPos() + ((owner.getSprite().getWidth() - this.getSprite().getWidth()) / 2));
+            this.setYPos((int) owner.getYPos() - OWNED_Y_OFFSET);
+        }
+    }
+
 }

@@ -1,6 +1,5 @@
 package objects.powerups;
 
-import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -54,10 +53,6 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * Offset for the third phase of the Jetpack animation.
      */
     private static final int ANIMATION_OFFSET_THREE = 6;
-    /**
-     * Y offset for drawing the Jetpack when on Doodle.
-     */
-    private static final int OWNED_Y_OFFSET = 35;
 
     /**
      * The sprites for an active rocket.
@@ -121,11 +116,11 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      */
     @Override
     public void perform(final PowerupOccasion occasion) {
-        if (this.owner == null) {
+        if (this.owner.equals(null)) {
             throw new IllegalArgumentException("Owner cannot be null");
         }
 
-        if (occasion == PowerupOccasion.constant) {
+        if (occasion.equals(PowerupOccasion.constant)) {
             this.owner.setVerticalSpeed(this.vSpeed);
         }
     }
@@ -135,11 +130,12 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        if (doodle == null) {
+        if (doodle.equals(null)) {
             throw new IllegalArgumentException("Doodle cannot be null");
         }
 
-        if (this.owner == null) {
+        if (this.owner == null) {   // For some reason the game crashes upon collision when equals method is
+                                    // used to check is the value of owner's address is null.
             getLogger().info("Doodle collided with a Jetpack");
             this.owner = doodle;
             doodle.setPowerup(this);
@@ -180,15 +176,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
             this.setSprite(this.spritePack[this.spriteIndex]);
         }
 
-        if (this.owner != null) {
-            MovementBehavior.Directions facing = this.owner.getFacing();
-            if (facing == MovementBehavior.Directions.Left) {
-                this.setXPos((int) this.owner.getXPos() + this.owner.getHitBox()[HITBOX_RIGHT]);
-            } else {
-                this.setXPos((int) this.owner.getXPos());
-            }
-            this.setYPos((int) this.owner.getYPos() + OWNED_Y_OFFSET);
-        }
+        setPosition(owner);
     }
 
     /**
@@ -220,4 +208,6 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
         this.owner.getWorld().addUpdatable(this);
         this.owner = null;
     }
+
+    abstract void setPosition(IDoodle doodle);
 }
