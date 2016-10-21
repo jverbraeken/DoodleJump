@@ -104,7 +104,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private static final double STARS_SCALAR = .7;
     /**
-     * The scalar for the Stars sprite.
+     * The offset for the Stars sprite.
      */
     private static final int STARS_OFFSET = 20;
     /**
@@ -325,8 +325,20 @@ public class Doodle extends AGameObject implements IDoodle {
      * @param delta The time in milliseconds that has passed between the last frame and the new frame
      */
     private void updateProjectiles(final double delta) {
+        int width = getServiceLocator().getConstants().getGameWidth();
+        Set<IGameObject> toRemove = new HashSet<>();
         for (IGameObject projectile : projectiles) {
-            projectile.update(delta);
+            if (projectile.getXPos() <= width + projectile.getHitBox()[2] && projectile.getXPos() >= -projectile.getHitBox()[2]) {
+                if (projectile.getYPos() >= -projectile.getHitBox()[3] + getServiceLocator().getRenderer().getCamera().getYPos()) {
+                    projectile.update(delta);
+                    continue;
+                }
+            }
+            toRemove.add(projectile);
+        }
+
+        for (IGameObject projectile : toRemove) {
+            projectiles.remove(projectile);
         }
     }
 

@@ -44,5 +44,13 @@ class RegularProjectile extends AGameObject {
     @Override
     public void update(final double delta) {
         setYPos(getYPos() + VERTICAL_SPEED);
+        checkEnemyCollisions();
+    }
+
+    /**
+     * Checks for all enemies currently in the blocks and if this
+     * projectile collides with one of them.
+     */
+    private void checkEnemyCollisions() {
     }
 }
