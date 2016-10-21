@@ -12,6 +12,7 @@ public final class KeyCode {
      * Map that maps enums of the key to the keyCode.
      */
     private static final Map<Integer, Keys> KEY_MAP = new HashMap<>();
+    private static final Map<Keys, Integer> KEYCODE_MAP = new HashMap<>();
     /**
      * The identifier of the Left arrow key.
      */
@@ -40,15 +41,21 @@ public final class KeyCode {
     static {
         // Arrows
         KEY_MAP.put(ARROW_LEFT_KEY, Keys.arrowLeft);
+        KEYCODE_MAP.put(Keys.arrowLeft, ARROW_LEFT_KEY);
         KEY_MAP.put(ARROW_RIGHT_KEY, Keys.arrowRight);
+        KEYCODE_MAP.put(Keys.arrowRight, ARROW_RIGHT_KEY);
 
         // Letters
         KEY_MAP.put(A_KEY, Keys.a);
+        KEYCODE_MAP.put(Keys.a, A_KEY);
         KEY_MAP.put(D_KEY, Keys.d);
+        KEYCODE_MAP.put(Keys.d, D_KEY);
 
         // Miscellaneous
         KEY_MAP.put(ENTER_KEY, Keys.enter);
+        KEYCODE_MAP.put(Keys.enter, ENTER_KEY);
         KEY_MAP.put(SPACE_KEY, Keys.space);
+        KEYCODE_MAP.put(Keys.space, SPACE_KEY);
     }
 
     /**
@@ -64,6 +71,15 @@ public final class KeyCode {
      */
     /* package */ static Keys getKey(final int keyCode) {
         return KeyCode.KEY_MAP.get(keyCode);
+    }
+
+    /**
+     * Get the key code given the key.
+     * @param keyCode The integer code of the key
+     * @return The {@link Keys} enum corresponding with the integer value
+     */
+    /* package */ static int getKeyCode(final Keys keyCode) {
+        return KeyCode.KEYCODE_MAP.get(keyCode);
     }
 
 }

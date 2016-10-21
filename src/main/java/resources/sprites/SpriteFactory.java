@@ -163,8 +163,8 @@ public final class SpriteFactory implements ISpriteFactory {
     @Override
     public ISprite[] getDoodleLeftSprites() {
         ISprite[] sprites = new ISprite[2];
-        sprites[0] = this.getSprite(IRes.Sprites.doodleLeftAscend);
-        sprites[1] = this.getSprite(IRes.Sprites.doodleLeftDescend);
+        sprites[0] = this.getSprite(IRes.Sprites.doodleLeftDescend);
+        sprites[1] = this.getSprite(IRes.Sprites.doodleLeftAscend);
 
         return sprites;
     }
@@ -175,8 +175,8 @@ public final class SpriteFactory implements ISpriteFactory {
     @Override
     public ISprite[] getDoodleRightSprites() {
         ISprite[] sprites = new ISprite[2];
-        sprites[0] = this.getSprite(IRes.Sprites.doodleRightAscend);
-        sprites[1] = this.getSprite(IRes.Sprites.doodleRightDescend);
+        sprites[0] = this.getSprite(IRes.Sprites.doodleRightDescend);
+        sprites[1] = this.getSprite(IRes.Sprites.doodleRightAscend);
 
         return sprites;
     }

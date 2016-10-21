@@ -20,14 +20,14 @@ public interface IInputManager extends MouseListener, KeyListener {
     /**
      * Adds a mouse to be Observed.
      *
-     * @param mouseInputObserver the mouse
+     * @param mouseInputObserver the observer.
      */
     void addObserver(final IMouseInputObserver mouseInputObserver);
 
     /**
      * Removes a mouse to be Observed.
      *
-     * @param mouseInputObserver the mouse
+     * @param mouseInputObserver the observer.
      */
     void removeObserver(final IMouseInputObserver mouseInputObserver);
 
@@ -35,15 +35,17 @@ public interface IInputManager extends MouseListener, KeyListener {
     /**
      * Adds a key to be Observed.
      *
-     * @param keyInputObserver the key.
+     * @param key The key from the Keys enum.
+     * @param keyInputObserver the observer.
      */
-    void addObserver(final IKeyInputObserver keyInputObserver);
+    void addObserver(final Keys key, final IKeyInputObserver keyInputObserver);
 
     /**
      * Removes a key to be Observed.
      *
-     * @param keyInputObserver the key.
+     * @param key The key from the Keys enum.
+     * @param keyInputObserver the observer.
      */
-    void removeObserver(final IKeyInputObserver keyInputObserver);
+    void removeObserver(final Keys key, final IKeyInputObserver keyInputObserver);
 
 }
