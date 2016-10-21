@@ -102,7 +102,7 @@ public class UnderwaterBehavior implements MovementBehavior {
         this.keyReleaseActions.put(this.doodle.getKeyLeft(), () -> {
             this.movingLeft = false;
             this.hSpeed = UnderwaterBehavior.SLOWING * this.hSpeed; });
-        this.keyReleaseActions.put(this.doodle.getKeyLeft(), () -> {
+        this.keyReleaseActions.put(this.doodle.getKeyRight(), () -> {
             this.movingRight = false;
             this.hSpeed = UnderwaterBehavior.SLOWING * this.hSpeed; });
     }
