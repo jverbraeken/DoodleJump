@@ -95,16 +95,16 @@ public class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final Runnable keyPress(final Keys key) {
-        return this.keyPressActions.get(key);
+    public final void keyPress(final Keys key) {
+        this.keyPressActions.get(key).run();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final Runnable keyRelease(final Keys key) {
-        return this.keyReleaseActions.get(key);
+    public final void keyRelease(final Keys key) {
+        this.keyReleaseActions.get(key).run();
     }
 
     /**

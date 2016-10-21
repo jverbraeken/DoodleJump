@@ -126,13 +126,9 @@ public final class InputManager implements IInputManager {
 
         Keys key = KeyCode.getKey(event.getKeyCode());
         List<IKeyInputObserver> observers = this.keyInputObservers.getOrDefault(key, InputManager.EMPTY_LIST);
+        System.out.println(observers.size() + " - " + key);
         for (IKeyInputObserver observer : observers) {
-            Runnable runnable = observer.keyPress(KeyCode.getKey(event.getKeyCode()));
-            try {
-                runnable.run();
-            } catch (Exception e) {
-                logger.warning("runnable not found");
-            }
+            observer.keyPress(KeyCode.getKey(event.getKeyCode()));
         }
     }
 
@@ -146,12 +142,7 @@ public final class InputManager implements IInputManager {
         Keys key = KeyCode.getKey(event.getKeyCode());
         List<IKeyInputObserver> observers = this.keyInputObservers.getOrDefault(key, InputManager.EMPTY_LIST);
         for (IKeyInputObserver observer : observers) {
-            Runnable runnable = observer.keyRelease(KeyCode.getKey(event.getKeyCode()));
-            try {
-                runnable.run();
-            } catch (Exception e) {
-                logger.warning("runnable not found");
-            }
+            observer.keyRelease(KeyCode.getKey(event.getKeyCode()));
         }
     }
 
@@ -168,7 +159,8 @@ public final class InputManager implements IInputManager {
      */
     @Override
     public synchronized void addObserver(final Keys key, final IKeyInputObserver keyInputObserver) {
-        List<IKeyInputObserver> observers = this.keyInputObservers.getOrDefault(key, InputManager.EMPTY_LIST);
+        // We don't use InputManager.EMPTY_LIST here because it would alter that list.
+        List<IKeyInputObserver> observers = this.keyInputObservers.getOrDefault(key, new ArrayList<>());
         observers.add(keyInputObserver);
         this.keyInputObservers.put(key, observers);
     }

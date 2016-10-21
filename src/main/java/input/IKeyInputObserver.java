@@ -13,13 +13,13 @@ public interface IKeyInputObserver {
      *
      * @param key The key that is pressed.
      */
-    Runnable keyPress(final Keys key);
+    void keyPress(final Keys key);
 
     /**
      * This method is called when the user has released a key.
      *
      * @param key The key that is released.
      */
-    Runnable keyRelease(final Keys key);
+    void keyRelease(final Keys key);
 
 }
