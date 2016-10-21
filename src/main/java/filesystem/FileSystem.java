@@ -1,32 +1,35 @@
 package filesystem;
 
-import com.bluelinelabs.logansquare.LoganSquare;
+import com.google.gson.Gson;
 import logging.ILogger;
 import system.Game;
 import system.IServiceLocator;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.Writer;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.File;
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
-import java.io.OutputStreamWriter;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.BufferedOutputStream;
-import java.awt.image.BufferedImage;
+import java.io.Writer;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -38,6 +41,10 @@ import java.util.List;
  */
 public final class FileSystem implements IFileSystem {
 
+    /**
+     * The font used when the font requested could not be found.
+     */
+    private static final Font DEFAULT_FONT = new Font("serif", Font.PLAIN, 24);
     /**
      * Used to gain access to all services.
      */
@@ -84,7 +91,9 @@ public final class FileSystem implements IFileSystem {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         FileSystem.serviceLocator = sL;
         FileSystem.serviceLocator.provide(new FileSystem());
     }
@@ -317,17 +326,21 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public Object parseJson(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
+    public Object parseJson(final String filename, final Type type) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
-        readResourceFile(filename).forEach(sb::append);
+        readProjectFile(filename).forEach(sb::append);
         String json = sb.toString();
 
-        Object result = null;
-        try {
-            result = LoganSquare.parse(json, jsonClass);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return (new Gson()).fromJson(json, type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String serializeJson(final Object image) {
+        final Gson gson = new Gson();
+        final String result = gson.toJson(image);
         return result;
     }
 
@@ -335,38 +348,19 @@ public final class FileSystem implements IFileSystem {
      * {@inheritDoc}
      */
     @Override
-    public Object parseJsonList(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
-        StringBuilder sb = new StringBuilder();
-        readResourceFile(filename).forEach(sb::append);
-
-        String json = sb.toString();
-
-        Object result = null;
+    public Font getFont(String name) {
+        Font font;
         try {
-            result = LoganSquare.parseList(json, jsonClass);
-        } catch (IOException e) {
-            e.printStackTrace();
+            File fontFile = getResourceFile("fonts/" + name);
+            font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+            GraphicsEnvironment ge = GraphicsEnvironment
+                    .getLocalGraphicsEnvironment();
+
+            ge.registerFont(font);
+        } catch (Exception ex) {
+            System.err.println(name + " not loaded.  Using serif font.");
+            font = DEFAULT_FONT;
         }
-        return result;
+        return font;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Object parseJsonMap(final String filename, final Class<?> jsonClass) throws FileNotFoundException {
-        StringBuilder sb = new StringBuilder();
-        readResourceFile(filename).forEach(sb::append);
-
-        String json = sb.toString();
-
-        Object result = null;
-        try {
-            result = LoganSquare.parseMap(json, jsonClass);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
 }

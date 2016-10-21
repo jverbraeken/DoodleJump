@@ -18,7 +18,6 @@ public final class Res implements IRes {
      * The sprite path used to find the sprites.
      */
     private static final String SPRITE_PATH = "sprites/";
-
     /**
      * A map mapping Sprites enum to String containing the path to the sprite.
      */
@@ -29,7 +28,9 @@ public final class Res implements IRes {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         sL.provide(new Res());
     }
 
@@ -91,14 +92,14 @@ public final class Res implements IRes {
 
         // Covers
         sprites.put(Sprites.background, SPRITE_PATH + "bck@2x.png");
-        sprites.put(Sprites.pauseCover, SPRITE_PATH + "pause-cover@2x.png");
+        sprites.put(Sprites.pauseCover, SPRITE_PATH + "pause-cover-3@2x.png");
         sprites.put(Sprites.startCover, SPRITE_PATH + "Default@2x.png");
 
         // Doodle
-        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "blue-lik-Left@2x.png");
-        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "blue-lik-Left-odskok@2x.png");
-        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-Right@2x.png");
-        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-Right-odskok@2x.png");
+        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "blue-lik-left@2x.png");
+        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "blue-lik-left-odskok@2x.png");
+        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-right@2x.png");
+        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-right-odskok@2x.png");
 
         // Enemies
         sprites.put(Sprites.ordinaryMonster, SPRITE_PATH + "ordinaryMonster.png");
@@ -153,6 +154,13 @@ public final class Res implements IRes {
         sprites.put(Sprites.shield, SPRITE_PATH + "powerup-shield@2x.png");
         sprites.put(Sprites.sizeUp, SPRITE_PATH + "powerup-size-up@2x.png");
         sprites.put(Sprites.sizeDown, SPRITE_PATH + "powerup-size-down@2x.png");
+        sprites.put(Sprites.cannon, SPRITE_PATH + "circuscannon-unused.png");
+        sprites.put(Sprites.cannonUsed, SPRITE_PATH + "circuscannon-used.png");
+        sprites.put(Sprites.rocketLauncher, SPRITE_PATH + "rocketlauncher-unused.png");
+        sprites.put(Sprites.rocketLauncherUsed, SPRITE_PATH + "rocketlauncher-used.png");
+
+        // Passive
+
         sprites.put(Sprites.jetpack0, SPRITE_PATH + "jetpack-0@2x.png");
         sprites.put(Sprites.jetpack1, SPRITE_PATH + "jetpack-1@2x.png");
         sprites.put(Sprites.jetpack2, SPRITE_PATH + "jetpack-2@2x.png");
@@ -167,13 +175,14 @@ public final class Res implements IRes {
         sprites.put(Sprites.propeller1, SPRITE_PATH + "propeller-1@2x.png");
         sprites.put(Sprites.propeller2, SPRITE_PATH + "propeller-2@2x.png");
 
+
         // Score screen
         sprites.put(Sprites.scoreScreenBottom, SPRITE_PATH + "high-scores-bottom@2x.png");
         sprites.put(Sprites.scoreScreenLeft, SPRITE_PATH + "high-scores-left@2x.png");
         sprites.put(Sprites.scoreScreenTop, SPRITE_PATH + "high-scores-top@2x.png");
 
         // Top bar
-        sprites.put(Sprites.scoreBar, SPRITE_PATH + "scoreBar.png");
+        sprites.put(Sprites.scoreBar, SPRITE_PATH + "scorebar.png");
 
         // Choose mode icons
         sprites.put(Sprites.storyMode, SPRITE_PATH + "story-mode@4x.png");
@@ -183,6 +192,21 @@ public final class Res implements IRes {
         sprites.put(Sprites.spaceMode, SPRITE_PATH + "space-mode@4x.png");
         sprites.put(Sprites.underwaterMode, SPRITE_PATH + "underwater-mode@4x.png");
 
+        // Coins
+        sprites.put(Sprites.coin1, SPRITE_PATH + "coin1.png");
+        sprites.put(Sprites.coin2, SPRITE_PATH + "coin2.png");
+        sprites.put(Sprites.coin3, SPRITE_PATH + "coin3.png");
+        sprites.put(Sprites.coin4, SPRITE_PATH + "coin4.png");
+        sprites.put(Sprites.coin5, SPRITE_PATH + "coin5.png");
+        sprites.put(Sprites.coin6, SPRITE_PATH + "coin6.png");
+        sprites.put(Sprites.coin7, SPRITE_PATH + "coin7.png");
+        sprites.put(Sprites.coin8, SPRITE_PATH + "coin8.png");
+        sprites.put(Sprites.coin9, SPRITE_PATH + "coin9.png");
+        sprites.put(Sprites.coin10, SPRITE_PATH + "coin10.png");
+
+        // Missions
+        sprites.put(Sprites.achievement, SPRITE_PATH + "achievement@2x.png");
+
         // Unimplemented
         sprites.put(Sprites.unimplemented, SPRITE_PATH + "unimplemented.jpg");
     }
@@ -191,7 +215,7 @@ public final class Res implements IRes {
      * Set the skin to space style.
      */
     private void setSpaceSkin() {
-        setDefaultSkin();
+        this.setDefaultSkin();
 
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "space-Default@2x.png");
@@ -218,7 +242,7 @@ public final class Res implements IRes {
      * Set the skin to underwater style.
      */
     private void setUnderwaterSkin() {
-        setDefaultSkin();
+        this.setDefaultSkin();
 
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "underwater-Default@2x.png");
@@ -247,7 +271,7 @@ public final class Res implements IRes {
      * Set the skin to underwater style.
      */
     private void setDarknessSkin() {
-        setDefaultSkin();
+        this.setDefaultSkin();
 
         // Covers
         sprites.put(Sprites.startCover, SPRITE_PATH + "darkness-Default@2x.png");

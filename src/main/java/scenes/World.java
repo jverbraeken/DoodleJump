@@ -123,7 +123,10 @@ public class World implements IScene {
      * @param sL The service locator.
      */
     /* package */ World(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
+
         serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(World.class);
 
@@ -233,7 +236,7 @@ public class World implements IScene {
      * @param score The score the player got.
      */
     public final void endGameInstance(final double score) {
-        Game.HIGH_SCORES.addHighScore("Doodle", score);
+        serviceLocator.getProgressionManager().addHighScore("Doodle", score);
         Game.setScene(serviceLocator.getSceneFactory().createKillScreen());
     }
 

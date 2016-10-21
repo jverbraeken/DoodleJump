@@ -5,9 +5,7 @@ import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * This class is responsible for rendering all Sprites.
@@ -34,13 +32,23 @@ public final class Renderer implements IRenderer {
     /**
      * The graphics that are to be used by the renderer.
      */
-    private Graphics graphics;
+    private Graphics2D graphics;
+    /**
+     * The font used to draw text.
+     */
+    private final Font FONT;
+    /**
+     * The font used to draw text with size 24.
+     */
+    private final Font FONT50;
 
     /**
      * Prevent public instantiations of the Renderer.
      */
     private Renderer() {
         logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+        FONT = serviceLocator.getFileSystem().getFont("al-seana.ttf");
+        FONT50 = FONT.deriveFont(Font.BOLD, 50F);
     }
 
     /**
@@ -49,7 +57,9 @@ public final class Renderer implements IRenderer {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         Renderer.serviceLocator = sL;
         Renderer.serviceLocator.provide(new Renderer());
     }
@@ -156,9 +166,82 @@ public final class Renderer implements IRenderer {
     @Override
     public void drawText(final int x, final int y, final String msg) {
         assert this.graphics != null;
+        drawText(x, y, msg, TextAlignment.left);
+    }
 
-        this.logger.info("drawString(" + msg + ", " + x + ", " + y + ")");
-        this.graphics.drawString(msg, x, y);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawTextHUD(final int x, final int y, final String msg) {
+        assert this.graphics != null;
+        drawTextHUD(x, y, msg, TextAlignment.left);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawText(final int x, final int y, final String msg, final TextAlignment alignment) {
+        assert graphics != null;
+        drawText(x, (int) (y - camera.getYPos()), msg, alignment, Color.white);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawTextHUD(final int x, final int y, final String msg, final TextAlignment alignment) {
+        assert graphics != null;
+        drawTextHUD(x, y, msg, alignment, Color.white);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawText(final int x, final int y, final String msg, final Color color) {
+        assert this.graphics != null;
+        drawText(x, y, msg, TextAlignment.left, color);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawTextHUD(final int x, final int y, final String msg, final Color color) {
+        assert this.graphics != null;
+        drawTextHUD(x, y, msg, TextAlignment.left, color);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawText(final int x, final int y, final String msg, final TextAlignment alignment, final Color color) {
+        assert graphics != null;
+        java.awt.Color currentColor = graphics.getColor();
+
+        int xPos = prepareDrawText(x, y, msg, alignment, color.getColor(), FONT50);
+        graphics.drawString(msg, xPos, (int) (y - camera.getYPos()));
+        this.logger.info("drawString(" + x + ", " + y + ", " + msg + ", " + alignment.name() + ", " + color.name());
+
+        graphics.setColor(currentColor);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawTextHUD(final int x, final int y, final String msg, final TextAlignment alignment, final Color color) {
+        assert graphics != null;
+        java.awt.Color currentColor = graphics.getColor();
+
+        int xPos = prepareDrawText(x, y, msg, alignment, color.getColor(), FONT50);
+        graphics.drawString(msg, xPos, y);
+        this.logger.info("drawString(" + x + ", " + y + ", " + msg + ", " + alignment.name() + ", " + color.name());
+
+        graphics.setColor(currentColor);
     }
 
     /**
@@ -172,10 +255,10 @@ public final class Renderer implements IRenderer {
         String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
-        Color currentColor = this.graphics.getColor();
-        this.graphics.setColor(color);
-        this.graphics.fillRect(x, (int) (y - this.camera.getYPos()), width, height);
-        this.graphics.setColor(currentColor);
+        java.awt.Color currentColor = graphics.getColor();
+        graphics.setColor(color.getColor());
+        graphics.fillRect(x, (int) (y - camera.getYPos()), width, height);
+        graphics.setColor(currentColor);
     }
 
     /**
@@ -187,8 +270,14 @@ public final class Renderer implements IRenderer {
             throw new IllegalArgumentException("The graphics buffer cannot be null");
         }
 
-        this.graphics = g;
-        this.graphics.setFont(new Font("Comic Sans", 0, Renderer.FONT_SIZE));
+        this.graphics = (Graphics2D) g;
+
+        this.graphics.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        this.graphics.setRenderingHint(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 
     /**
@@ -205,6 +294,28 @@ public final class Renderer implements IRenderer {
     @Override
     public void setCamera(final ICamera c) {
         this.camera = c;
+    }
+
+    private int prepareDrawText(final int x, final int y, final String msg, final TextAlignment alignment, final java.awt.Color color, final Font font) {
+        graphics.setFont(font);
+        graphics.setColor(color);
+        int xPos = x;
+        switch (alignment) {
+            case left:
+                xPos = x;
+                break;
+            case center:
+                xPos = x - graphics.getFontMetrics().stringWidth(msg) / 2;
+                break;
+            case right:
+                xPos = x - graphics.getFontMetrics().stringWidth(msg);
+                break;
+            default:
+                final String error = "The text alignment enum constant could not be identified: " + alignment.toString();
+                logger.error(error);
+                throw new InternalError(error);
+        }
+        return xPos;
     }
 
 }

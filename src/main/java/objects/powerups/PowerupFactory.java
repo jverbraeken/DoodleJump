@@ -31,7 +31,9 @@ public final class PowerupFactory implements IPowerupFactory {
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         PowerupFactory.serviceLocator = sL;
         PowerupFactory.serviceLocator.provide(new PowerupFactory());
     }
@@ -97,6 +99,24 @@ public final class PowerupFactory implements IPowerupFactory {
     public IGameObject createTrampoline(final int x, final int y) {
         logger.info("A new Trampoline has been created");
         return new Trampoline(serviceLocator, x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject createCircusCannon(final int x, final int y) {
+        logger.info("A new Circus Cannon has been created");
+        return new CircusCannon(serviceLocator, x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject createRocketLauncher(final int x, final int y) {
+        logger.info("A new Rocket Launcher has been created");
+        return new RocketLauncher(serviceLocator, x, y);
     }
 
 }

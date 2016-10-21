@@ -171,6 +171,14 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite[] getPropellerActiveSprites();
 
+    ISprite getCannonSprite();
+
+    ISprite getCannonUsedSprite();
+
+    ISprite getRocketLauncherSprite();
+
+    ISprite getRocketLauncherUsedSprite();
+
     // Score screen
     ISprite getScoreScreenBottom();
 
@@ -204,7 +212,13 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getUnderwaterModeButton();
 
-    // Digits
+    // Coins
+    ISprite getCoinSprite(final int i);
+
     ISprite[] getDigitSprites();
+
+    // Missions
+
+    ISprite getAchievementSprite();
 
 }

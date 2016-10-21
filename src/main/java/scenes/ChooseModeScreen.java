@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-/* package */ class ChooseMode implements IScene {
+/* package */ class ChooseModeScreen implements IScene {
 
     /**
      * X & Y location in relation to the frame of the regular mode button.
@@ -48,7 +48,7 @@ import java.util.ArrayList;
      */
     private final IServiceLocator serviceLocator;
     /**
-     * The logger for the ChooseMode class.
+     * The logger for the ChooseModeScreen class.
      */
     private final ILogger logger;
     /**
@@ -56,7 +56,7 @@ import java.util.ArrayList;
      */
     private final ISprite bottomChooseModeScreen;
     /**
-     * Sprites of the background of the ChooseMode.
+     * Sprites of the background of the ChooseModeScreen.
      */
     private ISprite background;
     /**
@@ -73,10 +73,10 @@ import java.util.ArrayList;
      *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    /* package */ ChooseMode(final IServiceLocator sL) {
+    /* package */ ChooseModeScreen(final IServiceLocator sL) {
         assert sL != null;
         this.serviceLocator = sL;
-        logger = sL.getLoggerFactory().createLogger(ChooseMode.class);
+        logger = sL.getLoggerFactory().createLogger(ChooseModeScreen.class);
 
         background = sL.getSpriteFactory().getBackground();
         bottomChooseModeScreen = sL.getSpriteFactory().getKillScreenBottomSprite();

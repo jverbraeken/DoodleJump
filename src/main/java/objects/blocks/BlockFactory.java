@@ -1,20 +1,21 @@
 package objects.blocks;
 
-import math.ICalc;
 import math.GenerationSet;
+import math.ICalc;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
+import objects.powerups.IPowerup;
 import system.IServiceLocator;
 
+import java.util.List;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.Map;
 
 
 /**
@@ -31,24 +32,6 @@ public final class BlockFactory implements IBlockFactory {
      * The minimum amount of platforms per block.
      */
     private static final int MIN_PLATFORMS = 5;
-    /**
-     * Offset to place the trampoline on the proper place of a platform.
-     */
-    private static final int ITEM_Y_OFFSET = 5;
-    /**
-     * Offset to place the trampoline on the proper place of a platform.
-     */
-    private static final int TRAMPOLINE_X_OFFSET = 20;
-    /**
-     * Threshold in order to spawn a trampoline.
-     * random int(10.000 > 9900)
-     */
-    private static final int TRAMPOLINE_THRESHOLD = 9900;
-    /**
-     * Threshold in order to spawn a trampoline.
-     * random int(9500 < x < 9900)
-     */
-    private static final int SPRING_THRESHOLD = 9500;
 
     /**
      * The chance that an enemy will spawn.
@@ -102,7 +85,9 @@ public final class BlockFactory implements IBlockFactory {
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
-        assert sL != null;
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         BlockFactory.serviceLocator = sL;
         BlockFactory.serviceLocator.provide(new BlockFactory());
     }
@@ -303,26 +288,10 @@ public final class BlockFactory implements IBlockFactory {
      * @param platform The platform a powerup potentially is placed on.
      **/
     private void chanceForPowerup(final Set<IGameObject> elements, final IPlatform platform) {
-        ICalc calc = serviceLocator.getCalc();
-
-        double[] hitbox = platform.getHitBox();
-        final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
-        final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
-
         if (!isSpecialPlatform(platform)) {
-            IGameObject powerup = powerupGenerationSet.getRandomElement();
+            IPowerup powerup = (IPowerup) powerupGenerationSet.getRandomElement();
             if (powerup != null) {
-                int powerupXPos = (int) (calc.getRandomDouble(platformWidth));
-                double[] powHitbox = powerup.getHitBox();
-                final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
-                final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
-
-                int xPos = (int) platform.getXPos() + powerupXPos;
-                if (xPos > platform.getXPos() + platformWidth - powerupWidth) {
-                    xPos = xPos - powerupWidth;
-                }
-                powerup.setXPos(xPos);
-                powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
+                powerup.setPositionOnPlatform(powerup, platform);
                 elements.add(powerup);
             }
         }
@@ -382,5 +351,4 @@ public final class BlockFactory implements IBlockFactory {
         }
         return false;
     }
-
 }
