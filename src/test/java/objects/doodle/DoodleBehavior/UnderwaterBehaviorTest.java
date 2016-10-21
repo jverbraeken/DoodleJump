@@ -7,7 +7,6 @@ import objects.doodles.DoodleBehavior.UnderwaterBehavior;
 import objects.doodles.IDoodle;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -19,6 +18,8 @@ import java.lang.reflect.Field;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -31,16 +32,17 @@ public class UnderwaterBehaviorTest {
     private IConstants constants = mock(IConstants.class);
     private IDoodle doodle = mock(IDoodle.class);
     private IPowerup powerup = mock(IPowerup.class);
-    private UnderwaterBehavior underwater;
+    private UnderwaterBehavior behavior;
 
     @Before
     public void init() throws Exception {
         when(constants.getGravityAcceleration()).thenReturn(.5);
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(doodle.getPowerup()).thenReturn(powerup);
-        when(doodle.getKeys()).thenReturn(new Keys[]{Keys.arrowLeft, Keys.arrowRight});
+        when(doodle.getKeyLeft()).thenReturn(Keys.arrowLeft);
+        when(doodle.getKeyRight()).thenReturn(Keys.arrowRight);
 
-        underwater = new UnderwaterBehavior(serviceLocator, doodle);
+        behavior = new UnderwaterBehavior(serviceLocator, doodle);
     }
 
     /**
@@ -48,7 +50,7 @@ public class UnderwaterBehaviorTest {
      */
     @Test
     public void testGetVerticalSpeed() {
-        assertThat(underwater.getVerticalSpeed(), is(0d));
+        assertThat(behavior.getVerticalSpeed(), is(0d));
     }
 
     /**
@@ -56,19 +58,9 @@ public class UnderwaterBehaviorTest {
      */
     @Test
     public void testSetVerticalSpeed() {
-        assertThat(underwater.getVerticalSpeed(), is(0d));
-        underwater.setVerticalSpeed(5d);
-        assertThat(underwater.getVerticalSpeed(), is(2.5d));
-    }
-
-    /**
-     * Tests the getMoving method.
-     */
-    @Test
-    public void testGetMoving() {
-        assertThat(underwater.getMoving(), is(nullValue()));
-        underwater.keyPress(Keys.arrowRight);
-        assertThat(underwater.getMoving(), is(MovementBehavior.Directions.Right));
+        assertThat(behavior.getVerticalSpeed(), is(0d));
+        behavior.setVerticalSpeed(5d);
+        assertThat(behavior.getVerticalSpeed(), is(2.5d));
     }
 
     /**
@@ -76,9 +68,8 @@ public class UnderwaterBehaviorTest {
      */
     @Test
     public void testGetFacing() {
-        assertThat(underwater.getFacing(), is(nullValue()));
-        underwater.keyPress(Keys.arrowRight);
-        assertThat(underwater.getFacing(), is(MovementBehavior.Directions.Right));
+        behavior.keyPress(Keys.arrowRight);
+        assertThat(behavior.getFacing(), is(MovementBehavior.Directions.Right));
     }
 
     /**
@@ -88,12 +79,15 @@ public class UnderwaterBehaviorTest {
      *                   in the constructor.
      */
     @Test
-    public void testKeyPressLeftRight() throws Exception{
-        underwater.keyPress(Keys.arrowLeft);
-        underwater.keyPress(Keys.arrowRight);
-        assertThat(MovementBehavior.Directions.Right, is(underwater.getFacing()));
-        assertThat(MovementBehavior.Directions.Right, is(underwater.getMoving()));
-        assertThat(Whitebox.getInternalState(underwater, "pressed"), is(true));
+    public void testKeyPressLeftRight() throws Exception {
+        behavior.keyPress(Keys.arrowLeft);
+        behavior.keyPress(Keys.arrowRight);
+        assertThat(MovementBehavior.Directions.Right, is(behavior.getFacing()));
+
+        boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(false));
+        assertThat(movingRight, is(true));
     }
 
     /**
@@ -103,12 +97,15 @@ public class UnderwaterBehaviorTest {
      *                   in the constructor.
      */
     @Test
-    public void testKeyPressRightLeft() throws Exception{
-        underwater.keyPress(Keys.arrowRight);
-        underwater.keyPress(Keys.arrowLeft);
-        assertThat(MovementBehavior.Directions.Left, is(underwater.getFacing()));
-        assertThat(MovementBehavior.Directions.Left, is(underwater.getMoving()));
-        assertThat(Whitebox.getInternalState(underwater, "pressed"), is(true));
+    public void testKeyPressRightLeft() throws Exception {
+        behavior.keyPress(Keys.arrowRight);
+        behavior.keyPress(Keys.arrowLeft);
+        assertThat(MovementBehavior.Directions.Left, is(behavior.getFacing()));
+
+        boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(true));
+        assertThat(movingRight, is(false));
     }
 
     /**
@@ -118,12 +115,13 @@ public class UnderwaterBehaviorTest {
      */
     @Test
     public void testKeyReleaseLeft() throws Exception {
-        underwater.keyPress(Keys.arrowLeft);
-        assertThat(MovementBehavior.Directions.Left, is(underwater.getFacing()));
-        assertThat(MovementBehavior.Directions.Left, is(underwater.getMoving()));
-        underwater.keyRelease(Keys.arrowLeft);
-        assertThat(underwater.getMoving(), is(MovementBehavior.Directions.Left));
-        assertThat(Whitebox.getInternalState(underwater, "pressed"), is(false));
+        behavior.keyPress(Keys.arrowLeft);
+        behavior.keyRelease(Keys.arrowLeft);
+
+        boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(false));
+        assertThat(movingRight, is(false));
     }
 
     /**
@@ -133,12 +131,13 @@ public class UnderwaterBehaviorTest {
      */
     @Test
     public void testKeyReleaseRight() throws Exception {
-        underwater.keyPress(Keys.arrowRight);
-        assertThat(MovementBehavior.Directions.Right, is(underwater.getFacing()));
-        assertThat(MovementBehavior.Directions.Right, is(underwater.getMoving()));
-        underwater.keyRelease(Keys.arrowRight);
-        assertThat(underwater.getMoving(), is(MovementBehavior.Directions.Right));
-        assertThat(Whitebox.getInternalState(underwater, "pressed"), is(false));
+        behavior.keyPress(Keys.arrowRight);
+        behavior.keyRelease(Keys.arrowRight);
+
+        boolean movingLeft = Whitebox.getInternalState(behavior, "movingLeft");
+        boolean movingRight = Whitebox.getInternalState(behavior, "movingRight");
+        assertThat(movingLeft, is(false));
+        assertThat(movingRight, is(false));
     }
 
     /**
@@ -148,10 +147,10 @@ public class UnderwaterBehaviorTest {
      *           in the constructor.
      */
     @Test
-    public void animatePullInLegsTest() throws Exception {
-        underwater.setVerticalSpeed(-16);
-        Whitebox.invokeMethod(underwater, "animate", 0d);
-        Mockito.verify(doodle, Mockito.times(1)).setSprite(underwater.getFacing(), true);
+    public void animateCallsUpdateActiveSpriteTest() throws Exception {
+        behavior.setVerticalSpeed(-16);
+        Whitebox.invokeMethod(behavior, "animate", 0d);
+        verify(doodle, Mockito.times(1)).updateActiveSprite();
     }
 
     /**
@@ -159,9 +158,9 @@ public class UnderwaterBehaviorTest {
      */
     @Test
     public void testPerformPowerupOnMove() {
-        underwater.move(0d);
-        Mockito.verify(doodle, Mockito.times(1)).getPowerup();
-        Mockito.verify(powerup, Mockito.times(1)).perform(PowerupOccasion.constant);
+        behavior.move(0d);
+        verify(doodle, Mockito.times(1)).getPowerup();
+        verify(powerup, Mockito.times(1)).perform(PowerupOccasion.constant);
     }
 
     /**
@@ -172,19 +171,10 @@ public class UnderwaterBehaviorTest {
      */
     @Test
     public void moveHorizontallyLeftTest() throws Exception {
-        Field hSpeedField = UnderwaterBehavior.class.getDeclaredField("hSpeed");
-        Field horAccField = UnderwaterBehavior.class.getDeclaredField("HORIZONTAL_ACCELERATION");
-        Field relAccField = UnderwaterBehavior.class.getDeclaredField("RELATIVE_SPEED");
-        hSpeedField.setAccessible(true);
-        horAccField.setAccessible(true);
-        relAccField.setAccessible(true);
-
-        double oldHSpeed = (double) hSpeedField.get(underwater);
-        double expectedValue = oldHSpeed - (double) relAccField.get(underwater) * (double) horAccField.get(underwater);
-
-        underwater.keyPress(Keys.arrowLeft);
-        Whitebox.invokeMethod(underwater, "moveHorizontally", 0d);
-        assertThat(hSpeedField.get(underwater), is(expectedValue));
+        Whitebox.setInternalState(behavior, "movingLeft", true);
+        Whitebox.invokeMethod(behavior, "moveHorizontally", 1d);
+        double hSpeed = Whitebox.getInternalState(behavior, "hSpeed");
+        assertTrue(hSpeed < 0);
     }
 
     /**
@@ -195,44 +185,18 @@ public class UnderwaterBehaviorTest {
      */
     @Test
     public void moveHorizontallyRightTest() throws Exception {
-        Field hSpeedField = UnderwaterBehavior.class.getDeclaredField("hSpeed");
-        Field horAccField = UnderwaterBehavior.class.getDeclaredField("HORIZONTAL_ACCELERATION");
-        Field relAccField = UnderwaterBehavior.class.getDeclaredField("RELATIVE_SPEED");
-        hSpeedField.setAccessible(true);
-        horAccField.setAccessible(true);
-        relAccField.setAccessible(true);
-
-        double oldHSpeed = (double) hSpeedField.get(underwater);
-        double expectedValue = oldHSpeed + (double) relAccField.get(underwater) * (double) horAccField.get(underwater);
-
-        underwater.keyPress(Keys.arrowRight);
-        Whitebox.invokeMethod(underwater, "moveHorizontally", 0d);
-        assertThat(hSpeedField.get(underwater), is(expectedValue));
+        Whitebox.setInternalState(behavior, "movingRight", true);
+        Whitebox.invokeMethod(behavior, "moveHorizontally", 1d);
+        double hSpeed = Whitebox.getInternalState(behavior, "hSpeed");
+        assertTrue(hSpeed > 0);
     }
 
-    /**
-     * Tests that for the gravity method is called.
-     *
-     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
-     *                   in the constructor.
-     */
     @Test
     public void testApplyGravity() throws Exception {
-        Field relative_gravity = UnderwaterBehavior.class.getDeclaredField("RELATIVE_GRAVITY");
-        relative_gravity.setAccessible(true);
-        double expected = (double) relative_gravity.get(underwater) * 0.5;
-        Whitebox.invokeMethod(underwater, "applyGravity", 0d);
-
-        Mockito.verify(serviceLocator, Mockito.times(1)).getConstants();
-        Mockito.verify(constants, Mockito.times(1)).getGravityAcceleration();
-        Mockito.verify(doodle, Mockito.times(1)).addYPos(expected);
-        assertThat(underwater.getVerticalSpeed(), is(expected));
+        Whitebox.invokeMethod(behavior, "applyGravity", 0d);
+        verify(serviceLocator, Mockito.times(1)).getConstants();
+        verify(constants, Mockito.times(1)).getGravityAcceleration();
     }
 
-    @After
-    public void cleanUp() {
-        serviceLocator = null;
-        doodle = null;
-    }
 }
 
