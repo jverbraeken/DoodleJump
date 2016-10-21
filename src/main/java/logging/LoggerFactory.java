@@ -1,10 +1,13 @@
 package logging;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import filesystem.IFileSystem;
 import system.Game;
 import system.IServiceLocator;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -85,17 +88,18 @@ public final class LoggerFactory implements ILoggerFactory {
 
         this.logIgnore = new HashSet<>();
         try {
-            List<String> ignoreList = (List<String>) fileSystem.parseJsonList(
-                    LoggerFactory.LOG_IGNORE_FILE, String.class);
-            for (String className : ignoreList) {
-                try {
-                    logIgnore.add(Class.forName(className));
-                } catch (ClassNotFoundException e) {
-                    logger.warning("LoggerFactory could not find class requested to ignore logging for: " + className);
-                    e.printStackTrace();
+            List<String> list = (List<String>) serviceLocator.getFileSystem().parseJson(LoggerFactory.LOG_IGNORE_FILE, new TypeToken<List<String>>(){}.getType());
+            if (list != null) {
+                for (String className : list) {
+                    try {
+                        logIgnore.add(Class.forName(className));
+                    } catch (ClassNotFoundException e) {
+                        logger.warning("LoggerFactory could not find class requested to ignore logging for: " + className);
+                        e.printStackTrace();
+                    }
                 }
             }
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             logger.error("The file " + LoggerFactory.LOG_IGNORE_FILE + " requested by LoggerFactory was not found");
             e.printStackTrace();
         }

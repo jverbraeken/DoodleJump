@@ -35,7 +35,7 @@ public final class Constants implements IConstants {
     /**
      * The file to which the high scores will be written to.
      */
-    private static final String HIGHCORES_DATA = "highScores.data";
+    private static final String SAVEFILE_DATA = "saveFile.data";
 
     /**
      * The service locator for the Constants class.
@@ -44,7 +44,7 @@ public final class Constants implements IConstants {
     /**
      * The file to which the logs will be written to.
      */
-    private static AtomicReference<String> logFile = new AtomicReference<>();
+    private static final AtomicReference<String> logFile = new AtomicReference<>("async.log");
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -62,14 +62,6 @@ public final class Constants implements IConstants {
      * Prevent public instantiation of Constants.
      */
     private Constants() {
-        try {
-            IFileSystem fileSystem = Constants.serviceLocator.getFileSystem();
-            Object jsonObject = fileSystem.parseJsonMap("constants.json", String.class);
-            Map<String, String> json = (Map<String, String>) jsonObject;
-            interpretJson(json);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -124,8 +116,8 @@ public final class Constants implements IConstants {
      * {@inheritDoc}
      */
     @Override
-    public String getHighScoresFilePath() {
-        return Constants.HIGHCORES_DATA;
+    public String getSaveFilePath() {
+        return Constants.SAVEFILE_DATA;
     }
 
     /**

@@ -22,6 +22,10 @@ import objects.enemies.EnemyFactory;
 import objects.enemies.IEnemyFactory;
 import objects.powerups.IPowerupFactory;
 import objects.powerups.PowerupFactory;
+import progression.IMissionFactory;
+import progression.IProgressionManager;
+import progression.MissionFactory;
+import progression.ProgressionManager;
 import rendering.CameraFactory;
 import rendering.ICameraFactory;
 import rendering.IRenderer;
@@ -66,6 +70,10 @@ import scenes.SceneFactory;
     private IDoodleFactory doodleFactory;
     private IBlockFactory blockFactory;
     private IPlatformFactory platformFactory;
+
+    // progression
+    private IProgressionManager progressionManager;
+    private IMissionFactory missionFactory;
 
     // resources
     private ISpriteFactory spriteFactory;
@@ -246,6 +254,24 @@ import scenes.SceneFactory;
     public void provide(final IConstants c) {
         assert c != null;
         this.constants = c;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void provide(final IProgressionManager progressionManager) {
+        assert progressionManager != null;
+        this.progressionManager = progressionManager;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void provide(final IMissionFactory missionFactory) {
+        assert missionFactory != null;
+        this.missionFactory = missionFactory;
     }
 
     /**
@@ -616,6 +642,24 @@ import scenes.SceneFactory;
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IProgressionManager getProgressionManager() {
+        assert this.progressionManager != null;
+        return this.progressionManager;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IMissionFactory getMissionFactory() {
+        assert this.missionFactory != null;
+        return this.missionFactory;
+    }
+
+    /**
      * Initialize the ServiceLocator.
      */
     private void init() {
@@ -636,6 +680,7 @@ import scenes.SceneFactory;
         PlatformFactory.register(this);
         ButtonFactory.register(this);
         CameraFactory.register(this);
+        ProgressionManager.register(this);
+        MissionFactory.register(this);
     }
-
 }

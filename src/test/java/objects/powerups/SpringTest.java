@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
+import progression.IProgressionManager;
 import rendering.IRenderer;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -35,6 +36,7 @@ public class SpringTest {
     private Spring spring;
     private IDoodle doodle;
     private ILoggerFactory loggerFactory;
+    private IProgressionManager progressionManager;
     private ILogger logger;
 
     @Rule
@@ -53,6 +55,7 @@ public class SpringTest {
         renderer = mock(IRenderer.class);
         doodle = mock(IDoodle.class);
         loggerFactory = mock(ILoggerFactory.class);
+        progressionManager = mock(IProgressionManager.class);
         logger = mock(ILogger.class);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(loggerFactory.createLogger(Spring.class)).thenReturn(logger);
@@ -61,6 +64,7 @@ public class SpringTest {
         when(spriteFactory.getSpringUsedSprite()).thenReturn(usedSprite);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
+        when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
         when(sprite.getHeight()).thenReturn(20);
         when(usedSprite.getHeight()).thenReturn(40);
         when(doodle.getHitBox()).thenReturn(new double[]{0, 0, 0, 0});
