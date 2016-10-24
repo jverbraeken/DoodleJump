@@ -4,6 +4,9 @@ import buttons.IButton;
 import buttons.IButtonFactory;
 import constants.IConstants;
 import logging.ILogger;
+import progression.IProgressionManager;
+import progression.Ranks;
+import rendering.Color;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -25,11 +28,64 @@ import system.IServiceLocator;
      * X & Y location in relation to the frame of the game over text.
      */
     private static final double GAME_OVER_TEXT_X = 0.1, GAME_OVER_TEXT_Y = 0.3;
+    /**
+     * X & Y location in relation to the frame of the experience text.
+     */
+    private static final double EXP_TEXT_X = 0.6, EXP_TEXT_Y = 0.55;
+    /**
+     * X & Y location in relation to the frame of the Rank text.
+     */
+    private static final double RANK_TEXT_X = 0.05, RANK_TEXT_Y = 0.05;
+    /**
+     * X & Y location in relation to the frame of the Rank text.
+     */
+    private static final double SCORE_TEXT_X = 0.1, SCORE_TEXT_Y = 0.3;
+    /**
+     * Maximum and initial rotation of the experience text. And the maximum
+     * and initial font size of the experience text.
+     */
+    private static final int MAX_EXP_FONT_SIZE_DIFFERENCE = 20, INITIAL_EXP_ROTATION = 0, INITIAL_EXP_FONTSIZE = 50;
+    /**
+     * Devides the score by this number.
+     */
+    private static final int SCORE_COUNT_TIME_CONSTANT = 120;
+    /**
+     * Maximum rotation in radians of the Exp text.
+     */
+    private static final double MAX_EXP_ROTATION = 0.2;
+    /**
+     * The speed, and side, the exp is rotating to.
+     */
+    private int expFontSizeSpeed = 1;
+    /**
+     * The speed, and side, the exp is rotating to.
+     */
+    private double expRotationSpeed = 0.017;
+    /**
+     * The font size of exp text.
+     */
+    private int expFontSize = 50;
+    /**
+     * The rotation of the exp text.
+     */
+    private double expRotation = 0;
 
+    /**
+     * The exp counted up to the actual experience count.
+     */
+    private int expCount = 0;
+    /**
+     * Amount extra when counting.
+     */
+    private double countUpAmount = 0;
     /**
      * Used to gain access to all services.
      */
     private final IServiceLocator serviceLocator;
+    /**
+     * The score reached by the player.
+     */
+    private int score;
     /**
      * The logger for the KillScreen class.
      */
@@ -59,9 +115,12 @@ import system.IServiceLocator;
      * Package protected constructor, only allowing the SceneFactory to create a KillScreen.
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    /* package */ KillScreen(final IServiceLocator sL) {
+    /* package */ KillScreen(final IServiceLocator sL, final int score) {
         assert sL != null;
         this.serviceLocator = sL;
+        this.score = score;
+        countUpAmount = score/SCORE_COUNT_TIME_CONSTANT;
+        System.out.println(countUpAmount);
         this.logger = sL.getLoggerFactory().createLogger(KillScreen.class);
 
         this.background = sL.getSpriteFactory().getBackground();
@@ -114,6 +173,17 @@ import system.IServiceLocator;
         renderer.drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
         this.playAgainButton.render();
         this.mainMenuButton.render();
+
+        IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
+        Ranks rank = progressionManager.getRank();
+        renderer.drawText(
+                (int) (constants.getGameWidth() * KillScreen.RANK_TEXT_X),
+                (int) (constants.getGameHeight() * KillScreen.RANK_TEXT_Y),
+                "Rank: " + rank.getName(), Color.black);
+        renderer.drawTextExtraOptions(
+                (int) (constants.getGameWidth() * KillScreen.EXP_TEXT_X),
+                (int) (constants.getGameHeight() * KillScreen.EXP_TEXT_Y),
+                "+" + expCount + " exp", Color.darkBlue, expRotation, expFontSize);
     }
 
     /**
@@ -121,6 +191,31 @@ import system.IServiceLocator;
      */
     @Override
     public final void update(final double delta) {
+        if (expCount < score) {
+            expCount += countUpAmount;
+        }
+        updateExpFontSize();
+        //updateExpRotation();
+    }
+
+    /**
+     * Updates the font size of the Experience text.
+     */
+    private void updateExpFontSize() {
+        expFontSize += expFontSizeSpeed;
+        if (expFontSize > INITIAL_EXP_FONTSIZE + MAX_EXP_FONT_SIZE_DIFFERENCE || expFontSize < INITIAL_EXP_FONTSIZE - MAX_EXP_FONT_SIZE_DIFFERENCE) {
+            expFontSizeSpeed = -expFontSizeSpeed;
+        }
+    }
+
+    /**
+     * Updates the rotation of the Experience text.
+     */
+    private void updateExpRotation() {
+        expRotation += expRotationSpeed;
+        if (expRotation > INITIAL_EXP_ROTATION + MAX_EXP_ROTATION || expRotation < INITIAL_EXP_ROTATION - MAX_EXP_ROTATION) {
+            expRotationSpeed = -expRotationSpeed;
+        }
     }
 
 }

@@ -2,21 +2,30 @@ package rendering;
 
 public enum Color {
     /**
-     * White
+     * White.
      */
-    white(255, 255, 255),
+    white(255, 255, 255, 255),
+
     /**
-     * Black
+     * Half opaque white.
      */
-    black(0, 0, 0),
+    halfOpaqueWhite(255, 255, 255, 150),
     /**
-     * The color of the even score entries
+     * A nice darkblue.
      */
-    scoreEntryEven(235, 224, 206),
+    darkBlue(9, 36, 76, 255),
     /**
-     * The color of the uneven score entries
+     * Black.
      */
-    scoreEntryUneven(241, 234, 224);
+    black(0, 0, 0, 255),
+    /**
+     * The color of the even score entries.
+     */
+    scoreEntryEven(235, 224, 206, 255),
+    /**
+     * The color of the uneven score entries.
+     */
+    scoreEntryUneven(241, 234, 224, 255);
 
     private final java.awt.Color color;
 
@@ -25,9 +34,10 @@ public enum Color {
      * @param red The red component (between 0 and 255 inclusive)
      * @param green The green component (between 0 and 255 inclusive)
      * @param blue The blue component (between 0 and 255 inclusive)
+     * @param opacity The opacity component (between 0 and 255 inclusive)
      */
-    Color(int red, int green, int blue) {
-        color = new java.awt.Color(red, green, blue);
+    Color(int red, int green, int blue, int opacity) {
+        color = new java.awt.Color(red, green, blue, opacity);
     }
 
     java.awt.Color getColor() {

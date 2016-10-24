@@ -10,9 +10,10 @@ public interface ISceneFactory extends IFactory {
     /**
      * Create a new kill screen.
      *
+     * @param score
      * @return An IScene of the kill screen.
      */
-    IScene createKillScreen();
+    IScene createKillScreen(final int score);
 
     /**
      * Create a new main menu.

@@ -209,6 +209,21 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
+    public void drawTextExtraOptions(final int x, final int y, final String msg, final Color color, final double rotation, final int fontSize) {
+        assert this.graphics != null;
+        java.awt.Color currentColor = graphics.getColor();
+        int xPos = prepareDrawText(x, y, msg, TextAlignment.center, color.getColor(), FONT.deriveFont(Font.BOLD, fontSize));
+        graphics.rotate(rotation, xPos, y);
+        graphics.drawString(msg, xPos, y);
+        this.logger.info("drawString(" + x + ", " + y + ", " + msg + ", " + color.name());
+
+        graphics.setColor(currentColor);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void drawTextHUD(final int x, final int y, final String msg, final Color color) {
         assert this.graphics != null;
         drawTextHUD(x, y, msg, TextAlignment.left, color);

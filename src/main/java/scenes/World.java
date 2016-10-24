@@ -221,12 +221,9 @@ public class World implements IScene {
      */
     public final void endGameInstance(final double score) {
         serviceLocator.getProgressionManager().addHighScore("Doodle", score);
-        System.out.println(serviceLocator.getProgressionManager().getExperience());
         serviceLocator.getProgressionManager().addExperience((int) score);
-        System.out.println(serviceLocator.getProgressionManager().getExperience());
 
-
-        Game.setScene(serviceLocator.getSceneFactory().createKillScreen());
+        Game.setScene(serviceLocator.getSceneFactory().createKillScreen((int) score));
     }
 
     /**

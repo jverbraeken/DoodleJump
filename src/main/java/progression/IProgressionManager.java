@@ -33,6 +33,12 @@ public interface IProgressionManager {
     int getCoins();
 
     /**
+     * Returns the ranks of this player.
+     * @return The ranks of this player.
+     */
+    Ranks getRank();
+
+    /**
      * @return The amount of experience the player has.
      */
     int getExperience();

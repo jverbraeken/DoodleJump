@@ -55,9 +55,9 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
-    public IScene createKillScreen() {
+    public IScene createKillScreen(final int score) {
         logger.info("A new KillScreen has been created");
-        return new KillScreen(serviceLocator);
+        return new KillScreen(serviceLocator, score);
     }
 
     /**

@@ -144,6 +144,14 @@ public final class ProgressionManager implements IProgressionManager {
      * {@inheritDoc}
      */
     @Override
+    public Ranks getRank() {
+        return rank;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int getExperience() {
         return experience;
     }
@@ -236,7 +244,7 @@ public final class ProgressionManager implements IProgressionManager {
         Ranks[] ranksArray = Ranks.values();
         for (int i = 0; i < ranksArray.length; i++) {
             if (ranksArray[i].getExperience() > experience) {
-                System.out.println(ranksArray[i - 1]);
+                rank = ranksArray[i - 1];
                 break;
             }
         }

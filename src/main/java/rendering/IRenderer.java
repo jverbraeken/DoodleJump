@@ -122,6 +122,18 @@ public interface IRenderer {
     void drawText(final int x, final int y, final String msg, final Color color);
 
     /**
+     * Draw a string of text relative to the camera, left-aligned.
+     *
+     * @param x   the x position of the text.
+     * @param y   the y position of the text.
+     * @param msg The message to draw.
+     * @param color the color of the text.
+     * @param fontSize the fontSize of the text.
+     * @param rotation the rotation of the text.
+     */
+    void drawTextExtraOptions(final int x, final int y, final String msg, final Color color, final double rotation, final int fontSize);
+
+    /**
      * Draw a string of text relative to the screen, left-aligned.
      *
      * @param x   the x position of the text.
