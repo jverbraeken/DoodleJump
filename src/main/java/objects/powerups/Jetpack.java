@@ -62,6 +62,10 @@ import system.IServiceLocator;
      * Y offset for drawing the Jetpack when on Doodle.
      */
     private static final int OWNED_Y_OFFSET = 35;
+    /**
+     * Angle per frame when falling.
+     */
+    private static final double ANGLE_PER_FRAME = 0.01;
 
     /**
      * The sprites for an active rocket.
@@ -83,6 +87,10 @@ import system.IServiceLocator;
      * The index of the current sprite.
      */
     private int spriteIndex = 0;
+    /**
+     * The current rotation angle of the jetpack.
+     */
+    private double theta = 0;
 
     /**
      * Jetpack constructor.
@@ -143,7 +151,7 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos(), this.theta);
     }
 
     /**
@@ -189,6 +197,7 @@ import system.IServiceLocator;
     private void updateFalling() {
         this.applyGravity();
         this.addXPos(HORIZONTAL_SPEED);
+        this.theta += Jetpack.ANGLE_PER_FRAME;
     }
 
     /**
