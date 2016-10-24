@@ -8,6 +8,7 @@ import progression.IProgressionManager;
 import progression.Ranks;
 import rendering.Color;
 import rendering.IRenderer;
+import rendering.TextAlignment;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -35,11 +36,11 @@ import system.IServiceLocator;
     /**
      * X & Y location in relation to the frame of the Rank text.
      */
-    private static final double RANK_TEXT_X = 0.05, RANK_TEXT_Y = 0.05;
+    private static final double RANK_TEXT_X = 0.04, RANK_TEXT_Y = 0.85;
     /**
      * X & Y location in relation to the frame of the Rank text.
      */
-    private static final double SCORE_TEXT_X = 0.1, SCORE_TEXT_Y = 0.3;
+    private static final double SCORE_TEXT_X = 0.2, SCORE_TEXT_Y = 0.13;
     /**
      * Maximum and initial rotation of the experience text. And the maximum
      * and initial font size of the experience text.
@@ -48,7 +49,7 @@ import system.IServiceLocator;
     /**
      * Devides the score by this number.
      */
-    private static final int SCORE_COUNT_TIME_CONSTANT = 120;
+    private static final int SCORE_COUNT_TIME_CONSTANT = 100;
     /**
      * Maximum rotation in radians of the Exp text.
      */
@@ -87,6 +88,10 @@ import system.IServiceLocator;
      */
     private int score;
     /**
+     * The total exp earned by the player.
+     */
+    private int totalExperience;
+    /**
      * The logger for the KillScreen class.
      */
     private final ILogger logger;
@@ -115,12 +120,12 @@ import system.IServiceLocator;
      * Package protected constructor, only allowing the SceneFactory to create a KillScreen.
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    /* package */ KillScreen(final IServiceLocator sL, final int score) {
+    /* package */ KillScreen(final IServiceLocator sL, final int score, final int extraExp) {
         assert sL != null;
         this.serviceLocator = sL;
         this.score = score;
-        countUpAmount = score/SCORE_COUNT_TIME_CONSTANT;
-        System.out.println(countUpAmount);
+        totalExperience = score + extraExp;
+        countUpAmount = (double) totalExperience/(double) SCORE_COUNT_TIME_CONSTANT;
         this.logger = sL.getLoggerFactory().createLogger(KillScreen.class);
 
         this.background = sL.getSpriteFactory().getBackground();
@@ -176,10 +181,14 @@ import system.IServiceLocator;
 
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         Ranks rank = progressionManager.getRank();
-        renderer.drawText(
+        renderer.drawTextNoAjustments(
+                (int) (constants.getGameWidth() * KillScreen.SCORE_TEXT_X),
+                (int) (constants.getGameHeight() * KillScreen.SCORE_TEXT_Y),
+                "Score: " + score, TextAlignment.left, Color.black);
+        renderer.drawTextNoAjustments(
                 (int) (constants.getGameWidth() * KillScreen.RANK_TEXT_X),
                 (int) (constants.getGameHeight() * KillScreen.RANK_TEXT_Y),
-                "Rank: " + rank.getName(), Color.black);
+                "Rank: " + rank.getName(), TextAlignment.left, Color.black);
         renderer.drawTextExtraOptions(
                 (int) (constants.getGameWidth() * KillScreen.EXP_TEXT_X),
                 (int) (constants.getGameHeight() * KillScreen.EXP_TEXT_Y),
@@ -191,7 +200,7 @@ import system.IServiceLocator;
      */
     @Override
     public final void update(final double delta) {
-        if (expCount < score) {
+        if (expCount < totalExperience) {
             expCount += countUpAmount;
         }
         updateExpFontSize();

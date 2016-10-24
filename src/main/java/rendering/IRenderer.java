@@ -153,6 +153,16 @@ public interface IRenderer {
     void drawText(int x, int y, String msg, TextAlignment alignment, final Color color);
 
     /**
+     * Draw a string of text absolute to the screen.
+     *
+     * @param x         the x position of the text.
+     * @param y         the y position of the text.
+     * @param msg       The message to draw.
+     * @param alignment The alignment of the text.
+     */
+    void drawTextNoAjustments(final int x, final int y, final String msg, final TextAlignment alignment, final Color color);
+
+    /**
      * Draw a string of text relative to the screen.
      *
      * @param x         the x position of the text.

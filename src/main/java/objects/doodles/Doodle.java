@@ -9,6 +9,7 @@ import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.DoodleBehavior.UnderwaterBehavior;
+import objects.enemies.IEnemy;
 import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
@@ -86,6 +87,10 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double score;
     /**
+     * The extra experience earned, by for example killing enemies.
+     */
+    private int extraExp = 0;
+    /**
      * All the passives the can Doodle have.
      */
     private IPowerup powerup;
@@ -105,6 +110,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * The offset for the Stars sprite.
      */
     private static final int STARS_OFFSET = 20;
+    /**
+     * The amount of experience earned from killing an enemy.
+     */
+    private static final int EXP_KILLING_ENEMY = 200;
     /**
      * The keys the Doodle responds to.
      */
@@ -176,6 +185,9 @@ public class Doodle extends AGameObject implements IDoodle {
         double boost = jumpable.getBoost();
         this.behavior.setVerticalSpeed(boost);
         this.getPowerup().perform(PowerupOccasion.collision);
+        if (jumpable instanceof IEnemy) {
+            addExtraExp(EXP_KILLING_ENEMY);
+        }
     }
 
     /**
@@ -445,7 +457,7 @@ public class Doodle extends AGameObject implements IDoodle {
         ICamera camera = getServiceLocator().getRenderer().getCamera();
         if (this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM] > camera.getYPos() + getServiceLocator().getConstants().getGameHeight()) {
             getLogger().info("The Doodle died with score " + this.score);
-            this.world.endGameInstance(this.score);
+            this.world.endGameInstance(this.score, this.extraExp);
         }
     }
 
@@ -552,4 +564,11 @@ public class Doodle extends AGameObject implements IDoodle {
         return projectiles;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addExtraExp(final int extraAmountOfExperience) {
+        extraExp += extraAmountOfExperience;
+    }
 }

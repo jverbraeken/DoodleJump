@@ -47,6 +47,10 @@ public class World implements IScene {
      * The amount of blocks kept in a buffer.
      */
     private static final int BLOCK_BUFFER = 4;
+    /**
+     * The amount of experience earned from killing an enemy.
+     */
+    private static final int EXP_KILLING_ENEMY = 200;
 
     /**
      * Used to access all services.
@@ -219,11 +223,11 @@ public class World implements IScene {
      *
      * @param score The score the player got.
      */
-    public final void endGameInstance(final double score) {
+    public final void endGameInstance(final double score, final int extraExp) {
         serviceLocator.getProgressionManager().addHighScore("Doodle", score);
         serviceLocator.getProgressionManager().addExperience((int) score);
 
-        Game.setScene(serviceLocator.getSceneFactory().createKillScreen((int) score));
+        Game.setScene(serviceLocator.getSceneFactory().createKillScreen((int) score, extraExp));
     }
 
     /**
@@ -277,6 +281,7 @@ public class World implements IScene {
                                 element.setXPos(1000);
                                 //((IEnemy) element).setAlive(false);
                                 projectilesToRemove.add(projectile);
+                                doodle.addExtraExp(EXP_KILLING_ENEMY);
                             }
                         }
                         for (IGameObject projectile : projectilesToRemove) {
@@ -340,7 +345,7 @@ public class World implements IScene {
      * <br>
      * The bar on top of the screen displaying the score and pause button
      */
-    private final class ScoreBar implements IRenderable {
+    public final class ScoreBar implements IRenderable {
 
         /**
          * The transparent and black border at the bottom of the scoreBar that is not take into account when
@@ -372,7 +377,7 @@ public class World implements IScene {
         /**
          * Create a new scoreBar.
          */
-        private ScoreBar() {
+        public ScoreBar() {
             this.scoreBarSprite = World.this.serviceLocator.getSpriteFactory().getScoreBarSprite();
             this.scaling = (double) World.this.serviceLocator.getConstants().getGameWidth() /
                     (double) this.scoreBarSprite.getWidth();

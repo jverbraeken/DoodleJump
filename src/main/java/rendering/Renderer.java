@@ -233,6 +233,21 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
+    public void drawTextNoAjustments(final int x, final int y, final String msg, final TextAlignment alignment, final Color color) {
+        assert graphics != null;
+        java.awt.Color currentColor = graphics.getColor();
+
+        int xPos = prepareDrawText(x, y, msg, alignment, color.getColor(), FONT50);
+        graphics.drawString(msg, xPos, y);
+        this.logger.info("drawString(" + x + ", " + y + ", " + msg + ", " + alignment.name() + ", " + color.name());
+
+        graphics.setColor(currentColor);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void drawText(final int x, final int y, final String msg, final TextAlignment alignment, final Color color) {
         assert graphics != null;
         java.awt.Color currentColor = graphics.getColor();
