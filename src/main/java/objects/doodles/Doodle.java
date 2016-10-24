@@ -30,7 +30,6 @@ import java.util.EnumMap;
  */
 @SuppressWarnings({"checkstyle:designforextension"})
 public class Doodle extends AGameObject implements IDoodle {
-    private double theta = 0;
 
     /**
      * The height of the legs of the doodle. When this value is very large, for example 1,
@@ -308,9 +307,7 @@ public class Doodle extends AGameObject implements IDoodle {
                 (int) this.getXPos(),
                 (int) this.getYPos(),
                 (int) (sprite.getWidth() * this.spriteScalar),
-                (int) (sprite.getHeight() * this.spriteScalar),
-                theta);
-        this.theta += 0.065;
+                (int) (sprite.getHeight() * this.spriteScalar));
 
         if (!this.isAlive()) {
             Doodle.getServiceLocator().getRenderer().drawSprite(getStarSprite(),
