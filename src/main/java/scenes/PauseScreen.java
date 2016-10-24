@@ -18,7 +18,12 @@ import java.util.List;
     /**
      * The X and Y location for the resume button.
      */
-    private static final double RESUME_BUTTON_X = 0.55d, RESUME_BUTTON_Y = 0.75d;
+    private static final double RESUME_BUTTON_X = 0.55d, RESUME_BUTTON_Y = 0.7d;
+
+    /**
+     * The X and Y location for the resume button.
+     */
+    private static final double SHOP_BUTTON_X = 0.6d, SHOP_BUTTON_Y = 0.8d;
 
     /**
      * Used to gain access to all services.
@@ -32,6 +37,10 @@ import java.util.List;
      * The resume button.
      */
     private final IButton resumeButton;
+    /**
+     * The resume button.
+     */
+    private final IButton shopButton;
     /**
      * The sprites of the coin, animated.
      */
@@ -73,6 +82,8 @@ import java.util.List;
         // Resume button
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
         this.resumeButton = buttonFactory.createResumeButton(PauseScreen.RESUME_BUTTON_X, PauseScreen.RESUME_BUTTON_Y);
+        this.shopButton = buttonFactory.createShopButton(PauseScreen.SHOP_BUTTON_X, PauseScreen.SHOP_BUTTON_Y);
+
     }
 
     /**
@@ -82,6 +93,8 @@ import java.util.List;
     public void start() {
         this.resumeButton.register();
         this.logger.info("The pause scene is now displaying");
+        this.shopButton.register();
+        this.logger.info("The shop scene is now displaying");
     }
 
     /**
@@ -91,6 +104,8 @@ import java.util.List;
     public void stop() {
         this.resumeButton.deregister();
         this.logger.info("The pause scene is no longer displaying");
+        this.shopButton.deregister();
+        this.logger.info("The shop scene is no longer displaying");
     }
 
     /**
@@ -100,11 +115,14 @@ import java.util.List;
     public void render() {
         assert background != null;
         assert resumeButton != null;
+        assert shopButton != null;
+
         assert coinSprites[(int) coinSpriteIndex] != null;
 
         serviceLocator.getRenderer().drawSpriteHUD(background, 0, 0);
 
         resumeButton.render();
+        shopButton.render();
 
         ISprite coinSprite = this.coinSprites[(int) coinSpriteIndex];
         final int coinX = MARGIN + coinSprite.getHeight() / 2 - (int) (((double) coinSprite.getWidth() / (double) coinSprite.getHeight()) * (double) coinSprite.getHeight() / 2d);
