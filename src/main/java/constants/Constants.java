@@ -1,9 +1,7 @@
 package constants;
 
-import filesystem.IFileSystem;
 import system.IServiceLocator;
 
-import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -36,18 +34,24 @@ public final class Constants implements IConstants {
      * The file to which the high scores will be written to.
      */
     private static final String SAVEFILE_DATA = "saveFile.data";
-
+    /**
+     * The file to which the logs will be written to.
+     */
+    private static final AtomicReference<String> LOG_FILE = new AtomicReference<>("async.log");
     /**
      * The service locator for the Constants class.
      */
     private static transient IServiceLocator serviceLocator;
+
     /**
-     * The file to which the logs will be written to.
+     * Prevent public instantiation of Constants.
      */
-    private static final AtomicReference<String> logFile = new AtomicReference<>("async.log");
+    private Constants() {
+    }
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
      * @param sL The IServiceLocator to which the class should offer its functionality.
      */
     public static void register(final IServiceLocator sL) {
@@ -56,12 +60,6 @@ public final class Constants implements IConstants {
         }
         Constants.serviceLocator = sL;
         Constants.serviceLocator.provide(new Constants());
-    }
-
-    /**
-     * Prevent public instantiation of Constants.
-     */
-    private Constants() {
     }
 
     /**
@@ -109,7 +107,7 @@ public final class Constants implements IConstants {
      */
     @Override
     public String getLogFile() {
-        return Constants.logFile.get();
+        return Constants.LOG_FILE.get();
     }
 
     /**
@@ -128,8 +126,8 @@ public final class Constants implements IConstants {
     private void interpretJson(final Map<String, String> json) {
         for (Map.Entry<String, String> entry : json.entrySet()) {
             switch (entry.getKey()) {
-                case "logFile":
-                    Constants.logFile.set(entry.getValue());
+                case "LOG_FILE":
+                    Constants.LOG_FILE.set(entry.getValue());
                     break;
                 default:
                     String msg = "The json entry \"" + entry.getKey()
