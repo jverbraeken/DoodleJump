@@ -33,6 +33,11 @@ public interface IProgressionManager {
     int getCoins();
 
     /**
+     * @return The amount of experience the player has.
+     */
+    int getExperience();
+
+    /**
      * @return A list containing the active missions.
      */
     List<Mission> getMissions();
@@ -51,11 +56,18 @@ public interface IProgressionManager {
     int getPowerupLevel(final Powerups powerup);
 
     /**
-     * Decreases the amount of coins with {@code price}.
+     * Decreases the amount of coins with {@code amount}.
      *
      * @param amount The amount of coins that should be subtracted from the total amount of coins
      */
     void decreaseCoins(final int amount);
+
+    /**
+     * Heightens the amount of experience with {@code amount}.
+     *
+     * @param amount The amount of experience that should be added to the total amount of coins
+     */
+    void addExperience(final int amount);
 
     /**
      * Increases the powerup level of the powerup specified by 1.
