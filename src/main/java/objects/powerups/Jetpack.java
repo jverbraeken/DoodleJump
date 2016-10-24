@@ -155,6 +155,20 @@ import system.IServiceLocator;
     }
 
     /**
+     * Ends the powerup.
+     */
+    @Override
+    public void endPowerup() {
+        this.setSprite(spritePack[spritePack.length - 1]);
+        this.vSpeed = INITIAL_DROP_SPEED;
+
+        this.owner.removePowerup(this);
+        this.owner.getWorld().addDrawable(this);
+        this.owner.getWorld().addUpdatable(this);
+        this.owner = null;
+    }
+
+    /**
      * Update method for when the Jetpack is owned.
      */
     private void updateOwned() {
@@ -206,20 +220,6 @@ import system.IServiceLocator;
     private void applyGravity() {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         this.addYPos(this.vSpeed);
-    }
-
-    /**
-     * Ends the powerup.
-     */
-    @Override
-    public void endPowerup() {
-        this.setSprite(spritePack[spritePack.length - 1]);
-        this.vSpeed = INITIAL_DROP_SPEED;
-
-        this.owner.removePowerup(this);
-        this.owner.getWorld().addDrawable(this);
-        this.owner.getWorld().addUpdatable(this);
-        this.owner = null;
     }
 
 }

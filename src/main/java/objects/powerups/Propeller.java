@@ -37,6 +37,10 @@ import system.IServiceLocator;
      * The refresh rate for the active animation.
      */
     private static final int ANIMATION_REFRESH_RATE = 3;
+    /**
+     * Angle per frame when falling.
+     */
+    private static final double ANGLE_PER_FRAME = 0.05;
 
     /**
      * The sprites for an active Propeller.
@@ -58,6 +62,10 @@ import system.IServiceLocator;
      * The vertical speed of the Propeller.
      */
     private double vSpeed = 0d;
+    /**
+     * The current rotation angle of the jetpack.
+     */
+    private double theta = 0;
 
     /**
      * Propeller constructor.
@@ -118,7 +126,21 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos(), this.theta);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void endPowerup() {
+        this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
+        this.vSpeed = INITIAL_DROP_SPEED;
+
+        this.owner.removePowerup(this);
+        this.owner.getWorld().addDrawable(this);
+        this.owner.getWorld().addUpdatable(this);
+        this.owner = null;
     }
 
     /**
@@ -151,6 +173,7 @@ import system.IServiceLocator;
     private void updateFalling() {
         this.applyGravity();
         this.addXPos(HORIZONTAL_SPEED);
+        this.theta += Propeller.ANGLE_PER_FRAME;
     }
 
     /**
@@ -159,20 +182,6 @@ import system.IServiceLocator;
     private void applyGravity() {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         this.addYPos(this.vSpeed);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void endPowerup() {
-        this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
-        this.vSpeed = INITIAL_DROP_SPEED;
-
-        this.owner.removePowerup(this);
-        this.owner.getWorld().addDrawable(this);
-        this.owner.getWorld().addUpdatable(this);
-        this.owner = null;
     }
 
 }
