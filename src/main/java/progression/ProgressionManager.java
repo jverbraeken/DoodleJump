@@ -81,6 +81,11 @@ public final class ProgressionManager implements IProgressionManager {
     private int experience;
 
     /**
+     * The current rank of the player.
+     */
+    private Ranks rank;
+
+    /**
      * Prevents construction from outside the package.
      */
     private ProgressionManager() {
@@ -220,7 +225,21 @@ public final class ProgressionManager implements IProgressionManager {
     public void addExperience(final int amount) {
         assert amount >= 0;
         experience += amount;
+        setRankAccordingExperience();
         saveData();
+    }
+
+    /**
+     * Will set the rank variable according to the experience the player has.
+     */
+    private void setRankAccordingExperience() {
+        Ranks[] ranksArray = Ranks.values();
+        for (int i = 0; i < ranksArray.length; i++) {
+            if (ranksArray[i].getExperience() > experience) {
+                System.out.println(ranksArray[i - 1]);
+                break;
+            }
+        }
     }
 
     /**
@@ -304,6 +323,7 @@ public final class ProgressionManager implements IProgressionManager {
 
         coins = 0;
         experience = 0;
+        rank = Ranks.rookieJumper;
 
         highScores.clear();
 
@@ -336,6 +356,7 @@ public final class ProgressionManager implements IProgressionManager {
 
         experience = json.getExperience();
         logger.info("Experience is set to: " + experience);
+        setRankAccordingExperience();
 
         powerupLevels.clear();
         for (Map.Entry<String, Integer> entry : json.getPowerupLevels().entrySet()) {

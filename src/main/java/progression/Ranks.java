@@ -8,37 +8,37 @@ public enum Ranks {
     /**
      * The first rank.
      */
-    rookieJumper(0),
+    rookieJumper(0, "Rookie jumper"),
 
     /**
      * The second rank.
      */
-    firstJumper(10000),
+    startingJumper(10000, "Starting jumper"),
 
     /**
      * The third rank.
      */
-    partyPooper(10000),
+    partyPooper(100000, "Party pooper"),
 
     /**
      * The fourth rank.
      */
-    tiredLegs(10000),
+    tiredLegs(250000, "Tired-legs"),
 
     /**
      * The fifth rank.
      */
-    oldMan(10000),
+    oldMan(750000, "Old man"),
 
     /**
      * The sixth rank.
      */
-    tooEasy(10000),
+    tooEasy(1500000, "Too easy"),
 
     /**
      * The last rank.
      */
-    theBoss(10000);
+    theBoss(3000000, "Tha Boss");
 
     /**
      * The experience needed to reach this rank.
@@ -46,11 +46,17 @@ public enum Ranks {
     private int experience;
 
     /**
+     * The name of this rank.
+     */
+    private String name;
+
+    /**
      * Create a Ranks enum object.
      * @param exp the amount of experience needed.
      */
-    Ranks (final int exp) {
+    Ranks (final int exp, final String n) {
         experience = exp;
+        name = n;
     }
 
     /**
@@ -59,6 +65,14 @@ public enum Ranks {
      */
     public int getExperience() {
         return experience;
+    }
+
+    /**
+     * Returns the name of this Rank.
+     * @return the variable name.
+     */
+    public String getName() {
+        return name;
     }
 
 
