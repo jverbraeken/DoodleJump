@@ -113,13 +113,6 @@ import system.IServiceLocator;
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
-    }
 
     /**
      * Update method for when the Propeller is owned.

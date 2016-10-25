@@ -57,16 +57,6 @@ public enum ElementTypes {
     /**
      * The springShoes powerup.
      */
-    springShoes,
-
-    /**
-     * The SpringCannon powerup.
-     */
-    cannon,
-
-    /**
-     * The RocketLauncher powerup.
-     */
-    rocketLauncher
+    springShoes
 
 }
