@@ -7,7 +7,6 @@ import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
-import objects.doodles.Projectiles.RegularProjectile;
 import objects.enemies.IEnemy;
 import resources.sprites.ISprite;
 import system.Game;
@@ -15,15 +14,7 @@ import system.IRenderable;
 import system.IServiceLocator;
 import system.IUpdatable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
-import java.util.WeakHashMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -272,8 +263,7 @@ public class World implements IScene {
                         HashSet<IGameObject> projectilesToRemove = new HashSet<>();
                         for (IGameObject projectile : doodle.getProjectiles()) {
                             if (projectile.checkCollision(element)) {
-                                element.setXPos(1000);
-                                //((IEnemy) element).setAlive(false);
+                                element.setXPos(Integer.MAX_VALUE);
                                 projectilesToRemove.add(projectile);
                             }
                         }
@@ -372,8 +362,8 @@ public class World implements IScene {
          */
         private ScoreBar() {
             this.scoreBarSprite = World.this.serviceLocator.getSpriteFactory().getScoreBarSprite();
-            this.scaling = (double) World.this.serviceLocator.getConstants().getGameWidth() /
-                    (double) this.scoreBarSprite.getWidth();
+            this.scaling = (double) World.this.serviceLocator.getConstants().getGameWidth()
+                    / (double) this.scoreBarSprite.getWidth();
             this.scoreBarHeight = (int) (this.scaling * this.scoreBarSprite.getHeight());
 
             ISprite[] digitSprites = World.this.serviceLocator.getSpriteFactory().getDigitSprites();
@@ -384,8 +374,8 @@ public class World implements IScene {
             ISprite pauseSprite = World.this.serviceLocator.getSpriteFactory().getPauseButtonSprite();
             final int gameWidth = World.this.serviceLocator.getConstants().getGameWidth();
             double pauseX = 1d - pauseSprite.getWidth() * this.scaling / gameWidth - World.PAUSE_OFFSET * this.scaling / gameWidth;
-            double pauseY = this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d / gameWidth -
-                    (double) pauseSprite.getHeight() * this.scaling / 2d / gameWidth;
+            double pauseY = this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d / gameWidth
+                    - (double) pauseSprite.getHeight() * this.scaling / 2d / gameWidth;
             this.pauseButton = World.this.serviceLocator.getButtonFactory().createPauseButton(pauseX, pauseY);
         }
 

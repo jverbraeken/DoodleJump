@@ -63,6 +63,10 @@ import java.util.ArrayList;
      * The text used to indicate the current level of the powerup.
      */
     private static final String POWERUP_INFO_LEVEL = "Level - Cost";
+    /**
+     * The speed with which the coin rotates.
+     */
+    private static final double COIN_SPEED = 0.3d;
 
     /**
      * X & Y location in relation to the frame of the {@link objects.powerups.Jetpack} upgrade button.
@@ -93,6 +97,10 @@ import java.util.ArrayList;
      * X & Y location in relation to the frame of the {@link objects.powerups.Trampoline} upgrade button.
      */
     private static final double TRAMPOLINE_BUTTON_X = BUTTON_X_START2, TRAMPOLINE_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 2;
+    /**
+     * The number of digits in the decimal system
+     */
+    private static final int BASE_TEN = 10;
 
     /**
      * The relative Y-position of the coin.
@@ -201,7 +209,7 @@ import java.util.ArrayList;
         );
 
         // Coins
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < BASE_TEN; i++) {
             coinSprites[i] = this.serviceLocator.getSpriteFactory().getCoinSprite(i + 1);
         }
     }
@@ -265,7 +273,14 @@ import java.util.ArrayList;
         drawPowerupText(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y);
     }
 
-    private void drawPowerupText(final Powerups powerup, final double jetpackButtonX, final double jetpackButtonY) {
+    /**
+     * Draws the text next to a powerup-upgrade-button.
+     *
+     * @param powerup The type of the powerup
+     * @param buttonX The x-position of the button
+     * @param buttonY The y-position of the button
+     */
+    private void drawPowerupText(final Powerups powerup, final double buttonX, final double buttonY) {
         final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         final IRenderer renderer = serviceLocator.getRenderer();
@@ -278,12 +293,11 @@ import java.util.ArrayList;
         if (level < powerup.getMaxLevel()) {
             final int price = powerup.getPrice(level + 1);
             string = ((level == 0) ? "X" : level) + " - " + price;
-        }
-        else {
+        } else {
             string = Integer.toString(level);
         }
         final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup) + 1).getHeight() / 2;
-        renderer.drawTextHUD((int) (jetpackButtonX * width) + BUTTON_TEXT_OFFSET, (int) (jetpackButtonY * height) + yOffset, string, Color.black);
+        renderer.drawTextHUD((int) (buttonX * width) + BUTTON_TEXT_OFFSET, (int) (buttonY * height) + yOffset, string, Color.black);
     }
 
     /**
@@ -291,8 +305,8 @@ import java.util.ArrayList;
      */
     @Override
     public final void update(final double delta) {
-        coinSpriteIndex += 0.3 * delta;
-        coinSpriteIndex = coinSpriteIndex % 10;
+        coinSpriteIndex += COIN_SPEED * delta;
+        coinSpriteIndex = coinSpriteIndex % BASE_TEN;
     }
 
 }
