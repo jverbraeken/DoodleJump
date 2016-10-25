@@ -60,6 +60,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * Second star animation in frames.
      */
     private static final double SECOND_STAR_FRAME = 6d;
+    /**
+     * The minimum and maximum value of the spriteScaler.
+     */
+    private static final double SPRITE_SCALAR_MIN = 0d, SPRITE_SCALAR_MAX = 2d;
 
     /**
      * Fake Powerup instance to return when actual powerup value is null.
@@ -321,14 +325,14 @@ public class Doodle extends AGameObject implements IDoodle {
         }
 
         this.getPowerup().render();
-        renderProjectiles();
+        this.renderProjectiles();
     }
 
     /**
      * Render the projectiles this Doodle has shot.
      */
     private void renderProjectiles() {
-        for (IGameObject projectile : projectiles) {
+        for (IGameObject projectile : this.projectiles) {
             projectile.render();
         }
     }
@@ -338,13 +342,14 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void update(final double delta) {
+        starNumber++;
+
         this.applyMovementBehavior(delta);
         this.wrap();
         this.checkDeadPosition();
-        starNumber++;
         this.getPowerup().update(delta);
         this.updateScore();
-        updateProjectiles(delta);
+        this.updateProjectiles(delta);
     }
 
     /**
@@ -355,14 +360,14 @@ public class Doodle extends AGameObject implements IDoodle {
         int width = getServiceLocator().getConstants().getGameWidth();
         Set<IGameObject> toRemove = new HashSet<>();
         for (IGameObject projectile : projectiles) {
-            if (projectile.getXPos() <= width + projectile.getHitBox()[2] && projectile.getXPos() >= -projectile.getHitBox()[2]) {
-                if (projectile.getYPos() >= -projectile.getHitBox()[3] + getServiceLocator().getRenderer().getCamera().getYPos()) {
-                    projectile.update(delta);
-                    continue;
-                }
+            if (projectile.getXPos() <= width + projectile.getHitBox()[2] && projectile.getXPos() >= -projectile.getHitBox()[2]
+             && projectile.getYPos() >= -projectile.getHitBox()[3] + getServiceLocator().getRenderer().getCamera().getYPos()) {
+                projectile.update(delta);
+            } else {
+                toRemove.add(projectile);
             }
-            toRemove.add(projectile);
         }
+
         for (IGameObject projectile : toRemove) {
             projectiles.remove(projectile);
         }
@@ -398,7 +403,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void increaseSpriteScalar(final double inc) {
-        if (this.spriteScalar + inc > 0 && this.spriteScalar + inc < 2) {
+        if (this.spriteScalar + inc > Doodle.SPRITE_SCALAR_MIN && this.spriteScalar + inc < Doodle.SPRITE_SCALAR_MAX) {
             double oldScalar = this.spriteScalar;
             this.spriteScalar += inc;
 

@@ -8,12 +8,14 @@ import logging.ILoggerFactory;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
+import objects.doodles.Projectiles.RegularProjectile;
 import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
+import rendering.ICamera;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -21,6 +23,9 @@ import scenes.World;
 import system.Game;
 import system.IRenderable;
 import system.IServiceLocator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
@@ -35,6 +40,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 public class DoodleTest {
 
+    ICamera camera = mock(ICamera.class);
     IConstants constants = mock(IConstants.class);
     IInputManager inputManager = mock(IInputManager.class);
     IJumpable jumpable = mock(IJumpable.class);
@@ -52,21 +58,25 @@ public class DoodleTest {
     static ISprite spriteLeft2 = mock(ISprite.class);
     static ISprite spriteRight1 = mock(ISprite.class);
     static ISprite spriteRight2 = mock(ISprite.class);
-    static ISprite[] spritesLeft = new ISprite[] { spriteLeft1, spriteLeft2 };
-    static ISprite[] spritesRight = new ISprite[] { spriteRight1, spriteRight2 };
-
-    static IDoodle doodle;
-    static double jumpableBoost = 10d;
-    static int spriteHeight = 10;
-    static int spriteWidth = 10;
+    ISprite[] spritesLeft = new ISprite[] { spriteLeft1, spriteLeft2 };
+    ISprite[] spritesRight = new ISprite[] { spriteRight1, spriteRight2 };
+    IDoodle doodle;
+    double jumpableBoost = 10d;
+    int spriteHeight = 10;
+    int spriteWidth = 10;
+    RegularProjectile projectile = mock(RegularProjectile.class);
+    List<RegularProjectile> projectiles = new ArrayList<RegularProjectile>();
 
     @Before
     public void init() {
         Whitebox.setInternalState(Game.class, "mode", Game.Modes.regular);
 
+        when(constants.getGravityAcceleration()).thenReturn(1d);
+        when(constants.getGameHeight()).thenReturn(1000);
         when(jumpable.getBoost()).thenReturn(jumpableBoost);
         when(loggerFactory.createLogger(Doodle.class)).thenReturn(logger);
         when(loggerFactory.createLogger(ShootingObserver.class)).thenReturn(logger);
+        when(renderer.getCamera()).thenReturn(camera);
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getInputManager()).thenReturn(inputManager);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
@@ -78,8 +88,11 @@ public class DoodleTest {
         when(spriteFactory.getDoodleRightSprites()).thenReturn(spritesRight);
 
         doodle = new Doodle(serviceLocator, world);
+
         Whitebox.setInternalState(doodle, "behavior", regularBehavior);
         Whitebox.setInternalState(regularBehavior, "doodle", doodle);
+        Whitebox.setInternalState(regularBehavior, "facing", MovementBehavior.Directions.Left);
+        Whitebox.setInternalState(regularBehavior, "serviceLocator", serviceLocator);
     }
 
     @Test
@@ -198,7 +211,7 @@ public class DoodleTest {
     @Test
     public void testRender() {
         double x = Whitebox.getInternalState(doodle, "xPos");
-        double y = Whitebox.getInternalState(doodle, "xPos");
+        double y = Whitebox.getInternalState(doodle, "yPos");
         double scalar = Whitebox.getInternalState(doodle, "spriteScalar");
         int height = (int) scalar * spriteHeight;
         int width = (int) scalar * spriteWidth;
@@ -213,6 +226,89 @@ public class DoodleTest {
         Whitebox.setInternalState(doodle, "powerup", somePowerup);
         doodle.render();
         verify(somePowerup, times(1)).render();
+    }
+
+    @Test
+    public void testRenderOneProjectile() {
+        projectiles.add(projectile);
+        Whitebox.setInternalState(doodle, "projectiles", projectiles);
+
+        doodle.render();
+        verify(projectile, times(1)).render();
+    }
+
+    @Test
+    public void testRenderProjectiles() {
+        projectiles.add(projectile);
+        projectiles.add(projectile);
+        Whitebox.setInternalState(doodle, "projectiles", projectiles);
+
+        doodle.render();
+        verify(projectile, times(2)).render();
+    }
+
+    @Test
+    public void testUpdate() {
+        doodle.update(0d);
+        verify(regularBehavior, times(1)).move(0d);
+    }
+
+    @Test
+    public void testGetScore() {
+        double expected = 10d;
+        Whitebox.setInternalState(doodle, "score", expected);
+        double actual = doodle.getScore();
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void testIncreaseSpriteScalar() {
+        Whitebox.setInternalState(doodle, "spriteScalar", 1d);
+        doodle.increaseSpriteScalar(.1d);
+        double spriteScalar = Whitebox.getInternalState(doodle, "spriteScalar");
+        assertThat(spriteScalar, is(1.1d));
+    }
+
+    @Test
+    public void testIncreaseSpriteScalarLimit() {
+        double max = Whitebox.getInternalState(Doodle.class, "SPRITE_SCALAR_MAX");
+        Whitebox.setInternalState(doodle, "spriteScalar", max);
+        doodle.increaseSpriteScalar(.1d);
+
+        double spriteScalar = Whitebox.getInternalState(doodle, "spriteScalar");
+        assertThat(spriteScalar, is(max));
+    }
+
+    @Test
+    public void testDecreaseSpriteScalar() {
+        Whitebox.setInternalState(doodle, "spriteScalar", 1d);
+        doodle.increaseSpriteScalar(-.1d);
+        double spriteScalar = Whitebox.getInternalState(doodle, "spriteScalar");
+        assertThat(spriteScalar, is(.9d));
+    }
+
+    @Test
+    public void testDecreaseSpriteScalarLimit() {
+        double min = Whitebox.getInternalState(Doodle.class, "SPRITE_SCALAR_MIN");
+        Whitebox.setInternalState(doodle, "spriteScalar", min);
+        doodle.increaseSpriteScalar(-.1d);
+
+        double spriteScalar = Whitebox.getInternalState(doodle, "spriteScalar");
+        assertThat(spriteScalar, is(min));
+    }
+
+    @Test
+    public void testSetVerticalSpeed() {
+        Whitebox.setInternalState(doodle, "behavior", movementBehavior);
+        double speed = 0d;
+        doodle.setVerticalSpeed(speed);
+        verify(movementBehavior, times(1)).setVerticalSpeed(speed);
+    }
+
+    @Test
+    public void testGetWorld() {
+        World actual = doodle.getWorld();
+        assertThat(actual, is(world));
     }
 
     /**
