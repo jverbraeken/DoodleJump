@@ -71,7 +71,7 @@ public final class Game {
     /**
      * The current frame.
      */
-    private static JFrame frame;
+    public static JFrame frame;
     /**
      * The current panel.
      */
