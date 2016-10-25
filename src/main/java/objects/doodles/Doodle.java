@@ -9,6 +9,7 @@ import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.DoodleBehavior.UnderwaterBehavior;
+import objects.enemies.AEnemy;
 import objects.enemies.IEnemy;
 import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
@@ -89,7 +90,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * The extra experience earned, by for example killing enemies.
      */
-    private int extraExp = 0;
+    private double experience = 0;
     /**
      * All the passives the can Doodle have.
      */
@@ -110,10 +111,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * The offset for the Stars sprite.
      */
     private static final int STARS_OFFSET = 20;
-    /**
-     * The amount of experience earned from killing an enemy.
-     */
-    private static final int EXP_KILLING_ENEMY = 200;
     /**
      * The keys the Doodle responds to.
      */
@@ -185,8 +182,8 @@ public class Doodle extends AGameObject implements IDoodle {
         double boost = jumpable.getBoost();
         this.behavior.setVerticalSpeed(boost);
         this.getPowerup().perform(PowerupOccasion.collision);
-        if (jumpable instanceof IEnemy) {
-            addExtraExp(EXP_KILLING_ENEMY);
+        if (jumpable instanceof AEnemy) {
+            addExtraExp(((AEnemy) jumpable).getAmountOfExperience());
         }
     }
 
@@ -457,7 +454,7 @@ public class Doodle extends AGameObject implements IDoodle {
         ICamera camera = getServiceLocator().getRenderer().getCamera();
         if (this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM] > camera.getYPos() + getServiceLocator().getConstants().getGameHeight()) {
             getLogger().info("The Doodle died with score " + this.score);
-            this.world.endGameInstance(this.score, this.extraExp);
+            this.world.endGameInstance(this.score, this.experience);
         }
     }
 
@@ -502,7 +499,10 @@ public class Doodle extends AGameObject implements IDoodle {
         IConstants constants = getServiceLocator().getConstants();
         double effectiveYPos = this.getYPos() - constants.getGameHeight();
         double newScore = -1 * effectiveYPos * constants.getScoreMultiplier();
+        double oldScore = this.score;
         this.score = Math.max(this.score, newScore);
+
+        this.experience += this.score - oldScore;
     }
 
     /**
@@ -568,7 +568,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void addExtraExp(final int extraAmountOfExperience) {
-        extraExp += extraAmountOfExperience;
+    public void addExtraExp(final double extraAmountOfExperience) {
+        this.experience += extraAmountOfExperience;
     }
 }

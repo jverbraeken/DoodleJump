@@ -108,11 +108,11 @@ import system.IServiceLocator;
      * Package protected constructor, only allowing the SceneFactory to create a KillScreen.
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
-    /* package */ KillScreen(final IServiceLocator sL, final int score, final int extraExp) {
+    /* package */ KillScreen(final IServiceLocator sL, final int score, final int experience) {
         assert sL != null;
         this.serviceLocator = sL;
         this.score = score;
-        totalExperience = score + extraExp;
+        totalExperience = experience;
         countUpAmount = (double) totalExperience/(double) SCORE_COUNT_TIME_CONSTANT;
         this.logger = sL.getLoggerFactory().createLogger(KillScreen.class);
 

@@ -155,6 +155,6 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      * Adds the extraAmountOfExperience to extraExp.
      * @param extraAmountOfExperience the extra exp that has to be added.
      */
-    void addExtraExp(final int extraAmountOfExperience);
+    void addExtraExp(final double extraAmountOfExperience);
 
 }

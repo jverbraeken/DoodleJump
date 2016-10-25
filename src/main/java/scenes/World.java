@@ -8,6 +8,7 @@ import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
 import objects.doodles.Projectiles.RegularProjectile;
+import objects.enemies.AEnemy;
 import objects.enemies.IEnemy;
 import resources.sprites.ISprite;
 import system.Game;
@@ -223,11 +224,11 @@ public class World implements IScene {
      *
      * @param score The score the player got.
      */
-    public final void endGameInstance(final double score, final int extraExp) {
+    public final void endGameInstance(final double score, final double extraExp) {
         serviceLocator.getProgressionManager().addHighScore("Doodle", score);
         serviceLocator.getProgressionManager().addExperience((int) score);
 
-        Game.setScene(serviceLocator.getSceneFactory().createKillScreen((int) score, extraExp));
+        Game.setScene(serviceLocator.getSceneFactory().createKillScreen((int) score,(int) extraExp));
     }
 
     /**
@@ -274,14 +275,14 @@ public class World implements IScene {
                     if (doodle.checkCollision(element)) {
                         element.collidesWith(doodle);
                     }
-                    if (element instanceof IEnemy) {
+                    if (element instanceof AEnemy) {
+                        AEnemy enemy = (AEnemy) element;
                         HashSet<IGameObject> projectilesToRemove = new HashSet<>();
                         for (IGameObject projectile : doodle.getProjectiles()) {
-                            if (projectile.checkCollision(element)) {
-                                element.setXPos(1000);
-                                //((IEnemy) element).setAlive(false);
+                            if (projectile.checkCollision(enemy)) {
+                                enemy.setXPos(1000);
                                 projectilesToRemove.add(projectile);
-                                doodle.addExtraExp(EXP_KILLING_ENEMY);
+                                doodle.addExtraExp(enemy.getAmountOfExperience());
                             }
                         }
                         for (IGameObject projectile : projectilesToRemove) {
