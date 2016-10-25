@@ -142,7 +142,7 @@ public class Doodle extends AGameObject implements IDoodle {
         };
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        shootingObserver = new ShootingObserver(sL, this);
+        this.shootingObserver = new ShootingObserver(sL, this);
 
         this.updateHitBox();
         this.setBehavior(Game.getMode());
@@ -342,6 +342,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.updateScore();
         updateProjectiles(delta);
     }
+
     /**
      * Update the projectiles this Doodle has shot.
      * @param delta The time in milliseconds that has passed between the last frame and the new frame
