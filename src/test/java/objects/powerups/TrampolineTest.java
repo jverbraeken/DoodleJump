@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
+import org.powermock.reflect.exceptions.ConstructorNotFoundException;
 import rendering.IRenderer;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -30,6 +31,8 @@ public class TrampolineTest {
     private IServiceLocator serviceLocator;
     private ISpriteFactory spriteFactory;
     private ISprite sprite, usedSprite;
+    private ISprite nullSprite;
+    private ISprite nullUsedSprite;
     private IRenderer renderer;
     private Trampoline trampoline;
     private IDoodle doodle;
@@ -54,11 +57,11 @@ public class TrampolineTest {
         doodle = mock(IDoodle.class);
         loggerFactory = mock(ILoggerFactory.class);
         logger = mock(ILogger.class);
+        nullSprite = null;
+        nullUsedSprite = null;
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(loggerFactory.createLogger(Trampoline.class)).thenReturn(logger);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
-        //when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
-        //when(spriteFactory.getTrampolineUsedSprite(anyInt())).thenReturn(usedSprite);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(sprite.getHeight()).thenReturn(20);
@@ -146,6 +149,17 @@ public class TrampolineTest {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
         double boost = Whitebox.getInternalState(trampoline, "boost", AJumpablePowerup.class);
         assertEquals(boost, trampoline.getBoost(), 0.001);
+    }
+
+    /**
+     * Tests the constructor with null objects as input.
+     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
+     *                   in the constructor.
+     */
+    @Test
+    public void testConstructorNullInput() throws Exception {
+        thrown.expect(ConstructorNotFoundException.class);
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, null, 0, 0, nullSprite, nullSprite, null);
     }
 
 }

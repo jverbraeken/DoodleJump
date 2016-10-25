@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
+import org.powermock.reflect.exceptions.ConstructorNotFoundException;
 import progression.IProgressionManager;
 import rendering.IRenderer;
 import resources.audio.IAudioManager;
@@ -32,6 +33,7 @@ public class SpringTest {
     private IServiceLocator serviceLocator;
     private ISpriteFactory spriteFactory;
     private ISprite sprite, usedSprite;
+    private static ISprite nullSprite, nullUsedSprite;
     private IRenderer renderer;
     private Spring spring;
     private IDoodle doodle;
@@ -58,11 +60,11 @@ public class SpringTest {
         loggerFactory = mock(ILoggerFactory.class);
         progressionManager = mock(IProgressionManager.class);
         logger = mock(ILogger.class);
+        nullSprite = null;
+        nullUsedSprite = null;
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(loggerFactory.createLogger(Spring.class)).thenReturn(logger);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
-        //when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
-        //when(spriteFactory.getSpringUsedSprite()).thenReturn(usedSprite);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
@@ -151,6 +153,17 @@ public class SpringTest {
         spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
         double boost = Whitebox.getInternalState(spring, "boost", AJumpablePowerup.class);
         assertEquals(boost, spring.getBoost(), 0.001);
+    }
+
+    /**
+     * Tests the constructor with null objects as input.
+     * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
+     *                   in the constructor.
+     */
+    @Test
+    public void testConstructorNullInput() throws Exception {
+        thrown.expect(ConstructorNotFoundException.class);
+        spring = Whitebox.invokeConstructor(Spring.class, null, 0, 0, nullSprite, nullUsedSprite, null);
     }
 
 }
