@@ -280,7 +280,7 @@ public class World implements IScene {
                         HashSet<IGameObject> projectilesToRemove = new HashSet<>();
                         for (IGameObject projectile : doodle.getProjectiles()) {
                             if (projectile.checkCollision(enemy)) {
-                                enemy.setXPos(1000);
+                                enemy.setXPos(Integer.MAX_VALUE);
                                 projectilesToRemove.add(projectile);
                                 doodle.addExtraExp(enemy.getAmountOfExperience());
                             }

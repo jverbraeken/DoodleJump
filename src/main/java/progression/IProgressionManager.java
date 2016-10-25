@@ -69,7 +69,7 @@ public interface IProgressionManager {
     void decreaseCoins(final int amount);
 
     /**
-     * Heightens the amount of experience with {@code amount}.
+     * Increases the amount of experience with {@code amount}.
      *
      * @param amount The amount of experience that should be added to the total amount of coins
      */

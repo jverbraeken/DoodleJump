@@ -233,7 +233,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void addExperience(final int amount) {
-        assert amount >= 0;
+        if (amount<0) throw new IllegalArgumentException("Error: amount is negative.");
         experience += amount;
         this.setRankAccordingExperience();
         saveData();
