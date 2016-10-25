@@ -9,22 +9,35 @@ import system.IServiceLocator;
  * This class represents a mission that the player can complete.
  */
 public final class Mission {
+    /**
+     * The offset for text of the mission entry drawn at the pause menu.
+     */
     private static final int TEXT_Y_OFFSET = 65;
 
+    /**
+     * The type of the mission.
+     */
     private final MissionType type;
-    private final int times;
-    private final IProgressionObserver[] observers;
+    /**
+     * The observer associated with the mission.
+     */
+    private final IProgressionObserver observer;
+    /**
+     * The service locator
+     */
     private final IServiceLocator serviceLocator;
+    /**
+     * The text drawn for the mission
+     */
     private final String message;
 
     /**
      * Prevents instantiation from outside the package.
      */
-    /* package */ Mission(final IServiceLocator serviceLocator, final MissionType type, final int times, final String message, final IProgressionObserver... observers) {
+    /* package */ Mission(final IServiceLocator serviceLocator, final MissionType type, final String message, final IProgressionObserver observer) {
         this.serviceLocator = serviceLocator;
         this.type = type;
-        this.times = times;
-        this.observers = observers;
+        this.observer = observer;
         this.message = message;
     }
 
@@ -33,7 +46,7 @@ public final class Mission {
     }
 
     public int getMaximumTimes() {
-        return times;
+        return observer.getMaximumTimes();
     }
 
     /**
@@ -47,9 +60,7 @@ public final class Mission {
     }
 
     /* package */ void alertStartOver() {
-        for (IProgressionObserver observer : observers) {
-            observer.reset();
-        }
+        observer.reset();
     }
 
     /* package */ void alertFinished() {

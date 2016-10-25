@@ -10,6 +10,11 @@ public interface IProgressionObserver {
     double getProgression();
 
     /**
+     * @return The progression the observer must have before it's finished
+     */
+    int getMaximumTimes();
+
+    /**
      * Resets the progression counter to 0.
      */
     void reset();

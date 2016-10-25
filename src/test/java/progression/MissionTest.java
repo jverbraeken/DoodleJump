@@ -24,7 +24,7 @@ public class MissionTest {
 
     @Before
     public void init() {
-        this.mission = new Mission(mock(IServiceLocator.class), MissionType.jumpOnSpring, 0, "");
+        this.mission = new Mission(mock(IServiceLocator.class), MissionType.jumpOnSpring, "", mock(IProgressionObserver.class));
     }
 
     @Test
@@ -33,24 +33,23 @@ public class MissionTest {
         final IProgressionObserver observer1 = mock(IProgressionObserver.class);
         final IProgressionObserver observer2 = mock(IProgressionObserver.class);
         final IProgressionObserver observer3 = mock(IProgressionObserver.class);
-        this.mission = new Mission(serviceLocator, MissionType.jumpOnSpring, 42, "Foo", observer1, observer2, observer3);
+        this.mission = new Mission(serviceLocator, MissionType.jumpOnSpring, "Foo", observer1);
 
         assertThat(getInternalState(this.mission, "serviceLocator"), is(serviceLocator));
         assertThat(getInternalState(this.mission, "type"), is(MissionType.jumpOnSpring));
-        assertThat(getInternalState(this.mission, "times"), is(42));
-        assertThat(getInternalState(this.mission, "observers"), is(new IProgressionObserver[] {observer1, observer2, observer3}));
+        assertThat(getInternalState(this.mission, "observer"), is(observer1));
         assertThat(getInternalState(this.mission, "message"), is("Foo"));
     }
 
     @Test
     public void testGetType() {
-        this.mission = new Mission(mock(IServiceLocator.class), MissionType.jumpOnSpring, 0, "");
+        this.mission = new Mission(mock(IServiceLocator.class), MissionType.jumpOnSpring, "", mock(IProgressionObserver.class));
         assertThat(this.mission.getType(), is(MissionType.jumpOnSpring));
     }
 
     @Test
     public void testGetMaximumTimes() {
-        this.mission = new Mission(mock(IServiceLocator.class), MissionType.jumpOnSpring, 42, "");
+        this.mission = new Mission(mock(IServiceLocator.class), MissionType.jumpOnSpring, "", mock(IProgressionObserver.class));
         assertThat(this.mission.getMaximumTimes(), is(42));
     }
 
@@ -63,7 +62,7 @@ public class MissionTest {
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(serviceLocator.getConstants()).thenReturn(constants);
-        this.mission = new Mission(serviceLocator, MissionType.jumpOnSpring, 42, "");
+        this.mission = new Mission(serviceLocator, MissionType.jumpOnSpring, "", mock(IProgressionObserver.class));
         final int renderY = 13;
 
         this.mission.render(renderY);
@@ -76,7 +75,7 @@ public class MissionTest {
         final IProgressionObserver observer1 = mock(IProgressionObserver.class);
         final IProgressionObserver observer2 = mock(IProgressionObserver.class);
         final IProgressionObserver observer3 = mock(IProgressionObserver.class);
-        this.mission = new Mission(mock(IServiceLocator.class), MissionType.jumpOnSpring, 0, "", observer1, observer2, observer3);
+        this.mission = new Mission(mock(IServiceLocator.class), MissionType.jumpOnSpring, "", mock(IProgressionObserver.class));
 
         this.mission.alertStartOver();
 
@@ -90,7 +89,7 @@ public class MissionTest {
         final IServiceLocator serviceLocator = mock(IServiceLocator.class);
         final IProgressionManager progressionManager = mock(IProgressionManager.class);
         when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
-        this.mission = new Mission(serviceLocator, MissionType.jumpOnSpring, 0, "");
+        this.mission = new Mission(serviceLocator, MissionType.jumpOnSpring, "", mock(IProgressionObserver.class));
 
         this.mission.alertFinished();
 

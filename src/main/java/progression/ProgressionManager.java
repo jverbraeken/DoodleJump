@@ -27,6 +27,11 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private static final int MAX_HIGHSCORE_ENTRIES = 10;
     /**
+     * The maximum amount of missions active at the same time.
+     */
+    private static final int MAX_MISSIONS = 3;
+
+    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
@@ -142,7 +147,7 @@ public final class ProgressionManager implements IProgressionManager {
      * {@inheritDoc}
      */
     @Override
-    public void alertMissionFinished(Mission mission) {
+    public void alertMissionFinished(final Mission mission) {
         if (!missions.contains(mission)) {
             final String error = "The mission that's said to be finished is not an active mission";
             logger.warning(error);
@@ -282,7 +287,7 @@ public final class ProgressionManager implements IProgressionManager {
 
         highScores.clear();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < MAX_MISSIONS; i++) {
             createNewMission();
         }
 
@@ -294,9 +299,9 @@ public final class ProgressionManager implements IProgressionManager {
      *
      * @param json The json containing the progression
      */
-    private void progressionFromJson(SaveFile json) {
+    private void progressionFromJson(final SaveFile json) {
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < MAX_MISSIONS; i++) {
             createNewMission();
         }
 
@@ -370,17 +375,17 @@ public final class ProgressionManager implements IProgressionManager {
      * Create a new missio based on the {@link #level} of the doodle.
      */
     private void createNewMission() {
-        assert missions.size() < 3;
+        assert missions.size() < MAX_MISSIONS;
         if (level < missionsData.length) {
             final int levelCopy = level;
-            logger.info("New mission was created: level = " +
-                    levelCopy +
-                    ", mission = " +
-                    missionsData[levelCopy].type.toString() +
-                    ", amount = " +
-                    missionsData[levelCopy].amount +
-                    ", reward = " +
-                    missionsData[levelCopy].reward);
+            logger.info("New mission was created: level = "
+                    + levelCopy
+                    + ", mission = "
+                    + missionsData[levelCopy].type.toString()
+                    + ", amount = "
+                    + missionsData[levelCopy].amount
+                    + ", reward = "
+                    + missionsData[levelCopy].reward);
             missions.add(serviceLocator.getMissionFactory().createMission(
                     missionsData[levelCopy].type,
                     missionsData[levelCopy].observerType,
@@ -406,12 +411,34 @@ public final class ProgressionManager implements IProgressionManager {
         level++;
     }
 
+    /**
+     * A data container class for missions.
+     */
     private final class MissionData {
+        /**
+         * The type of the mission.
+         */
         private final MissionType type;
+        /**
+         * The type of the observer of the mission.
+         */
         private final ProgressionObservers observerType;
+        /**
+         * The amount of times the observer must be notified before the mission is considered finished.
+         */
         private final int amount;
+        /**
+         * The reward in coins the player gets after finishing the mission.
+         */
         private final int reward;
 
+        /**
+         * Constructs a new MissionData object
+         * @param type The type of the mission
+         * @param observerType The type of the observer of the mission
+         * @param amount The amount of times the observer must be notified before the mission is considered finished
+         * @param reward The reward in coins the player gets after finishing the mission
+         */
         private MissionData(final MissionType type, final ProgressionObservers observerType, final int amount, final int reward) {
             this.type = type;
             this.observerType = observerType;
@@ -420,16 +447,33 @@ public final class ProgressionManager implements IProgressionManager {
         }
     }
 
+    /**
+     * A {@link ProgressionObservers}-{@link IProgressionObserver} tuple data class.
+     */
     private final class FinishedProgressionObserverTuple {
+        /**
+         * The first tuple element.
+         */
         private final ProgressionObservers type;
+        /**
+         * The second tuple element.
+         */
         private final IProgressionObserver observer;
 
+        /**
+         * Constructs the new tuple.
+         * @param type The first tuple element
+         * @param observer The second tuple element
+         */
         private FinishedProgressionObserverTuple(final ProgressionObservers type, final IProgressionObserver observer) {
             this.type = type;
             this.observer = observer;
         }
     }
 
+    /**
+     * Thrown when there are more coins requested to be subtracted from the budget than there are available.
+     */
     private final class InsufficientCoinsException extends RuntimeException {
         private InsufficientCoinsException(final String message) {
             super(message);

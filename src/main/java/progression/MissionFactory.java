@@ -35,11 +35,20 @@ public final class MissionFactory implements IMissionFactory {
         serviceLocator.provide(new MissionFactory());
     }
 
+    /**
+     * Creates a new mission.
+     *
+     * @param type                The type of the mission
+     * @param progressionObserver The class responsible for observing the correct progression attribute
+     * @param times               The amount of times the doodle has to jump on a spring
+     * @param action              The callable that has to be called when the mission is finished successfully
+     * @return
+     */
     public Mission createMission(final MissionType type, final ProgressionObservers progressionObserver, final int times, Callable<Void> action) {
         IProgressionObserver observer;
         switch (type) {
             case jumpOnSpring:
-                observer = new SpringUsedObserver(serviceLocator, progressionObserver, times, action);
+                observer = new SpringUsedObserver(serviceLocator, times, action);
                 break;
             default:
                 final String error = "The mission type\"" + type.name() + "\" could not be identified";
@@ -48,13 +57,16 @@ public final class MissionFactory implements IMissionFactory {
         }
 
         final String message = type.getMessage(times);
-        Mission mission = new Mission(serviceLocator, type, times, message, observer);
+        Mission mission = new Mission(serviceLocator, type, message, observer);
 
         observer.setMission(mission);
 
         return mission;
     }
 
+    /**
+     * Thrown when the MissionFactory was not able to construct a mission with the given type
+     */
     private class UnknownMissionTypeException extends RuntimeException {
         private UnknownMissionTypeException(String message) {
             super(message);
