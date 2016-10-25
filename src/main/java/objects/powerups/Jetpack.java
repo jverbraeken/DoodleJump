@@ -19,7 +19,7 @@ import system.IServiceLocator;
      */
     private final int ownedYOffset;
     /**
-     * The level of the jetpack
+     * The level of the jetpack.
      */
     private final int level;
     /**
@@ -30,9 +30,13 @@ import system.IServiceLocator;
     /**
      * Jetpack constructor.
      *
-     * @param serviceLocator - The Game's service locator.
-     * @param x              - The X location for the Jetpack.
-     * @param y              - The Y location for the Jetpack.
+     * @param serviceLocator The Game's service locator.
+     * @param x              The X location for the Jetpack.
+     * @param y              The Y location for the Jetpack.
+     * @param level          The level of the Jetpack
+     * @param activeSprites  The animation used when the Jetpack is flying
+     * @param maxTime        The time in frames the Jetpack can fly
+     * @param ownedYOffset   The Y-offset for drawing the Jetpack when the Doodle is flying with it
      */
     /* package */ Jetpack(final IServiceLocator serviceLocator, final int x, final int y, final int level, final ISprite[] activeSprites, final int maxTime, final int ownedYOffset) {
         super(serviceLocator, x, y, maxTime, serviceLocator.getSpriteFactory().getPowerupSprite(Powerups.jetpack, level), activeSprites, Jetpack.class);

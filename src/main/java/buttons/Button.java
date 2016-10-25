@@ -1,5 +1,6 @@
 package buttons;
 
+import groovy.lang.Tuple2;
 import logging.ILogger;
 import resources.sprites.ISprite;
 import system.Game;
@@ -72,18 +73,17 @@ import system.IServiceLocator;
     /**
      * Constructor of a new button with a custom width and height.
      *
-     * @param sL the service locator.
-     * @param x  the x position of the button
-     * @param y  the y position of the button
-     * @param s  the sprite of the button
-     * @param a  the action when the button is pressed
-     * @param n  the name of the button
-     *           @param width The width of the button
-     *                        @param height The height of the button
+     * @param sL         the service locator.
+     * @param x          the x position of the button
+     * @param y          the y position of the button
+     * @param s          the sprite of the button
+     * @param a          the action when the button is pressed
+     * @param n          the name of the button
+     * @param dimensions The width and height of the button
      */
     /* package */ Button(final IServiceLocator sL, final int x, final int y,
                          final ISprite s, final Runnable a, final String n,
-                         final int width, final int height) {
+                         final Tuple2<Integer, Integer> dimensions) {
         super();
 
         assert sL != null;
@@ -94,12 +94,12 @@ import system.IServiceLocator;
         this.sprite = s;
         this.topLeft[0] = x;
         this.topLeft[1] = y;
-        this.bottomRight[0] = x + width;
-        this.bottomRight[1] = y + height;
+        this.bottomRight[0] = x + dimensions.getFirst();
+        this.bottomRight[1] = y + dimensions.getSecond();
         this.action = a;
         this.name = n;
-        this.width = width;
-        this.height = height;
+        this.width = dimensions.getFirst();
+        this.height = dimensions.getSecond();
     }
 
     /**

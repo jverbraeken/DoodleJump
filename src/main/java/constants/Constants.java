@@ -2,7 +2,6 @@ package constants;
 
 import system.IServiceLocator;
 
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**

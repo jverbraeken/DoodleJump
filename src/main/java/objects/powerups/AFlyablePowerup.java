@@ -4,6 +4,9 @@ import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+/**
+ * Extended by classes that are powerups with which the Doodle can fly.
+ */
 public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowerup {
 
     /**
@@ -107,6 +110,9 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
         this.spritePack = sprites;
     }
 
+    /**
+     * Sets the position of the powerup when the Doodle is equipping it.
+     */
     abstract void setPosition();
 
     /**
@@ -155,7 +161,7 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
     /**
      * Ends the powerup.
      */
-    public void endPowerup() {
+    public final void endPowerup() {
         this.setSprite(defaultSprite);
         this.vSpeed = INITIAL_DROP_SPEED;
         this.owner.removePowerup(this);
@@ -168,7 +174,7 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) {
+    public final void collidesWith(final IDoodle doodle) {
         if (doodle == null) {
             throw new IllegalArgumentException("Doodle cannot be null");
         }

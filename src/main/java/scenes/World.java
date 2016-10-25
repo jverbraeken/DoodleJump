@@ -139,8 +139,6 @@ public class World implements IScene {
         logger.info("Level started");
     }
 
-    ;
-
     /**
      * {@inheritDoc}
      */

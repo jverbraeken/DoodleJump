@@ -35,10 +35,13 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      * {@inheritDoc}
      */
     @Override
-    public void render() {
+    public final void render() {
         getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
+    /**
+     * Called when the powerup is finished (e.g. flying).
+     */
     public void endPowerup() {
         // Most powerups do not need any code here
     }

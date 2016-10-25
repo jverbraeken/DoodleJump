@@ -36,7 +36,8 @@ public final class ButtonFactory implements IButtonFactory {
     private final int gameHeight;
 
     /**
-     * Constructs a new ButtonFactory
+     * Constructs a new ButtonFactory.
+     *
      * @param serviceLocator The service locator
      */
     private ButtonFactory(final IServiceLocator serviceLocator) {
