@@ -8,12 +8,12 @@ public enum Ranks {
     /**
      * The first rank.
      */
-    rookieJumper(0, "Rookie jumper"),
+    newbie(0, "Rookie jumper"),
 
     /**
      * The second rank.
      */
-    startingJumper(10000, "Starting jumper"),
+    starter(10000, "Starting jumper"),
 
     /**
      * The third rank.

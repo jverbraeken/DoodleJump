@@ -233,7 +233,7 @@ public final class ProgressionManager implements IProgressionManager {
     public void addExperience(final int amount) {
         assert amount >= 0;
         experience += amount;
-        setRankAccordingExperience();
+        this.setRankAccordingExperience();
         saveData();
     }
 
@@ -364,7 +364,7 @@ public final class ProgressionManager implements IProgressionManager {
 
         experience = json.getExperience();
         logger.info("Experience is set to: " + experience);
-        setRankAccordingExperience();
+        this.setRankAccordingExperience();
 
         powerupLevels.clear();
         for (Map.Entry<String, Integer> entry : json.getPowerupLevels().entrySet()) {

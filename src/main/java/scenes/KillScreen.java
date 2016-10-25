@@ -42,10 +42,13 @@ import system.IServiceLocator;
      */
     private static final double SCORE_TEXT_X = 0.2, SCORE_TEXT_Y = 0.13;
     /**
-     * Maximum and initial rotation of the experience text. And the maximum
-     * and initial font size of the experience text.
+     * Maximum font size experience text.
      */
-    private static final int MAX_EXP_FONT_SIZE_DIFFERENCE = 20, INITIAL_EXP_FONTSIZE = 50;
+    private static final int MAX_EXP_FONT_SIZE_DIFFERENCE = 20;
+    /**
+     * The initial font size of the exp text.
+     */
+    private static final int INITIAL_EXP_FONTSIZE = 50;
     /**
      * Devides the score by this number.
      */
