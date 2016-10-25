@@ -903,6 +903,14 @@ public final class SpriteFactory implements ISpriteFactory {
         return this.getSprite(IRes.Sprites.spaceMode);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRedCross() {
+        return this.getSprite(IRes.Sprites.redCross);
+    }
+
     // Missions
 
     /**

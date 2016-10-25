@@ -182,7 +182,10 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getDarknessModeButton();
-        Runnable darknessMode = () -> Game.setMode(Game.Modes.darkness);
+        Runnable darknessMode = () -> {
+            if(serviceLocator.getProgressionManager().getRank().getLevelNumber() > Game.Modes.darkness.getRankRequired())
+                Game.setMode(Game.Modes.darkness);
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, darknessMode, "darknessMode");
     }
 
@@ -194,7 +197,10 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getInvertModeButton();
-        Runnable invertMode = () -> Game.setMode(Game.Modes.invert);
+        Runnable invertMode = () -> {
+            if(serviceLocator.getProgressionManager().getRank().getLevelNumber() > Game.Modes.invert.getRankRequired())
+                Game.setMode(Game.Modes.invert);
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, invertMode, "invertMode");
     }
 
@@ -206,7 +212,10 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getSpaceModeButton();
-        Runnable spaceMode = () -> Game.setMode(Game.Modes.space);
+        Runnable spaceMode = () -> {
+            if(serviceLocator.getProgressionManager().getRank().getLevelNumber() > Game.Modes.space.getRankRequired())
+                Game.setMode(Game.Modes.space);
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, spaceMode, "spaceMode");
     }
 
@@ -218,7 +227,10 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getUnderwaterModeButton();
-        Runnable underwaterMode = () -> Game.setMode(Game.Modes.underwater);
+        Runnable underwaterMode = () -> {
+            if(serviceLocator.getProgressionManager().getRank().getLevelNumber() > Game.Modes.underwater.getRankRequired())
+                Game.setMode(Game.Modes.underwater);
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, underwaterMode, "underwaterMode");
     }
 
@@ -230,7 +242,10 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getStoryModeButton();
-        Runnable storyMode = () -> Game.setMode(Game.Modes.story);
+        Runnable storyMode = () -> {
+            if(serviceLocator.getProgressionManager().getRank().getLevelNumber() > Game.Modes.story.getRankRequired())
+                Game.setMode(Game.Modes.story);
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, storyMode, "storyMode");
     }
 

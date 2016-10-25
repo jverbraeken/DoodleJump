@@ -184,6 +184,8 @@ public interface IRes {
         spaceMode,
         storyMode,
 
+        redCross,
+
         // coins
         coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10,
 

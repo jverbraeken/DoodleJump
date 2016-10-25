@@ -202,6 +202,8 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getUnderwaterModeButton();
 
+    ISprite getRedCross();
+
     // Coins
     ISprite getCoinSprite(final int i);
 

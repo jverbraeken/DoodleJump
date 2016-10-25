@@ -3,7 +3,11 @@ package scenes;
 import buttons.IButton;
 import buttons.IButtonFactory;
 import logging.ILogger;
+import progression.IProgressionManager;
+import progression.Ranks;
 import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
+import system.Game;
 import system.IRenderable;
 import system.IServiceLocator;
 
@@ -63,6 +67,10 @@ import java.util.ArrayList;
      * An ArrayList of all the buttons.
      */
     private final ArrayList<IButton> buttons = new ArrayList<>();
+    /**
+     * The rank the player has
+     */
+    private Ranks rank;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -76,6 +84,9 @@ import java.util.ArrayList;
 
         background = sL.getSpriteFactory().getBackground();
         bottomChooseModeScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
+
+        IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
+        rank = progressionManager.getRank();
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         IButton mainMenuButton = buttonFactory.createMainMenuButton(
@@ -140,6 +151,7 @@ import java.util.ArrayList;
         double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomChooseModeScreen.getHeight();
         serviceLocator.getRenderer().drawSpriteHUD(this.bottomChooseModeScreen, 0, (int) y);
         buttons.forEach(IRenderable::render);
+        renderByRank();
     }
 
     /**
@@ -147,6 +159,31 @@ import java.util.ArrayList;
      */
     @Override
     public final void update(final double delta) {
+    }
+
+    /**
+     * Renders the crosses dependent on the rank.
+     */
+    private void renderByRank() {
+        int rankLevel = rank.getLevelNumber();
+        int gameWidth = this.serviceLocator.getConstants().getGameWidth();
+        int gameHeight = this.serviceLocator.getConstants().getGameHeight();
+        ISprite redCross = this.serviceLocator.getSpriteFactory().getRedCross();
+        if (rankLevel < Game.Modes.story.getRankRequired()) {
+            serviceLocator.getRenderer().drawSprite(redCross, (int) (STORY_MODE_X * gameWidth), (int) (STORY_MODE_Y * gameHeight));
+        }
+        if (rankLevel < Game.Modes.underwater.getRankRequired()) {
+            serviceLocator.getRenderer().drawSprite(redCross, (int) (UNDERWATER_MODE_X * gameWidth), (int) (UNDERWATER_MODE_Y * gameHeight));
+        }
+        if (rankLevel < Game.Modes.space.getRankRequired()) {
+            serviceLocator.getRenderer().drawSprite(redCross, (int) (SPACE_MODE_X * gameWidth), (int) (SPACE_MODE_Y * gameHeight));
+        }
+        if (rankLevel < Game.Modes.darkness.getRankRequired()) {
+            serviceLocator.getRenderer().drawSprite(redCross, (int) (DARKNESS_MODE_X * gameWidth), (int) (DARKNESS_MODE_Y * gameHeight));
+        }
+        if (rankLevel < Game.Modes.invert.getRankRequired()) {
+            serviceLocator.getRenderer().drawSprite(redCross, (int) (INVERT_MODE_X * gameWidth), (int) (INVERT_MODE_Y * gameHeight));
+        }
     }
 
 }

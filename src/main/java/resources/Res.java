@@ -138,6 +138,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.eight, SPRITE_PATH + "8.png");
         sprites.put(Sprites.nine, SPRITE_PATH + "9.png");
 
+
         // Platforms
         sprites.put(Sprites.platform1, SPRITE_PATH + "platform-green@2x.png");
         sprites.put(Sprites.platformHorizontal, SPRITE_PATH + "platform-blue@2x.png");
@@ -212,6 +213,8 @@ public final class Res implements IRes {
         sprites.put(Sprites.invertMode, SPRITE_PATH + "invert-mode@4x.png");
         sprites.put(Sprites.spaceMode, SPRITE_PATH + "space-mode@4x.png");
         sprites.put(Sprites.underwaterMode, SPRITE_PATH + "underwater-mode@4x.png");
+
+        sprites.put(Sprites.redCross, SPRITE_PATH + "halfRedCross.png");
 
         // Coins
         sprites.put(Sprites.coin1, SPRITE_PATH + "coin1.png");

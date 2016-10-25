@@ -92,30 +92,49 @@ public final class Game {
         /**
          * The regular game mode.
          */
-        regular,
+        regular(0),
         /**
          * The game mode taking place underwater.
          */
-        underwater,
+        underwater(2),
         /**
          * The game mode following a story.
          * UNIMPLEMENTED
          */
-        story,
+        story(1),
         /**
          * The game using the invertable platforms.
          * UNIMPLEMENTED
          */
-        invert,
+        invert(5),
         /**
          * The game mode with invisible platforms.
          * The platforms turn visible when touched by a doodle.
          */
-        darkness,
+        darkness(4),
         /**
          * The game mode taking place in space.
          */
-        space
+        space(3);
+        /**
+         * The rank required to play this mode.
+         */
+        private final int rankRequired;
+        /**
+         * Creates an instance of the enum Modes.
+         * @param rankRequired the rank required to play this mode.
+         */
+         /* package */ Modes(final int rankRequired) {
+            this.rankRequired = rankRequired;
+        }
+
+        /**
+         * Returns the variable rankRequired.
+         * @return the variable rankRequired.
+         */
+        public int getRankRequired() {
+            return rankRequired;
+        }
     }
 
     /**
