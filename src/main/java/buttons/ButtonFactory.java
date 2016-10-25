@@ -189,9 +189,11 @@ public final class ButtonFactory implements IButtonFactory {
             if(serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.darkness.getRankRequired())
                 Game.setMode(Game.Modes.darkness);
             else
-                JOptionPane.showMessageDialog(Game.frame, "The rank: " +
-                        Ranks.getRankByLevelNumber(Game.Modes.darkness.getRankRequired()).getName() +
-                        " is required to play this gamemode.");
+                new scenes.Popup("test");
+                //scenes.Popup.CreatePopup("test");
+//                JOptionPane.showMessageDialog(Game.frame, "The rank: " +
+//                        Ranks.getRankByLevelNumber(Game.Modes.darkness.getRankRequired()).getName() +
+//                        " is required to play this gamemode.");
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, darknessMode, "darknessMode");
     }

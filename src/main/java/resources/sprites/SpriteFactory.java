@@ -921,6 +921,15 @@ public final class SpriteFactory implements ISpriteFactory {
         return getSprite(IRes.Sprites.achievement);
     }
 
+    //Popup
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getPopupBackground() {
+        return getSprite(IRes.Sprites.popupBackground);
+    }
+
     // Coins
 
     /**

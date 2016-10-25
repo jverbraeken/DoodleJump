@@ -231,6 +231,9 @@ public final class Res implements IRes {
         // Missions
         sprites.put(Sprites.achievement, SPRITE_PATH + "achievement@2x.png");
 
+        // Popup
+        sprites.put(Sprites.popupBackground, SPRITE_PATH + "classic-popup-background@2x.png");
+
         // Unimplemented
         sprites.put(Sprites.unimplemented, SPRITE_PATH + "unimplemented.jpg");
     }

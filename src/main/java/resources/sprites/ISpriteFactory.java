@@ -212,4 +212,7 @@ public interface ISpriteFactory extends IFactory {
     // Missions
 
     ISprite getAchievementSprite();
+
+    //Popup
+    ISprite getPopupBackground();
 }
