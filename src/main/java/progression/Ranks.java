@@ -53,8 +53,9 @@ public enum Ranks {
     /**
      * Create a Ranks enum object.
      * @param exp the amount of experience needed.
+     * @param n the name of the rank.
      */
-    Ranks (final int exp, final String n) {
+    Ranks(final int exp, final String n) {
         experience = exp;
         name = n;
     }

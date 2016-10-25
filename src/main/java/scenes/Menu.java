@@ -14,7 +14,6 @@ import rendering.Color;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
-import system.Game;
 import system.IServiceLocator;
 
 import java.util.ArrayList;
@@ -180,7 +179,7 @@ public class Menu implements IScene {
         IRenderer renderer = this.serviceLocator.getRenderer();
 
         renderer.drawSpriteHUD(this.cover, 0, 0);
-        renderer.fillRectangle(0,0, constants.getGameWidth(), TOP_RECTANGLE_HEIGHT, Color.halfOpaqueWhite);
+        renderer.fillRectangle(0, 0, constants.getGameWidth(), TOP_RECTANGLE_HEIGHT, Color.halfOpaqueWhite);
         renderer.drawText(0, RANK_TEXT_Y, "Rank: " + rank.getName(), Color.black);
 
         for (IButton button : this.buttons) {

@@ -139,6 +139,7 @@ public interface IRenderer {
      * @param x   the x position of the text.
      * @param y   the y position of the text.
      * @param msg The message to draw.
+     * @param color     The color of the text.
      */
     void drawTextHUD(final int x, final int y, final String msg, final Color color);
 
@@ -149,6 +150,7 @@ public interface IRenderer {
      * @param y         the y position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
+     * @param color     The color of the text.
      */
     void drawText(int x, int y, String msg, TextAlignment alignment, final Color color);
 
@@ -159,6 +161,7 @@ public interface IRenderer {
      * @param y         the y position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
+     * @param color     The color of the text.
      */
     void drawTextNoAjustments(final int x, final int y, final String msg, final TextAlignment alignment, final Color color);
 
@@ -169,6 +172,7 @@ public interface IRenderer {
      * @param y         the y position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
+     * @param color     The color of the text.
      */
     void drawTextHUD(int x, int y, String msg, TextAlignment alignment, final Color color);
 
