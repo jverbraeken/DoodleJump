@@ -5,15 +5,15 @@ package rendering;
  */
 public enum TextAlignment {
     /**
-     * left
+     * left.
      */
     left,
     /**
-     * centered
+     * centered.
      */
     center,
     /**
-     * right
+     * right.
      */
     right
 }

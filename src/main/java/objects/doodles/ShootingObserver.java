@@ -9,7 +9,7 @@ import system.IServiceLocator;
  * A ShootingObserver is a MouseInputObserver which creates projectiles
  * at the click on the mouse.
  */
-public class ShootingObserver implements IMouseInputObserver {
+/*PACKAGE */ class ShootingObserver implements IMouseInputObserver {
 
     /**
      * The logger of this game.
@@ -26,8 +26,9 @@ public class ShootingObserver implements IMouseInputObserver {
 
     /**
      * Create and initialize a ShootingObserver.
+     *
      * @param sL the servicelocator of this game.
-     * @param d the Doodle this observer belongs to.
+     * @param d  the Doodle this observer belongs to.
      */
     /* package */ ShootingObserver(final IServiceLocator sL, final Doodle d) {
         serviceLocator = sL;
@@ -48,13 +49,13 @@ public class ShootingObserver implements IMouseInputObserver {
      */
     @Override
     public final void mouseClicked(final int x, final int y) {
-        int doodleXPos = (int) (doodle.getXPos() + doodle.getHitBox()[1]/2);
+        int doodleXPos = (int) (doodle.getXPos() + doodle.getHitBox()[1] / 2);
         int doodleYPos = (int) doodle.getYPos();
         int xDir = 0;
         if (doodleYPos - y < 0) {
-            xDir = (-(doodleXPos - x)) /2;
+            xDir = (-(doodleXPos - x)) / 2;
         } else {
-            xDir = (doodleXPos - x) /2;
+            xDir = (doodleXPos - x) / 2;
         }
 
         IGameObject projectile = serviceLocator.getProjectileFactory().createRegularProjectile(doodleXPos, doodleYPos, xDir, 0);

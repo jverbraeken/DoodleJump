@@ -6,6 +6,9 @@ import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
@@ -20,6 +23,8 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ISprite.class, ISprite[].class})
 public class JetpackTest {
 
     private IConstants constants = mock(IConstants.class);
@@ -48,9 +53,9 @@ public class JetpackTest {
         when(loggerFactory.createLogger(Jetpack.class)).thenReturn(logger);
         when(sprite.getHeight()).thenReturn(0);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
-        when(spriteFactory.getJetpackActiveSprites()).thenReturn(spritePack);
+        when(spriteFactory.getJetpackActiveSprites(anyInt())).thenReturn(spritePack);
 
-        jetpack = new Jetpack(serviceLocator, 0, 0);
+        jetpack = new Jetpack(serviceLocator, 0, 0, 1, new ISprite[] {}, 0, 0);
     }
 
     @Test
@@ -60,7 +65,7 @@ public class JetpackTest {
         assertThat(owner, is(doodle));
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testCollidesWithNull() {
         jetpack.collidesWith(null);
     }

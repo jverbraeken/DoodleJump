@@ -12,8 +12,10 @@ public interface IProjectileFactory extends IFactory {
     /**
      * Create a new RegularProjectile.
      *
-     * @param x the x location.
-     * @param y the y location.
+     * @param x    The x location.
+     * @param y    The y location.
+     * @param xDir The speed with which the projectile moves over the x-axis
+     * @param yDir the speed with which the projectile moves over the y-axis
      * @return The new RegularProjectile.
      */
     RegularProjectile createRegularProjectile(final int x, final int y, final int xDir, final int yDir);

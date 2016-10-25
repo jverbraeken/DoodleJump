@@ -20,12 +20,12 @@ public final class SaveFile {
      */
     private int coins;
     /**
-     * Contains the levels of each powerup: Map< name, level> . The name must be the same as the enum
+     * Contains the levels of each powerup: Map< name, level> . The name must be the same as the enum.
      */
     private Map<String, Integer> powerupLevels;
 
     /**
-     * Construct a new save file
+     * Construct a new save file.
      */
     public SaveFile() {
 

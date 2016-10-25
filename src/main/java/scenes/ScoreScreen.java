@@ -4,12 +4,11 @@ import buttons.IButton;
 import buttons.IButtonFactory;
 import constants.IConstants;
 import logging.ILogger;
+import progression.HighScore;
 import rendering.Color;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
-import system.Game;
-import progression.HighScore;
 import system.IServiceLocator;
 
 import java.util.List;
@@ -27,7 +26,10 @@ import java.util.List;
      * Height of a score entry.
      */
     private static final double ENTRY_HEIGHT = .05;
-
+    /**
+     * Y-offset for the scores.
+     */
+    private static final int SCORE_LIST_TOP_Y_OFFSET = 15;
     /**
      * The height of an entry in the ScoreScreen.
      */
@@ -36,10 +38,6 @@ import java.util.List;
      * The height of the top part of the ScoreScreen.
      */
     private static int scoreListTopY;
-    /**
-     * Y-offset for the scores
-     */
-    private static final int scoreListTopYOffset = 15;
     /**
      * Used to gain access to all services.
      */
@@ -75,7 +73,7 @@ import java.util.List;
         this.menuButton = buttonFactory.createMainMenuButton(ScoreScreen.MENU_BUTTON_X, ScoreScreen.MENU_BUTTON_Y);
 
         entryHeight = (int) (serviceLocator.getConstants().getGameHeight() * ENTRY_HEIGHT);
-        scoreListTopY = this.top.getHeight() + scoreListTopYOffset;
+        scoreListTopY = this.top.getHeight() + SCORE_LIST_TOP_Y_OFFSET;
     }
 
     /**
