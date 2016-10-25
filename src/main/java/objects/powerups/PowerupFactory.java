@@ -23,10 +23,6 @@ public final class PowerupFactory implements IPowerupFactory {
     private static final int[] BOOST_TRAMPOLINE = new int[]{-40, -55, -70};
 
     /**
-     * The time limit per level of {@link AJetpack jetpack} powerups.
-     */
-    private static final int[] MAX_TIME_JETPACK = new int[]{-175, -200, -225};
-    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
@@ -170,14 +166,15 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createJetpack(final int x, final int y) {
-        final Powerups type = Powerups.trampoline;
+        final Powerups type = Powerups.jetpack;
         final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
-
         switch (level) {
             case 1:
                 logger.info("A new Jetpack has been created");
                 return new Jetpack(serviceLocator, x, y);
             case 2:
+                logger.info("A new Afterburner has been created");
+                return new Afterburner(serviceLocator, x, y);
             case 3:
                 logger.info("A new SpaceRocket has been created");
                 return new SpaceRocket(serviceLocator, x, y);
