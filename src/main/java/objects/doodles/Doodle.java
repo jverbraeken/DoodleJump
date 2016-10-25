@@ -113,7 +113,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * A list of all the projectiles shot by this Enemy.
      */
     private final List<IGameObject> projectiles = new ArrayList<>();
-
     /**
      * The shooting observer of this Doodle.
      */

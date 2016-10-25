@@ -1,4 +1,4 @@
-package objects.doodle.DoodleBehavior;
+package objects.doodles.DoodleBehavior;
 
 import constants.IConstants;
 import input.Keys;
