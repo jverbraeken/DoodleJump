@@ -98,7 +98,9 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void init() {
-        loadData();
+        if (powerupLevels.size() == 0) {
+            loadData();
+        }
     }
 
     /**
