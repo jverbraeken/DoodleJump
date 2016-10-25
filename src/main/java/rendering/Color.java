@@ -1,35 +1,41 @@
 package rendering;
 
+/**
+ * Contains type-safe colors used for the {@link IRenderer renderer}.
+ */
 public enum Color {
     /**
-     * White
+     * White.
      */
     white(255, 255, 255),
     /**
-     * Black
+     * Black.
      */
     black(0, 0, 0),
     /**
-     * The color of the even score entries
+     * The color of the even score entries.
      */
     scoreEntryEven(235, 224, 206),
     /**
-     * The color of the uneven score entries
+     * The color of the uneven score entries.
      */
     scoreEntryUneven(241, 234, 224);
 
     private final java.awt.Color color;
 
     /**
-     * Creates a new Java AWT Color
+     * Creates a new Java AWT Color.
      * @param red The red component (between 0 and 255 inclusive)
      * @param green The green component (between 0 and 255 inclusive)
      * @param blue The blue component (between 0 and 255 inclusive)
      */
-    Color(int red, int green, int blue) {
+    Color(final int red, final int green, final int blue) {
         color = new java.awt.Color(red, green, blue);
     }
 
+    /**
+     * @return The Java AWT color corresponding to this enum value
+     */
     java.awt.Color getColor() {
         return color;
     }

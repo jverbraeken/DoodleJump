@@ -115,18 +115,20 @@ public interface IRenderer {
     /**
      * Draw a string of text relative to the camera, left-aligned.
      *
-     * @param x   the x position of the text.
-     * @param y   the y position of the text.
-     * @param msg The message to draw.
+     * @param x     the x position of the text.
+     * @param y     the y position of the text.
+     * @param msg   The message to draw.
+     * @param color the color of the rectangle.
      */
     void drawText(final int x, final int y, final String msg, final Color color);
 
     /**
      * Draw a string of text relative to the screen, left-aligned.
      *
-     * @param x   the x position of the text.
-     * @param y   the y position of the text.
-     * @param msg The message to draw.
+     * @param x     the x position of the text.
+     * @param y     the y position of the text.
+     * @param msg   The message to draw.
+     * @param color the color of the rectangle.
      */
     void drawTextHUD(final int x, final int y, final String msg, final Color color);
 
@@ -137,6 +139,7 @@ public interface IRenderer {
      * @param y         the y position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
+     * @param color     the color of the rectangle.
      */
     void drawText(int x, int y, String msg, TextAlignment alignment, final Color color);
 
@@ -147,6 +150,7 @@ public interface IRenderer {
      * @param y         the y position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
+     * @param color     the color of the rectangle.
      */
     void drawTextHUD(int x, int y, String msg, TextAlignment alignment, final Color color);
 
