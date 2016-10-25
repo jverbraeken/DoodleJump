@@ -541,7 +541,8 @@ public class Doodle extends AGameObject implements IDoodle {
      * Adds a projectile to the Set with Projectiles.
      * @param projectile the projectile that has to be added.
      */
-    void addProjectile(final IGameObject projectile) {
+    @Override
+    public void addProjectile(final IGameObject projectile) {
         projectiles.add(projectile);
     }
 
