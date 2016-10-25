@@ -44,15 +44,15 @@ public abstract class ATrampoline extends AJumpablePowerup {
      * {@inheritDoc}
      */
     @Override
-    public void setPositionOnPlatform(final IGameObject powerup, final IPlatform platform) {
+    public void setPositionOnPlatform(final IPlatform platform) {
         double[] hitbox = platform.getHitBox();
         final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
         final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
-        double[] powHitbox = powerup.getHitBox();
+        double[] powHitbox = this.getHitBox();
         final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
         final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
-        powerup.setXPos((platform.getXPos() + (platformWidth / 2)) - (powerupWidth / 2));
-        powerup.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
+        this.setXPos((platform.getXPos() + (platformWidth / 2)) - (powerupWidth / 2));
+        this.setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
     }
 
     /**

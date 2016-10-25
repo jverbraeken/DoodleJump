@@ -1,7 +1,7 @@
 package progression;
 
-import objects.powerups.ASpring;
 import objects.powerups.ISpringCreatedObserver;
+import objects.powerups.Spring;
 import system.IServiceLocator;
 
 import java.util.concurrent.Callable;
@@ -72,7 +72,7 @@ public final class SpringUsedObserver extends DefaultProgressionObserver impleme
      * {@inheritDoc}
      */
     @Override
-    public void alertSpringCreated(final ASpring spring) {
+    public void alertSpringCreated(final Spring spring) {
         spring.addObserver(this);
     }
 

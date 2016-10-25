@@ -35,6 +35,6 @@ public final class ProjectileFactory implements IProjectileFactory {
      */
     @Override
     public RegularProjectile createRegularProjectile(final int x, final int y, final int xDir, final int yDir) {
-        return new RegularProjectile(serviceLocator, x, y, xDir, yDir);
+        return new RegularProjectile(serviceLocator, x, y, xDir);
     }
 }

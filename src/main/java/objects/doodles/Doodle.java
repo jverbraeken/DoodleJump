@@ -5,6 +5,7 @@ import input.Keys;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
+import objects.blocks.platform.IPlatform;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
@@ -133,6 +134,11 @@ public class Doodle extends AGameObject implements IDoodle {
 
             @Override
             public void collidesWith(final IDoodle doodle) {
+            }
+
+            @Override
+            public void setPositionOnPlatform(final IPlatform platform) {
+                
             }
         };
 

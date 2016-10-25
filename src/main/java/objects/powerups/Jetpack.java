@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.blocks.platform.IPlatform;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
@@ -88,8 +89,8 @@ import system.IServiceLocator;
      * Jetpack constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the Jetpack.
-     * @param y - The Y location for the Jetpack.
+     * @param x  - The X location for the Jetpack.
+     * @param y  - The Y location for the Jetpack.
      */
     /* package */ Jetpack(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 1), Jetpack.class);
@@ -211,6 +212,14 @@ import system.IServiceLocator;
         this.owner.getWorld().addDrawable(this);
         this.owner.getWorld().addUpdatable(this);
         this.owner = null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPositionOnPlatform(final IPlatform platform) {
+        super.setPositionOnPlatformRandom(platform);
     }
 
 }

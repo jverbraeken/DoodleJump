@@ -4,7 +4,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import logging.ILogger;
-import objects.powerups.ASpring;
 import objects.powerups.Powerups;
 import resources.IRes;
 import system.IServiceLocator;
@@ -942,7 +941,7 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
-     * @param level The level of the {@link ASpring spring} you want to have
+     * @param level The level of the {@link Spring spring} you want to have
      * @return A sprite of the spring of the requested level
      * @throws UnavailableLevelException Thrown when the level is either too low or too high
      */

@@ -276,7 +276,7 @@ public final class BlockFactory implements IBlockFactory {
         if (!isSpecialPlatform(platform)) {
             IPowerup powerup = (IPowerup) powerupGenerationSet.getRandomElement();
             if (powerup != null) {
-                powerup.setPositionOnPlatform(powerup, platform);
+                powerup.setPositionOnPlatform(platform);
                 elements.add(powerup);
             }
         }

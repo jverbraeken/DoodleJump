@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -122,6 +123,28 @@ import system.IServiceLocator;
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void endPowerup() {
+        this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
+        this.vSpeed = INITIAL_DROP_SPEED;
+
+        this.owner.removePowerup(this);
+        this.owner.getWorld().addDrawable(this);
+        this.owner.getWorld().addUpdatable(this);
+        this.owner = null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPositionOnPlatform(final IPlatform platform) {
+        super.setPositionOnPlatformRandom(platform);
+    }
+
+    /**
      * Update method for when the Propeller is owned.
      */
     private void updateOwned() {
@@ -159,20 +182,6 @@ import system.IServiceLocator;
     private void applyGravity() {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         this.addYPos(this.vSpeed);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void endPowerup() {
-        this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
-        this.vSpeed = INITIAL_DROP_SPEED;
-
-        this.owner.removePowerup(this);
-        this.owner.getWorld().addDrawable(this);
-        this.owner.getWorld().addUpdatable(this);
-        this.owner = null;
     }
 
 }

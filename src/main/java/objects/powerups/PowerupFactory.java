@@ -102,7 +102,7 @@ public final class PowerupFactory implements IPowerupFactory {
         final Powerups type = Powerups.spring;
         final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        ASpring spring;
+        Spring spring;
         switch (level) {
             case 1:
                 logger.info("A new Spring has been created");

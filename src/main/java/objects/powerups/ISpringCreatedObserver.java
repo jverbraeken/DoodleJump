@@ -1,5 +1,5 @@
 package objects.powerups;
 
 public interface ISpringCreatedObserver {
-    void alertSpringCreated(final ASpring spring);
+    void alertSpringCreated(final Spring spring);
 }

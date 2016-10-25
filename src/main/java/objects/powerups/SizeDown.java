@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
@@ -52,6 +53,14 @@ import system.IServiceLocator;
         int x = (int) this.getXPos();
         int y = (int) this.getYPos();
         SizeDown.getServiceLocator().getRenderer().drawSprite(this.getSprite(), x, y);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPositionOnPlatform(final IPlatform platform) {
+        super.setPositionOnPlatformRandom(platform);
     }
 
 }
