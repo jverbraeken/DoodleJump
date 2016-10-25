@@ -1,13 +1,10 @@
 package objects.powerups;
 
 import logging.ILogger;
-import math.ICalc;
 import objects.AGameObject;
-import objects.IGameObject;
 import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import progression.ISpringUsedObserver;
-import progression.ProgressionObservers;
 import progression.SpringUsedObserver;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
@@ -16,8 +13,6 @@ import system.IServiceLocator;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * This class describes the behaviour of the spring powerup.
@@ -25,7 +20,7 @@ import java.util.TimerTask;
 public final class Spring extends AJumpablePowerup {
 
     /**
-     * The speed with which the springs retracts after it is being used.
+     * The speed with which the spring retracts after it is used.
      */
     private static final int RETRACT_SPEED = 250;
 
@@ -41,14 +36,17 @@ public final class Spring extends AJumpablePowerup {
 
 
     /**
-     * Spring constructor.
+     * Constructs a new Spring.
      *
-     * @param serviceLocator - The Games service locator.
-     * @param x - The X location for the trampoline.
-     * @param y - The Y location for the trampoline.
+     * @param serviceLocator The Game's service locator
+     * @param x              The X location for the trampoline
+     * @param y              The Y location for the trampoline
+     * @param level          The level of the powerup
+     * @param usedSprite     The sprite that's drawn when the powerup is used
+     * @param boost          The vertical speed boost the {@link objects.doodles.IDoodle Doodle} gets after hitting the Spring
      */
-    /* package */ Spring(final IServiceLocator serviceLocator, final int x, final int y, final ISprite sprite, final ISprite usedSprite, final int boost) {
-        super(serviceLocator, x, y, boost, serviceLocator.getSpriteFactory().getPowerupSprite(Powerups.spring, serviceLocator.getProgressionManager().getPowerupLevel(Powerups.spring)), usedSprite, Spring.class);
+    /* package */ Spring(final IServiceLocator serviceLocator, final int x, final int y, final int level, final ISprite usedSprite, final int boost) {
+        super(serviceLocator, x, y, boost, serviceLocator.getSpriteFactory().getPowerupSprite(Powerups.spring, level), usedSprite, Spring.class);
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }
 
@@ -57,18 +55,7 @@ public final class Spring extends AJumpablePowerup {
      */
     @Override
     public void animate() {
-        int oldHeight = getSprite().getHeight();
-        int newHeight = this.getUsedSprite().getHeight();
-        this.addYPos(oldHeight - newHeight);
-        this.setSprite(this.getUsedSprite());
-
-        Spring self = this;
-        new Timer().schedule(new TimerTask() {
-            public void run() {
-                self.addYPos(newHeight - oldHeight);
-                self.setSprite(self.getDefaultSprite());
-            }
-        }, RETRACT_SPEED);
+        super.executeDefaultAnimation(this, RETRACT_SPEED);
     }
 
     /**
