@@ -229,6 +229,10 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public void setKeys(final Keys left, final Keys right) {
+        if (left == null || right == null) {
+            throw new IllegalArgumentException("A key cannot be null");
+        }
+
         this.deregister();
         this.keys[0] = left;
         this.keys[1] = right;
@@ -280,10 +284,10 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void register() {
+        this.shootingObserver.register();
         Doodle.getServiceLocator().getInputManager().addObserver(this.getKeyLeft(), this);
         Doodle.getServiceLocator().getInputManager().addObserver(this.getKeyRight(), this);
         this.getLogger().info("The doodle registered itself as an observer of the input manager");
-        shootingObserver.register();
     }
 
     /**
