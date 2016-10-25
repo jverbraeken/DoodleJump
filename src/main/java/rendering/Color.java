@@ -21,6 +21,9 @@ public enum Color {
      */
     scoreEntryUneven(241, 234, 224);
 
+    /**
+     * The Java AWT Color corresponding to this color.
+     */
     private final java.awt.Color color;
 
     /**

@@ -1,39 +1,39 @@
 package objects.powerups;
 
 /**
- * Indicates which types of powerups are available
+ * Indicates which types of powerups are available.
  */
 public enum Powerups {
     /**
-     * Jetpack
+     * Jetpack.
      */
     jetpack("jetpack", 50),
     /**
-     * Propeller
+     * Propeller.
      */
     propeller("propeller", 50),
     /**
-     * SizeDown (decreases the size of the Doodle)
+     * SizeDown (decreases the size of the Doodle).
      */
     sizeDown("sizeDown", 50),
     /**
-     * SizeUp (increases the size of the Doodle)
+     * SizeUp (increases the size of the Doodle).
      */
     sizeUp("sizeUp", 50),
     /**
-     * Shield
+     * Shield.
      */
     shield("shield", 50),
     /**
-     * Spring - Double Spring - Titanium Spring
+     * Spring - Double Spring - Titanium Spring.
      */
     spring("spring", 0, 50, 150),
     /**
-     * SpringShoes
+     * SpringShoes.
      */
     springShoes("springShoes", 50),
     /**
-     * Trampoline - Circus Cannon - Rocket Launcher
+     * Trampoline - Circus Cannon - Rocket Launcher.
      */
     trampoline("trampoline", 50, 150, 300);
 

@@ -1,9 +1,7 @@
 package progression;
 
-import objects.powerups.Trampoline;
-
 /**
- * Implemented by classes that want to get a notification when the doodle jumped on a {@link Trampoline}.
+ * Implemented by classes that want to get a notification when the doodle jumped on a {@link objects.powerups.Trampoline}.
  */
 public interface ITrampolineJumpedObserver extends IJumpablePowerupObserver {
     /**

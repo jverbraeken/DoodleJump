@@ -74,7 +74,9 @@ public interface IPowerupFactory extends IFactory {
     /**
      * Must be called by objects that want a notification when a new {@link Spring} is created.
      * <br>
-     * <font color="red"><b>The method {@link #removeObserver(ISpringCreatedObserver)} MUST be called when the {@code springCreatedObserver} should be deleted. Otherwise {@code springCreatedObserver} will not be deleted due to a strong reference and a memory leak will occur</b></font>
+     * <font color="red"><b>The method {@link #removeObserver(ISpringCreatedObserver)} MUST be called when
+     * the {@code springCreatedObserver} should be deleted. Otherwise {@code springCreatedObserver} will not be deleted
+     * due to a strong reference and a memory leak will occur</b></font>
      *
      * @param springCreatedObserver The class that must get the notification
      */
@@ -83,7 +85,9 @@ public interface IPowerupFactory extends IFactory {
     /**
      * Must be called by objects that want a notification when a new {@link Trampoline} is created.
      * <br>
-     * <font color="red"><b>The method {@link #removeObserver(ITrampolineCreatedObserver)} MUST be called when the {@code trampolineCreatedObserver} should be deleted. Otherwise {@code trampolineCreatedObserver} will not be deleted due to a strong reference and a memory leak will occur</b></font>
+     * <font color="red"><b>The method {@link #removeObserver(ITrampolineCreatedObserver)} MUST be called when
+     * the {@code trampolineCreatedObserver} should be deleted. Otherwise {@code trampolineCreatedObserver} will not be
+     * deleted due to a strong reference and a memory leak will occur</b></font>
      *
      * @param trampolineCreatedObserver The class that must get the notification
      */

@@ -1,13 +1,9 @@
 package progression;
 
-import objects.powerups.IPowerup;
-
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Lists all kind of progression observers.
  */
+@SuppressWarnings("checkstyle:javadocvariable")
 public enum ProgressionObservers {
     disappearingPowerup,
     equipmentPowerup,

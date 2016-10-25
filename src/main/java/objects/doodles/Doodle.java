@@ -20,7 +20,11 @@ import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This class describes the behaviour of the Doodle.
@@ -138,7 +142,6 @@ public class Doodle extends AGameObject implements IDoodle {
 
             @Override
             public void setPositionOnPlatform(final IPlatform platform) {
-                
             }
         };
 

@@ -7,7 +7,7 @@ import system.IServiceLocator;
 /**
  * A RegularProjectile, mostly spawned in the regular gaming mode.
  */
-public class RegularProjectile extends AGameObject {
+public final class RegularProjectile extends AGameObject {
 
     /**
      * The speed this projectile is going up.

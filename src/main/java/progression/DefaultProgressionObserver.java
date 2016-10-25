@@ -117,7 +117,9 @@ public abstract class DefaultProgressionObserver implements IProgressionObserver
         return times;
     }
 
-
+    /**
+     * Executes everything that must be done when the mission is finished successfully.
+     */
     protected final void finished() {
         try {
             action.call();

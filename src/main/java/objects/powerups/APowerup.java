@@ -2,7 +2,6 @@ package objects.powerups;
 
 import math.ICalc;
 import objects.AGameObject;
-import objects.IGameObject;
 import objects.blocks.platform.IPlatform;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -15,11 +14,11 @@ public abstract class APowerup extends AGameObject implements IPowerup {
     /**
      * Creates a new powerup and determines its hitbox by using the sprites dimensions automatically.
      *
-     * @param sL           The locator providing services to the powerup
-     * @param x            The X-coordinate of the powerup
-     * @param y            The Y-coordinate of the powerup
-     * @param sprite       The sprite of the powerup
-     * @param powerup      The class of the powerup
+     * @param sL      The locator providing services to the powerup
+     * @param x       The X-coordinate of the powerup
+     * @param y       The Y-coordinate of the powerup
+     * @param sprite  The sprite of the powerup
+     * @param powerup The class of the powerup
      */
     public APowerup(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final Class<?> powerup) {
         super(sL, x, y, sprite, powerup);
@@ -42,6 +41,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
 
     /**
      * Set the x and y position of the powerup that's spawning on a platform.
+     *
      * @param platform the platform object where the powerup is going to spawn.
      */
     public abstract void setPositionOnPlatform(final IPlatform platform);
@@ -51,7 +51,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      *
      * @param platform The platform at which the powerup must be placed
      */
-    protected void setPositionOnPlatformRandom(final IPlatform platform) {
+    protected final void setPositionOnPlatformRandom(final IPlatform platform) {
         ICalc calc = AGameObject.getServiceLocator().getCalc();
 
         double[] hitbox = platform.getHitBox();
@@ -67,8 +67,8 @@ public abstract class APowerup extends AGameObject implements IPowerup {
     /**
      * Sets the X position of the powerup depending on the type of the powerup.
      *
-     * @param powerupXPos The X position on the platform that has been randomly chosen.
-     * @param xPosPlatform The X position of the platform.
+     * @param powerupXPos   The X position on the platform that has been randomly chosen.
+     * @param xPosPlatform  The X position of the platform.
      * @param platformWidth The width of the platform.
      * @return integer of the X position of the powerup.
      */

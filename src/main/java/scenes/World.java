@@ -14,7 +14,15 @@ import system.IRenderable;
 import system.IServiceLocator;
 import system.IUpdatable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -220,7 +228,6 @@ public class World implements IScene {
      *
      * @param doodle The Doodle to add.
      */
-    /* package */
     final void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
         this.updatables.add(doodle);

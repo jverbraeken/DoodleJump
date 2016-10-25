@@ -27,14 +27,18 @@ public final class ButtonFactory implements IButtonFactory {
      */
     private final ILogger logger;
     /**
-     * A copy of the game width constant, used to shorten the code
+     * A copy of the game width constant, used to shorten the code.
      */
     private final int gameWidth;
     /**
-     * A copy of the game height constant, used to shorten the code
+     * A copy of the game height constant, used to shorten the code.
      */
     private final int gameHeight;
 
+    /**
+     * Constructs a new ButtonFactory
+     * @param serviceLocator The service locator
+     */
     private ButtonFactory(final IServiceLocator serviceLocator) {
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
         this.gameWidth = serviceLocator.getConstants().getGameWidth();

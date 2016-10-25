@@ -58,11 +58,6 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private final Queue<Mission> finishedMissionsQueue = new LinkedList<>();
     /**
-     * Used to prevent an {@link java.util.ConcurrentModificationException ConcurrentModificationException}
-     * when deleting a mission while iterating over the missions.
-     */
-    private final Queue<FinishedProgressionObserverTuple> finishedProgressionObserversQueue = new LinkedList<>();
-    /**
      * Contains the data used to create new missions.
      */
     private final MissionData[] missionsData = new MissionData[]{
@@ -433,11 +428,12 @@ public final class ProgressionManager implements IProgressionManager {
         private final int reward;
 
         /**
-         * Constructs a new MissionData object
-         * @param type The type of the mission
+         * Constructs a new MissionData object.
+         *
+         * @param type         The type of the mission
          * @param observerType The type of the observer of the mission
-         * @param amount The amount of times the observer must be notified before the mission is considered finished
-         * @param reward The reward in coins the player gets after finishing the mission
+         * @param amount       The amount of times the observer must be notified before the mission is considered finished
+         * @param reward       The reward in coins the player gets after finishing the mission
          */
         private MissionData(final MissionType type, final ProgressionObservers observerType, final int amount, final int reward) {
             this.type = type;
@@ -448,33 +444,14 @@ public final class ProgressionManager implements IProgressionManager {
     }
 
     /**
-     * A {@link ProgressionObservers}-{@link IProgressionObserver} tuple data class.
-     */
-    private final class FinishedProgressionObserverTuple {
-        /**
-         * The first tuple element.
-         */
-        private final ProgressionObservers type;
-        /**
-         * The second tuple element.
-         */
-        private final IProgressionObserver observer;
-
-        /**
-         * Constructs the new tuple.
-         * @param type The first tuple element
-         * @param observer The second tuple element
-         */
-        private FinishedProgressionObserverTuple(final ProgressionObservers type, final IProgressionObserver observer) {
-            this.type = type;
-            this.observer = observer;
-        }
-    }
-
-    /**
      * Thrown when there are more coins requested to be subtracted from the budget than there are available.
      */
     private final class InsufficientCoinsException extends RuntimeException {
+        /**
+         * Construct a new InsufficientCoinsException with a certain message.
+         *
+         * @param message The message describing the exception
+         */
         private InsufficientCoinsException(final String message) {
             super(message);
         }

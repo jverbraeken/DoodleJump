@@ -5,6 +5,9 @@ import system.IServiceLocator;
 
 import java.util.concurrent.Callable;
 
+/**
+ * Responsible for the creation of new missions.
+ */
 public final class MissionFactory implements IMissionFactory {
 
     /**
@@ -13,7 +16,7 @@ public final class MissionFactory implements IMissionFactory {
     private static transient IServiceLocator serviceLocator;
 
     /**
-     * The logger
+     * The logger.
      */
     private final ILogger logger;
 
@@ -27,7 +30,7 @@ public final class MissionFactory implements IMissionFactory {
     /**
      * Register the FileSystem into the service locator.
      *
-     * @param serviceLocator the service locator.
+     * @param serviceLocator the service locator
      */
     public static void register(final IServiceLocator serviceLocator) {
         assert serviceLocator != null;
@@ -42,9 +45,9 @@ public final class MissionFactory implements IMissionFactory {
      * @param progressionObserver The class responsible for observing the correct progression attribute
      * @param times               The amount of times the doodle has to jump on a spring
      * @param action              The callable that has to be called when the mission is finished successfully
-     * @return
+     * @return A new mission
      */
-    public Mission createMission(final MissionType type, final ProgressionObservers progressionObserver, final int times, Callable<Void> action) {
+    public Mission createMission(final MissionType type, final ProgressionObservers progressionObserver, final int times, final Callable<Void> action) {
         IProgressionObserver observer;
         switch (type) {
             case jumpOnSpring:
@@ -65,10 +68,15 @@ public final class MissionFactory implements IMissionFactory {
     }
 
     /**
-     * Thrown when the MissionFactory was not able to construct a mission with the given type
+     * Thrown when the MissionFactory was not able to construct a mission with the given type.
      */
-    private class UnknownMissionTypeException extends RuntimeException {
-        private UnknownMissionTypeException(String message) {
+    private final class UnknownMissionTypeException extends RuntimeException {
+        /**
+         * Construct a new UnknownMissionTypeException with a certain message.
+         *
+         * @param message The message describing the exception
+         */
+        private UnknownMissionTypeException(final String message) {
             super(message);
         }
     }

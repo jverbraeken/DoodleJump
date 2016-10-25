@@ -16,7 +16,7 @@ import java.awt.RenderingHints;
 public final class Renderer implements IRenderer {
 
     /**
-     * The font size used for {@link #FONT50}.
+     * The font size used for {@link #font50}.
      */
     private static final float FONT50SIZE = 50F;
 
@@ -39,7 +39,7 @@ public final class Renderer implements IRenderer {
     /**
      * The font used to draw text with size 50.
      */
-    private final Font FONT50;
+    private final Font font50;
 
     /**
      * Prevent public instantiations of the Renderer.
@@ -47,7 +47,7 @@ public final class Renderer implements IRenderer {
     private Renderer() {
         logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
         Font font = serviceLocator.getFileSystem().getFont("al-seana.ttf");
-        FONT50 = font.deriveFont(Font.BOLD, FONT50SIZE);
+        font50 = font.deriveFont(Font.BOLD, FONT50SIZE);
     }
 
     /**
@@ -221,7 +221,7 @@ public final class Renderer implements IRenderer {
         assert graphics != null;
         java.awt.Color currentColor = graphics.getColor();
 
-        int xPos = prepareDrawText(x, msg, alignment, FONT50);
+        int xPos = prepareDrawText(x, msg, alignment, font50);
         graphics.drawString(msg, xPos, (int) (y - camera.getYPos()));
         this.logger.info("drawString(" + x + ", " + y + ", " + msg + ", " + alignment.name() + ", " + color.name());
 
@@ -236,7 +236,7 @@ public final class Renderer implements IRenderer {
         assert graphics != null;
         java.awt.Color currentColor = graphics.getColor();
 
-        int xPos = prepareDrawText(x, msg, alignment, FONT50);
+        int xPos = prepareDrawText(x, msg, alignment, font50);
         graphics.drawString(msg, xPos, y);
         this.logger.info("drawString(" + x + ", " + y + ", " + msg + ", " + alignment.name() + ", " + color.name());
 

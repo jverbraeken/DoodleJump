@@ -98,7 +98,7 @@ import java.util.ArrayList;
      */
     private static final double TRAMPOLINE_BUTTON_X = BUTTON_X_START2, TRAMPOLINE_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 2;
     /**
-     * The number of digits in the decimal system
+     * The number of digits in the decimal system.
      */
     private static final int BASE_TEN = 10;
 
@@ -130,7 +130,7 @@ import java.util.ArrayList;
     /**
      * The sprites of the coin, animated.
      */
-    private final ISprite[] coinSprites = new ISprite[10];
+    private final ISprite[] coinSprites = new ISprite[BASE_TEN];
     /**
      * Sprites of the background of the ChooseMode.
      */

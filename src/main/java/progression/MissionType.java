@@ -19,7 +19,8 @@ public enum MissionType {
 
     /**
      * Creates a new mission type.
-     * @param preText The text prepended to its message drawn at the pause menu
+     *
+     * @param preText  The text prepended to its message drawn at the pause menu
      * @param postText The text appended to its message drawn at the pause menu
      */
     MissionType(final String preText, final String postText) {
@@ -28,7 +29,8 @@ public enum MissionType {
     }
 
     /**
-     * Returns the message as it should be drawn at the pause menu
+     * Returns the message as it should be drawn at the pause menu.
+     *
      * @param number The number of times the missio type should be executed
      * @return A String with the correct message of the mission type
      */

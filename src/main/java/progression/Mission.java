@@ -23,16 +23,21 @@ public final class Mission {
      */
     private final IProgressionObserver observer;
     /**
-     * The service locator
+     * The service locator.
      */
     private final IServiceLocator serviceLocator;
     /**
-     * The text drawn for the mission
+     * The text drawn for the mission.
      */
     private final String message;
 
     /**
      * Prevents instantiation from outside the package.
+     *
+     * @param serviceLocator The service locator
+     * @param type           The type of the mission
+     * @param message        The message to be drawn in the PauseScreen
+     * @param observer       The observer responsible for observing the progression attribute associated with the mission
      */
     /* package */ Mission(final IServiceLocator serviceLocator, final MissionType type, final String message, final IProgressionObserver observer) {
         this.serviceLocator = serviceLocator;
@@ -41,10 +46,16 @@ public final class Mission {
         this.message = message;
     }
 
+    /**
+     * @return The type of the mission.
+     */
     public MissionType getType() {
         return this.type;
     }
 
+    /**
+     * @return The maximum amount of times its observer must be notified before the mission is considered finished.
+     */
     public int getMaximumTimes() {
         return observer.getMaximumTimes();
     }
@@ -54,15 +65,21 @@ public final class Mission {
      *
      * @param y The y-position at which the mission should be rendered.
      */
-    public void render(int y) {
+    public void render(final int y) {
         serviceLocator.getRenderer().drawSpriteHUD(serviceLocator.getSpriteFactory().getAchievementSprite(), 0, y);
         serviceLocator.getRenderer().drawTextHUD(serviceLocator.getConstants().getGameWidth() / 2, y + TEXT_Y_OFFSET, this.message, TextAlignment.center);
     }
 
+    /**
+     * Called when the mission should restart.
+     */
     /* package */ void alertStartOver() {
         observer.reset();
     }
 
+    /**
+     * Called when the mission is finished.
+     */
     /* package */ void alertFinished() {
         serviceLocator.getProgressionManager().alertMissionFinished(this);
     }

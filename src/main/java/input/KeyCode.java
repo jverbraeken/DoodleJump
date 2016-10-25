@@ -73,7 +73,6 @@ public final class KeyCode {
      * @param keyCode The integer code of the key
      * @return The {@link Keys} enum corresponding with the integer value
      */
-    /* package */
     static Keys getKey(final int keyCode) {
         return KeyCode.KEY_MAP.get(keyCode);
     }
@@ -84,7 +83,6 @@ public final class KeyCode {
      * @param keyCode The integer code of the key
      * @return The {@link Keys} enum corresponding with the integer value
      */
-    /* package */
     static int getKeyCode(final Keys keyCode) {
         return KeyCode.KEYCODE_MAP.get(keyCode);
     }

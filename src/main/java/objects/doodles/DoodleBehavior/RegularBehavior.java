@@ -75,7 +75,7 @@ public final class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void updateActions() {
+    public void updateActions() {
         this.keyPressActions = new EnumMap<>(Keys.class);
         this.keyReleaseActions = new EnumMap<>(Keys.class);
 
@@ -95,7 +95,7 @@ public final class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void keyPress(final Keys key) {
+    public void keyPress(final Keys key) {
         this.keyPressActions.get(key).run();
     }
 
@@ -103,7 +103,7 @@ public final class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void keyRelease(final Keys key) {
+    public void keyRelease(final Keys key) {
         this.keyReleaseActions.get(key).run();
     }
 
@@ -111,7 +111,7 @@ public final class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void move(final double delta) {
+    public void move(final double delta) {
         this.animate(delta);
         this.applyGravity(delta);
         this.moveHorizontally(delta);
@@ -122,7 +122,7 @@ public final class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final Directions getFacing() {
+    public Directions getFacing() {
         return this.facing;
     }
 
@@ -138,7 +138,7 @@ public final class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final double getVerticalSpeed() {
+    public double getVerticalSpeed() {
         return this.vSpeed;
     }
 
@@ -146,7 +146,7 @@ public final class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void setVerticalSpeed(final double v) {
+    public void setVerticalSpeed(final double v) {
         this.vSpeed = v;
     }
 
