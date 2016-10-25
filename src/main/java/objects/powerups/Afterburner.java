@@ -9,10 +9,12 @@ import system.IServiceLocator;
  */
 /* package */ final class Afterburner extends AJetpack {
 
+
     /**
-     * The maximum time the afterburner is active.
+     * The time limit of the afterburner.
      */
-    private static final int MAX_TIMER = 200;
+    private static final int MAX_TIME = 200;
+
     /**
      * Y offset for drawing the afterburner when on Doodle.
      */
@@ -27,7 +29,7 @@ import system.IServiceLocator;
      */
     /* package */ Afterburner(final IServiceLocator sL, final int x, final int y) {
         // Because sprites for this object has't been found or created yet, this object will use jetpack sprites.
-        super(sL, x, y, MAX_TIMER, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 1), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
+        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 2), sL.getSpriteFactory().getSpaceRocketActiveSprites(), Afterburner.class);
     }
 
     /**

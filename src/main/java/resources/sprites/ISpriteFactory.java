@@ -1,9 +1,6 @@
 package resources.sprites;
 
 import objects.powerups.Powerups;
-
-import objects.doodles.DoodleBehavior.MovementBehavior;
-
 import system.IFactory;
 
 /**
@@ -154,8 +151,6 @@ public interface ISpriteFactory extends IFactory {
     ISprite getPowerupSprite(final Powerups powerup, final int currentPowerupLevel);
 
     ISprite getTrampolineUsedSprite(final int currentPowerupLevel);
-
-    ISprite getSpaceRocketSprite();
 
     ISprite getSpringUsedSprite(final int currentPowerupLevel);
 

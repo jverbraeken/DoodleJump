@@ -28,8 +28,7 @@ import system.IServiceLocator;
      */
 
     /* package */ SpaceRocket(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getSpaceRocketSprite(), sL.getSpriteFactory().getSpaceRocketActiveSprites(), SpaceRocket.class);
-
+        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 3), sL.getSpriteFactory().getSpaceRocketActiveSprites(), SpaceRocket.class);
     }
 
     /**
