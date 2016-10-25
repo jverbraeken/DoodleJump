@@ -45,31 +45,19 @@ import system.IServiceLocator;
      * Maximum and initial rotation of the experience text. And the maximum
      * and initial font size of the experience text.
      */
-    private static final int MAX_EXP_FONT_SIZE_DIFFERENCE = 20, INITIAL_EXP_ROTATION = 0, INITIAL_EXP_FONTSIZE = 50;
+    private static final int MAX_EXP_FONT_SIZE_DIFFERENCE = 20, INITIAL_EXP_FONTSIZE = 50;
     /**
      * Devides the score by this number.
      */
     private static final int SCORE_COUNT_TIME_CONSTANT = 100;
     /**
-     * Maximum rotation in radians of the Exp text.
-     */
-    private static final double MAX_EXP_ROTATION = 0.2;
-    /**
      * The speed, and side, the exp is rotating to.
      */
     private int expFontSizeSpeed = 1;
     /**
-     * The speed, and side, the exp is rotating to.
-     */
-    private double expRotationSpeed = 0.017;
-    /**
      * The font size of exp text.
      */
     private int expFontSize = 50;
-    /**
-     * The rotation of the exp text.
-     */
-    private double expRotation = 0;
 
     /**
      * The exp counted up to the actual experience count.
@@ -192,7 +180,7 @@ import system.IServiceLocator;
         renderer.drawTextExtraOptions(
                 (int) (constants.getGameWidth() * KillScreen.EXP_TEXT_X),
                 (int) (constants.getGameHeight() * KillScreen.EXP_TEXT_Y),
-                "+" + expCount + " exp", Color.darkBlue, expRotation, expFontSize);
+                "+" + expCount + " exp", Color.darkBlue, 0, expFontSize);
     }
 
     /**
@@ -204,7 +192,6 @@ import system.IServiceLocator;
             expCount += countUpAmount;
         }
         updateExpFontSize();
-        //updateExpRotation();
     }
 
     /**
@@ -214,16 +201,6 @@ import system.IServiceLocator;
         expFontSize += expFontSizeSpeed;
         if (expFontSize > INITIAL_EXP_FONTSIZE + MAX_EXP_FONT_SIZE_DIFFERENCE || expFontSize < INITIAL_EXP_FONTSIZE - MAX_EXP_FONT_SIZE_DIFFERENCE) {
             expFontSizeSpeed = -expFontSizeSpeed;
-        }
-    }
-
-    /**
-     * Updates the rotation of the Experience text.
-     */
-    private void updateExpRotation() {
-        expRotation += expRotationSpeed;
-        if (expRotation > INITIAL_EXP_ROTATION + MAX_EXP_ROTATION || expRotation < INITIAL_EXP_ROTATION - MAX_EXP_ROTATION) {
-            expRotationSpeed = -expRotationSpeed;
         }
     }
 
