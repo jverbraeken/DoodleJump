@@ -49,7 +49,9 @@ public class MissionTest {
 
     @Test
     public void testGetMaximumTimes() {
-        this.mission = new Mission(mock(IServiceLocator.class), MissionType.jumpOnSpring, "", mock(IProgressionObserver.class));
+        IProgressionObserver observer = mock(IProgressionObserver.class);
+        when(observer.getMaximumTimes()).thenReturn(42);
+        this.mission = new Mission(mock(IServiceLocator.class), MissionType.jumpOnSpring, "", observer);
         assertThat(this.mission.getMaximumTimes(), is(42));
     }
 
@@ -73,15 +75,11 @@ public class MissionTest {
     @Test
     public void testAlertStartOver() throws Exception {
         final IProgressionObserver observer1 = mock(IProgressionObserver.class);
-        final IProgressionObserver observer2 = mock(IProgressionObserver.class);
-        final IProgressionObserver observer3 = mock(IProgressionObserver.class);
-        this.mission = new Mission(mock(IServiceLocator.class), MissionType.jumpOnSpring, "", mock(IProgressionObserver.class));
+        this.mission = new Mission(mock(IServiceLocator.class), MissionType.jumpOnSpring, "", observer1);
 
         this.mission.alertStartOver();
 
         verifyPrivate(observer1, times(1)).invoke("reset");
-        verifyPrivate(observer2, times(1)).invoke("reset");
-        verifyPrivate(observer3, times(1)).invoke("reset");
     }
 
     @Test

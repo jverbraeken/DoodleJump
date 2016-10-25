@@ -118,23 +118,4 @@ public final class Constants implements IConstants {
         return Constants.SAVEFILE_DATA;
     }
 
-    /**
-     * Interpret JSON.
-     *
-     * @param json The JSON to interpret.
-     */
-    private void interpretJson(final Map<String, String> json) {
-        for (Map.Entry<String, String> entry : json.entrySet()) {
-            switch (entry.getKey()) {
-                case "LOG_FILE":
-                    Constants.LOG_FILE.set(entry.getValue());
-                    break;
-                default:
-                    String msg = "The json entry \"" + entry.getKey()
-                            + "\" in the configuration file could not be identified";
-                    System.err.print(msg);
-            }
-        }
-    }
-
 }
