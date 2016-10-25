@@ -331,7 +331,7 @@ public final class ProgressionManager implements IProgressionManager {
 
         coins = 0;
         experience = 0;
-        rank = Ranks.rookieJumper;
+        rank = Ranks.newbie;
 
         highScores.clear();
 
