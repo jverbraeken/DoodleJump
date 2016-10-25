@@ -762,6 +762,7 @@ public final class SpriteFactory implements ISpriteFactory {
 
 
     //Projectiles
+
     /**
      * {@inheritDoc}
      */
@@ -936,12 +937,13 @@ public final class SpriteFactory implements ISpriteFactory {
                 return getSprite(IRes.Sprites.coin9);
             case 10:
                 return getSprite(IRes.Sprites.coin10);
+            default:
+                return null;
         }
-        return null;
     }
 
     /**
-     * @param level The level of the {@link Spring spring} you want to have
+     * @param level The level of the {@link objects.powerups.Spring spring} you want to have
      * @return A sprite of the spring of the requested level
      * @throws UnavailableLevelException Thrown when the level is either too low or too high
      */
@@ -962,7 +964,7 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
-     * @param level The level of the {@link objects.powerups.ATrampoline trampoline} you want to have
+     * @param level The level of the {@link objects.powerups.Trampoline trampoline} you want to have
      * @return A sprite of the trampoline of the requested level
      * @throws UnavailableLevelException Thrown when the level is either too low or too high
      */
@@ -1047,9 +1049,10 @@ public final class SpriteFactory implements ISpriteFactory {
 
         /**
          * Creates a new UnavailableException.
+         *
          * @param message The message describing what went wrong
          */
-        private UnavailableLevelException(String message) {
+        private UnavailableLevelException(final String message) {
             super(message);
         }
     }
