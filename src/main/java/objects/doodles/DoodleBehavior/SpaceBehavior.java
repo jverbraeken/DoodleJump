@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * This class describes the space movement of the Doodle.
  */
-public class SpaceBehavior implements MovementBehavior {
+public final class SpaceBehavior implements MovementBehavior {
 
     /**
      * The relative speed of the Doodle.

@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * This class describes the underwater movement of the Doodle.
  */
-public class UnderwaterBehavior implements MovementBehavior {
+public final class UnderwaterBehavior implements MovementBehavior {
 
     /**
      * The relative speed of the doodle.

@@ -35,6 +35,8 @@ public interface IBlock extends IRenderable, IUpdatable {
 
     /**
      * Removes an element from the elements list.
+     *
+     * @param The element that should be removed from the block
      */
     void removeElement(final IGameObject element);
 }

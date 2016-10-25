@@ -21,11 +21,13 @@ public class RegularProjectile extends AGameObject {
 
     /**
      * Create and initialize a RegularProjectile.
-     * @param sL the servicelocator of this game.
-     * @param x the x location.
-     * @param y the y location.
+     *
+     * @param sL   the servicelocator of this game.
+     * @param x    the x location.
+     * @param y    the y location.
+     * @param xDir The speed over the X-axis
      */
-    /* package */RegularProjectile(final IServiceLocator sL, final int x, final int y, final int xDir, final int yDir) {
+    /* package */RegularProjectile(final IServiceLocator sL, final int x, final int y, final int xDir) {
         super(sL, x, y, sL.getSpriteFactory().getRegularProjectileSprite(), RegularProjectile.class);
         xDirection = xDir;
     }
@@ -34,7 +36,8 @@ public class RegularProjectile extends AGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) { }
+    public void collidesWith(final IDoodle doodle) {
+    }
 
     /**
      * {@inheritDoc}

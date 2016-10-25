@@ -19,11 +19,7 @@ import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.EnumMap;
+import java.util.*;
 
 /**
  * This class describes the behaviour of the Doodle.
@@ -60,7 +56,14 @@ public class Doodle extends AGameObject implements IDoodle {
      * Second star animation in frames.
      */
     private static final double SECOND_STAR_FRAME = 6d;
-
+    /**
+     * The scalar for the Stars sprite.
+     */
+    private static final double STARS_SCALAR = .7;
+    /**
+     * The offset for the Stars sprite.
+     */
+    private static final int STARS_OFFSET = 20;
     /**
      * Fake Powerup instance to return when actual powerup value is null.
      */
@@ -69,6 +72,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * The world the Doodle lives in.
      */
     private final World world;
+    /**
+     * A list of all the projectiles shot by this Enemy.
+     */
+    private final List<IGameObject> projectiles = new ArrayList<>();
     /**
      * Gives true if the doodle is alive.
      */
@@ -98,22 +105,9 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double spriteScalar = 1d;
     /**
-     * The scalar for the Stars sprite.
-     */
-    private static final double STARS_SCALAR = .7;
-    /**
-     * The offset for the Stars sprite.
-     */
-    private static final int STARS_OFFSET = 20;
-    /**
      * The keys the Doodle responds to.
      */
-    private Keys[] keys = new Keys[] { Keys.arrowLeft, Keys.arrowRight };
-    /**
-     * A list of all the projectiles shot by this Enemy.
-     */
-    private final List<IGameObject> projectiles = new ArrayList<>();
-
+    private Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
     /**
      * The shooting observer of this Doodle.
      */
@@ -343,16 +337,18 @@ public class Doodle extends AGameObject implements IDoodle {
         this.updateScore();
         updateProjectiles(delta);
     }
+
     /**
      * Update the projectiles this Doodle has shot.
+     *
      * @param delta The time in milliseconds that has passed between the last frame and the new frame
      */
     private void updateProjectiles(final double delta) {
         int width = getServiceLocator().getConstants().getGameWidth();
         Set<IGameObject> toRemove = new HashSet<>();
         for (IGameObject projectile : projectiles) {
-            if (projectile.getXPos() <= width + projectile.getHitBox()[2] && projectile.getXPos() >= -projectile.getHitBox()[2]) {
-                if (projectile.getYPos() >= -projectile.getHitBox()[3] + getServiceLocator().getRenderer().getCamera().getYPos()) {
+            if (projectile.getXPos() <= width + projectile.getHitBox()[HITBOX_TOP] && projectile.getXPos() >= -projectile.getHitBox()[HITBOX_TOP]) {
+                if (projectile.getYPos() >= -projectile.getHitBox()[HITBOX_BOTTOM] + getServiceLocator().getRenderer().getCamera().getYPos()) {
                     projectile.update(delta);
                     continue;
                 }
@@ -366,6 +362,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Returns the current score.
+     *
      * @return the score.
      */
     public final double getScore() {
@@ -530,6 +527,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Adds a projectile to the Set with Projectiles.
+     *
      * @param projectile the projectile that has to be added.
      */
     void addProjectile(final IGameObject projectile) {

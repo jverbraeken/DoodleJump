@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * This class describes the regular movement of the Doodle.
  */
-public class RegularBehavior implements MovementBehavior {
+public final class RegularBehavior implements MovementBehavior {
 
     /**
      * Standard speed limit for the Doodle.
