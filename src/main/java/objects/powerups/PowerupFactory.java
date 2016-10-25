@@ -14,11 +14,11 @@ import java.util.List;
 public final class PowerupFactory implements IPowerupFactory {
 
     /**
-     * The boosts per level of {@link ASpring spring} powerups.
+     * The boosts per level of {@link Spring spring} powerups.
      */
     private static final int[] BOOST_SPRING = new int[]{-30, -40, -50};
     /**
-     * The boosts per level of {@link ATrampoline trampoline} powerups.
+     * The boosts per level of {@link Trampoline trampoline} powerups.
      */
     private static final int[] BOOST_TRAMPOLINE = new int[]{-40, -55, -70};
     /**
@@ -102,7 +102,7 @@ public final class PowerupFactory implements IPowerupFactory {
         final Powerups type = Powerups.spring;
         final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
         assert level > 0;
-        assert level <= Powerups.trampoline.getMaxLevel();
+        assert level <= type.getMaxLevel();
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         Spring spring = new Spring(serviceLocator, x, y, level, spriteFactory.getSpringUsedSprite(level), BOOST_SPRING[level - 1]);
         logger.info("A new Spring of level " + level + " was created");
@@ -129,7 +129,7 @@ public final class PowerupFactory implements IPowerupFactory {
         final Powerups type = Powerups.trampoline;
         final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
         assert level > 0;
-        assert level <= Powerups.trampoline.getMaxLevel();
+        assert level <= type.getMaxLevel();
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         Trampoline trampoline = new Trampoline(serviceLocator, x, y, level, spriteFactory.getTrampolineUsedSprite(level), BOOST_TRAMPOLINE[level - 1]);
         logger.info("A new Trampoline of level " + level + " was created");
@@ -143,7 +143,7 @@ public final class PowerupFactory implements IPowerupFactory {
      * {@inheritDoc}
      */
     @Override
-    public void addObserver(ISpringCreatedObserver springCreatedObserver) {
+    public void addObserver(final ISpringCreatedObserver springCreatedObserver) {
         if (springCreatedObserver == null) {
             final String error = "The springCreatedObserver cannot be null";
             logger.error(error);
@@ -156,7 +156,7 @@ public final class PowerupFactory implements IPowerupFactory {
      * {@inheritDoc}
      */
     @Override
-    public void addObserver(ITrampolineCreatedObserver trampolineCreatedObserver) {
+    public void addObserver(final ITrampolineCreatedObserver trampolineCreatedObserver) {
         if (trampolineCreatedObserver == null) {
             final String error = "Cannot add a null trampolineCreatedObserver";
             logger.error(error);
@@ -169,7 +169,7 @@ public final class PowerupFactory implements IPowerupFactory {
      * {@inheritDoc}
      */
     @Override
-    public void removeObserver(ISpringCreatedObserver springCreatedObserver) {
+    public void removeObserver(final ISpringCreatedObserver springCreatedObserver) {
         if (springCreatedObserver == null) {
             final String error = "Cannot removed a null springCreatedObserver";
             logger.error(error);
@@ -182,7 +182,7 @@ public final class PowerupFactory implements IPowerupFactory {
      * {@inheritDoc}
      */
     @Override
-    public void removeObserver(ITrampolineCreatedObserver trampolineCreatedObserver) {
+    public void removeObserver(final ITrampolineCreatedObserver trampolineCreatedObserver) {
         if (trampolineCreatedObserver == null) {
             final String error = "Cannot removed a null trampolineCreatedObserver";
             logger.error(error);
