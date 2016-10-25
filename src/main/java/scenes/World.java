@@ -273,7 +273,6 @@ public class World implements IScene {
                         for (IGameObject projectile : doodle.getProjectiles()) {
                             if (projectile.checkCollision(element)) {
                                 element.setXPos(1000);
-                                //((IEnemy) element).setAlive(false);
                                 projectilesToRemove.add(projectile);
                             }
                         }
@@ -308,7 +307,7 @@ public class World implements IScene {
             IJumpable topPlatform = topBlock.getTopJumpable();
             this.topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform);
             this.blocks.add(topBlock);
-            this.drawables.get(DrawableLevels.back).add(topBlock);
+            this.newDrawables.add(topBlock);
             this.updatables.add(topBlock);
         }
     }
