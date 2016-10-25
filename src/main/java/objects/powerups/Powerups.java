@@ -7,7 +7,7 @@ public enum Powerups {
     /**
      * Jetpack.
      */
-    jetpack("jetpack", 50),
+    jetpack("jetpack", 50, 100),
     /**
      * Propeller.
      */

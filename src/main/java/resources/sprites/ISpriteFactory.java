@@ -156,15 +156,9 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getSpringUsedSprite(final int currentPowerupLevel);
 
-    ISprite[] getJetpackActiveSprites();
+    ISprite[] getJetpackActiveSprites(final int level);
 
     ISprite[] getPropellerActiveSprites();
-
-    /**
-     * Resturns a list with sprites when a doodle has collided with the doodle.
-     * @return list of sprites.
-     */
-    ISprite[] getSpaceRocketActiveSprites();
 
     // Projectiles
     ISprite getRegularProjectileSprite();

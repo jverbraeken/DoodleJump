@@ -70,6 +70,39 @@ import system.IServiceLocator;
     }
 
     /**
+     * Constructor of a new button with a custom width and height.
+     *
+     * @param sL the service locator.
+     * @param x  the x position of the button
+     * @param y  the y position of the button
+     * @param s  the sprite of the button
+     * @param a  the action when the button is pressed
+     * @param n  the name of the button
+     *           @param width The width of the button
+     *                        @param height The height of the button
+     */
+    /* package */ Button(final IServiceLocator sL, final int x, final int y,
+                         final ISprite s, final Runnable a, final String n,
+                         final int width, final int height) {
+        super();
+
+        assert sL != null;
+        assert s != null;
+
+        this.serviceLocator = sL;
+        this.logger = sL.getLoggerFactory().createLogger(Button.class);
+        this.sprite = s;
+        this.topLeft[0] = x;
+        this.topLeft[1] = y;
+        this.bottomRight[0] = x + width;
+        this.bottomRight[1] = y + height;
+        this.action = a;
+        this.name = n;
+        this.width = width;
+        this.height = height;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

@@ -249,7 +249,7 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createShopPowerupButton(final Powerups powerup, final double x, final double y) {
+    public IButton createShopPowerupButton(final Powerups powerup, final double x, final double y, final int height) {
         assert ButtonFactory.serviceLocator != null;
 
         if (powerup == null) {
@@ -275,7 +275,8 @@ public final class ButtonFactory implements IButtonFactory {
             }
 
         };
-        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, shop, "shop");
+        final int buttonWidth = (int) ((double) height * ((double) buttonSprite.getWidth() / (double) buttonSprite.getHeight()));
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, shop, "shop", buttonWidth, height);
     }
 
     /**

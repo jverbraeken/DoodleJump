@@ -22,6 +22,14 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     private static final int[] BOOST_TRAMPOLINE = new int[]{-40, -55, -70};
     /**
+     * The time measured in frames a {@link Jetpack} is in the air.
+     */
+    private static final int[] MAX_TIME_JETPACK = new int[]{175, 225};
+    /**
+     * The Y-offset for drawing the Jetpack when on Doodle.
+     */
+    private static final int[] OWNED_Y_OFFSET_JETPACK = new int[]{35, -70};
+    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
@@ -37,6 +45,10 @@ public final class PowerupFactory implements IPowerupFactory {
      * The trampoline creation observers of PowerupFactory.
      */
     private final List<ITrampolineCreatedObserver> trampolineObservers = new ArrayList<>();
+    /**
+     * The jetpack creation observers of PowerupFactory.
+     */
+    private final List<IJetpackCreatedObserver> jetpackObservers = new ArrayList<>();
 
     /**
      * Private constructor to prevent instantiation from outside the class.
@@ -63,8 +75,17 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createJetpack(final int x, final int y) {
-        logger.info("A new Jetpack has been created");
-        return new Jetpack(serviceLocator, x, y);
+        final Powerups type = Powerups.jetpack;
+        final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
+        assert level > 0;
+        assert level <= type.getMaxLevel();
+        final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        Jetpack jetpack = new Jetpack(serviceLocator, x, y, level, spriteFactory.getJetpackActiveSprites(level), MAX_TIME_JETPACK[level - 1], OWNED_Y_OFFSET_JETPACK[level - 1]);
+        logger.info("A new Jetpack of level " + level + " was created");
+        for (IJetpackCreatedObserver observer : jetpackObservers) {
+            observer.alertJetpackCreated(jetpack);
+        }
+        return jetpack;
     }
 
     /**
@@ -169,6 +190,19 @@ public final class PowerupFactory implements IPowerupFactory {
      * {@inheritDoc}
      */
     @Override
+    public void addObserver(final IJetpackCreatedObserver jetpackCreatedObserver) {
+        if (jetpackCreatedObserver == null) {
+            final String error = "Cannot add a null jetpackCreatedObserver";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+        this.jetpackObservers.add(jetpackCreatedObserver);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void removeObserver(final ISpringCreatedObserver springCreatedObserver) {
         if (springCreatedObserver == null) {
             final String error = "Cannot removed a null springCreatedObserver";
@@ -189,6 +223,19 @@ public final class PowerupFactory implements IPowerupFactory {
             throw new IllegalArgumentException(error);
         }
         this.trampolineObservers.remove(trampolineCreatedObserver);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeObserver(final IJetpackCreatedObserver jetpackCreatedObserver) {
+        if (jetpackCreatedObserver == null) {
+            final String error = "Cannot removed a null jetpackCreatedObserver";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+        this.jetpackObservers.remove(jetpackCreatedObserver);
     }
 
 }

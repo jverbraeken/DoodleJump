@@ -8,7 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by Michael on 10/20/2016.
+ * A powerup on which can be jumped.
  */
 public abstract class AJumpablePowerup extends APowerup implements IJumpable {
 
@@ -36,7 +36,7 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
      * @param usedSprite    The sprite when the object has collided with a doodle
      * @param powerup       The class of the powerup
      */
-    public AJumpablePowerup(final IServiceLocator sL, final int x, final int y, final double boost, final ISprite defaultSprite, final ISprite usedSprite, final Class<?> powerup) {
+    /* package */ AJumpablePowerup(final IServiceLocator sL, final int x, final int y, final double boost, final ISprite defaultSprite, final ISprite usedSprite, final Class<?> powerup) {
         super(sL, x, y, defaultSprite, powerup);
         this.usedSprite = usedSprite;
         this.defaultSprite = defaultSprite;

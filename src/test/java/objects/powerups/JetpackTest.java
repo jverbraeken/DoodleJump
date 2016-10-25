@@ -48,9 +48,9 @@ public class JetpackTest {
         when(loggerFactory.createLogger(Jetpack.class)).thenReturn(logger);
         when(sprite.getHeight()).thenReturn(0);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
-        when(spriteFactory.getJetpackActiveSprites()).thenReturn(spritePack);
+        when(spriteFactory.getJetpackActiveSprites(anyInt())).thenReturn(spritePack);
 
-        jetpack = new Jetpack(serviceLocator, 0, 0);
+        jetpack = new Jetpack(serviceLocator, 0, 0, 1, mock(ISprite[].class), 0, 0);
     }
 
     @Test

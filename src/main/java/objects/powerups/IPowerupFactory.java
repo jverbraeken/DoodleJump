@@ -72,6 +72,17 @@ public interface IPowerupFactory extends IFactory {
     IGameObject createTrampoline(final int x, final int y);
 
     /**
+     * Must be called by objects that want a notification when a new {@link Jetpack} is created.
+     * <br>
+     * <font color="red"><b>The method {@link #removeObserver(IJetpackCreatedObserver)} MUST be called when
+     * the {@code jetpackCreatedObserver} should be deleted. Otherwise {@code springCreatedObserver} will not be deleted
+     * due to a strong reference and a memory leak will occur</b></font>
+     *
+     * @param jetpackCreatedObserver The class that must get the notification
+     */
+    void addObserver(final IJetpackCreatedObserver jetpackCreatedObserver);
+
+    /**
      * Must be called by objects that want a notification when a new {@link Spring} is created.
      * <br>
      * <font color="red"><b>The method {@link #removeObserver(ISpringCreatedObserver)} MUST be called when
@@ -92,6 +103,16 @@ public interface IPowerupFactory extends IFactory {
      * @param trampolineCreatedObserver The class that must get the notification
      */
     void addObserver(final ITrampolineCreatedObserver trampolineCreatedObserver);
+
+    /**
+     * Must be called by objects that were register by {@link #addObserver(IJetpackCreatedObserver)} and do
+     * not want to receive this notfications anymore.
+     * <br>
+     * Must be called when the observing object is deleted as well!
+     *
+     * @param jetpackCreatedObserver The class that must not get the notifications anymore
+     */
+    void removeObserver(final IJetpackCreatedObserver jetpackCreatedObserver);
 
     /**
      * Must be called by objects that were register by {@link #addObserver(ISpringCreatedObserver)} and do
