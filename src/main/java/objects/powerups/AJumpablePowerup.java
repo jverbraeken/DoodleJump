@@ -65,14 +65,6 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void render() {
-        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
-    }
-
-    /**
      * Returns the usedSprite when a doodle collides with this object.
      *
      * @return a ISprite object.

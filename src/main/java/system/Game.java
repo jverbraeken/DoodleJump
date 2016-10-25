@@ -238,7 +238,6 @@ public final class Game {
 
         serviceLocator.getProgressionManager().init();
 
-
         start();
     }
 

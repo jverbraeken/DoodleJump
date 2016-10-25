@@ -76,7 +76,7 @@ public class Menu implements IScene {
     /**
      * The buttons for the main menu.
      */
-    private final List<IButton> buttons = new ArrayList<>(4);
+    private final List<IButton> buttons = new ArrayList<>(5);
     /**
      * The Doodle for the menu.
      */

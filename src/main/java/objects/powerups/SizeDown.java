@@ -62,5 +62,4 @@ import system.IServiceLocator;
     public void setPositionOnPlatform(final IPlatform platform) {
         super.setPositionOnPlatformRandom(platform);
     }
-
 }
