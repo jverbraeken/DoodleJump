@@ -114,7 +114,6 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
      */
     @Override
     public final void perform(final PowerupOccasion occasion) {
-        assert this.owner != null;
         if (occasion == null) {
             throw new IllegalArgumentException("Occasion cannot be null");
         }
