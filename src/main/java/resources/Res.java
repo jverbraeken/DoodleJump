@@ -102,6 +102,9 @@ public final class Res implements IRes {
         sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-right@2x.png");
         sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-right-odskok@2x.png");
 
+        // Projectiles
+        sprites.put(Sprites.regularProjectile, SPRITE_PATH + "regular-projectile@2x.png");
+
         // Enemies
         sprites.put(Sprites.ordinaryMonster, SPRITE_PATH + "ordinaryMonster.png");
         sprites.put(Sprites.threeEyedMonster1, SPRITE_PATH + "threeEyedMonster1.png");
@@ -163,6 +166,9 @@ public final class Res implements IRes {
         sprites.put(Sprites.shield, SPRITE_PATH + "powerup-shield@2x.png");
         sprites.put(Sprites.sizeUp, SPRITE_PATH + "powerup-size-up@2x.png");
         sprites.put(Sprites.sizeDown, SPRITE_PATH + "powerup-size-down@2x.png");
+        sprites.put(Sprites.spaceRocket, SPRITE_PATH + "space-rocket-0@2x.png");
+        sprites.put(Sprites.rocketLauncher, SPRITE_PATH + "rocketlauncher-unused.png");
+        sprites.put(Sprites.rocketLauncherUsed, SPRITE_PATH + "rocketlauncher-used.png");
 
         // Passive
 
@@ -179,6 +185,16 @@ public final class Res implements IRes {
         sprites.put(Sprites.propeller0, SPRITE_PATH + "propeller-0@2x.png");
         sprites.put(Sprites.propeller1, SPRITE_PATH + "propeller-1@2x.png");
         sprites.put(Sprites.propeller2, SPRITE_PATH + "propeller-2@2x.png");
+        sprites.put(Sprites.spaceRocket0, SPRITE_PATH + "rocket-0@2x.png");
+        sprites.put(Sprites.spaceRocket1, SPRITE_PATH + "rocket-1@2x.png");
+        sprites.put(Sprites.spaceRocket2, SPRITE_PATH + "rocket-2@2x.png");
+        sprites.put(Sprites.spaceRocket3, SPRITE_PATH + "rocket-3@2x.png");
+        sprites.put(Sprites.spaceRocket4, SPRITE_PATH + "rocket-4@2x.png");
+        sprites.put(Sprites.spaceRocket5, SPRITE_PATH + "rocket-5@2x.png");
+        sprites.put(Sprites.spaceRocket6, SPRITE_PATH + "rocket-6@2x.png");
+        sprites.put(Sprites.spaceRocket7, SPRITE_PATH + "rocket-7@2x.png");
+        sprites.put(Sprites.spaceRocket8, SPRITE_PATH + "rocket-8@2x.png");
+
 
 
         // Score screen

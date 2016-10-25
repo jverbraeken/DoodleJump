@@ -712,6 +712,14 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
+    public ISprite getSpaceRocketSprite() {
+        return getSprite(IRes.Sprites.spaceRocket);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ISprite[] getJetpackActiveSprites() {
         ISprite[] sprites = new ISprite[9];
         sprites[0] = this.getSprite(IRes.Sprites.jetpack0);
@@ -741,6 +749,34 @@ public final class SpriteFactory implements ISpriteFactory {
         return sprites;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite[] getSpaceRocketActiveSprites() {
+        ISprite[] sprites = new ISprite[9];
+        sprites[0] = getSprite(IRes.Sprites.spaceRocket0);
+        sprites[1] = getSprite(IRes.Sprites.spaceRocket1);
+        sprites[2] = getSprite(IRes.Sprites.spaceRocket2);
+        sprites[3] = getSprite(IRes.Sprites.spaceRocket3);
+        sprites[4] = getSprite(IRes.Sprites.spaceRocket4);
+        sprites[5] = getSprite(IRes.Sprites.spaceRocket5);
+        sprites[6] = getSprite(IRes.Sprites.spaceRocket6);
+        sprites[7] = getSprite(IRes.Sprites.spaceRocket7);
+        sprites[8] = getSprite(IRes.Sprites.spaceRocket8);
+
+        return sprites;
+    }
+
+    //Projectiles
+
+    /**
+     * {@inheritDoc}
+     */
+    public ISprite getRegularProjectileSprite() {
+        return this.getSprite(IRes.Sprites.regularProjectile);
+
+    }
 
     // Misc
 
@@ -1000,7 +1036,6 @@ public final class SpriteFactory implements ISpriteFactory {
      * Returns the filename from a filepath.
      * <br>
      * Example: {@code getFileName("resources/Sprites/sprite.png").equals("sprite.png")}
-     * </pre>
      *
      * @param filepath The full path to the file, the directories seperated by '/'. Cannot be null
      * @return The name of the file

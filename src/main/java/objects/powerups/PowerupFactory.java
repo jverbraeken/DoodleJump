@@ -218,4 +218,5 @@ public final class PowerupFactory implements IPowerupFactory {
         }
         this.trampolineObservers.remove(trampolineCreatedObserver);
     }
+
 }
