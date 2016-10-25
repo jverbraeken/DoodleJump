@@ -8,6 +8,8 @@ import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.powerups.IPowerup;
 import scenes.World;
 
+import java.util.List;
+
 /**
  * This class describes the behaviour of the doodle.
  */
@@ -136,5 +138,17 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      * @param right The key to move to the right.
      */
     void setKeys(final Keys left, final Keys right);
+
+    /**
+     * Removes a projectile to the Set with Projectiles.
+     * @param projectile the projectile that has to be removed.
+     */
+    void removeProjectile(final IGameObject projectile);
+
+    /**
+     * Returns the list with projectiles.
+     * @return the list with projectiles.
+     */
+    List<IGameObject> getProjectiles();
 
 }

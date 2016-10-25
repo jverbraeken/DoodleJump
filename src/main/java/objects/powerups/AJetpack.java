@@ -8,32 +8,33 @@ import system.IServiceLocator;
  * Class that describes the behaviour of subclasses of AJetpack.
  */
 public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
+
     /**
-     * The acceleration provided by the Jetpack.
-     */
-    private static final double ACCELERATION = -2d;
-    /**
-     * The boost for the Jetpack when it is being dropped.
-     */
-    private static final double INITIAL_DROP_SPEED = -25d;
-    /**
-     * The boost the Jetpack gives.
+     * The boost the AJet object provides.
      */
     private static final double MAX_BOOST = -25d;
     /**
-     * The horizontal speed for a Jetpack.
+     * The acceleration provided by the AJet.
+     */
+    private static final double ACCELERATION = -2d;
+    /**
+     * The boost for the AJet when it is being dropped.
+     */
+    private static final double INITIAL_DROP_SPEED = -25d;
+    /**
+     * The horizontal speed for a AJet.
      */
     private static final double HORIZONTAL_SPEED = 1.2d;
     /**
-     * Percentage for the initial phase of the Jetpack animation.
+     * Percentage for the initial phase of the AJet animation.
      */
-    private static final double ANIMATION_PHASE_ONE = 0.15d;
+    private static final double ANIMATION_PHASE_ONE = 0.1d;
     /**
-     * Percentage for the second phase of the Jetpack animation.
+     * Percentage for the second phase of the AJet animation.
      */
     private static final double ANIMATION_PHASE_TWO = 0.8d;
     /**
-     * Percentage for the third phase of the Jetpack animation.
+     * Percentage for the third phase of the AJet animation.
      */
     private static final double ANIMATION_PHASE_THREE = 1d;
     /**
@@ -42,42 +43,42 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
     private static final int ANIMATION_REFRESH_RATE = 3;
 
     /**
-     * Offset for the initial phase of the Jetpack animation.
+     * Offset for the initial phase of the AJet animation.
      */
     private static final int ANIMATION_OFFSET_ONE = 0;
     /**
-     * Offset for the second phase of the Jetpack animation.
+     * Offset for the second phase of the AJet animation.
      */
     private static final int ANIMATION_OFFSET_TWO = 3;
     /**
-     * Offset for the third phase of the Jetpack animation.
+     * Offset for the third phase of the AJet animation.
      */
     private static final int ANIMATION_OFFSET_THREE = 6;
 
     /**
-     * The sprites for an active rocket.
+     * Default sprite of this AJet object.
      */
     private ISprite defaultSprite;
 
     /**
-     * The sprites for an active rocket.
+     * The sprites for an active AJet.
      */
     private ISprite[] spritePack;
     /**
-     * The Doodle that owns this Jetpack.
+     * The Doodle that owns this AJet.
      */
     private IDoodle owner;
 
     /**
-     * The maximum time the Jetpack is active.
+     * The maximum time the AJet is active.
      */
     private int timeLimit;
     /**
-     * The active timer for the Jetpack.
+     * The active timer for the AJet.
      */
     private int timer = 0;
     /**
-     * The vertical speed of the Jetpack.
+     * The vertical speed of the AJet.
      */
     private double vSpeed = 0d;
     /**
@@ -92,24 +93,19 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * @param x - The X location for the AJetpack.
      * @param y - The Y location for the AJetpack.
      */
-    public AJetpack(final IServiceLocator sL, final int x, final int y, final int maxTime, final ISprite defaultSprite, final ISprite[] sprites, final Class<?> powerup) {
-        super(sL, x, y, defaultSprite, Jetpack.class);
+    public AJetpack(final IServiceLocator sL,
+                final int x,
+                final int y,
+                final int maxTime,
+                final ISprite sprite,
+                final ISprite[] sprites,
+                final Class<?> powerup) {
+        super(sL, x, y, sprite, powerup);
         this.timeLimit = maxTime;
-        this.defaultSprite = defaultSprite;
+        this.defaultSprite = sprite;
         this.spritePack = sprites;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void update(final double delta) {
-        if (this.owner != null) {
-            this.updateOwned();
-        } else if (this.timer > 0) {
-            this.updateFalling();
-        }
-    }
 
     /**
      * {@inheritDoc}
@@ -120,10 +116,24 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
             throw new IllegalArgumentException("Owner cannot be null");
         }
 
-        if (occasion.equals(PowerupOccasion.constant)) {
+        if (occasion == PowerupOccasion.constant) {
             this.owner.setVerticalSpeed(this.vSpeed);
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void update(final double delta) {
+        if (this.owner != null) {
+
+            this.updateOwned();
+        } else if (this.timer > 0) {
+            this.updateFalling();
+        }
+    }
+
 
     /**
      * {@inheritDoc}
@@ -134,11 +144,13 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
             throw new IllegalArgumentException("Doodle cannot be null");
         }
 
+
         // The game crashes upon collision when equals method is used to check if the value of owner's address
         // is the same as a null reference resulting in a NullPointerReference.
         if (this.owner == null) {
             getLogger().info("Doodle collided with a Jetpack");
             this.owner = doodle;
+
             doodle.setPowerup(this);
         }
     }
@@ -207,4 +219,16 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * @param doodle The doodle that is wearing this powerup.
      */
     abstract void setPosition(IDoodle doodle);
+
+
+    public final IDoodle getOwner() {
+        return owner;
+    }
+
+    public final void setOwner(final IDoodle doodle) {
+        this.owner = doodle;
+    }
+
+
+
 }

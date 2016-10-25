@@ -1,9 +1,6 @@
 package objects.powerups;
 
 import objects.IGameObject;
-import progression.ISpringUsedObserver;
-import progression.ITrampolineJumpedObserver;
-import progression.SpringUsedObserver;
 import system.IFactory;
 
 /**

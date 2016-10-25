@@ -17,10 +17,11 @@ public class CucumberSteps implements En {
     private IServiceLocator sL;
 
     public CucumberSteps() {
-        /*Given("^that the game is started$", () -> {
+        Given("^that the game is started$", () -> {
             try {
                 Whitebox.invokeConstructor(Game.class);
                 sL = Whitebox.getInternalState(Game.class, "serviceLocator");
+                sL.getProgressionManager().init();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -55,7 +56,7 @@ public class CucumberSteps implements En {
                     ((Runnable) action).run();
                     break;
                 case "mode":
-                    Object action3 = Whitebox.getInternalState(buttons.get(3), "action");
+                    Object action3 = Whitebox.getInternalState(buttons.get(4), "action");
                     ((Runnable) action3).run();
                     break;
                 case "scorescreen":
@@ -121,7 +122,7 @@ public class CucumberSteps implements En {
             Object scene = Whitebox.getInternalState(Game.class, "scene");
             List<IDoodle> doodles = (List<IDoodle>) Whitebox.getInternalState(scene, "doodles");
             for (IDoodle doodle : doodles) {
-                assertThat(Whitebox.getInternalState(doodle, "score"), is(scoreDouble));
+                assertThat((double) Whitebox.getInternalState(doodle, "score") >= (scoreDouble), is(true));
             }
         });
 
@@ -146,7 +147,7 @@ public class CucumberSteps implements En {
                     assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.story));
                     break;
             }
-        });*/
+        });
 
 
     }

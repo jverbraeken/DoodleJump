@@ -51,6 +51,9 @@ public interface IRes {
         doodleRightAscend,
         doodleRightDescend,
 
+        // Projectiles
+        regularProjectile,
+
         // Kill screen
         gameOver,
         killScreenBottom,
@@ -130,7 +133,8 @@ public interface IRes {
         circusCannonUsed,
         rocketLauncher,
         rocketLauncherUsed,
-        rocket,
+
+        spaceRocket,
 
         // Passive
         jetpack0,
@@ -146,15 +150,16 @@ public interface IRes {
         propeller0,
         propeller1,
         propeller2,
-        rocket0,
-        rocket1,
-        rocket2,
-        rocket3,
-        rocket4,
-        rocket5,
-        rocket6,
-        rocket7,
-        rocket8,
+
+        spaceRocket0,
+        spaceRocket1,
+        spaceRocket2,
+        spaceRocket3,
+        spaceRocket4,
+        spaceRocket5,
+        spaceRocket6,
+        spaceRocket7,
+        spaceRocket8,
 
 
         // Score screen

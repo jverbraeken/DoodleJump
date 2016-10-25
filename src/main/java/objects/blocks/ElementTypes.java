@@ -57,6 +57,6 @@ public enum ElementTypes {
     /**
      * The springShoes powerup.
      */
-    springShoes,
+    springShoes
 
 }

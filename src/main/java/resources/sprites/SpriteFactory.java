@@ -708,13 +708,6 @@ public final class SpriteFactory implements ISpriteFactory {
 
     // PASSIVE
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getRocketSprite() {
-        return getSprite(IRes.Sprites.rocket);
-    }
 
     /**
      * {@inheritDoc}
@@ -753,19 +746,29 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite[] getRocketActiveSprites() {
+    public ISprite[] getSpaceRocketActiveSprites() {
         ISprite[] sprites = new ISprite[9];
-        sprites[0] = this.getSprite(IRes.Sprites.rocket0);
-        sprites[1] = this.getSprite(IRes.Sprites.rocket1);
-        sprites[2] = this.getSprite(IRes.Sprites.rocket2);
-        sprites[3] = this.getSprite(IRes.Sprites.rocket3);
-        sprites[4] = this.getSprite(IRes.Sprites.rocket4);
-        sprites[5] = this.getSprite(IRes.Sprites.rocket5);
-        sprites[6] = this.getSprite(IRes.Sprites.rocket6);
-        sprites[7] = this.getSprite(IRes.Sprites.rocket7);
-        sprites[8] = this.getSprite(IRes.Sprites.rocket7);
+        sprites[0] = getSprite(IRes.Sprites.spaceRocket0);
+        sprites[1] = getSprite(IRes.Sprites.spaceRocket1);
+        sprites[2] = getSprite(IRes.Sprites.spaceRocket2);
+        sprites[3] = getSprite(IRes.Sprites.spaceRocket3);
+        sprites[4] = getSprite(IRes.Sprites.spaceRocket4);
+        sprites[5] = getSprite(IRes.Sprites.spaceRocket5);
+        sprites[6] = getSprite(IRes.Sprites.spaceRocket6);
+        sprites[7] = getSprite(IRes.Sprites.spaceRocket7);
+        sprites[8] = getSprite(IRes.Sprites.spaceRocket8);
 
         return sprites;
+    }
+
+    //Projectiles
+
+    /**
+     * {@inheritDoc}
+     */
+    public ISprite getRegularProjectileSprite() {
+        return this.getSprite(IRes.Sprites.regularProjectile);
+
     }
 
 
@@ -1027,7 +1030,6 @@ public final class SpriteFactory implements ISpriteFactory {
      * Returns the filename from a filepath.
      * <br>
      * Example: {@code getFileName("resources/Sprites/sprite.png").equals("sprite.png")}
-     * </pre>
      *
      * @param filepath The full path to the file, the directories seperated by '/'. Cannot be null
      * @return The name of the file

@@ -1,7 +1,9 @@
 package objects.powerups;
 
 import objects.doodles.DoodleBehavior.MovementBehavior;
+
 import objects.doodles.IDoodle;
+
 import system.IServiceLocator;
 
 /**
@@ -13,6 +15,7 @@ import system.IServiceLocator;
      * The maximum time the Jetpack is active.
      */
     private static final int MAX_TIMER = 175;
+
     /**
      * Y offset for drawing the Jetpack when on Doodle.
      */
@@ -21,7 +24,7 @@ import system.IServiceLocator;
     /**
      * Jetpack constructor.
      *
-     * @param sL - The Games service locator.
+     * @param sL - The Game's service locator.
      * @param x - The X location for the Jetpack.
      * @param y - The Y location for the Jetpack.
      */
@@ -29,6 +32,10 @@ import system.IServiceLocator;
         super(sL, x, y, MAX_TIMER, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 1), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setPosition(IDoodle owner) {
         if (owner != null) {
             MovementBehavior.Directions facing = owner.getFacing();
@@ -39,6 +46,8 @@ import system.IServiceLocator;
             }
             this.setYPos((int) owner.getYPos() + OWNED_Y_OFFSET);
         }
+
     }
 
 }
+

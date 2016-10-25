@@ -11,12 +11,13 @@ import system.IServiceLocator;
     /**
      * The maximum time the space rocket is active.
      */
-    private static final int MAX_TIMER = 225;
+    private static final int MAX_TIME = 225;
 
     /**
-     * Y offset for drawing the space rocket when on Doodle.
+     * Y offset for drawing the SpaceRocket when on Doodle.
      */
-    private static final int OWNED_Y_OFFSET = 70;
+    private static final int OWNED_Y_OFFSET = -70;
+
 
     /**
      * SpaceRocket constructor.
@@ -25,13 +26,16 @@ import system.IServiceLocator;
      * @param x - The X location for the space rocket.
      * @param y - The Y location for the space rocket.
      */
+
     /* package */ SpaceRocket(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, MAX_TIMER, sL.getSpriteFactory().getRocketSprite(), sL.getSpriteFactory().getRocketActiveSprites(), SpaceRocket.class);
+        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getSpaceRocketSprite(), sL.getSpriteFactory().getSpaceRocketActiveSprites(), SpaceRocket.class);
+
     }
 
     /**
      * {@inheritDoc}
      */
+
     public void setPosition(IDoodle owner) {
         if (!owner.equals(null)) {
             this.setXPos((int) owner.getXPos() + ((owner.getSprite().getWidth() - this.getSprite().getWidth()) / 2));

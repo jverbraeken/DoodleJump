@@ -32,4 +32,9 @@ public interface IBlock extends IRenderable, IUpdatable {
      */
     IJumpable getTopJumpable();
 
+
+    /**
+     * Removes an element from the elements list.
+     */
+    void removeElement(final IGameObject element);
 }
