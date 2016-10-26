@@ -542,24 +542,24 @@ public class Doodle extends AGameObject implements IDoodle {
      * @param projectile the projectile that has to be added.
      */
     @Override
-    public void addProjectile(final IGameObject projectile) {
-        projectiles.add(projectile);
+    public final void addProjectile(final IGameObject projectile) {
+        this.projectiles.add(projectile);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void removeProjectile(final IGameObject projectile) {
-        projectiles.remove(projectile);
+    public final void removeProjectile(final IGameObject projectile) {
+        this.projectiles.remove(projectile);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<IGameObject> getProjectiles() {
-        return projectiles;
+    public final List<IGameObject> getProjectiles() {
+        return this.projectiles;
     }
 
 }

@@ -5,6 +5,7 @@ import input.IInputManager;
 import input.Keys;
 import logging.ILogger;
 import logging.ILoggerFactory;
+import objects.IGameObject;
 import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
@@ -65,7 +66,7 @@ public class DoodleTest {
     int spriteHeight = 10;
     int spriteWidth = 10;
     RegularProjectile projectile = mock(RegularProjectile.class);
-    List<RegularProjectile> projectiles = new ArrayList<RegularProjectile>();
+    List<RegularProjectile> projectiles = new ArrayList<>();
 
     @Before
     public void init() {
@@ -309,6 +310,56 @@ public class DoodleTest {
     public void testGetWorld() {
         World actual = doodle.getWorld();
         assertThat(actual, is(world));
+    }
+
+    @Test
+    public void testKeyPress() {
+        Whitebox.setInternalState(doodle, "behavior", movementBehavior);
+        doodle.keyPress(Keys.arrowLeft);
+        verify(movementBehavior, times(1)).keyPress(Keys.arrowLeft);
+    }
+
+    @Test
+    public void testKeyRelease() {
+        Whitebox.setInternalState(doodle, "behavior", movementBehavior);
+        doodle.keyRelease(Keys.arrowLeft);
+        verify(movementBehavior, times(1)).keyRelease(Keys.arrowLeft);
+    }
+
+    @Test
+    public void testAddProjectile() {
+        List<IGameObject> expected = new ArrayList<>();
+        List<IGameObject> actual = Whitebox.getInternalState(doodle, "projectiles");
+        assertThat(actual, is(expected));
+
+        expected.add(projectile);
+        doodle.addProjectile(projectile);
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void testRemoveProjectile() {
+        projectiles.add(projectile);
+        Whitebox.setInternalState(doodle, "projectiles", projectiles);
+        doodle.removeProjectile(projectile);
+        List<IGameObject> actual = Whitebox.getInternalState(doodle, "projectiles");
+        assertThat(actual, is(new ArrayList<>()));
+    }
+
+    @Test
+    public void testGetProjectilesEmpty() {
+        List<IGameObject> actual = doodle.getProjectiles();
+        assertThat(actual, is(new ArrayList<>()));
+    }
+
+    @Test
+    public void testGetProjectilesNotEmpty() {
+        projectiles.add(projectile);
+        Whitebox.setInternalState(doodle, "projectiles", projectiles);
+        List<IGameObject> expected = new ArrayList<>();
+        expected.add(projectile);
+        List<IGameObject> actual = doodle.getProjectiles();
+        assertThat(actual, is(expected));
     }
 
     /**
