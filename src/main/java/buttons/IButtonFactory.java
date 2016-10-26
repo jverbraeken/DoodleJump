@@ -149,6 +149,16 @@ public interface IButtonFactory extends IFactory {
     IButton createShopPowerupButton(final Powerups powerup, final double x, final double y);
 
     /**
+     * Create a button to upgrade the {@link objects.powerups.Jetpack} powerup.
+     *
+     * @param powerup The kind of powerup you want to create an upgrade button for
+     * @param x the x position of the button relative to the screen
+     * @param y the y position of the button relative to the screen
+     * @return A button that can upgrade the {@link objects.powerups.Jetpack} powerup
+     */
+    IButton createPausePowerupButton(final Powerups powerup, final double x, final double y);
+
+    /**
      * Create a pause button for in game.
      *
      * @param x The x position of the button.

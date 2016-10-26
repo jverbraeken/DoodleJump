@@ -259,9 +259,41 @@ public final class ButtonFactory implements IButtonFactory {
                 if (progressionManager.getCoins() >= price) {
                     progressionManager.decreaseCoins(price);
                     progressionManager.increasePowerupLevel(powerup);
+                    Game.setScene(ButtonFactory.serviceLocator.getSceneFactory().createShopScreen());
                 }
             }
 
+        };
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, shop, "shop");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+     public IButton createPausePowerupButton(final Powerups powerup, final double x, final double y) {
+        assert ButtonFactory.serviceLocator != null;
+
+        if (powerup == null) {
+            final String error = "There cannot a button be created for a null powerup";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+
+        final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
+        final int currentPowerupLevel = progressionManager.getPowerupLevel(powerup);
+
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getPowerupSprite(powerup, currentPowerupLevel + 1);
+        Runnable shop = () -> {
+            final int powerupLevel = progressionManager.getPowerupLevel(powerup);
+            if (powerupLevel < powerup.getMaxLevel()) {
+                final int price = powerup.getPrice(powerupLevel + 1);
+                if (progressionManager.getCoins() >= price) {
+                    progressionManager.decreaseCoins(price);
+                    progressionManager.increasePowerupLevel(powerup);
+                }
+            }
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, shop, "shop");
     }

@@ -28,7 +28,7 @@ import java.util.List;
     private static final double RESUME_BUTTON_X = 0.55d, RESUME_BUTTON_Y = 0.7d;
 
     /**
-     * The X and Y location for the resume button.
+     * The X and Y location for the switch button.
      */
     private static final double SWITCH_BUTTON_X = 0.6d, SWITCH_BUTTON_Y = 0.8d;
 
@@ -123,6 +123,7 @@ import java.util.List;
      * An ArrayList of the powerup buttons.
      */
     private final ArrayList<IButton> powerupButtons = new ArrayList<>();
+
     /**
      * The background sprites.
      */
@@ -157,15 +158,6 @@ import java.util.List;
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
         this.resumeButton = buttonFactory.createResumeButton(PauseScreen.RESUME_BUTTON_X, PauseScreen.RESUME_BUTTON_Y);
         this.switchButton = buttonFactory.createSwitchButton(PauseScreen.SWITCH_BUTTON_X, PauseScreen.SWITCH_BUTTON_Y);
-        this.powerupButtons.add(buttonFactory.createShopPowerupButton(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y));
-        this.powerupButtons.add(buttonFactory.createShopPowerupButton(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y));
-        this.powerupButtons.add(buttonFactory.createShopPowerupButton(Powerups.sizeDown, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y));
-        this.powerupButtons.add(buttonFactory.createShopPowerupButton(Powerups.sizeUp, SIZEUP_BUTTON_X, SIZEUP_BUTTON_Y));
-        this.powerupButtons.add(buttonFactory.createShopPowerupButton(Powerups.spring, SPRING_BUTTON_X, SPRING_BUTTON_Y));
-        this.powerupButtons.add(buttonFactory.createShopPowerupButton(Powerups.springShoes, SPRINGSHOES_BUTTON_X, SPRINGSHOES_BUTTON_Y));
-        this.powerupButtons.add(buttonFactory.createShopPowerupButton(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y));
-
-
     }
 
     /**
@@ -243,6 +235,15 @@ import java.util.List;
      */
     private void renderShop() {
         assert powerupButtons != null;
+        stopShopCover();
+        IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
+        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y));
+        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y));
+        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.sizeDown, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y));
+        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.sizeUp, SIZEUP_BUTTON_X, SIZEUP_BUTTON_Y));
+        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.spring, SPRING_BUTTON_X, SPRING_BUTTON_Y));
+        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.springShoes, SPRINGSHOES_BUTTON_X, SPRINGSHOES_BUTTON_Y));
+        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y));
 
         powerupButtons.forEach(IButton::register);
         this.logger.info("The powerup buttons are now available");
@@ -257,6 +258,7 @@ import java.util.List;
     private void stopShopCover() {
         powerupButtons.forEach(IButton::deregister);
         this.logger.info("The powerup buttons are no longer available");
+        powerupButtons.clear();
     }
 
     /**
