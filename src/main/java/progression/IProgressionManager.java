@@ -64,5 +64,8 @@ public interface IProgressionManager {
      */
     void increasePowerupLevel(final Powerups powerup);
 
+    /**
+     * Called every step to update the state.
+     */
     void update();
 }

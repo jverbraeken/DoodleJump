@@ -11,7 +11,6 @@ import java.util.Map;
  * <br>
  * It is not deemed necessary for all individual resources to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class Res implements IRes {
 
     /**
@@ -102,7 +101,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-right@2x.png");
         sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-right-odskok@2x.png");
 
-        // Projectiles
+        // projectiles
         sprites.put(Sprites.regularProjectile, SPRITE_PATH + "regular-projectile@2x.png");
 
         // Enemies

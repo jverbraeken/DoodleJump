@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Keeps a List with weights and elements. Represented as
@@ -25,33 +24,34 @@ import java.util.Map;
 public class GenerationSet implements IWeightsSet {
 
     /**
-     * The list with weights, it uses Key-Value pairs in it.
-     */
-    private List<Tuple2<Double, ElementTypes>> weights;
-    /**
      * The serviceLocator of this game.
      */
     private final IServiceLocator serviceLocator;
+    /**
+     * The list with weights, it uses Key-Value pairs in it.
+     */
+    private List<Tuple2<Double, ElementTypes>> weights;
 
     /**
      * Create and initialize a WeightsSet.
      *
-     * @param sL the serviceLocator this class should use.
+     * @param sL      the serviceLocator this class should use.
      * @param setType a string with what type of GenerationSet this has to be.
      */
-    public GenerationSet(final IServiceLocator sL, String setType) {
+    public GenerationSet(final IServiceLocator sL, final String setType) {
         this.serviceLocator = sL;
 
         if (setType.equals("platforms")) {
             createAndSortPlatformSet();
-        }
-        else if (setType.equals("powerups")) {
+        } else if (setType.equals("powerups")) {
             createAndSortPowerupSet();
         }
 
     }
 
-
+    /**
+     * Creates the data containing the creation priority of all platforms and sorts this data.
+     */
     private void createAndSortPlatformSet() {
         List<Double> platWeights = Arrays.asList(
                 WeightsMap.getWeight(ElementTypes.normalPlatform),
@@ -65,6 +65,9 @@ public class GenerationSet implements IWeightsSet {
         this.weights = sortWeightsMap(platWeights, platforms);
     }
 
+    /**
+     * Creates the data containing the creation priority of all powerups and sorts this data.
+     */
     private void createAndSortPowerupSet() {
         List<Double> powerupWeights = Arrays.asList(
                 WeightsMap.getWeight(ElementTypes.spring),
@@ -86,11 +89,12 @@ public class GenerationSet implements IWeightsSet {
 
     /**
      * Sort the weights by the key value double.
-     * @param weights A set with the weights that have to be used.
+     *
+     * @param weights     A set with the weights that have to be used.
      * @param elementType The list with strings of the element types.
      * @return A list of MyEntry's.
      */
-    private List<Tuple2<Double, ElementTypes>> sortWeightsMap(List<Double> weights, List<ElementTypes> elementType) {
+    private List<Tuple2<Double, ElementTypes>> sortWeightsMap(final List<Double> weights, final List<ElementTypes> elementType) {
         double total = 0;
         List<Tuple2<Double, ElementTypes>> sortedWeights = new ArrayList<>();
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.ENGLISH);
@@ -110,7 +114,7 @@ public class GenerationSet implements IWeightsSet {
      * {@inheritDoc}
      */
     @Override
-    final public IGameObject getRandomElement() {
+    public final IGameObject getRandomElement() {
         double randDouble = serviceLocator.getCalc().getRandomDouble(1);
 
         for (Tuple2<Double, ElementTypes> entry : weights) {
@@ -122,9 +126,10 @@ public class GenerationSet implements IWeightsSet {
     }
 
     /**
-     * Returns an instantiation of an IGameObject
-     * @param elementType the enum as type of the object.
-     * @return the wanted object as an IGameObject.
+     * Returns an instantiation of an IGameObject.
+     *
+     * @param elementType the enum as type of the object
+     * @return the wanted object as an IGameObject
      */
     private IGameObject getGameObject(final ElementTypes elementType) {
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();

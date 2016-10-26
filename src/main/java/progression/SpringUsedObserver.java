@@ -1,11 +1,14 @@
 package progression;
 
-import objects.powerups.ASpring;
 import objects.powerups.ISpringCreatedObserver;
+import objects.powerups.Spring;
 import system.IServiceLocator;
 
 import java.util.concurrent.Callable;
 
+/**
+ * Observes a Spring and notifies a mission when it's finished observing.
+ */
 public final class SpringUsedObserver extends DefaultProgressionObserver implements ISpringUsedObserver, ISpringCreatedObserver {
 
     {
@@ -16,48 +19,44 @@ public final class SpringUsedObserver extends DefaultProgressionObserver impleme
      * Create a default progression observer to get notifications for i.e. powerups.
      *
      * @param serviceLocator The servicelocator
-     * @param type           The progression type being observed
      * @param times          The amount of times the progression should be raised before the goal is achieved
      */
-    /* package */ SpringUsedObserver(final IServiceLocator serviceLocator, final ProgressionObservers type, final int times) {
-        super(serviceLocator, type, times);
+    /* package */ SpringUsedObserver(final IServiceLocator serviceLocator, final int times) {
+        super(serviceLocator, times);
     }
 
     /**
      * Create a default progression observer to get notifications for i.e. powerups.
      *
      * @param serviceLocator The servicelocator
-     * @param type           The progression type being observed
      * @param times          The amount of times the progression should be raised before the goal is achieved
      * @param counter        The starting value for the counter, counting to {@code} times. 0 by default
      */
-    /* package */ SpringUsedObserver(final IServiceLocator serviceLocator, final ProgressionObservers type, final int times, final double counter) {
-        super(serviceLocator, type, times, counter);
+    /* package */ SpringUsedObserver(final IServiceLocator serviceLocator, final int times, final double counter) {
+        super(serviceLocator, times, counter);
     }
 
     /**
      * Create a default progression observer to get notifications for i.e. powerups.
      *
      * @param serviceLocator The servicelocator
-     * @param type           The progression type being observed
      * @param times          The amount of times the progression should be raised before the goal is achieved
      * @param action         The action that should be executed after the goal is achieved
      */
-    /* package */ SpringUsedObserver(final IServiceLocator serviceLocator, final ProgressionObservers type, final int times, final Callable<Void> action) {
-        super(serviceLocator, type, times, action);
+    /* package */ SpringUsedObserver(final IServiceLocator serviceLocator, final int times, final Callable<Void> action) {
+        super(serviceLocator, times, action);
     }
 
     /**
      * Create a default progression observer to get notifications for i.e. powerups.
      *
      * @param serviceLocator The servicelocator
-     * @param type           The progression type being observed
      * @param times          The amount of times the progression should be raised before the goal is achieved
      * @param action         The action that should be executed after the goal is achieved
      * @param counter        The starting value for the counter, counting to {@code} times. 0 by default
      */
-    /* package */ SpringUsedObserver(final IServiceLocator serviceLocator, final ProgressionObservers type, final int times, final Callable<Void> action, final double counter) {
-        super(serviceLocator, type, times, action, counter);
+    /* package */ SpringUsedObserver(final IServiceLocator serviceLocator, final int times, final Callable<Void> action, final double counter) {
+        super(serviceLocator, times, action, counter);
     }
 
     /**
@@ -72,7 +71,7 @@ public final class SpringUsedObserver extends DefaultProgressionObserver impleme
      * {@inheritDoc}
      */
     @Override
-    public void alertSpringCreated(final ASpring spring) {
+    public void alertSpringCreated(final Spring spring) {
         spring.addObserver(this);
     }
 

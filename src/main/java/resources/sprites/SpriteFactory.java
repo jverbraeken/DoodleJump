@@ -4,7 +4,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import logging.ILogger;
-import objects.powerups.ASpring;
 import objects.powerups.Powerups;
 import resources.IRes;
 import system.IServiceLocator;
@@ -18,7 +17,6 @@ import java.util.concurrent.ExecutionException;
  * <br>
  * It is not deemed necessary for all individual sprites to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod", "checkstyle:magicnumber"})
 public final class SpriteFactory implements ISpriteFactory {
 
     /**
@@ -647,7 +645,7 @@ public final class SpriteFactory implements ISpriteFactory {
         // TODO parameter checking
         switch (powerup) {
             case jetpack:
-                return getSprite(IRes.Sprites.jetpack);
+                return getJetpackSprite(level);
             case propeller:
                 return getSprite(IRes.Sprites.propeller);
             case shield:
@@ -720,17 +718,36 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite[] getJetpackActiveSprites() {
+    public ISprite[] getJetpackActiveSprites(final int level) {
         ISprite[] sprites = new ISprite[9];
-        sprites[0] = this.getSprite(IRes.Sprites.jetpack0);
-        sprites[1] = this.getSprite(IRes.Sprites.jetpack1);
-        sprites[2] = this.getSprite(IRes.Sprites.jetpack2);
-        sprites[3] = this.getSprite(IRes.Sprites.jetpack3);
-        sprites[4] = this.getSprite(IRes.Sprites.jetpack4);
-        sprites[5] = this.getSprite(IRes.Sprites.jetpack5);
-        sprites[6] = this.getSprite(IRes.Sprites.jetpack6);
-        sprites[7] = this.getSprite(IRes.Sprites.jetpack7);
-        sprites[8] = this.getSprite(IRes.Sprites.jetpack8);
+        switch (level) {
+            case 1:
+                sprites[0] = this.getSprite(IRes.Sprites.jetpack0);
+                sprites[1] = this.getSprite(IRes.Sprites.jetpack1);
+                sprites[2] = this.getSprite(IRes.Sprites.jetpack2);
+                sprites[3] = this.getSprite(IRes.Sprites.jetpack3);
+                sprites[4] = this.getSprite(IRes.Sprites.jetpack4);
+                sprites[5] = this.getSprite(IRes.Sprites.jetpack5);
+                sprites[6] = this.getSprite(IRes.Sprites.jetpack6);
+                sprites[7] = this.getSprite(IRes.Sprites.jetpack7);
+                sprites[8] = this.getSprite(IRes.Sprites.jetpack8);
+                break;
+            case 2:
+            case 3:
+                sprites[0] = getSprite(IRes.Sprites.spaceRocket0);
+                sprites[1] = getSprite(IRes.Sprites.spaceRocket1);
+                sprites[2] = getSprite(IRes.Sprites.spaceRocket2);
+                sprites[3] = getSprite(IRes.Sprites.spaceRocket3);
+                sprites[4] = getSprite(IRes.Sprites.spaceRocket4);
+                sprites[5] = getSprite(IRes.Sprites.spaceRocket5);
+                sprites[6] = getSprite(IRes.Sprites.spaceRocket6);
+                sprites[7] = getSprite(IRes.Sprites.spaceRocket7);
+                sprites[8] = getSprite(IRes.Sprites.spaceRocket8);
+                break;
+            default:
+                logger.error("The sprite of a spring of level " + level + " could not be found");
+                return null;
+        }
 
         return sprites;
     }
@@ -749,26 +766,7 @@ public final class SpriteFactory implements ISpriteFactory {
         return sprites;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite[] getSpaceRocketActiveSprites() {
-        ISprite[] sprites = new ISprite[9];
-        sprites[0] = getSprite(IRes.Sprites.spaceRocket0);
-        sprites[1] = getSprite(IRes.Sprites.spaceRocket1);
-        sprites[2] = getSprite(IRes.Sprites.spaceRocket2);
-        sprites[3] = getSprite(IRes.Sprites.spaceRocket3);
-        sprites[4] = getSprite(IRes.Sprites.spaceRocket4);
-        sprites[5] = getSprite(IRes.Sprites.spaceRocket5);
-        sprites[6] = getSprite(IRes.Sprites.spaceRocket6);
-        sprites[7] = getSprite(IRes.Sprites.spaceRocket7);
-        sprites[8] = getSprite(IRes.Sprites.spaceRocket8);
-
-        return sprites;
-    }
-
-    //Projectiles
+    //projectiles
 
     /**
      * {@inheritDoc}
@@ -944,12 +942,32 @@ public final class SpriteFactory implements ISpriteFactory {
                 return getSprite(IRes.Sprites.coin9);
             case 10:
                 return getSprite(IRes.Sprites.coin10);
+            default:
+                return null;
         }
-        return null;
     }
 
     /**
-     * @param level The level of the {@link ASpring spring} you want to have
+     * @param level The level of the {@link objects.powerups.Jetpack jetpack} you want to have
+     * @return A sprite of the jetpack of the requested level
+     * @throws UnavailableLevelException Thrown when the level is either too low or too high
+     */
+    private ISprite getJetpackSprite(final int level) throws UnavailableLevelException {
+        switch (level) {
+            case 1:
+                return getSprite(IRes.Sprites.jetpack);
+            case 2:
+            case 3:
+                return getSprite(IRes.Sprites.spaceRocket);
+            default:
+                final String error = "Trying to get a jetpack of a level that's not available: " + level;
+                logger.error(error);
+                throw new UnavailableLevelException(error);
+        }
+    }
+
+    /**
+     * @param level The level of the {@link objects.powerups.Spring spring} you want to have
      * @return A sprite of the spring of the requested level
      * @throws UnavailableLevelException Thrown when the level is either too low or too high
      */
@@ -970,7 +988,7 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
-     * @param level The level of the {@link objects.powerups.ATrampoline trampoline} you want to have
+     * @param level The level of the {@link objects.powerups.Trampoline trampoline} you want to have
      * @return A sprite of the trampoline of the requested level
      * @throws UnavailableLevelException Thrown when the level is either too low or too high
      */
@@ -1055,9 +1073,10 @@ public final class SpriteFactory implements ISpriteFactory {
 
         /**
          * Creates a new UnavailableException.
+         *
          * @param message The message describing what went wrong
          */
-        private UnavailableLevelException(String message) {
+        private UnavailableLevelException(final String message) {
             super(message);
         }
     }

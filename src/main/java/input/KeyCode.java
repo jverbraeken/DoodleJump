@@ -12,6 +12,9 @@ public final class KeyCode {
      * Map that maps enums of the key to the keyCode.
      */
     private static final Map<Integer, Keys> KEY_MAP = new HashMap<>();
+    /**
+     * Provides a very fast lookup of a key in {@link #KEY_MAP} by its value.
+     */
     private static final Map<Keys, Integer> KEYCODE_MAP = new HashMap<>();
     /**
      * The identifier of the Left arrow key.
@@ -66,19 +69,21 @@ public final class KeyCode {
 
     /**
      * Get the key given the key code.
+     *
      * @param keyCode The integer code of the key
      * @return The {@link Keys} enum corresponding with the integer value
      */
-    /* package */ static Keys getKey(final int keyCode) {
+    static Keys getKey(final int keyCode) {
         return KeyCode.KEY_MAP.get(keyCode);
     }
 
     /**
      * Get the key code given the key.
+     *
      * @param keyCode The integer code of the key
      * @return The {@link Keys} enum corresponding with the integer value
      */
-    /* package */ static int getKeyCode(final Keys keyCode) {
+    static int getKeyCode(final Keys keyCode) {
         return KeyCode.KEYCODE_MAP.get(keyCode);
     }
 
