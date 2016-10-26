@@ -94,7 +94,7 @@ public class JetpackTest {
         verify(doodle, times(0)).setVerticalSpeed(anyDouble());
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testPerformNoOwner() {
         jetpack.perform(PowerupOccasion.constant);
     }
