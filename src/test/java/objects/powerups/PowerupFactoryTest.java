@@ -155,11 +155,43 @@ public class PowerupFactoryTest {
         verifyNew(SpringShoes.class).withArguments(serviceLocator, xPos, yPos);
     }
 
-    /*@Test
-    public void testCreateTrampoline() throws Exception {
-        whenNew(Trampoline.class).withArguments(serviceLocator, xPos, yPos).thenReturn(trampoline);
+    @Test
+    public void testCreateTrampoline1() throws Exception {
+        when(progressionManager.getPowerupLevel(Powerups.trampoline)).thenReturn(1);
+        when(spriteFactory.getPowerupSprite(Powerups.trampoline, 1)).thenReturn(sprite);
+        when(spriteFactory.getTrampolineUsedSprite(1)).thenReturn(sprite);
+
+        int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_TRAMPOLINE");
+
+        whenNew(Trampoline.class).withArguments(serviceLocator, xPos, yPos, sprite, sprite, boost[0]).thenReturn(trampoline);
         powerupFactory.createTrampoline(xPos, yPos);
-        verifyNew(Trampoline.class).withArguments(serviceLocator, xPos, yPos);
-    }*/
+        verifyNew(Trampoline.class).withArguments(serviceLocator, xPos, yPos, sprite, sprite, boost[0]);
+    }
+
+    @Test
+    public void testCreateTrampoline2() throws Exception {
+        when(progressionManager.getPowerupLevel(Powerups.trampoline)).thenReturn(2);
+        when(spriteFactory.getPowerupSprite(Powerups.trampoline, 2)).thenReturn(sprite);
+        when(spriteFactory.getTrampolineUsedSprite(2)).thenReturn(sprite);
+
+        int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_TRAMPOLINE");
+
+        whenNew(Trampoline.class).withArguments(serviceLocator, xPos, yPos, sprite, sprite, boost[1]).thenReturn(trampoline);
+        powerupFactory.createTrampoline(xPos, yPos);
+        verifyNew(Trampoline.class).withArguments(serviceLocator, xPos, yPos, sprite, sprite, boost[1]);
+    }
+
+    @Test
+    public void testCreateTrampoline3() throws Exception {
+        when(progressionManager.getPowerupLevel(Powerups.trampoline)).thenReturn(3);
+        when(spriteFactory.getPowerupSprite(Powerups.trampoline, 3)).thenReturn(sprite);
+        when(spriteFactory.getTrampolineUsedSprite(3)).thenReturn(sprite);
+
+        int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_TRAMPOLINE");
+
+        whenNew(Trampoline.class).withArguments(serviceLocator, xPos, yPos, sprite, sprite, boost[2]).thenReturn(trampoline);
+        powerupFactory.createTrampoline(xPos, yPos);
+        verifyNew(Trampoline.class).withArguments(serviceLocator, xPos, yPos, sprite, sprite, boost[2]);
+    }
 
 }
