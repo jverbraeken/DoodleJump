@@ -48,12 +48,12 @@ import system.IServiceLocator;
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void render() {
-        int x = (int) this.getXPos();
-        int y = (int) this.getYPos();
-        SizeUp.getServiceLocator().getRenderer().drawSprite(this.getSprite(), x, y);
-    }
+//    @Override
+//    public void render() {
+//        int x = (int) this.getXPos();
+//        int y = (int) this.getYPos();
+//        SizeUp.getServiceLocator().getRenderer().drawSprite(this.getSprite(), x, y);
+//    }
 
 
     /**

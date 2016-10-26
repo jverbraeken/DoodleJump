@@ -132,9 +132,9 @@ public class Doodle extends AGameObject implements IDoodle {
                 Doodle.class);
 
         Doodle.fakePowerup = new APowerup(sL, 0, 0, sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
-            @Override
-            public void render() {
-            }
+//            @Override
+//            public void render() {
+//            }
 
             @Override
             public void collidesWith(final IDoodle doodle) {

@@ -1,5 +1,6 @@
 package buttons;
 
+import groovy.lang.Tuple2;
 import logging.ILogger;
 import objects.powerups.Powerups;
 import progression.IProgressionManager;
@@ -277,7 +278,7 @@ public final class ButtonFactory implements IButtonFactory {
 
         };
         final int buttonWidth = (int) ((double) height * ((double) buttonSprite.getWidth() / (double) buttonSprite.getHeight()));
-        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, shop, "shop", buttonWidth, height);
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, shop, "shop", new Tuple2<>(buttonWidth, height));
     }
 
     /**
