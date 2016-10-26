@@ -156,4 +156,6 @@ public interface IButtonFactory extends IFactory {
      * @return A pause button.
      */
     IButton createPauseButton(final double x, final double y);
+
+    IButton createSwitchButton(final double x, final double y);
 }

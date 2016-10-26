@@ -149,4 +149,10 @@ import java.util.ArrayList;
     public final void update(final double delta) {
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void switchMode() {
+    }
 }

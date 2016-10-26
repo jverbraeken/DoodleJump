@@ -17,4 +17,6 @@ public interface IScene extends IUpdatable, IRenderable {
      * This method must be called when stopping the scene.
      */
     void stop();
+
+    void switchMode();
 }

@@ -7,7 +7,6 @@ import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
-import objects.doodles.Projectiles.RegularProjectile;
 import objects.enemies.IEnemy;
 import resources.sprites.ISprite;
 import system.Game;
@@ -500,4 +499,10 @@ public class World implements IScene {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void switchMode() {
+    }
 }

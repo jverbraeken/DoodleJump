@@ -183,7 +183,7 @@ public final class Game {
     public static void main(final String[] argv) {
         new Game(ServiceLocator.getServiceLocator());
         logger.info("The game has been launched");
-
+        serviceLocator.getProgressionManager().init();
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
         IInputManager inputManager = serviceLocator.getInputManager();
 
@@ -236,7 +236,7 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        serviceLocator.getProgressionManager().init();
+        //serviceLocator.getProgressionManager().init();
 
         start();
     }
@@ -410,5 +410,9 @@ public final class Game {
             return TARGET_FPS;
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
+    }
+
+    public static IScene getPauseScreen() {
+        return pauseScreen;
     }
 }

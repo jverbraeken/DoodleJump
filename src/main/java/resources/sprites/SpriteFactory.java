@@ -155,8 +155,11 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPauseCoverSprite() {
-        return this.getSprite(IRes.Sprites.pauseCover);
+    public ISprite[] getPauseCoverSprite() {
+        return new ISprite[]{
+                this.getSprite(IRes.Sprites.pauseCover),
+                this.getSprite(IRes.Sprites.shopCover)
+        };
     }
 
     /**

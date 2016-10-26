@@ -294,4 +294,10 @@ import java.util.ArrayList;
         coinSpriteIndex = coinSpriteIndex % 10;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void switchMode() {
+    }
 }

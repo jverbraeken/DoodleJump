@@ -279,4 +279,16 @@ public final class ButtonFactory implements IButtonFactory {
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, pause, "pause");
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createSwitchButton(final double x, final double y) {
+        assert ButtonFactory.serviceLocator != null;
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getShopButtonSprite();
+        Runnable switchAction = () -> Game.getPauseScreen().switchMode();
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, switchAction, "switch");
+    }
+
 }

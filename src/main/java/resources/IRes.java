@@ -44,6 +44,7 @@ public interface IRes {
         background,
         pauseCover,
         startCover,
+        shopCover,
 
         // Doodle
         doodleLeftAscend,

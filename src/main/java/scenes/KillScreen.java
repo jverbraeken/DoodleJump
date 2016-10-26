@@ -123,4 +123,9 @@ import system.IServiceLocator;
     public final void update(final double delta) {
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public void switchMode() {
+    }
 }

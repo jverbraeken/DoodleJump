@@ -32,7 +32,7 @@ public interface ISpriteFactory extends IFactory {
     // Covers
     ISprite getBackground();
 
-    ISprite getPauseCoverSprite();
+    ISprite[] getPauseCoverSprite();
 
     ISprite getStartCoverSprite();
 

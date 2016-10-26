@@ -1,7 +1,6 @@
 package resources.sprites;
 
 import logging.ILoggerFactory;
-import objects.doodles.DoodleBehavior.MovementBehavior;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,10 +17,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyObject;
-import static org.powermock.api.mockito.PowerMockito.doReturn;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.spy;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(SpriteFactory.class)
@@ -81,8 +77,19 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetPauseCoverButtonSprite() throws Exception {
-        TestSprite(IRes.Sprites.pauseCover, () -> spriteFactory.getPauseCoverSprite());
+        ISprite mock0 = mock(ISprite.class);
+        doReturn(mock0).when(spriteFactory, "getSprite", IRes.Sprites.pauseCover);
+        ISprite mock1 = mock(ISprite.class);
+        doReturn(mock1).when(spriteFactory, "getSprite", IRes.Sprites.shopCover);
+
+        ISprite[] result = spriteFactory.getPauseCoverSprite();
+        ISprite[] expected = new ISprite[2];
+        expected[0] = mock0;
+        expected[1] = mock1;
+
+        assertThat(Arrays.equals(expected, result), is(true));
     }
+
 
     @Test
     public void TestGetStartCoverSprite() throws Exception {

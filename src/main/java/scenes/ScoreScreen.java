@@ -4,12 +4,11 @@ import buttons.IButton;
 import buttons.IButtonFactory;
 import constants.IConstants;
 import logging.ILogger;
+import progression.HighScore;
 import rendering.Color;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
-import system.Game;
-import progression.HighScore;
 import system.IServiceLocator;
 
 import java.util.List;
@@ -136,4 +135,10 @@ import java.util.List;
     public void update(final double delta) {
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void switchMode() {
+    }
 }
