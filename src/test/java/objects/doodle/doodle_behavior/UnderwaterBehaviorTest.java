@@ -1,9 +1,9 @@
-package objects.doodle.DoodleBehavior;
+package objects.doodle.doodle_behavior;
 
 import constants.IConstants;
 import input.Keys;
 import objects.doodles.doodle_behavior.MovementBehavior;
-import objects.doodles.doodle_behavior.SpaceBehavior;
+import objects.doodles.doodle_behavior.UnderwaterBehavior;
 import objects.doodles.IDoodle;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
@@ -12,22 +12,25 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 import system.IServiceLocator;
+
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
- * Test class for the SpaceBehavior class.
+ * Test class for the UnderwaterBehavior class.
  */
-public class SpaceBehaviorTest {
+public class UnderwaterBehaviorTest {
 
     private IServiceLocator serviceLocator = mock(IServiceLocator.class);
     private IConstants constants = mock(IConstants.class);
     private IDoodle doodle = mock(IDoodle.class);
     private IPowerup powerup = mock(IPowerup.class);
-    private SpaceBehavior behavior;
+    private UnderwaterBehavior behavior;
 
     @Before
     public void init() throws Exception {
@@ -37,7 +40,7 @@ public class SpaceBehaviorTest {
         when(doodle.getKeyLeft()).thenReturn(Keys.arrowLeft);
         when(doodle.getKeyRight()).thenReturn(Keys.arrowRight);
 
-        behavior = new SpaceBehavior(serviceLocator, doodle);
+        behavior = new UnderwaterBehavior(serviceLocator, doodle);
     }
 
     /**
@@ -145,7 +148,7 @@ public class SpaceBehaviorTest {
     public void animateCallsUpdateActiveSpriteTest() throws Exception {
         behavior.setVerticalSpeed(-16);
         Whitebox.invokeMethod(behavior, "animate", 0d);
-        Mockito.verify(doodle, Mockito.times(1)).updateActiveSprite();
+        verify(doodle, Mockito.times(1)).updateActiveSprite();
     }
 
     /**
@@ -154,8 +157,8 @@ public class SpaceBehaviorTest {
     @Test
     public void testPerformPowerupOnMove() {
         behavior.move(0d);
-        Mockito.verify(doodle, Mockito.times(1)).getPowerup();
-        Mockito.verify(powerup, Mockito.times(1)).perform(PowerupOccasion.constant);
+        verify(doodle, Mockito.times(1)).getPowerup();
+        verify(powerup, Mockito.times(1)).perform(PowerupOccasion.constant);
     }
 
     /**
@@ -188,9 +191,9 @@ public class SpaceBehaviorTest {
 
     @Test
     public void testApplyGravity() throws Exception {
-        Whitebox.invokeMethod(behavior, "applyGravity", 1d);
-        Mockito.verify(serviceLocator, Mockito.times(1)).getConstants();
-        Mockito.verify(constants, Mockito.times(1)).getGravityAcceleration();
+        Whitebox.invokeMethod(behavior, "applyGravity", 0d);
+        verify(serviceLocator, Mockito.times(1)).getConstants();
+        verify(constants, Mockito.times(1)).getGravityAcceleration();
     }
 
 }
