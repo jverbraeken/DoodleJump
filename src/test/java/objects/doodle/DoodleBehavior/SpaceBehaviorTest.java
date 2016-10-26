@@ -2,8 +2,8 @@ package objects.doodle.DoodleBehavior;
 
 import constants.IConstants;
 import input.Keys;
-import objects.doodles.DoodleBehavior.MovementBehavior;
-import objects.doodles.DoodleBehavior.SpaceBehavior;
+import objects.doodles.doodle_behavior.MovementBehavior;
+import objects.doodles.doodle_behavior.SpaceBehavior;
 import objects.doodles.IDoodle;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;

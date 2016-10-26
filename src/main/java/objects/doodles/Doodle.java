@@ -6,10 +6,10 @@ import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
-import objects.doodles.DoodleBehavior.MovementBehavior;
-import objects.doodles.DoodleBehavior.RegularBehavior;
-import objects.doodles.DoodleBehavior.SpaceBehavior;
-import objects.doodles.DoodleBehavior.UnderwaterBehavior;
+import objects.doodles.doodle_behavior.MovementBehavior;
+import objects.doodles.doodle_behavior.RegularBehavior;
+import objects.doodles.doodle_behavior.SpaceBehavior;
+import objects.doodles.doodle_behavior.UnderwaterBehavior;
 import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
@@ -535,7 +535,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Adds a projectile to the Set with Projectiles.
+     * Adds a projectile to the Set with projectiles.
      *
      * @param projectile the projectile that has to be added.
      */

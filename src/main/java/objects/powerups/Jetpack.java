@@ -2,7 +2,7 @@ package objects.powerups;
 
 import logging.ILogger;
 import objects.blocks.platform.IPlatform;
-import objects.doodles.DoodleBehavior.MovementBehavior;
+import objects.doodles.doodle_behavior.MovementBehavior;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 

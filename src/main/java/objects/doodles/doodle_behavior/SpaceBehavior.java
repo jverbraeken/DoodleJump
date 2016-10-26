@@ -1,4 +1,4 @@
-package objects.doodles.DoodleBehavior;
+package objects.doodles.doodle_behavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
@@ -9,14 +9,22 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * This class describes the regular movement of the Doodle.
+ * This class describes the space movement of the Doodle.
  */
-public final class RegularBehavior implements MovementBehavior {
+public final class SpaceBehavior implements MovementBehavior {
 
+    /**
+     * The relative speed of the Doodle.
+     */
+    private static final double RELATIVE_SPEED = 0.5d;
+    /**
+     * The relative speed of the Doodle squared.
+     */
+    private  static final double RELATIVE_SPEED_SQUARED = RELATIVE_SPEED * RELATIVE_SPEED;
     /**
      * Standard speed limit for the Doodle.
      */
-    private static final double STANDARD_SPEED_LIMIT = 6d;
+    private static final double STANDARD_SPEED_LIMIT = 20d;
     /**
      * Horizontal speed limit for the Doodle.
      */
@@ -24,11 +32,15 @@ public final class RegularBehavior implements MovementBehavior {
     /**
      * Horizontal acceleration for the Doodle.
      */
-    private static final double HORIZONTAL_ACCELERATION = .5d;
+    private static final double HORIZONTAL_ACCELERATION = 3d;
     /**
      * The threshold the Doodle for it to show to be jumping.
      */
     private static final double JUMPING_THRESHOLD = -15d;
+    /**
+     * Relative gravity for the Doodle.
+     */
+    private static final double RELATIVE_GRAVITY = .3d;
 
     /**
      * Used to access all services.
@@ -62,10 +74,10 @@ public final class RegularBehavior implements MovementBehavior {
     /**
      * The constructor of the regular behavior.
      *
-     * @param d  The Doodle this applies to.
+     * @param d  The doodle this applies to.
      * @param sL the ServiceLocator.
      */
-    public RegularBehavior(final IServiceLocator sL, final IDoodle d) {
+    public SpaceBehavior(final IServiceLocator sL, final IDoodle d) {
         this.serviceLocator = sL;
         this.doodle = d;
         this.updateActions();
@@ -131,7 +143,7 @@ public final class RegularBehavior implements MovementBehavior {
      */
     @Override
     public double getJumpingThreshold() {
-        return RegularBehavior.JUMPING_THRESHOLD;
+        return SpaceBehavior.JUMPING_THRESHOLD;
     }
 
     /**
@@ -147,12 +159,13 @@ public final class RegularBehavior implements MovementBehavior {
      */
     @Override
     public void setVerticalSpeed(final double v) {
-        this.vSpeed = v;
+        this.vSpeed = SpaceBehavior.RELATIVE_SPEED * v;
     }
 
     /**
      * Animate the Doodle.
-     * @param delta Delta time since previous animate.
+     *
+     * @param delta Delta time since previous frame.
      */
     private void animate(final double delta) {
         this.doodle.updateActiveSprite();
@@ -160,31 +173,29 @@ public final class RegularBehavior implements MovementBehavior {
 
     /**
      * Apply gravity to the Doodle.
-     * @param delta Delta time since previous animate.
+     *
+     * @param delta Delta time since previous frame.
      */
     private void applyGravity(final double delta) {
-        this.vSpeed += this.serviceLocator.getConstants().getGravityAcceleration() * delta;
+        final double gravityAcceleration = this.serviceLocator.getConstants().getGravityAcceleration();
+        this.vSpeed += SpaceBehavior.RELATIVE_GRAVITY * gravityAcceleration * delta;
         this.doodle.addYPos(this.vSpeed);
     }
 
     /**
      * Move the Doodle along the X axis.
-     * @param delta the frame duration
+     *
+     * @param delta Delta time since previous frame.
      */
     private void moveHorizontally(final double delta) {
-        if (this.movingLeft && this.hSpeed > -RegularBehavior.HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed -= RegularBehavior.HORIZONTAL_ACCELERATION * delta;
-        } else if (this.movingRight && this.hSpeed < RegularBehavior.HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION * delta;
-        } else {
-            if (this.hSpeed < 0) {
-                this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION * delta;
-            } else if (this.hSpeed > 0) {
-                this.hSpeed -= RegularBehavior.HORIZONTAL_ACCELERATION * delta;
-            }
+        if (this.movingLeft && this.hSpeed > -SpaceBehavior.HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed -= SpaceBehavior.RELATIVE_SPEED_SQUARED * SpaceBehavior.HORIZONTAL_ACCELERATION * delta;
+        } else if (this.movingRight && this.hSpeed < SpaceBehavior.HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed += SpaceBehavior.RELATIVE_SPEED_SQUARED * SpaceBehavior.HORIZONTAL_ACCELERATION * delta;
         }
 
         doodle.addXPos((int) this.hSpeed);
     }
+
 
 }

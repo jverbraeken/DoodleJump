@@ -316,8 +316,8 @@ public final class FileSystem implements IFileSystem {
      */
     @Override
     public File getProjectFile(final String filename) throws IOException {
-        File f = new File(filename);
-        f.createNewFile();
+        File file = new File(filename);
+        file.createNewFile();
 
         return new File(filename);
     }

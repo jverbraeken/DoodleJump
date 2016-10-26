@@ -1,4 +1,4 @@
-package objects.doodles.DoodleBehavior;
+package objects.doodles.doodle_behavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;

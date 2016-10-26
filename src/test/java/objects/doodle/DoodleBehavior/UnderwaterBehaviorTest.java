@@ -2,8 +2,8 @@ package objects.doodle.DoodleBehavior;
 
 import constants.IConstants;
 import input.Keys;
-import objects.doodles.DoodleBehavior.MovementBehavior;
-import objects.doodles.DoodleBehavior.UnderwaterBehavior;
+import objects.doodles.doodle_behavior.MovementBehavior;
+import objects.doodles.doodle_behavior.UnderwaterBehavior;
 import objects.doodles.IDoodle;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
@@ -12,8 +12,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 import system.IServiceLocator;
-
-import java.lang.reflect.Field;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
