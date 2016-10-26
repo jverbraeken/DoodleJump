@@ -11,7 +11,6 @@ import java.util.Map;
  * <br>
  * It is not deemed necessary for all individual resources to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class Res implements IRes {
 
     /**
@@ -76,7 +75,6 @@ public final class Res implements IRes {
     /**
      * Reset the skin to the regular settings.
      */
-    @SuppressWarnings("checkstyle:MethodLength")
     private void setDefaultSkin() {
         for (Sprites sprite : Sprites.values()) {
             sprites.put(sprite, SPRITE_PATH + "unimplemented.jpg");

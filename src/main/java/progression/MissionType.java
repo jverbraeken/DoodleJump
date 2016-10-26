@@ -3,7 +3,6 @@ package progression;
 /**
  * Represents the types of missions we have.
  */
-@SuppressWarnings("checkstyle:javadocvariable")
 public enum MissionType {
     jumpOnDisappearingPlatform("Jump on ", " disappearing platforms"),
     pickUpJetPack("Pick up ", " jetpacks"),

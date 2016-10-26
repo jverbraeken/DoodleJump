@@ -17,7 +17,6 @@ import java.util.concurrent.ExecutionException;
  * <br>
  * It is not deemed necessary for all individual sprites to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod", "checkstyle:magicnumber"})
 public final class SpriteFactory implements ISpriteFactory {
 
     /**

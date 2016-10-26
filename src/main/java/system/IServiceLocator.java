@@ -24,7 +24,6 @@ import scenes.ISceneFactory;
 /**
  * Interface for a ServiceLocator.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface IServiceLocator {
 
     void provide(IAudioManager audioManager);

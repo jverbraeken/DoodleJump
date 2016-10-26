@@ -3,7 +3,6 @@ package progression;
 /**
  * Lists all kind of progression observers.
  */
-@SuppressWarnings("checkstyle:javadocvariable")
 public enum ProgressionObservers {
     disappearingPowerup,
     equipmentPowerup,
