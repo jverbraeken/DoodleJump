@@ -42,7 +42,7 @@ public final class Calc implements ICalc {
             throw new IllegalArgumentException("The upper-bound cannot equal to or lower than the lower-bound");
         }
 
-        return RANDOM.nextInt(upper - lower) + lower + 1;
+        return RANDOM.nextInt(upper - lower) + lower;
     }
 
     /**

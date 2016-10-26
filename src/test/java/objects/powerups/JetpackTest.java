@@ -73,7 +73,7 @@ public class JetpackTest {
     @Test
     public void testRenderNoOwner() {
         jetpack.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, 0, 0, 0);
         verify(doodle, times(0)).getXPos();
         verify(doodle, times(0)).getYPos();
     }
@@ -82,7 +82,7 @@ public class JetpackTest {
     public void testRenderWithOwner() {
         jetpack.collidesWith(doodle);
         jetpack.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, 0, 0, 0);
     }
 
     @Test
@@ -99,7 +99,7 @@ public class JetpackTest {
         verify(doodle, times(0)).setVerticalSpeed(anyDouble());
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testPerformNoOwner() {
         jetpack.perform(PowerupOccasion.constant);
     }
