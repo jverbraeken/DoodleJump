@@ -172,6 +172,12 @@ public interface ISpriteFactory extends IFactory {
      */
     ISprite[] getSpaceRocketActiveSprites();
 
+    /**
+     * Returns a list with sprites when a doodle has collided with an afterburner.
+     * @return list of sprites.
+     */
+    ISprite[] getAfterburnerActiveSprites();
+
     // Projectiles
     ISprite getRegularProjectileSprite();
 

@@ -134,8 +134,8 @@ public interface IRes {
         circusCannonUsed,
         rocketLauncher,
         rocketLauncherUsed,
-
         spaceRocket,
+        afterburner,
 
         // Passive
         jetpack0,
@@ -161,6 +161,17 @@ public interface IRes {
         spaceRocket6,
         spaceRocket7,
         spaceRocket8,
+
+        afterburner0,
+        afterburner1,
+        afterburner2,
+        afterburner3,
+        afterburner4,
+        afterburner5,
+        afterburner6,
+        afterburner7,
+        afterburner8,
+        afterburner9,
 
 
         // Score screen

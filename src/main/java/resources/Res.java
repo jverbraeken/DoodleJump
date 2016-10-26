@@ -171,6 +171,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.spaceRocket, SPRITE_PATH + "space-rocket-0@2x.png");
         sprites.put(Sprites.rocketLauncher, SPRITE_PATH + "rocketlauncher-unused.png");
         sprites.put(Sprites.rocketLauncherUsed, SPRITE_PATH + "rocketlauncher-used.png");
+        sprites.put(Sprites.afterburner, SPRITE_PATH + "powerup-afterburner@2x.png");
 
 
         // Passive
@@ -198,6 +199,17 @@ public final class Res implements IRes {
         sprites.put(Sprites.spaceRocket6, SPRITE_PATH + "rocket-6@2x.png");
         sprites.put(Sprites.spaceRocket7, SPRITE_PATH + "rocket-7@2x.png");
         sprites.put(Sprites.spaceRocket8, SPRITE_PATH + "rocket-8@2x.png");
+
+        sprites.put(Sprites.afterburner0, SPRITE_PATH + "afterburner-0@2x.png");
+        sprites.put(Sprites.afterburner1, SPRITE_PATH + "afterburner-1@2x.png");
+        sprites.put(Sprites.afterburner2, SPRITE_PATH + "afterburner-2@2x.png");
+        sprites.put(Sprites.afterburner3, SPRITE_PATH + "afterburner-3@2x.png");
+        sprites.put(Sprites.afterburner4, SPRITE_PATH + "afterburner-4@2x.png");
+        sprites.put(Sprites.afterburner5, SPRITE_PATH + "afterburner-5@2x.png");
+        sprites.put(Sprites.afterburner6, SPRITE_PATH + "afterburner-6@2x.png");
+        sprites.put(Sprites.afterburner7, SPRITE_PATH + "afterburner-7@2x.png");
+        sprites.put(Sprites.afterburner8, SPRITE_PATH + "afterburner-8@2x.png");
+        sprites.put(Sprites.afterburner9, SPRITE_PATH + "afterburner-9@2x.png");
 
 
 

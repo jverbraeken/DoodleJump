@@ -27,8 +27,7 @@ import system.IServiceLocator;
      * @param y - The Y location for the afterburner.
      */
     /* package */ Afterburner(final IServiceLocator sL, final int x, final int y) {
-        // Because sprites for this object has't been found or created yet, this object will use jetpack sprites.
-        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 2), sL.getSpriteFactory().getSpaceRocketActiveSprites(), Afterburner.class);
+        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 2), sL.getSpriteFactory().getAfterburnerActiveSprites(), Afterburner.class);
     }
 
     /**
