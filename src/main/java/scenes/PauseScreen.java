@@ -30,7 +30,7 @@ import java.util.List;
     /**
      * The X and Y location for the resume button.
      */
-    private static final double SHOP_BUTTON_X = 0.6d, SHOP_BUTTON_Y = 0.8d;
+    private static final double SWITCH_BUTTON_X = 0.6d, SWITCH_BUTTON_Y = 0.8d;
 
     /**
      * The X-position at which the buttons in the first row and second row will be created respectively.
@@ -48,7 +48,7 @@ import java.util.List;
     private static final double BUTTON_Y_OFFSET = 0.11d;
 
     /**
-     * The relative X- and Y-position of the powerup level label.
+     * The relative X- and Y-position of the powerup level label respectively.
      */
     private static final double POWERUP_INFO_X = 0.06d, POWERUP_INFO_Y = 0.25d;
     /**
@@ -103,7 +103,7 @@ import java.util.List;
      */
     private final IButton resumeButton;
     /**
-     * The resume button.
+     * The switch button.
      */
     private final IButton switchButton;
     /**
@@ -120,11 +120,11 @@ import java.util.List;
     private static final int MARGIN = 10;
 
     /**
-     * An ArrayList of all the buttons.
+     * An ArrayList of the powerup buttons.
      */
     private final ArrayList<IButton> powerupButtons = new ArrayList<>();
     /**
-     * The background sprite.
+     * The background sprites.
      */
     private ISprite[] background;
     /**
@@ -132,7 +132,7 @@ import java.util.List;
      */
     private static final int DISTANCE_BETWEEN_MISSIONS = 15;
     /**
-     * Variable to decide between the display of the shop or missions.
+     * Variable to decide between the display of the shop or missions(True and False respectively).
      */
     private boolean mode;
 
@@ -156,7 +156,7 @@ import java.util.List;
         // Button
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
         this.resumeButton = buttonFactory.createResumeButton(PauseScreen.RESUME_BUTTON_X, PauseScreen.RESUME_BUTTON_Y);
-        this.switchButton = buttonFactory.createSwitchButton(PauseScreen.SHOP_BUTTON_X, PauseScreen.SHOP_BUTTON_Y);
+        this.switchButton = buttonFactory.createSwitchButton(PauseScreen.SWITCH_BUTTON_X, PauseScreen.SWITCH_BUTTON_Y);
         this.powerupButtons.add(buttonFactory.createShopPowerupButton(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y));
         this.powerupButtons.add(buttonFactory.createShopPowerupButton(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y));
         this.powerupButtons.add(buttonFactory.createShopPowerupButton(Powerups.sizeDown, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y));
@@ -187,9 +187,9 @@ import java.util.List;
     @Override
     public void stop() {
         this.resumeButton.deregister();
-        this.logger.info("The resume button is no longer displaying");
+        this.logger.info("The resume button is no longer available");
         this.switchButton.deregister();
-        this.logger.info("The pause scene is no longer displaying");
+        this.logger.info("The switch button is no longer available");
         if(mode) {
             this.stopShopCover();
         }
@@ -245,6 +245,7 @@ import java.util.List;
         assert powerupButtons != null;
 
         powerupButtons.forEach(IButton::register);
+        this.logger.info("The powerup buttons are now available");
         powerupButtons.forEach(IButton::render);
 
         this.drawText();
@@ -255,9 +256,15 @@ import java.util.List;
      */
     private void stopShopCover() {
         powerupButtons.forEach(IButton::deregister);
-        this.logger.info("The trampoline is no longer available");
+        this.logger.info("The powerup buttons are no longer available");
     }
 
+    /**
+     * Gets the background of the current mode(Mission or Shop).
+     *
+     * @param mode The mode of the screen(Mission or Shop)
+     * @return ISprite of the background
+     */
     private ISprite getBackgroundSprite(boolean mode) {
         if(mode) {
             return background[1];
@@ -273,6 +280,9 @@ import java.util.List;
         this.mode = !mode;
     }
 
+    /**
+     * Draws the text of the powerups.
+     */
     private void drawText() {
         serviceLocator.getRenderer().drawTextHUD(
                 (int) (POWERUP_INFO_X * serviceLocator.getConstants().getGameWidth()),
@@ -289,7 +299,14 @@ import java.util.List;
         drawPowerupText(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y);
     }
 
-    private void drawPowerupText(final Powerups powerup, final double jetpackButtonX, final double jetpackButtonY) {
+    /**
+     * Draws the text consisting of the current level of the powerup and the cost to activate/upgrade it
+     *
+     * @param powerup The type of powerup
+     * @param x The relative X-position of the text.
+     * @param y The relative Y-position of the text.
+     */
+    private void drawPowerupText(final Powerups powerup, final double x, final double y) {
         final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         final IRenderer renderer = serviceLocator.getRenderer();
@@ -307,7 +324,7 @@ import java.util.List;
             string = Integer.toString(level);
         }
         final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup) + 1).getHeight() / 2;
-        renderer.drawTextHUD((int) (jetpackButtonX * width) + BUTTON_TEXT_OFFSET, (int) (jetpackButtonY * height) + yOffset, string, Color.black);
+        renderer.drawTextHUD((int) (x * width) + BUTTON_TEXT_OFFSET, (int) (y * height) + yOffset, string, Color.black);
     }
 
     /**
