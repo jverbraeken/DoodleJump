@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+import progression.IProgressionManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -36,6 +37,7 @@ public class PowerupFactoryTest {
 
     private static ILogger logger = mock(ILogger.class);
     private static ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
+    private static IProgressionManager progressionManager = mock(IProgressionManager.class);
     private static IServiceLocator serviceLocator = mock(IServiceLocator.class);
     private static ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
     private static ISprite sprite = mock(ISprite.class);
@@ -60,12 +62,12 @@ public class PowerupFactoryTest {
     public static void initMock() throws Exception {
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
+        when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
 
         when(loggerFactory.createLogger(PowerupFactory.class)).thenReturn(logger);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(sprite.getWidth()).thenReturn(0);
         when(sprite.getHeight()).thenReturn(0);
-
     }
 
     @Before
@@ -107,12 +109,44 @@ public class PowerupFactoryTest {
         verifyNew(SizeUp.class).withArguments(serviceLocator, xPos, yPos);
     }
 
-    /*@Test
-    public void testCreateSpring() throws Exception {
-        whenNew(Spring.class).withArguments(serviceLocator, xPos, yPos).thenReturn(spring);
+    @Test
+    public void testCreateSpring1() throws Exception {
+        when(progressionManager.getPowerupLevel(Powerups.spring)).thenReturn(1);
+        when(spriteFactory.getPowerupSprite(Powerups.spring, 1)).thenReturn(sprite);
+        when(spriteFactory.getSpringUsedSprite(1)).thenReturn(sprite);
+
+        int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_SPRING");
+
+        whenNew(Spring.class).withArguments(serviceLocator, xPos, yPos, sprite, sprite, boost[0]).thenReturn(spring);
         powerupFactory.createSpring(xPos, yPos);
-        verifyNew(Spring.class).withArguments(serviceLocator, xPos, yPos);
-    }*/
+        verifyNew(Spring.class).withArguments(serviceLocator, xPos, yPos, sprite, sprite, boost[0]);
+    }
+
+    @Test
+    public void testCreateSpring2() throws Exception {
+        when(progressionManager.getPowerupLevel(Powerups.spring)).thenReturn(2);
+        when(spriteFactory.getPowerupSprite(Powerups.spring, 2)).thenReturn(sprite);
+        when(spriteFactory.getSpringUsedSprite(2)).thenReturn(sprite);
+
+        int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_SPRING");
+
+        whenNew(Spring.class).withArguments(serviceLocator, xPos, yPos, sprite, sprite, boost[1]).thenReturn(spring);
+        powerupFactory.createSpring(xPos, yPos);
+        verifyNew(Spring.class).withArguments(serviceLocator, xPos, yPos, sprite, sprite, boost[1]);
+    }
+
+    @Test
+    public void testCreateSpring3() throws Exception {
+        when(progressionManager.getPowerupLevel(Powerups.spring)).thenReturn(3);
+        when(spriteFactory.getPowerupSprite(Powerups.spring, 3)).thenReturn(sprite);
+        when(spriteFactory.getSpringUsedSprite(3)).thenReturn(sprite);
+
+        int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_SPRING");
+
+        whenNew(Spring.class).withArguments(serviceLocator, xPos, yPos, sprite, sprite, boost[2]).thenReturn(spring);
+        powerupFactory.createSpring(xPos, yPos);
+        verifyNew(Spring.class).withArguments(serviceLocator, xPos, yPos, sprite, sprite, boost[2]);
+    }
 
     @Test
     public void testCreateSpringShoes() throws Exception {
