@@ -23,6 +23,9 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -34,28 +37,28 @@ public class ProgressionManagerTest {
     private final static HighScore SCORE_2 = new HighScore("bar", 80);
     private final static HighScore SCORE_3 = new HighScore("Hello", 2);
     private final static HighScore SCORE_4 = new HighScore("World", 1);
-    private static IServiceLocator serviceLocator;
-    private static ILoggerFactory loggerFactory;
-    private static IFileSystem fileSystem;
-    private static IConstants constants;
+    private IServiceLocator serviceLocator = mock(IServiceLocator.class);
+    private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
+    private IFileSystem fileSystem = mock(IFileSystem.class);
+    private IConstants constants = mock(IConstants.class);
+    private ILogger logger = mock(ILogger.class);
+    private IMissionFactory missionFactory = mock(IMissionFactory.class);
     private ProgressionManager progressionManager;
-    private IMissionFactory missionFactory;
     private List<HighScore> expected;
+    private List<Mission> missions = new ArrayList<>();
+    private Mission mission = mock(Mission.class);
 
     @Before
     public void init() throws Exception {
-        serviceLocator = mock(IServiceLocator.class);
-        loggerFactory = mock(ILoggerFactory.class);
-        fileSystem = mock(IFileSystem.class);
-        constants = mock(IConstants.class);
-        missionFactory = mock(IMissionFactory.class);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getFileSystem()).thenReturn(fileSystem);
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getMissionFactory()).thenReturn(missionFactory);
-        when(loggerFactory.createLogger(ProgressionManager.class)).thenReturn(mock(ILogger.class));
+        when(loggerFactory.createLogger(ProgressionManager.class)).thenReturn(logger);
+
         ProgressionManager.register(serviceLocator);
         progressionManager = Whitebox.invokeConstructor(ProgressionManager.class);
+
         expected = new ArrayList<>();
     }
 
@@ -242,25 +245,19 @@ public class ProgressionManagerTest {
         assertThat(progressionManager.getMissions(), is(missions));
     }
 
-//    @Test
-//    public void testAddObserver() {
-//        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
-//        progressionManager.addObserver(ProgressionObservers.spring, observer);
-//        assertThat(((Set<IProgressionObserver>) Whitebox.getInternalState(ProgressionObservers.spring, "observers")).contains(observer), is(true));
-//
-//        final ISpringUsedObserver observer2 = mock(ISpringUsedObserver.class);
-//        progressionManager.addObserver(ProgressionObservers.spring, observer2);
-//        assertThat(((Set<IProgressionObserver>) Whitebox.getInternalState(ProgressionObservers.spring, "observers")).contains(observer2), is(true));
-//    }
-//
-//    @Test
-//    public void testAlertObservers() {
-//        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
-//        progressionManager.addObserver(ProgressionObservers.spring, observer);
-//        progressionManager.alertObservers(ProgressionObservers.spring);
-//
-//        Mockito.verify(observer).alert();
-//    }
+    @Test
+    public void testAlertMissionFinishedLogs() {
+        missions.add(mission);
+        Whitebox.setInternalState(progressionManager, "missions", missions);
+        progressionManager.alertMissionFinished(mission);
+        verify(logger, times(1)).info(anyString());
+    }
+
+    @Test(expected = InternalError.class)
+    public void testAlertMissionFinishedMissionNotFound() {
+        progressionManager.alertMissionFinished(mission);
+    }
+
 //
 //    @Test
 //    public void testAlertObserversQueue() {
