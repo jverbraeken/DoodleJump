@@ -100,6 +100,10 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <debug>true</debug>
+                    <debuglevel>lines,vars,source</debuglevel>
+                    <compilerArgument>-Werror</compilerArgument>
+                    <compilerArgument>-Xlint:deprecation</compilerArgument>
                     <compilerArgument>-proc:none</compilerArgument>
                 </configuration>
             </plugin>
