@@ -1,7 +1,6 @@
 package objects.powerups;
 
 import objects.doodles.DoodleBehavior.MovementBehavior;
-import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
@@ -35,15 +34,15 @@ import system.IServiceLocator;
     /**
      *{@inheritDoc}
      */
-    public void setPosition(IDoodle owner) {
-        if (!owner.equals(null)) {
-            MovementBehavior.Directions facing = owner.getFacing();
+    public void setPosition() {
+        if (!this.getOwner().equals(null)) {
+            MovementBehavior.Directions facing = this.getOwner().getFacing();
             if (facing.equals(MovementBehavior.Directions.Left)) {
-                this.setXPos((int) owner.getXPos() + owner.getHitBox()[HITBOX_RIGHT]);
+                this.setXPos((int) this.getOwner().getXPos() + this.getOwner().getHitBox()[HITBOX_RIGHT]);
             } else {
-                this.setXPos((int) owner.getXPos());
+                this.setXPos((int) this.getOwner().getXPos());
             }
-            this.setYPos((int) owner.getYPos() + OWNED_Y_OFFSET);
+            this.setYPos((int) this.getOwner().getYPos() + OWNED_Y_OFFSET);
         }
     }
 

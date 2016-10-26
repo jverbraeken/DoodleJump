@@ -1,6 +1,5 @@
 package objects.powerups;
 
-import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
 /**
@@ -35,10 +34,10 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
 
-    public void setPosition(IDoodle owner) {
-        if (!owner.equals(null)) {
-            this.setXPos((int) owner.getXPos() + ((owner.getSprite().getWidth() - this.getSprite().getWidth()) / 2));
-            this.setYPos((int) owner.getYPos() - OWNED_Y_OFFSET);
+    public void setPosition() {
+        if (!this.getOwner().equals(null)) {
+            this.setXPos((int) this.getOwner().getXPos() + ((this.getOwner().getSprite().getWidth() - this.getSprite().getWidth()) / 2));
+            this.setYPos((int) this.getOwner().getYPos() - OWNED_Y_OFFSET);
         }
     }
 

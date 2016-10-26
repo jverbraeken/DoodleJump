@@ -7,7 +7,7 @@ import system.IServiceLocator;
 /**
  * Class that describes the behaviour of subclasses of AJetpack.
  */
-public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
+/* package */ abstract class AJetpack extends APowerup implements IEquipmentPowerup {
 
     /**
      * The boost the AJet object provides.
@@ -41,7 +41,6 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * The refresh rate for the active animation.
      */
     private static final int ANIMATION_REFRESH_RATE = 3;
-
     /**
      * Offset for the initial phase of the AJet animation.
      */
@@ -54,12 +53,15 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * Offset for the third phase of the AJet animation.
      */
     private static final int ANIMATION_OFFSET_THREE = 6;
+    /**
+     * Angle per frame when falling.
+     */
+    private static final double ANGLE_PER_FRAME = 0.01d;
 
     /**
      * Default sprite of this AJet object.
      */
     private ISprite defaultSprite;
-
     /**
      * The sprites for an active AJet.
      */
@@ -68,7 +70,6 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * The Doodle that owns this AJet.
      */
     private IDoodle owner;
-
     /**
      * The maximum time the AJet is active.
      */
@@ -85,6 +86,10 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * The index of the current sprite.
      */
     private int spriteIndex = 0;
+    /**
+     * The current rotation angle of the jetpack.
+     */
+    private double theta = 0d;
 
     /**
      * AJetpack constructor.
@@ -93,7 +98,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * @param x - The X location for the AJetpack.
      * @param y - The Y location for the AJetpack.
      */
-    public AJetpack(final IServiceLocator sL,
+    /* package */ AJetpack(final IServiceLocator sL,
                 final int x,
                 final int y,
                 final int maxTime,
@@ -112,7 +117,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      */
     @Override
     public final void perform(final PowerupOccasion occasion) {
-        if (this.owner.equals(null)) {
+        if (this.owner == null) {
             throw new IllegalArgumentException("Owner cannot be null");
         }
 
@@ -134,6 +139,34 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
         }
     }
 
+    /**
+     * Update method for when the AJet is falling.
+     */
+    private void updateFalling() {
+        this.applyGravity();
+        this.addXPos(HORIZONTAL_SPEED);
+        this.theta += AJetpack.ANGLE_PER_FRAME;
+    }
+
+    /**
+     * Applies gravity to the AJet when needed.
+     */
+    private void applyGravity() {
+        this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
+        this.addYPos(this.vSpeed);
+    }
+
+    /**
+     * Ends the powerup.
+     */
+     public void endPowerup() {
+        this.setSprite(defaultSprite);
+        this.vSpeed = INITIAL_DROP_SPEED;
+        this.owner.removePowerup(this);
+        this.owner.getWorld().addDrawable(this);
+        this.owner.getWorld().addUpdatable(this);
+        this.owner = null;
+    }
 
     /**
      * {@inheritDoc}
@@ -144,9 +177,6 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
             throw new IllegalArgumentException("Doodle cannot be null");
         }
 
-
-        // The game crashes upon collision when equals method is used to check if the value of owner's address
-        // is the same as a null reference resulting in a NullPointerReference.
         if (this.owner == null) {
             getLogger().info("Doodle collided with a Jetpack");
             this.owner = doodle;
@@ -158,7 +188,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
     /**
      * Update method for when the Jetpack is owned.
      */
-    private final void updateOwned() {
+    private void updateOwned() {
         timer++;
 
         if (timer >= timeLimit) {
@@ -180,55 +210,37 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
             this.spriteIndex = offset + ((spriteIndex + 1) % ANIMATION_REFRESH_RATE);
             this.setSprite(this.spritePack[this.spriteIndex]);
         }
-
-        setPosition(owner);
+        setPosition();
     }
 
-    /**
-     * Update method for when the AJetpack is falling.
-     */
-    private final void updateFalling() {
-        this.applyGravity();
-        this.addXPos(HORIZONTAL_SPEED);
-    }
-
-    /**
-     * Applies gravity to the AJetpack when needed.
-     */
-    private final void applyGravity() {
-        this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
-        this.addYPos(this.vSpeed);
-    }
-
-    /**
-     * Ends the powerup.
-     */
-    @Override
-    public final void endPowerup() {
-        this.setSprite(defaultSprite);
-        this.vSpeed = INITIAL_DROP_SPEED;
-
-        this.owner.removePowerup(this);
-        this.owner.getWorld().addDrawable(this);
-        this.owner.getWorld().addUpdatable(this);
-        this.owner = null;
-    }
 
     /**
      * Sets the position of the powerup when equipped.
-     * @param doodle The doodle that is wearing this powerup.
      */
-    abstract void setPosition(IDoodle doodle);
+    abstract void setPosition();
 
-
-    public final IDoodle getOwner() {
-        return owner;
+    /**
+     * Get the angle of the Jetpack.
+     */
+    /* package */ double getAngle() {
+        return this.theta;
     }
 
-    public final void setOwner(final IDoodle doodle) {
+    /**
+     * Get the owner of this jetpack.
+     * @return The Doodle that owns the jetpack.
+     */
+    /* package */ final IDoodle getOwner() {
+        return this.owner;
+    }
+
+    /**
+     * Set the owner of the Jetpack.
+     * @param doodle The Doodle that should be the owner.
+     */
+    /* package */ final void setOwner(final IDoodle doodle) {
         this.owner = doodle;
     }
-
 
 
 }

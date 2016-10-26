@@ -1,9 +1,6 @@
 package objects.powerups;
 
 import objects.doodles.DoodleBehavior.MovementBehavior;
-
-import objects.doodles.IDoodle;
-
 import system.IServiceLocator;
 
 /**
@@ -36,17 +33,22 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void setPosition(IDoodle owner) {
-        if (owner != null) {
-            MovementBehavior.Directions facing = owner.getFacing();
-            if (facing.equals(MovementBehavior.Directions.Left)) {
-                this.setXPos((int) owner.getXPos() + owner.getHitBox()[HITBOX_RIGHT]);
-            } else {
-                this.setXPos((int) owner.getXPos());
-            }
-            this.setYPos((int) owner.getYPos() + OWNED_Y_OFFSET);
-        }
 
+    public void render() {
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos(), this.getAngle());
+    }
+
+    /**
+     * Set the position of the jetpack with respect to the Doodle owning it.
+     */
+    public void setPosition() {
+        MovementBehavior.Directions facing = this.getOwner().getFacing();
+        if (facing.equals(MovementBehavior.Directions.Left)) {
+            this.setXPos((int) this.getOwner().getXPos() + this.getOwner().getHitBox()[HITBOX_RIGHT]);
+        } else {
+            this.setXPos((int) this.getOwner().getXPos());
+        }
+        this.setYPos((int) this.getOwner().getYPos() + OWNED_Y_OFFSET);
     }
 
 }

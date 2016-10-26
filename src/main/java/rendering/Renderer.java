@@ -108,6 +108,34 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
+    public void drawSprite(final ISprite sprite, final int x, final int y, final double theta) {
+        assert this.graphics != null;
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
+
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        this.logger.info(drawMsg + cameraMsg);
+
+        double halfWidth = (sprite.getWidth() / 2);
+        double halfHeight = (sprite.getHeight() / 2);
+        double translateX = x + halfWidth;
+        double translateY = y - this.camera.getYPos() + halfHeight;
+
+        this.graphics.translate(translateX, translateY);
+        this.graphics.rotate(theta);
+        this.graphics.translate(-halfWidth, -halfHeight);
+        this.graphics.drawImage(sprite.getImage(), 0, 0, null);
+        this.graphics.translate(halfWidth, halfHeight);
+        this.graphics.rotate(-theta);
+        this.graphics.translate(-translateX, -translateY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void drawSprite(final ISprite sprite, final int x, final int y, final int width, final int height) {
         assert this.graphics != null;
         if (sprite == null) {
@@ -119,6 +147,34 @@ public final class Renderer implements IRenderer {
         this.logger.info(drawMsg + cameraMsg);
 
         this.graphics.drawImage(sprite.getImage(), x, (int) (y - this.camera.getYPos()), width, height, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawSprite(final ISprite sprite, final int x, final int y, final int width, final int height, final double theta) {
+        assert this.graphics != null;
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
+
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        this.logger.info(drawMsg + cameraMsg);
+
+        double halfWidth = (sprite.getWidth() / 2);
+        double halfHeight = (sprite.getHeight() / 2);
+        double translateX = x + halfWidth;
+        double translateY = y - this.camera.getYPos() + halfHeight;
+
+        this.graphics.translate(translateX, translateY);
+        this.graphics.rotate(theta);
+        this.graphics.translate(-halfWidth, -halfHeight);
+        this.graphics.drawImage(sprite.getImage(), 0, 0, width, height, null);
+        this.graphics.translate(halfWidth, halfHeight);
+        this.graphics.rotate(-theta);
+        this.graphics.translate(-translateX, -translateY);
     }
 
     /**
