@@ -1,7 +1,7 @@
 /**
- * The projectiles package.
+ * The Projectiles package.
  */
-package objects.doodles.projectiles;
+package objects.doodles.Projectiles;
 
 import system.IFactory;
 

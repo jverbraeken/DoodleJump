@@ -766,7 +766,7 @@ public final class SpriteFactory implements ISpriteFactory {
         return sprites;
     }
 
-    //projectiles
+    //Projectiles
 
     /**
      * {@inheritDoc}

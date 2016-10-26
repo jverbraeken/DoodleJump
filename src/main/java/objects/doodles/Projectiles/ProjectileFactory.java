@@ -1,9 +1,9 @@
-package objects.doodles.projectiles;
+package objects.doodles.Projectiles;
 
 import system.IServiceLocator;
 
 /**
- * The ProjectileFactory class, which creates projectiles.
+ * The ProjectileFactory class, which creates Projectiles.
  */
 public final class ProjectileFactory implements IProjectileFactory {
 

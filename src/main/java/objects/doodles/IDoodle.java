@@ -140,14 +140,14 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void setKeys(final Keys left, final Keys right);
 
     /**
-     * Removes a projectile to the Set with projectiles.
+     * Removes a projectile to the Set with Projectiles.
      * @param projectile the projectile that has to be removed.
      */
     void removeProjectile(final IGameObject projectile);
 
     /**
-     * Returns the list with projectiles.
-     * @return the list with projectiles.
+     * Returns the list with Projectiles.
+     * @return the list with Projectiles.
      */
     List<IGameObject> getProjectiles();
 

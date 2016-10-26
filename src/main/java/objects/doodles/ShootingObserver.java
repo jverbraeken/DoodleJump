@@ -6,7 +6,7 @@ import objects.IGameObject;
 import system.IServiceLocator;
 
 /**
- * A ShootingObserver is a MouseInputObserver which creates projectiles
+ * A ShootingObserver is a MouseInputObserver which creates Projectiles
  * at the click on the mouse.
  */
 /*PACKAGE */ class ShootingObserver implements IMouseInputObserver {

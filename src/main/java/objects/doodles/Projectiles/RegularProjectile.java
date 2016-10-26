@@ -1,4 +1,4 @@
-package objects.doodles.projectiles;
+package objects.doodles.Projectiles;
 
 import objects.AGameObject;
 import objects.doodles.IDoodle;
