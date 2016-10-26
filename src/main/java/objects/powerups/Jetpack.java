@@ -6,11 +6,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the Jetpack powerup.
  */
-
-
-
 /* package */ final class Jetpack extends AJetpack {
-
 
     /**
      * The boost the Jetpack gives.
@@ -37,6 +33,13 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
+    public void render() {
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos(), this.getAngle());
+    }
+
+    /**
+     * Set the position of the jetpack with respect to the Doodle owning it.
+     */
     public void setPosition() {
         MovementBehavior.Directions facing = this.getOwner().getFacing();
         if (facing.equals(MovementBehavior.Directions.Left)) {

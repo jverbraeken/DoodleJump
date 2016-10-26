@@ -29,10 +29,32 @@ public interface IRenderer {
      * @param image  the sprite to be drawn.
      * @param x      the x position of the sprite.
      * @param y      the y position of the sprite.
+     * @param theta  the angle to rotate the sprite by.
+     */
+    void drawSprite(final ISprite image, final int x, final int y, final double theta);
+
+    /**
+     * Draw a sprite relative to the camera.
+     *
+     * @param image  the sprite to be drawn.
+     * @param x      the x position of the sprite.
+     * @param y      the y position of the sprite.
      * @param width  the width of the sprite.
      * @param height the height of the sprite.
      */
     void drawSprite(final ISprite image, final int x, final int y, final int width, final int height);
+
+    /**
+     * Draw a sprite relative to the camera.
+     *
+     * @param image  the sprite to be drawn.
+     * @param x      the x position of the sprite.
+     * @param y      the y position of the sprite.
+     * @param width  the width of the sprite.
+     * @param height the height of the sprite.
+     * @param theta  the angle to rotate the sprite by.
+     */
+    void drawSprite(final ISprite image, final int x, final int y, final int width, final int height, final double theta);
 
     /**
      * Draw a rectangle relative to the camera.
