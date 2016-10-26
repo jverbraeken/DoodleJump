@@ -68,7 +68,6 @@ public class World implements IScene {
      * {@link IRenderable renderables} that will be drawn first (eg platforms), the second set contains the
      * {@link IRenderable renderables} that will be drawn secondly (eg doodles) and the third set contains the
      * {@link IRenderable renderables} that will be drawn at last (eg HUD elements).</p>
-     * <p>
      * <p>The reason a list is used instead of an array is because we need to use a weak set. The only
      * way to make it (in Java) is by using Collections.newSetFromMap that creates the set for us (and
      * prohibits creating an array by doing that).</p>

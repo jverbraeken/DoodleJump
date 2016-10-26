@@ -9,9 +9,6 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the Jetpack powerup.
  */
-
-
-
 /* package */ final class Jetpack extends AFlyablePowerup {
 
     /**
@@ -57,11 +54,9 @@ import system.IServiceLocator;
             } else {
                 this.setXPos((int) getOwner().getXPos());
             }
-        }
-        else if (level == 2) {
+        } else if (level == 2) {
             this.setXPos(((this.getOwner().getSprite().getWidth() - this.getSprite().getWidth()) / 2) + this.getOwner().getXPos());
-        }
-        else {
+        } else {
             final String error = "Trying to set the position of the jetpack based on the unknown level: " + level;
             logger.error(error);
             throw new RuntimeException(error);

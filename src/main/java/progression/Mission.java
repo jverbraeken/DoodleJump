@@ -5,8 +5,7 @@ import system.IServiceLocator;
 
 /**
  * <b>IMMUTABLE</b>
- * <p>
- * This class represents a mission that the player can complete.
+ * <p>This class represents a mission that the player can complete.</p>
  */
 public final class Mission {
     /**
