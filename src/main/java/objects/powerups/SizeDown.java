@@ -32,6 +32,14 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
+    public void render() {
+        SizeDown.getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void collidesWith(final IDoodle doodle) {
         if (doodle == null) {
             throw new IllegalArgumentException("Doodle cannot be null");
@@ -42,16 +50,6 @@ import system.IServiceLocator;
 
         // Hide the powerup so it will be deleted automatically
         this.setXPos(this.getSprite().getWidth() * SizeDown.HIDE_MULTIPLIER);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void render() {
-        int x = (int) this.getXPos();
-        int y = (int) this.getYPos();
-        SizeDown.getServiceLocator().getRenderer().drawSprite(this.getSprite(), x, y);
     }
 
 }

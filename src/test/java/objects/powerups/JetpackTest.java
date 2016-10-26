@@ -4,11 +4,8 @@ import constants.IConstants;
 import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
@@ -17,9 +14,7 @@ import system.IServiceLocator;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.anyDouble;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -38,6 +33,7 @@ public class JetpackTest {
 
     private Jetpack jetpack;
     private ISprite[] spritePack = new ISprite[10];
+
 
     @Before
     public void init() {
@@ -64,7 +60,7 @@ public class JetpackTest {
         assertThat(owner, is(doodle));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NullPointerException.class)
     public void testCollidesWithNull() {
         jetpack.collidesWith(null);
     }
@@ -72,7 +68,7 @@ public class JetpackTest {
     @Test
     public void testRenderNoOwner() {
         jetpack.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, 0, 0, 0);
         verify(doodle, times(0)).getXPos();
         verify(doodle, times(0)).getYPos();
     }
@@ -81,7 +77,7 @@ public class JetpackTest {
     public void testRenderWithOwner() {
         jetpack.collidesWith(doodle);
         jetpack.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, 0, 0, 0);
     }
 
     @Test
