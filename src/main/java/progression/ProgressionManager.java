@@ -175,7 +175,12 @@ public final class ProgressionManager implements IProgressionManager {
             logger.error(error);
             throw new IllegalArgumentException(error);
         }
-        return powerupLevels.get(powerup);
+
+        if (powerupLevels.get(powerup) == null) {
+            return 0;
+        } else {
+            return powerupLevels.get(powerup);
+        }
     }
 
     /**
