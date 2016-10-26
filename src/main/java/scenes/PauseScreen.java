@@ -118,12 +118,6 @@ import java.util.List;
         assert shopButton != null;
 
         assert coinSprites[(int) coinSpriteIndex] != null;
-
-        serviceLocator.getRenderer().drawSpriteHUD(background, 0, 0);
-
-        resumeButton.render();
-        shopButton.render();
-
         ISprite coinSprite = this.coinSprites[(int) coinSpriteIndex];
         final int coinX = MARGIN + coinSprite.getHeight() / 2 - (int) (((double) coinSprite.getWidth() / (double) coinSprite.getHeight()) * (double) coinSprite.getHeight() / 2d);
         final int coinY = serviceLocator.getSpriteFactory().getScoreBarSprite().getHeight();
@@ -133,11 +127,30 @@ import java.util.List;
         final int coinTextY = coinY + coinSprite.getHeight() / 2;
         serviceLocator.getRenderer().drawTextHUD(coinTextX, coinTextY, Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
 
+        //this.renderMissions(coinY + coinSprite.getHeight());
+    }
+
+    /**
+     * Draws the sprites and texts for the missions that are currently active.
+     */
+    private void renderMissions(final int y) {
+        serviceLocator.getRenderer().drawSpriteHUD(background, 0, 0);
+
+        resumeButton.render();
+        shopButton.render();
+
         final List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
         final int missionSpriteHeight = serviceLocator.getSpriteFactory().getAchievementSprite().getHeight();
         for (int i = 0; i < missions.size(); i++) {
-            missions.get(i).render(coinY + coinSprite.getHeight() + MARGIN  + i * (missionSpriteHeight + DISTANCE_BETWEEN_MISSIONS));
+            missions.get(i).render(y + MARGIN  + i * (missionSpriteHeight + DISTANCE_BETWEEN_MISSIONS));
         }
+    }
+
+    /**
+     * Draws the sprites and texts for the shop while the game is paused.
+     */
+    private void renderShop() {
+
     }
 
     /**
