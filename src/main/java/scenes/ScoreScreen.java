@@ -12,6 +12,7 @@ import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Score screen implementation of a scene.
@@ -33,11 +34,11 @@ import java.util.List;
     /**
      * The height of an entry in the ScoreScreen.
      */
-    private static int entryHeight;
+    private static AtomicInteger entryHeight;
     /**
      * The height of the top part of the ScoreScreen.
      */
-    private static int scoreListTopY;
+    private static AtomicInteger scoreListTopY;
     /**
      * Used to gain access to all services.
      */
@@ -72,8 +73,8 @@ import java.util.List;
         IButtonFactory buttonFactory = sL.getButtonFactory();
         this.menuButton = buttonFactory.createMainMenuButton(ScoreScreen.MENU_BUTTON_X, ScoreScreen.MENU_BUTTON_Y);
 
-        entryHeight = (int) (serviceLocator.getConstants().getGameHeight() * ENTRY_HEIGHT);
-        scoreListTopY = this.top.getHeight() + SCORE_LIST_TOP_Y_OFFSET;
+        entryHeight.set((int) (serviceLocator.getConstants().getGameHeight() * ENTRY_HEIGHT));
+        scoreListTopY.set(this.top.getHeight() + SCORE_LIST_TOP_Y_OFFSET);
     }
 
     /**
@@ -89,13 +90,13 @@ import java.util.List;
         List<HighScore> highScores = serviceLocator.getProgressionManager().getHighscores();
         for (int i = 0; i < highScores.size(); i++) {
             // Entry background
-            int backgroundY = scoreListTopY + (i - 1) * entryHeight;
-            Color color = i % 2 == 1 ? Color.scoreEntryEven : Color.scoreEntryUneven;
-            renderer.fillRectangle(0, backgroundY, constants.getGameWidth(), entryHeight, color);
+            int backgroundY = scoreListTopY.get() + (i - 1) * entryHeight.get();
+            Color color = Math.abs(i) % 2 == 1 ? Color.scoreEntryEven : Color.scoreEntryUneven;
+            renderer.fillRectangle(0, backgroundY, constants.getGameWidth(), entryHeight.get(), color);
 
             // Entry name & value
             HighScore score = highScores.get(i);
-            int entryY = scoreListTopY + i * entryHeight;
+            int entryY = scoreListTopY.get() + i * entryHeight.get();
             String msg = score.getName() + " - " + score.getScore();
             renderer.drawText(this.left.getWidth(), entryY, msg, Color.black);
         }
