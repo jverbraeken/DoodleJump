@@ -15,7 +15,7 @@ import system.IRenderable;
 import system.IServiceLocator;
 import system.IUpdatable;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
