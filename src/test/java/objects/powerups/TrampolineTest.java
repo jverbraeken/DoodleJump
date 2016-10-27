@@ -14,6 +14,7 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
+import java.awt.Point;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -95,7 +96,7 @@ public class TrampolineTest {
     public void testRenderer() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
         trampoline.render();
-        verify(renderer).drawSprite(sprite, (int) trampoline.getXPos(), (int) trampoline.getYPos());
+        verify(renderer).drawSprite(sprite, new Point((int) trampoline.getXPos(), (int) trampoline.getYPos()));
     }
 
     /**

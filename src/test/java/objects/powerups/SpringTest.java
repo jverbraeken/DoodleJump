@@ -16,6 +16,8 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -99,7 +101,7 @@ public class SpringTest {
     public void testRenderer() throws Exception {
         spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
         spring.render();
-        verify(renderer).drawSprite(sprite, (int) spring.getXPos(), (int) spring.getYPos());
+        verify(renderer).drawSprite(sprite, new Point((int) spring.getXPos(), (int) spring.getYPos()));
     }
 
     /**
