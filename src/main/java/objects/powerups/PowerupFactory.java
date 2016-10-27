@@ -2,6 +2,7 @@ package objects.powerups;
 
 import logging.ILogger;
 import objects.IGameObject;
+import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
@@ -112,16 +113,17 @@ public final class PowerupFactory implements IPowerupFactory {
         switch (level) {
             case 1:
                 logger.info("A new Spring has been created");
-                spring = new Spring(serviceLocator, point, spriteFactory.getPowerupSprite(type, 1), spriteFactory.getSpringUsedSprite(1), BOOST_SPRING[level - 1]);
+                ISprite[] sprites = {spriteFactory.getPowerupSprite(type, level), spriteFactory.getSpringUsedSprite(level)};
+                spring = new Spring(serviceLocator, point, sprites, BOOST_SPRING[level - 1]);
                 break;
             case 2:
                 logger.info("A new Double Spring has been created");
-                spring = new Spring(serviceLocator, point, spriteFactory.getPowerupSprite(type, 2), spriteFactory.getSpringUsedSprite(2), BOOST_SPRING[level - 1]);
-                break;
+                ISprite[] sprites2 = {spriteFactory.getPowerupSprite(type, level), spriteFactory.getSpringUsedSprite(level)};
+                spring = new Spring(serviceLocator, point, sprites2, BOOST_SPRING[level - 1]);break;
             case 3:
                 logger.info("A new Titanium Spring has been created");
-                spring = new Spring(serviceLocator, point, spriteFactory.getPowerupSprite(type, 3), spriteFactory.getSpringUsedSprite(3), BOOST_SPRING[level - 1]);
-                break;
+                ISprite[] sprites3 = {spriteFactory.getPowerupSprite(type, level), spriteFactory.getSpringUsedSprite(level)};
+                spring = new Spring(serviceLocator, point, sprites3, BOOST_SPRING[level - 1]);break;
             default:
                 logger.warning("The level of the " + type.name() + " is " + (level < 1 ? "lower" : "higher") + " than the PowerupFactory can handle: " + level);
                 return null;
@@ -155,15 +157,18 @@ public final class PowerupFactory implements IPowerupFactory {
         switch (level) {
             case 1:
                 logger.info("A new Spring has been created");
-                trampoline = new Trampoline(serviceLocator, point, spriteFactory.getPowerupSprite(type, 1), spriteFactory.getTrampolineUsedSprite(1), BOOST_TRAMPOLINE[level - 1]);
+                ISprite[] sprites = {spriteFactory.getPowerupSprite(type, level), spriteFactory.getTrampolineUsedSprite(level)};
+                trampoline = new Trampoline(serviceLocator, point, sprites, BOOST_TRAMPOLINE[level - 1]);
                 break;
             case 2:
                 logger.info("A new Double Spring has been created");
-                trampoline = new Trampoline(serviceLocator, point, spriteFactory.getPowerupSprite(type, 2), spriteFactory.getTrampolineUsedSprite(2), BOOST_TRAMPOLINE[level - 1]);
+                ISprite[] sprites2 = {spriteFactory.getPowerupSprite(type, level), spriteFactory.getTrampolineUsedSprite(level)};
+                trampoline = new Trampoline(serviceLocator, point, sprites2, BOOST_TRAMPOLINE[level - 1]);
                 break;
             case 3:
                 logger.info("A new Titanium Spring has been created");
-                trampoline = new Trampoline(serviceLocator, point, spriteFactory.getPowerupSprite(type, 3), spriteFactory.getTrampolineUsedSprite(3), BOOST_TRAMPOLINE[level - 1]);
+                ISprite[] sprites3 = {spriteFactory.getPowerupSprite(type, level), spriteFactory.getTrampolineUsedSprite(level)};
+                trampoline = new Trampoline(serviceLocator, point, sprites3, BOOST_TRAMPOLINE[level - 1]);
                 break;
             default:
                 logger.warning("The level of the " + type.name() + " is " + (level < 1 ? "lower" : "higher") + " than the PowerupFactory can handle: " + level);
