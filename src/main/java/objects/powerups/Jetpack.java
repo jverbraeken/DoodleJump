@@ -55,7 +55,7 @@ import system.IServiceLocator;
                 this.setXPos((int) getOwner().getXPos());
             }
         } else if (level == 3) {
-            this.setXPos(((this.getOwner().getSprite().getWidth() - this.getSprite().getWidth()) / 2) + this.getOwner().getXPos());
+            this.setXPos((((double) this.getOwner().getSprite().getWidth() - (double) this.getSprite().getWidth()) / 2d) + this.getOwner().getXPos());
         } else {
             final String error = "Trying to set the position of the jetpack based on the unknown level: " + level;
             logger.error(error);

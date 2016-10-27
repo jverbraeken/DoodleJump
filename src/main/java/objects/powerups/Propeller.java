@@ -42,7 +42,7 @@ import system.IServiceLocator;
     /**
      * The sprites for an active Propeller.
      */
-    private static ISprite[] spritePack;
+    private static volatile ISprite[] spritePack = null;
     /**
      * The index of the current sprite.
      */
@@ -69,7 +69,9 @@ import system.IServiceLocator;
      */
     /* package */ Propeller(final IServiceLocator sL, final int x, final int y) {
         super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);
-        Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
+        if (spritePack == null) {
+            Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
+        }
     }
 
     /**

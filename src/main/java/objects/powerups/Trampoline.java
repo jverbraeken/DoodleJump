@@ -61,6 +61,9 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
+    // We supress the warning here because we do check for the null value before calling alertSpringUsed, but
+    // because there's a bug in FindBugs (ironically :) ) the warning is generated
+    @SuppressWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public void collidesWith(final IDoodle doodle) {
         if (doodle == null) {
             throw new IllegalArgumentException("Doodle cannot be null");
