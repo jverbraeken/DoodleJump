@@ -4,7 +4,7 @@ import objects.IJumpable;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * Created by Michael on 10/20/2016.

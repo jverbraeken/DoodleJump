@@ -5,7 +5,7 @@ import objects.IGameObject;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * Standard implementation of the EnemyBuilder. Used to generate enemies.

@@ -5,7 +5,7 @@ import rendering.IRenderer;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * A sample enemy class.

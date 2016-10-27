@@ -4,7 +4,7 @@ import objects.AGameObject;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * Abstract implementation of an Enemy.

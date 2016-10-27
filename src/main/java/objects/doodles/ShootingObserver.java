@@ -5,7 +5,7 @@ import logging.ILogger;
 import objects.IGameObject;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * A ShootingObserver is a MouseInputObserver which creates projectiles

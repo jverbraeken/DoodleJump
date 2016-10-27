@@ -1,13 +1,9 @@
 package objects.powerups;
 
-import objects.AGameObject;
-import objects.doodles.IDoodle;
-import progression.ProgressionObservers;
-import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the spring powerup.

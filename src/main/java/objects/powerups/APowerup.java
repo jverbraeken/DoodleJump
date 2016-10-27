@@ -7,7 +7,7 @@ import objects.blocks.platform.IPlatform;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * This class describes the abstract functionality of powerups.

@@ -2,7 +2,7 @@ package objects.powerups;
 
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the SpaceRocket powerup.

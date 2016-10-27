@@ -3,7 +3,7 @@ package objects.powerups;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the SizeDown powerup. Decreasing the size of the Doodle when picked up.

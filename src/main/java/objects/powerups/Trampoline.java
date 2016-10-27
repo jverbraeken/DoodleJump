@@ -4,7 +4,7 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.Timer;
 import java.util.TimerTask;
 
