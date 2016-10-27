@@ -4,6 +4,8 @@ import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 /**
  * The super class of all classes that represents objects in the game.
  */
@@ -54,21 +56,20 @@ public abstract class AGameObject implements IGameObject {
      * Creates a new game object and determines its hitbox by using the sprites dimensions automatically.
      *
      * @param sL            The serviceLocator.
-     * @param x             The X-coordinate of the game object.
-     * @param y             The Y-coordinate of the game object.
+     * @param point         The coordinates of the game object.
      * @param s             The sprite of the game object.
      * @param objectClass   The class of the object (e.g. Doodle.class)
      */
-    public AGameObject(final IServiceLocator sL, final int x, final int y, final ISprite s, final Class<?> objectClass) {
+    public AGameObject(final IServiceLocator sL, final Point point, final ISprite s, final Class<?> objectClass) {
         synchronized (LOCK) {
             AGameObject.serviceLocator = sL;
         }
 
-        this.setXPos(x);
-        this.setYPos(y);
+        this.setXPos(point.getX());
+        this.setYPos(point.getY());
 
         if (s == null) {
-            this.setHitBox(x, y, sL.getConstants().getGameWidth(), Integer.MAX_VALUE);
+            this.setHitBox((int) point.getX(), (int) point.getY(), sL.getConstants().getGameWidth(), Integer.MAX_VALUE);
         } else {
             this.setHitBox(0, 0, s.getWidth(), s.getHeight());
             this.setSprite(s);

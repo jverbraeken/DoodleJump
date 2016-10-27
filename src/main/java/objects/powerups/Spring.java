@@ -7,6 +7,8 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 /**
  * This class describes the behaviour of the spring powerup.
  */
@@ -22,11 +24,9 @@ import system.IServiceLocator;
      * Spring constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the trampoline.
-     * @param y - The Y location for the trampoline.
      */
-    /* package */ Spring(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final ISprite usedSprite, final int boost) {
-        super(sL, x, y, boost, RETRACT_SPEED, sprite, usedSprite, Spring.class);
+    /* package */ Spring(final IServiceLocator sL, final Point p, final ISprite sprite, final ISprite usedSprite, final int boost) {
+        super(sL, p, boost, RETRACT_SPEED, sprite, usedSprite, Spring.class);
     }
 
 }

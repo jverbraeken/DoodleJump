@@ -19,6 +19,7 @@ import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -127,12 +128,12 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     /* package */ Doodle(final IServiceLocator sL, final World w) {
         super(sL,
-                sL.getConstants().getGameWidth() / 2,
-                sL.getConstants().getGameHeight() / 2,
+                new Point(sL.getConstants().getGameWidth() / 2,
+                sL.getConstants().getGameHeight() / 2),
                 sL.getSpriteFactory().getDoodleLeftSprites()[0],
                 Doodle.class);
 
-        Doodle.fakePowerup = new APowerup(sL, 0, 0, sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
+        Doodle.fakePowerup = new APowerup(sL, new Point(0, 0), sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
             @Override
             public void render() {
             }

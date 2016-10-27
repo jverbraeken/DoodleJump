@@ -4,6 +4,8 @@ import objects.IJumpable;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 /**
  * Created by Michael on 10/20/2016.
  */
@@ -34,8 +36,8 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
      * @param usedSprite    The sprite when the object has collided with a doodle
      * @param powerup      The class of the powerup
      */
-    public AJumpablePowerup(final IServiceLocator sL, final int x, final int y, final double boost, final ISprite defaultSprite, final ISprite usedSprite, final Class<?> powerup) {
-        super(sL, x, y, defaultSprite, powerup);
+    public AJumpablePowerup(final IServiceLocator sL, final Point point, final double boost, final ISprite defaultSprite, final ISprite usedSprite, final Class<?> powerup) {
+        super(sL, point, defaultSprite, powerup);
         this.usedSprite = usedSprite;
         this.defaultSprite = defaultSprite;
         this.boost = boost;

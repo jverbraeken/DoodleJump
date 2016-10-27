@@ -12,6 +12,8 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.*;
@@ -50,7 +52,7 @@ public class JetpackTest {
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(spriteFactory.getJetpackActiveSprites()).thenReturn(spritePack);
 
-        jetpack = new Jetpack(serviceLocator, 0, 0);
+        jetpack = new Jetpack(serviceLocator, new Point(0, 0));
     }
 
     @Test

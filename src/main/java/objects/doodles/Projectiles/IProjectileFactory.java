@@ -5,6 +5,8 @@ package objects.doodles.Projectiles;
 
 import system.IFactory;
 
+import java.awt.*;
+
 /**
  * The interface of a ProjectileFactory.
  */
@@ -12,9 +14,8 @@ public interface IProjectileFactory extends IFactory {
     /**
      * Create a new RegularProjectile.
      *
-     * @param x the x location.
-     * @param y the y location.
+     * @param point the location.
      * @return The new RegularProjectile.
      */
-    RegularProjectile createRegularProjectile(final int x, final int y, final int xDir, final int yDir);
+    RegularProjectile createRegularProjectile(final Point point, final int xDir, final int yDir);
 }
