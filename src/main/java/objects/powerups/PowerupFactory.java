@@ -217,11 +217,13 @@ public final class PowerupFactory implements IPowerupFactory {
             logger.error(error);
             throw new IllegalArgumentException(error);
         }
-        this.trampolineObservers.remove(springCreatedObserver);
+        this.springObservers.remove(springCreatedObserver);
     }
 
 
-
+    /**
+     * {@inheritDoc}
+     */
     public void removeObserver(ITrampolineCreatedObserver trampolineCreatedObserver) {
         if (trampolineCreatedObserver == null) {
             final String error = "Cannot removed a null trampolineCreatedObserver";
