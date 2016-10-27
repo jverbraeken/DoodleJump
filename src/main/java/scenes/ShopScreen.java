@@ -79,7 +79,7 @@ import java.util.ArrayList;
     /**=
      * X & Y location in relation to the frame of the {@link objects.powerups.Propeller} upgrade button.
      */
-    private static final double PROPELLER_BUTTON_X = BUTTON_X_START, PROPELLER_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 0;
+    private static final double PROPELLER_BUTTON_X = BUTTON_X_START, PROPELLER_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 1;
     /**
      * The height of the button
      */
@@ -87,7 +87,7 @@ import java.util.ArrayList;
     /**
      * X & Y location in relation to the frame of the {@link objects.powerups.SizeDown} upgrade button.
      */
-    private static final double SIZEDOWN_BUTTON_X = BUTTON_X_START, SIZEDOWN_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 1;
+    private static final double SIZEDOWN_BUTTON_X = BUTTON_X_START, SIZEDOWN_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 2;
     /**
      * The height of the button
      */
@@ -95,7 +95,7 @@ import java.util.ArrayList;
     /**
      * X & Y location in relation to the frame of the {@link objects.powerups.SizeUp} upgrade button.
      */
-    private static final double SIZEUP_BUTTON_X = BUTTON_X_START, SIZEUP_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 2;
+    private static final double SIZEUP_BUTTON_X = BUTTON_X_START, SIZEUP_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 3;
     /**
      * The height of the button
      */
@@ -123,7 +123,7 @@ import java.util.ArrayList;
     /**
      * The height of the button
      */
-    private static final int TRAMPOLINE_BUTTON_HEIGHT = 80;
+    private static final int TRAMPOLINE_BUTTON_HEIGHT = 40;
     /**
      * The number of digits in the decimal system.
      */
