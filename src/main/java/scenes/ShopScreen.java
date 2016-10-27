@@ -39,7 +39,7 @@ import java.util.ArrayList;
     /**
      * The Y-position at which the first button will be created.
      */
-    private static final double BUTTON_Y_START = 0.4d;
+    private static final double BUTTON_Y_START = 0.35d;
     /**
      * The Y-distance between the buttons (buttons themselves including).
      */
@@ -66,22 +66,21 @@ import java.util.ArrayList;
     private static final String POWERUP_INFO_LEVEL = "Level - Cost";
 
     /**
-     * X & Y location in relation to the frame of the {@link objects.powerups.Jetpack} upgrade button.
-     */
-    private static final double JETPACK_BUTTON_X = BUTTON_X_START, JETPACK_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 0;
-    /**
      * X & Y location in relation to the frame of the {@link objects.powerups.Propeller} upgrade button.
      */
-    private static final double PROPELLER_BUTTON_X = BUTTON_X_START, PROPELLER_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 1;
+    private static final double PROPELLER_BUTTON_X = BUTTON_X_START, PROPELLER_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 0;
     /**
      * X & Y location in relation to the frame of the {@link objects.powerups.SizeDown} upgrade button.
      */
-    private static final double SIZEDOWN_BUTTON_X = BUTTON_X_START, SIZEDOWN_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 2;
+    private static final double SIZEDOWN_BUTTON_X = BUTTON_X_START, SIZEDOWN_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 1;
     /**
      * X & Y location in relation to the frame of the {@link objects.powerups.SizeUp} upgrade button.
      */
-    private static final double SIZEUP_BUTTON_X = BUTTON_X_START, SIZEUP_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 3;
-
+    private static final double SIZEUP_BUTTON_X = BUTTON_X_START, SIZEUP_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 2;
+    /**
+     * X & Y location in relation to the frame of the {@link objects.powerups.Jetpack} upgrade button.
+     */
+    private static final double JETPACK_BUTTON_X = BUTTON_X_START, JETPACK_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 3;
     /**
      * X & Y location in relation to the frame of the {@link objects.powerups.Spring} upgrade button.
      */
@@ -257,10 +256,10 @@ import java.util.ArrayList;
         renderer.drawTextHUD(new Point((int) (POWERUP_INFO_X * width), (int) (POWERUP_INFO_Y * height)), POWERUP_INFO_LEVEL, TextAlignment.left, Color.black);
         renderer.drawTextHUD(new Point((int) (POWERUP_INFO_X2 * width), (int) (POWERUP_INFO_Y * height)), POWERUP_INFO_LEVEL, TextAlignment.right, Color.black);
 
-        drawPowerupText(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y);
         drawPowerupText(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y);
         drawPowerupText(Powerups.sizeDown, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y);
         drawPowerupText(Powerups.sizeUp, SIZEUP_BUTTON_X, SIZEUP_BUTTON_Y);
+        drawPowerupText(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y);
         drawPowerupText(Powerups.spring, SPRING_BUTTON_X, SPRING_BUTTON_Y);
         drawPowerupText(Powerups.springShoes, SPRINGSHOES_BUTTON_X, SPRINGSHOES_BUTTON_Y);
         drawPowerupText(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y);
