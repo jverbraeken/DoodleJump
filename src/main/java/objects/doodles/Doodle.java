@@ -77,7 +77,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Fake Powerup instance to return when actual powerup value is null.
      */
-    private static APowerup fakePowerup;
+    private static volatile APowerup fakePowerup = null;
     /**
      * The world the Doodle lives in.
      */
@@ -136,19 +136,21 @@ public class Doodle extends AGameObject implements IDoodle {
                 sL.getSpriteFactory().getDoodleLeftSprites()[0],
                 Doodle.class);
 
-        Doodle.fakePowerup = new APowerup(sL, 0, 0, sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
-            @Override
-            public void render() {
-            }
+        if (Doodle.fakePowerup == null) {
+            Doodle.fakePowerup = new APowerup(sL, 0, 0, sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
+                @Override
+                public void render() {
+                }
 
-            @Override
-            public void collidesWith(final IDoodle doodle) {
-            }
+                @Override
+                public void collidesWith(final IDoodle doodle) {
+                }
 
-            @Override
-            public void setPositionOnPlatform(final IPlatform platform) {
-            }
-        };
+                @Override
+                public void setPositionOnPlatform(final IPlatform platform) {
+                }
+            };
+        }
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.shootingObserver = new ShootingObserver(sL, this);
