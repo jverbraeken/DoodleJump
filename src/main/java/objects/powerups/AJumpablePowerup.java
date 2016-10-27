@@ -29,8 +29,7 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
     /**
      * The constructor of the AJumpablePowerUp object.
      * @param sL           The locator providing services to the powerup
-     * @param x            The X-coordinate of the powerup
-     * @param y            The Y-coordinate of the powerup
+     * @param point            The coordinates of the powerup
      * @param boost        The value of the boost of the powerup
      * @param defaultSprite The sprite when the object has not collided with a doodle
      * @param usedSprite    The sprite when the object has collided with a doodle
