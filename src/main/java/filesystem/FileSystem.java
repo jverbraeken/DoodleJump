@@ -76,7 +76,7 @@ public final class FileSystem implements IFileSystem {
         File logFile = new File(Game.LOGFILE_NAME);
 
         try {
-            fw = new FileWriter(logFile, true);
+            fw = new OutputStreamWriter(new FileOutputStream(logFile), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -316,9 +316,11 @@ public final class FileSystem implements IFileSystem {
     @Override
     public File getProjectFile(final String filename) throws IOException {
         File file = new File(filename);
-        // We use a variable here to prevent the unused result Findbugs warning. We really do not have to do anything
-        // with the result in this case, so yeah, the variable is unused.
+        // The only reason we do this is to suppress a FindBugs warning
         final boolean didntExist = file.createNewFile();
+        if (didntExist) {
+            System.out.println("New file called \"" + filename + "\" created");
+        }
 
         return new File(filename);
     }
