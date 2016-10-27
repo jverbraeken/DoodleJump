@@ -175,7 +175,7 @@ public abstract class DefaultProgressionObserver implements IProgressionObserver
      * Returns true if the observer has reached its goal (was notificated {@link #times} times.
      */
     private void checkFinished() {
-        if (counter == times) {
+        if ((int) Math.round(counter) == times) {
             finished();
         }
     }

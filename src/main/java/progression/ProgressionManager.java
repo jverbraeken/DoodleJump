@@ -411,7 +411,7 @@ public final class ProgressionManager implements IProgressionManager {
     /**
      * A data container class for missions.
      */
-    private final class MissionData {
+    private static final class MissionData {
         /**
          * The type of the mission.
          */
@@ -448,7 +448,7 @@ public final class ProgressionManager implements IProgressionManager {
     /**
      * Thrown when there are more coins requested to be subtracted from the budget than there are available.
      */
-    private final class InsufficientCoinsException extends RuntimeException {
+    private static final class InsufficientCoinsException extends RuntimeException {
         /**
          * Construct a new InsufficientCoinsException with a certain message.
          *
