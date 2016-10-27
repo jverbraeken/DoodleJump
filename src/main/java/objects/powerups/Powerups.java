@@ -4,7 +4,7 @@ package objects.powerups;
  * Indicates which types of powerups are available
  */
 public enum Powerups {
-    jetpack("jetpack", 50),
+    jetpack("jetpack", 50, 100, 150),
     propeller("propeller", 50),
     sizeDown("sizeDown", 50),
     sizeUp("sizeUp", 50),
