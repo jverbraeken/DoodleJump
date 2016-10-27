@@ -18,6 +18,7 @@ import system.IServiceLocator;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -73,7 +74,7 @@ public class JetpackTest {
     @Test
     public void testRenderNoOwner() {
         jetpack.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
         verify(doodle, times(0)).getXPos();
         verify(doodle, times(0)).getYPos();
     }
@@ -82,7 +83,7 @@ public class JetpackTest {
     public void testRenderWithOwner() {
         jetpack.collidesWith(doodle);
         jetpack.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
     }
 
     @Test
@@ -96,12 +97,11 @@ public class JetpackTest {
     public void testPerformInvalidOccasion() {
         jetpack.collidesWith(doodle);
         jetpack.perform(PowerupOccasion.collision);
-        verify(doodle, times(0)).setVerticalSpeed(anyDouble());
+        verify(doodle, never()).setVerticalSpeed(anyDouble());
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NullPointerException.class)
     public void testPerformNoOwner() {
         jetpack.perform(PowerupOccasion.constant);
     }
-
 }

@@ -100,7 +100,7 @@ public class PropellerTest {
     @Test
     public void testRenderNoOwner() {
         propeller.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
         verify(doodle, times(0)).getXPos();
         verify(doodle, times(0)).getYPos();
     }
@@ -109,7 +109,7 @@ public class PropellerTest {
     public void testRenderWithOwner() {
         propeller.collidesWith(doodle);
         propeller.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
     }
 
     @Test
