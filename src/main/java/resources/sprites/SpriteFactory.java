@@ -1073,7 +1073,7 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * Thrown when the sprite is asked for a level that's either too low or too high.
      */
-    public final class UnavailableLevelException extends RuntimeException {
+    private static final class UnavailableLevelException extends RuntimeException {
 
         /**
          * Creates a new UnavailableException.
