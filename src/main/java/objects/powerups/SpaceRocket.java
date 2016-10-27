@@ -27,7 +27,8 @@ import java.awt.Point;
      * @param point - The location for the SpaceRocket.
      */
     /* package */ SpaceRocket(final IServiceLocator sL, final Point point) {
-        super(sL, point, MAX_TIME, sL.getSpriteFactory().getSpaceRocketSprite(), sL.getSpriteFactory().getSpaceRocketActiveSprites(), SpaceRocket.class);
+        super(sL, point, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 3), sL.getSpriteFactory().getSpaceRocketActiveSprites(), SpaceRocket.class);
+
     }
 
     /**

@@ -22,6 +22,7 @@ public final class PowerupFactory implements IPowerupFactory {
      * The boosts per level of {@link ATrampoline trampoline} powerups.
      */
     private static final int[] BOOST_TRAMPOLINE = new int[]{-40, -55, -70};
+
     /**
      * Used to gain access to all services.
      */
@@ -57,16 +58,6 @@ public final class PowerupFactory implements IPowerupFactory {
         }
         PowerupFactory.serviceLocator = sL;
         PowerupFactory.serviceLocator.provide(new PowerupFactory());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public IGameObject createJetpack(final int x, final int y) {
-        logger.info("A new Jetpack has been created");
-        final Point point = new Point(x, y);
-        return new Jetpack(serviceLocator, point);
     }
 
     /**
@@ -173,6 +164,30 @@ public final class PowerupFactory implements IPowerupFactory {
             observer.trampolineCreated(trampoline);
         }
         return trampoline;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject createJetpack(final int x, final int y) {
+        final Powerups type = Powerups.jetpack;
+        final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
+        final Point point = new Point(x, y);
+        switch (level) {
+            case 1:
+                logger.info("A new Jetpack has been created");
+                return new Jetpack(serviceLocator, point);
+            case 2:
+                logger.info("A new Afterburner has been created");
+                return new Afterburner(serviceLocator, point);
+            case 3:
+                logger.info("A new SpaceRocket has been created");
+                return new SpaceRocket(serviceLocator, point);
+            default:
+                logger.warning("The level of the " + type.name() + " is " + (level < 1 ? "lower" : "higher") + " than the PowerupFactory can handle: " + level);
+                return null;
+        }
     }
 
     /**
