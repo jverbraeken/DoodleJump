@@ -11,7 +11,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -33,7 +33,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.awt.GraphicsEnvironment;
 import java.util.List;
 
 /**
@@ -317,7 +316,9 @@ public final class FileSystem implements IFileSystem {
     @Override
     public File getProjectFile(final String filename) throws IOException {
         File file = new File(filename);
-        file.createNewFile();
+        // We use a variable here to prevent the unused result Findbugs warning. We really do not have to do anything
+        // with the result in this case, so yeah, the variable is unused.
+        final boolean didntExist = file.createNewFile();
 
         return new File(filename);
     }
@@ -357,7 +358,7 @@ public final class FileSystem implements IFileSystem {
                     .getLocalGraphicsEnvironment();
 
             ge.registerFont(font);
-        } catch (Exception ex) {
+        } catch (IOException | FontFormatException ex) {
             System.err.println(name + " not loaded.  Using serif font.");
             font = DEFAULT_FONT;
         }
