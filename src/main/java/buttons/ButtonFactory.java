@@ -5,6 +5,7 @@ import objects.powerups.Powerups;
 import progression.IProgressionManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import scenes.PauseScreenModes;
 import system.Game;
 import system.IServiceLocator;
 
@@ -314,11 +315,23 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createSwitchButton(final double x, final double y) {
+    public IButton createSwitchToShopButton(final double x, final double y) {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getShopButtonSprite();
-        Runnable switchAction = () -> Game.getPauseScreen().switchMode();
+        Runnable switchAction = () -> Game.getPauseScreen().switchMode(PauseScreenModes.shop);
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, switchAction, "switch");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createSwitchToMissionButton(final double x, final double y) {
+        assert ButtonFactory.serviceLocator != null;
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getShopButtonSprite();
+        Runnable switchAction = () -> Game.getPauseScreen().switchMode(PauseScreenModes.mission);
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, switchAction, "switch");
     }
 

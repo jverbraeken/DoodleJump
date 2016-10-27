@@ -173,9 +173,6 @@ public final class PowerupFactory implements IPowerupFactory {
                 logger.info("A new Jetpack has been created");
                 return new Jetpack(serviceLocator, x, y);
             case 2:
-                logger.info("A new Afterburner has been created");
-                return new Afterburner(serviceLocator, x, y);
-            case 3:
                 logger.info("A new SpaceRocket has been created");
                 return new SpaceRocket(serviceLocator, x, y);
             default:
@@ -223,14 +220,6 @@ public final class PowerupFactory implements IPowerupFactory {
         this.trampolineObservers.remove(springCreatedObserver);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public IGameObject createSpaceRocket(final int x, final int y) {
-        logger.info("A new Rocket Launcher has been created");
-        return new SpaceRocket(serviceLocator, x, y);
-    }
 
 
     public void removeObserver(ITrampolineCreatedObserver trampolineCreatedObserver) {

@@ -298,7 +298,7 @@ import java.util.ArrayList;
      * {@inheritDoc}
      */
     @Override
-    public void switchMode() {
+    public void switchMode(PauseScreenModes mode) {
     }
 
 }

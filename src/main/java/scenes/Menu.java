@@ -188,7 +188,7 @@ public class Menu implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public void switchMode() {
+    public void switchMode(PauseScreenModes mode) {
     }
 
 }

@@ -21,6 +21,6 @@ public interface IScene extends IUpdatable, IRenderable {
     /**
      * This method allows the game to change modes.
      */
-    void switchMode(); // Most scenes do not use this method.
+    void switchMode(PauseScreenModes mode); // Most scenes do not use this method.
 
 }

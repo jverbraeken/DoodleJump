@@ -153,7 +153,7 @@ import java.util.ArrayList;
      * {@inheritDoc}
      */
     @Override
-    public final void switchMode() {
+    public final void switchMode(PauseScreenModes mode) {
     }
 
 }

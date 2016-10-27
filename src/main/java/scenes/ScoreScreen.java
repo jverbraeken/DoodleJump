@@ -139,7 +139,7 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public void switchMode() {
+    public void switchMode(PauseScreenModes mode) {
     }
 
 }

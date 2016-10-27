@@ -7,6 +7,7 @@ import logging.ILogger;
 import objects.powerups.ASpring;
 import objects.powerups.Powerups;
 import resources.IRes;
+import scenes.PauseScreenModes;
 import system.IServiceLocator;
 
 import java.awt.image.BufferedImage;
@@ -155,11 +156,17 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite[] getPauseCoverSprite() {
-        return new ISprite[]{
-                this.getSprite(IRes.Sprites.pauseCover),
-                this.getSprite(IRes.Sprites.shopCover)
-        };
+    public ISprite getPauseCoverSprite(PauseScreenModes currentMode) {
+        switch (currentMode) {
+            case mission:
+                return this.getSprite(IRes.Sprites.pauseCover);
+            case shop:
+                return this.getSprite(IRes.Sprites.shopCover);
+            default:
+                final String error = "Trying to get the cover sprite of a mode that's not available";
+                logger.error(error);
+                throw new UnavailableLevelException(error);
+        }
     }
 
     /**
@@ -1024,10 +1031,8 @@ public final class SpriteFactory implements ISpriteFactory {
             case 1:
                 return getSprite(IRes.Sprites.jetpack);
             case 2:
-                return getSprite(IRes.Sprites.afterburner);
-            case 3:
                 return getSprite(IRes.Sprites.spaceRocket);
-            case 4:
+            case 3:
                 return getSprite(IRes.Sprites.spaceRocket);
             default:
                 final String error = "Trying to get a space rocket of a level that's not available: " + level;

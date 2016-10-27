@@ -126,7 +126,7 @@ import system.IServiceLocator;
     /**
      * {@inheritDoc}
      */
-    public void switchMode() {
+    public void switchMode(PauseScreenModes mode) {
     }
 
 }

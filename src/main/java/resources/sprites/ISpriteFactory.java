@@ -1,6 +1,7 @@
 package resources.sprites;
 
 import objects.powerups.Powerups;
+import scenes.PauseScreenModes;
 import system.IFactory;
 
 /**
@@ -32,7 +33,7 @@ public interface ISpriteFactory extends IFactory {
     // Covers
     ISprite getBackground();
 
-    ISprite[] getPauseCoverSprite();
+    ISprite getPauseCoverSprite(PauseScreenModes currentMode);
 
     ISprite getStartCoverSprite();
 

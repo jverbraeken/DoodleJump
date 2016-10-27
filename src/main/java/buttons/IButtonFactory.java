@@ -168,11 +168,20 @@ public interface IButtonFactory extends IFactory {
     IButton createPauseButton(final double x, final double y);
 
     /**
-     * Create a switch button that switches between the display of the missions and shop in the pause screen.
+     * Create a switch button that switches the screen to the display of shop in the pause screen.
      *
      * @param x The x position of the button.
      * @param y The y position of the button.
      * @return A switch button.
      */
-    IButton createSwitchButton(final double x, final double y);
+    IButton createSwitchToShopButton(final double x, final double y);
+
+    /**
+     * Create a switch button that switches the screen to the display of shop in the pause screen.
+     *
+     * @param x The x position of the button.
+     * @param y The y position of the button.
+     * @return A switch button.
+     */
+    IButton createSwitchToMissionButton(final double x, final double y);
 }

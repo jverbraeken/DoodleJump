@@ -105,7 +105,8 @@ import java.util.List;
     /**
      * The switch button.
      */
-    private final IButton switchButton;
+    private final IButton switchMissionButton, switchShopButton;
+
     /**
      * The sprites of the coin, animated.
      */
@@ -125,17 +126,13 @@ import java.util.List;
     private final ArrayList<IButton> powerupButtons = new ArrayList<>();
 
     /**
-     * The background sprites.
-     */
-    private ISprite[] background;
-    /**
      * The distance between the missions drawn at the screen.
      */
     private static final int DISTANCE_BETWEEN_MISSIONS = 15;
     /**
      * Variable to decide between the display of the shop or missions(True and False respectively).
      */
-    private boolean mode;
+    private PauseScreenModes mode;
 
     /**
      * Initialize the pause screen.
@@ -146,18 +143,16 @@ import java.util.List;
         this.serviceLocator = sL;
         this.logger = sL.getLoggerFactory().createLogger(PauseScreen.class);
 
-        // Background
-        this.background = this.serviceLocator.getSpriteFactory().getPauseCoverSprite();
-
         // Coins
         for (int i = 0; i < 10; i++) {
             coinSprites[i] = this.serviceLocator.getSpriteFactory().getCoinSprite(i + 1);
         }
 
-        // Button
+        // Buttons
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
         this.resumeButton = buttonFactory.createResumeButton(PauseScreen.RESUME_BUTTON_X, PauseScreen.RESUME_BUTTON_Y);
-        this.switchButton = buttonFactory.createSwitchButton(PauseScreen.SWITCH_BUTTON_X, PauseScreen.SWITCH_BUTTON_Y);
+        this.switchMissionButton = buttonFactory.createSwitchToMissionButton(PauseScreen.SWITCH_BUTTON_X, PauseScreen.SWITCH_BUTTON_Y);
+        this.switchShopButton = buttonFactory.createSwitchToShopButton(PauseScreen.SWITCH_BUTTON_X, PauseScreen.SWITCH_BUTTON_Y);
     }
 
     /**
@@ -165,11 +160,11 @@ import java.util.List;
      */
     @Override
     public void start() {
-        mode = false; // when opening the pause screen, the screen will display the missions by default.
+        mode = PauseScreenModes.mission; // when opening the pause screen, the screen will display the missions by default.
         this.resumeButton.register();
-        this.logger.info("The pause scene is now displaying");
-        this.switchButton.register();
-        this.logger.info("The shop scene is now displaying");
+        this.logger.info("The resume button is now available");
+        this.switchShopButton.register();
+        this.logger.info("The switch button is now available");
 
     }
 
@@ -180,9 +175,8 @@ import java.util.List;
     public void stop() {
         this.resumeButton.deregister();
         this.logger.info("The resume button is no longer available");
-        this.switchButton.deregister();
-        this.logger.info("The switch button is no longer available");
-        if(mode) {
+
+        if(mode.equals(PauseScreenModes.shop)) {
             this.stopShopCover();
         }
     }
@@ -192,14 +186,11 @@ import java.util.List;
      */
     @Override
     public void render() {
-        assert background != null;
         assert coinSprites[(int) coinSpriteIndex] != null;
         assert resumeButton != null;
-        assert switchButton != null;
 
-        serviceLocator.getRenderer().drawSpriteHUD(this.getBackgroundSprite(mode), 0, 0);
+        serviceLocator.getRenderer().drawSpriteHUD(serviceLocator.getSpriteFactory().getPauseCoverSprite(mode), 0, 0);
         resumeButton.render();
-        switchButton.render();
         ISprite coinSprite = this.coinSprites[(int) coinSpriteIndex];
         final int coinX = MARGIN + coinSprite.getHeight() / 2 - (int) (((double) coinSprite.getWidth() / (double) coinSprite.getHeight()) * (double) coinSprite.getHeight() / 2d);
         final int coinY = serviceLocator.getSpriteFactory().getScoreBarSprite().getHeight();
@@ -209,7 +200,7 @@ import java.util.List;
         final int coinTextY = coinY + coinSprite.getHeight() / 2;
         serviceLocator.getRenderer().drawTextHUD(coinTextX, coinTextY, Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
 
-        if(!mode) {
+        if(mode.equals(PauseScreenModes.mission)) {
             this.renderMissions(coinY + coinSprite.getHeight());
         }
         else {
@@ -222,7 +213,8 @@ import java.util.List;
      */
     private void renderMissions(final int y) {
         this.stopShopCover();
-
+        this.switchShopButton.register();
+        this.switchShopButton.render();
         final List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
         final int missionSpriteHeight = serviceLocator.getSpriteFactory().getAchievementSprite().getHeight();
         for (int i = 0; i < missions.size(); i++) {
@@ -236,6 +228,9 @@ import java.util.List;
     private void renderShop() {
         assert powerupButtons != null;
         stopShopCover();
+        this.switchShopButton.deregister();
+        this.switchMissionButton.register();
+        this.switchMissionButton.render();
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
         this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y));
         this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y));
@@ -259,27 +254,15 @@ import java.util.List;
         powerupButtons.forEach(IButton::deregister);
         this.logger.info("The powerup buttons are no longer available");
         powerupButtons.clear();
-    }
-
-    /**
-     * Gets the background of the current mode(Mission or Shop).
-     *
-     * @param mode The mode of the screen(Mission or Shop)
-     * @return ISprite of the background
-     */
-    private ISprite getBackgroundSprite(boolean mode) {
-        if(mode) {
-            return background[1];
-        } else {
-            return background[0];
-        }
+        this.switchMissionButton.deregister();
+        this.logger.info("The switch button to the mission cover is no longer available");
     }
 
     /**
      * {@inheritDoc}
      */
-    public void switchMode() {
-        this.mode = !mode;
+    public void switchMode(PauseScreenModes mode) {
+        this.mode = mode;
     }
 
     /**
