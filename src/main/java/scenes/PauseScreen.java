@@ -8,6 +8,7 @@ import rendering.Color;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.List;
 
 /**
@@ -113,7 +114,7 @@ import java.util.List;
 
         final int coinTextX = MARGIN + coinSprite.getHeight() + MARGIN;
         final int coinTextY = coinY + coinSprite.getHeight() / 2;
-        serviceLocator.getRenderer().drawTextHUD(coinTextX, coinTextY, Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
+        serviceLocator.getRenderer().drawTextHUD(new Point(coinTextX, coinTextY), Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
 
         final List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
         final int missionSpriteHeight = serviceLocator.getSpriteFactory().getAchievementSprite().getHeight();

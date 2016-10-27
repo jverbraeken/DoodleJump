@@ -8,10 +8,10 @@ import rendering.Color;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
-import system.Game;
 import progression.HighScore;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.List;
 
 /**
@@ -99,7 +99,7 @@ import java.util.List;
             HighScore score = highScores.get(i);
             int entryY = scoreListTopY + i * entryHeight;
             String msg = score.getName() + " - " + score.getScore();
-            renderer.drawText(this.left.getWidth(), entryY, msg, Color.black);
+            renderer.drawText(new Point(this.left.getWidth(), entryY), msg, Color.black);
         }
 
         // Draw the hud.

@@ -14,6 +14,7 @@ import resources.sprites.ISpriteFactory;
 import system.IRenderable;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
@@ -249,12 +250,12 @@ import java.util.ArrayList;
 
         final int coinTextX = width / 2 + coinSprite.getHeight() + COIN_TEXT_OFFSET;
         final int coinTextY = coinY + coinSprite.getHeight() / 2;
-        renderer.drawTextHUD(coinTextX, coinTextY, Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
+        renderer.drawTextHUD(new Point(coinTextX, coinTextY), Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
 
         buttons.forEach(IRenderable::render);
 
-        renderer.drawTextHUD((int) (POWERUP_INFO_X * width), (int) (POWERUP_INFO_Y * height), POWERUP_INFO_LEVEL, TextAlignment.left, Color.black);
-        renderer.drawTextHUD((int) (POWERUP_INFO_X2 * width), (int) (POWERUP_INFO_Y * height), POWERUP_INFO_LEVEL, TextAlignment.right, Color.black);
+        renderer.drawTextHUD(new Point((int) (POWERUP_INFO_X * width), (int) (POWERUP_INFO_Y * height)), POWERUP_INFO_LEVEL, TextAlignment.left, Color.black);
+        renderer.drawTextHUD(new Point((int) (POWERUP_INFO_X2 * width), (int) (POWERUP_INFO_Y * height)), POWERUP_INFO_LEVEL, TextAlignment.right, Color.black);
 
         drawPowerupText(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y);
         drawPowerupText(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y);
@@ -283,7 +284,7 @@ import java.util.ArrayList;
             string = Integer.toString(level);
         }
         final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup) + 1).getHeight() / 2;
-        renderer.drawTextHUD((int) (jetpackButtonX * width) + BUTTON_TEXT_OFFSET, (int) (jetpackButtonY * height) + yOffset, string, Color.black);
+        renderer.drawTextHUD(new Point((int) (jetpackButtonX * width) + BUTTON_TEXT_OFFSET, (int) (jetpackButtonY * height) + yOffset), string, Color.black);
     }
 
     /**

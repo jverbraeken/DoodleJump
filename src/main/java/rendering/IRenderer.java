@@ -99,78 +99,70 @@ public interface IRenderer {
     /**
      * Draw a string of text relative to the camera, left-aligned.
      *
-     * @param x   the x position of the text.
-     * @param y   the y position of the text.
+     * @param point
      * @param msg The message to draw.
      */
-    void drawText(final int x, final int y, final String msg);
+    void drawText(Point point, final String msg);
 
     /**
      * Draw a string of text relative to the screen, left-aligned.
      *
-     * @param x   the x position of the text.
-     * @param y   the y position of the text.
-     * @param msg The message to draw.
+     * @param point     The position of the text.
+     * @param msg       The message to draw.
      */
-    void drawTextHUD(final int x, final int y, final String msg);
+    void drawTextHUD(final Point point, final String msg);
 
     /**
      * Draw a string of text relative to the screen.
      *
-     * @param x         the x position of the text.
-     * @param y         the y position of the text.
+     * @param point     The position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
      */
-    void drawText(int x, int y, String msg, TextAlignment alignment);
+    void drawText(final Point point, String msg, TextAlignment alignment);
 
     /**
      * Draw a string of text relative to the screen.
      *
-     * @param x         the x position of the text.
-     * @param y         the y position of the text.
+     * @param point     The position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
      */
-    void drawTextHUD(int x, int y, String msg, TextAlignment alignment);
+    void drawTextHUD(final Point point, String msg, TextAlignment alignment);
 
     /**
      * Draw a string of text relative to the camera, left-aligned.
      *
-     * @param x   the x position of the text.
-     * @param y   the y position of the text.
-     * @param msg The message to draw.
+     * @param point     The position of the text.
+     * @param msg       The message to draw.
      */
-    void drawText(final int x, final int y, final String msg, final Color color);
+    void drawText(final Point point, final String msg, final Color color);
 
     /**
      * Draw a string of text relative to the screen, left-aligned.
      *
-     * @param x   the x position of the text.
-     * @param y   the y position of the text.
-     * @param msg The message to draw.
+     * @param point     The position of the text.
+     * @param msg       The message to draw.
      */
-    void drawTextHUD(final int x, final int y, final String msg, final Color color);
+    void drawTextHUD(final Point point, final String msg, final Color color);
 
     /**
      * Draw a string of text relative to the screen.
      *
-     * @param x         the x position of the text.
-     * @param y         the y position of the text.
+     * @param point     the position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
      */
-    void drawText(int x, int y, String msg, TextAlignment alignment, final Color color);
+    void drawText(final Point point, String msg, TextAlignment alignment, final Color color);
 
     /**
      * Draw a string of text relative to the screen.
      *
-     * @param x         the x position of the text.
-     * @param y         the y position of the text.
+     * @param point     The position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
      */
-    void drawTextHUD(int x, int y, String msg, TextAlignment alignment, final Color color);
+    void drawTextHUD(final Point point, String msg, TextAlignment alignment, final Color color);
 
     /**
      * Draw a filled rectangle.

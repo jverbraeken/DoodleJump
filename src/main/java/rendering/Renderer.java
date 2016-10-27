@@ -220,67 +220,67 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawText(final int x, final int y, final String msg) {
+    public void drawText(final Point point, final String msg) {
         assert this.graphics != null;
-        drawText(x, y, msg, TextAlignment.left);
+        drawText(point, msg, TextAlignment.left);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawTextHUD(final int x, final int y, final String msg) {
+    public void drawTextHUD(final Point point, final String msg) {
         assert this.graphics != null;
-        drawTextHUD(x, y, msg, TextAlignment.left);
+        drawTextHUD(point, msg, TextAlignment.left);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawText(final int x, final int y, final String msg, final TextAlignment alignment) {
+    public void drawText(final Point point, final String msg, final TextAlignment alignment) {
         assert graphics != null;
-        drawText(x, (int) (y - camera.getYPos()), msg, alignment, Color.white);
+        drawText(new Point((int) point.getX(), (int) (point.getY() - camera.getYPos())), msg, alignment, Color.white);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawTextHUD(final int x, final int y, final String msg, final TextAlignment alignment) {
+    public void drawTextHUD(final Point point, final String msg, final TextAlignment alignment) {
         assert graphics != null;
-        drawTextHUD(x, y, msg, alignment, Color.white);
+        drawTextHUD(point,  msg, alignment, Color.white);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawText(final int x, final int y, final String msg, final Color color) {
+    public void drawText(final Point point, final String msg, final Color color) {
         assert this.graphics != null;
-        drawText(x, y, msg, TextAlignment.left, color);
+        drawText(point, msg, TextAlignment.left, color);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawTextHUD(final int x, final int y, final String msg, final Color color) {
+    public void drawTextHUD(final Point point, final String msg, final Color color) {
         assert this.graphics != null;
-        drawTextHUD(x, y, msg, TextAlignment.left, color);
+        drawTextHUD(point, msg, TextAlignment.left, color);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawText(final int x, final int y, final String msg, final TextAlignment alignment, final Color color) {
+    public void drawText(final Point point, final String msg, final TextAlignment alignment, final Color color) {
         assert graphics != null;
         java.awt.Color currentColor = graphics.getColor();
 
-        int xPos = prepareDrawText(x, y, msg, alignment, color.getColor(), FONT50);
-        graphics.drawString(msg, xPos, (int) (y - camera.getYPos()));
-        this.logger.info("drawString(" + x + ", " + y + ", " + msg + ", " + alignment.name() + ", " + color.name());
+        int xPos = prepareDrawText(point, msg, alignment, color.getColor(), FONT50);
+        graphics.drawString(msg, (int) point.getX(), (int) (point.getY() - camera.getYPos()));
+        this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + alignment.name() + ", " + color.name());
 
         graphics.setColor(currentColor);
     }
@@ -289,13 +289,13 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawTextHUD(final int x, final int y, final String msg, final TextAlignment alignment, final Color color) {
+    public void drawTextHUD(final Point point, final String msg, final TextAlignment alignment, final Color color) {
         assert graphics != null;
         java.awt.Color currentColor = graphics.getColor();
 
-        int xPos = prepareDrawText(x, y, msg, alignment, color.getColor(), FONT50);
-        graphics.drawString(msg, xPos, y);
-        this.logger.info("drawString(" + x + ", " + y + ", " + msg + ", " + alignment.name() + ", " + color.name());
+        int xPos = prepareDrawText(point, msg, alignment, color.getColor(), FONT50);
+        graphics.drawString(msg, xPos, (int) point.getY());
+        this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + alignment.name() + ", " + color.name());
 
         graphics.setColor(currentColor);
     }
@@ -352,26 +352,26 @@ public final class Renderer implements IRenderer {
         this.camera = c;
     }
 
-    private int prepareDrawText(final int x, final int y, final String msg, final TextAlignment alignment, final java.awt.Color color, final Font font) {
+    private int prepareDrawText(final Point point, final String msg, final TextAlignment alignment, final java.awt.Color color, final Font font) {
         graphics.setFont(font);
         graphics.setColor(color);
-        int xPos = x;
+        double xPos = point.getX();
         switch (alignment) {
             case left:
-                xPos = x;
+                xPos = point.getX();
                 break;
             case center:
-                xPos = x - graphics.getFontMetrics().stringWidth(msg) / 2;
+                xPos = point.getX() - graphics.getFontMetrics().stringWidth(msg) / 2;
                 break;
             case right:
-                xPos = x - graphics.getFontMetrics().stringWidth(msg);
+                xPos = point.getX() - graphics.getFontMetrics().stringWidth(msg);
                 break;
             default:
                 final String error = "The text alignment enum constant could not be identified: " + alignment.toString();
                 logger.error(error);
                 throw new InternalError(error);
         }
-        return xPos;
+        return (int) xPos;
     }
 
 }
