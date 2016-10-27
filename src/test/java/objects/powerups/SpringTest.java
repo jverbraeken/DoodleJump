@@ -15,6 +15,7 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
+import java.awt.Point;
 
 import java.awt.Point;
 
@@ -86,7 +87,7 @@ public class SpringTest {
      */
     @Test
     public void testPlaySound() throws Exception {
-        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
+        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, new Point(0, 0), sprite, usedSprite, boost);
         Whitebox.invokeMethod(spring, "playSound");
         verify(audioManager).playFeder();
     }
@@ -99,7 +100,7 @@ public class SpringTest {
      */
     @Test
     public void testRenderer() throws Exception {
-        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
+        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, new Point(0, 0), sprite, usedSprite, boost);
         spring.render();
         verify(renderer).drawSprite(sprite, new Point((int) spring.getXPos(), (int) spring.getYPos()));
     }
@@ -112,7 +113,7 @@ public class SpringTest {
      */
     @Test
     public void testCollidesWith() throws Exception {
-        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
+        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, new Point(0, 0), sprite, usedSprite, boost);
         spring.collidesWith(doodle);
         verify(doodle).collide(spring);
     }
@@ -125,7 +126,7 @@ public class SpringTest {
      */
     @Test
     public void testCollidesWith2() throws Exception {
-        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
+        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, new Point(0, 0), sprite, usedSprite, boost);
         thrown.expect(IllegalArgumentException.class);
         spring.collidesWith(null);
     }
@@ -138,7 +139,7 @@ public class SpringTest {
      */
     @Test
     public void testAnimate() throws Exception {
-        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 50, 200, sprite, usedSprite, boost);
+        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, new Point(50, 200), sprite, usedSprite, boost);
         Whitebox.invokeMethod(spring, "animate");
         assertEquals(usedSprite, spring.getSprite());
         assertEquals(180, spring.getYPos(), 0.001);
@@ -152,7 +153,7 @@ public class SpringTest {
      */
     @Test
     public void testGetBoost() throws Exception {
-        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
+        spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, new Point(0, 0), sprite, usedSprite, boost);
         double boost = Whitebox.getInternalState(spring, "boost", AJumpablePowerup.class);
         assertEquals(boost, spring.getBoost(), 0.001);
     }
@@ -165,7 +166,7 @@ public class SpringTest {
     @Test
     public void testConstructorNullInput() throws Exception {
         thrown.expect(ConstructorNotFoundException.class);
-        spring = Whitebox.invokeConstructor(Spring.class, null, 0, 0, nullSprite, nullUsedSprite, null);
+        spring = Whitebox.invokeConstructor(Spring.class, null, new Point(0, 0), nullSprite, nullUsedSprite, null);
     }
 
 }

@@ -11,7 +11,6 @@ import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
-
 import java.awt.Point;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -55,7 +54,7 @@ public class SpringShoesTest {
         when(doodle.getLegsHeight()).thenReturn(0d);
         when(doodle.getVerticalSpeed()).thenReturn(1d);
 
-        springShoes = new SpringShoes(serviceLocator, 0, 0);
+        springShoes = new SpringShoes(serviceLocator, new Point(0, 0));
     }
 
     @Test

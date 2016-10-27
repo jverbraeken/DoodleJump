@@ -33,11 +33,10 @@ import java.awt.Point;
      * Jump boots constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the SpringShoes.
-     * @param y - The Y location for the SpringShoes.
+     * @param point - The location for the SpringShoes.
      */
-    /* package */ SpringShoes(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.springShoes, 1), SpringShoes.class);
+    /* package */ SpringShoes(final IServiceLocator sL, final Point point) {
+        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.springShoes, 1), SpringShoes.class);
     }
 
     /**

@@ -13,6 +13,8 @@ import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 import java.awt.Point;
 
+import java.awt.*;
+
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
@@ -46,7 +48,7 @@ public class SizeUpTest {
         when(sprite.getWidth()).thenReturn(0);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
 
-        sizeUp = new SizeUp(serviceLocator, 0, 0);
+        sizeUp = new SizeUp(serviceLocator, new Point(0, 0));
     }
 
     @Test

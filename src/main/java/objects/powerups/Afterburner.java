@@ -2,6 +2,7 @@ package objects.powerups;
 
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IServiceLocator;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Jetpack powerup.
@@ -26,11 +27,10 @@ import system.IServiceLocator;
      * Afterburner constructor.
      *
      * @param sL - The Game's service locator.
-     * @param x - The X location for the afterburner.
-     * @param y - The Y location for the afterburner.
+     * @param point - The location for the afterburner.
      */
-    /* package */ Afterburner(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 2), sL.getSpriteFactory().getSpaceRocketActiveSprites(), Afterburner.class);
+    /* package */ Afterburner(final IServiceLocator sL, final Point point) {
+        super(sL, point, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 2), sL.getSpriteFactory().getSpaceRocketActiveSprites(), Afterburner.class);
     }
 
     /**

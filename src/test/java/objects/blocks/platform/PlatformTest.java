@@ -16,7 +16,6 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
-
 import java.awt.Point;
 import java.lang.reflect.Field;
 
@@ -70,7 +69,7 @@ public class PlatformTest {
         when(doodle.getVerticalSpeed()).thenReturn(1d);
         when(doodle.getHitBox()).thenReturn(new double[4]);
 
-        p = new Platform(serviceLocator, 1, 1, sprite);
+        p = new Platform(serviceLocator, new Point(1, 1), sprite);
         q = new PlatformBroken(serviceLocator, p);
     }
 

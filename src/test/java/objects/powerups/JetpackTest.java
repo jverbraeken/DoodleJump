@@ -11,7 +11,6 @@ import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
-
 import java.awt.Point;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -52,7 +51,7 @@ public class JetpackTest {
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(spriteFactory.getJetpackActiveSprites()).thenReturn(spritePack);
 
-        jetpack = new Jetpack(serviceLocator, 0, 0);
+        jetpack = new Jetpack(serviceLocator, new Point(0, 0));
     }
 
     @Test

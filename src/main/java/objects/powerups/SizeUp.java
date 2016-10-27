@@ -23,11 +23,10 @@ import java.awt.Point;
      * SizeUp constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the SizeUp.
-     * @param y - The Y location for the SizeUp.
+     * @param point - The location for the SizeUp.
      */
-    /* package */ SizeUp(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.sizeUp, 1), SizeUp.class);
+    /* package */ SizeUp(final IServiceLocator sL, final Point point) {
+        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.sizeUp, 1), SizeUp.class);
     }
 
     /**

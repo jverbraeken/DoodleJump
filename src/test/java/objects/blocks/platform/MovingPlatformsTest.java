@@ -18,7 +18,6 @@ import resources.sprites.ISpriteFactory;
 import resources.sprites.Sprite;
 import resources.sprites.SpriteFactory;
 import system.IServiceLocator;
-
 import java.awt.Point;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -76,7 +75,7 @@ public class MovingPlatformsTest {
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(serviceLocator.getCalc()).thenReturn(calc);
 
-        platform = new Platform(serviceLocator, 1, 1, sprite);
+        platform = new Platform(serviceLocator, new Point(1, 1), sprite);
         horizontal = new PlatformHorizontal(serviceLocator, platform);
         vertical = new PlatformVertical(serviceLocator, platform);
     }

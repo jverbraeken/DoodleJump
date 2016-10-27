@@ -16,6 +16,8 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -49,6 +51,7 @@ public class PowerupFactoryTest {
 
     private static int xPos = 0;
     private static int yPos = 0;
+    private static Point point = new Point(xPos, yPos);
 
     private IPowerupFactory powerupFactory;
 
@@ -81,52 +84,52 @@ public class PowerupFactoryTest {
     /*
     @Test
     public void testCreateJetpack() throws Exception {
-        whenNew(Jetpack.class).withArguments(serviceLocator, xPos, yPos).thenReturn(jetpack);
+        whenNew(Jetpack.class).withArguments(serviceLocator, point).thenReturn(jetpack);
         powerupFactory.createJetpack(xPos, yPos);
-        verifyNew(Jetpack.class).withArguments(serviceLocator, xPos, yPos);
+        verifyNew(Jetpack.class).withArguments(serviceLocator, point);
     }
     */
 
     @Test
     public void testCreatePropeller() throws Exception {
-        whenNew(Propeller.class).withArguments(serviceLocator, xPos, yPos).thenReturn(propeller);
+        whenNew(Propeller.class).withArguments(serviceLocator, point).thenReturn(propeller);
         powerupFactory.createPropeller(xPos, yPos);
-        verifyNew(Propeller.class).withArguments(serviceLocator, xPos, yPos);
+        verifyNew(Propeller.class).withArguments(serviceLocator, point);
     }
 
     @Test
     public void testCreateSizeDown() throws Exception {
-        whenNew(SizeDown.class).withArguments(serviceLocator, xPos, yPos).thenReturn(sizeDown);
+        whenNew(SizeDown.class).withArguments(serviceLocator, point).thenReturn(sizeDown);
         powerupFactory.createSizeDown(xPos, yPos);
-        verifyNew(SizeDown.class).withArguments(serviceLocator, xPos, yPos);
+        verifyNew(SizeDown.class).withArguments(serviceLocator, point);
     }
 
     @Test
     public void testCreateSizeUp() throws Exception {
-        whenNew(SizeUp.class).withArguments(serviceLocator, xPos, yPos).thenReturn(sizeUp);
+        whenNew(SizeUp.class).withArguments(serviceLocator, point).thenReturn(sizeUp);
         powerupFactory.createSizeUp(xPos, yPos);
-        verifyNew(SizeUp.class).withArguments(serviceLocator, xPos, yPos);
+        verifyNew(SizeUp.class).withArguments(serviceLocator, point);
     }
 
     /*@Test
     public void testCreateSpring() throws Exception {
-        whenNew(Spring.class).withArguments(serviceLocator, xPos, yPos).thenReturn(spring);
+        whenNew(Spring.class).withArguments(serviceLocator, point).thenReturn(spring);
         powerupFactory.createSpring(xPos, yPos);
-        verifyNew(Spring.class).withArguments(serviceLocator, xPos, yPos);
+        verifyNew(Spring.class).withArguments(serviceLocator, point);
     }*/
 
     @Test
     public void testCreateSpringShoes() throws Exception {
-        whenNew(SpringShoes.class).withArguments(serviceLocator, xPos, yPos).thenReturn(springShoes);
+        whenNew(SpringShoes.class).withArguments(serviceLocator, point).thenReturn(springShoes);
         powerupFactory.createSpringShoes(xPos, yPos);
-        verifyNew(SpringShoes.class).withArguments(serviceLocator, xPos, yPos);
+        verifyNew(SpringShoes.class).withArguments(serviceLocator, point);
     }
 
     /*@Test
     public void testCreateTrampoline() throws Exception {
-        whenNew(Trampoline.class).withArguments(serviceLocator, xPos, yPos).thenReturn(trampoline);
+        whenNew(Trampoline.class).withArguments(serviceLocator, point).thenReturn(trampoline);
         powerupFactory.createTrampoline(xPos, yPos);
-        verifyNew(Trampoline.class).withArguments(serviceLocator, xPos, yPos);
+        verifyNew(Trampoline.class).withArguments(serviceLocator, point);
     }*/
 
 }

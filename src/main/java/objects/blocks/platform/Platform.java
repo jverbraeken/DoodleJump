@@ -92,12 +92,11 @@ public class Platform extends AGameObject implements IPlatform {
      * Platform constructor.
      *
      * @param sL     - The games service locator.
-     * @param x      - The X location for the platform.
-     * @param y      - The Y location for the platform.
+     * @param point  - The location for the platform.
      * @param sprite - The sprite for the platform.
      */
-    /* package */ Platform(final IServiceLocator sL, final int x, final int y, final ISprite sprite) {
-        super(sL, x, y, sprite, Platform.class);
+    /* package */ Platform(final IServiceLocator sL, final Point point, final ISprite sprite) {
+        super(sL, point, sprite, Platform.class);
     }
 
     /**
