@@ -19,6 +19,8 @@ import resources.sprites.Sprite;
 import resources.sprites.SpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.verify;
@@ -74,7 +76,7 @@ public class MovingPlatformsTest {
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(serviceLocator.getCalc()).thenReturn(calc);
 
-        platform = new Platform(serviceLocator, 1, 1, sprite);
+        platform = new Platform(serviceLocator, new Point(1, 1), sprite);
         horizontal = new PlatformHorizontal(serviceLocator, platform);
         vertical = new PlatformVertical(serviceLocator, platform);
     }

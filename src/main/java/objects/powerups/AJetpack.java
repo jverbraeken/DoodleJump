@@ -4,6 +4,8 @@ import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * Class that describes the behaviour of subclasses of AJetpack.
  */
@@ -94,18 +96,20 @@ import system.IServiceLocator;
     /**
      * AJetpack constructor.
      *
-     * @param sL - The Game's service locator.
-     * @param x - The X location for the AJetpack.
-     * @param y - The Y location for the AJetpack.
+     * @param sL - The Games service locator
+     * @param point - The location for the AJetpack
+     * @param maxTime - The maximum duration of the AJetpack
+     * @param sprite - The default sprite
+     * @param sprites - The sprites that are used when a doodle collides with this AJetpack
+     * @param powerup - The type of object.
      */
     /* package */ AJetpack(final IServiceLocator sL,
-                final int x,
-                final int y,
-                final int maxTime,
-                final ISprite sprite,
-                final ISprite[] sprites,
-                final Class<?> powerup) {
-        super(sL, x, y, sprite, powerup);
+                           final Point point,
+                           final int maxTime,
+                           final ISprite sprite,
+                           final ISprite[] sprites,
+                           final Class<?> powerup) {
+        super(sL, point, sprite, powerup);
         this.timeLimit = maxTime;
         this.defaultSprite = sprite;
         this.spritePack = sprites;

@@ -3,6 +3,8 @@ package objects.powerups;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * This class describes the behaviour of the Jetpack powerup.
  */
@@ -11,7 +13,7 @@ import system.IServiceLocator;
     /**
      * The maximum time the Jetpack is active.
      */
-    private static final int MAX_TIMER = 175;
+    private static final int MAX_TIME = 175;
 
     /**
      * Y offset for drawing the Jetpack when on Doodle.
@@ -22,11 +24,10 @@ import system.IServiceLocator;
      * Jetpack constructor.
      *
      * @param sL - The Game's service locator.
-     * @param x - The X location for the Jetpack.
-     * @param y - The Y location for the Jetpack.
+     * @param point - The location for the Jetpack.
      */
-    /* package */ Jetpack(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, MAX_TIMER, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 1), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
+    /* package */ Jetpack(final IServiceLocator sL, final Point point) {
+        super(sL, point, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 1), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
     }
 
     /**
