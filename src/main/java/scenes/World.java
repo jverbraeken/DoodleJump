@@ -282,7 +282,7 @@ public class World implements IScene {
                             if (projectile.checkCollision(enemy)) {
                                 enemy.setXPos(Integer.MAX_VALUE);
                                 projectilesToRemove.add(projectile);
-                                doodle.addExtraExp(enemy.getAmountOfExperience());
+                                doodle.addExperiencePoints(enemy.getAmountOfExperience());
                             }
                         }
                         for (IGameObject projectile : projectilesToRemove) {

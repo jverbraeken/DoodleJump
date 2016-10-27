@@ -183,7 +183,7 @@ public class Doodle extends AGameObject implements IDoodle {
         this.behavior.setVerticalSpeed(boost);
         this.getPowerup().perform(PowerupOccasion.collision);
         if (jumpable instanceof AEnemy) {
-            addExtraExp(((AEnemy) jumpable).getAmountOfExperience());
+            addExperiencePoints(((AEnemy) jumpable).getAmountOfExperience());
         }
     }
 
@@ -568,7 +568,7 @@ public class Doodle extends AGameObject implements IDoodle {
      * {@inheritDoc}
      */
     @Override
-    public void addExtraExp(final double extraAmountOfExperience) {
+    public void addExperiencePoints(final double extraAmountOfExperience) {
         this.experience += extraAmountOfExperience;
     }
 }
