@@ -24,14 +24,16 @@ import java.util.TimerTask;
      *
      * @param sL         The Games service locator.
      * @param point          The location for the trampoline
-     * @param sprites     The sprites that are used for the Trampoline
+     * @param sprite     The sprite that's used for the Trampoline
+     * @param usedSprite The sprite that's used when the Doodle has jumped upon it
      * @param boost      The boost the Doodle gets when it jumps upon it
      */
-    /* package */ Trampoline(final IServiceLocator sL, final Point point, final ISprite[] sprites, final int boost) {
+    /* package */ Trampoline(final IServiceLocator sL, final Point point, final ISprite sprite, final ISprite usedSprite, final int boost) {
         super(sL,
                 point,
                 boost,
-                sprites,
+                sprite,
+                usedSprite,
                 Trampoline.class);
     }
 

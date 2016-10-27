@@ -42,16 +42,18 @@ public abstract class ASpring extends AJumpablePowerup {
      * @param point        The coordinates of the powerup
      * @param boost        The value of the boost of the powerup
      * @param retractSpeed  The speed with which the spring retracts
-     * @param sprites      The sprites, must be 2.
+     * @param defaultSprite The sprite when the object has not collided with a doodle
+     * @param usedSprite    The sprite when the object has collided with a doodle
      * @param powerup      The class of the powerup
      */
     /* package */ ASpring(final IServiceLocator serviceLocator,
                           final Point point,
                           final double boost,
                           final int retractSpeed,
-                          final ISprite[] sprites,
+                          final ISprite defaultSprite,
+                          final ISprite usedSprite,
                           final Class<?> powerup) {
-        super(serviceLocator, point, boost, sprites, powerup);
+        super(serviceLocator, point, boost, defaultSprite, usedSprite, powerup);
         this.retractSpeed = retractSpeed;
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }

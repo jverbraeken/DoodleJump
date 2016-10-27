@@ -21,8 +21,8 @@ import java.awt.Point;
      *
      * @param sL - The Games service locator.
      */
-    /* package */ Spring(final IServiceLocator sL, final Point p, final ISprite[] sprites, final int boost) {
-        super(sL, p, boost, RETRACT_SPEED, sprites, Spring.class);
+    /* package */ Spring(final IServiceLocator sL, final Point p, final ISprite sprite, final ISprite usedSprite, final int boost) {
+        super(sL, p, boost, RETRACT_SPEED, sprite, usedSprite, Spring.class);
     }
 
 }
