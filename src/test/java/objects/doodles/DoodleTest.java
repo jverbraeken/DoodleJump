@@ -47,7 +47,7 @@ public class DoodleTest {
     IJumpable jumpable = mock(IJumpable.class);
     ILogger logger = mock(ILogger.class);
     ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
-    IPowerup somePowerup = mock(SomePowerup.class);
+    IPowerup somePowerup = mock(IPowerup.class);
     IRenderer renderer = mock(IRenderer.class);
     IServiceLocator serviceLocator = mock(IServiceLocator.class);
     ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
@@ -360,23 +360,6 @@ public class DoodleTest {
         expected.add(projectile);
         List<IGameObject> actual = doodle.getProjectiles();
         assertThat(actual, is(expected));
-    }
-
-    /**
-     * Internally used powerup classes.
-     */
-    private class SomePowerup extends APowerup implements IPowerup {
-        public SomePowerup(IServiceLocator sL, int x, int y, ISprite sprite, Class<?> powerup) {
-            super(sL, x, y, sprite, powerup);
-        }
-
-        @Override
-        public void collidesWith(IDoodle doodle) {
-        }
-
-        @Override
-        public void render() {
-        }
     }
 
 }
