@@ -16,6 +16,8 @@ import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -62,6 +64,7 @@ public class TrampolineTest {
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(loggerFactory.createLogger(Trampoline.class)).thenReturn(logger);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
+        when(spriteFactory.getPowerupSprite(any(Powerups.class), anyInt())).thenReturn(sprite);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(sprite.getHeight()).thenReturn(20);
@@ -80,7 +83,7 @@ public class TrampolineTest {
      */
     @Test
     public void testPlaySound() throws Exception {
-        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0, 1, usedSprite, boost);
         Whitebox.invokeMethod(trampoline, "playSound");
         verify(audioManager).playTrampoline();
     }
@@ -93,7 +96,7 @@ public class TrampolineTest {
      */
     @Test
     public void testRenderer() throws Exception {
-        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0, 1, usedSprite, boost);
         trampoline.render();
         verify(renderer).drawSprite(sprite, (int) trampoline.getXPos(), (int) trampoline.getYPos());
     }
@@ -106,7 +109,7 @@ public class TrampolineTest {
      */
     @Test
     public void testCollidesWith() throws Exception {
-        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0, 1, usedSprite, boost);
         trampoline.collidesWith(doodle);
         verify(doodle).collide(trampoline);
     }
@@ -119,7 +122,7 @@ public class TrampolineTest {
      */
     @Test
     public void testCollidesWith2() throws Exception {
-        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0, 1, usedSprite, boost);
         thrown.expect(IllegalArgumentException.class);
         trampoline.collidesWith(null);
     }
@@ -132,7 +135,7 @@ public class TrampolineTest {
      */
     @Test
     public void testAnimate() throws Exception {
-        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 30, 653, sprite, usedSprite, boost);
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 30, 653, 1, usedSprite, boost);
         Whitebox.invokeMethod(trampoline, "animate");
         assertEquals(usedSprite, trampoline.getSprite());
         assertEquals(633, trampoline.getYPos(), 0.001);
@@ -146,7 +149,7 @@ public class TrampolineTest {
      */
     @Test
     public void testGetBoost() throws Exception {
-        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0, sprite, usedSprite, boost);
+        trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, 0, 0, 1, usedSprite, boost);
         double boost = Whitebox.getInternalState(trampoline, "boost", AJumpablePowerup.class);
         assertEquals(boost, trampoline.getBoost(), 0.001);
     }

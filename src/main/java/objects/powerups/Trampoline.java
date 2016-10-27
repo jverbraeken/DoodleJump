@@ -90,7 +90,7 @@ import java.util.List;
      */
     /* package */ void playSound() {
         IAudioManager audioManager = getServiceLocator().getAudioManager();
-        audioManager.playFeder();
+        audioManager.playTrampoline();
     }
 
     /**

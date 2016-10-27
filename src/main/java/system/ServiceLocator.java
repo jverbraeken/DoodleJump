@@ -21,7 +21,6 @@ import resources.audio.IAudioManager;
      * Initialize the ServiceLocator class.
      */
     private ServiceLocator() {
-        super();
         this.init();
     }
 
