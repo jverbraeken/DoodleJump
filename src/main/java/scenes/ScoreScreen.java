@@ -93,7 +93,7 @@ import java.util.List;
             // Entry background
             int backgroundY = scoreListTopY + (i - 1) * entryHeight;
             Color color = i % 2 == 1 ? Color.scoreEntryEven : Color.scoreEntryUneven;
-            renderer.fillRectangle(0, backgroundY, constants.getGameWidth(), entryHeight, color);
+            renderer.fillRectangle(new Point(0, backgroundY), constants.getGameWidth(), entryHeight, color);
 
             // Entry name & value
             HighScore score = highScores.get(i);
@@ -103,9 +103,9 @@ import java.util.List;
         }
 
         // Draw the hud.
-        renderer.drawSpriteHUD(this.bottom, 0, this.top.getHeight() + this.left.getHeight());
-        renderer.drawSpriteHUD(this.left, 0, this.top.getHeight());
-        renderer.drawSpriteHUD(this.top, 0, 0);
+        renderer.drawSpriteHUD(this.bottom, new Point(0, this.top.getHeight() + this.left.getHeight()));
+        renderer.drawSpriteHUD(this.left, new Point(0, this.top.getHeight()));
+        renderer.drawSpriteHUD(this.top, new Point(0, 0));
 
         // Draw the buttons.
         this.menuButton.render();

@@ -5,6 +5,8 @@ import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 /**
  * This IMMUTABLE class focuses on the implementation of button.
  */
@@ -74,7 +76,7 @@ import system.IServiceLocator;
     @Override
     public void render() {
         this.serviceLocator.getRenderer().drawSpriteHUD(
-                this.sprite, this.topLeft[0], this.topLeft[1], this.width, this.height);
+                this.sprite, new Point(this.topLeft[0], this.topLeft[1]), this.width, this.height);
     }
 
     /**

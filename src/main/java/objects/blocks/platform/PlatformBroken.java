@@ -6,6 +6,8 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 /**
  * The platform decorator to support breaking platforms.
  */
@@ -39,12 +41,12 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
 
         int breaks = (int) getProps().get(Platform.PlatformProperties.breaks);
         if (breaks == 1) {
-            getServiceLocator().getRenderer().drawSprite(getSprite(), xPos, yPos);
+            getServiceLocator().getRenderer().drawSprite(getSprite(), new Point(xPos, yPos));
         } else if (breaks <= 4 && breaks > 1) {
-            getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), xPos, yPos);
+            getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), new Point(xPos, yPos));
         } else if (breaks == -1) {
             applyGravity();
-            getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), xPos, yPos);
+            getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), new Point(xPos, yPos));
         } else {
             getContained().render();
         }

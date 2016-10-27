@@ -2,6 +2,7 @@ package objects.powerups;
 
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IServiceLocator;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Jetpack powerup.
@@ -34,7 +35,7 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos(), this.getAngle());
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()), this.getAngle());
     }
 
     /**

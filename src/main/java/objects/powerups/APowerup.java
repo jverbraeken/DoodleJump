@@ -7,6 +7,8 @@ import objects.blocks.platform.IPlatform;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 /**
  * This class describes the abstract functionality of powerups.
  */
@@ -37,7 +39,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      */
     @Override
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
     }
 
     public void endPowerup() {

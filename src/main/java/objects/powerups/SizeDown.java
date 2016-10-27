@@ -2,6 +2,7 @@ package objects.powerups;
 
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the SizeDown powerup. Decreasing the size of the Doodle when picked up.
@@ -33,7 +34,7 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        SizeDown.getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        SizeDown.getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
     }
 
     /**

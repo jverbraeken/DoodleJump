@@ -3,6 +3,7 @@ package objects.powerups;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Propeller powerup.
@@ -126,7 +127,7 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos(), this.theta);
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()), this.theta);
     }
 
     /**

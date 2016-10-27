@@ -238,15 +238,15 @@ import java.util.ArrayList;
         final IConstants constants = serviceLocator.getConstants();
         final int width = constants.getGameWidth();
         final int height = constants.getGameHeight();
-        renderer.drawSpriteHUD(this.background, 0, 0);
+        renderer.drawSpriteHUD(this.background, new Point(0, 0));
 
         double y = (double) height - (double) bottomChooseModeScreen.getHeight();
-        renderer.drawSpriteHUD(this.bottomChooseModeScreen, 0, (int) y);
+        renderer.drawSpriteHUD(this.bottomChooseModeScreen, new Point(0, (int) y));
 
         ISprite coinSprite = this.coinSprites[(int) coinSpriteIndex];
         final int coinX = width / 2 + coinSprite.getHeight() / 2 - (int) (((double) coinSprite.getWidth() / (double) coinSprite.getHeight()) * (double) coinSprite.getHeight() / 2d);
         final int coinY = (int) (COIN_Y * height);
-        renderer.drawSpriteHUD(coinSprite, coinX, coinY);
+        renderer.drawSpriteHUD(coinSprite, new Point(coinX, coinY));
 
         final int coinTextX = width / 2 + coinSprite.getHeight() + COIN_TEXT_OFFSET;
         final int coinTextY = coinY + coinSprite.getHeight() / 2;

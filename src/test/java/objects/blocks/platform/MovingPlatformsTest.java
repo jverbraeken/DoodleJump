@@ -19,6 +19,8 @@ import resources.sprites.Sprite;
 import resources.sprites.SpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.verify;
@@ -147,7 +149,7 @@ public class MovingPlatformsTest {
         // 2 times because inheritance (?)
         horizontal.render();
         verify(serviceLocator, times(2)).getRenderer();
-        verify(renderer, times(2)).drawSprite(sprite, (int) vertical.getXPos(), (int) vertical.getYPos());
+        verify(renderer, times(2)).drawSprite(sprite, new Point((int) vertical.getXPos(), (int) vertical.getYPos()));
     }
 
     /**
@@ -158,7 +160,7 @@ public class MovingPlatformsTest {
         // 2 times because inheritance (?)
         vertical.render();
         verify(serviceLocator, times(2)).getRenderer();
-        verify(renderer, times(2)).drawSprite(sprite, (int) vertical.getXPos(), (int) vertical.getYPos());
+        verify(renderer, times(2)).drawSprite(sprite, new Point((int) vertical.getXPos(), (int) vertical.getYPos()));
     }
 
 }

@@ -14,6 +14,7 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.lang.reflect.Field;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -76,7 +77,7 @@ public class EnemyTest {
         enemy.render();
 
         Mockito.verify(serviceLocator).getRenderer();
-        Mockito.verify(renderer).drawSprite(sprite, 1, 1);
+        Mockito.verify(renderer).drawSprite(sprite, new Point(1, 1));
     }
 
     /**
@@ -104,7 +105,7 @@ public class EnemyTest {
         }
 
         Mockito.verify(serviceLocator, Mockito.times(10)).getRenderer();
-        Mockito.verify(renderer, Mockito.times(10)).drawSprite(sprite, 1, 1);
+        Mockito.verify(renderer, Mockito.times(10)).drawSprite(sprite, new Point(1, 1));
     }
 
     @Test

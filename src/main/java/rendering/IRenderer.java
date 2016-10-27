@@ -18,83 +18,75 @@ public interface IRenderer {
      * Draw a sprite relative to the camera.
      *
      * @param image the sprite to be drawn.
-     * @param x     the x position of the sprite.
-     * @param y     the y position of the sprite.
+     * @param point     the position of the sprite.
      */
-    void drawSprite(final ISprite image, final int x, final int y);
+    void drawSprite(final ISprite image, final Point point);
 
     /**
      * Draw a sprite relative to the camera.
      *
      * @param image  the sprite to be drawn.
-     * @param x      the x position of the sprite.
-     * @param y      the y position of the sprite.
+     * @param point      the position of the sprite.
      * @param theta  the angle to rotate the sprite by.
      */
-    void drawSprite(final ISprite image, final int x, final int y, final double theta);
+    void drawSprite(final ISprite image, final Point point, final double theta);
 
     /**
      * Draw a sprite relative to the camera.
      *
      * @param image  the sprite to be drawn.
-     * @param x      the x position of the sprite.
-     * @param y      the y position of the sprite.
+     * @param point  the position of the sprite.
      * @param width  the width of the sprite.
      * @param height the height of the sprite.
      */
-    void drawSprite(final ISprite image, final int x, final int y, final int width, final int height);
+    void drawSprite(final ISprite image, final Point point, final int width, final int height);
 
     /**
      * Draw a sprite relative to the camera.
      *
      * @param image  the sprite to be drawn.
-     * @param x      the x position of the sprite.
-     * @param y      the y position of the sprite.
+     * @param point  the position of the sprite.
      * @param width  the width of the sprite.
      * @param height the height of the sprite.
      * @param theta  the angle to rotate the sprite by.
      */
-    void drawSprite(final ISprite image, final int x, final int y, final int width, final int height, final double theta);
+    void drawSprite(final ISprite image, final Point point, final int width, final int height, final double theta);
 
     /**
      * Draw a rectangle relative to the camera.
      *
-     * @param x      the x position of the rectangle
-     * @param y      the y position of the rectangle
+     * @param point  the position of the rectangle
      * @param width  the width of the rectangle
      * @param height the height of the rectangle
      */
-    void drawRectangle(final int x, final int y, final int width, final int height);
+    void drawRectangle(final Point point, final int width, final int height);
 
     /**
      * Draw a sprite relative to the screen.
      *
      * @param image the sprite to be drawn.
-     * @param x     the x position of the sprite.
-     * @param y     the y position of the sprite.
+     * @param point the position of the sprite.
      */
-    void drawSpriteHUD(final ISprite image, final int x, final int y);
+    void drawSpriteHUD(final ISprite image, final Point point);
 
     /**
      * Draw a sprite relative to the screen.
      *
      * @param image  the sprite to be drawn.
-     * @param x      the x position of the sprite.
-     * @param y      the y position of the sprite.
+     * @param point  the position of the sprite.
      * @param width  the width of the sprite.
      * @param height the height of the sprite.
      */
-    void drawSpriteHUD(final ISprite image, final int x, final int y, final int width, final int height);
+    void drawSpriteHUD(final ISprite image, final Point point, final int width, final int height);
 
     /**
      * Draw a rectangle relative to the screen.
      *
-     * @param x      the x position of the rectangle
-     * @param y      the y position of the rectangle
+     * @param point  the position of the rectangle
      * @param width  the width of the rectangle
      * @param height the height of the rectangle
      */
-    void drawRectangleHUD(final int x, final int y, final int width, final int height);
+    void drawRectangleHUD(final Point point, final int width, final int height);
 
     /**
      * Draw a string of text relative to the camera, left-aligned.
@@ -167,13 +159,12 @@ public interface IRenderer {
     /**
      * Draw a filled rectangle.
      *
-     * @param x      the x position of the rectangle.
-     * @param y      the y position of the rectangle.
+     * @param point  the position of the rectangle.
      * @param width  the width of the rectangle.
      * @param height the height of the rectangle.
      * @param color  the color of the rectangle.
      */
-    void fillRectangle(final int x, final int y, final int width, final int height, final Color color);
+    void fillRectangle(final Point point, final int width, final int height, final Color color);
 
     /**
      * Create a graphics buffer for smooth animations and rendering.

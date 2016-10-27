@@ -15,6 +15,8 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
@@ -65,7 +67,7 @@ public class SizeDownTest {
     @Test
     public void testRender() {
         sizeDown.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, new Point(0, 0));
         verify(doodle, times(0)).getXPos();
         verify(doodle, times(0)).getYPos();
     }

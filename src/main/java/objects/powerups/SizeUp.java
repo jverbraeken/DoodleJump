@@ -3,6 +3,8 @@ package objects.powerups;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 /**
  * This class describes the behaviour of the SizeUp powerup. Increasing the size of the Doodle when picked up.
  */
@@ -33,7 +35,7 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        SizeUp.getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        SizeUp.getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
     }
 
     /**

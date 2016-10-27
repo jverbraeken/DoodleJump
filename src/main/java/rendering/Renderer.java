@@ -77,51 +77,51 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawRectangle(final int x, final int y, final int width, final int height) {
+    public void drawRectangle(final Point point, final int width, final int height) {
         assert this.graphics != null;
 
-        String drawMsg = "drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        String drawMsg = "drawRectangle(" + point.getX() + ", " + point.getY() + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
-        this.graphics.drawRect(x, (int) (y - this.camera.getYPos()), width, height);
+        this.graphics.drawRect((int) point.getX(), (int) (point.getY() - this.camera.getYPos()), width, height);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawSprite(final ISprite sprite, final int x, final int y) {
+    public void drawSprite(final ISprite sprite, final Point point) {
         assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + point.getX() + ", " + point.getY() + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
-        this.graphics.drawImage(sprite.getImage(), x, (int) (y - this.camera.getYPos()), null);
+        this.graphics.drawImage(sprite.getImage(), (int) point.getX(), (int) (point.getY() - this.camera.getYPos()), null);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawSprite(final ISprite sprite, final int x, final int y, final double theta) {
+    public void drawSprite(final ISprite sprite, final Point point, final double theta) {
         assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + point.getX() + ", " + point.getY() + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
         double halfWidth = (sprite.getWidth() / 2);
         double halfHeight = (sprite.getHeight() / 2);
-        double translateX = x + halfWidth;
-        double translateY = y - this.camera.getYPos() + halfHeight;
+        double translateX = point.getX() + halfWidth;
+        double translateY = point.getY() - this.camera.getYPos() + halfHeight;
 
         this.graphics.translate(translateX, translateY);
         this.graphics.rotate(theta);
@@ -136,37 +136,37 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawSprite(final ISprite sprite, final int x, final int y, final int width, final int height) {
+    public void drawSprite(final ISprite sprite, final Point point, final int width, final int height) {
         assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + point.getX() + ", " + point.getY() + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
-        this.graphics.drawImage(sprite.getImage(), x, (int) (y - this.camera.getYPos()), width, height, null);
+        this.graphics.drawImage(sprite.getImage(), (int) point.getX(), (int) (point.getY() - this.camera.getYPos()), width, height, null);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawSprite(final ISprite sprite, final int x, final int y, final int width, final int height, final double theta) {
+    public void drawSprite(final ISprite sprite, final Point point, final int width, final int height, final double theta) {
         assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + point.getX() + ", " + point.getY() + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
         double halfWidth = (sprite.getWidth() / 2);
         double halfHeight = (sprite.getHeight() / 2);
-        double translateX = x + halfWidth;
-        double translateY = y - this.camera.getYPos() + halfHeight;
+        double translateX = point.getX() + halfWidth;
+        double translateY = point.getY() - this.camera.getYPos() + halfHeight;
 
         this.graphics.translate(translateX, translateY);
         this.graphics.rotate(theta);
@@ -181,39 +181,39 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawRectangleHUD(final int x, final int y, final int width, final int height) {
+    public void drawRectangleHUD(final Point point, final int width, final int height) {
         assert this.graphics != null;
 
-        this.logger.info("drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
-        this.graphics.drawRect(x, y, width, height);
+        this.logger.info("drawRectangle(" + point.getX() + ", " + point.getY() + ", " + width + ", " + height + ")");
+        this.graphics.drawRect((int) point.getX(), (int) point.getY(), width, height);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawSpriteHUD(final ISprite sprite, final int x, final int y) {
+    public void drawSpriteHUD(final ISprite sprite, final Point point) {
         assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        this.logger.info("drawImage(" + x + ", " + y + ")");
-        this.graphics.drawImage(sprite.getImage(), x, y, null);
+        this.logger.info("drawImage(" + point.getX() + ", " + point.getY() + ")");
+        this.graphics.drawImage(sprite.getImage(), (int) point.getX(), (int) point.getY(), null);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawSpriteHUD(final ISprite sprite, final int x, final int y, final int width, final int height) {
+    public void drawSpriteHUD(final ISprite sprite, final Point point, final int width, final int height) {
         assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        this.logger.info("drawSprite(" + x + ", " + y + ")");
-        this.graphics.drawImage(sprite.getImage(), x, y, width, height, null);
+        this.logger.info("drawSprite(" + point.getX() + ", " + point.getY() + ")");
+        this.graphics.drawImage(sprite.getImage(), (int) point.getX(), (int) point.getY(), width, height, null);
     }
 
     /**
@@ -304,16 +304,16 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void fillRectangle(final int x, final int y, final int width, final int height, final Color color) {
+    public void fillRectangle(final Point point, final int width, final int height, final Color color) {
         assert this.graphics != null;
 
-        String drawMsg = "drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        String drawMsg = "drawRectangle(" + point.getX() + ", " + point.getY() + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
         java.awt.Color currentColor = graphics.getColor();
         graphics.setColor(color.getColor());
-        graphics.fillRect(x, (int) (y - camera.getYPos()), width, height);
+        graphics.fillRect((int) point.getX(), (int) (point.getY() - camera.getYPos()), width, height);
         graphics.setColor(currentColor);
     }
 

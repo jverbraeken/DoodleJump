@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.EnumMap;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Doodle.
@@ -304,15 +305,15 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void render() {
         ISprite sprite = this.getSprite();
         Doodle.getServiceLocator().getRenderer().drawSprite(sprite,
-                (int) this.getXPos(),
-                (int) this.getYPos(),
+                new Point((int) this.getXPos(),
+                (int) this.getYPos()),
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
         if (!this.isAlive()) {
             Doodle.getServiceLocator().getRenderer().drawSprite(getStarSprite(),
-                    (int) (this.getXPos() + (STARS_OFFSET * this.spriteScalar)),
-                    (int) this.getYPos(),
+                    new Point((int) (this.getXPos() + (STARS_OFFSET * this.spriteScalar)),
+                    (int) this.getYPos()),
                     (int) (getSprite().getWidth() * this.spriteScalar * STARS_SCALAR),
                     (int) (getSprite().getHeight() * this.spriteScalar * STARS_SCALAR));
         }

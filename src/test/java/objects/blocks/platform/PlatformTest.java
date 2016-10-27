@@ -17,6 +17,7 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.lang.reflect.Field;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -81,7 +82,7 @@ public class PlatformTest {
         p.render();
 
         Mockito.verify(serviceLocator).getRenderer();
-        Mockito.verify(renderer).drawSprite(sprite, 1, 1);
+        Mockito.verify(renderer).drawSprite(sprite, new Point(1, 1));
     }
 
     /**
