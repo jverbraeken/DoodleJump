@@ -4,6 +4,8 @@ import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * Created by Michael on 10/20/2016.
  */
@@ -95,17 +97,15 @@ import system.IServiceLocator;
      * AJet constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the AJet.
-     * @param y - The Y location for the AJet.
+     * @param point - The location for the AJet.
      */
     /* package */ AJetpack(final IServiceLocator sL,
-                final int x,
-                final int y,
-                final int maxTime,
-                final ISprite sprite,
-                final ISprite[] sprites,
-                final Class<?> powerup) {
-        super(sL, x, y, sprite, powerup);
+                           final Point point,
+                           final int maxTime,
+                           final ISprite sprite,
+                           final ISprite[] sprites,
+                           final Class<?> powerup) {
+        super(sL, point, sprite, powerup);
         this.timeLimit = maxTime;
         this.defaultSprite = sprite;
         this.spritePack = sprites;

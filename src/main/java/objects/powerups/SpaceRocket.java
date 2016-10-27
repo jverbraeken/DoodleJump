@@ -2,6 +2,8 @@ package objects.powerups;
 
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * This class describes the behaviour of the SpaceRocket powerup.
  */
@@ -22,11 +24,11 @@ import system.IServiceLocator;
      * SpaceRocket constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the SpaceRocket.
-     * @param y - The Y location for the SpaceRocket.
+     * @param point - The location for the SpaceRocket.
      */
-    /* package */ SpaceRocket(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 3), sL.getSpriteFactory().getSpaceRocketActiveSprites(), SpaceRocket.class);
+    /* package */ SpaceRocket(final IServiceLocator sL, final Point point) {
+        super(sL, point, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 3), sL.getSpriteFactory().getSpaceRocketActiveSprites(), SpaceRocket.class);
+
     }
 
     /**
