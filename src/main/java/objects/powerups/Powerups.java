@@ -1,5 +1,7 @@
 package objects.powerups;
 
+import objects.blocks.ElementTypes;
+
 /**
  * Indicates which types of powerups are available.
  */
@@ -7,7 +9,7 @@ public enum Powerups {
     /**
      * Jetpack.
      */
-    jetpack("jetpack", 50, 100),
+    jetpack("jetpack", 50, 100, 150),
     /**
      * Propeller.
      */

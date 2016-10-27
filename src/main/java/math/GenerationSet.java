@@ -1,11 +1,13 @@
 package math;
 
 import groovy.lang.Tuple2;
+import logging.ILogger;
 import objects.IGameObject;
 import objects.blocks.ElementTypes;
 import objects.blocks.WeightsMap;
 import objects.blocks.platform.IPlatformFactory;
 import objects.powerups.IPowerupFactory;
+import objects.powerups.Powerups;
 import system.IServiceLocator;
 
 import java.text.DecimalFormat;
@@ -21,25 +23,35 @@ import java.util.Locale;
  * method will return a random element from this list,
  * according to the weights.
  */
-public class GenerationSet implements IWeightsSet {
+public final class GenerationSet implements IWeightsSet {
 
     /**
      * The serviceLocator of this game.
      */
     private final IServiceLocator serviceLocator;
     /**
+     * The logger.
+     */
+    private final ILogger logger;
+    /**
      * The list with weights, it uses Key-Value pairs in it.
      */
     private List<Tuple2<Double, ElementTypes>> weights;
+    /**
+     * The type of the set.
+     */
+    private final String type;
 
     /**
      * Create and initialize a WeightsSet.
      *
-     * @param sL      the serviceLocator this class should use.
-     * @param setType a string with what type of GenerationSet this has to be.
+     * @param serviceLocator the serviceLocator this class should use.
+     * @param setType        a string with what type of GenerationSet this has to be.
      */
-    public GenerationSet(final IServiceLocator sL, final String setType) {
-        this.serviceLocator = sL;
+    public GenerationSet(final IServiceLocator serviceLocator, final String setType) {
+        this.serviceLocator = serviceLocator;
+        this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+        this.type = setType;
 
         if (setType.equals("platforms")) {
             createAndSortPlatformSet();
@@ -47,6 +59,27 @@ public class GenerationSet implements IWeightsSet {
             createAndSortPowerupSet();
         }
 
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject getRandomElement() {
+        double randDouble = serviceLocator.getCalc().getRandomDouble(1);
+
+        for (Tuple2<Double, ElementTypes> entry : weights) {
+            if (entry.getFirst() >= randDouble) {
+                if (this.type.equals("powerups")) {
+                    if (serviceLocator.getProgressionManager().getPowerupLevel(elementTypeToPowerup(entry.getSecond())) > 0) {
+                        return getGameObject(entry.getSecond());
+                    }
+                } else if (this.type.equals("platforms")) {
+                    return getGameObject(entry.getSecond());
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -111,18 +144,32 @@ public class GenerationSet implements IWeightsSet {
     }
 
     /**
-     * {@inheritDoc}
+     * Acts as an adapter between the enums {@link Powerups} and {@link ElementTypes}.
+     *
+     * @param elementType The ElementType to be converted to a Powerup
+     * @return The powerup conversion of ElementType. If elementType is not a powerup, an IllegalArgumentException is thrown
      */
-    @Override
-    public final IGameObject getRandomElement() {
-        double randDouble = serviceLocator.getCalc().getRandomDouble(1);
-
-        for (Tuple2<Double, ElementTypes> entry : weights) {
-            if (entry.getFirst() >= randDouble) {
-                return getGameObject(entry.getSecond());
-            }
+    private Powerups elementTypeToPowerup(final ElementTypes elementType) {
+        switch (elementType) {
+            case spring:
+                return Powerups.spring;
+            case trampoline:
+                return Powerups.trampoline;
+            case jetpack:
+                return Powerups.jetpack;
+            case propellor:
+                return Powerups.propeller;
+            case sizeDown:
+                return Powerups.sizeDown;
+            case sizeUp:
+                return Powerups.sizeUp;
+            case springShoes:
+                return Powerups.springShoes;
+            default:
+                final String error = "The ElementType \"" + elementType.toString() + "\" is no powerup!";
+                logger.error(error);
+                throw new IllegalArgumentException(error);
         }
-        return null;
     }
 
     /**

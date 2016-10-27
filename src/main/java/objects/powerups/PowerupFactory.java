@@ -21,14 +21,15 @@ public final class PowerupFactory implements IPowerupFactory {
      * The boosts per level of {@link Trampoline trampoline} powerups.
      */
     private static final int[] BOOST_TRAMPOLINE = new int[]{-40, -55, -70};
+
     /**
      * The time measured in frames a {@link Jetpack} is in the air.
      */
-    private static final int[] MAX_TIME_JETPACK = new int[]{175, 225};
+    private static final int[] MAX_TIME_JETPACK = new int[]{175, 200, 225};
     /**
      * The Y-offset for drawing the Jetpack when on Doodle.
      */
-    private static final int[] OWNED_Y_OFFSET_JETPACK = new int[]{35, -70};
+    private static final int[] OWNED_Y_OFFSET_JETPACK = new int[]{35, 35, -70};
     /**
      * Used to gain access to all services.
      */
@@ -209,7 +210,7 @@ public final class PowerupFactory implements IPowerupFactory {
             logger.error(error);
             throw new IllegalArgumentException(error);
         }
-        this.trampolineObservers.remove(springCreatedObserver);
+        this.springObservers.remove(springCreatedObserver);
     }
 
     /**

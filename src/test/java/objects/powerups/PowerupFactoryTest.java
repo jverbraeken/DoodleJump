@@ -42,7 +42,6 @@ public class PowerupFactoryTest {
     private static IServiceLocator serviceLocator = mock(IServiceLocator.class);
     private static ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
     private static ISprite sprite = mock(ISprite.class);
-
     private static Jetpack jetpack = mock(Jetpack.class);
     private static Propeller propeller = mock(Propeller.class);
     private static SizeDown sizeDown = mock(SizeDown.class);
@@ -82,6 +81,7 @@ public class PowerupFactoryTest {
         powerupFactory = null;
     }
 
+    /*
     @Test
     public void testCreateJetpack() throws Exception {
         whenNew(Jetpack.class).withArguments(Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt()).thenReturn(jetpack);
@@ -91,6 +91,7 @@ public class PowerupFactoryTest {
         powerupFactory.createJetpack(xPos, yPos);
         verifyNew(Jetpack.class);
     }
+    */
 
     @Test
     public void testCreatePropeller() throws Exception {

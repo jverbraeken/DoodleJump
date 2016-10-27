@@ -47,14 +47,14 @@ import system.IServiceLocator;
      */
     @Override
     public void setPosition() {
-        if (level == 1) {
+        if (level == 1 || level == 2) {
             MovementBehavior.Directions facing = getOwner().getFacing();
             if (facing.equals(MovementBehavior.Directions.Left)) {
                 this.setXPos((int) getOwner().getXPos() + getOwner().getHitBox()[HITBOX_RIGHT]);
             } else {
                 this.setXPos((int) getOwner().getXPos());
             }
-        } else if (level == 2) {
+        } else if (level == 3) {
             this.setXPos(((this.getOwner().getSprite().getWidth() - this.getSprite().getWidth()) / 2) + this.getOwner().getXPos());
         } else {
             final String error = "Trying to set the position of the jetpack based on the unknown level: " + level;
