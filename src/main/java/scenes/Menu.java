@@ -124,7 +124,7 @@ public class Menu implements IScene {
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createStartScreenDoodle();
-        this.doodle.setXPos(Menu.DOODLE_X);
+        this.doodle.setXPos(gameWidth * Menu.DOODLE_X);
         this.doodle.setVerticalSpeed(-1);
 
         IPlatformFactory platformFactory = sL.getPlatformFactory();

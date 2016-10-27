@@ -36,6 +36,7 @@ import system.IServiceLocator;
      */
     @Override
     public final void keyPress(final Keys key) {
+        return;
     }
 
     /**
@@ -43,6 +44,7 @@ import system.IServiceLocator;
      */
     @Override
     public final void keyRelease(final Keys key) {
+        return;
     }
 
 }
