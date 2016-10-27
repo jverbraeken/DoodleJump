@@ -144,3 +144,43 @@ For grading the sprints I will use the rubrics to grade and give feedback about 
 - Already mentioned this: include a runnable jar so I can run the game.
 - why are pull requests open for so long (with no activity). If you have some code you want to add to the repository, urge your peers to take a look. If it doesn't have to be added at the current moment don't make a pr.
 - make sure you get your testing coverage up
+
+## Sprint #4 = 7,7:
+For grading the sprints I will use the rubrics to grade and give feedback about sprint management and code evolution quality. Then I will grade and give feedback to the assignment. These grades will construct the final grade for the sprint using a 20% (sprint management), 40% (code quality) and 40% (assignment) weight system.
+
+### Sprint Management = 7,3:
+- Definition = 9: purpose of the "Walking in the TA's shoes" assignment is not only to improve other peoples code
+- Splitting = 4: tasks not evenly split at all, ranging from 6 (Nick) to 10 (Cornel) hours pp. 10 hours is still too low btw.
+- Responsibility = 8: make sure you split the responsibilities (Eric only responsible for a single task)
+- Estimation = 6: very little hours pp, very little hours for the assignments
+- Prioritization = 8: if you define an A-E scale make sure you use the whole spectrum
+- Reflection = 8: the shop assignment is going on for 2 weeks now, so stating it's too heavy to implement in a week is a bit weird in my opinion. I would have liked some more detail on the failing travis branch you mentioned in the notes.
+
+
+### Code Evolution Quality = 7,6:
+- Code change quality = 9: your code has always been of great quality, and all the refactoring in this sprint only made it better. However you have a lot of checkstyle, pmd and findbugs errors (see tooling section) preventing me from giving you a 10 here.
+- Formatting = 10
+- Naming = 10
+- Comments = 10
+- Building = 6: some long lists of failing builds within pr's, make sure you check builds offline before pushing.
+- Testing = 4: this keeps being a problem, your code is of great quality but the testing coverage is way too low.
+- Tooling = 4: lots and lots of checkstyle, pmd and findbugs error. Fix these! (Already commented you should fail your build on checkstyle, make sure this gets done!)
+- Branching = 8: so many branches for if-refactors, was this necessary?
+- Code review = 9
+
+### Assignments = 69/90 = 7,9:
+
+#### Assignment 1 = 30/30:
+q1 = 30/30: mentioning git diffs in this exercise: a thing every team should do (you would be surprised how much time it takes to analyse the differences on certain parts of the code). Some refactored if statements are just about deleting code or altering functionality (when do I log), which is not refactoring in my opinion. You include an immense list with well explained refactors however, so I can't not give you full points. Well done!
+
+#### Assignment 2 = 12/30:
+q1 = 10/22: You already had most of what is implemented now last week, which means you basically only made sure it worked with travis. You have some more powerups, but only one type of mission and no player ranks (which were part of the requirements).
+q2 = 2/8: recurring theme: no RDD and CRC cards. This time the UML is way to simplified. Read your feedback!
+
+#### Assignment 3 = 27/30:
+q1 = 12/15: Great remarks and analysis, however no grades are present, which were clearly required by the assignment.
+q2 = 15/15: excellent suggestions
+
+### General Feedback
+- This was sprint 4, not 5 --> might be confusing which backlog and retrospective to look at
+- read your feedback! some recurring comments

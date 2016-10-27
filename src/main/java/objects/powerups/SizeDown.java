@@ -3,6 +3,8 @@ package objects.powerups;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * This class describes the behaviour of the SizeDown powerup. Decreasing the size of the Doodle when picked up.
  */
@@ -21,11 +23,18 @@ import system.IServiceLocator;
      * SizeUp constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the SizeUp.
-     * @param y - The Y location for the SizeUp.
+     * @param point - The location for the SizeUp.
      */
-    /* package */ SizeDown(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.sizeDown, 1), SizeDown.class);
+    /* package */ SizeDown(final IServiceLocator sL, final Point point) {
+        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.sizeDown, 1), SizeDown.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void render() {
+        SizeDown.getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
     }
 
     /**
@@ -42,16 +51,6 @@ import system.IServiceLocator;
 
         // Hide the powerup so it will be deleted automatically
         this.setXPos(this.getSprite().getWidth() * SizeDown.HIDE_MULTIPLIER);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void render() {
-        int x = (int) this.getXPos();
-        int y = (int) this.getYPos();
-        SizeDown.getServiceLocator().getRenderer().drawSprite(this.getSprite(), x, y);
     }
 
 }

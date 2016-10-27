@@ -647,7 +647,7 @@ public final class SpriteFactory implements ISpriteFactory {
         // TODO parameter checking
         switch (powerup) {
             case jetpack:
-                return getSprite(IRes.Sprites.jetpack);
+                return getJetpackSprite(level);
             case propeller:
                 return getSprite(IRes.Sprites.propeller);
             case shield:
@@ -741,34 +741,33 @@ public final class SpriteFactory implements ISpriteFactory {
         return sprites;
     }
 
-    @Override
-    public ISprite getCannonSprite() {
-        return null;
-    }
-
-    @Override
-    public ISprite getCannonUsedSprite() {
-        return null;
-    }
-
-    @Override
-    public ISprite getRocketLauncherSprite() {
-        return null;
-    }
-
-    @Override
-    public ISprite getRocketLauncherUsedSprite() {
-        return null;
-    }
-
-
-    //Projectiles
     /**
      * {@inheritDoc}
      */
     @Override
+    public ISprite[] getSpaceRocketActiveSprites() {
+        ISprite[] sprites = new ISprite[9];
+        sprites[0] = getSprite(IRes.Sprites.spaceRocket0);
+        sprites[1] = getSprite(IRes.Sprites.spaceRocket1);
+        sprites[2] = getSprite(IRes.Sprites.spaceRocket2);
+        sprites[3] = getSprite(IRes.Sprites.spaceRocket3);
+        sprites[4] = getSprite(IRes.Sprites.spaceRocket4);
+        sprites[5] = getSprite(IRes.Sprites.spaceRocket5);
+        sprites[6] = getSprite(IRes.Sprites.spaceRocket6);
+        sprites[7] = getSprite(IRes.Sprites.spaceRocket7);
+        sprites[8] = getSprite(IRes.Sprites.spaceRocket8);
+
+        return sprites;
+    }
+
+    //Projectiles
+
+    /**
+     * {@inheritDoc}
+     */
     public ISprite getRegularProjectileSprite() {
         return this.getSprite(IRes.Sprites.regularProjectile);
+
     }
 
     // Misc
@@ -942,6 +941,8 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
+     * Returns a sprite of the spring corresponding to the level of the object.
+     *
      * @param level The level of the {@link ASpring spring} you want to have
      * @return A sprite of the spring of the requested level
      * @throws UnavailableLevelException Thrown when the level is either too low or too high
@@ -953,6 +954,7 @@ public final class SpriteFactory implements ISpriteFactory {
             case 2:
                 return getSprite(IRes.Sprites.doubleSpring);
             case 3:
+                return getSprite(IRes.Sprites.titaniumSpring);
             case 4:
                 return getSprite(IRes.Sprites.titaniumSpring);
             default:
@@ -963,6 +965,8 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
+     * Returns a sprite of the trampoline corresponding to the level of the object.
+     *
      * @param level The level of the {@link objects.powerups.ATrampoline trampoline} you want to have
      * @return A sprite of the trampoline of the requested level
      * @throws UnavailableLevelException Thrown when the level is either too low or too high
@@ -974,10 +978,35 @@ public final class SpriteFactory implements ISpriteFactory {
             case 2:
                 return getSprite(IRes.Sprites.circusCannon);
             case 3:
+                return getSprite(IRes.Sprites.rocketLauncher);
             case 4:
                 return getSprite(IRes.Sprites.rocketLauncher);
             default:
                 final String error = "Trying to get a trampoline of a level that's not available: " + level;
+                logger.error(error);
+                throw new UnavailableLevelException(error);
+        }
+    }
+
+    /**
+     * Returns a sprite of the jetpack corresponding to the level of the object.
+     *
+     * @param level The level of the {@link objects.powerups.ATrampoline trampoline} you want to have
+     * @return A sprite of the trampoline of the requested level
+     * @throws UnavailableLevelException Thrown when the level is either too low or too high
+     */
+    private ISprite getJetpackSprite(final int level) throws UnavailableLevelException {
+        switch (level) {
+            case 1:
+                return getSprite(IRes.Sprites.jetpack);
+            case 2:
+                return getSprite(IRes.Sprites.spaceRocket);
+            case 3:
+                return getSprite(IRes.Sprites.spaceRocket);
+            case 4:
+                return getSprite(IRes.Sprites.spaceRocket);
+            default:
+                final String error = "Trying to get a space rocket of a level that's not available: " + level;
                 logger.error(error);
                 throw new UnavailableLevelException(error);
         }
