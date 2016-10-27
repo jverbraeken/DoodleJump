@@ -27,10 +27,21 @@ public final class ButtonFactory implements IButtonFactory {
      * The logger.
      */
     private final ILogger logger;
+    /**
+     * The width of the game's frame.
+     */
     private final int gameWidth;
+    /**
+     * The height of the game's frame.
+     */
     private final int gameHeight;
 
-    private ButtonFactory(IServiceLocator serviceLocator) {
+    /**
+     * ButtonFactory constructor
+     *
+     * @param serviceLocator The game's servicelocator
+     */
+    private ButtonFactory(final IServiceLocator serviceLocator) {
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
         this.gameWidth = serviceLocator.getConstants().getGameWidth();
         this.gameHeight = serviceLocator.getConstants().getGameHeight();
@@ -52,6 +63,7 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * The synchronized getter of the singleton buttonFactory.
      *
+     * @param serviceLocator the service locator.
      * @return the button factory
      */
     private static synchronized IButtonFactory getButtonFactory(final IServiceLocator serviceLocator) {

@@ -81,7 +81,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void mouseClicked(final int x, final int y) {
+    public void mouseClicked(final int x, final int y) {
         assert x >= 0 && y >= 0;
 
         if (x > this.topLeft[0] && x < this.bottomRight[0] && y > this.topLeft[1] && y < this.bottomRight[1]) {
