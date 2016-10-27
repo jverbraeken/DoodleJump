@@ -5,7 +5,7 @@ package objects.doodles.Projectiles;
 
 import system.IFactory;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * The interface of a ProjectileFactory.
