@@ -22,18 +22,15 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.World;
 import system.Game;
-import system.IRenderable;
 import system.IServiceLocator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -154,6 +151,16 @@ public class DoodleTest {
     @Test(expected=IllegalArgumentException.class)
     public void testSetKeysNull() {
         doodle.setKeys(null, null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testSetKeysFirstNull() {
+        doodle.setKeys(null, Keys.d);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testSetKeysSecondNull() {
+        doodle.setKeys(Keys.a, null);
     }
 
     @Test

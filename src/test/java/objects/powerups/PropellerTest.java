@@ -13,6 +13,7 @@ import resources.sprites.ISpriteFactory;
 import scenes.World;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -62,7 +63,7 @@ public class PropellerTest {
         Whitebox.setInternalState(world, "newDrawables", new HashSet<>());
         Whitebox.setInternalState(world, "newUpdatables", new ArrayList<>());
 
-        propeller = new Propeller(serviceLocator, 0, 0);
+        propeller = new Propeller(serviceLocator, new Point(0, 0));
     }
 
     @Test
