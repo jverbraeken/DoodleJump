@@ -16,7 +16,7 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;

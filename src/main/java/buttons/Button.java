@@ -5,7 +5,7 @@ import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * This IMMUTABLE class focuses on the implementation of button.

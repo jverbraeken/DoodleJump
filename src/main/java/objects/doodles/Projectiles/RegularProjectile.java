@@ -4,7 +4,7 @@ import objects.AGameObject;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * A RegularProjectile, mostly spawned in the regular gaming mode.

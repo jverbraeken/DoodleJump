@@ -2,7 +2,8 @@ package rendering;
 
 import resources.sprites.ISprite;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Graphics;
 
 /**
  * This class is responsible for rendering all Sprites.
