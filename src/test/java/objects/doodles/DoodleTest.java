@@ -153,6 +153,16 @@ public class DoodleTest {
         doodle.setKeys(null, null);
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testSetKeysFirstNull() {
+        doodle.setKeys(null, Keys.d);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testSetKeysSecondNull() {
+        doodle.setKeys(Keys.a, null);
+    }
+
     @Test
     public void testGetLegsHeight() {
         double actual = Whitebox.getInternalState(Doodle.class, "LEGS_HEIGHT");
