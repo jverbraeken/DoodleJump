@@ -56,7 +56,7 @@ public class CrashTest {
         //No crashes
         assertThat(true, is(true));
     }
-    
+
     @Test
     public void testCreatePauseScreen() {
         Game.setScene(

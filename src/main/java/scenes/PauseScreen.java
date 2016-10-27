@@ -239,7 +239,7 @@ import java.util.Map;
     }
 
     /**
-     *
+     * Activates the buttons that should be observable on the shop display.
      */
     private void setShopCover() {
         this.switchMissionButton.register();
@@ -302,6 +302,9 @@ import java.util.Map;
         drawPowerupText(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y);
     }
 
+    /**
+     * Creates the buttons for the powerps that can be unlocked or upgraded.
+     */
     private void createPowerupbutton() {
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
         this.buttonMap.put(Powerups.jetpack, buttonFactory.createPausePowerupButton(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y));
