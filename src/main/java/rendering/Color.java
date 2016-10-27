@@ -22,6 +22,10 @@ public enum Color {
      */
     black(0, 0, 0, 255),
     /**
+     * Red.
+     */
+    red(255, 0, 0, 255),
+    /**
      * The color of the even score entries.
      */
     scoreEntryEven(235, 224, 206, 255),

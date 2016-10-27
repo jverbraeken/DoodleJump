@@ -2,15 +2,18 @@ package scenes;
 
 import buttons.IButton;
 import buttons.IButtonFactory;
+import constants.IConstants;
 import logging.ILogger;
 import progression.IProgressionManager;
 import progression.Ranks;
+import rendering.*;
+import rendering.Color;
 import resources.sprites.ISprite;
-import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IRenderable;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -45,7 +48,12 @@ import java.util.ArrayList;
     /**
      * X & Y location in relation to the frame of the main menu button.
      */
-    private static final double MAIN_MENU_BUTTON_X = 0.35, MAIN_MENU_BUTTON_Y = 0.1;
+    private static final double MAIN_MENU_BUTTON_X = 0.35, MAIN_MENU_BUTTON_Y = 0.13;
+
+    /**
+     * The height of the rectangle on the top and the Y location of the rank text.
+     */
+    private static final int TOP_RECTANGLE_HEIGHT = 65, POPUP_TEXT_Y = 10;
 
     /**
      * Used to gain access to all services.
@@ -68,9 +76,14 @@ import java.util.ArrayList;
      */
     private final ArrayList<IButton> buttons = new ArrayList<>();
     /**
-     * The rank the player has
+     * The rank the player has.
      */
     private Ranks rank;
+
+    /**
+     * If the popup is active.
+     */
+    public static boolean activePopup = false;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -152,6 +165,10 @@ import java.util.ArrayList;
         serviceLocator.getRenderer().drawSpriteHUD(this.bottomChooseModeScreen, 0, (int) y);
         buttons.forEach(IRenderable::render);
         renderByRank();
+
+        if(activePopup == true) {
+            renderPopup();
+        }
     }
 
     /**
@@ -159,6 +176,19 @@ import java.util.ArrayList;
      */
     @Override
     public final void update(final double delta) {
+    }
+
+    /**
+     * Renders the popup with a message given in the attribute.
+     */
+    private void renderPopup() {
+        IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
+        //Ranks rank = progressionManager.getRank();
+        IConstants constants = this.serviceLocator.getConstants();
+        IRenderer renderer = this.serviceLocator.getRenderer();
+
+        renderer.fillRectangle(0, 0, constants.getGameWidth(), TOP_RECTANGLE_HEIGHT, rendering.Color.halfOpaqueWhite);
+        renderer.drawText(0, POPUP_TEXT_Y, "Rank: " + rank.getName(), Color.red);
     }
 
     /**

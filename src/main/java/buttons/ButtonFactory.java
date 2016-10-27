@@ -11,6 +11,7 @@ import system.IServiceLocator;
 
 import javax.swing.*;
 
+
 /**
  * Standard implementation of the ButtonFactory. Used to create buttons.
  */
@@ -181,6 +182,18 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
+    public IButton createOkPopupButton(final double x, final double y, final scenes.Popup popup) {
+        assert ButtonFactory.serviceLocator != null;
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getPopupOkButton();
+        Runnable deletePopup = () -> Game.deletePopup(popup);
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, deletePopup, "popupOkButton");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IButton createDarknessModeButton(final double x, final double y) {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
@@ -189,8 +202,7 @@ public final class ButtonFactory implements IButtonFactory {
             if(serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.darkness.getRankRequired())
                 Game.setMode(Game.Modes.darkness);
             else
-                new scenes.Popup("test");
-                //scenes.Popup.CreatePopup("test");
+                Game.addPopup(new scenes.Popup(serviceLocator, "test"));
 //                JOptionPane.showMessageDialog(Game.frame, "The rank: " +
 //                        Ranks.getRankByLevelNumber(Game.Modes.darkness.getRankRequired()).getName() +
 //                        " is required to play this gamemode.");

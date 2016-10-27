@@ -5,6 +5,7 @@ import logging.ILogger;
 import math.ICalc;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
+import scenes.Popup;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,8 +15,10 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -84,7 +87,10 @@ public final class Game {
      * Track if the game is paused.
      */
     private static boolean isPaused = false;
-
+    /**
+     * A {@link Queue} of popups.
+     */
+    private final static Set<Popup> activePopups = new HashSet<>();
     /**
      * The enums for the mode.
      */
@@ -242,6 +248,10 @@ public final class Game {
 
                 if (isPaused) {
                     pauseScreen.render();
+                }
+
+                for (Popup popup : activePopups) {
+                    popup.render();
                 }
 
                 ((Graphics2D) g).scale(scale, scale);
@@ -429,5 +439,25 @@ public final class Game {
             return TARGET_FPS;
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
+    }
+
+    /**
+     * Add a Popup to the activePopups.
+     * @param popup the Popup that has to be added.
+     */
+    public static void addPopup(final Popup popup) {
+
+        System.out.println("haaaaa");
+        activePopups.add(popup);
+    }
+
+    /**
+     * Deletes a Popup from the activePopups.
+     * @param popup the Popup that has to be deleted.
+     */
+    public static void deletePopup(final Popup popup) {
+
+        System.out.println("ha");
+        activePopups.remove(popup);
     }
 }

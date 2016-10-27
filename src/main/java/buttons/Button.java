@@ -58,8 +58,11 @@ import system.IServiceLocator;
         this.serviceLocator = sL;
         this.logger = sL.getLoggerFactory().createLogger(Button.class);
         this.sprite = s;
+        System.out.println(n);
         this.width = s.getImage().getWidth(null);
         this.height = s.getImage().getHeight(null);
+        System.out.println(width);
+        System.out.println(a);
         this.topLeft[0] = x;
         this.topLeft[1] = y;
         this.bottomRight[0] = x + width;
@@ -73,7 +76,7 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        this.serviceLocator.getRenderer().drawSpriteHUD(
+        this.serviceLocator.getRenderer().drawSprite(
                 this.sprite, this.topLeft[0], this.topLeft[1], this.width, this.height);
     }
 
