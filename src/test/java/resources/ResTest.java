@@ -95,6 +95,7 @@ public class ResTest {
         assertTrue(insertedSprites.containsKey(Sprites.background));
         assertTrue(insertedSprites.containsKey(Sprites.startCover));
         assertTrue(insertedSprites.containsKey(Sprites.pauseCover));
+        assertTrue(insertedSprites.containsKey(Sprites.shopCover));
     }
 
     /**
@@ -166,7 +167,7 @@ public class ResTest {
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testsetDefaultSkinPowerUps() throws Exception {
+    public void testSetDefaultSkinPowerUps() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.propeller));
@@ -179,6 +180,63 @@ public class ResTest {
         assertTrue(insertedSprites.containsKey(Sprites.shield));
         assertTrue(insertedSprites.containsKey(Sprites.sizeUp));
         assertTrue(insertedSprites.containsKey(Sprites.sizeDown));
+        assertTrue(insertedSprites.containsKey(Sprites.afterburner));
+    }
+
+    @Test
+    public void testSetDefaultSkinPropellerUsed() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertTrue(insertedSprites.containsKey(Sprites.propeller0));
+        assertTrue(insertedSprites.containsKey(Sprites.propeller1));
+        assertTrue(insertedSprites.containsKey(Sprites.propeller2));
+    }
+
+    @Test
+    public void testSetDefaultSkinJetpackUsed() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack0));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack1));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack2));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack3));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack4));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack5));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack6));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack7));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack8));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack9));
+    }
+
+    @Test
+    public void testSetDefaultSkinAfterburnerUsed() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertTrue(insertedSprites.containsKey(Sprites.afterburner0));
+        assertTrue(insertedSprites.containsKey(Sprites.afterburner1));
+        assertTrue(insertedSprites.containsKey(Sprites.afterburner2));
+        assertTrue(insertedSprites.containsKey(Sprites.afterburner3));
+        assertTrue(insertedSprites.containsKey(Sprites.afterburner4));
+        assertTrue(insertedSprites.containsKey(Sprites.afterburner5));
+        assertTrue(insertedSprites.containsKey(Sprites.afterburner6));
+        assertTrue(insertedSprites.containsKey(Sprites.afterburner7));
+        assertTrue(insertedSprites.containsKey(Sprites.afterburner8));
+        assertTrue(insertedSprites.containsKey(Sprites.afterburner9));
+    }
+
+    @Test
+    public void testSetDefaultSkinSpaceRocketUsed() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket0));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket1));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket2));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket3));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket4));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket5));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket6));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket7));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket8));
     }
 
     /**
@@ -199,7 +257,7 @@ public class ResTest {
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testsetDefaultSkinTopBar() throws Exception {
+    public void testSetDefaultSkinTopBar() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.scoreBar));
@@ -210,7 +268,7 @@ public class ResTest {
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testsetDefaultSkinIcons() throws Exception {
+    public void testSetDefaultSkinIcons() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.storyMode));
