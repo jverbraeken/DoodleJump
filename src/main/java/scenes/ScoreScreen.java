@@ -34,11 +34,11 @@ import java.util.concurrent.atomic.AtomicInteger;
     /**
      * The height of an entry in the ScoreScreen.
      */
-    private static AtomicInteger entryHeight;
+    private static AtomicInteger entryHeight = new AtomicInteger();
     /**
      * The height of the top part of the ScoreScreen.
      */
-    private static AtomicInteger scoreListTopY;
+    private static AtomicInteger scoreListTopY = new AtomicInteger();
     /**
      * Used to gain access to all services.
      */

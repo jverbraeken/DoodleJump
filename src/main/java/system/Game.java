@@ -171,7 +171,7 @@ public final class Game {
      * @param sL the ServiceLocator of this game.
      */
     private Game(final IServiceLocator sL) {
-        if (Game.serviceLocator != null) {
+        if (Game.serviceLocator == null) {
             Game.serviceLocator = sL;
         }
         Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
