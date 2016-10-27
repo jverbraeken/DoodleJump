@@ -155,14 +155,6 @@ import java.util.Map;
         this.switchMissionButton = buttonFactory.createSwitchToMissionButton(PauseScreen.SWITCH_BUTTON_X, PauseScreen.SWITCH_BUTTON_Y);
         this.switchShopButton = buttonFactory.createSwitchToShopButton(PauseScreen.SWITCH_BUTTON_X, PauseScreen.SWITCH_BUTTON_Y);
 
-        this.buttonMap.put(Powerups.jetpack, buttonFactory.createPausePowerupButton(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y));
-        this.buttonMap.put(Powerups.propeller, buttonFactory.createPausePowerupButton(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y));
-        this.buttonMap.put(Powerups.sizeDown, buttonFactory.createPausePowerupButton(Powerups.sizeDown, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y));
-        this.buttonMap.put(Powerups.sizeUp, buttonFactory.createPausePowerupButton(Powerups.sizeUp, SIZEUP_BUTTON_X, SIZEUP_BUTTON_Y));
-        this.buttonMap.put(Powerups.spring, buttonFactory.createPausePowerupButton(Powerups.spring, SPRING_BUTTON_X, SPRING_BUTTON_Y));
-        this.buttonMap.put(Powerups.springShoes, buttonFactory.createPausePowerupButton(Powerups.springShoes, SPRINGSHOES_BUTTON_X, SPRINGSHOES_BUTTON_Y));
-        this.buttonMap.put(Powerups.trampoline, buttonFactory.createPausePowerupButton(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y));
-
     }
 
     /**
@@ -252,6 +244,9 @@ import java.util.Map;
     private void setShopCover() {
         this.switchMissionButton.register();
         this.logger.info("The switch button to the mission cover is now available");
+        if(buttonMap.size() == 0) {
+            this.createPowerupbutton();
+        }
         for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet())
         {
             entry.getValue().register();
@@ -305,6 +300,17 @@ import java.util.Map;
         drawPowerupText(Powerups.spring, SPRING_BUTTON_X, SPRING_BUTTON_Y);
         drawPowerupText(Powerups.springShoes, SPRINGSHOES_BUTTON_X, SPRINGSHOES_BUTTON_Y);
         drawPowerupText(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y);
+    }
+
+    private void createPowerupbutton() {
+        IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
+        this.buttonMap.put(Powerups.jetpack, buttonFactory.createPausePowerupButton(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y));
+        this.buttonMap.put(Powerups.propeller, buttonFactory.createPausePowerupButton(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y));
+        this.buttonMap.put(Powerups.sizeDown, buttonFactory.createPausePowerupButton(Powerups.sizeDown, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y));
+        this.buttonMap.put(Powerups.sizeUp, buttonFactory.createPausePowerupButton(Powerups.sizeUp, SIZEUP_BUTTON_X, SIZEUP_BUTTON_Y));
+        this.buttonMap.put(Powerups.spring, buttonFactory.createPausePowerupButton(Powerups.spring, SPRING_BUTTON_X, SPRING_BUTTON_Y));
+        this.buttonMap.put(Powerups.springShoes, buttonFactory.createPausePowerupButton(Powerups.springShoes, SPRINGSHOES_BUTTON_X, SPRINGSHOES_BUTTON_Y));
+        this.buttonMap.put(Powerups.trampoline, buttonFactory.createPausePowerupButton(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y));
     }
 
     /**
