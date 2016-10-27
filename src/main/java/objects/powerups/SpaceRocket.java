@@ -33,7 +33,7 @@ import system.IServiceLocator;
     /**
      * {@inheritDoc}
      */
-
+    @Override
     public void setPosition() {
         if (!this.getOwner().equals(null)) {
             this.setXPos((int) this.getOwner().getXPos() + ((this.getOwner().getSprite().getWidth() - this.getSprite().getWidth()) / 2));

@@ -305,6 +305,7 @@ public final class ButtonFactory implements IButtonFactory {
                 if (progressionManager.getCoins() >= price) {
                     progressionManager.decreaseCoins(price);
                     progressionManager.increasePowerupLevel(powerup);
+                    Game.getPauseScreen().updateButton(powerup, x, y);
                 }
             }
         };
@@ -331,7 +332,7 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getShopButtonSprite();
-        Runnable switchAction = () -> Game.getPauseScreen().switchMode(PauseScreenModes.shop);
+        Runnable switchAction = () -> Game.getPauseScreen().switchDisplay(PauseScreenModes.shop);
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, switchAction, "switch");
     }
 
@@ -343,7 +344,7 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getShopButtonSprite();
-        Runnable switchAction = () -> Game.getPauseScreen().switchMode(PauseScreenModes.mission);
+        Runnable switchAction = () -> Game.getPauseScreen().switchDisplay(PauseScreenModes.mission);
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, switchAction, "switch");
     }
 

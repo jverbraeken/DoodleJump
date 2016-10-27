@@ -236,8 +236,6 @@ public final class Game {
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
 
-        //serviceLocator.getProgressionManager().init();
-
         start();
     }
 

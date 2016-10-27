@@ -8,6 +8,7 @@ import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
 import objects.enemies.IEnemy;
+import objects.powerups.Powerups;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -503,7 +504,14 @@ public class World implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public void switchMode(PauseScreenModes mode) {
+    public void switchDisplay(PauseScreenModes mode) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

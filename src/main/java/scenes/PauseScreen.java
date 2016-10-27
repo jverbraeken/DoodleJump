@@ -14,8 +14,9 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * PauseScreen implementation of a scene.
@@ -121,9 +122,9 @@ import java.util.List;
     private static final int MARGIN = 10;
 
     /**
-     * An ArrayList of the powerup buttons.
+     * A HashMap of the powerup buttons.
      */
-    private final ArrayList<IButton> powerupButtons = new ArrayList<>();
+    private final EnumMap<Powerups, IButton> buttonMap = new EnumMap<>(Powerups.class);
 
     /**
      * The distance between the missions drawn at the screen.
@@ -153,6 +154,15 @@ import java.util.List;
         this.resumeButton = buttonFactory.createResumeButton(PauseScreen.RESUME_BUTTON_X, PauseScreen.RESUME_BUTTON_Y);
         this.switchMissionButton = buttonFactory.createSwitchToMissionButton(PauseScreen.SWITCH_BUTTON_X, PauseScreen.SWITCH_BUTTON_Y);
         this.switchShopButton = buttonFactory.createSwitchToShopButton(PauseScreen.SWITCH_BUTTON_X, PauseScreen.SWITCH_BUTTON_Y);
+
+        this.buttonMap.put(Powerups.jetpack, buttonFactory.createPausePowerupButton(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y));
+        this.buttonMap.put(Powerups.propeller, buttonFactory.createPausePowerupButton(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y));
+        this.buttonMap.put(Powerups.sizeDown, buttonFactory.createPausePowerupButton(Powerups.sizeDown, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y));
+        this.buttonMap.put(Powerups.sizeUp, buttonFactory.createPausePowerupButton(Powerups.sizeUp, SIZEUP_BUTTON_X, SIZEUP_BUTTON_Y));
+        this.buttonMap.put(Powerups.spring, buttonFactory.createPausePowerupButton(Powerups.spring, SPRING_BUTTON_X, SPRING_BUTTON_Y));
+        this.buttonMap.put(Powerups.springShoes, buttonFactory.createPausePowerupButton(Powerups.springShoes, SPRINGSHOES_BUTTON_X, SPRINGSHOES_BUTTON_Y));
+        this.buttonMap.put(Powerups.trampoline, buttonFactory.createPausePowerupButton(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y));
+
     }
 
     /**
@@ -165,7 +175,6 @@ import java.util.List;
         this.logger.info("The resume button is now available");
         this.switchShopButton.register();
         this.logger.info("The switch button is now available");
-
     }
 
     /**
@@ -178,6 +187,9 @@ import java.util.List;
 
         if(mode.equals(PauseScreenModes.shop)) {
             this.stopShopCover();
+        } else {
+            this.switchShopButton.deregister();
+            this.logger.info("The switch button to the shop cover is no longer available");
         }
     }
 
@@ -212,8 +224,6 @@ import java.util.List;
      * Draws the sprites and texts for the missions that are currently active.
      */
     private void renderMissions(final int y) {
-        this.stopShopCover();
-        this.switchShopButton.register();
         this.switchShopButton.render();
         final List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
         final int missionSpriteHeight = serviceLocator.getSpriteFactory().getAchievementSprite().getHeight();
@@ -226,34 +236,38 @@ import java.util.List;
      * Draws the sprites and texts for the shop while the game is paused.
      */
     private void renderShop() {
-        assert powerupButtons != null;
-        stopShopCover();
-        this.switchShopButton.deregister();
-        this.switchMissionButton.register();
+        assert switchMissionButton != null;
+
         this.switchMissionButton.render();
-        IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
-        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y));
-        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y));
-        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.sizeDown, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y));
-        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.sizeUp, SIZEUP_BUTTON_X, SIZEUP_BUTTON_Y));
-        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.spring, SPRING_BUTTON_X, SPRING_BUTTON_Y));
-        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.springShoes, SPRINGSHOES_BUTTON_X, SPRINGSHOES_BUTTON_Y));
-        this.powerupButtons.add(buttonFactory.createPausePowerupButton(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y));
-
-        powerupButtons.forEach(IButton::register);
-        this.logger.info("The powerup buttons are now available");
-        powerupButtons.forEach(IButton::render);
-
+        for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet())
+        {
+            entry.getValue().render();
+        }
         this.drawText();
+    }
+
+    /**
+     *
+     */
+    private void setShopCover() {
+        this.switchMissionButton.register();
+        this.logger.info("The switch button to the mission cover is now available");
+        for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet())
+        {
+            entry.getValue().register();
+        }
+        this.logger.info("The powerup buttons are now available");
     }
 
     /**
      * Deactivates the buttons of the powerups that are displaying.
      */
     private void stopShopCover() {
-        powerupButtons.forEach(IButton::deregister);
+        for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet())
+        {
+            entry.getValue().deregister();
+        }
         this.logger.info("The powerup buttons are no longer available");
-        powerupButtons.clear();
         this.switchMissionButton.deregister();
         this.logger.info("The switch button to the mission cover is no longer available");
     }
@@ -261,8 +275,17 @@ import java.util.List;
     /**
      * {@inheritDoc}
      */
-    public void switchMode(PauseScreenModes mode) {
+    public void switchDisplay(PauseScreenModes mode) {
         this.mode = mode;
+        if(this.mode.equals(PauseScreenModes.mission)) {
+            this.stopShopCover();
+            this.switchShopButton.register();
+            this.logger.info("The switch button to the shop cover is now available");
+        } else {
+            this.switchShopButton.deregister();
+            this.logger.info("The switch button to the shop cover is no longer available");
+            this.setShopCover();
+        }
     }
 
     /**
@@ -310,6 +333,19 @@ import java.util.List;
         }
         final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup) + 1).getHeight() / 2;
         renderer.drawTextHUD((int) (x * width) + BUTTON_TEXT_OFFSET, (int) (y * height) + yOffset, string, Color.black);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateButton(final Powerups powerup, final double x, final double y) {
+        buttonMap.get(powerup).deregister();
+        IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
+        IButton button = buttonFactory.createPausePowerupButton(powerup, x, y);
+        buttonMap.remove(powerup);
+        buttonMap.put(powerup, button);
+        button.register();
     }
 
     /**

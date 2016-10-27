@@ -156,8 +156,8 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPauseCoverSprite(PauseScreenModes currentMode) {
-        switch (currentMode) {
+    public ISprite getPauseCoverSprite(PauseScreenModes mode) {
+        switch (mode) {
             case mission:
                 return this.getSprite(IRes.Sprites.pauseCover);
             case shop:

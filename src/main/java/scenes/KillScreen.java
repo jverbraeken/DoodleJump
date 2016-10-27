@@ -4,6 +4,7 @@ import buttons.IButton;
 import buttons.IButtonFactory;
 import constants.IConstants;
 import logging.ILogger;
+import objects.powerups.Powerups;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -126,7 +127,14 @@ import system.IServiceLocator;
     /**
      * {@inheritDoc}
      */
-    public void switchMode(PauseScreenModes mode) {
+    public void switchDisplay(PauseScreenModes mode) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

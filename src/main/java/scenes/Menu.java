@@ -8,6 +8,7 @@ import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
+import objects.powerups.Powerups;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -188,7 +189,14 @@ public class Menu implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public void switchMode(PauseScreenModes mode) {
+    public void switchDisplay(PauseScreenModes mode) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

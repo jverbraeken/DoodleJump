@@ -33,7 +33,7 @@ public interface ISpriteFactory extends IFactory {
     // Covers
     ISprite getBackground();
 
-    ISprite getPauseCoverSprite(PauseScreenModes currentMode);
+    ISprite getPauseCoverSprite(PauseScreenModes mode);
 
     ISprite getStartCoverSprite();
 

@@ -3,6 +3,7 @@ package scenes;
 import buttons.IButton;
 import buttons.IButtonFactory;
 import logging.ILogger;
+import objects.powerups.Powerups;
 import resources.sprites.ISprite;
 import system.IRenderable;
 import system.IServiceLocator;
@@ -153,7 +154,14 @@ import java.util.ArrayList;
      * {@inheritDoc}
      */
     @Override
-    public final void switchMode(PauseScreenModes mode) {
+    public final void switchDisplay(PauseScreenModes mode) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }
