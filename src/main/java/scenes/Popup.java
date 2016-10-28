@@ -1,32 +1,16 @@
 package scenes;
+
 import buttons.IButton;
 import rendering.Color;
-import system.Game;
 import system.IRenderable;
 import system.IServiceLocator;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+import java.awt.Point;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-
+/**
+ * Class representing a popup in the game.
+ */
 public final class Popup implements IRenderable {
-
-    /**
-     * The message the Popup displays.
-     */
-    private String message;
-
-    /**
-     * The serviceLocator of this program instance.
-     */
-    private IServiceLocator serviceLocator;
 
     /**
      * Text location relative to width and height of the screen.
@@ -37,6 +21,17 @@ public final class Popup implements IRenderable {
      */
     private static final double POPUP_OK_X = 0.65, POPUP_OK_Y = 0.35;
 
+    /**
+     * The serviceLocator of this program instance.
+     */
+    private IServiceLocator serviceLocator;
+    /**
+     * The message the Popup displays.
+     */
+    private String message;
+    /**
+     * The ok-button of a popup.
+     */
     private IButton okButton;
 
     /**
@@ -51,6 +46,9 @@ public final class Popup implements IRenderable {
         okButton.register();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render() {
         this.serviceLocator.getRenderer().drawSprite(this.serviceLocator.getSpriteFactory().getPopupBackground(), new Point(0, 0));
@@ -59,4 +57,5 @@ public final class Popup implements IRenderable {
         this.serviceLocator.getRenderer().drawText(new Point((int) (POPUP_TEXT_X * width), (int) (POPUP_TEXT_Y * height)), message, Color.black);
         okButton.render();
     }
+
 }
