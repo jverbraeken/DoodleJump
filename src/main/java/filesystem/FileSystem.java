@@ -331,7 +331,7 @@ public final class FileSystem implements IFileSystem {
         readProjectFile(filename).forEach(sb::append);
         String json = sb.toString();
 
-        return (new Gson()).fromJson(json, type);
+        return new Gson().fromJson(json, type);
     }
 
     /**
