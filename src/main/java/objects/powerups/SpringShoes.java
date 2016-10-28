@@ -81,11 +81,11 @@ import java.awt.Point;
     @Override
     public void render() {
         if (this.owner == null && this.uses < MAX_USES) {
-            getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+            getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
         } else if (this.owner != null) {
             int xPos = (int) owner.getXPos() + (owner.getSprite().getWidth() / 2) - (this.getSprite().getWidth() / 2);
             int yPos = (int) owner.getYPos() + owner.getSprite().getHeight();
-            getServiceLocator().getRenderer().drawSprite(this.getSprite(), xPos, yPos);
+            getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point(xPos, yPos));
         }
     }
 

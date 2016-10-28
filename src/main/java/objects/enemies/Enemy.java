@@ -73,7 +73,7 @@ public class Enemy extends AEnemy {
     @Override
     public final void render() {
         IRenderer renderer = getServiceLocator().getRenderer();
-        renderer.drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        renderer.drawSprite(getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
     }
 
     /**

@@ -12,6 +12,7 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -164,7 +165,7 @@ public class Menu implements IScene {
      */
     @Override
     public final void render() {
-        this.serviceLocator.getRenderer().drawSpriteHUD(this.cover, 0, 0);
+        this.serviceLocator.getRenderer().drawSpriteHUD(this.cover, new Point(0, 0));
         for (IButton button : this.buttons) {
             button.render();
         }

@@ -25,6 +25,7 @@ import system.Game;
 import system.IRenderable;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -219,7 +220,7 @@ public class DoodleTest {
 
         doodle.render();
         verify(serviceLocator, times(1)).getRenderer();
-        verify(renderer, times(1)).drawSprite(spriteLeft1, (int) x, (int) y, width, height);
+        verify(renderer, times(1)).drawSprite(spriteLeft1, new Point((int) x, (int) y), width, height);
     }
 
     @Test

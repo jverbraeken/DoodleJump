@@ -4,18 +4,14 @@ import constants.IConstants;
 import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
-
-import java.awt.*;
+import java.awt.Point;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -134,7 +130,7 @@ public class SpringShoesTest {
     @Test
     public void testRenderNoOwner() {
         springShoes.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, new Point(0, 0));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -146,7 +142,7 @@ public class SpringShoesTest {
     public void testRenderWithOwner() {
         springShoes.collidesWith(doodle);
         springShoes.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, -2);
+        verify(renderer, times(1)).drawSprite(sprite, new Point(0, -2));
     }
 
 }

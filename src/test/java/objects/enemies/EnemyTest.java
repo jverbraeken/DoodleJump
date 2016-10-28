@@ -8,17 +8,13 @@ import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import rendering.ICamera;
 import rendering.IRenderer;
-import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
-
-import java.awt.*;
+import java.awt.Point;
 import java.lang.reflect.Field;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -77,7 +73,7 @@ public class EnemyTest {
         enemy.render();
 
         Mockito.verify(serviceLocator).getRenderer();
-        Mockito.verify(renderer).drawSprite(sprite, 1, 1);
+        Mockito.verify(renderer).drawSprite(sprite, new Point(1, 1));
     }
 
     /**
@@ -105,7 +101,7 @@ public class EnemyTest {
         }
 
         Mockito.verify(serviceLocator, Mockito.times(10)).getRenderer();
-        Mockito.verify(renderer, Mockito.times(10)).drawSprite(sprite, 1, 1);
+        Mockito.verify(renderer, Mockito.times(10)).drawSprite(sprite, new Point(1, 1));
     }
 
     @Test
