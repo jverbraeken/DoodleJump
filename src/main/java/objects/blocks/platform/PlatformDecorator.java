@@ -10,10 +10,9 @@ import java.awt.Point;
 
 /**
  * Abstract class for the platform decorations.
- * <p>
- * Note that the suppressed warning is intentional.
+ * <p>Note that the suppressed warning is intentional.
  * Design for extension doesnt apply since there are the base cases for each method and you don't want to make those final.
- * This is due to the fact that each decorator need to be able to add functionality to this base case.
+ * This is due to the fact that each decorator need to be able to add functionality to this base case.</p>
  */
 @SuppressWarnings("checkstyle:designforextension")
 public abstract class PlatformDecorator implements IPlatform {

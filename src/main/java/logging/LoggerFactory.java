@@ -1,13 +1,10 @@
 package logging;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import filesystem.IFileSystem;
 import system.Game;
 import system.IServiceLocator;
 
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,18 +59,6 @@ public final class LoggerFactory implements ILoggerFactory {
     private final Set<Class<?>> logIgnore;
 
     /**
-     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
-     * @param sL The IServiceLocator to which the class should offer its functionality.
-     */
-    public static void register(final IServiceLocator sL) {
-        if (sL == null) {
-            throw new IllegalArgumentException("The service locator cannot be null");
-        }
-        LoggerFactory.serviceLocator = sL;
-        LoggerFactory.serviceLocator.provide(new LoggerFactory());
-    }
-
-    /**
      * Hidden constructor to prevent instantiation.
      */
     private LoggerFactory() {
@@ -88,7 +73,8 @@ public final class LoggerFactory implements ILoggerFactory {
 
         this.logIgnore = new HashSet<>();
         try {
-            List<String> list = (List<String>) serviceLocator.getFileSystem().parseJson(LoggerFactory.LOG_IGNORE_FILE, new TypeToken<List<String>>(){}.getType());
+            List<String> list = (List<String>) serviceLocator.getFileSystem().parseJson(LoggerFactory.LOG_IGNORE_FILE, new TypeToken<List<String>>() {
+            }.getType());
             if (list != null) {
                 for (String className : list) {
                     try {
@@ -103,6 +89,19 @@ public final class LoggerFactory implements ILoggerFactory {
             logger.error("The file " + LoggerFactory.LOG_IGNORE_FILE + " requested by LoggerFactory was not found");
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
+     * @param sL The IServiceLocator to which the class should offer its functionality.
+     */
+    public static void register(final IServiceLocator sL) {
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
+        LoggerFactory.serviceLocator = sL;
+        LoggerFactory.serviceLocator.provide(new LoggerFactory());
     }
 
     /**

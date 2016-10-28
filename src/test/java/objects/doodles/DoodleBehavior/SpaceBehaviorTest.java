@@ -2,9 +2,9 @@ package objects.doodles.DoodleBehavior;
 
 import constants.IConstants;
 import input.Keys;
-import objects.doodles.DoodleBehavior.MovementBehavior;
-import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.IDoodle;
+import objects.doodles.doodle_behavior.MovementBehavior;
+import objects.doodles.doodle_behavior.SpaceBehavior;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import org.junit.Before;
@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 import system.IServiceLocator;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -139,7 +140,7 @@ public class SpaceBehaviorTest {
      * Tests the animate method when the vertical speed is above the threshold.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
-     *           in the constructor.
+     *                   in the constructor.
      */
     @Test
     public void animateCallsUpdateActiveSpriteTest() throws Exception {
@@ -162,7 +163,7 @@ public class SpaceBehaviorTest {
      * Tests the moveHorizontally method when moving left.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
-     *           in the constructor.
+     *                   in the constructor.
      */
     @Test
     public void moveHorizontallyLeftTest() throws Exception {
@@ -176,7 +177,7 @@ public class SpaceBehaviorTest {
      * Tests the moveHorizontally method when moving right.
      *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
-     *           in the constructor.
+     *                   in the constructor.
      */
     @Test
     public void moveHorizontallyRightTest() throws Exception {

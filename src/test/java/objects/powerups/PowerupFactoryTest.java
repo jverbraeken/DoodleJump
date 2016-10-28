@@ -9,6 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
@@ -86,9 +87,18 @@ public class PowerupFactoryTest {
     /*
     @Test
     public void testCreateJetpack() throws Exception {
+<<<<<<< HEAD
+        whenNew(Jetpack.class).withArguments(Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyObject(), Mockito.anyInt(), Mockito.anyInt()).thenReturn(jetpack);
+        IProgressionManager progressionManager = mock(IProgressionManager.class);
+        when(progressionManager.getPowerupLevel(anyObject())).thenReturn(1);
+        when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
+        powerupFactory.createJetpack(xPos, yPos);
+        verifyNew(Jetpack.class);
+=======
         whenNew(Jetpack.class).withArguments(serviceLocator, point).thenReturn(jetpack);
         powerupFactory.createJetpack(xPos, yPos);
         verifyNew(Jetpack.class).withArguments(serviceLocator, point);
+>>>>>>> develop
     }
     */
 

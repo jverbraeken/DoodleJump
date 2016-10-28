@@ -1,5 +1,6 @@
 package objects.powerups;
 
+import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 import java.awt.Point;
@@ -34,14 +35,6 @@ import java.awt.Point;
      * {@inheritDoc}
      */
     @Override
-    public void render() {
-        SizeDown.getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void collidesWith(final IDoodle doodle) {
         if (doodle == null) {
             throw new IllegalArgumentException("Doodle cannot be null");
@@ -54,4 +47,11 @@ import java.awt.Point;
         this.setXPos(this.getSprite().getWidth() * SizeDown.HIDE_MULTIPLIER);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPositionOnPlatform(final IPlatform platform) {
+        super.setPositionOnPlatformRandom(platform);
+    }
 }

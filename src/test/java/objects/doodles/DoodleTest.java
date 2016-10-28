@@ -7,14 +7,17 @@ import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.doodles.DoodleBehavior.MovementBehavior;
-import objects.doodles.DoodleBehavior.RegularBehavior;
-import objects.doodles.Projectiles.RegularProjectile;
+import objects.doodles.doodle_behavior.MovementBehavior;
+import objects.doodles.doodle_behavior.RegularBehavior;
+import objects.doodles.projectiles.RegularProjectile;
 import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import rendering.ICamera;
 import rendering.IRenderer;
@@ -37,6 +40,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({RegularBehavior.class, RegularProjectile.class})
 public class DoodleTest {
 
     ICamera camera = mock(ICamera.class);
@@ -122,7 +127,7 @@ public class DoodleTest {
 
     @Test
     public void testFacing() {
-        Whitebox.setInternalState(regularBehavior, "facing", MovementBehavior.Directions.Left);
+        when(regularBehavior.getFacing()).thenReturn(MovementBehavior.Directions.Left);
         MovementBehavior.Directions facing = doodle.getFacing();
         assertThat(facing, is(MovementBehavior.Directions.Left));
     }
@@ -226,7 +231,6 @@ public class DoodleTest {
         int width = (int) scalar * spriteWidth;
 
         doodle.render();
-        verify(serviceLocator, times(1)).getRenderer();
         verify(renderer, times(1)).drawSprite(spriteLeft1, new Point((int) x, (int) y), width, height);
     }
 

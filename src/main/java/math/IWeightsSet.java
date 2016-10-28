@@ -9,6 +9,7 @@ import objects.IGameObject;
 
     /**
      * Return a random IGameObject taken from this weightedSet.
+     *
      * @return a random IGameObject.
      */
     IGameObject getRandomElement();

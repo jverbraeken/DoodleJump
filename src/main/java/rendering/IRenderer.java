@@ -145,9 +145,9 @@ public interface IRenderer {
     /**
      * Draw a string of text relative to the screen, left-aligned.
      *
-     * @param msg The message to draw.
-     * @param color     The color of the text.
-     * @param point     The position of the text.
+     * @param point     The position of the text
+     * @param msg The message to draw
+     * @param color     The color of the text
      */
     void drawTextHUD(final Point point, final String msg, final Color color);
 
@@ -164,37 +164,37 @@ public interface IRenderer {
     /**
      * Draw a string of text absolute to the screen.
      *
-     * @param point     The x and y position.
-     * @param msg       The message to draw.
-     * @param alignment The alignment of the text.
-     * @param color     The color of the text.
+     * @param point     The x and y position
+     * @param msg       The message to draw
+     * @param alignment The alignment of the text
+     * @param color     The color of the text
      */
     void drawTextNoAjustments(final Point point, final String msg, final TextAlignment alignment, final Color color);
 
     /**
      * Draw a string of text relative to the screen.
      *
-     * @param point     The position of the text.
-     * @param msg       The message to draw.
-     * @param alignment The alignment of the text.
-     * @param color     The color of the text.
+     * @param point     The position of the text
+     * @param msg       The message to draw
+     * @param alignment The alignment of the text
+     * @param color     The color of the text
      */
     void drawTextHUD(final Point point, String msg, TextAlignment alignment, final Color color);
 
     /**
      * Draw a filled rectangle.
      *
-     * @param point  the position of the rectangle.
-     * @param width  the width of the rectangle.
-     * @param height the height of the rectangle.
-     * @param color  the color of the rectangle.
+     * @param point  the position of the rectangle
+     * @param width  the width of the rectangle
+     * @param height the height of the rectangle
+     * @param color  the color of the rectangle
      */
     void fillRectangle(final Point point, final int width, final int height, final Color color);
 
     /**
      * Create a graphics buffer for smooth animations and rendering.
      *
-     * @param graphics the input graphics.
+     * @param graphics the input graphics
      */
     void setGraphicsBuffer(final Graphics graphics);
 
@@ -208,7 +208,7 @@ public interface IRenderer {
     /**
      * Set the camera used by the Renderer.
      *
-     * @param camera A class implementing the ICamera interface.
+     * @param camera A class implementing the ICamera interface
      */
     void setCamera(final ICamera camera);
 

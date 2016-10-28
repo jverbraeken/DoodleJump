@@ -11,7 +11,6 @@ import java.awt.Point;
 /**
  * The platform decorator to support breaking platforms.
  */
-@SuppressWarnings("checkstyle:magicnumber")
 public final class PlatformBroken extends PlatformDecorator implements IPlatform {
 
     /**
@@ -35,6 +34,7 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("checkstyle:magicnumber")
     public void render() {
         int xPos = (int) this.getXPos();
         int yPos = (int) this.getYPos();
@@ -59,6 +59,7 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      * @param numberOfAnimation the phase of the animation
      * @return the sprite belonging to this animation phase
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     private ISprite getBrokenSprite(final int numberOfAnimation) {
         switch (numberOfAnimation) {
             case (2):

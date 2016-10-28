@@ -1,7 +1,5 @@
 package constants;
 
-import objects.powerups.Powerups;
-
 /**
  * Interface for the constants class.
  */

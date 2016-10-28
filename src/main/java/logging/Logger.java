@@ -35,7 +35,8 @@ import java.util.concurrent.TimeUnit;
 
     /**
      * Only create Logger in LoggerFactory.
-     * @param sL The serviceLocator.
+     *
+     * @param sL          The serviceLocator.
      * @param targetClass The class the Logger is serving.
      */
     /* package */ Logger(final IServiceLocator sL, final Class<?> targetClass) {
@@ -82,6 +83,7 @@ import java.util.concurrent.TimeUnit;
 
     /**
      * Append a string to a text file.
+     *
      * @param str The string to append.
      */
     private void appendStringToTextFile(final String str) {
@@ -99,6 +101,7 @@ import java.util.concurrent.TimeUnit;
 
     /**
      * Generate the full message to log.
+     *
      * @param type The type of message.
      * @param msg  The message to log.
      * @return The generated message.

@@ -35,7 +35,7 @@ public interface IInputManager extends MouseListener, KeyListener {
     /**
      * Adds a key to be Observed.
      *
-     * @param key The key from the Keys enum.
+     * @param key The keyboard-key from the {@link Keys} enum.
      * @param keyInputObserver the observer.
      */
     void addObserver(final Keys key, final IKeyInputObserver keyInputObserver);
@@ -43,6 +43,7 @@ public interface IInputManager extends MouseListener, KeyListener {
     /**
      * Removes a key to be Observed.
      *
+     * @param key The keyboard-key from the {@link Keys} enum.
      * @param keyInputObserver the observer.
      */
     void removeObserver(final Keys key, final IKeyInputObserver keyInputObserver);

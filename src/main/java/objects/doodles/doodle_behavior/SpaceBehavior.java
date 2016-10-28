@@ -1,4 +1,4 @@
-package objects.doodles.DoodleBehavior;
+package objects.doodles.doodle_behavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * This class describes the space movement of the Doodle.
  */
-public class SpaceBehavior implements MovementBehavior {
+public final class SpaceBehavior implements MovementBehavior {
 
     /**
      * The relative speed of the Doodle.
@@ -87,7 +87,7 @@ public class SpaceBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void updateActions() {
+    public void updateActions() {
         this.keyPressActions = new EnumMap<>(Keys.class);
         this.keyReleaseActions = new EnumMap<>(Keys.class);
 
@@ -107,7 +107,7 @@ public class SpaceBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void keyPress(final Keys key) {
+    public void keyPress(final Keys key) {
         this.keyPressActions.get(key).run();
     }
 
@@ -115,7 +115,7 @@ public class SpaceBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void keyRelease(final Keys key) {
+    public void keyRelease(final Keys key) {
         this.keyReleaseActions.get(key).run();
     }
 
@@ -123,7 +123,7 @@ public class SpaceBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void move(final double delta) {
+    public void move(final double delta) {
         this.animate(delta);
         this.applyGravity(delta);
         this.moveHorizontally(delta);
@@ -134,7 +134,7 @@ public class SpaceBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final Directions getFacing() {
+    public Directions getFacing() {
         return this.facing;
     }
 
@@ -150,7 +150,7 @@ public class SpaceBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final double getVerticalSpeed() {
+    public double getVerticalSpeed() {
         return this.vSpeed;
     }
 
@@ -158,7 +158,7 @@ public class SpaceBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void setVerticalSpeed(final double v) {
+    public void setVerticalSpeed(final double v) {
         this.vSpeed = SpaceBehavior.RELATIVE_SPEED * v;
     }
 

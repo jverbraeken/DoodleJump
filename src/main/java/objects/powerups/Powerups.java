@@ -1,16 +1,42 @@
 package objects.powerups;
 
+import objects.blocks.ElementTypes;
+
 /**
- * Indicates which types of powerups are available
+ * Indicates which types of powerups are available.
  */
 public enum Powerups {
+    /**
+     * Jetpack.
+     */
     jetpack("jetpack", 50, 100, 150),
+    /**
+     * Propeller.
+     */
     propeller("propeller", 50),
+    /**
+     * SizeDown (decreases the size of the Doodle).
+     */
     sizeDown("sizeDown", 50),
+    /**
+     * SizeUp (increases the size of the Doodle).
+     */
     sizeUp("sizeUp", 50),
+    /**
+     * Shield.
+     */
     shield("shield", 50),
+    /**
+     * Spring - Double Spring - Titanium Spring.
+     */
     spring("spring", 0, 50, 150),
+    /**
+     * SpringShoes.
+     */
     springShoes("springShoes", 50),
+    /**
+     * Trampoline - Circus Cannon - Rocket Launcher.
+     */
     trampoline("trampoline", 50, 150, 300);
 
     /**
@@ -24,7 +50,8 @@ public enum Powerups {
 
     /**
      * Construct a new powerup.
-     * @param name The name of the powerup, only used for debugging purposes
+     *
+     * @param name  The name of the powerup, only used for debugging purposes
      * @param price The prices of all levels of the powerup, must be in the same order as the levels
      */
     Powerups(final String name, final int... price) {
@@ -40,7 +67,8 @@ public enum Powerups {
     }
 
     /**
-     * Returns the price to upgrade to a certain level
+     * Returns the price to upgrade to a certain level.
+     *
      * @param level The level you want the amount of coins it costs to upgrade to from
      * @return The price in coins of the upgrade to the level specified
      */
@@ -49,12 +77,12 @@ public enum Powerups {
             throw new IllegalArgumentException("Powerups do not have levels lower than or equal to 0");
         }
         if (level > price.length) {
-            throw new IllegalArgumentException("The maximum level of the powerup \"" +
-                    this.name +
-                    "\" is " +
-                    this.price.length +
-                    ", while price was asked for a level exceeding this maximum level: " +
-                    level);
+            throw new IllegalArgumentException("The maximum level of the powerup \""
+                    + this.name
+                    + "\" is "
+                    + this.price.length
+                    + ", while price was asked for a level exceeding this maximum level: "
+                    + level);
         }
         return this.price[level - 1]; // The array is 0-indexed, the input 1-indexed
     }

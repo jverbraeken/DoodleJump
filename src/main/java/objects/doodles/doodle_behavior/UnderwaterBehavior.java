@@ -1,4 +1,4 @@
-package objects.doodles.DoodleBehavior;
+package objects.doodles.doodle_behavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
@@ -9,14 +9,22 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * This class describes the regular movement of the Doodle.
+ * This class describes the underwater movement of the Doodle.
  */
-public class RegularBehavior implements MovementBehavior {
+public final class UnderwaterBehavior implements MovementBehavior {
 
+    /**
+     * The relative speed of the doodle.
+     */
+    private static final double RELATIVE_SPEED = 0.5d;
+    /**
+     * The slow caused by the water.
+     */
+    private static final double SLOWING = 0.7;
     /**
      * Standard speed limit for the Doodle.
      */
-    private static final double STANDARD_SPEED_LIMIT = 6d;
+    private static final double STANDARD_SPEED_LIMIT = 14d;
     /**
      * Horizontal speed limit for the Doodle.
      */
@@ -24,18 +32,22 @@ public class RegularBehavior implements MovementBehavior {
     /**
      * Horizontal acceleration for the Doodle.
      */
-    private static final double HORIZONTAL_ACCELERATION = .5d;
+    private static final double HORIZONTAL_ACCELERATION = .2d;
     /**
      * The threshold the Doodle for it to show to be jumping.
      */
-    private static final double JUMPING_THRESHOLD = -15d;
+    private static final double JUMPING_THRESHOLD = -15;
+    /**
+     * Relative gravity for the Doodle.
+     */
+    private static final double RELATIVE_GRAVITY = .3d;
 
     /**
      * Used to access all services.
      */
     private final IServiceLocator serviceLocator;
     /**
-     * Used to access fields of the doodle this behavior describes.
+     * Used to access fields of the Doodle this behavior describes.
      */
     private final IDoodle doodle;
     /**
@@ -62,10 +74,10 @@ public class RegularBehavior implements MovementBehavior {
     /**
      * The constructor of the regular behavior.
      *
-     * @param d  The Doodle this applies to.
+     * @param d The doodle this applies to.
      * @param sL the ServiceLocator.
      */
-    public RegularBehavior(final IServiceLocator sL, final IDoodle d) {
+    public UnderwaterBehavior(final IServiceLocator sL, final IDoodle d) {
         this.serviceLocator = sL;
         this.doodle = d;
         this.updateActions();
@@ -75,7 +87,7 @@ public class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void updateActions() {
+    public void updateActions() {
         this.keyPressActions = new EnumMap<>(Keys.class);
         this.keyReleaseActions = new EnumMap<>(Keys.class);
 
@@ -87,15 +99,19 @@ public class RegularBehavior implements MovementBehavior {
             this.movingLeft = false;
             this.movingRight = true;
             this.facing = Directions.Right; });
-        this.keyReleaseActions.put(this.doodle.getKeyLeft(), () -> this.movingLeft = false);
-        this.keyReleaseActions.put(this.doodle.getKeyRight(), () -> this.movingRight = false);
+        this.keyReleaseActions.put(this.doodle.getKeyLeft(), () -> {
+            this.movingLeft = false;
+            this.hSpeed = UnderwaterBehavior.SLOWING * this.hSpeed; });
+        this.keyReleaseActions.put(this.doodle.getKeyRight(), () -> {
+            this.movingRight = false;
+            this.hSpeed = UnderwaterBehavior.SLOWING * this.hSpeed; });
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void keyPress(final Keys key) {
+    public void keyPress(final Keys key) {
         this.keyPressActions.get(key).run();
     }
 
@@ -103,7 +119,7 @@ public class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void keyRelease(final Keys key) {
+    public void keyRelease(final Keys key) {
         this.keyReleaseActions.get(key).run();
     }
 
@@ -111,7 +127,7 @@ public class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void move(final double delta) {
+    public void move(final double delta) {
         this.animate(delta);
         this.applyGravity(delta);
         this.moveHorizontally(delta);
@@ -122,7 +138,7 @@ public class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final Directions getFacing() {
+    public Directions getFacing() {
         return this.facing;
     }
 
@@ -131,14 +147,14 @@ public class RegularBehavior implements MovementBehavior {
      */
     @Override
     public double getJumpingThreshold() {
-        return RegularBehavior.JUMPING_THRESHOLD;
+        return UnderwaterBehavior.JUMPING_THRESHOLD;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final double getVerticalSpeed() {
+    public double getVerticalSpeed() {
         return this.vSpeed;
     }
 
@@ -146,8 +162,8 @@ public class RegularBehavior implements MovementBehavior {
      * {@inheritDoc}
      */
     @Override
-    public final void setVerticalSpeed(final double v) {
-        this.vSpeed = v;
+    public void setVerticalSpeed(final double v) {
+        this.vSpeed = UnderwaterBehavior.RELATIVE_SPEED * v;
     }
 
     /**
@@ -163,25 +179,20 @@ public class RegularBehavior implements MovementBehavior {
      * @param delta Delta time since previous animate.
      */
     private void applyGravity(final double delta) {
-        this.vSpeed += this.serviceLocator.getConstants().getGravityAcceleration() * delta;
+        final double gravityAcceleration = this.serviceLocator.getConstants().getGravityAcceleration();
+        this.vSpeed += UnderwaterBehavior.RELATIVE_GRAVITY * gravityAcceleration * delta;
         this.doodle.addYPos(this.vSpeed);
     }
 
     /**
      * Move the Doodle along the X axis.
-     * @param delta the frame duration
+     * @param delta the time used in a frame.
      */
     private void moveHorizontally(final double delta) {
-        if (this.movingLeft && this.hSpeed > -RegularBehavior.HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed -= RegularBehavior.HORIZONTAL_ACCELERATION * delta;
-        } else if (this.movingRight && this.hSpeed < RegularBehavior.HORIZONTAL_SPEED_LIMIT) {
-            this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION * delta;
-        } else {
-            if (this.hSpeed < 0) {
-                this.hSpeed += RegularBehavior.HORIZONTAL_ACCELERATION * delta;
-            } else if (this.hSpeed > 0) {
-                this.hSpeed -= RegularBehavior.HORIZONTAL_ACCELERATION * delta;
-            }
+        if (this.movingLeft && this.hSpeed > -HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed -= RELATIVE_SPEED * HORIZONTAL_ACCELERATION * delta;
+        } else if (this.movingRight && this.hSpeed < HORIZONTAL_SPEED_LIMIT) {
+            this.hSpeed += RELATIVE_SPEED * HORIZONTAL_ACCELERATION * delta;
         }
 
         doodle.addXPos((int) this.hSpeed);

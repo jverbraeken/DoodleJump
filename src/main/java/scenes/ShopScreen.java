@@ -14,7 +14,7 @@ import resources.sprites.ISpriteFactory;
 import system.IRenderable;
 import system.IServiceLocator;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -64,35 +64,72 @@ import java.util.ArrayList;
      * The text used to indicate the current level of the powerup.
      */
     private static final String POWERUP_INFO_LEVEL = "Level - Cost";
+    /**
+     * The speed with which the coin rotates.
+     */
+    private static final double COIN_SPEED = 0.3d;
 
-    /**
-     * X & Y location in relation to the frame of the {@link objects.powerups.Propeller} upgrade button.
-     */
-    private static final double PROPELLER_BUTTON_X = BUTTON_X_START, PROPELLER_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 0;
-    /**
-     * X & Y location in relation to the frame of the {@link objects.powerups.SizeDown} upgrade button.
-     */
-    private static final double SIZEDOWN_BUTTON_X = BUTTON_X_START, SIZEDOWN_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 1;
-    /**
-     * X & Y location in relation to the frame of the {@link objects.powerups.SizeUp} upgrade button.
-     */
-    private static final double SIZEUP_BUTTON_X = BUTTON_X_START, SIZEUP_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 2;
     /**
      * X & Y location in relation to the frame of the {@link objects.powerups.Jetpack} upgrade button.
      */
-    private static final double JETPACK_BUTTON_X = BUTTON_X_START, JETPACK_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 3;
+    private static final double JETPACK_BUTTON_X = BUTTON_X_START, JETPACK_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 0;
+    /**
+     * The height of the button
+     */
+    private static final int JETPACK_BUTTON_HEIGHT = 80;
+    /**
+     * =
+     * X & Y location in relation to the frame of the {@link objects.powerups.Propeller} upgrade button.
+     */
+    private static final double PROPELLER_BUTTON_X = BUTTON_X_START, PROPELLER_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 1;
+    /**
+     * The height of the button
+     */
+    private static final int PROPELLER_BUTTON_HEIGHT = 50;
+    /**
+     * X & Y location in relation to the frame of the {@link objects.powerups.SizeDown} upgrade button.
+     */
+    private static final double SIZEDOWN_BUTTON_X = BUTTON_X_START, SIZEDOWN_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 2;
+    /**
+     * The height of the button
+     */
+    private static final int SIZEDOWN_BUTTON_HEIGHT = 50;
+    /**
+     * X & Y location in relation to the frame of the {@link objects.powerups.SizeUp} upgrade button.
+     */
+    private static final double SIZEUP_BUTTON_X = BUTTON_X_START, SIZEUP_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 3;
+    /**
+     * The height of the button
+     */
+    private static final int SIZEUP_BUTTON_HEIGHT = 50;
     /**
      * X & Y location in relation to the frame of the {@link objects.powerups.Spring} upgrade button.
      */
     private static final double SPRING_BUTTON_X = BUTTON_X_START2, SPRING_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 0;
     /**
+     * The height of the button
+     */
+    private static final int SPRING_BUTTON_HEIGHT = 40;
+    /**
      * X & Y location in relation to the frame of the {@link objects.powerups.SpringShoes} upgrade button.
      */
     private static final double SPRINGSHOES_BUTTON_X = BUTTON_X_START2, SPRINGSHOES_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 1;
     /**
+     * The height of the button
+     */
+    private static final int SPRINGSHOES_BUTTON_HEIGHT = 40;
+    /**
      * X & Y location in relation to the frame of the {@link objects.powerups.Trampoline} upgrade button.
      */
     private static final double TRAMPOLINE_BUTTON_X = BUTTON_X_START2, TRAMPOLINE_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 2;
+    /**
+     * The height of the button
+     */
+    private static final int TRAMPOLINE_BUTTON_HEIGHT = 40;
+    /**
+     * The number of digits in the decimal system.
+     */
+    private static final int BASE_TEN = 10;
 
     /**
      * The relative Y-position of the coin.
@@ -122,7 +159,7 @@ import java.util.ArrayList;
     /**
      * The sprites of the coin, animated.
      */
-    private final ISprite[] coinSprites = new ISprite[10];
+    private final ISprite[] coinSprites = new ISprite[BASE_TEN];
     /**
      * Sprites of the background of the ChooseMode.
      */
@@ -154,54 +191,61 @@ import java.util.ArrayList;
                 buttonFactory.createShopPowerupButton(
                         Powerups.jetpack,
                         JETPACK_BUTTON_X,
-                        JETPACK_BUTTON_Y
+                        JETPACK_BUTTON_Y,
+                        JETPACK_BUTTON_HEIGHT
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.propeller,
                         PROPELLER_BUTTON_X,
-                        PROPELLER_BUTTON_Y
+                        PROPELLER_BUTTON_Y,
+                        PROPELLER_BUTTON_HEIGHT
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.sizeDown,
                         SIZEDOWN_BUTTON_X,
-                        SIZEDOWN_BUTTON_Y
+                        SIZEDOWN_BUTTON_Y,
+                        SIZEDOWN_BUTTON_HEIGHT
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.sizeUp,
                         SIZEUP_BUTTON_X,
-                        SIZEUP_BUTTON_Y
+                        SIZEUP_BUTTON_Y,
+                        SIZEUP_BUTTON_HEIGHT
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.spring,
                         SPRING_BUTTON_X,
-                        SPRING_BUTTON_Y
+                        SPRING_BUTTON_Y,
+                        SPRING_BUTTON_HEIGHT
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.springShoes,
                         SPRINGSHOES_BUTTON_X,
-                        SPRINGSHOES_BUTTON_Y
+                        SPRINGSHOES_BUTTON_Y,
+                        SPRINGSHOES_BUTTON_HEIGHT
                 )
         );
         buttons.add(
                 buttonFactory.createShopPowerupButton(
                         Powerups.trampoline,
                         TRAMPOLINE_BUTTON_X,
-                        TRAMPOLINE_BUTTON_Y
+                        TRAMPOLINE_BUTTON_Y,
+                        TRAMPOLINE_BUTTON_HEIGHT
                 )
         );
 
         // Coins
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < BASE_TEN; i++) {
             coinSprites[i] = this.serviceLocator.getSpriteFactory().getCoinSprite(i + 1);
         }
     }
@@ -265,7 +309,14 @@ import java.util.ArrayList;
         drawPowerupText(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y);
     }
 
-    private void drawPowerupText(final Powerups powerup, final double jetpackButtonX, final double jetpackButtonY) {
+    /**
+     * Draws the text next to a powerup-upgrade-button.
+     *
+     * @param powerup The type of the powerup
+     * @param buttonX The x-position of the button
+     * @param buttonY The y-position of the button
+     */
+    private void drawPowerupText(final Powerups powerup, final double buttonX, final double buttonY) {
         final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         final IRenderer renderer = serviceLocator.getRenderer();
@@ -278,12 +329,11 @@ import java.util.ArrayList;
         if (level < powerup.getMaxLevel()) {
             final int price = powerup.getPrice(level + 1);
             string = ((level == 0) ? "X" : level) + " - " + price;
-        }
-        else {
+        } else {
             string = Integer.toString(level);
         }
         final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup) + 1).getHeight() / 2;
-        renderer.drawTextHUD(new Point((int) (jetpackButtonX * width) + BUTTON_TEXT_OFFSET, (int) (jetpackButtonY * height) + yOffset), string, Color.black);
+        renderer.drawTextHUD(new Point((int) (buttonX * width) + BUTTON_TEXT_OFFSET, (int) (buttonY * height) + yOffset), string, Color.black);
     }
 
     /**
@@ -291,8 +341,8 @@ import java.util.ArrayList;
      */
     @Override
     public final void update(final double delta) {
-        coinSpriteIndex += 0.3 * delta;
-        coinSpriteIndex = coinSpriteIndex % 10;
+        coinSpriteIndex += COIN_SPEED * delta;
+        coinSpriteIndex = coinSpriteIndex % BASE_TEN;
     }
 
 }
