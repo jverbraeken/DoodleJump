@@ -8,6 +8,7 @@ import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -16,47 +17,35 @@ import java.lang.reflect.Field;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 public class EnemyTest {
-    private IConstants constants;
-    private IRenderer renderer;
-    private IDoodle doodle;
-    private IServiceLocator serviceLocator;
-    private ISprite sprite;
-    private Enemy enemy;
 
-    /**
-     * Initialize before every test.
-     */
+    ILogger logger =  mock(ILogger.class);
+    IConstants constants = mock(IConstants.class);
+    IRenderer renderer = mock(IRenderer.class);
+    IDoodle doodle = mock(IDoodle.class);
+    IServiceLocator serviceLocator = mock(IServiceLocator.class);
+    ISprite sprite = mock(ISprite.class);
+    ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
+
+    Enemy enemy;
+
     @Before
     public void init() {
-        constants = mock(IConstants.class);
         when(constants.getGameWidth()).thenReturn(1);
-
-        renderer = mock(IRenderer.class);
-
-        doodle = mock(IDoodle.class);
-
-        serviceLocator = mock(IServiceLocator.class);
-        ILogger logger = mock(ILogger.class);
-        ILoggerFactory logFac = mock(ILoggerFactory.class);
-        when(logFac.createLogger(Platform.class)).thenReturn(logger);
-        when(serviceLocator.getLoggerFactory()).thenReturn(logFac);
-
-        when(serviceLocator.getConstants()).thenReturn(constants);
         when(constants.getGravityAcceleration()).thenReturn(1.5);
+        when(loggerFactory.createLogger(Platform.class)).thenReturn(logger);
+        when(serviceLocator.getConstants()).thenReturn(constants);
+        when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
-        sprite = mock(ISprite.class);
+
         enemy = new Enemy(serviceLocator, new Point(1, 1), sprite);
     }
 
-    /**
-     * Test the getBoost method from Enemy.
-     * @throws NoSuchFieldException if the field does not exist.
-     * @throws IllegalAccessException if you can't acces that field.
-     */
     @Test
     public void getBoostTest() throws NoSuchFieldException, IllegalAccessException {
         Field field = Enemy.class.getDeclaredField("BOOST");
@@ -65,34 +54,59 @@ public class EnemyTest {
         assertThat(enemy.getBoost(), is(field.get(enemy)));
     }
 
-    /**
-     * Test rendering a normal enemy.
-     */
     @Test
     public void renderNormalTest() {
         enemy.render();
 
-        Mockito.verify(serviceLocator).getRenderer();
-        Mockito.verify(renderer).drawSprite(sprite, new Point(1, 1));
+        verify(serviceLocator).getRenderer();
+        verify(renderer).drawSprite(sprite, new Point(1, 1));
     }
 
-    /**
-     * Test updating a normal enemy after 2 times.
-     */
     @Test
     public void updateTwoTest() {
-        double startY = enemy.getYPos();
-        enemy.update(0);
-        enemy.update(0);
+        enemy.update(0d);
+        enemy.update(0d);
 
         assertThat(enemy.getXPos(), is(-3d));
         assertThat(enemy.getYPos(), is(1.0));
         assertThat(enemy.getOffSet(), is(-4));
     }
 
-    /**
-     * Test rendering a killed enemy.
-     */
+    @Test
+    public void testUpdateDeath() {
+        Whitebox.setInternalState(enemy, "alive", false);
+        enemy.update(0d);
+
+        verify(serviceLocator, times(1)).getConstants();
+        verify(constants, times(1)).getGravityAcceleration();
+    }
+
+    @Test
+    public void testUpdateChangeMovingDirection() {
+        double movingDistance = Whitebox.getInternalState(Enemy.class, "MOVING_DISTANCE");
+        Whitebox.setInternalState(enemy, "movingDirection", 1);
+
+        int offset = (int) movingDistance * 2;
+        Whitebox.setInternalState(enemy, "offset", offset);
+
+        enemy.update(0d);
+        int actual = Whitebox.getInternalState(enemy, "movingDirection");
+        assertThat(actual, is(0));
+    }
+
+    @Test
+    public void testUpdateChangeMovingDirection2() {
+        double movingDistance = Whitebox.getInternalState(Enemy.class, "MOVING_DISTANCE");
+        Whitebox.setInternalState(enemy, "movingDirection", 0);
+
+        int offset = (int) movingDistance * -2;
+        Whitebox.setInternalState(enemy, "offset", offset);
+
+        enemy.update(0d);
+        int actual = Whitebox.getInternalState(enemy, "movingDirection");
+        assertThat(actual, is(1));
+    }
+
     @Test
     public void renderKilledMultipleTest() {
         enemy.setAlive(false);
@@ -100,8 +114,8 @@ public class EnemyTest {
             enemy.render();
         }
 
-        Mockito.verify(serviceLocator, Mockito.times(10)).getRenderer();
-        Mockito.verify(renderer, Mockito.times(10)).drawSprite(sprite, new Point(1, 1));
+        verify(serviceLocator, Mockito.times(10)).getRenderer();
+        verify(renderer, Mockito.times(10)).drawSprite(sprite, new Point(1, 1));
     }
 
     @Test
@@ -123,7 +137,7 @@ public class EnemyTest {
         assertThat(enemy.isAlive(), is(false));
         assertThat(enemy.getVerticalSpeed(), is(1d));
 
-        Mockito.verify(doodle).collide(enemy);
+        verify(doodle).collide(enemy);
     }
 
     @Test
@@ -131,14 +145,11 @@ public class EnemyTest {
         when(doodle.getVerticalSpeed()).thenReturn(-8d);
         enemy.collidesWith(doodle);
 
-        Mockito.verify(doodle).setVerticalSpeed(-5d);
-        Mockito.verify(doodle).setAlive(false);
+        verify(doodle).setVerticalSpeed(-5d);
+        verify(doodle).setAlive(false);
         assertThat(doodle.isAlive(), is(false));
     }
 
-    /**
-     * Check that gravity is applied to the Enemy.
-     */
     @Test
     public void applyGravityTest() {
         double oldYpos = enemy.getYPos();
@@ -183,4 +194,5 @@ public class EnemyTest {
         enemy.applyGravity();
         assertThat(enemy.getVerticalSpeed(), is(1.5));
     }
+
 }
