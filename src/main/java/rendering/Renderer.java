@@ -279,7 +279,7 @@ public final class Renderer implements IRenderer {
         java.awt.Color currentColor = graphics.getColor();
 
         int xPos = prepareDrawText(point, msg, alignment, color.getColor(), FONT50);
-        graphics.drawString(msg, (int) point.getX(), (int) (point.getY() - camera.getYPos()));
+        graphics.drawString(msg, xPos, (int) (point.getY() - camera.getYPos()));
         this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + alignment.name() + ", " + color.name());
 
         graphics.setColor(currentColor);
@@ -355,7 +355,7 @@ public final class Renderer implements IRenderer {
     private int prepareDrawText(final Point point, final String msg, final TextAlignment alignment, final java.awt.Color color, final Font font) {
         graphics.setFont(font);
         graphics.setColor(color);
-        double xPos = point.getX();
+        double xPos;
         switch (alignment) {
             case left:
                 xPos = point.getX();
