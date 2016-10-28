@@ -117,8 +117,8 @@ public final class Renderer implements IRenderer {
         String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
-        double halfWidth = (sprite.getWidth() / 2);
-        double halfHeight = (sprite.getHeight() / 2);
+        double halfWidth = sprite.getWidth() / 2;
+        double halfHeight = sprite.getHeight() / 2;
         double translateX = x + halfWidth;
         double translateY = y - this.camera.getYPos() + halfHeight;
 
@@ -162,8 +162,8 @@ public final class Renderer implements IRenderer {
         String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
-        double halfWidth = (sprite.getWidth() / 2);
-        double halfHeight = (sprite.getHeight() / 2);
+        double halfWidth = sprite.getWidth() / 2;
+        double halfHeight = sprite.getHeight() / 2;
         double translateX = x + halfWidth;
         double translateY = y - this.camera.getYPos() + halfHeight;
 
