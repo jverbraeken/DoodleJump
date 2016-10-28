@@ -1,7 +1,5 @@
 package objects.powerups;
 
-import objects.blocks.ElementTypes;
-
 /**
  * Indicates which types of powerups are available.
  */
