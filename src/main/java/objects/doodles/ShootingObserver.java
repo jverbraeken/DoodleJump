@@ -24,17 +24,17 @@ public class ShootingObserver implements IMouseInputObserver {
     /**
      * The Doodle in this world.
      */
-    private Doodle doodle;
+    private IDoodle doodle;
 
     /**
      * Create and initialize a ShootingObserver.
      * @param sL the servicelocator of this game.
      * @param d the Doodle this observer belongs to.
      */
-    /* package */ ShootingObserver(final IServiceLocator sL, final Doodle d) {
-        serviceLocator = sL;
-        doodle = d;
-        logger = sL.getLoggerFactory().createLogger(ShootingObserver.class);
+    /* package */ ShootingObserver(final IServiceLocator sL, final IDoodle d) {
+        this.serviceLocator = sL;
+        this.doodle = d;
+        this.logger = sL.getLoggerFactory().createLogger(ShootingObserver.class);
     }
 
     /**
@@ -50,8 +50,8 @@ public class ShootingObserver implements IMouseInputObserver {
      */
     @Override
     public final void mouseClicked(final int x, final int y) {
-        int doodleXPos = (int) (doodle.getXPos() + doodle.getHitBox()[1]/2);
-        int doodleYPos = (int) doodle.getYPos();
+        int doodleXPos = (int) (this.doodle.getXPos() + this.doodle.getHitBox()[1]/2);
+        int doodleYPos = (int) this.doodle.getYPos();
         int xDir = 0;
         if (doodleYPos - y < 0) {
             xDir = (-(doodleXPos - x)) /2;
@@ -59,8 +59,9 @@ public class ShootingObserver implements IMouseInputObserver {
             xDir = (doodleXPos - x) /2;
         }
 
-        IGameObject projectile = serviceLocator.getProjectileFactory().createRegularProjectile(new Point(doodleXPos, doodleYPos), xDir, 0);
+        IGameObject projectile = this.serviceLocator.getProjectileFactory().createRegularProjectile(new Point(doodleXPos, doodleYPos), xDir, 0);
         this.doodle.addProjectile(projectile);
         this.logger.info("The mouse has been clicked in-game, a projectile has been created.");
     }
+
 }
