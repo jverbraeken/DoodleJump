@@ -17,12 +17,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -34,28 +39,29 @@ public class ProgressionManagerTest {
     private final static HighScore SCORE_2 = new HighScore("bar", 80);
     private final static HighScore SCORE_3 = new HighScore("Hello", 2);
     private final static HighScore SCORE_4 = new HighScore("World", 1);
-    private static IServiceLocator serviceLocator;
-    private static ILoggerFactory loggerFactory;
-    private static IFileSystem fileSystem;
-    private static IConstants constants;
+    private IServiceLocator serviceLocator = mock(IServiceLocator.class);
+    private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
+    private IFileSystem fileSystem = mock(IFileSystem.class);
+    private IConstants constants = mock(IConstants.class);
+    private ILogger logger = mock(ILogger.class);
+    private IMissionFactory missionFactory = mock(IMissionFactory.class);
     private ProgressionManager progressionManager;
-    private IMissionFactory missionFactory;
     private List<HighScore> expected;
+    private List<Mission> missions = new ArrayList<>();
+    private Queue<Mission> finishedMissionsQueue = new LinkedList<>();
+    private Mission mission = mock(Mission.class);
 
     @Before
     public void init() throws Exception {
-        serviceLocator = mock(IServiceLocator.class);
-        loggerFactory = mock(ILoggerFactory.class);
-        fileSystem = mock(IFileSystem.class);
-        constants = mock(IConstants.class);
-        missionFactory = mock(IMissionFactory.class);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getFileSystem()).thenReturn(fileSystem);
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getMissionFactory()).thenReturn(missionFactory);
-        when(loggerFactory.createLogger(ProgressionManager.class)).thenReturn(mock(ILogger.class));
+        when(loggerFactory.createLogger(ProgressionManager.class)).thenReturn(logger);
+
         ProgressionManager.register(serviceLocator);
         progressionManager = Whitebox.invokeConstructor(ProgressionManager.class);
+
         expected = new ArrayList<>();
     }
 
@@ -242,118 +248,52 @@ public class ProgressionManagerTest {
         assertThat(progressionManager.getMissions(), is(missions));
     }
 
-//    @Test
-//    public void testAddObserver() {
-//        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
-//        progressionManager.addObserver(ProgressionObservers.spring, observer);
-//        assertThat(((Set<IProgressionObserver>) Whitebox.getInternalState(ProgressionObservers.spring, "observers")).contains(observer), is(true));
-//
-//        final ISpringUsedObserver observer2 = mock(ISpringUsedObserver.class);
-//        progressionManager.addObserver(ProgressionObservers.spring, observer2);
-//        assertThat(((Set<IProgressionObserver>) Whitebox.getInternalState(ProgressionObservers.spring, "observers")).contains(observer2), is(true));
-//    }
-//
-//    @Test
-//    public void testAlertObservers() {
-//        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
-//        progressionManager.addObserver(ProgressionObservers.spring, observer);
-//        progressionManager.alertObservers(ProgressionObservers.spring);
-//
-//        Mockito.verify(observer).alert();
-//    }
-//
-//    @Test
-//    public void testAlertObserversQueue() {
-//        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
-//        final Mission mission = mock(Mission.class);
-//        progressionManager.addObserver(ProgressionObservers.spring, observer);
-//        Whitebox.setInternalState(progressionManager, "finishedMissionsQueue", new LinkedList<Mission>() {{
-//            add(mission);
-//        }});
-//        progressionManager.alertObservers(ProgressionObservers.spring);
-//
-//        Mockito.verify(observer).alert();
-//    }
-//
-//    @Test
-//    public void testAlertObserversWithAmount() {
-//        final int amount = 1234;
-//        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
-//        progressionManager.addObserver(ProgressionObservers.spring, observer);
-//        progressionManager.alertObservers(ProgressionObservers.spring, amount);
-//
-//        Mockito.verify(observer).alert(amount);
-//    }
-//
-//    @Test
-//    public void testAlertObserversWithAmountAndQueue() {
-//        final int amount = 1234;
-//        final ISpringUsedObserver observer = mock(ISpringUsedObserver.class);
-//        final Mission mission = mock(Mission.class);
-//        progressionManager.addObserver(ProgressionObservers.spring, observer);
-//        Whitebox.setInternalState(progressionManager, "finishedMissionsQueue", new LinkedList<Mission>() {{
-//            add(mission);
-//        }});
-//        progressionManager.alertObservers(ProgressionObservers.spring, amount);
-//
-//        Mockito.verify(observer).alert(amount);
-//    }
-//
-//    @Test(expected = InternalError.class)
-//    public void testAlertObserversMissionFinishedUnknownMission() {
-//        final Mission mission = mock(Mission.class);
-//        progressionManager.alertMissionFinished(mission);
-//    }
-//
-//    @Test
-//    public void testAlertObserversMissionFinished() {
-//        final Mission mission = mock(Mission.class);
-//        final Mission mission2 = mock(Mission.class);
-//        final Mission mission3 = mock(Mission.class);
-//        final Queue finishedMissionsQueue = mock(Queue.class);
-//        Whitebox.setInternalState(progressionManager, "missions", new ArrayList<Mission>() {{
-//            add(mission);
-//            add(mission2);
-//            add(mission3);
-//        }});
-//        progressionManager.alertMissionFinished(mission);
-//        assertThat(((Queue<Mission>) Whitebox.getInternalState(progressionManager, "finishedMissionsQueue")).contains(mission), is(true));
-//    }
-//
-//    @Test
-//    public void testProgressionFromJson() throws Exception {
-//        final SaveFile json = mock(SaveFile.class);
-//        final SaveFileHighScoreEntry saveFileHighScoreEntry1 = mock(SaveFileHighScoreEntry.class);
-//        final SaveFileHighScoreEntry saveFileHighScoreEntry2 = mock(SaveFileHighScoreEntry.class);
-//        final SaveFileHighScoreEntry saveFileHighScoreEntry3 = mock(SaveFileHighScoreEntry.class);
-//        when(json.getCoins()).thenReturn(42);
-//        when(json.getHighScores()).thenReturn(new ArrayList<SaveFileHighScoreEntry>() {{
-//            add(saveFileHighScoreEntry1);
-//            add(saveFileHighScoreEntry2);
-//            add(saveFileHighScoreEntry3);
-//        }});
-//        final Map<String, Integer> powerupsMap = new HashMap<String, Integer>() {{
-//            put("jetpack", 1);
-//            put("propeller", 2);
-//            put("sizeDown", 3);
-//            put("sizeUp", 4);
-//            put("spring", 5);
-//            put("springShoes", 6);
-//            put("trampoline", 7);
-//        }};
-//        when(json.getPowerupLevels()).thenReturn(powerupsMap);
-//
-//        Whitebox.invokeMethod(progressionManager, "progressionFromJson", json);
-//
-//        final List<HighScore> expectedHighScores = new ArrayList<HighScore>() {{
-//            add(new HighScore(saveFileHighScoreEntry1.getName(), saveFileHighScoreEntry1.getScore()));
-//            add(new HighScore(saveFileHighScoreEntry2.getName(), saveFileHighScoreEntry2.getScore()));
-//            add(new HighScore(saveFileHighScoreEntry3.getName(), saveFileHighScoreEntry3.getScore()));
-//        }};
-//        assertThat(Whitebox.getInternalState(progressionManager, "highScores"), is(equalTo(expectedHighScores)));
-//
-//        final int expectedCoins = 42;
-//        assertThat(Whitebox.getInternalState(progressionManager, "coins"), is(expectedCoins));
-//
-//    }
+    @Test
+    public void testAlertMissionFinishedLogs() {
+        missions.add(mission);
+        Whitebox.setInternalState(progressionManager, "missions", missions);
+        progressionManager.alertMissionFinished(mission);
+        verify(logger, times(1)).info(anyString());
+    }
+
+    @Test(expected = InternalError.class)
+    public void testAlertMissionFinishedMissionNotFound() {
+        progressionManager.alertMissionFinished(mission);
+    }
+
+    @Test
+    public void testUpdate() {
+        finishedMissionsQueue.add(mission);
+        Whitebox.setInternalState(progressionManager, "finishedMissionsQueue", finishedMissionsQueue);
+        progressionManager.update();
+        Queue<Mission> actual = Whitebox.getInternalState(progressionManager, "finishedMissionsQueue");
+        finishedMissionsQueue.remove(mission);
+        assertThat(actual, is(finishedMissionsQueue));
+    }
+
+    @Test
+    public void testDecreaseCoins() {
+        Whitebox.setInternalState(progressionManager, "coins", 1);
+        progressionManager.decreaseCoins(1);
+        int coins = Whitebox.getInternalState(progressionManager, "coins");
+        assertThat(coins, is(0));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDecreaseCoinsNegativeAmount() {
+        Whitebox.setInternalState(progressionManager, "coins", 0);
+        progressionManager.decreaseCoins(-1);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testDecreaseCoinsInsufficientCoins() {
+        Whitebox.setInternalState(progressionManager, "coins", 0);
+        progressionManager.decreaseCoins(1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIncreasePowerupLevelInvalid() {
+        progressionManager.increasePowerupLevel(null);
+    }
+
 }

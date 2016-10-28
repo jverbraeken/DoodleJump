@@ -18,6 +18,8 @@ import resources.sprites.Sprite;
 import resources.sprites.SpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.times;
@@ -65,7 +67,7 @@ public class BreakingPlatformsTest {
         when(sf.getPlatformBrokenSprite(3)).thenReturn(brokensprite2);
         when(sf.getPlatformBrokenSprite(4)).thenReturn(brokensprite3);
 
-        q = new Platform(serviceLocator, 1, 1, sprite);
+        q = new Platform(serviceLocator, new Point(1, 1), sprite);
         p = new PlatformBroken(serviceLocator, q);
         p.getProps().put(Platform.PlatformProperties.breaks, 1);
     }

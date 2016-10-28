@@ -6,6 +6,8 @@ import objects.blocks.platform.IPlatform;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * This class describes the abstract functionality of powerups.
  */
@@ -15,13 +17,12 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      * Creates a new powerup and determines its hitbox by using the sprites dimensions automatically.
      *
      * @param sL      The locator providing services to the powerup
-     * @param x       The X-coordinate of the powerup
-     * @param y       The Y-coordinate of the powerup
+     * @param point   The coordinates of the powerup
      * @param sprite  The sprite of the powerup
      * @param powerup The class of the powerup
      */
-    public APowerup(final IServiceLocator sL, final int x, final int y, final ISprite sprite, final Class<?> powerup) {
-        super(sL, x, y, sprite, powerup);
+    public APowerup(final IServiceLocator sL, final Point point, final ISprite sprite, final Class<?> powerup) {
+        super(sL, point, sprite, powerup);
     }
 
     /**
@@ -36,7 +37,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      */
     @Override
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
     }
 
     /**

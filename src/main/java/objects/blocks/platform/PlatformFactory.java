@@ -4,6 +4,8 @@ import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * This class is a factory that produces platforms.
  */
@@ -38,7 +40,8 @@ public final class PlatformFactory implements IPlatformFactory {
     @Override
     public IPlatform createPlatform(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSprite1();
-        IPlatform platform = new Platform(serviceLocator, x, y, sprite);
+        final Point point = new Point(x, y);
+        IPlatform platform = new Platform(serviceLocator, point, sprite);
 
         if (Game.getMode().equals(Game.Modes.darkness)) {
             IPlatform darkness = new PlatformDarkness(serviceLocator, platform);
@@ -75,10 +78,9 @@ public final class PlatformFactory implements IPlatformFactory {
     @Override
     public IPlatform createBreakPlatform(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getPlatformBrokenSprite(1);
-        IPlatform platform = new Platform(serviceLocator, x, y, sprite);
-        IPlatform broken = new PlatformBroken(serviceLocator, platform);
+        IPlatform platform = createPlatform(x, y);
 
-        return broken;
+        return new PlatformBroken(serviceLocator, platform);
     }
 
 }

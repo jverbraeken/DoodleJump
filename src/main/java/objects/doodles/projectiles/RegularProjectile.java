@@ -4,6 +4,8 @@ import objects.AGameObject;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 /**
  * A RegularProjectile, mostly spawned in the regular gaming mode.
  */
@@ -22,13 +24,12 @@ public final class RegularProjectile extends AGameObject {
     /**
      * Create and initialize a RegularProjectile.
      *
-     * @param sL   the servicelocator of this game.
-     * @param x    the x location.
-     * @param y    the y location.
-     * @param xDir The speed over the X-axis
+     * @param sL    the servicelocator of this game.
+     * @param point The location.
+     * @param xDir  The speed over the X-axis
      */
-    /* package */RegularProjectile(final IServiceLocator sL, final int x, final int y, final int xDir) {
-        super(sL, x, y, sL.getSpriteFactory().getRegularProjectileSprite(), RegularProjectile.class);
+    /* package */RegularProjectile(final IServiceLocator sL, final Point point, final int xDir) {
+        super(sL, point, sL.getSpriteFactory().getRegularProjectileSprite(), RegularProjectile.class);
         xDirection = xDir;
     }
 
@@ -44,7 +45,7 @@ public final class RegularProjectile extends AGameObject {
      */
     @Override
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
     }
 
     /**

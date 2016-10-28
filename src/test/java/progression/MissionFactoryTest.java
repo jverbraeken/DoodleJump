@@ -1,5 +1,8 @@
 package progression;
 
+import logging.ILogger;
+import logging.ILoggerFactory;
+import objects.powerups.IPowerupFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
@@ -17,24 +20,32 @@ import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 public class MissionFactoryTest {
+
+    private Callable action = mock(Callable.class);
+    private ILogger logger = mock(ILogger.class);
+    private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
     private IMissionFactory missionFactory;
+    private IPowerupFactory powerupFactory = mock(IPowerupFactory.class);
+    private IProgressionManager progressionManager = mock(IProgressionManager.class);
+    private IServiceLocator serviceLocator = mock(IServiceLocator.class);
 
     @Before
     public void init() throws Exception {
+        when(loggerFactory.createLogger(MissionFactory.class)).thenReturn(logger);
+        when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
+        when(serviceLocator.getPowerupFactory()).thenReturn(powerupFactory);
+        when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
+
+        Whitebox.setInternalState(MissionFactory.class, "serviceLocator", serviceLocator);
         missionFactory = Whitebox.invokeConstructor(MissionFactory.class);
     }
 
-//    @Test
-//    public void testCreateMissionJumpOnSpring() throws Exception {
-//        final Callable action = mock(Callable.class);
-//        final int maximumTimes = 42;
-//        final IServiceLocator serviceLocator = mock(IServiceLocator.class);
-//        final IProgressionManager progressionManager = mock(IProgressionManager.class);
-//        when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
-//        Whitebox.setInternalState(MissionFactory.class, "serviceLocator", serviceLocator);
-//        Mission result = missionFactory.createMission(MissionType.jumpOnSpring, maximumTimes, action);
-//
-//        assertThat(result.getMaximumTimes(), is(maximumTimes));
-//        verifyPrivate(progressionManager, times(1)).invoke("addObserver", eq(ProgressionObservers.spring), anyObject());
-//    }
+    @Test
+    public void testCreateMissionJumpOnSpring() throws Exception {
+        final int maximumTimes = 42;
+        Mission result = missionFactory.createMission(MissionType.jumpOnSpring, ProgressionObservers.jumpable, maximumTimes, action);
+
+        assertThat(result.getMaximumTimes(), is(maximumTimes));
+    }
+
 }

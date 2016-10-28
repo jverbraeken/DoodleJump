@@ -10,9 +10,11 @@ public interface ISceneFactory extends IFactory {
     /**
      * Create a new kill screen.
      *
+     * @param score the score reached by the preceding game.
+     * @param extraExp the extra experience earned.
      * @return An IScene of the kill screen.
      */
-    IScene createKillScreen();
+    IScene createKillScreen(final int score, final int extraExp);
 
     /**
      * Create a new main menu.

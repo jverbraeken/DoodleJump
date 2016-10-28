@@ -7,7 +7,7 @@ import java.util.concurrent.Callable;
 /**
  * Observes a progression attribute and notifies a mission when it's finished observing.
  */
-public abstract class DefaultProgressionObserver implements IProgressionObserver {
+/* package */ abstract class DefaultProgressionObserver implements IProgressionObserver {
     /**
      * The service locator.
      */
