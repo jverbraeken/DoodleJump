@@ -5,7 +5,7 @@ import resources.sprites.ISprite;
 import system.IRenderable;
 import system.IUpdatable;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * The interface implemented by {@link AGameObject}, the super class of all classes that represents objects in the game.
