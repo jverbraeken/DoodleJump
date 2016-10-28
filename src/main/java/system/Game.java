@@ -446,8 +446,6 @@ public final class Game {
      * @param popup the Popup that has to be added.
      */
     public static void addPopup(final Popup popup) {
-
-        System.out.println("haaaaa");
         activePopups.add(popup);
     }
 
@@ -456,8 +454,6 @@ public final class Game {
      * @param popup the Popup that has to be deleted.
      */
     public static void deletePopup(final Popup popup) {
-
-        System.out.println("ha");
         activePopups.remove(popup);
     }
 }

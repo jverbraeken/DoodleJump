@@ -20,7 +20,7 @@ import java.awt.Point;
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-/* package */ class ChooseModeScreen implements IScene {
+public class ChooseModeScreen implements IScene {
 
     /**
      * X & Y location in relation to the frame of the regular mode button.
@@ -164,11 +164,15 @@ import java.awt.Point;
         serviceLocator.getRenderer().drawSpriteHUD(this.background, new Point(0, 0));
         double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomChooseModeScreen.getHeight();
         serviceLocator.getRenderer().drawSpriteHUD(this.bottomChooseModeScreen, new Point(0, (int) y));
+        //buttons.forEach(IButton::register);
         buttons.forEach(IRenderable::render);
         renderByRank();
 
-        if(activePopup == true) {
-            renderPopup();
+        if(activePopup) {
+            buttons.forEach(IButton::deregister);
+            //renderPopup();
+        } else {
+            buttons.forEach(IButton::register);
         }
     }
 
@@ -188,8 +192,8 @@ import java.awt.Point;
         IConstants constants = this.serviceLocator.getConstants();
         IRenderer renderer = this.serviceLocator.getRenderer();
 
-        renderer.fillRectangle(0, 0, constants.getGameWidth(), TOP_RECTANGLE_HEIGHT, rendering.Color.halfOpaqueWhite);
-        renderer.drawText(0, POPUP_TEXT_Y, "Rank: " + rank.getName(), Color.red);
+        renderer.fillRectangle(new Point(0, 0), constants.getGameWidth(), TOP_RECTANGLE_HEIGHT, rendering.Color.halfOpaqueWhite);
+        renderer.drawText(new Point(0, POPUP_TEXT_Y), "Rank: " + rank.getName(), Color.red);
     }
 
     /**
@@ -201,19 +205,19 @@ import java.awt.Point;
         int gameHeight = this.serviceLocator.getConstants().getGameHeight();
         ISprite redCross = this.serviceLocator.getSpriteFactory().getRedCross();
         if (rankLevel < Game.Modes.story.getRankRequired()) {
-            serviceLocator.getRenderer().drawSprite(redCross, (int) (STORY_MODE_X * gameWidth), (int) (STORY_MODE_Y * gameHeight));
+            serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (STORY_MODE_X * gameWidth), (int) (STORY_MODE_Y * gameHeight)));
         }
         if (rankLevel < Game.Modes.underwater.getRankRequired()) {
-            serviceLocator.getRenderer().drawSprite(redCross, (int) (UNDERWATER_MODE_X * gameWidth), (int) (UNDERWATER_MODE_Y * gameHeight));
+            serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (UNDERWATER_MODE_X * gameWidth), (int) (UNDERWATER_MODE_Y * gameHeight)));
         }
         if (rankLevel < Game.Modes.space.getRankRequired()) {
-            serviceLocator.getRenderer().drawSprite(redCross, (int) (SPACE_MODE_X * gameWidth), (int) (SPACE_MODE_Y * gameHeight));
+            serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (SPACE_MODE_X * gameWidth), (int) (SPACE_MODE_Y * gameHeight)));
         }
         if (rankLevel < Game.Modes.darkness.getRankRequired()) {
-            serviceLocator.getRenderer().drawSprite(redCross, (int) (DARKNESS_MODE_X * gameWidth), (int) (DARKNESS_MODE_Y * gameHeight));
+            serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (DARKNESS_MODE_X * gameWidth), (int) (DARKNESS_MODE_Y * gameHeight)));
         }
         if (rankLevel < Game.Modes.invert.getRankRequired()) {
-            serviceLocator.getRenderer().drawSprite(redCross, (int) (INVERT_MODE_X * gameWidth), (int) (INVERT_MODE_Y * gameHeight));
+            serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (INVERT_MODE_X * gameWidth), (int) (INVERT_MODE_Y * gameHeight)));
         }
     }
 

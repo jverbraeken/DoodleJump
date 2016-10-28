@@ -5,8 +5,7 @@ import system.Game;
 import system.IRenderable;
 import system.IServiceLocator;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -32,7 +31,7 @@ public final class Popup implements IRenderable {
     /**
      * Text location relative to width and height of the screen.
      */
-    private static final double POPUP_TEXT_X = 0.1, POPUP_TEXT_Y = 0.15;
+    private static final double POPUP_TEXT_X = 0.07, POPUP_TEXT_Y = 0.17;
     /**
      * Ok button location relative to width and height of the screen.
      */
@@ -47,21 +46,17 @@ public final class Popup implements IRenderable {
     public Popup(final IServiceLocator serviceLocator, final String msg) {
         this.serviceLocator = serviceLocator;
         this.message = msg;
-        int width = this.serviceLocator.getConstants().getGameWidth();
-        int height = this.serviceLocator.getConstants().getGameHeight();
-        System.out.println(POPUP_OK_X * width + " - " + POPUP_OK_Y * height);
-        //okButton = this.serviceLocator.getButtonFactory().createMultiplayerButton(0, 0);
 
         okButton = this.serviceLocator.getButtonFactory().createOkPopupButton(POPUP_OK_X, POPUP_OK_Y, this);
+        okButton.register();
     }
 
     @Override
     public void render() {
-        this.serviceLocator.getRenderer().drawSprite(this.serviceLocator.getSpriteFactory().getPopupBackground(), 0, 0);
+        this.serviceLocator.getRenderer().drawSprite(this.serviceLocator.getSpriteFactory().getPopupBackground(), new Point(0, 0));
         int width = this.serviceLocator.getConstants().getGameWidth();
         int height = this.serviceLocator.getConstants().getGameHeight();
-        this.serviceLocator.getRenderer().drawText((int) (POPUP_TEXT_X * width), (int) (POPUP_TEXT_Y * height), message, Color.black);
+        this.serviceLocator.getRenderer().drawText(new Point((int) (POPUP_TEXT_X * width), (int) (POPUP_TEXT_Y * height)), message, Color.black);
         okButton.render();
-        //this.serviceLocator.getButtonFactory().createOkPopupButton(0, 0, this);
     }
 }
