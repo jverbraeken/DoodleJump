@@ -1,6 +1,7 @@
 package objects.doodles.Projectiles;
 
 import objects.AGameObject;
+import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
@@ -23,19 +24,20 @@ public class RegularProjectile extends AGameObject {
 
     /**
      * Create and initialize a RegularProjectile.
-     * @param sL the servicelocator of this game.
-     * @param point the location.
+     * @param sL The serviceLocator of this game.
+     * @param point The location.
      */
-    /* package */RegularProjectile(final IServiceLocator sL, final Point point, final int xDir, final int yDir) {
+    /* package */ RegularProjectile(final IServiceLocator sL, final Point point, final int xDir, final int yDir) {
         super(sL, point, sL.getSpriteFactory().getRegularProjectileSprite(), RegularProjectile.class);
-        xDirection = xDir;
+        this.xDirection = xDir;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) { }
+    public void collidesWith(final IDoodle doodle) {
+    }
 
     /**
      * {@inheritDoc}
@@ -50,7 +52,8 @@ public class RegularProjectile extends AGameObject {
      */
     @Override
     public void update(final double delta) {
-        setYPos(getYPos() + VERTICAL_SPEED);
-        setXPos(getXPos() + xDirection);
+        this.setYPos(getYPos() + RegularProjectile.VERTICAL_SPEED);
+        this.setXPos(getXPos() + this.xDirection);
     }
+
 }

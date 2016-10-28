@@ -45,6 +45,7 @@ public final class ProjectileFactory implements IProjectileFactory {
     @Override
     public RegularProjectile createRegularProjectile(final Point point, final int xDir, final int yDir) {
         this.logger.info("Created a new regular projectile");
+
         return new RegularProjectile(ProjectileFactory.serviceLocator, point, xDir, yDir);
     }
 
