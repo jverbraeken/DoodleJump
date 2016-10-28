@@ -85,10 +85,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private final World world;
     /**
-     * A list of all the projectiles shot by this Enemy.
-     */
-    private final List<IGameObject> projectiles = new ArrayList<>();
-    /**
      * Gives true if the doodle is alive.
      */
     private boolean alive = true;
@@ -124,6 +120,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * The keys the Doodle responds to.
      */
     private Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
+    /**
+     * A list of all the projectiles shot by this Enemy.
+     */
+    private final List<IGameObject> projectiles = new ArrayList<>();
     /**
      * The shooting observer of this Doodle.
      */
@@ -319,6 +319,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void deregister() {
+        shootingObserver.deregister();
         Doodle.getServiceLocator().getInputManager().removeObserver(this.getKeyLeft(), this);
         Doodle.getServiceLocator().getInputManager().removeObserver(this.getKeyRight(), this);
         this.getLogger().info("The doodle removed itself as an observer from the input manager");

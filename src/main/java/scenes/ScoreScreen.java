@@ -4,6 +4,7 @@ import buttons.IButton;
 import buttons.IButtonFactory;
 import constants.IConstants;
 import logging.ILogger;
+import objects.powerups.Powerups;
 import progression.HighScore;
 import rendering.Color;
 import rendering.IRenderer;
@@ -134,6 +135,20 @@ import java.util.concurrent.atomic.AtomicInteger;
      */
     @Override
     public void update(final double delta) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void switchDisplay(PauseScreenModes mode) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

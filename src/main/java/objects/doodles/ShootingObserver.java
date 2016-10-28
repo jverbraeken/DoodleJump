@@ -46,6 +46,11 @@ import java.awt.Point;
         this.logger.info("The doodle registered an observer to observe the mouse input for shooting.");
     }
 
+    public final void deregister() {
+        this.serviceLocator.getInputManager().removeObserver(this);
+        this.logger.info("The doodle registered an observer to observe the mouse input for shooting.");
+    }
+
     /**
      * {@inheritDoc}
      */

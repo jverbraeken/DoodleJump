@@ -345,4 +345,18 @@ import java.util.ArrayList;
         coinSpriteIndex = coinSpriteIndex % BASE_TEN;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void switchDisplay(PauseScreenModes mode) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateButton(final Powerups powerup, final double x, final double y) {
+    }
+
 }

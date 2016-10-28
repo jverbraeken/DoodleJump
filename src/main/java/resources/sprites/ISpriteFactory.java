@@ -1,6 +1,7 @@
 package resources.sprites;
 
 import objects.powerups.Powerups;
+import scenes.PauseScreenModes;
 import system.IFactory;
 
 /**
@@ -28,10 +29,11 @@ public interface ISpriteFactory extends IFactory {
     ISprite getChooseModeButtonSprite();
 
     ISprite getShopButtonSprite();
+
     // Covers
     ISprite getBackground();
 
-    ISprite getPauseCoverSprite();
+    ISprite getPauseCoverSprite(PauseScreenModes mode);
 
     ISprite getStartCoverSprite();
 
@@ -147,8 +149,18 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getSpringUsedSprite(final int currentPowerupLevel);
 
+    /**
+     * Returns a list with sprites when a doodle has collided with a jetpack.
+     *
+     * @return list of sprites.
+     */
     ISprite[] getJetpackActiveSprites(final int level);
 
+    /**
+     * Returns a list with sprites when a doodle has collided with a propeller.
+     *
+     * @return list of sprites.
+     */
     ISprite[] getPropellerActiveSprites();
 
     // projectiles

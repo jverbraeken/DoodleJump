@@ -8,6 +8,7 @@ import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
+import objects.powerups.Powerups;
 import progression.IProgressionManager;
 import progression.Ranks;
 import rendering.Color;
@@ -16,7 +17,7 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,6 +103,7 @@ public class Menu implements IScene {
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     /* package */ Menu(final IServiceLocator sL) {
@@ -201,6 +203,20 @@ public class Menu implements IScene {
         if (this.doodle.checkCollision(this.platform)) {
             this.platform.collidesWith(this.doodle);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void switchDisplay(PauseScreenModes mode) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

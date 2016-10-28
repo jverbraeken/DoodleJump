@@ -6,6 +6,8 @@ import objects.powerups.Powerups;
 import progression.IProgressionManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import scenes.PauseScreenModes;
+import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
@@ -105,7 +107,10 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getResumeButtonSprite();
-        Runnable resumeAction = () -> Game.setPaused(false);
+        Runnable resumeAction = () -> {
+            Game.setPaused(false);
+            ((World) Game.getScene()).registerDoodle();
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, resumeAction, "resume");
     }
 
@@ -285,12 +290,71 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
+    public IButton createPausePowerupButton(final Powerups powerup, final double x, final double y) {
+        assert ButtonFactory.serviceLocator != null;
+
+        if (powerup == null) {
+            final String error = "There cannot a button be created for a null powerup";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+
+        final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
+        final int currentPowerupLevel = progressionManager.getPowerupLevel(powerup);
+
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getPowerupSprite(powerup, currentPowerupLevel + 1);
+        Runnable shop = () -> {
+            final int powerupLevel = progressionManager.getPowerupLevel(powerup);
+            if (powerupLevel < powerup.getMaxLevel()) {
+                final int price = powerup.getPrice(powerupLevel + 1);
+                if (progressionManager.getCoins() >= price) {
+                    progressionManager.decreaseCoins(price);
+                    progressionManager.increasePowerupLevel(powerup);
+                    Game.getPauseScreen().updateButton(powerup, x, y);
+                }
+            }
+        };
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, shop, "shop");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IButton createPauseButton(final double x, final double y) {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPauseButtonSprite();
-        Runnable pause = () -> Game.setPaused(true);
+        Runnable pause = () -> {
+            Game.setPaused(true);
+            ((World) Game.getScene()).deregisterDoodle();
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, pause, "pause");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createSwitchToShopButton(final double x, final double y) {
+        assert ButtonFactory.serviceLocator != null;
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getShopButtonSprite();
+        Runnable switchAction = () -> Game.getPauseScreen().switchDisplay(PauseScreenModes.shop);
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, switchAction, "switch");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createSwitchToMissionButton(final double x, final double y) {
+        assert ButtonFactory.serviceLocator != null;
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getShopButtonSprite();
+        Runnable switchAction = () -> Game.getPauseScreen().switchDisplay(PauseScreenModes.mission);
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, switchAction, "switch");
     }
 
 }

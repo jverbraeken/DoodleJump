@@ -133,4 +133,5 @@ public interface IPowerupFactory extends IFactory {
      * @param trampolineCreatedObserver The class that must not get the notifications anymore
      */
     void removeObserver(final ITrampolineCreatedObserver trampolineCreatedObserver);
+
 }

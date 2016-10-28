@@ -8,6 +8,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import resources.IRes;
+import scenes.PauseScreenModes;
 import system.IServiceLocator;
 
 import java.util.Arrays;
@@ -17,10 +18,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyObject;
-import static org.powermock.api.mockito.PowerMockito.doReturn;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.spy;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(SpriteFactory.class)
@@ -80,8 +78,20 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetPauseCoverButtonSprite() throws Exception {
-        TestSprite(IRes.Sprites.pauseCover, () -> spriteFactory.getPauseCoverSprite());
+        ISprite mockedSprite = mock(ISprite.class);
+        doReturn(mockedSprite).when(spriteFactory, "getSprite", IRes.Sprites.pauseCover);
+        ISprite result = spriteFactory.getPauseCoverSprite(PauseScreenModes.mission);
+        assertEquals(mockedSprite, result);
     }
+
+    @Test
+    public void TestGetPauseCoverButtonSprite2() throws Exception {
+        ISprite mockedSprite = mock(ISprite.class);
+        doReturn(mockedSprite).when(spriteFactory, "getSprite", IRes.Sprites.shopCover);
+        ISprite result = spriteFactory.getPauseCoverSprite(PauseScreenModes.shop);
+        assertEquals(mockedSprite, result);
+    }
+
 
     @Test
     public void TestGetStartCoverSprite() throws Exception {

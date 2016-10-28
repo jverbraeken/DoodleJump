@@ -89,7 +89,7 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
     private int spriteIndex = 0;
 
     /**
-     * flyable powerup constructor.
+     * Flyable powerup constructor.
      *
      * @param sL      The service locator
      * @param point   The location of the powerup
@@ -134,7 +134,8 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
      */
     @Override
     public final void update(final double delta) {
-        if (owner != null) {
+        if (this.owner != null) {
+
             this.updateOwned();
         } else if (this.timer > 0) {
             this.updateFalling();
@@ -217,6 +218,7 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
         }
     }
 
+
     /**
      * @return The owner of the Doodle, that is either {@code null} or a {@link objects.doodles.Doodle}
      */
@@ -224,4 +226,6 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
         return owner;
     }
 
+
 }
+

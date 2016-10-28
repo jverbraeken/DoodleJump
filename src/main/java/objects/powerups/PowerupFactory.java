@@ -2,7 +2,6 @@ package objects.powerups;
 
 import logging.ILogger;
 import objects.IGameObject;
-import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
@@ -173,6 +172,7 @@ public final class PowerupFactory implements IPowerupFactory {
      * {@inheritDoc}
      */
     @Override
+
     public void addObserver(final ISpringCreatedObserver springCreatedObserver) {
         if (springCreatedObserver == null) {
             final String error = "The springCreatedObserver cannot be null";
@@ -220,6 +220,7 @@ public final class PowerupFactory implements IPowerupFactory {
         }
         this.springObservers.remove(springCreatedObserver);
     }
+
 
     /**
      * {@inheritDoc}

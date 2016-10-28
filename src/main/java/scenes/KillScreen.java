@@ -4,6 +4,7 @@ import buttons.IButton;
 import buttons.IButtonFactory;
 import constants.IConstants;
 import logging.ILogger;
+import objects.powerups.Powerups;
 import progression.IProgressionManager;
 import progression.Ranks;
 import rendering.Color;
@@ -12,7 +13,7 @@ import rendering.TextAlignment;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.Point;
+import java.awt.*;
 
 /**
  * This class is a scene that is displays when the doodle dies in a world.
@@ -111,6 +112,7 @@ import java.awt.Point;
 
     /**
      * Package protected constructor, only allowing the SceneFactory to create a KillScreen.
+     *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     /* package */ KillScreen(final IServiceLocator sL, final int score, final int experience) {
@@ -118,7 +120,7 @@ import java.awt.Point;
         this.serviceLocator = sL;
         this.score = score;
         totalExperience = experience;
-        countUpAmount = (double) totalExperience/(double) SCORE_COUNT_TIME_CONSTANT;
+        countUpAmount = (double) totalExperience / (double) SCORE_COUNT_TIME_CONSTANT;
         this.logger = sL.getLoggerFactory().createLogger(KillScreen.class);
 
         this.background = sL.getSpriteFactory().getBackground();
@@ -165,7 +167,7 @@ import java.awt.Point;
         renderer.drawSpriteHUD(this.background, new Point(0, 0));
         renderer.drawSpriteHUD(this.gameOverSprite,
                 new Point((int) (constants.getGameWidth() * KillScreen.GAME_OVER_TEXT_X),
-                (int) (constants.getGameHeight() * KillScreen.GAME_OVER_TEXT_Y)));
+                        (int) (constants.getGameHeight() * KillScreen.GAME_OVER_TEXT_Y)));
 
         double y = (double) constants.getGameHeight() - (double) this.bottomKillScreen.getHeight();
         renderer.drawSpriteHUD(this.bottomKillScreen, new Point(0, (int) y));
@@ -175,16 +177,16 @@ import java.awt.Point;
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         Ranks rank = progressionManager.getRank();
         renderer.drawTextNoAjustments(new Point(
-                (int) (constants.getGameWidth() * KillScreen.SCORE_TEXT_X),
-                (int) (constants.getGameHeight() * KillScreen.SCORE_TEXT_Y)),
+                        (int) (constants.getGameWidth() * KillScreen.SCORE_TEXT_X),
+                        (int) (constants.getGameHeight() * KillScreen.SCORE_TEXT_Y)),
                 "Score: " + score, TextAlignment.left, Color.black);
         renderer.drawTextNoAjustments(new Point(
-                (int) (constants.getGameWidth() * KillScreen.RANK_TEXT_X),
-                (int) (constants.getGameHeight() * KillScreen.RANK_TEXT_Y)),
+                        (int) (constants.getGameWidth() * KillScreen.RANK_TEXT_X),
+                        (int) (constants.getGameHeight() * KillScreen.RANK_TEXT_Y)),
                 "Rank: " + rank.getName(), TextAlignment.left, Color.black);
         renderer.drawTextExtraOptions(new Point(
-                (int) (constants.getGameWidth() * KillScreen.EXP_TEXT_X),
-                (int) (constants.getGameHeight() * KillScreen.EXP_TEXT_Y)),
+                        (int) (constants.getGameWidth() * KillScreen.EXP_TEXT_X),
+                        (int) (constants.getGameHeight() * KillScreen.EXP_TEXT_Y)),
                 "+" + expCount + " exp", Color.darkBlue, 0, expFontSize);
     }
 
@@ -207,6 +209,19 @@ import java.awt.Point;
         if (expFontSize > INITIAL_EXP_FONTSIZE + MAX_EXP_FONT_SIZE_DIFFERENCE || expFontSize < INITIAL_EXP_FONTSIZE - MAX_EXP_FONT_SIZE_DIFFERENCE) {
             expFontSizeSpeed = -expFontSizeSpeed;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void switchDisplay(PauseScreenModes mode) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

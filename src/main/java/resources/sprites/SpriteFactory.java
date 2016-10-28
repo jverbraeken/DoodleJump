@@ -6,6 +6,7 @@ import com.google.common.cache.LoadingCache;
 import logging.ILogger;
 import objects.powerups.Powerups;
 import resources.IRes;
+import scenes.PauseScreenModes;
 import system.IServiceLocator;
 
 import java.awt.image.BufferedImage;
@@ -153,8 +154,17 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPauseCoverSprite() {
-        return this.getSprite(IRes.Sprites.pauseCover);
+    public ISprite getPauseCoverSprite(PauseScreenModes mode) {
+        switch (mode) {
+            case mission:
+                return this.getSprite(IRes.Sprites.pauseCover);
+            case shop:
+                return this.getSprite(IRes.Sprites.shopCover);
+            default:
+                final String error = "Trying to get the cover sprite of a mode that's not available";
+                logger.error(error);
+                throw new UnavailableLevelException(error);
+        }
     }
 
     /**
@@ -755,6 +765,7 @@ public final class SpriteFactory implements ISpriteFactory {
         return this.getSprite(IRes.Sprites.regularProjectile);
 
     }
+
 
     // Misc
 

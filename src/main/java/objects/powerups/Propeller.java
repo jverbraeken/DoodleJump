@@ -4,7 +4,6 @@ import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
-import java.awt.Point;
 
 import java.awt.Point;
 
@@ -115,6 +114,8 @@ import java.awt.Point;
             throw new IllegalArgumentException("Doodle cannot be null");
         }
 
+        // The game crashes upon collision when equals method is used to check if the value of owner's address
+        // is the same as a null reference resulting in a NullPointerReference.
         if (this.owner == null && this.timer == 0) {
             getLogger().info("Doodle collided with a Propeller");
             this.owner = doodle;

@@ -8,7 +8,7 @@ import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
 import objects.enemies.AEnemy;
-import objects.enemies.IEnemy;
+import objects.powerups.Powerups;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -225,7 +225,7 @@ public class World implements IScene {
         serviceLocator.getProgressionManager().addHighScore("Doodle", score);
         serviceLocator.getProgressionManager().addExperience((int) score);
 
-        Game.setScene(serviceLocator.getSceneFactory().createKillScreen((int) score,(int) extraExp));
+        Game.setScene(serviceLocator.getSceneFactory().createKillScreen((int) score, (int) extraExp));
     }
 
     /**
@@ -483,7 +483,7 @@ public class World implements IScene {
                     sprite = this.digitSprites[digit];
                     World.this.serviceLocator.getRenderer().drawSpriteHUD(sprite,
                             new Point(pos,
-                            this.digitData[digit * World.DIGIT_MULTIPLIER]),
+                                    this.digitData[digit * World.DIGIT_MULTIPLIER]),
                             this.digitData[digit * World.DIGIT_MULTIPLIER + 1],
                             this.digitData[digit * World.DIGIT_MULTIPLIER + 2]);
                     pos += this.digitData[digit * World.DIGIT_MULTIPLIER + 1] + 1;
@@ -508,4 +508,35 @@ public class World implements IScene {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void switchDisplay(PauseScreenModes mode) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateButton(final Powerups powerup, final double x, final double y) {
+    }
+
+    /**
+     * Activate the input observers of doodles that are active in this scene.
+     */
+    public void registerDoodle() {
+        for (IDoodle doodle : doodles) {
+            doodle.register();
+        }
+    }
+
+    /**
+     * Deactivate the input observers of doodles that are active in this scene.
+     */
+    public void deregisterDoodle() {
+        for (IDoodle doodle : doodles) {
+            doodle.deregister();
+        }
+    }
 }
