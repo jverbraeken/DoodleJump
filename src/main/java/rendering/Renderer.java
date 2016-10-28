@@ -265,9 +265,39 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
+    public void drawTextExtraOptions(final Point point, final String msg, final Color color, final double rotation, final int fontSize) {
+        assert this.graphics != null;
+        java.awt.Color currentColor = graphics.getColor();
+        int xPos = prepareDrawText(point, msg, TextAlignment.center, color.getColor(), FONT.deriveFont(Font.BOLD, fontSize));
+        graphics.rotate(rotation, xPos, point.getY());
+        graphics.drawString(msg, xPos, (int) point.getY());
+        this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + color.name());
+
+        graphics.setColor(currentColor);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void drawTextHUD(final Point point, final String msg, final Color color) {
         assert this.graphics != null;
         drawTextHUD(point, msg, TextAlignment.left, color);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawTextNoAjustments(final Point point, final String msg, final TextAlignment alignment, final Color color) {
+        assert graphics != null;
+        java.awt.Color currentColor = graphics.getColor();
+
+        int xPos = prepareDrawText(point, msg, alignment, color.getColor(), FONT50);
+        graphics.drawString(msg, xPos, (int) point.getY());
+        this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + alignment.name() + ", " + color.name());
+
+        graphics.setColor(currentColor);
     }
 
     /**

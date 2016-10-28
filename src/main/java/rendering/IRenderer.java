@@ -132,10 +132,22 @@ public interface IRenderer {
     void drawText(final Point point, final String msg, final Color color);
 
     /**
+     * Draw a string of text relative to the camera, left-aligned.
+     *
+     * @param point the x and y position.
+     * @param msg The message to draw.
+     * @param color the color of the text.
+     * @param fontSize the fontSize of the text.
+     * @param rotation the rotation of the text.
+     */
+    void drawTextExtraOptions(final Point point, final String msg, final Color color, final double rotation, final int fontSize);
+
+    /**
      * Draw a string of text relative to the screen, left-aligned.
      *
+     * @param msg The message to draw.
+     * @param color     The color of the text.
      * @param point     The position of the text.
-     * @param msg       The message to draw.
      */
     void drawTextHUD(final Point point, final String msg, final Color color);
 
@@ -145,8 +157,19 @@ public interface IRenderer {
      * @param point     the position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
+     * @param color     The color of the text.
      */
     void drawText(final Point point, String msg, TextAlignment alignment, final Color color);
+
+    /**
+     * Draw a string of text absolute to the screen.
+     *
+     * @param point     The x and y position.
+     * @param msg       The message to draw.
+     * @param alignment The alignment of the text.
+     * @param color     The color of the text.
+     */
+    void drawTextNoAjustments(final Point point, final String msg, final TextAlignment alignment, final Color color);
 
     /**
      * Draw a string of text relative to the screen.
@@ -154,6 +177,7 @@ public interface IRenderer {
      * @param point     The position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
+     * @param color     The color of the text.
      */
     void drawTextHUD(final Point point, String msg, TextAlignment alignment, final Color color);
 

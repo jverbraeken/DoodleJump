@@ -20,6 +20,10 @@ public final class SaveFile {
      */
     private int coins;
     /**
+     * The amount of experience.
+     */
+    private int experience;
+    /**
      * Contains the levels of each powerup: Map< name, level> . The name must be the same as the enum
      */
     private Map<String, Integer> powerupLevels;
@@ -57,6 +61,21 @@ public final class SaveFile {
      */
     public void setCoins(final int coins) {
         this.coins = coins;
+    }
+
+    /**
+     * Will return the amount of experience from the SaveFile.
+     * @return The amount of experience.
+     */
+    public int getExperience() {
+        return experience;
+    }
+    /**
+     * Sets the experience variable to the parameter given.
+     * @param experience The amount of experience that should be saved.
+     */
+    public void setExperience(final int experience) {
+        this.experience = experience;
     }
 
     /**
