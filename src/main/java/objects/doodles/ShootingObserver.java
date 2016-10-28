@@ -5,6 +5,8 @@ import logging.ILogger;
 import objects.IGameObject;
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * A ShootingObserver is a MouseInputObserver which creates Projectiles
  * at the click on the mouse.
@@ -58,7 +60,7 @@ import system.IServiceLocator;
             xDir = (doodleXPos - x) / 2;
         }
 
-        IGameObject projectile = serviceLocator.getProjectileFactory().createRegularProjectile(doodleXPos, doodleYPos, xDir, 0);
+        IGameObject projectile = serviceLocator.getProjectileFactory().createRegularProjectile(new Point(doodleXPos, doodleYPos), xDir);
         this.doodle.addProjectile(projectile);
         this.logger.info("The mouse has been clicked in-game, a projectile has been created.");
     }

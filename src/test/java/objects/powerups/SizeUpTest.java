@@ -4,16 +4,16 @@ import constants.IConstants;
 import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
+import java.awt.Point;
+
+import java.awt.*;
 
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
@@ -48,7 +48,7 @@ public class SizeUpTest {
         when(sprite.getWidth()).thenReturn(0);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
 
-        sizeUp = new SizeUp(serviceLocator, 0, 0);
+        sizeUp = new SizeUp(serviceLocator, new Point(0, 0));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class SizeUpTest {
         verify(doodle, times(1)).increaseSpriteScalar(sizeUpScalar);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCollidesWithNull() {
         sizeUp.collidesWith(null);
     }
@@ -65,7 +65,7 @@ public class SizeUpTest {
     @Test
     public void testRender() {
         sizeUp.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, new Point(0, 0));
         verify(doodle, times(0)).getXPos();
         verify(doodle, times(0)).getYPos();
     }

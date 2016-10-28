@@ -6,6 +6,7 @@ import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 import java.util.Map;
+import java.awt.Point;
 
 /**
  * Abstract class for the platform decorations.
@@ -81,7 +82,7 @@ public abstract class PlatformDecorator implements IPlatform {
     @Override
     public void render() {
         contained.render();
-        serviceLocator.getRenderer().drawSprite(getSprite(), (int) contained.getXPos(), (int) contained.getYPos());
+        serviceLocator.getRenderer().drawSprite(getSprite(), new Point((int) contained.getXPos(), (int) contained.getYPos()));
     }
 
     /**

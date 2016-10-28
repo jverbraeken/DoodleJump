@@ -6,6 +6,7 @@ import system.IServiceLocator;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.awt.Point;
 
 /**
  * A powerup on which can be jumped.
@@ -29,17 +30,16 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
      * The constructor of the AJumpablePowerUp object.
      *
      * @param sL            The locator providing services to the powerup
-     * @param x             The X-coordinate of the powerup
-     * @param y             The Y-coordinate of the powerup
+     * @param point        The coordinates of the powerup
      * @param boost         The value of the boost of the powerup
-     * @param defaultSprite The sprite when the object has not collided with a doodle
-     * @param usedSprite    The sprite when the object has collided with a doodle
+     * @param sprites      The sprites, must be size 2.
      * @param powerup       The class of the powerup
      */
-    /* package */ AJumpablePowerup(final IServiceLocator sL, final int x, final int y, final double boost, final ISprite defaultSprite, final ISprite usedSprite, final Class<?> powerup) {
-        super(sL, x, y, defaultSprite, powerup);
-        this.usedSprite = usedSprite;
-        this.defaultSprite = defaultSprite;
+    /* package */ AJumpablePowerup(final IServiceLocator sL, final Point point, final double boost, final ISprite[] sprites, final Class<?> powerup) {
+        super(sL, point, sprites[0], powerup);
+        assert(sprites.length == 2);
+        this.usedSprite = sprites[1];
+        this.defaultSprite = sprites[0];
         this.boost = boost;
     }
 

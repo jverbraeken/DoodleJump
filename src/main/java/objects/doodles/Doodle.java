@@ -10,6 +10,7 @@ import objects.doodles.doodle_behavior.MovementBehavior;
 import objects.doodles.doodle_behavior.RegularBehavior;
 import objects.doodles.doodle_behavior.SpaceBehavior;
 import objects.doodles.doodle_behavior.UnderwaterBehavior;
+import objects.enemies.AEnemy;
 import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
@@ -20,11 +21,14 @@ import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.EnumMap;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Doodle.
@@ -103,6 +107,10 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double score;
     /**
+     * The extra experience earned, by for example killing enemies.
+     */
+    private double experience = 0;
+    /**
      * All the passives the can Doodle have.
      */
     private IPowerup powerup;
@@ -131,12 +139,12 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     /* package */ Doodle(final IServiceLocator sL, final World w) {
         super(sL,
-                sL.getConstants().getGameWidth() / 2,
-                sL.getConstants().getGameHeight() / 2,
+                new Point(sL.getConstants().getGameWidth() / 2,
+                sL.getConstants().getGameHeight() / 2),
                 sL.getSpriteFactory().getDoodleLeftSprites()[0],
                 Doodle.class);
 
-        Doodle.fakePowerup = new APowerup(sL, 0, 0, sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
+        Doodle.fakePowerup = new APowerup(sL, new Point(0, 0), sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
             @Override
             public void render() {
             }
@@ -184,6 +192,9 @@ public class Doodle extends AGameObject implements IDoodle {
         double boost = jumpable.getBoost();
         this.behavior.setVerticalSpeed(boost);
         this.getPowerup().perform(PowerupOccasion.collision);
+        if (jumpable instanceof AEnemy) {
+            addExperiencePoints(((AEnemy) jumpable).getAmountOfExperience());
+        }
     }
 
     /**
@@ -316,15 +327,15 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void render() {
         ISprite sprite = this.getSprite();
         Doodle.getServiceLocator().getRenderer().drawSprite(sprite,
-                (int) this.getXPos(),
-                (int) this.getYPos(),
+                new Point((int) this.getXPos(),
+                (int) this.getYPos()),
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
         if (!this.isAlive()) {
             Doodle.getServiceLocator().getRenderer().drawSprite(getStarSprite(),
-                    (int) (this.getXPos() + (STARS_OFFSET * this.spriteScalar)),
-                    (int) this.getYPos(),
+                    new Point((int) (this.getXPos() + (STARS_OFFSET * this.spriteScalar)),
+                    (int) this.getYPos()),
                     (int) (getSprite().getWidth() * this.spriteScalar * STARS_SCALAR),
                     (int) (getSprite().getHeight() * this.spriteScalar * STARS_SCALAR));
         }
@@ -463,7 +474,7 @@ public class Doodle extends AGameObject implements IDoodle {
         ICamera camera = getServiceLocator().getRenderer().getCamera();
         if (this.getYPos() + this.getHitBox()[AGameObject.HITBOX_BOTTOM] > camera.getYPos() + getServiceLocator().getConstants().getGameHeight()) {
             getLogger().info("The Doodle died with score " + this.score);
-            this.world.endGameInstance(this.score);
+            this.world.endGameInstance(this.score, this.experience);
         }
     }
 
@@ -508,7 +519,10 @@ public class Doodle extends AGameObject implements IDoodle {
         IConstants constants = getServiceLocator().getConstants();
         double effectiveYPos = this.getYPos() - constants.getGameHeight();
         double newScore = -1 * effectiveYPos * constants.getScoreMultiplier();
+        double oldScore = this.score;
         this.score = Math.max(this.score, newScore);
+
+        this.experience += this.score - oldScore;
     }
 
     /**
@@ -572,4 +586,11 @@ public class Doodle extends AGameObject implements IDoodle {
         return this.projectiles;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addExperiencePoints(final double extraAmountOfExperience) {
+        this.experience += extraAmountOfExperience;
+    }
 }

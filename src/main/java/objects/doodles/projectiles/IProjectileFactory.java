@@ -2,6 +2,8 @@ package objects.doodles.projectiles;
 
 import system.IFactory;
 
+import java.awt.*;
+
 /**
  * The interface of a ProjectileFactory.
  */
@@ -9,11 +11,9 @@ public interface IProjectileFactory extends IFactory {
     /**
      * Create a new RegularProjectile.
      *
-     * @param x    The x location.
-     * @param y    The y location.
-     * @param xDir The speed with which the projectile moves over the x-axis
-     * @param yDir the speed with which the projectile moves over the y-axis
+     * @param point The location.
+     * @param xDir  The speed with which the projectile moves over the x-axis
      * @return The new RegularProjectile.
      */
-    RegularProjectile createRegularProjectile(final int x, final int y, final int xDir, final int yDir);
+    RegularProjectile createRegularProjectile(final Point point, final int xDir);
 }

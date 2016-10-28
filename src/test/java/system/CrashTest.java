@@ -17,7 +17,7 @@ public class CrashTest {
         sL = Whitebox.getInternalState(Game.class, "serviceLocator");
     }
 
-    /*@Test
+    @Test
     public void testCreateSinglePlayerWorld() {
         Game.setScene(
                 ServiceLocatorNoAudio.getServiceLocator().getSceneFactory().createSinglePlayerWorld());
@@ -31,7 +31,7 @@ public class CrashTest {
                 sL.getSceneFactory().createTwoPlayerWorld());
         //No crashes
         assertThat(true, is(true));
-    }*/
+    }
 
     @Test
     public void testCreateScoreScreen() {
@@ -52,7 +52,7 @@ public class CrashTest {
     @Test
     public void testCreateKillScreen() {
         Game.setScene(
-                sL.getSceneFactory().createKillScreen());
+                sL.getSceneFactory().createKillScreen(0, 0));
         //No crashes
         assertThat(true, is(true));
     }

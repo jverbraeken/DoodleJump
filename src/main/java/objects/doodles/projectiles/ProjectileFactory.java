@@ -2,6 +2,8 @@ package objects.doodles.projectiles;
 
 import system.IServiceLocator;
 
+import java.awt.*;
+
 /**
  * The ProjectileFactory class, which creates Projectiles.
  */
@@ -15,7 +17,8 @@ public final class ProjectileFactory implements IProjectileFactory {
     /**
      * Prevent instantiations of DoodleFactory.
      */
-    private ProjectileFactory() { }
+    private ProjectileFactory() {
+    }
 
     /**
      * Register the doodle factory into the service locator.
@@ -34,7 +37,7 @@ public final class ProjectileFactory implements IProjectileFactory {
      * {@inheritDoc}
      */
     @Override
-    public RegularProjectile createRegularProjectile(final int x, final int y, final int xDir, final int yDir) {
-        return new RegularProjectile(serviceLocator, x, y, xDir);
+    public RegularProjectile createRegularProjectile(final Point point, final int xDir) {
+        return new RegularProjectile(serviceLocator, point, xDir);
     }
 }
