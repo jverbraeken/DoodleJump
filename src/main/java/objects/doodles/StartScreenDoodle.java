@@ -28,7 +28,7 @@ import system.IServiceLocator;
      */
     @Override
     public void collide(final IJumpable jumpable) {
-        setVerticalSpeed(BOOST_REDUCTION * jumpable.getBoost());
+        this.setVerticalSpeed(StartScreenDoodle.BOOST_REDUCTION * jumpable.getBoost());
     }
 
     /**
@@ -36,7 +36,7 @@ import system.IServiceLocator;
      */
     @Override
     public final void keyPress(final Keys key) {
-        return;
+        // Prevents the StartDoodle from moving
     }
 
     /**
@@ -44,7 +44,7 @@ import system.IServiceLocator;
      */
     @Override
     public final void keyRelease(final Keys key) {
-        return;
+        // Prevents the StartDoodle from moving
     }
 
 }

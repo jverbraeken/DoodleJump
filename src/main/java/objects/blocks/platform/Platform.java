@@ -19,21 +19,6 @@ public class Platform extends AGameObject implements IPlatform {
      * The boost the Doodle gets from colliding with the platform.
      */
     private static final double BOOST = -18;
-
-    /**
-     * The maximum moving distance the platform can move.
-     */
-    private static double movingDistance;
-
-    /**
-     * The multiplier to calculate the movingDistance.
-     */
-    private static final double MOVING_DISTANCE_HEIGHT_MULTIPLIER = 0.20;
-
-    /**
-     * Current vertical speed for the Platform.
-     */
-    private double vSpeed = 0d;
     /**
      * The offSet of the vertical moving platform.
      */

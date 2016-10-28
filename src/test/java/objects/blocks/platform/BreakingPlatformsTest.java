@@ -62,10 +62,10 @@ public class BreakingPlatformsTest {
         when(logFac.createLogger(Platform.class)).thenReturn(logger);
         when(serviceLocator.getSpriteFactory()).thenReturn(sf);
         when(serviceLocator.getLoggerFactory()).thenReturn(logFac);
-        when(sf.getPlatformBrokenSprite1()).thenReturn(sprite);
-        when(sf.getPlatformBrokenSprite2()).thenReturn(brokensprite);
-        when(sf.getPlatformBrokenSprite3()).thenReturn(brokensprite2);
-        when(sf.getPlatformBrokenSprite4()).thenReturn(brokensprite3);
+        when(sf.getPlatformBrokenSprite(1)).thenReturn(sprite);
+        when(sf.getPlatformBrokenSprite(2)).thenReturn(brokensprite);
+        when(sf.getPlatformBrokenSprite(3)).thenReturn(brokensprite2);
+        when(sf.getPlatformBrokenSprite(4)).thenReturn(brokensprite3);
 
         q = new Platform(serviceLocator, new Point(1, 1), sprite);
         p = new PlatformBroken(serviceLocator, q);
@@ -80,7 +80,7 @@ public class BreakingPlatformsTest {
         assertThat(Whitebox.invokeMethod(p, "getBrokenSprite", 2), is(brokensprite));
 
         Mockito.verify(serviceLocator, times(2)).getSpriteFactory();
-        Mockito.verify(sf).getPlatformBrokenSprite2();
+        Mockito.verify(sf).getPlatformBrokenSprite(2);
     }
 
     /**
@@ -90,7 +90,7 @@ public class BreakingPlatformsTest {
     public void getBrokenSpriteTest3() throws Exception {
         assertThat(Whitebox.invokeMethod(p, "getBrokenSprite", 3), is(brokensprite2));
 
-        Mockito.verify(sf).getPlatformBrokenSprite3();
+        Mockito.verify(sf).getPlatformBrokenSprite(3);
     }
 
     /**
@@ -100,7 +100,7 @@ public class BreakingPlatformsTest {
     public void getBrokenSpriteTest4() throws Exception {
         assertThat(Whitebox.invokeMethod(p, "getBrokenSprite", 4), is(brokensprite3));
 
-        Mockito.verify(sf).getPlatformBrokenSprite4();
+        Mockito.verify(sf).getPlatformBrokenSprite(4);
     }
 
     /**
@@ -110,7 +110,7 @@ public class BreakingPlatformsTest {
     public void getBrokenSpriteTestMin1() throws Exception {
         assertThat(Whitebox.invokeMethod(p, "getBrokenSprite", -1), is(brokensprite3));
 
-        Mockito.verify(sf).getPlatformBrokenSprite4();
+        Mockito.verify(sf).getPlatformBrokenSprite(4);
     }
 
     /**

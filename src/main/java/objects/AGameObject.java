@@ -147,6 +147,14 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
+    public final Point getPoint() {
+        return new Point((int) this.xPos, (int) this.yPos);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public abstract void render();
 
     /**
@@ -195,7 +203,8 @@ public abstract class AGameObject implements IGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void update(final double delta) { }
+    public void update(final double delta) {
+    }
 
     /**
      * Get the serviceLocator.

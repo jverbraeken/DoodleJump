@@ -9,7 +9,7 @@ import math.ICalc;
 import objects.blocks.IBlockFactory;
 import objects.blocks.platform.IPlatformFactory;
 import objects.doodles.IDoodleFactory;
-import objects.doodles.Projectiles.IProjectileFactory;
+import objects.doodles.projectiles.IProjectileFactory;
 import objects.enemies.IEnemyFactory;
 import objects.powerups.IPowerupFactory;
 import progression.IMissionFactory;

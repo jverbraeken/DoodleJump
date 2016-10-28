@@ -79,7 +79,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Fake Powerup instance to return when actual powerup value is null.
      */
-    private static APowerup fakePowerup;
+    private static volatile APowerup fakePowerup = null;
     /**
      * The world the Doodle lives in.
      */
@@ -142,19 +142,25 @@ public class Doodle extends AGameObject implements IDoodle {
                 sL.getSpriteFactory().getDoodleLeftSprites()[0],
                 Doodle.class);
 
-        Doodle.fakePowerup = new APowerup(sL, new Point(0, 0), sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
-            @Override
-            public void render() {
-            }
+        if (Doodle.fakePowerup == null) {
+            synchronized (this) {
+                if (Doodle.fakePowerup == null) {
+                    Doodle.fakePowerup = new APowerup(sL, new Point(0, 0), sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
+                        @Override
+                        public void render() {
+                        }
 
-            @Override
-            public void collidesWith(final IDoodle doodle) {
-            }
+                        @Override
+                        public void collidesWith(final IDoodle doodle) {
+                        }
 
-            @Override
-            public void setPositionOnPlatform(final IPlatform platform) {
+                        @Override
+                        public void setPositionOnPlatform(final IPlatform platform) {
+                        }
+                    };
+                }
             }
-        };
+        }
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.shootingObserver = new ShootingObserver(sL, this);
@@ -344,7 +350,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Render the Projectiles this Doodle has shot.
+     * Render the projectiles this Doodle has shot.
      */
     private void renderProjectiles() {
         for (IGameObject projectile : this.projectiles) {
@@ -368,7 +374,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Update the Projectiles this Doodle has shot.
+     * Update the projectiles this Doodle has shot.
      *
      * @param delta The time in milliseconds that has passed between the last frame and the new frame
      */
@@ -426,7 +432,8 @@ public class Doodle extends AGameObject implements IDoodle {
             double oldScalar = this.spriteScalar;
             this.spriteScalar += inc;
 
-            double heightDiff = (this.getSprite().getHeight() * oldScalar) - (this.getSprite().getHeight() * this.spriteScalar);
+            double heightDiff = this.getSprite().getHeight() * oldScalar
+                    - this.getSprite().getHeight() * this.spriteScalar;
             this.addYPos(heightDiff);
 
             this.updateHitBox();
@@ -560,7 +567,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Adds a projectile to the Set with Projectiles.
+     * Adds a projectile to the Set with projectiles.
      *
      * @param projectile the projectile that has to be added.
      */

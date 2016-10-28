@@ -44,7 +44,7 @@ import java.awt.Point;
     /**
      * The sprites for an active Propeller.
      */
-    private static ISprite[] spritePack;
+    private static volatile ISprite[] spritePack = null;
     /**
      * The index of the current sprite.
      */
@@ -70,7 +70,13 @@ import java.awt.Point;
      */
     /* package */ Propeller(final IServiceLocator sL, final Point point) {
         super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);
-        Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
+        if (Propeller.spritePack == null) {
+            synchronized (this) {
+                if (Propeller.spritePack == null) {
+                    Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
+                }
+            }
+        }
     }
 
     /**
@@ -158,8 +164,11 @@ import java.awt.Point;
         }
 
         if (this.owner != null) {
-            this.setXPos((int) this.owner.getXPos() + (this.getSprite().getWidth() / 2));
-            this.setYPos((int) this.owner.getYPos() + (this.getSprite().getHeight() / 2) + OWNED_Y_OFFSET);
+            this.setXPos((int) this.owner.getXPos()
+                    + this.getSprite().getWidth() / 2);
+            this.setYPos((int) this.owner.getYPos()
+                    + this.getSprite().getHeight() / 2
+                    + OWNED_Y_OFFSET);
         }
     }
 

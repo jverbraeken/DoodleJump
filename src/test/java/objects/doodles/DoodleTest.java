@@ -7,9 +7,9 @@ import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.doodles.Projectiles.RegularProjectile;
 import objects.doodles.doodle_behavior.MovementBehavior;
 import objects.doodles.doodle_behavior.RegularBehavior;
+import objects.doodles.projectiles.RegularProjectile;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import org.junit.Before;
@@ -61,8 +61,8 @@ public class DoodleTest {
     static ISprite spriteLeft2 = mock(ISprite.class);
     static ISprite spriteRight1 = mock(ISprite.class);
     static ISprite spriteRight2 = mock(ISprite.class);
-    ISprite[] spritesLeft = new ISprite[] { spriteLeft1, spriteLeft2 };
-    ISprite[] spritesRight = new ISprite[] { spriteRight1, spriteRight2 };
+    ISprite[] spritesLeft = new ISprite[]{spriteLeft1, spriteLeft2};
+    ISprite[] spritesRight = new ISprite[]{spriteRight1, spriteRight2};
     IDoodle doodle;
     double jumpableBoost = 10d;
     int spriteHeight = 10;
@@ -153,17 +153,17 @@ public class DoodleTest {
         assertThat(keys[1], is(Keys.d));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetKeysNull() {
         doodle.setKeys(null, null);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetKeysFirstNull() {
         doodle.setKeys(null, Keys.d);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetKeysSecondNull() {
         doodle.setKeys(Keys.a, null);
     }

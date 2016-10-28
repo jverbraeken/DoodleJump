@@ -61,7 +61,7 @@ public final class Game {
     /**
      * Used to gain access to all services.
      */
-    private static IServiceLocator serviceLocator;
+    private static volatile IServiceLocator serviceLocator = null;
     /**
      * The logger for the Game class.
      */
@@ -160,8 +160,14 @@ public final class Game {
      * Used by Cucumber test.
      */
     private Game() {
-        Game.serviceLocator = ServiceLocatorNoAudio.getServiceLocator();
-        Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
+        if (Game.serviceLocator == null) {
+            synchronized (this) {
+                if (Game.serviceLocator == null) {
+                    Game.serviceLocator = ServiceLocatorNoAudio.getServiceLocator();
+                }
+            }
+            Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
+        }
     }
 
     /**
@@ -170,7 +176,9 @@ public final class Game {
      * @param sL the ServiceLocator of this game.
      */
     private Game(final IServiceLocator sL) {
-        Game.serviceLocator = sL;
+        if (Game.serviceLocator == null) {
+            Game.serviceLocator = sL;
+        }
         Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
     }
 

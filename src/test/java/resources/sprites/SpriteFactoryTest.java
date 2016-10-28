@@ -341,22 +341,22 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetPlatformBrokenSprite1() throws Exception {
-        TestSprite(IRes.Sprites.platformBroken1, () -> spriteFactory.getPlatformBrokenSprite1());
+        TestSprite(IRes.Sprites.platformBroken1, () -> spriteFactory.getPlatformBrokenSprite(1));
     }
 
     @Test
     public void TestGetPlatformBrokenSprite2() throws Exception {
-        TestSprite(IRes.Sprites.platformBroken2, () -> spriteFactory.getPlatformBrokenSprite2());
+        TestSprite(IRes.Sprites.platformBroken2, () -> spriteFactory.getPlatformBrokenSprite(2));
     }
 
     @Test
     public void TestGetPlatformBrokenSprite3() throws Exception {
-        TestSprite(IRes.Sprites.platformBroken3, () -> spriteFactory.getPlatformBrokenSprite3());
+        TestSprite(IRes.Sprites.platformBroken3, () -> spriteFactory.getPlatformBrokenSprite(3));
     }
 
     @Test
     public void TestGetPlatformBrokenSprite4() throws Exception {
-        TestSprite(IRes.Sprites.platformBroken4, () -> spriteFactory.getPlatformBrokenSprite4());
+        TestSprite(IRes.Sprites.platformBroken4, () -> spriteFactory.getPlatformBrokenSprite(4));
     }
 
     @Test
