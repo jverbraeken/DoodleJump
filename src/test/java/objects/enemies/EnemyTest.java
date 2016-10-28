@@ -14,6 +14,7 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.lang.reflect.Field;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -52,7 +53,7 @@ public class EnemyTest {
         when(constants.getGravityAcceleration()).thenReturn(1.5);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         sprite = mock(ISprite.class);
-        enemy = new Enemy(serviceLocator, 1, 1, sprite);
+        enemy = new Enemy(serviceLocator, new Point(1, 1), sprite);
     }
 
     /**
