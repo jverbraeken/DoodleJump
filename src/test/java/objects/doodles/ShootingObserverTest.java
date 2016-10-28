@@ -66,7 +66,7 @@ public class ShootingObserverTest {
     }
 
     @Test
-    public void testMouseClickedleft() {
+    public void testMouseClickedLeft() {
         shootingObserver.mouseClicked(0, (int) (2 * doodleY));
         verify(serviceLocator, times(1)).getProjectileFactory();
         verify(projectileFactory, times(1)).createRegularProjectile(anyObject(), anyInt(), anyInt());

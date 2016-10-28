@@ -1,5 +1,6 @@
 package objects.doodles.Projectiles;
 
+import logging.ILogger;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -13,11 +14,17 @@ public final class ProjectileFactory implements IProjectileFactory {
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
+    /**
+     * Logger instance for the ProjectileFactory.
+     */
+    private final ILogger logger;
 
     /**
      * Prevent instantiations of DoodleFactory.
      */
-    private ProjectileFactory() { }
+    private ProjectileFactory() {
+        this.logger = ProjectileFactory.serviceLocator.getLoggerFactory().createLogger(ProjectileFactory.class);
+    }
 
     /**
      * Register the doodle factory into the service locator.
@@ -29,7 +36,7 @@ public final class ProjectileFactory implements IProjectileFactory {
             throw new IllegalArgumentException("The service locator cannot be null");
         }
         ProjectileFactory.serviceLocator = sL;
-        sL.provide(new ProjectileFactory());
+        ProjectileFactory.serviceLocator.provide(new ProjectileFactory());
     }
 
     /**
@@ -37,6 +44,8 @@ public final class ProjectileFactory implements IProjectileFactory {
      */
     @Override
     public RegularProjectile createRegularProjectile(final Point point, final int xDir, final int yDir) {
-        return new RegularProjectile(serviceLocator, point, xDir, yDir);
+        this.logger.info("Created a new regular projectile");
+        return new RegularProjectile(ProjectileFactory.serviceLocator, point, xDir, yDir);
     }
+
 }
