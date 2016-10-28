@@ -192,7 +192,7 @@ import java.awt.Point;
     }
 
     /**
-     * Renders the crosses dependent on the rank.
+     * Render the crosses that indicate whether a mode is available given the rank of the player.
      */
     private void renderByRank() {
         int rankLevel = rank.getLevelNumber();
