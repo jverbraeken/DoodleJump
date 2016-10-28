@@ -11,7 +11,6 @@ import java.util.Map;
  * <br>
  * It is not deemed necessary for all individual resources to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class Res implements IRes {
 
     /**
@@ -91,16 +90,22 @@ public final class Res implements IRes {
         sprites.put(Sprites.chooseMode, SPRITE_PATH + "mode-button2@2x.png");
         sprites.put(Sprites.shop, SPRITE_PATH + "shop@2x.png");
 
+        sprites.put(Sprites.popupOkButton, SPRITE_PATH + "popup-ok-button.png");
+
         // Covers
         sprites.put(Sprites.background, SPRITE_PATH + "bck@2x.png");
         sprites.put(Sprites.pauseCover, SPRITE_PATH + "pause-cover-3@2x.png");
         sprites.put(Sprites.startCover, SPRITE_PATH + "Default@2x.png");
+        sprites.put(Sprites.shopCover, SPRITE_PATH + "pause-cover-4@2x.png");
 
         // Doodle
         sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "blue-lik-left@2x.png");
         sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "blue-lik-left-odskok@2x.png");
         sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-right@2x.png");
         sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-right-odskok@2x.png");
+
+        // projectiles
+        sprites.put(Sprites.regularProjectile, SPRITE_PATH + "regular-projectile@2x.png");
 
         // Enemies
         sprites.put(Sprites.ordinaryMonster, SPRITE_PATH + "ordinaryMonster.png");
@@ -135,6 +140,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.eight, SPRITE_PATH + "8.png");
         sprites.put(Sprites.nine, SPRITE_PATH + "9.png");
 
+
         // Platforms
         sprites.put(Sprites.platform1, SPRITE_PATH + "platform-green@2x.png");
         sprites.put(Sprites.platformHorizontal, SPRITE_PATH + "platform-blue@2x.png");
@@ -164,6 +170,12 @@ public final class Res implements IRes {
         sprites.put(Sprites.sizeUp, SPRITE_PATH + "powerup-size-up@2x.png");
         sprites.put(Sprites.sizeDown, SPRITE_PATH + "powerup-size-down@2x.png");
 
+        sprites.put(Sprites.spaceRocket, SPRITE_PATH + "space-rocket-0@2x.png");
+        sprites.put(Sprites.rocketLauncher, SPRITE_PATH + "rocketlauncher-unused.png");
+        sprites.put(Sprites.rocketLauncherUsed, SPRITE_PATH + "rocketlauncher-used.png");
+        sprites.put(Sprites.afterburner, SPRITE_PATH + "powerup-afterburner@2x.png");
+
+
         // Passive
 
         sprites.put(Sprites.jetpack0, SPRITE_PATH + "jetpack-0@2x.png");
@@ -180,6 +192,15 @@ public final class Res implements IRes {
         sprites.put(Sprites.propeller1, SPRITE_PATH + "propeller-1@2x.png");
         sprites.put(Sprites.propeller2, SPRITE_PATH + "propeller-2@2x.png");
 
+        sprites.put(Sprites.spaceRocket0, SPRITE_PATH + "rocket-0@2x.png");
+        sprites.put(Sprites.spaceRocket1, SPRITE_PATH + "rocket-1@2x.png");
+        sprites.put(Sprites.spaceRocket2, SPRITE_PATH + "rocket-2@2x.png");
+        sprites.put(Sprites.spaceRocket3, SPRITE_PATH + "rocket-3@2x.png");
+        sprites.put(Sprites.spaceRocket4, SPRITE_PATH + "rocket-4@2x.png");
+        sprites.put(Sprites.spaceRocket5, SPRITE_PATH + "rocket-5@2x.png");
+        sprites.put(Sprites.spaceRocket6, SPRITE_PATH + "rocket-6@2x.png");
+        sprites.put(Sprites.spaceRocket7, SPRITE_PATH + "rocket-7@2x.png");
+        sprites.put(Sprites.spaceRocket8, SPRITE_PATH + "rocket-8@2x.png");
 
         // Score screen
         sprites.put(Sprites.scoreScreenBottom, SPRITE_PATH + "high-scores-bottom@2x.png");
@@ -197,6 +218,8 @@ public final class Res implements IRes {
         sprites.put(Sprites.spaceMode, SPRITE_PATH + "space-mode@4x.png");
         sprites.put(Sprites.underwaterMode, SPRITE_PATH + "underwater-mode@4x.png");
 
+        sprites.put(Sprites.redCross, SPRITE_PATH + "halfRedCross.png");
+
         // Coins
         sprites.put(Sprites.coin1, SPRITE_PATH + "coin1.png");
         sprites.put(Sprites.coin2, SPRITE_PATH + "coin2.png");
@@ -211,6 +234,9 @@ public final class Res implements IRes {
 
         // Missions
         sprites.put(Sprites.achievement, SPRITE_PATH + "achievement@2x.png");
+
+        // Popup
+        sprites.put(Sprites.popupBackground, SPRITE_PATH + "classic-popup-background@2x.png");
 
         // Unimplemented
         sprites.put(Sprites.unimplemented, SPRITE_PATH + "unimplemented.jpg");

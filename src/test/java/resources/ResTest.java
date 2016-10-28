@@ -16,8 +16,12 @@ import system.IServiceLocator;
 import java.util.EnumMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-import static org.powermock.api.mockito.PowerMockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.powermock.api.mockito.PowerMockito.doNothing;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.spy;
+import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 
 
 /**
@@ -39,6 +43,7 @@ public class ResTest {
 
     /**
      * Initialising the variables for the test cases.
+     *
      * @throws Exception throws an exception when the private constructor can not be called or when an exception is thrown
      *                   in the constructor.
      */
@@ -50,6 +55,7 @@ public class ResTest {
 
     /**
      * Tests if the register method returns an assertion error if the input is a null object.
+     *
      * @throws NullPointerException throws an exception when the input is null.
      */
     @Test(expected = AssertionError.class)
@@ -70,6 +76,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the buttons.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -86,6 +93,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the covers.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -95,10 +103,12 @@ public class ResTest {
         assertTrue(insertedSprites.containsKey(Sprites.background));
         assertTrue(insertedSprites.containsKey(Sprites.startCover));
         assertTrue(insertedSprites.containsKey(Sprites.pauseCover));
+        assertTrue(insertedSprites.containsKey(Sprites.shopCover));
     }
 
     /**
      * Tests if the method inserts the sprites for the doodle.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -113,6 +123,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the kill screen.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -125,6 +136,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the numbers.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -146,6 +158,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the platforms.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -163,10 +176,11 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the powerups.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testsetDefaultSkinPowerUps() throws Exception {
+    public void testSetDefaultSkinPowerUps() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.propeller));
@@ -179,10 +193,52 @@ public class ResTest {
         assertTrue(insertedSprites.containsKey(Sprites.shield));
         assertTrue(insertedSprites.containsKey(Sprites.sizeUp));
         assertTrue(insertedSprites.containsKey(Sprites.sizeDown));
+        assertTrue(insertedSprites.containsKey(Sprites.afterburner));
+    }
+
+    @Test
+    public void testSetDefaultSkinPropellerUsed() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertTrue(insertedSprites.containsKey(Sprites.propeller0));
+        assertTrue(insertedSprites.containsKey(Sprites.propeller1));
+        assertTrue(insertedSprites.containsKey(Sprites.propeller2));
+    }
+
+    @Test
+    public void testSetDefaultSkinJetpackUsed() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack0));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack1));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack2));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack3));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack4));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack5));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack6));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack7));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack8));
+        assertTrue(insertedSprites.containsKey(Sprites.jetpack9));
+    }
+
+    @Test
+    public void testSetDefaultSkinSpaceRocketUsed() throws Exception {
+        Whitebox.invokeMethod(res, "setDefaultSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket0));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket1));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket2));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket3));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket4));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket5));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket6));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket7));
+        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket8));
     }
 
     /**
      * Tests if the method inserts the sprites for the score screen.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -196,10 +252,11 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the top bar.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testsetDefaultSkinTopBar() throws Exception {
+    public void testSetDefaultSkinTopBar() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.scoreBar));
@@ -207,10 +264,11 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the icons in the space game mode.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
-    public void testsetDefaultSkinIcons() throws Exception {
+    public void testSetDefaultSkinIcons() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
         assertTrue(insertedSprites.containsKey(Sprites.storyMode));
@@ -223,6 +281,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the covers in the space game mode.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -235,6 +294,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the doodle in the space game mode.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -249,6 +309,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the platforms in the space game mode.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -260,6 +321,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the powerups in the space game mode.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -272,6 +334,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the top bar in the space game mode.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -283,6 +346,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the covers in the underwater game mode.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -295,6 +359,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the doodle in the underwater game mode.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -309,6 +374,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the platforms in the underwater game mode.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -320,6 +386,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the powerups in the underwater game mode.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -334,6 +401,7 @@ public class ResTest {
 
     /**
      * Tests if the method inserts the sprites for the top bar.
+     *
      * @throws Exception throws an exception when a private method can not be called.
      */
     @Test
@@ -345,6 +413,7 @@ public class ResTest {
 
     /**
      * Tests if the setDefaultSkin method is called when the input is the regular game mode
+     *
      * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
      */
     @Test
@@ -357,6 +426,7 @@ public class ResTest {
 
     /**
      * Tests if the setDefaultSkin method is called when the input is the regular game mode
+     *
      * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
      */
     @Test
@@ -369,6 +439,7 @@ public class ResTest {
 
     /**
      * Tests if the setUnderwaterSkin method is called when the input is the underwater game mode
+     *
      * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
      */
     @Test

@@ -1,8 +1,11 @@
 package objects.powerups;
 
 import objects.AGameObject;
+import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
+
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the SpringShoes powerup.
@@ -30,12 +33,11 @@ import system.IServiceLocator;
     /**
      * Jump boots constructor.
      *
-     * @param sL - The Games service locator.
-     * @param x - The X location for the SpringShoes.
-     * @param y - The Y location for the SpringShoes.
+     * @param sL - The Games service locator
+     * @param point - The location for the SpringShoes
      */
-    /* package */ SpringShoes(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.springShoes, 1), SpringShoes.class);
+    /* package */ SpringShoes(final IServiceLocator sL, final Point point) {
+        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.springShoes, 1), SpringShoes.class);
     }
 
     /**
@@ -80,11 +82,14 @@ import system.IServiceLocator;
     @Override
     public void render() {
         if (this.owner == null && this.uses < MAX_USES) {
-            getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+            getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
         } else if (this.owner != null) {
-            int xPos = (int) owner.getXPos() + (owner.getSprite().getWidth() / 2) - (this.getSprite().getWidth() / 2);
-            int yPos = (int) owner.getYPos() + owner.getSprite().getHeight();
-            getServiceLocator().getRenderer().drawSprite(this.getSprite(), xPos, yPos);
+            int xPos = (int) owner.getXPos()
+                    + owner.getSprite().getWidth() / 2
+                    - this.getSprite().getWidth() / 2;
+            int yPos = (int) owner.getYPos()
+                    + owner.getSprite().getHeight();
+            getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point(xPos, yPos));
         }
     }
 
@@ -94,6 +99,14 @@ import system.IServiceLocator;
     @Override
     public void endPowerup() {
 
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPositionOnPlatform(final IPlatform platform) {
+        super.setPositionOnPlatformRandom(platform);
     }
 
 }

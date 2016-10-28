@@ -3,24 +3,35 @@ package scenes;
 import buttons.IButton;
 import cucumber.api.java8.En;
 import objects.doodles.IDoodle;
+import objects.powerups.Powerups;
+import org.mockito.Matchers;
 import org.powermock.reflect.Whitebox;
+import progression.IProgressionManager;
 import system.Game;
 import system.IServiceLocator;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.any;
+import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 public class CucumberSteps implements En {
 
     private IServiceLocator sL;
 
     public CucumberSteps() {
-        /*Given("^that the game is started$", () -> {
+        Given("^that the game is started$", () -> {
             try {
                 Whitebox.invokeConstructor(Game.class);
                 sL = Whitebox.getInternalState(Game.class, "serviceLocator");
+                sL.getProgressionManager().init();
+                IProgressionManager progressionManager = mock(IProgressionManager.class);
+                when(progressionManager.getPowerupLevel(Matchers.<Powerups>any())).thenReturn(1);
+                sL.provide(progressionManager);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -47,7 +58,7 @@ public class CucumberSteps implements En {
 
         When("^I press the (.*)-button$", (String button) -> {
             Object scene = Whitebox.getInternalState(Game.class, "scene");
-            List<IButton> buttons = (List<IButton>) Whitebox.getInternalState(scene, "buttons");
+            List<IButton> buttons = Whitebox.getInternalState(scene, "buttons");
             switch (button) {
                 //MENU
                 case "play":
@@ -55,7 +66,7 @@ public class CucumberSteps implements En {
                     ((Runnable) action).run();
                     break;
                 case "mode":
-                    Object action3 = Whitebox.getInternalState(buttons.get(3), "action");
+                    Object action3 = Whitebox.getInternalState(buttons.get(4), "action");
                     ((Runnable) action3).run();
                     break;
                 case "scorescreen":
@@ -121,7 +132,7 @@ public class CucumberSteps implements En {
             Object scene = Whitebox.getInternalState(Game.class, "scene");
             List<IDoodle> doodles = (List<IDoodle>) Whitebox.getInternalState(scene, "doodles");
             for (IDoodle doodle : doodles) {
-                assertThat(Whitebox.getInternalState(doodle, "score"), is(scoreDouble));
+                assertThat((double) Whitebox.getInternalState(doodle, "score") >= (scoreDouble), is(true));
             }
         });
 
@@ -146,7 +157,7 @@ public class CucumberSteps implements En {
                     assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.story));
                     break;
             }
-        });*/
+        });
 
 
     }

@@ -5,6 +5,9 @@ import system.IServiceLocator;
 
 import java.util.concurrent.Callable;
 
+/**
+ * Responsible for the creation of new missions.
+ */
 public final class MissionFactory implements IMissionFactory {
 
     /**
@@ -13,7 +16,7 @@ public final class MissionFactory implements IMissionFactory {
     private static transient IServiceLocator serviceLocator;
 
     /**
-     * The logger
+     * The logger.
      */
     private final ILogger logger;
 
@@ -27,7 +30,7 @@ public final class MissionFactory implements IMissionFactory {
     /**
      * Register the FileSystem into the service locator.
      *
-     * @param serviceLocator the service locator.
+     * @param serviceLocator the service locator
      */
     public static void register(final IServiceLocator serviceLocator) {
         assert serviceLocator != null;
@@ -35,11 +38,20 @@ public final class MissionFactory implements IMissionFactory {
         serviceLocator.provide(new MissionFactory());
     }
 
-    public Mission createMission(final MissionType type, final ProgressionObservers progressionObserver, final int times, Callable<Void> action) {
+    /**
+     * Creates a new mission.
+     *
+     * @param type                The type of the mission
+     * @param progressionObserver The class responsible for observing the correct progression attribute
+     * @param times               The amount of times the doodle has to jump on a spring
+     * @param action              The callable that has to be called when the mission is finished successfully
+     * @return A new mission
+     */
+    public Mission createMission(final MissionType type, final ProgressionObservers progressionObserver, final int times, final Callable<Void> action) {
         IProgressionObserver observer;
         switch (type) {
             case jumpOnSpring:
-                observer = new SpringUsedObserver(serviceLocator, progressionObserver, times, action);
+                observer = new SpringUsedObserver(serviceLocator, times, action);
                 break;
             default:
                 final String error = "The mission type\"" + type.name() + "\" could not be identified";
@@ -48,15 +60,23 @@ public final class MissionFactory implements IMissionFactory {
         }
 
         final String message = type.getMessage(times);
-        Mission mission = new Mission(serviceLocator, type, times, message, observer);
+        Mission mission = new Mission(serviceLocator, type, message, observer);
 
         observer.setMission(mission);
 
         return mission;
     }
 
-    private class UnknownMissionTypeException extends RuntimeException {
-        private UnknownMissionTypeException(String message) {
+    /**
+     * Thrown when the MissionFactory was not able to construct a mission with the given type.
+     */
+    private static final class UnknownMissionTypeException extends RuntimeException {
+        /**
+         * Construct a new UnknownMissionTypeException with a certain message.
+         *
+         * @param message The message describing the exception
+         */
+        private UnknownMissionTypeException(final String message) {
             super(message);
         }
     }

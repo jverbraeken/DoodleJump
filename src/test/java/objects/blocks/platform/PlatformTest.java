@@ -16,7 +16,7 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
-
+import java.awt.Point;
 import java.lang.reflect.Field;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -54,7 +54,7 @@ public class PlatformTest {
 
         sprite = mock(ISprite.class);
         sf = mock(ISpriteFactory.class);
-        when(sf.getPlatformBrokenSprite1()).thenReturn(sprite);
+        when(sf.getPlatformBrokenSprite(1)).thenReturn(sprite);
         when(sf.getPlatformSprite1()).thenReturn(sprite);
 
         serviceLocator = mock(IServiceLocator.class);
@@ -69,7 +69,7 @@ public class PlatformTest {
         when(doodle.getVerticalSpeed()).thenReturn(1d);
         when(doodle.getHitBox()).thenReturn(new double[4]);
 
-        p = new Platform(serviceLocator, 1, 1, sprite);
+        p = new Platform(serviceLocator, new Point(1, 1), sprite);
         q = new PlatformBroken(serviceLocator, p);
     }
 
@@ -81,7 +81,7 @@ public class PlatformTest {
         p.render();
 
         Mockito.verify(serviceLocator).getRenderer();
-        Mockito.verify(renderer).drawSprite(sprite, 1, 1);
+        Mockito.verify(renderer).drawSprite(sprite, new Point(1, 1));
     }
 
     /**

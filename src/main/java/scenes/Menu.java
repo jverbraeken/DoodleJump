@@ -8,10 +8,16 @@ import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
+import objects.powerups.Powerups;
+import progression.IProgressionManager;
+import progression.Ranks;
+import rendering.Color;
+import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +66,11 @@ public class Menu implements IScene {
      * The X and Y location for the StartScreen platform.
      */
     private static final double PLATFORM_X = 0.1d, PLATFORM_Y = 0.78d;
+
+    /**
+     * The height of the rectangle on the top and the Y location of the rank text.
+     */
+    private static final int TOP_RECTANGLE_HEIGHT = 65, RANK_TEXT_Y = 50;
     /**
      * The X location for the StartScreen Doodle.
      */
@@ -76,7 +87,7 @@ public class Menu implements IScene {
     /**
      * The buttons for the main menu.
      */
-    private final List<IButton> buttons = new ArrayList<>(4);
+    private final List<IButton> buttons = new ArrayList<>(5);
     /**
      * The Doodle for the menu.
      */
@@ -92,6 +103,7 @@ public class Menu implements IScene {
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
+     *
      * @param sL The IServiceLocator to which the class should offer its functionality
      */
     /* package */ Menu(final IServiceLocator sL) {
@@ -124,7 +136,7 @@ public class Menu implements IScene {
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createStartScreenDoodle();
-        this.doodle.setXPos(Menu.DOODLE_X);
+        this.doodle.setXPos(gameWidth * Menu.DOODLE_X);
         this.doodle.setVerticalSpeed(-1);
 
         IPlatformFactory platformFactory = sL.getPlatformFactory();
@@ -164,12 +176,22 @@ public class Menu implements IScene {
      */
     @Override
     public final void render() {
-        this.serviceLocator.getRenderer().drawSpriteHUD(this.cover, 0, 0);
+        IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
+        Ranks rank = progressionManager.getRank();
+        IConstants constants = this.serviceLocator.getConstants();
+        IRenderer renderer = this.serviceLocator.getRenderer();
+
+
+        this.serviceLocator.getRenderer().drawSpriteHUD(this.cover, new Point(0, 0));
         for (IButton button : this.buttons) {
             button.render();
         }
         this.doodle.render();
         this.platform.render();
+
+        renderer.fillRectangle(new Point(0, 0), constants.getGameWidth(), TOP_RECTANGLE_HEIGHT, Color.halfOpaqueWhite);
+        renderer.drawText(new Point(0, RANK_TEXT_Y), "Rank: " + rank.getName(), Color.black);
+
     }
 
     /**
@@ -182,6 +204,20 @@ public class Menu implements IScene {
         if (this.doodle.checkCollision(this.platform)) {
             this.platform.collidesWith(this.doodle);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void switchDisplay(PauseScreenModes mode) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

@@ -1,8 +1,11 @@
 package objects.powerups;
 
+import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
+
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Propeller powerup.
@@ -41,7 +44,7 @@ import system.IServiceLocator;
     /**
      * The sprites for an active Propeller.
      */
-    private static ISprite[] spritePack;
+    private static volatile ISprite[] spritePack = null;
     /**
      * The index of the current sprite.
      */
@@ -63,12 +66,17 @@ import system.IServiceLocator;
      * Propeller constructor.
      *
      * @param sL - The Games service locator.
-     * @param x  - The X location for the Propeller.
-     * @param y  - The Y location for the Propeller.
+     * @param point  - The location for the Propeller.
      */
-    /* package */ Propeller(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);
-        Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
+    /* package */ Propeller(final IServiceLocator sL, final Point point) {
+        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);
+        if (Propeller.spritePack == null) {
+            synchronized (this) {
+                if (Propeller.spritePack == null) {
+                    Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
+                }
+            }
+        }
     }
 
     /**
@@ -106,6 +114,8 @@ import system.IServiceLocator;
             throw new IllegalArgumentException("Doodle cannot be null");
         }
 
+        // The game crashes upon collision when equals method is used to check if the value of owner's address
+        // is the same as a null reference resulting in a NullPointerReference.
         if (this.owner == null && this.timer == 0) {
             getLogger().info("Doodle collided with a Propeller");
             this.owner = doodle;
@@ -117,8 +127,22 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+    public void endPowerup() {
+        this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
+        this.vSpeed = INITIAL_DROP_SPEED;
+
+        this.owner.removePowerup(this);
+        this.owner.getWorld().addDrawable(this);
+        this.owner.getWorld().addUpdatable(this);
+        this.owner = null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPositionOnPlatform(final IPlatform platform) {
+        super.setPositionOnPlatformRandom(platform);
     }
 
     /**
@@ -140,8 +164,11 @@ import system.IServiceLocator;
         }
 
         if (this.owner != null) {
-            this.setXPos((int) this.owner.getXPos() + (this.getSprite().getWidth() / 2));
-            this.setYPos((int) this.owner.getYPos() + (this.getSprite().getHeight() / 2) + OWNED_Y_OFFSET);
+            this.setXPos((int) this.owner.getXPos()
+                    + this.getSprite().getWidth() / 2);
+            this.setYPos((int) this.owner.getYPos()
+                    + this.getSprite().getHeight() / 2
+                    + OWNED_Y_OFFSET);
         }
     }
 
@@ -159,20 +186,6 @@ import system.IServiceLocator;
     private void applyGravity() {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         this.addYPos(this.vSpeed);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void endPowerup() {
-        this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
-        this.vSpeed = INITIAL_DROP_SPEED;
-
-        this.owner.removePowerup(this);
-        this.owner.getWorld().addDrawable(this);
-        this.owner.getWorld().addUpdatable(this);
-        this.owner = null;
     }
 
 }

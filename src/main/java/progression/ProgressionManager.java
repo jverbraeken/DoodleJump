@@ -27,6 +27,11 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private static final int MAX_HIGHSCORE_ENTRIES = 10;
     /**
+     * The maximum amount of missions active at the same time.
+     */
+    private static final int MAX_MISSIONS = 3;
+
+    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
@@ -53,11 +58,6 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private final Queue<Mission> finishedMissionsQueue = new LinkedList<>();
     /**
-     * Used to prevent an {@link java.util.ConcurrentModificationException ConcurrentModificationException}
-     * when deleting a mission while iterating over the missions.
-     */
-    private final Queue<FinishedProgressionObserverTuple> finishedProgressionObserversQueue = new LinkedList<>();
-    /**
      * Contains the data used to create new missions.
      */
     private final MissionData[] missionsData = new MissionData[]{
@@ -74,6 +74,16 @@ public final class ProgressionManager implements IProgressionManager {
      * Incremented by 1 after every mission; used to determine which mission should be created.
      */
     private int level = 0;
+
+    /**
+     * The amount of experience the player has.
+     */
+    private int experience;
+
+    /**
+     * The current rank of the player.
+     */
+    private Ranks rank;
 
     /**
      * Prevents construction from outside the package.
@@ -98,7 +108,9 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void init() {
-        loadData();
+        if (powerupLevels.isEmpty()) {
+            loadData();
+        }
     }
 
     /**
@@ -134,6 +146,22 @@ public final class ProgressionManager implements IProgressionManager {
      * {@inheritDoc}
      */
     @Override
+    public Ranks getRank() {
+        return rank;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getExperience() {
+        return experience;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<Mission> getMissions() {
         return missions;
     }
@@ -142,7 +170,7 @@ public final class ProgressionManager implements IProgressionManager {
      * {@inheritDoc}
      */
     @Override
-    public void alertMissionFinished(Mission mission) {
+    public void alertMissionFinished(final Mission mission) {
         if (!missions.contains(mission)) {
             final String error = "The mission that's said to be finished is not an active mission";
             logger.warning(error);
@@ -173,7 +201,13 @@ public final class ProgressionManager implements IProgressionManager {
             logger.error(error);
             throw new IllegalArgumentException(error);
         }
-        return powerupLevels.get(powerup);
+
+        if (powerupLevels.get(powerup) == null) {
+            logger.warning("The powerupLevels for the powerup " + powerup.toString() + " are missing");
+            return 0;
+        } else {
+            return powerupLevels.get(powerup);
+        }
     }
 
     /**
@@ -198,6 +232,30 @@ public final class ProgressionManager implements IProgressionManager {
         saveData();
 
         assert coins >= 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addExperience(final int amount) {
+        if (amount<0) {throw new IllegalArgumentException("Error: amount is negative.");}
+        experience += amount;
+        this.setRankAccordingExperience();
+        saveData();
+    }
+
+    /**
+     * Will set the rank variable according to the experience the player has.
+     */
+    private void setRankAccordingExperience() {
+        Ranks[] ranksArray = Ranks.values();
+        for (int i = 0; i < ranksArray.length; i++) {
+            if (ranksArray[i].getExperience() > experience) {
+                rank = ranksArray[i - 1];
+                break;
+            }
+        }
     }
 
     /**
@@ -244,6 +302,7 @@ public final class ProgressionManager implements IProgressionManager {
         SaveFile image = new SaveFile();
 
         image.setCoins(this.coins);
+        image.setExperience(this.experience);
 
         List<SaveFileHighScoreEntry> highScoreEntries = new ArrayList<>(MAX_HIGHSCORE_ENTRIES);
         for (HighScore highScore : highScores) {
@@ -279,10 +338,12 @@ public final class ProgressionManager implements IProgressionManager {
         powerupLevels.replace(Powerups.spring, 1);
 
         coins = 0;
+        experience = 0;
+        rank = Ranks.newbie;
 
         highScores.clear();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < MAX_MISSIONS; i++) {
             createNewMission();
         }
 
@@ -294,9 +355,9 @@ public final class ProgressionManager implements IProgressionManager {
      *
      * @param json The json containing the progression
      */
-    private void progressionFromJson(SaveFile json) {
+    private void progressionFromJson(final SaveFile json) {
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < MAX_MISSIONS; i++) {
             createNewMission();
         }
 
@@ -308,6 +369,10 @@ public final class ProgressionManager implements IProgressionManager {
 
         coins = json.getCoins();
         logger.info("Coins is set to: " + coins);
+
+        experience = json.getExperience();
+        logger.info("Experience is set to: " + experience);
+        this.setRankAccordingExperience();
 
         powerupLevels.clear();
         for (Map.Entry<String, Integer> entry : json.getPowerupLevels().entrySet()) {
@@ -370,17 +435,17 @@ public final class ProgressionManager implements IProgressionManager {
      * Create a new missio based on the {@link #level} of the doodle.
      */
     private void createNewMission() {
-        assert missions.size() < 3;
+        assert missions.size() < MAX_MISSIONS;
         if (level < missionsData.length) {
             final int levelCopy = level;
-            logger.info("New mission was created: level = " +
-                    levelCopy +
-                    ", mission = " +
-                    missionsData[levelCopy].type.toString() +
-                    ", amount = " +
-                    missionsData[levelCopy].amount +
-                    ", reward = " +
-                    missionsData[levelCopy].reward);
+            logger.info("New mission was created: level = "
+                    + levelCopy
+                    + ", mission = "
+                    + missionsData[levelCopy].type.toString()
+                    + ", amount = "
+                    + missionsData[levelCopy].amount
+                    + ", reward = "
+                    + missionsData[levelCopy].reward);
             missions.add(serviceLocator.getMissionFactory().createMission(
                     missionsData[levelCopy].type,
                     missionsData[levelCopy].observerType,
@@ -406,12 +471,35 @@ public final class ProgressionManager implements IProgressionManager {
         level++;
     }
 
-    private final class MissionData {
+    /**
+     * A data container class for missions.
+     */
+    private static final class MissionData {
+        /**
+         * The type of the mission.
+         */
         private final MissionType type;
+        /**
+         * The type of the observer of the mission.
+         */
         private final ProgressionObservers observerType;
+        /**
+         * The amount of times the observer must be notified before the mission is considered finished.
+         */
         private final int amount;
+        /**
+         * The reward in coins the player gets after finishing the mission.
+         */
         private final int reward;
 
+        /**
+         * Constructs a new MissionData object.
+         *
+         * @param type         The type of the mission
+         * @param observerType The type of the observer of the mission
+         * @param amount       The amount of times the observer must be notified before the mission is considered finished
+         * @param reward       The reward in coins the player gets after finishing the mission
+         */
         private MissionData(final MissionType type, final ProgressionObservers observerType, final int amount, final int reward) {
             this.type = type;
             this.observerType = observerType;
@@ -420,17 +508,15 @@ public final class ProgressionManager implements IProgressionManager {
         }
     }
 
-    private final class FinishedProgressionObserverTuple {
-        private final ProgressionObservers type;
-        private final IProgressionObserver observer;
-
-        private FinishedProgressionObserverTuple(final ProgressionObservers type, final IProgressionObserver observer) {
-            this.type = type;
-            this.observer = observer;
-        }
-    }
-
-    private final class InsufficientCoinsException extends RuntimeException {
+    /**
+     * Thrown when there are more coins requested to be subtracted from the budget than there are available.
+     */
+    private static final class InsufficientCoinsException extends RuntimeException {
+        /**
+         * Construct a new InsufficientCoinsException with a certain message.
+         *
+         * @param message The message describing the exception
+         */
         private InsufficientCoinsException(final String message) {
             super(message);
         }

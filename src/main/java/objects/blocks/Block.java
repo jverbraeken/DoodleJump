@@ -2,7 +2,6 @@ package objects.blocks;
 
 import objects.IGameObject;
 import objects.IJumpable;
-import system.IServiceLocator;
 
 import java.util.Set;
 
@@ -15,17 +14,7 @@ import java.util.Set;
  * These things can be anything as specified by "bulk".
  * The choice for block was made as to make separate sub-levels in a continuous world.
  */
-public final class Block implements IBlock {
-
-    /**
-     * A LOCK to prevent concurrent modification of e.g. the service locator.
-     */
-    private static final Object LOCK = new Object();
-
-    /**
-     * Used to gain access to all services.
-     */
-    private static IServiceLocator serviceLocator;
+/* package */ final class Block implements IBlock {
     /**
      * A set of all the game objects in this block.
      */
@@ -38,15 +27,10 @@ public final class Block implements IBlock {
     /**
      * Package protected constructor so only the BlockFactory can create blocks.
      *
-     * @param sL The serviceLocator.
-     * @param e The elements for the block.
+     * @param e  The elements for the block.
      * @param tJ The highest jumpable object.
      */
-    /* package */ Block(final IServiceLocator sL, final Set<IGameObject> e, final IJumpable tJ) {
-        synchronized (LOCK) {
-            Block.serviceLocator = sL;
-        }
-
+    /* package */ Block(final Set<IGameObject> e, final IJumpable tJ) {
         this.elements = e;
         this.topJumpable = tJ;
     }
@@ -83,6 +67,14 @@ public final class Block implements IBlock {
         for (IGameObject gameObject : elements) {
             gameObject.update(delta);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeElement(final IGameObject element) {
+        elements.remove(element);
     }
 
 }

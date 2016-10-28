@@ -1,7 +1,6 @@
 package resources.sprites;
 
 import logging.ILoggerFactory;
-import objects.doodles.DoodleBehavior.MovementBehavior;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +8,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import resources.IRes;
+import scenes.PauseScreenModes;
 import system.IServiceLocator;
 
 import java.util.Arrays;
@@ -18,10 +18,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyObject;
-import static org.powermock.api.mockito.PowerMockito.doReturn;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.spy;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(SpriteFactory.class)
@@ -81,8 +78,20 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetPauseCoverButtonSprite() throws Exception {
-        TestSprite(IRes.Sprites.pauseCover, () -> spriteFactory.getPauseCoverSprite());
+        ISprite mockedSprite = mock(ISprite.class);
+        doReturn(mockedSprite).when(spriteFactory, "getSprite", IRes.Sprites.pauseCover);
+        ISprite result = spriteFactory.getPauseCoverSprite(PauseScreenModes.mission);
+        assertEquals(mockedSprite, result);
     }
+
+    @Test
+    public void TestGetPauseCoverButtonSprite2() throws Exception {
+        ISprite mockedSprite = mock(ISprite.class);
+        doReturn(mockedSprite).when(spriteFactory, "getSprite", IRes.Sprites.shopCover);
+        ISprite result = spriteFactory.getPauseCoverSprite(PauseScreenModes.shop);
+        assertEquals(mockedSprite, result);
+    }
+
 
     @Test
     public void TestGetStartCoverSprite() throws Exception {
@@ -332,22 +341,22 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetPlatformBrokenSprite1() throws Exception {
-        TestSprite(IRes.Sprites.platformBroken1, () -> spriteFactory.getPlatformBrokenSprite1());
+        TestSprite(IRes.Sprites.platformBroken1, () -> spriteFactory.getPlatformBrokenSprite(1));
     }
 
     @Test
     public void TestGetPlatformBrokenSprite2() throws Exception {
-        TestSprite(IRes.Sprites.platformBroken2, () -> spriteFactory.getPlatformBrokenSprite2());
+        TestSprite(IRes.Sprites.platformBroken2, () -> spriteFactory.getPlatformBrokenSprite(2));
     }
 
     @Test
     public void TestGetPlatformBrokenSprite3() throws Exception {
-        TestSprite(IRes.Sprites.platformBroken3, () -> spriteFactory.getPlatformBrokenSprite3());
+        TestSprite(IRes.Sprites.platformBroken3, () -> spriteFactory.getPlatformBrokenSprite(3));
     }
 
     @Test
     public void TestGetPlatformBrokenSprite4() throws Exception {
-        TestSprite(IRes.Sprites.platformBroken4, () -> spriteFactory.getPlatformBrokenSprite4());
+        TestSprite(IRes.Sprites.platformBroken4, () -> spriteFactory.getPlatformBrokenSprite(4));
     }
 
     @Test

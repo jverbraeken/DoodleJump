@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * Class representing a sprite.
- *
+ * <p>
  * <b>IMMUTABLE</b>
  */
 public class Sprite implements ISprite {
@@ -29,6 +29,7 @@ public class Sprite implements ISprite {
 
     /**
      * Package constructor only allowing instantiations by the SpriteFactory.
+     *
      * @param n The name for the sprite.
      * @param i The image for the sprite.
      */

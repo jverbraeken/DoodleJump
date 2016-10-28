@@ -4,9 +4,9 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import logging.ILogger;
-import objects.powerups.ASpring;
 import objects.powerups.Powerups;
 import resources.IRes;
+import scenes.PauseScreenModes;
 import system.IServiceLocator;
 
 import java.awt.image.BufferedImage;
@@ -18,7 +18,6 @@ import java.util.concurrent.ExecutionException;
  * <br>
  * It is not deemed necessary for all individual sprites to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:JavadocVariable", "checkstyle:JavadocType", "checkstyle:JavadocMethod", "checkstyle:magicnumber"})
 public final class SpriteFactory implements ISpriteFactory {
 
     /**
@@ -155,8 +154,17 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPauseCoverSprite() {
-        return this.getSprite(IRes.Sprites.pauseCover);
+    public ISprite getPauseCoverSprite(PauseScreenModes mode) {
+        switch (mode) {
+            case mission:
+                return this.getSprite(IRes.Sprites.pauseCover);
+            case shop:
+                return this.getSprite(IRes.Sprites.shopCover);
+            default:
+                final String error = "Trying to get the cover sprite of a mode that's not available";
+                logger.error(error);
+                throw new UnavailableLevelException(error);
+        }
     }
 
     /**
@@ -528,32 +536,19 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformBrokenSprite1() {
-        return this.getSprite(IRes.Sprites.platformBroken1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformBrokenSprite2() {
-        return this.getSprite(IRes.Sprites.platformBroken2);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformBrokenSprite3() {
-        return this.getSprite(IRes.Sprites.platformBroken3);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformBrokenSprite4() {
-        return this.getSprite(IRes.Sprites.platformBroken4);
+    public ISprite getPlatformBrokenSprite(final int index) {
+        if (index < 1 || index > 4) {
+            final String error = "The index of the platformBroken sprite must be between 1 and 4 (both inclusive)";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+        switch (index) {
+            case 1: return this.getSprite(IRes.Sprites.platformBroken1);
+            case 2: return this.getSprite(IRes.Sprites.platformBroken2);
+            case 3: return this.getSprite(IRes.Sprites.platformBroken3);
+            case 4: return this.getSprite(IRes.Sprites.platformBroken4);
+            default: return null;
+        }
     }
 
     /**
@@ -647,7 +642,7 @@ public final class SpriteFactory implements ISpriteFactory {
         // TODO parameter checking
         switch (powerup) {
             case jetpack:
-                return getSprite(IRes.Sprites.jetpack);
+                return getJetpackSprite(level);
             case propeller:
                 return getSprite(IRes.Sprites.propeller);
             case shield:
@@ -712,17 +707,37 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite[] getJetpackActiveSprites() {
+    public ISprite[] getJetpackActiveSprites(final int level) {
         ISprite[] sprites = new ISprite[9];
-        sprites[0] = this.getSprite(IRes.Sprites.jetpack0);
-        sprites[1] = this.getSprite(IRes.Sprites.jetpack1);
-        sprites[2] = this.getSprite(IRes.Sprites.jetpack2);
-        sprites[3] = this.getSprite(IRes.Sprites.jetpack3);
-        sprites[4] = this.getSprite(IRes.Sprites.jetpack4);
-        sprites[5] = this.getSprite(IRes.Sprites.jetpack5);
-        sprites[6] = this.getSprite(IRes.Sprites.jetpack6);
-        sprites[7] = this.getSprite(IRes.Sprites.jetpack7);
-        sprites[8] = this.getSprite(IRes.Sprites.jetpack8);
+        switch (level) {
+            case 1:
+            case 2:
+                sprites[0] = this.getSprite(IRes.Sprites.jetpack0);
+                sprites[1] = this.getSprite(IRes.Sprites.jetpack1);
+                sprites[2] = this.getSprite(IRes.Sprites.jetpack2);
+                sprites[3] = this.getSprite(IRes.Sprites.jetpack3);
+                sprites[4] = this.getSprite(IRes.Sprites.jetpack4);
+                sprites[5] = this.getSprite(IRes.Sprites.jetpack5);
+                sprites[6] = this.getSprite(IRes.Sprites.jetpack6);
+                sprites[7] = this.getSprite(IRes.Sprites.jetpack7);
+                sprites[8] = this.getSprite(IRes.Sprites.jetpack8);
+                break;
+            case 3:
+            case 4:
+                sprites[0] = getSprite(IRes.Sprites.spaceRocket0);
+                sprites[1] = getSprite(IRes.Sprites.spaceRocket1);
+                sprites[2] = getSprite(IRes.Sprites.spaceRocket2);
+                sprites[3] = getSprite(IRes.Sprites.spaceRocket3);
+                sprites[4] = getSprite(IRes.Sprites.spaceRocket4);
+                sprites[5] = getSprite(IRes.Sprites.spaceRocket5);
+                sprites[6] = getSprite(IRes.Sprites.spaceRocket6);
+                sprites[7] = getSprite(IRes.Sprites.spaceRocket7);
+                sprites[8] = getSprite(IRes.Sprites.spaceRocket8);
+                break;
+            default:
+                logger.error("The sprite of a spring of level " + level + " could not be found");
+                return null;
+        }
 
         return sprites;
     }
@@ -739,6 +754,16 @@ public final class SpriteFactory implements ISpriteFactory {
         sprites[3] = this.getSprite(IRes.Sprites.propeller2);
 
         return sprites;
+    }
+
+    //projectiles
+
+    /**
+     * {@inheritDoc}
+     */
+    public ISprite getRegularProjectileSprite() {
+        return this.getSprite(IRes.Sprites.regularProjectile);
+
     }
 
 
@@ -867,6 +892,14 @@ public final class SpriteFactory implements ISpriteFactory {
         return this.getSprite(IRes.Sprites.spaceMode);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRedCross() {
+        return this.getSprite(IRes.Sprites.redCross);
+    }
+
     // Missions
 
     /**
@@ -875,6 +908,23 @@ public final class SpriteFactory implements ISpriteFactory {
     @Override
     public ISprite getAchievementSprite() {
         return getSprite(IRes.Sprites.achievement);
+    }
+
+    //Popup
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getPopupBackground() {
+        return getSprite(IRes.Sprites.popupBackground);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getPopupOkButton() {
+        return getSprite(IRes.Sprites.popupOkButton);
     }
 
     // Coins
@@ -908,12 +958,15 @@ public final class SpriteFactory implements ISpriteFactory {
                 return getSprite(IRes.Sprites.coin9);
             case 10:
                 return getSprite(IRes.Sprites.coin10);
+            default:
+                return null;
         }
-        return null;
     }
 
     /**
-     * @param level The level of the {@link ASpring spring} you want to have
+     * Returns a sprite of the spring corresponding to the level of the object.
+     *
+     * @param level The level of the {@link objects.powerups.Spring spring} you want to have
      * @return A sprite of the spring of the requested level
      * @throws UnavailableLevelException Thrown when the level is either too low or too high
      */
@@ -924,6 +977,7 @@ public final class SpriteFactory implements ISpriteFactory {
             case 2:
                 return getSprite(IRes.Sprites.doubleSpring);
             case 3:
+                return getSprite(IRes.Sprites.titaniumSpring);
             case 4:
                 return getSprite(IRes.Sprites.titaniumSpring);
             default:
@@ -934,7 +988,9 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
-     * @param level The level of the {@link objects.powerups.ATrampoline trampoline} you want to have
+     * Returns a sprite of the trampoline corresponding to the level of the object.
+     *
+     * @param level The level of the {@link objects.powerups.Trampoline trampoline} you want to have
      * @return A sprite of the trampoline of the requested level
      * @throws UnavailableLevelException Thrown when the level is either too low or too high
      */
@@ -945,10 +1001,35 @@ public final class SpriteFactory implements ISpriteFactory {
             case 2:
                 return getSprite(IRes.Sprites.circusCannon);
             case 3:
+                return getSprite(IRes.Sprites.rocketLauncher);
             case 4:
                 return getSprite(IRes.Sprites.rocketLauncher);
             default:
                 final String error = "Trying to get a trampoline of a level that's not available: " + level;
+                logger.error(error);
+                throw new UnavailableLevelException(error);
+        }
+    }
+
+    /**
+     * Returns a sprite of the jetpack corresponding to the level of the object.
+     *
+     * @param level The level of the {@link objects.powerups.Trampoline trampoline} you want to have
+     * @return A sprite of the trampoline of the requested level
+     * @throws UnavailableLevelException Thrown when the level is either too low or too high
+     */
+    private ISprite getJetpackSprite(final int level) throws UnavailableLevelException {
+        switch (level) {
+            case 1:
+                return getSprite(IRes.Sprites.jetpack);
+            case 2:
+                return getSprite(IRes.Sprites.spaceRocket);
+            case 3:
+                return getSprite(IRes.Sprites.spaceRocket);
+            case 4:
+                return getSprite(IRes.Sprites.spaceRocket);
+            default:
+                final String error = "Trying to get a space rocket of a level that's not available: " + level;
                 logger.error(error);
                 throw new UnavailableLevelException(error);
         }
@@ -1000,7 +1081,6 @@ public final class SpriteFactory implements ISpriteFactory {
      * Returns the filename from a filepath.
      * <br>
      * Example: {@code getFileName("resources/Sprites/sprite.png").equals("sprite.png")}
-     * </pre>
      *
      * @param filepath The full path to the file, the directories seperated by '/'. Cannot be null
      * @return The name of the file
@@ -1016,13 +1096,14 @@ public final class SpriteFactory implements ISpriteFactory {
     /**
      * Thrown when the sprite is asked for a level that's either too low or too high.
      */
-    public final class UnavailableLevelException extends RuntimeException {
+    private static final class UnavailableLevelException extends RuntimeException {
 
         /**
          * Creates a new UnavailableException.
+         *
          * @param message The message describing what went wrong
          */
-        private UnavailableLevelException(String message) {
+        private UnavailableLevelException(final String message) {
             super(message);
         }
     }

@@ -18,6 +18,8 @@ import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.PlatformFactory;
 import objects.doodles.DoodleFactory;
 import objects.doodles.IDoodleFactory;
+import objects.doodles.projectiles.IProjectileFactory;
+import objects.doodles.projectiles.ProjectileFactory;
 import objects.enemies.EnemyFactory;
 import objects.enemies.IEnemyFactory;
 import objects.powerups.IPowerupFactory;
@@ -42,7 +44,6 @@ import scenes.SceneFactory;
  * Default implementation for the ServiceLocatorNoAudio. Used to gain access to all services.
  * The difference between this ServiceLcoator and the standard one is the absence of Audio services.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 /* package */ class ServiceLocatorNoAudio implements IServiceLocator {
 
     // constants.json
@@ -70,6 +71,7 @@ import scenes.SceneFactory;
     private IDoodleFactory doodleFactory;
     private IBlockFactory blockFactory;
     private IPlatformFactory platformFactory;
+    private IProjectileFactory projectileFactory;
 
     // progression
     private IProgressionManager progressionManager;
@@ -180,6 +182,15 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
+    public void provide(final IProjectileFactory pF) {
+        assert pF != null;
+        this.projectileFactory = pF;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void provide(final IRenderer r) {
         assert r != null;
         this.renderer = r;
@@ -278,7 +289,6 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("methodlength")
     public IAudioManager getAudioManager() {
         return new IAudioManager() {
             @Override
@@ -645,6 +655,15 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
+    public IProjectileFactory getProjectileFactory() {
+        assert this.projectileFactory != null;
+        return this.projectileFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IProgressionManager getProgressionManager() {
         assert this.progressionManager != null;
         return this.progressionManager;
@@ -680,6 +699,7 @@ import scenes.SceneFactory;
         PlatformFactory.register(this);
         ButtonFactory.register(this);
         CameraFactory.register(this);
+        ProjectileFactory.register(this);
         ProgressionManager.register(this);
         MissionFactory.register(this);
     }

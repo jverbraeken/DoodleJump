@@ -5,6 +5,8 @@ import objects.IGameObject;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * Standard implementation of the EnemyBuilder. Used to generate enemies.
  */
@@ -46,8 +48,8 @@ public final class EnemyFactory implements IEnemyFactory {
     public IGameObject createOrdinaryEnemy(final int x, final int y) {
         ISprite sprite = serviceLocator.getSpriteFactory().getOrdinaryMonsterSprite();
         logger.info("A new Ordinary Enemy has been created: x = " + x + ", y = " + y);
-        return new Enemy(serviceLocator, x, y, sprite);
-
+        final Point point = new Point(x, y);
+        return new Enemy(serviceLocator, point, sprite);
     }
 
 }

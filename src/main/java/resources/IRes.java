@@ -7,7 +7,6 @@ import system.Game;
  * <br>
  * It is not deemed necessary for all individual resources to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface IRes {
 
     /**
@@ -44,12 +43,16 @@ public interface IRes {
         background,
         pauseCover,
         startCover,
+        shopCover,
 
         // Doodle
         doodleLeftAscend,
         doodleLeftDescend,
         doodleRightAscend,
         doodleRightDescend,
+
+        // projectiles
+        regularProjectile,
 
         // Kill screen
         gameOver,
@@ -130,6 +133,8 @@ public interface IRes {
         circusCannonUsed,
         rocketLauncher,
         rocketLauncherUsed,
+        spaceRocket,
+        afterburner,
 
         // Passive
         jetpack0,
@@ -146,6 +151,27 @@ public interface IRes {
         propeller1,
         propeller2,
 
+        spaceRocket0,
+        spaceRocket1,
+        spaceRocket2,
+        spaceRocket3,
+        spaceRocket4,
+        spaceRocket5,
+        spaceRocket6,
+        spaceRocket7,
+        spaceRocket8,
+
+        afterburner0,
+        afterburner1,
+        afterburner2,
+        afterburner3,
+        afterburner4,
+        afterburner5,
+        afterburner6,
+        afterburner7,
+        afterburner8,
+        afterburner9,
+
 
         // Score screen
         scoreScreenBottom,
@@ -158,6 +184,7 @@ public interface IRes {
         // Miscellaneous
         waitDoNotShoot,
         avoid,
+        popupOkButton,
 
         // UFO
         ufo,
@@ -171,12 +198,16 @@ public interface IRes {
         spaceMode,
         storyMode,
 
+        redCross,
+
         // coins
         coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10,
 
         // Missions
-
         achievement,
+
+        //Popup
+        popupBackground,
 
         // Unimplemented
         unimplemented

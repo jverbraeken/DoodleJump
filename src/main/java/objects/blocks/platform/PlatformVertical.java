@@ -36,7 +36,7 @@ import system.IServiceLocator;
         this.getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteVertical());
         this.getContained().getProps().put(Platform.PlatformProperties.movingVertically, 1);
 
-        this.speed = (sL.getCalc().getRandomDouble(1) < FIFTY_FIFTY) ? MOVING_SPEED : -MOVING_SPEED;
+        this.speed = sL.getCalc().getRandomDouble(1) < FIFTY_FIFTY ? MOVING_SPEED : -MOVING_SPEED;
     }
 
     /**

@@ -134,6 +134,16 @@ public interface IButtonFactory extends IFactory {
      */
     IButton createStoryModeButton(final double x, final double y);
 
+    /**
+     * Creates and retuns an Ok button.
+     *
+     * @param x the x position of the button.
+     * @param y the y position of the button.
+     * @param popup the Popup this button belongs to.
+     * @return an Ok button.
+     */
+    IButton createOkPopupButton(final double x, final double y, final scenes.Popup popup);
+
 
     /////   SHOP
 
@@ -142,11 +152,22 @@ public interface IButtonFactory extends IFactory {
      * Create a button to upgrade the {@link objects.powerups.Jetpack} powerup.
      *
      * @param powerup The kind of powerup you want to create an upgrade button for
-     * @param x the x position of the button relative to the screen
-     * @param y the y position of the button relative to the screen
+     * @param x       the x position of the button relative to the screen
+     * @param y       the y position of the button relative to the screen
+     * @param height  The height of the button
      * @return A button that can upgrade the {@link objects.powerups.Jetpack} powerup
      */
-    IButton createShopPowerupButton(final Powerups powerup, final double x, final double y);
+    IButton createShopPowerupButton(final Powerups powerup, final double x, final double y, final int height);
+
+    /**
+     * Create a button to upgrade the {@link objects.powerups.Jetpack} powerup.
+     *
+     * @param powerup The kind of powerup you want to create an upgrade button for
+     * @param x       the x position of the button relative to the screen
+     * @param y       the y position of the button relative to the screen
+     * @return A button that can upgrade the {@link objects.powerups.Jetpack} powerup
+     */
+    IButton createPausePowerupButton(final Powerups powerup, final double x, final double y);
 
     /**
      * Create a pause button for in game.
@@ -156,4 +177,22 @@ public interface IButtonFactory extends IFactory {
      * @return A pause button.
      */
     IButton createPauseButton(final double x, final double y);
+
+    /**
+     * Create a switch button that switches the screen to the display of shop in the pause screen.
+     *
+     * @param x The x position of the button.
+     * @param y The y position of the button.
+     * @return A switch button.
+     */
+    IButton createSwitchToShopButton(final double x, final double y);
+
+    /**
+     * Create a switch button that switches the screen to the display of shop in the pause screen.
+     *
+     * @param x The x position of the button.
+     * @param y The y position of the button.
+     * @return A switch button.
+     */
+    IButton createSwitchToMissionButton(final double x, final double y);
 }

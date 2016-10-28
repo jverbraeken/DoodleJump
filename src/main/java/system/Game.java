@@ -5,17 +5,18 @@ import logging.ILogger;
 import math.ICalc;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
+import scenes.Popup;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -63,7 +64,7 @@ public final class Game {
     /**
      * Used to gain access to all services.
      */
-    private static IServiceLocator serviceLocator;
+    private static volatile IServiceLocator serviceLocator = null;
     /**
      * The logger for the Game class.
      */
@@ -71,7 +72,7 @@ public final class Game {
     /**
      * The current frame.
      */
-    private static JFrame frame;
+    public static JFrame frame;
     /**
      * The current panel.
      */
@@ -84,7 +85,10 @@ public final class Game {
      * Track if the game is paused.
      */
     private static boolean isPaused = false;
-
+    /**
+     * A {@link Queue} of popups.
+     */
+    private final static Set<Popup> activePopups = new HashSet<>();
     /**
      * The enums for the mode.
      */
@@ -92,30 +96,49 @@ public final class Game {
         /**
          * The regular game mode.
          */
-        regular,
+        regular(0),
         /**
          * The game mode taking place underwater.
          */
-        underwater,
+        underwater(2),
         /**
          * The game mode following a story.
          * UNIMPLEMENTED
          */
-        story,
+        story(1),
         /**
          * The game using the invertable platforms.
          * UNIMPLEMENTED
          */
-        invert,
+        invert(5),
         /**
          * The game mode with invisible platforms.
          * The platforms turn visible when touched by a doodle.
          */
-        darkness,
+        darkness(4),
         /**
          * The game mode taking place in space.
          */
-        space
+        space(3);
+        /**
+         * The rank required to play this mode.
+         */
+        private final int rankRequired;
+        /**
+         * Creates an instance of the enum Modes.
+         * @param rankRequired the rank required to play this mode.
+         */
+         /* package */ Modes(final int rankRequired) {
+            this.rankRequired = rankRequired;
+        }
+
+        /**
+         * Returns the variable rankRequired.
+         * @return the variable rankRequired.
+         */
+        public int getRankRequired() {
+            return rankRequired;
+        }
     }
 
     /**
@@ -162,15 +185,25 @@ public final class Game {
      * Used by Cucumber test.
      */
     private Game() {
-        Game.serviceLocator = ServiceLocatorNoAudio.getServiceLocator();
-        Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
+        if (Game.serviceLocator == null) {
+            synchronized (this) {
+                if (Game.serviceLocator == null) {
+                    Game.serviceLocator = ServiceLocatorNoAudio.getServiceLocator();
+                }
+            }
+            Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
+        }
     }
 
     /**
      * Prevents instantiation from outside the Game class.
+     *
+     * @param sL the ServiceLocator of this game.
      */
     private Game(final IServiceLocator sL) {
-        Game.serviceLocator = sL;
+        if (Game.serviceLocator == null) {
+            Game.serviceLocator = sL;
+        }
         Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
     }
 
@@ -182,7 +215,7 @@ public final class Game {
     public static void main(final String[] argv) {
         new Game(ServiceLocator.getServiceLocator());
         logger.info("The game has been launched");
-
+        serviceLocator.getProgressionManager().init();
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
         IInputManager inputManager = serviceLocator.getInputManager();
 
@@ -224,6 +257,10 @@ public final class Game {
                     pauseScreen.render();
                 }
 
+                for (Popup popup : activePopups) {
+                    popup.render();
+                }
+
                 ((Graphics2D) g).scale(scale, scale);
             }
         };
@@ -234,9 +271,6 @@ public final class Game {
         int x = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
-
-        serviceLocator.getProgressionManager().init();
-
 
         start();
     }
@@ -363,9 +397,10 @@ public final class Game {
 
     /**
      * Use a buffer to prevent ConcurrentModificationExceptions.
+     *
      * @param runnable The runnable to be executed during the next run
      */
-    public static void schedule(Runnable runnable) {
+    public static void schedule(final Runnable runnable) {
         Game.addToRunnables.add(runnable);
     }
 
@@ -410,5 +445,39 @@ public final class Game {
             return TARGET_FPS;
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
+    }
+
+    /**
+     * Returns the pause screen.
+     *
+     * @return IScene object
+     */
+    public static IScene getPauseScreen() {
+        return pauseScreen;
+    }
+
+    /**
+     * Returns the current scene.
+     *
+     * @return IScene object
+     */
+    public static IScene getScene() {
+        return scene;
+    }
+
+    /**
+     * Add a Popup to the activePopups.
+     * @param popup the Popup that has to be added.
+     */
+    public static void addPopup(final Popup popup) {
+        activePopups.add(popup);
+    }
+
+    /**
+     * Deletes a Popup from the activePopups.
+     * @param popup the Popup that has to be deleted.
+     */
+    public static void deletePopup(final Popup popup) {
+        activePopups.remove(popup);
     }
 }
