@@ -162,8 +162,14 @@ public final class Game {
      * Used by Cucumber test.
      */
     private Game() {
-        Game.serviceLocator = ServiceLocatorNoAudio.getServiceLocator();
-        Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
+        if (Game.serviceLocator == null) {
+            synchronized (this) {
+                if (Game.serviceLocator == null) {
+                    Game.serviceLocator = ServiceLocatorNoAudio.getServiceLocator();
+                }
+            }
+            Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
+        }
     }
 
     /**

@@ -71,7 +71,13 @@ import java.awt.Point;
      */
     /* package */ Propeller(final IServiceLocator sL, final Point point) {
         super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);
-        Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
+        if (Propeller.spritePack == null) {
+            synchronized (this) {
+                if (Propeller.spritePack == null) {
+                    Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
+                }
+            }
+        }
     }
 
     /**
