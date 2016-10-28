@@ -50,7 +50,6 @@ public final class EnemyFactory implements IEnemyFactory {
         logger.info("A new Ordinary Enemy has been created: x = " + x + ", y = " + y);
         final Point point = new Point(x, y);
         return new Enemy(serviceLocator, point, sprite);
-
     }
 
 }

@@ -85,24 +85,24 @@ public class Enemy extends AEnemy {
      */
     @Override
     public final void update(final double delta) {
-        if (alive) {
+        if (this.alive) {
             int xPos;
-            if (movingDirection == 1) {
+            if (this.movingDirection == 1) {
                 xPos = (int) (this.getXPos() + 2);
-                offset = offset + 2;
-                if (offset > MOVING_DISTANCE) {
-                    movingDirection = 0;
+                this.offset = this.offset + 2;
+                if (this.offset > Enemy.MOVING_DISTANCE) {
+                    this.movingDirection = 0;
                 }
             } else {
                 xPos = (int) (this.getXPos() - 2);
-                offset = offset - 2;
-                if (offset < -MOVING_DISTANCE) {
-                    movingDirection = 1;
+                this.offset = this.offset - 2;
+                if (this.offset < -Enemy.MOVING_DISTANCE) {
+                    this.movingDirection = 1;
                 }
             }
             this.setXPos(xPos);
         } else {
-            applyGravity();
+            this.applyGravity();
         }
     }
 
@@ -128,7 +128,7 @@ public class Enemy extends AEnemy {
      */
     @Override
     public final int getOffSet() {
-        return offset;
+        return this.offset;
     }
 
     /**
@@ -136,14 +136,14 @@ public class Enemy extends AEnemy {
      */
     @Override
     public final double getVerticalSpeed() {
-        return vSpeed;
+        return this.vSpeed;
     }
 
     /**
      * Apply gravity to the Breaking platform.
      */
     public final void applyGravity() {
-        vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
+        this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
 
@@ -152,7 +152,7 @@ public class Enemy extends AEnemy {
      * @return the attribute alive.
      */
     public final boolean isAlive() {
-        return alive;
+        return this.alive;
     }
 
     /**
