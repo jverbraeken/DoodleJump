@@ -10,7 +10,6 @@ import objects.IJumpable;
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.Projectiles.RegularProjectile;
-import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import org.junit.Before;
