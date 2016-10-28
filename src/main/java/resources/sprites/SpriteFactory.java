@@ -1014,6 +1014,8 @@ public final class SpriteFactory implements ISpriteFactory {
                 return getSprite(IRes.Sprites.spaceRocket);
             case 3:
                 return getSprite(IRes.Sprites.spaceRocket);
+            case 4:
+                return getSprite(IRes.Sprites.spaceRocket);
             default:
                 final String error = "Trying to get a space rocket of a level that's not available: " + level;
                 logger.error(error);
