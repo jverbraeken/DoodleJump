@@ -35,18 +35,16 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("PMD.UnnecessaryReturn")
     public final void keyPress(final Keys key) {
-        return;
+        // Prevents the StartDoodle from moving
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("PMD.UnnecessaryReturn")
     public final void keyRelease(final Keys key) {
-        return;
+        // Prevents the StartDoodle from moving
     }
 
 }
