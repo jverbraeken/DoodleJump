@@ -1,11 +1,13 @@
 package math;
 
 import groovy.lang.Tuple2;
+import logging.ILogger;
 import objects.IGameObject;
 import objects.blocks.ElementTypes;
 import objects.blocks.WeightsMap;
 import objects.blocks.platform.IPlatformFactory;
 import objects.powerups.IPowerupFactory;
+import objects.powerups.Powerups;
 import system.IServiceLocator;
 
 import java.text.DecimalFormat;
@@ -14,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Keeps a List with weights and elements. Represented as
@@ -22,36 +23,68 @@ import java.util.Map;
  * method will return a random element from this list,
  * according to the weights.
  */
-public class GenerationSet implements IWeightsSet {
+public final class GenerationSet implements IWeightsSet {
 
+    /**
+     * The serviceLocator of this game.
+     */
+    private final IServiceLocator serviceLocator;
+    /**
+     * The logger.
+     */
+    private final ILogger logger;
     /**
      * The list with weights, it uses Key-Value pairs in it.
      */
     private List<Tuple2<Double, ElementTypes>> weights;
     /**
-     * The serviceLocator of this game.
+     * The type of the set.
      */
-    private final IServiceLocator serviceLocator;
+    private final String type;
 
     /**
      * Create and initialize a WeightsSet.
      *
-     * @param sL the serviceLocator this class should use.
-     * @param setType a string with what type of GenerationSet this has to be.
+     * @param serviceLocator the serviceLocator this class should use.
+     * @param setType        a string with what type of GenerationSet this has to be.
      */
-    public GenerationSet(final IServiceLocator sL, String setType) {
-        this.serviceLocator = sL;
+    public GenerationSet(final IServiceLocator serviceLocator, final String setType) {
+        this.serviceLocator = serviceLocator;
+        this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+        this.type = setType;
 
         if (setType.equals("platforms")) {
             createAndSortPlatformSet();
-        }
-        else if (setType.equals("powerups")) {
+        } else if (setType.equals("powerups")) {
             createAndSortPowerupSet();
         }
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject getRandomElement() {
+        double randDouble = serviceLocator.getCalc().getRandomDouble(1);
 
+        for (Tuple2<Double, ElementTypes> entry : weights) {
+            if (entry.getFirst() >= randDouble) {
+                if (this.type.equals("powerups")) {
+                    if (serviceLocator.getProgressionManager().getPowerupLevel(elementTypeToPowerup(entry.getSecond())) > 0) {
+                        return getGameObject(entry.getSecond());
+                    }
+                } else if (this.type.equals("platforms")) {
+                    return getGameObject(entry.getSecond());
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Creates the data containing the creation priority of all platforms and sorts this data.
+     */
     private void createAndSortPlatformSet() {
         List<Double> platWeights = Arrays.asList(
                 WeightsMap.getWeight(ElementTypes.normalPlatform),
@@ -65,6 +98,9 @@ public class GenerationSet implements IWeightsSet {
         this.weights = sortWeightsMap(platWeights, platforms);
     }
 
+    /**
+     * Creates the data containing the creation priority of all powerups and sorts this data.
+     */
     private void createAndSortPowerupSet() {
         List<Double> powerupWeights = Arrays.asList(
                 WeightsMap.getWeight(ElementTypes.spring),
@@ -86,11 +122,12 @@ public class GenerationSet implements IWeightsSet {
 
     /**
      * Sort the weights by the key value double.
-     * @param weights A set with the weights that have to be used.
+     *
+     * @param weights     A set with the weights that have to be used.
      * @param elementType The list with strings of the element types.
      * @return A list of MyEntry's.
      */
-    private List<Tuple2<Double, ElementTypes>> sortWeightsMap(List<Double> weights, List<ElementTypes> elementType) {
+    private List<Tuple2<Double, ElementTypes>> sortWeightsMap(final List<Double> weights, final List<ElementTypes> elementType) {
         double total = 0;
         List<Tuple2<Double, ElementTypes>> sortedWeights = new ArrayList<>();
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.ENGLISH);
@@ -107,24 +144,39 @@ public class GenerationSet implements IWeightsSet {
     }
 
     /**
-     * {@inheritDoc}
+     * Acts as an adapter between the enums {@link Powerups} and {@link ElementTypes}.
+     *
+     * @param elementType The ElementType to be converted to a Powerup
+     * @return The powerup conversion of ElementType. If elementType is not a powerup, an IllegalArgumentException is thrown
      */
-    @Override
-    final public IGameObject getRandomElement() {
-        double randDouble = serviceLocator.getCalc().getRandomDouble(1);
-
-        for (Tuple2<Double, ElementTypes> entry : weights) {
-            if (entry.getFirst() >= randDouble) {
-                return getGameObject(entry.getSecond());
-            }
+    private Powerups elementTypeToPowerup(final ElementTypes elementType) {
+        switch (elementType) {
+            case spring:
+                return Powerups.spring;
+            case trampoline:
+                return Powerups.trampoline;
+            case jetpack:
+                return Powerups.jetpack;
+            case propellor:
+                return Powerups.propeller;
+            case sizeDown:
+                return Powerups.sizeDown;
+            case sizeUp:
+                return Powerups.sizeUp;
+            case springShoes:
+                return Powerups.springShoes;
+            default:
+                final String error = "The ElementType \"" + elementType.toString() + "\" is no powerup!";
+                logger.error(error);
+                throw new IllegalArgumentException(error);
         }
-        return null;
     }
 
     /**
-     * Returns an instantiation of an IGameObject
-     * @param elementType the enum as type of the object.
-     * @return the wanted object as an IGameObject.
+     * Returns an instantiation of an IGameObject.
+     *
+     * @param elementType the enum as type of the object
+     * @return the wanted object as an IGameObject
      */
     private IGameObject getGameObject(final ElementTypes elementType) {
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();

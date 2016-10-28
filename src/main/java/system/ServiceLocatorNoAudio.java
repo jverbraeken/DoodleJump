@@ -18,8 +18,8 @@ import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.PlatformFactory;
 import objects.doodles.DoodleFactory;
 import objects.doodles.IDoodleFactory;
-import objects.doodles.Projectiles.IProjectileFactory;
-import objects.doodles.Projectiles.ProjectileFactory;
+import objects.doodles.projectiles.IProjectileFactory;
+import objects.doodles.projectiles.ProjectileFactory;
 import objects.enemies.EnemyFactory;
 import objects.enemies.IEnemyFactory;
 import objects.powerups.IPowerupFactory;
@@ -44,7 +44,6 @@ import scenes.SceneFactory;
  * Default implementation for the ServiceLocatorNoAudio. Used to gain access to all services.
  * The difference between this ServiceLcoator and the standard one is the absence of Audio services.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 /* package */ class ServiceLocatorNoAudio implements IServiceLocator {
 
     // constants.json
@@ -290,7 +289,6 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("methodlength")
     public IAudioManager getAudioManager() {
         return new IAudioManager() {
             @Override

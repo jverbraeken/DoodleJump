@@ -3,14 +3,21 @@ package scenes;
 import buttons.IButton;
 import cucumber.api.java8.En;
 import objects.doodles.IDoodle;
+import objects.powerups.Powerups;
+import org.mockito.Matchers;
 import org.powermock.reflect.Whitebox;
+import progression.IProgressionManager;
 import system.Game;
 import system.IServiceLocator;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.any;
+import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 public class CucumberSteps implements En {
 
@@ -22,6 +29,9 @@ public class CucumberSteps implements En {
                 Whitebox.invokeConstructor(Game.class);
                 sL = Whitebox.getInternalState(Game.class, "serviceLocator");
                 sL.getProgressionManager().init();
+                IProgressionManager progressionManager = mock(IProgressionManager.class);
+                when(progressionManager.getPowerupLevel(Matchers.<Powerups>any())).thenReturn(1);
+                sL.provide(progressionManager);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -48,7 +58,7 @@ public class CucumberSteps implements En {
 
         When("^I press the (.*)-button$", (String button) -> {
             Object scene = Whitebox.getInternalState(Game.class, "scene");
-            List<IButton> buttons = (List<IButton>) Whitebox.getInternalState(scene, "buttons");
+            List<IButton> buttons = Whitebox.getInternalState(scene, "buttons");
             switch (button) {
                 //MENU
                 case "play":
