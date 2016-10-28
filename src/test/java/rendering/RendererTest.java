@@ -10,7 +10,11 @@ import org.powermock.reflect.Whitebox;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -20,11 +24,11 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-
 public class RendererTest {
 
     Font font = mock(Font.class);
     Font font50 = mock(Font.class);
+    FontMetrics fontMetrics = mock(FontMetrics.class);
     Graphics2D graphics = mock(Graphics2D.class);
     ICamera camera = mock(ICamera.class);
     IConstants constants = mock(IConstants.class);
@@ -38,6 +42,7 @@ public class RendererTest {
     Renderer renderer;
 
     int gameHeight = 10, gameWidth = 10;
+    int stringWidth = 10;
 
     @Before
     public void init() throws Exception {
@@ -45,6 +50,9 @@ public class RendererTest {
         when(constants.getGameWidth()).thenReturn(gameWidth);
         when(fileSystem.getFont(anyString())).thenReturn(font);
         when(font.deriveFont(anyInt(), anyFloat())).thenReturn(font50);
+        when(fontMetrics.stringWidth("foo")).thenReturn(stringWidth);
+        when(fontMetrics.stringWidth("bar")).thenReturn(stringWidth);
+        when(graphics.getFontMetrics()).thenReturn(fontMetrics);
         when(loggerFactory.createLogger(Renderer.class)).thenReturn(logger);
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getFileSystem()).thenReturn(fileSystem);
@@ -114,11 +122,112 @@ public class RendererTest {
     }
 
     @Test
-    public void drawSpriteWidthHeightRotate() {
+    public void testDrawSpriteWidthHeightRotate() {
         renderer.drawSprite(sprite, 1, 1, 10, 10, 90);
         verify(graphics, times(1)).rotate(90);
         verify(graphics, times(1)).drawImage(image, 0, 0, 10, 10, null);
         verify(graphics, times(1)).rotate(-90);
+    }
+
+    @Test
+    public void testDrawRectangleHUD() {
+        renderer.drawRectangleHUD(1, 1, 10, 10);
+        verify(graphics, times(1)).drawRect(1, 1, 10, 10);
+    }
+
+    @Test
+    public void testDrawSpriteHUD() {
+        renderer.drawSpriteHUD(sprite, 10, 10);
+        verify(graphics, times(1)).drawImage(image, 10, 10, null);
+    }
+
+    @Test
+    public void testDrawSpriteHUDWidthHeight() {
+        renderer.drawSpriteHUD(sprite, 10, 10, 1, 1);
+        verify(graphics, times(1)).drawImage(image, 10, 10, 1, 1, null);
+    }
+
+    @Test
+    public void testDrawText() {
+        renderer.drawText(1, 1, "foo");
+        verify(graphics, times(1)).drawString("foo", 1, 1);
+    }
+
+    @Test
+    public void testDrawTextTextAlignmentLeft() {
+        renderer.drawText(1, 1, "bar", TextAlignment.left);
+        verify(graphics, times(1)).drawString("bar", 1, 1);
+    }
+
+    @Test
+    public void testDrawTextTextAlignmentCenter() {
+        renderer.drawText(1, 1, "foo", TextAlignment.center);
+        verify(graphics, times(1)).drawString("foo", 1 - (stringWidth / 2), 1);
+    }
+
+    @Test
+    public void testDrawTextTextAlignmentRight() {
+        renderer.drawText(1, 1, "bar", TextAlignment.right);
+        verify(graphics, times(1)).drawString("bar", 1 - stringWidth, 1);
+    }
+
+    @Test
+    public void testDrawTextGraphic() {
+        renderer.drawText(1, 1, "foo", rendering.Color.black);
+        verify(graphics, times(1)).setColor(rendering.Color.black.getColor());
+        verify(graphics, times(1)).drawString("foo", 1, 1);
+    }
+
+    @Test
+    public void testDrawTextAll() {
+        renderer.drawText(1, 1, "bar", TextAlignment.left, rendering.Color.black);
+        verify(graphics, times(1)).setColor(rendering.Color.black.getColor());
+        verify(graphics, times(1)).drawString("bar", 1, 1);
+    }
+
+    @Test
+    public void testDrawTextHUD() {
+        renderer.drawTextHUD(1, 1, "foo");
+        verify(graphics, times(1)).drawString("foo", 1, 1);
+    }
+
+    @Test
+    public void testDrawTextTextAlignmentLeftHUD() {
+        renderer.drawTextHUD(1, 1, "bar", TextAlignment.left);
+        verify(graphics, times(1)).drawString("bar", 1, 1);
+    }
+
+    @Test
+    public void testDrawTextTextAlignmentCenterHUD() {
+        renderer.drawTextHUD(1, 1, "foo", TextAlignment.center);
+        verify(graphics, times(1)).drawString("foo", 1 - (stringWidth / 2), 1);
+    }
+
+    @Test
+    public void testDrawTextTextAlignmentRightHUD() {
+        renderer.drawTextHUD(1, 1, "bar", TextAlignment.right);
+        verify(graphics, times(1)).drawString("bar", 1 - stringWidth, 1);
+    }
+
+    @Test
+    public void testDrawTextGraphicHUD() {
+        renderer.drawTextHUD(1, 1, "foo", rendering.Color.black);
+        verify(graphics, times(1)).setColor(rendering.Color.black.getColor());
+        verify(graphics, times(1)).drawString("foo", 1, 1);
+    }
+
+    @Test
+    public void testDrawTextAllHUD() {
+        renderer.drawTextHUD(1, 1, "bar", TextAlignment.left, rendering.Color.black);
+        verify(graphics, times(1)).setColor(rendering.Color.black.getColor());
+        verify(graphics, times(1)).drawString("bar", 1, 1);
+    }
+
+    @Test
+    public void testFillRectangle() {
+        renderer.fillRectangle(1, 1, 10, 10, rendering.Color.black);
+        verify(graphics, times(1)).fillRect(1, 1, 10, 10);
+        verify(graphics, times(1)).setColor(rendering.Color.black.getColor());
     }
 
 }
