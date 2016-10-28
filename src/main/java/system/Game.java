@@ -394,7 +394,7 @@ public final class Game {
      * Use a buffer to prevent ConcurrentModificationExceptions.
      * @param runnable The runnable to be executed during the next run
      */
-    public static void schedule(Runnable runnable) {
+    public static void schedule(final Runnable runnable) {
         Game.addToRunnables.add(runnable);
     }
 

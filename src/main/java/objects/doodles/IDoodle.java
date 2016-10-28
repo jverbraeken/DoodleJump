@@ -4,7 +4,7 @@ import input.IKeyInputObserver;
 import input.Keys;
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.doodles.DoodleBehavior.MovementBehavior;
+import objects.doodles.doodle_behavior.MovementBehavior;
 import objects.powerups.IPowerup;
 import scenes.World;
 
@@ -152,8 +152,8 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void removeProjectile(final IGameObject projectile);
 
     /**
-     * Returns the list with projectiles.
-     * @return the list with projectiles.
+     * Returns the list with Projectiles.
+     * @return the list with Projectiles.
      */
     List<IGameObject> getProjectiles();
 

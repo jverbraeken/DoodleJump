@@ -3,4 +3,4 @@
  * The factories create a Projectile and the Projectile itself is also in
  * this package.
  */
-package objects.doodles.Projectiles;
+package objects.doodles.projectiles;

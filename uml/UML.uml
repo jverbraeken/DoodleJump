@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>filesystem.FileSystem</OriginalElement>
+  <nodes>
+    <node x="2812.074547476337" y="3014.0000000000005">objects.doodles.Doodle</node>
+    <node x="10285.767573497931" y="2315.0">filesystem.IFileSystem</node>
+    <node x="8209.142573497931" y="1413.0000000000005">resources.audio.IAudioManager</node>
+    <node x="13141.142573497933" y="1637.0000000000005">objects.blocks.platform.IPlatformFactory</node>
+    <node x="12979.116214143003" y="1203.4999999999998">system.IFactory</node>
+    <node x="864.2228652300109" y="1446.0000000000005">scenes.IScene</node>
+    <node x="3813.699547476337" y="3134.0000000000005">scenes.Menu</node>
+    <node x="9977.392573497931" y="2387.0">resources.IRes</node>
+    <node x="7243.512047476337" y="3268.0000000000005">rendering.Renderer</node>
+    <node x="10994.142573497933" y="1344.000000000001">resources.sprites.ISpriteFactory</node>
+    <node x="7563.512047476337" y="3148.0000000000005">input.InputManager</node>
+    <node x="512.2228652300109" y="902.5">objects.blocks.IBlock</node>
+    <node x="3617.3050734979315" y="4565.0">objects.blocks.platform.PlatformFactory</node>
+    <node x="1938.0603652300106" y="1434.0000000000005">resources.sprites.ISprite</node>
+    <node x="9207.142573497931" y="2339.0">rendering.IRenderer</node>
+    <node x="1064.222865230011" y="1494.0000000000005">objects.enemies.Enemy</node>
+    <node x="7784.767573497931" y="2489.0">objects.enemies.IEnemyFactory</node>
+    <node x="5461.462954307601" y="1138.5">objects.powerups.IPowerup</node>
+    <node x="2364.862047476337" y="650.0">objects.AGameObject</node>
+    <node x="55.22962097426898" y="4494.0">resources.sprites.SpriteFactory</node>
+    <node x="1043.472865230011" y="938.5">objects.enemies.IEnemy</node>
+    <node x="9572.129620974269" y="3165.999999999999">system.ServiceLocator</node>
+    <node x="3825.8953808096703" y="0.0">rendering.IDrawable</node>
+    <node x="5705.629620974269" y="1114.5">input.IKeyInputObserver</node>
+    <node x="9581.955073497931" y="2339.0">input.IInputManager</node>
+    <node x="5628.629620974269" y="2489.0">objects.powerups.APowerup</node>
+    <node x="3914.3050734979315" y="4529.0">system.Game</node>
+    <node x="1707.3620474763375" y="2990.0000000000005">scenes.World</node>
+    <node x="2381.362047476337" y="3170.0000000000005">objects.blocks.platform.Platform</node>
+    <node x="3512.542120974269" y="1470.0000000000005">objects.doodles.IDoodle</node>
+    <node x="10863.142573497931" y="2399.0">system.ILevelBuilder</node>
+    <node x="4867.3050734979315" y="4555.000000000001">objects.doodles.DoodleFactory</node>
+    <node x="288.5" y="2281.0000000000036">input.Keys</node>
+    <node x="13921.142573497933" y="1601.0000000000005">objects.buttons.IButtonFactory</node>
+    <node x="12631.142573497933" y="1613.0000000000005">scenes.ISceneFactory</node>
+    <node x="9411.705073497931" y="1216.4999999999998">input.IMouseInputObserver</node>
+    <node x="844.6120474763375" y="3110.0000000000005">objects.blocks.Block</node>
+    <node x="4398.887047476337" y="3083.0000000000005">objects.powerups.Spring</node>
+    <node x="0.0" y="3146.0000000000005">resources.sprites.Sprite</node>
+    <node x="4815.887047476337" y="3083.0000000000005">objects.powerups.Trampoline</node>
+    <node x="5232.887047476337" y="3059.0000000000005">objects.buttons.Button</node>
+    <node x="265.0" y="2507.0000000000036">input.KeyCode</node>
+    <node x="8199.074547476337" y="3328.0000000000005">resources.Res</node>
+    <node x="3913.6921209742686" y="1395.0000000000005">system.IServiceLocator</node>
+    <node x="13708.142573497933" y="1637.0000000000005">objects.doodles.IDoodleFactory</node>
+    <node x="7055.504620974269" y="2489.0">objects.buttons.IButton</node>
+    <node x="3229.6175734979315" y="4541.0">scenes.SceneFactory</node>
+    <node x="4550.3050734979315" y="4543.000000000001">objects.powerups.PowerupFactory</node>
+    <node x="12852.142573497933" y="1625.0000000000005">objects.blocks.IBlockFactory</node>
+    <node x="8516.074547476337" y="3256.0000000000005">filesystem.FileSystem</node>
+    <node x="1455.472865230011" y="938.5">objects.blocks.platform.IPlatform</node>
+    <node x="13410.142573497933" y="1625.0000000000005">objects.powerups.IPowerupFactory</node>
+    <node x="5966.887047476337" y="3241.0">resources.audio.AudioManager</node>
+    <node x="1457.8745474763373" y="106.0">objects.IGameObject</node>
+    <node x="5689.887047476337" y="3167.0000000000005">objects.enemies.EnemyBuilder</node>
+    <node x="2912.6175734979315" y="4553.0">objects.blocks.BlockFactory</node>
+    <node x="5629.2425734979315" y="4519.000000000001">objects.buttons.ButtonFactory</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="resources.sprites.SpriteFactory" target="resources.sprites.Sprite">
+      <point x="-694.8000000000002" y="-928.5" />
+      <point x="228.9296209742688" y="4474.0" />
+      <point x="154.0" y="4474.0" />
+      <point x="0.0" y="136.5" />
+    </edge>
+    <edge source="objects.blocks.Block" target="objects.AGameObject">
+      <point x="59.625" y="-172.5" />
+      <point x="1142.7370474763375" y="2841.0" />
+      <point x="1298.3391644070234" y="2841.0" />
+      <point x="1298.3391644070234" y="1309.0" />
+      <point x="2536.762047476337" y="1309.0" />
+      <point x="-114.59999999999991" y="304.5" />
+    </edge>
+    <edge source="system.ServiceLocator" target="resources.IRes">
+      <point x="-162.0" y="-616.5" />
+      <point x="10017.629620974269" y="3061.0" />
+      <point x="10146.142573497931" y="3061.0" />
+      <point x="56.25" y="28.0" />
+    </edge>
+    <edge source="scenes.World" target="resources.sprites.ISprite">
+      <point x="0.0" y="-292.5" />
+      <point x="2034.3620474763375" y="2871.0" />
+      <point x="2013.7876379572836" y="2871.0" />
+      <point x="-43.27272727272725" y="76.0" />
+    </edge>
+    <edge source="objects.doodles.Doodle" target="resources.sprites.ISprite">
+      <point x="-127.39999999999986" y="-268.5" />
+      <point x="3003.1745474763375" y="2751.0" />
+      <point x="2078.6967288663745" y="2751.0" />
+      <point x="21.63636363636374" y="76.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="resources.audio.IAudioManager">
+      <point x="-405.0" y="-616.5" />
+      <point x="9774.629620974269" y="2561.0" />
+      <point x="8942.642573497931" y="2561.0" />
+      <point x="244.5" y="532.0" />
+    </edge>
+    <edge source="objects.blocks.platform.PlatformFactory" target="objects.blocks.platform.IPlatformFactory">
+      <point x="92.33333333333348" y="-52.5" />
+      <point x="3848.138406831265" y="4444.0" />
+      <point x="13327.892573497933" y="4444.0" />
+      <point x="62.25" y="28.0" />
+    </edge>
+    <edge source="input.InputManager" target="input.IInputManager">
+      <point x="223.875" y="-244.5" />
+      <point x="8085.887047476337" y="3041.0" />
+      <point x="9674.705073497931" y="3041.0" />
+      <point x="-92.75" y="76.0" />
+    </edge>
+    <edge source="objects.enemies.IEnemy" target="objects.IGameObject">
+      <point x="0.0" y="-16.0" />
+      <point x="1082.972865230011" y="620.0" />
+      <point x="1721.3745474763373" y="620.0" />
+      <point x="0.0" y="232.0" />
+    </edge>
+    <edge source="objects.buttons.IButton" target="input.IMouseInputObserver">
+      <point x="20.0" y="-16.0" />
+      <point x="7115.504620974269" y="1319.0" />
+      <point x="9464.955073497931" y="1319.0" />
+      <point x="-53.25" y="28.0" />
+    </edge>
+    <edge source="objects.powerups.APowerup" target="objects.AGameObject">
+      <point x="-24.0" y="-16.0" />
+      <point x="5652.629620974269" y="1299.0" />
+      <point x="2880.5620474763373" y="1299.0" />
+      <point x="229.20000000000005" y="304.5" />
+    </edge>
+    <edge source="objects.powerups.PowerupFactory" target="objects.powerups.IPowerupFactory">
+      <point x="111.375" y="-64.5" />
+      <point x="4810.1800734979315" y="4454.0" />
+      <point x="13618.642573497933" y="4454.0" />
+      <point x="69.5" y="40.0" />
+    </edge>
+    <edge source="objects.buttons.Button" target="resources.sprites.ISprite">
+      <point x="-145.66666666666652" y="-148.5" />
+      <point x="5305.72038080967" y="2681.0" />
+      <point x="2165.2421834118286" y="2681.0" />
+      <point x="108.18181818181824" y="76.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="rendering.IRenderer">
+      <point x="-324.0" y="-616.5" />
+      <point x="9855.629620974269" y="2551.0" />
+      <point x="9357.142573497931" y="2551.0" />
+      <point x="50.0" y="76.0" />
+    </edge>
+    <edge source="objects.blocks.platform.Platform" target="resources.sprites.ISprite">
+      <point x="47.125" y="-112.5" />
+      <point x="2616.987047476337" y="2771.0" />
+      <point x="2035.4240015936466" y="2771.0" />
+      <point x="-21.636363636363626" y="76.0" />
+    </edge>
+    <edge source="rendering.Renderer" target="rendering.IRenderer">
+      <point x="75.00000000000045" y="-124.5" />
+      <point x="7468.512047476337" y="3021.0" />
+      <point x="9257.142573497931" y="3021.0" />
+      <point x="-50.0" y="76.0" />
+    </edge>
+    <edge source="objects.blocks.platform.IPlatformFactory" target="system.IFactory">
+      <point x="0.0" y="-28.0" />
+      <point x="13265.642573497933" y="1319.0" />
+      <point x="13020.616214143003" y="1319.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="objects.IGameObject" target="rendering.IDrawable">
+      <point x="0.0" y="-232.0" />
+      <point x="1721.3745474763373" y="81.0" />
+      <point x="3858.8953808096703" y="81.0" />
+      <point x="-33.0" y="28.0" />
+    </edge>
+    <edge source="objects.doodles.IDoodle" target="input.IKeyInputObserver">
+      <point x="62.75" y="-40.0" />
+      <point x="3700.792120974269" y="1319.0" />
+      <point x="5735.796287640935" y="1319.0" />
+      <point x="-60.333333333333485" y="40.0" />
+    </edge>
+    <edge source="scenes.SceneFactory" target="scenes.Menu">
+      <point x="39.625" y="-76.5" />
+      <point x="3427.7425734979315" y="4384.0" />
+      <point x="4032.199547476337" y="4384.0" />
+      <point x="0.0" y="148.5" />
+    </edge>
+    <edge source="objects.doodles.Doodle" target="objects.doodles.IDoodle">
+      <point x="127.40000000000009" y="-268.5" />
+      <point x="3257.974547476337" y="2871.0" />
+      <point x="3700.792120974269" y="2871.0" />
+      <point x="62.75" y="40.0" />
+    </edge>
+    <edge source="resources.audio.AudioManager" target="system.IServiceLocator">
+      <point x="-279.24999999999955" y="-556.5" />
+      <point x="6246.137047476337" y="2651.0" />
+      <point x="4561.192120974269" y="2651.0" />
+      <point x="222.0" y="400.0" />
+    </edge>
+    <edge source="objects.powerups.Trampoline" target="system.IServiceLocator">
+      <point x="-49.625" y="-124.5" />
+      <point x="4964.762047476337" y="2691.0" />
+      <point x="4450.192120974269" y="2691.0" />
+      <point x="111.0" y="400.0" />
+    </edge>
+    <edge source="objects.powerups.Spring" target="system.IServiceLocator">
+      <point x="-49.625" y="-124.5" />
+      <point x="4547.762047476337" y="2711.0" />
+      <point x="4413.192120974269" y="2711.0" />
+      <point x="74.0" y="400.0" />
+    </edge>
+    <edge source="input.KeyCode" target="input.Keys">
+      <point x="0.0" y="-40.5" />
+      <point x="0.0" y="88.0" />
+    </edge>
+    <edge source="objects.doodles.IDoodleFactory" target="system.IFactory">
+      <point x="0.0" y="-28.0" />
+      <point x="13804.642573497933" y="1299.0" />
+      <point x="13044.33049985729" y="1299.0" />
+      <point x="23.714285714285325" y="16.0" />
+    </edge>
+    <edge source="objects.doodles.DoodleFactory" target="system.IServiceLocator">
+      <point x="0.0" y="-52.5" />
+      <point x="5005.8050734979315" y="4294.0" />
+      <point x="4294.199547476337" y="4294.0" />
+      <point x="4294.199547476337" y="2941.0" />
+      <point x="4339.192120974269" y="2941.0" />
+      <point x="0.0" y="400.0" />
+    </edge>
+    <edge source="objects.buttons.IButtonFactory" target="system.IFactory">
+      <point x="0.0" y="-64.0" />
+      <point x="14078.142573497933" y="1289.0" />
+      <point x="13056.18764271443" y="1289.0" />
+      <point x="35.57142857142844" y="16.0" />
+    </edge>
+    <edge source="system.Game" target="system.ServiceLocator">
+      <point x="231.0" y="-328.5" />
+      <point x="4453.3050734979315" y="4404.0" />
+      <point x="10179.629620974269" y="4428.999999999999" />
+      <point x="0.0" y="616.5" />
+    </edge>
+    <edge source="resources.sprites.ISpriteFactory" target="system.IFactory">
+      <point x="0.0" y="-856.0" />
+      <point x="11802.642573497933" y="1299.0" />
+      <point x="12985.044785571576" y="1299.0" />
+      <point x="-35.57142857142844" y="16.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="input.IInputManager">
+      <point x="-243.0" y="-616.5" />
+      <point x="9936.629620974269" y="2541.0" />
+      <point x="9860.205073497931" y="2541.0" />
+      <point x="92.75" y="76.0" />
+    </edge>
+    <edge source="objects.doodles.Doodle" target="system.IServiceLocator">
+      <point x="254.79999999999995" y="-268.5" />
+      <point x="3385.3745474763373" y="2911.0" />
+      <point x="4043.1921209742686" y="2911.0" />
+      <point x="-296.0" y="400.0" />
+    </edge>
+    <edge source="objects.doodles.DoodleFactory" target="objects.doodles.IDoodleFactory">
+      <point x="92.33333333333348" y="-52.5" />
+      <point x="5098.1384068312655" y="4464.0" />
+      <point x="13852.892573497933" y="4464.0" />
+      <point x="48.25" y="28.0" />
+    </edge>
+    <edge source="objects.powerups.Spring" target="objects.powerups.APowerup">
+      <point x="148.875" y="-124.5" />
+      <point x="4746.262047476337" y="2941.0" />
+      <point x="5652.629620974269" y="2941.0" />
+      <point x="-24.0" y="16.0" />
+    </edge>
+    <edge source="resources.sprites.SpriteFactory" target="system.IServiceLocator">
+      <point x="347.39999999999964" y="-928.5" />
+      <point x="1271.1296209742686" y="4354.0" />
+      <point x="3781.199547476337" y="4354.0" />
+      <point x="3781.199547476337" y="2921.0" />
+      <point x="4080.1921209742686" y="2921.0" />
+      <point x="-259.0" y="400.0" />
+    </edge>
+    <edge source="objects.blocks.Block" target="system.IServiceLocator">
+      <point x="178.875" y="-172.5" />
+      <point x="1261.9870474763375" y="2881.0" />
+      <point x="3932.1921209742686" y="2881.0" />
+      <point x="-407.0" y="400.0" />
+    </edge>
+    <edge source="objects.enemies.EnemyBuilder" target="system.IServiceLocator">
+      <point x="-64.25" y="-40.5" />
+      <point x="5754.137047476337" y="2661.0" />
+      <point x="4524.192120974269" y="2661.0" />
+      <point x="185.0" y="400.0" />
+    </edge>
+    <edge source="objects.blocks.platform.Platform" target="objects.blocks.platform.IPlatform">
+      <point x="-141.375" y="-112.5" />
+      <point x="2428.487047476337" y="2791.0" />
+      <point x="1624.4228652300117" y="2791.0" />
+      <point x="1624.4228652300117" y="1289.0" />
+      <point x="1500.472865230011" y="1289.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="objects.powerups.PowerupFactory" target="system.IServiceLocator">
+      <point x="-111.375" y="-64.5" />
+      <point x="4587.4300734979315" y="4384.0" />
+      <point x="4283.199547476337" y="4384.0" />
+      <point x="4283.199547476337" y="2931.0" />
+      <point x="4302.192120974269" y="2931.0" />
+      <point x="-37.0" y="400.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="system.IServiceLocator">
+      <point x="-567.0" y="-616.5" />
+      <point x="9612.629620974269" y="2581.0" />
+      <point x="4746.192120974269" y="2581.0" />
+      <point x="407.0" y="400.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="objects.buttons.IButtonFactory">
+      <point x="567.0" y="-616.5" />
+      <point x="10746.629620974269" y="3161.0" />
+      <point x="13999.642573497933" y="3161.0000000000005" />
+      <point x="-78.5" y="64.0" />
+    </edge>
+    <edge source="system.Game" target="scenes.IScene">
+      <point x="-231.0" y="-328.5" />
+      <point x="3991.3050734979315" y="4314.0" />
+      <point x="1696.8620474763375" y="4314.0" />
+      <point x="1696.8620474763375" y="2821.0" />
+      <point x="894.2228652300109" y="2821.0" />
+      <point x="-60.0" y="64.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="system.ILevelBuilder">
+      <point x="0.0" y="-616.5" />
+      <point x="10179.629620974269" y="3091.0" />
+      <point x="10918.642573497931" y="3091.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="objects.powerups.Spring" target="objects.powerups.IPowerup">
+      <point x="49.625" y="-124.5" />
+      <point x="4647.012047476337" y="2931.0" />
+      <point x="5283.629620974269" y="2931.0" />
+      <point x="5283.629620974269" y="1309.0" />
+      <point x="5476.796287640935" y="1309.0" />
+      <point x="-30.666666666666515" y="16.0" />
+    </edge>
+    <edge source="objects.blocks.platform.PlatformFactory" target="system.IServiceLocator">
+      <point x="0.0" y="-52.5" />
+      <point x="3755.8050734979315" y="4394.0" />
+      <point x="4261.199547476337" y="4394.0" />
+      <point x="4261.199547476337" y="2951.0" />
+      <point x="4228.192120974269" y="2951.0" />
+      <point x="-111.0" y="400.0" />
+    </edge>
+    <edge source="objects.powerups.PowerupFactory" target="objects.powerups.Spring">
+      <point x="-37.125" y="-64.5" />
+      <point x="4661.6800734979315" y="4384.0" />
+      <point x="4597.387047476337" y="4384.0" />
+      <point x="0.0" y="124.5" />
+    </edge>
+    <edge source="filesystem.FileSystem" target="filesystem.IFileSystem">
+      <point x="104.25" y="-136.5" />
+      <point x="8828.824547476337" y="3071.0" />
+      <point x="10377.267573497931" y="3071.0" />
+      <point x="-91.5" y="100.0" />
+    </edge>
+    <edge source="rendering.Renderer" target="system.IServiceLocator">
+      <point x="-74.99999999999955" y="-124.5" />
+      <point x="7318.512047476337" y="2641.0" />
+      <point x="4598.192120974269" y="2641.0" />
+      <point x="259.0" y="400.0" />
+    </edge>
+    <edge source="scenes.SceneFactory" target="scenes.World">
+      <point x="-118.875" y="-76.5" />
+      <point x="3269.2425734979315" y="4334.0" />
+      <point x="2034.3620474763375" y="4334.0" />
+      <point x="0.0" y="292.5" />
+    </edge>
+    <edge source="input.InputManager" target="input.IMouseInputObserver">
+      <point x="74.625" y="-244.5" />
+      <point x="7936.637047476337" y="3031.0" />
+      <point x="9571.455073497931" y="3031.0" />
+      <point x="53.25" y="28.0" />
+    </edge>
+    <edge source="objects.powerups.IPowerupFactory" target="system.IFactory">
+      <point x="0.0" y="-40.0" />
+      <point x="13549.142573497933" y="1309.0" />
+      <point x="13032.473357000146" y="1309.0" />
+      <point x="11.857142857143117" y="16.0" />
+    </edge>
+    <edge source="objects.doodles.DoodleFactory" target="objects.doodles.Doodle">
+      <point x="-92.33333333333348" y="-52.5" />
+      <point x="4913.471740164598" y="4304.0" />
+      <point x="3130.574547476337" y="4304.0" />
+      <point x="0.0" y="268.5" />
+    </edge>
+    <edge source="scenes.World" target="objects.doodles.IDoodle">
+      <point x="130.79999999999995" y="-292.5" />
+      <point x="2165.1620474763376" y="2861.0" />
+      <point x="3575.292120974269" y="2861.0" />
+      <point x="-62.75" y="40.0" />
+    </edge>
+    <edge source="scenes.Menu" target="input.IKeyInputObserver">
+      <point x="87.40000000000009" y="-148.5" />
+      <point x="4119.599547476337" y="2961.0" />
+      <point x="5796.129620974269" y="2961.0" />
+      <point x="0.0" y="40.0" />
+    </edge>
+    <edge source="objects.blocks.platform.IPlatform" target="objects.IGameObject">
+      <point x="0.0" y="-16.0" />
+      <point x="1500.472865230011" y="630.0" />
+      <point x="1796.660261762052" y="630.0" />
+      <point x="75.28571428571422" y="232.0" />
+    </edge>
+    <edge source="scenes.Menu" target="resources.sprites.ISprite">
+      <point x="-87.40000000000009" y="-148.5" />
+      <point x="3944.799547476337" y="2731.0" />
+      <point x="2100.3330925027376" y="2731.0" />
+      <point x="43.27272727272725" y="76.0" />
+    </edge>
+    <edge source="objects.buttons.ButtonFactory" target="objects.buttons.Button">
+      <point x="0.0" y="-88.5" />
+      <point x="5797.7425734979315" y="4274.0" />
+      <point x="5451.387047476337" y="4274.0" />
+      <point x="0.0" y="148.5" />
+    </edge>
+    <edge source="scenes.ISceneFactory" target="system.IFactory">
+      <point x="0.0" y="-52.0" />
+      <point x="12731.642573497933" y="1309.0" />
+      <point x="12996.901928428717" y="1309.0" />
+      <point x="-23.714285714285325" y="16.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="objects.blocks.platform.IPlatformFactory">
+      <point x="324.0" y="-616.5" />
+      <point x="10503.629620974269" y="3131.0" />
+      <point x="13203.392573497933" y="3131.0000000000005" />
+      <point x="-62.25" y="28.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="resources.sprites.ISpriteFactory">
+      <point x="81.0" y="-616.5" />
+      <point x="10260.629620974269" y="3101.0" />
+      <point x="11398.392573497933" y="3101.0000000000005" />
+      <point x="-404.25" y="856.0" />
+    </edge>
+    <edge source="system.Game" target="system.IServiceLocator">
+      <point x="-77.0" y="-328.5" />
+      <point x="4145.3050734979315" y="4404.0" />
+      <point x="4272.199547476337" y="4404.0" />
+      <point x="4272.199547476337" y="2941.0" />
+      <point x="4265.192120974269" y="2941.0" />
+      <point x="-74.0" y="400.0" />
+    </edge>
+    <edge source="input.InputManager" target="input.IKeyInputObserver">
+      <point x="-74.625" y="-244.5" />
+      <point x="7787.387047476337" y="2621.0" />
+      <point x="7020.754620974269" y="2621.0" />
+      <point x="7020.754620974269" y="1319.0" />
+      <point x="5856.462954307602" y="1319.0" />
+      <point x="60.333333333333485" y="40.0" />
+    </edge>
+    <edge source="objects.doodles.Doodle" target="objects.AGameObject">
+      <point x="0.0" y="-268.5" />
+      <point x="3130.574547476337" y="2851.0" />
+      <point x="3032.249547476337" y="2851.0" />
+      <point x="3032.249547476337" y="1319.0" />
+      <point x="2765.962047476337" y="1319.0" />
+      <point x="114.59999999999991" y="304.5" />
+    </edge>
+    <edge source="scenes.Menu" target="system.IServiceLocator">
+      <point x="0.0" y="-148.5" />
+      <point x="4032.199547476337" y="2951.0" />
+      <point x="4191.192120974269" y="2951.0" />
+      <point x="-148.0" y="400.0" />
+    </edge>
+    <edge source="objects.buttons.ButtonFactory" target="objects.buttons.IButtonFactory">
+      <point x="112.33333333333348" y="-88.5" />
+      <point x="5910.0759068312655" y="4634.0" />
+      <point x="14156.642573497933" y="4474.0" />
+      <point x="78.5" y="64.0" />
+    </edge>
+    <edge source="scenes.World" target="scenes.IScene">
+      <point x="-130.79999999999995" y="-292.5" />
+      <point x="1903.5620474763373" y="2801.0" />
+      <point x="954.2228652300109" y="2801.0" />
+      <point x="0.0" y="64.0" />
+    </edge>
+    <edge source="objects.enemies.Enemy" target="objects.enemies.IEnemy">
+      <point x="-18.75" y="-16.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="resources.sprites.Sprite" target="resources.sprites.ISprite">
+      <point x="0.0" y="-136.5" />
+      <point x="154.0" y="2851.0" />
+      <point x="1948.8785470481926" y="2851.0" />
+      <point x="-108.18181818181824" y="76.0" />
+    </edge>
+    <edge source="objects.blocks.IBlockFactory" target="system.IFactory">
+      <point x="0.0" y="-40.0" />
+      <point x="12986.642573497933" y="1319.0" />
+      <point x="13008.75907128586" y="1319.0" />
+      <point x="-11.857142857143117" y="16.0" />
+    </edge>
+    <edge source="system.Game" target="objects.buttons.IButton">
+      <point x="77.0" y="-328.5" />
+      <point x="4299.3050734979315" y="4394.0" />
+      <point x="8943.574547476337" y="4394.0" />
+      <point x="8943.574547476337" y="2591.0" />
+      <point x="7122.171287640935" y="2591.0" />
+      <point x="26.66666666666697" y="16.0" />
+    </edge>
+    <edge source="objects.powerups.Trampoline" target="objects.powerups.IPowerup">
+      <point x="148.875" y="-124.5" />
+      <point x="5163.262047476337" y="2971.0" />
+      <point x="5807.129620974269" y="2971.0" />
+      <point x="5807.129620974269" y="1279.0" />
+      <point x="5538.129620974268" y="1279.0" />
+      <point x="30.666666666666515" y="16.0" />
+    </edge>
+    <edge source="resources.Res" target="system.IServiceLocator">
+      <point x="-74.25" y="-64.5" />
+      <point x="8273.324547476337" y="2611.0" />
+      <point x="4672.192120974269" y="2611.0" />
+      <point x="333.0" y="400.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="filesystem.IFileSystem">
+      <point x="-81.0" y="-616.5" />
+      <point x="10098.629620974269" y="3081.0" />
+      <point x="10560.267573497931" y="3081.0" />
+      <point x="91.5" y="100.0" />
+    </edge>
+    <edge source="objects.blocks.BlockFactory" target="system.IServiceLocator">
+      <point x="0.0" y="-64.5" />
+      <point x="3061.1175734979315" y="4364.0" />
+      <point x="3792.199547476337" y="4364.0" />
+      <point x="3792.199547476337" y="2931.0" />
+      <point x="4117.192120974269" y="2931.0" />
+      <point x="-222.0" y="400.0" />
+    </edge>
+    <edge source="input.InputManager" target="system.IServiceLocator">
+      <point x="-223.875" y="-244.5" />
+      <point x="7638.137047476337" y="2631.0" />
+      <point x="4635.192120974269" y="2631.0" />
+      <point x="296.0" y="400.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="objects.doodles.IDoodleFactory">
+      <point x="486.0" y="-616.5" />
+      <point x="10665.629620974269" y="3151.0" />
+      <point x="13756.392573497933" y="3151.0000000000005" />
+      <point x="-48.25" y="28.0" />
+    </edge>
+    <edge source="objects.enemies.Enemy" target="objects.AGameObject">
+      <point x="18.75" y="-16.0" />
+      <point x="1120.472865230011" y="1299.0" />
+      <point x="2422.1620474763367" y="1299.0" />
+      <point x="-229.20000000000005" y="304.5" />
+    </edge>
+    <edge source="objects.buttons.Button" target="objects.buttons.IButton">
+      <point x="145.66666666666652" y="-148.5" />
+      <point x="5597.053714143003" y="2991.0" />
+      <point x="7095.504620974269" y="2991.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="objects.powerups.Trampoline" target="objects.powerups.APowerup">
+      <point x="49.625" y="-124.5" />
+      <point x="5064.012047476337" y="2951.0" />
+      <point x="5700.629620974269" y="2951.0" />
+      <point x="24.0" y="16.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="objects.blocks.IBlockFactory">
+      <point x="243.0" y="-616.5" />
+      <point x="10422.629620974269" y="3121.0" />
+      <point x="12919.392573497933" y="3121.0000000000005" />
+      <point x="-67.25" y="40.0" />
+    </edge>
+    <edge source="objects.buttons.IButton" target="rendering.IDrawable">
+      <point x="-20.0" y="-16.0" />
+      <point x="7075.504620974269" y="81.0" />
+      <point x="3924.8953808096703" y="81.0" />
+      <point x="33.0" y="28.0" />
+    </edge>
+    <edge source="scenes.World" target="objects.IGameObject">
+      <point x="-261.60000000000036" y="-292.5" />
+      <point x="1772.762047476337" y="2811.0" />
+      <point x="853.7228652300109" y="2811.0" />
+      <point x="853.7228652300109" y="610.0" />
+      <point x="1646.0888331906226" y="610.0" />
+      <point x="-75.28571428571468" y="232.0" />
+    </edge>
+    <edge source="objects.blocks.BlockFactory" target="objects.blocks.Block">
+      <point x="-99.0" y="-64.5" />
+      <point x="2962.1175734979315" y="4344.0" />
+      <point x="1083.1120474763375" y="4344.0" />
+      <point x="0.0" y="172.5" />
+    </edge>
+    <edge source="objects.blocks.platform.Platform" target="system.IServiceLocator">
+      <point x="141.375" y="-112.5" />
+      <point x="2711.237047476337" y="2901.0" />
+      <point x="4006.1921209742686" y="2901.0" />
+      <point x="-333.0" y="400.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="objects.powerups.IPowerupFactory">
+      <point x="405.0" y="-616.5" />
+      <point x="10584.629620974269" y="3141.0" />
+      <point x="13479.642573497933" y="3141.0000000000005" />
+      <point x="-69.5" y="40.0" />
+    </edge>
+    <edge source="objects.buttons.Button" target="system.IServiceLocator">
+      <point x="0.0" y="-148.5" />
+      <point x="5451.387047476337" y="2671.0" />
+      <point x="4487.192120974269" y="2671.0" />
+      <point x="148.0" y="400.0" />
+    </edge>
+    <edge source="scenes.SceneFactory" target="scenes.ISceneFactory">
+      <point x="118.875" y="-76.5" />
+      <point x="3506.9925734979315" y="4424.0" />
+      <point x="12781.892573497933" y="4424.0" />
+      <point x="50.25" y="52.0" />
+    </edge>
+    <edge source="resources.audio.AudioManager" target="resources.audio.IAudioManager">
+      <point x="279.25000000000045" y="-556.5" />
+      <point x="6804.637047476337" y="3011.0" />
+      <point x="8453.642573497931" y="3011.0" />
+      <point x="-244.5" y="532.0" />
+    </edge>
+    <edge source="objects.doodles.IDoodle" target="objects.IGameObject">
+      <point x="-62.75" y="-40.0" />
+      <point x="3575.292120974269" y="620.0" />
+      <point x="1947.2316903334804" y="620.0" />
+      <point x="225.85714285714312" y="232.0" />
+    </edge>
+    <edge source="scenes.Menu" target="scenes.IScene">
+      <point x="-174.79999999999995" y="-148.5" />
+      <point x="3857.399547476337" y="2741.0" />
+      <point x="1014.2228652300109" y="2741.0" />
+      <point x="60.0" y="64.0" />
+    </edge>
+    <edge source="objects.powerups.PowerupFactory" target="objects.powerups.Trampoline">
+      <point x="37.125" y="-64.5" />
+      <point x="4735.9300734979315" y="4384.0" />
+      <point x="5014.387047476337" y="4384.0" />
+      <point x="0.0" y="124.5" />
+    </edge>
+    <edge source="objects.blocks.BlockFactory" target="objects.blocks.IBlockFactory">
+      <point x="99.0" y="-64.5" />
+      <point x="3160.1175734979315" y="4434.0" />
+      <point x="13053.892573497933" y="4434.0" />
+      <point x="67.25" y="40.0" />
+    </edge>
+    <edge source="scenes.SceneFactory" target="system.IServiceLocator">
+      <point x="-39.625" y="-76.5" />
+      <point x="3348.4925734979315" y="4374.0" />
+      <point x="3803.199547476337" y="4374.0" />
+      <point x="3803.199547476337" y="2941.0" />
+      <point x="4154.192120974269" y="2941.0" />
+      <point x="-185.0" y="400.0" />
+    </edge>
+    <edge source="scenes.World" target="system.IServiceLocator">
+      <point x="261.5999999999999" y="-292.5" />
+      <point x="2295.9620474763374" y="2891.0" />
+      <point x="3969.1921209742686" y="2891.0" />
+      <point x="-370.0" y="400.0" />
+    </edge>
+    <edge source="objects.enemies.EnemyBuilder" target="objects.enemies.IEnemyFactory">
+      <point x="64.25" y="-40.5" />
+      <point x="5882.637047476337" y="3001.0" />
+      <point x="7815.017573497931" y="3001.0" />
+      <point x="-30.25" y="16.0" />
+    </edge>
+    <edge source="filesystem.FileSystem" target="system.IServiceLocator">
+      <point x="-104.25" y="-136.5" />
+      <point x="8620.324547476337" y="2601.0" />
+      <point x="4709.192120974269" y="2601.0" />
+      <point x="370.0" y="400.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="scenes.ISceneFactory">
+      <point x="162.0" y="-616.5" />
+      <point x="10341.629620974269" y="3111.0" />
+      <point x="12681.392573497933" y="3111.0000000000005" />
+      <point x="-50.25" y="52.0" />
+    </edge>
+    <edge source="objects.buttons.ButtonFactory" target="system.IServiceLocator">
+      <point x="-112.33333333333348" y="-88.5" />
+      <point x="5685.409240164598" y="4284.0" />
+      <point x="4305.199547476337" y="4284.0" />
+      <point x="4305.199547476337" y="2951.0" />
+      <point x="4376.192120974269" y="2951.0" />
+      <point x="37.0" y="400.0" />
+    </edge>
+    <edge source="objects.AGameObject" target="objects.IGameObject">
+      <point x="0.0" y="-304.5" />
+      <point x="2651.362047476337" y="630.0" />
+      <point x="1871.9459760477657" y="630.0" />
+      <point x="150.57142857142856" y="232.0" />
+    </edge>
+    <edge source="objects.powerups.APowerup" target="objects.powerups.IPowerup">
+      <point x="24.0" y="-16.0" />
+      <point x="5700.629620974269" y="1289.0" />
+      <point x="5507.462954307601" y="1289.0" />
+      <point x="0.0" y="16.0" />
+    </edge>
+    <edge source="objects.blocks.platform.Platform" target="objects.AGameObject">
+      <point x="-47.125" y="-112.5" />
+      <point x="2522.737047476337" y="2781.0" />
+      <point x="1805.6728652300117" y="2781.0" />
+      <point x="1805.6728652300117" y="1319.0" />
+      <point x="2651.362047476337" y="1319.0" />
+      <point x="0.0" y="304.5" />
+    </edge>
+    <edge source="objects.blocks.IBlock" target="objects.IGameObject">
+      <point x="0.0" y="-52.0" />
+      <point x="672.2228652300109" y="590.0" />
+      <point x="1495.5174046191942" y="590.0" />
+      <point x="-225.8571428571429" y="232.0" />
+    </edge>
+    <edge source="objects.blocks.Block" target="objects.IGameObject">
+      <point x="-59.625" y="-172.5" />
+      <point x="1023.4870474763375" y="2831.0" />
+      <point x="842.7228652300109" y="2831.0" />
+      <point x="842.7228652300109" y="600.0" />
+      <point x="1570.8031189049088" y="600.0" />
+      <point x="-150.57142857142844" y="232.0" />
+    </edge>
+    <edge source="scenes.Menu" target="objects.buttons.IButton">
+      <point x="174.80000000000018" y="-148.5" />
+      <point x="4206.999547476337" y="2981.0" />
+      <point x="7068.837954307602" y="2981.0" />
+      <point x="-26.666666666666515" y="16.0" />
+    </edge>
+    <edge source="system.ServiceLocator" target="objects.enemies.IEnemyFactory">
+      <point x="-486.0" y="-616.5" />
+      <point x="9693.629620974269" y="2571.0" />
+      <point x="7875.517573497931" y="2571.0" />
+      <point x="30.25" y="16.0" />
+    </edge>
+    <edge source="objects.powerups.Trampoline" target="resources.sprites.ISprite">
+      <point x="-148.875" y="-124.5" />
+      <point x="4865.512047476337" y="2701.0" />
+      <point x="2143.605819775465" y="2701.0" />
+      <point x="86.5454545454545" y="76.0" />
+    </edge>
+    <edge source="objects.powerups.Spring" target="resources.sprites.ISprite">
+      <point x="-148.875" y="-124.5" />
+      <point x="4448.512047476337" y="2721.0" />
+      <point x="2121.9694561391016" y="2721.0" />
+      <point x="64.90909090909099" y="76.0" />
+    </edge>
+    <edge source="resources.sprites.SpriteFactory" target="resources.sprites.ISprite">
+      <point x="-347.39999999999964" y="-928.5" />
+      <point x="576.3296209742693" y="4474.0" />
+      <point x="318.5" y="4474.0" />
+      <point x="318.5" y="2861.0" />
+      <point x="1970.5149106845565" y="2861.0" />
+      <point x="-86.54545454545405" y="76.0" />
+    </edge>
+    <edge source="resources.sprites.SpriteFactory" target="resources.sprites.ISpriteFactory">
+      <point x="694.8000000000002" y="-928.5" />
+      <point x="1618.5296209742692" y="4414.0" />
+      <point x="12206.892573497933" y="4414.0" />
+      <point x="404.25" y="856.0" />
+    </edge>
+    <edge source="objects.blocks.platform.PlatformFactory" target="objects.blocks.platform.Platform">
+      <point x="-92.33333333333303" y="-52.5" />
+      <point x="3663.4717401645985" y="4324.0" />
+      <point x="2569.862047476337" y="4324.0" />
+      <point x="0.0" y="112.5" />
+    </edge>
+    <edge source="resources.Res" target="resources.IRes">
+      <point x="74.25" y="-64.5" />
+      <point x="8421.824547476337" y="3051.0" />
+      <point x="10033.642573497931" y="3051.0" />
+      <point x="-56.25" y="28.0" />
+    </edge>
+    <edge source="objects.blocks.Block" target="objects.blocks.IBlock">
+      <point x="-178.875" y="-172.5" />
+      <point x="904.2370474763375" y="2841.0" />
+      <point x="672.2228652300109" y="2841.0" />
+      <point x="0.0" y="52.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.20000000000000015" x="9769.999999999996" y="3239.4999999999973" />
+  <SelectedNodes>
+    <node>system.ServiceLocator</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

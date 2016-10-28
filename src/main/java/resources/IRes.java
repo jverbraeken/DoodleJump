@@ -7,7 +7,6 @@ import system.Game;
  * <br>
  * It is not deemed necessary for all individual resources to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface IRes {
 
     /**

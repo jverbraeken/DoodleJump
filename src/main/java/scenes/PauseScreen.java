@@ -20,6 +20,22 @@ import java.util.List;
      * The X and Y location for the resume button.
      */
     private static final double RESUME_BUTTON_X = 0.55d, RESUME_BUTTON_Y = 0.75d;
+    /**
+     * The distance between the missions drawn at the screen.
+     */
+    private static final int DISTANCE_BETWEEN_MISSIONS = 15;
+    /**
+     * The amount of digits in the decimal digit system.
+     */
+    private static final int BASE_TEN = 10;
+    /**
+     * Default margin for the HUD grid.
+     */
+    private static final int MARGIN = 10;
+    /**
+     * The speed with which the coin rotates.
+     */
+    private static final double COIN_SPEED = 0.3d;
 
     /**
      * Used to gain access to all services.
@@ -36,23 +52,15 @@ import java.util.List;
     /**
      * The sprites of the coin, animated.
      */
-    private final ISprite[] coinSprites = new ISprite[10];
+    private final ISprite[] coinSprites = new ISprite[BASE_TEN];
     /**
      * The index of the coin animation. Must be between 0 (inclusive) and 10 (exclusive).
      */
     private double coinSpriteIndex;
     /**
-     * Default margin for the HUD grid.
-     */
-    private static final int MARGIN = 10;
-    /**
      * The background sprite.
      */
     private ISprite background;
-    /**
-     * The distance between the missions drawn at the screen.
-     */
-    private static final int DISTANCE_BETWEEN_MISSIONS = 15;
 
     /**
      * Initialize the pause screen.
@@ -67,7 +75,7 @@ import java.util.List;
         this.background = this.serviceLocator.getSpriteFactory().getPauseCoverSprite();
 
         // Coins
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < BASE_TEN; i++) {
             coinSprites[i] = this.serviceLocator.getSpriteFactory().getCoinSprite(i + 1);
         }
 
@@ -119,7 +127,7 @@ import java.util.List;
         final List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
         final int missionSpriteHeight = serviceLocator.getSpriteFactory().getAchievementSprite().getHeight();
         for (int i = 0; i < missions.size(); i++) {
-            missions.get(i).render(coinY + coinSprite.getHeight() + MARGIN  + i * (missionSpriteHeight + DISTANCE_BETWEEN_MISSIONS));
+            missions.get(i).render(coinY + coinSprite.getHeight() + MARGIN + i * (missionSpriteHeight + DISTANCE_BETWEEN_MISSIONS));
         }
     }
 
@@ -128,7 +136,7 @@ import java.util.List;
      */
     @Override
     public void update(final double delta) {
-        coinSpriteIndex = (coinSpriteIndex + 0.3 * delta) % 10;
+        coinSpriteIndex = (coinSpriteIndex + COIN_SPEED * delta) % BASE_TEN;
     }
 
 }

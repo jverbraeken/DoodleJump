@@ -1,15 +1,15 @@
-package objects.doodles.Projectiles;
+package objects.doodles.projectiles;
 
 import objects.AGameObject;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
-import java.awt.Point;
+import java.awt.*;
 
 /**
  * A RegularProjectile, mostly spawned in the regular gaming mode.
  */
-public class RegularProjectile extends AGameObject {
+public final class RegularProjectile extends AGameObject {
 
     /**
      * The speed this projectile is going up.
@@ -23,10 +23,12 @@ public class RegularProjectile extends AGameObject {
 
     /**
      * Create and initialize a RegularProjectile.
-     * @param sL the servicelocator of this game.
-     * @param point the location.
+     *
+     * @param sL    the servicelocator of this game.
+     * @param point The location.
+     * @param xDir  The speed over the X-axis
      */
-    /* package */RegularProjectile(final IServiceLocator sL, final Point point, final int xDir, final int yDir) {
+    /* package */RegularProjectile(final IServiceLocator sL, final Point point, final int xDir) {
         super(sL, point, sL.getSpriteFactory().getRegularProjectileSprite(), RegularProjectile.class);
         xDirection = xDir;
     }
@@ -35,7 +37,8 @@ public class RegularProjectile extends AGameObject {
      * {@inheritDoc}
      */
     @Override
-    public void collidesWith(final IDoodle doodle) { }
+    public void collidesWith(final IDoodle doodle) {
+    }
 
     /**
      * {@inheritDoc}
