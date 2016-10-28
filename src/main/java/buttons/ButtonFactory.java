@@ -245,7 +245,7 @@ public final class ButtonFactory implements IButtonFactory {
             if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.invert.getRankRequired()) {
                 Game.setMode(Game.Modes.invert);
             } else {
-                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.invert.getRankRequired()).getName() + " rank required.")
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.invert.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
                 ChooseModeScreen.activePopup = true;
             }
@@ -265,7 +265,7 @@ public final class ButtonFactory implements IButtonFactory {
             if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.space.getRankRequired()) {
                 Game.setMode(Game.Modes.space);
             } else {
-                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.space.getRankRequired()).getName() + " rank required.")
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.space.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
                 ChooseModeScreen.activePopup = true;
             }
@@ -285,7 +285,7 @@ public final class ButtonFactory implements IButtonFactory {
             if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.underwater.getRankRequired()) {
                 Game.setMode(Game.Modes.underwater);
             } else {
-                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.underwater.getRankRequired()).getName() + " rank required.")
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.underwater.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
                 ChooseModeScreen.activePopup = true;
             }
