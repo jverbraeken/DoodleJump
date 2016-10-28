@@ -2,7 +2,7 @@ package objects.doodles.Projectiles;
 
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * The ProjectileFactory class, which creates Projectiles.

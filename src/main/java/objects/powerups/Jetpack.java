@@ -30,7 +30,7 @@ import java.awt.Point;
      * Jetpack constructor.
      *
      * @param serviceLocator The Game's service locator.
-     * @param point - The location for the Jetpack.
+     * @param point          - The location for the Jetpack.
      * @param level          The level of the Jetpack
      * @param activeSprites  The animation used when the Jetpack is flying
      * @param maxTime        The time in frames the Jetpack can fly
