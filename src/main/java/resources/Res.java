@@ -90,6 +90,8 @@ public final class Res implements IRes {
         sprites.put(Sprites.chooseMode, SPRITE_PATH + "mode-button2@2x.png");
         sprites.put(Sprites.shop, SPRITE_PATH + "shop@2x.png");
 
+        sprites.put(Sprites.popupOkButton, SPRITE_PATH + "popup-ok-button.png");
+
         // Covers
         sprites.put(Sprites.background, SPRITE_PATH + "bck@2x.png");
         sprites.put(Sprites.pauseCover, SPRITE_PATH + "pause-cover-3@2x.png");

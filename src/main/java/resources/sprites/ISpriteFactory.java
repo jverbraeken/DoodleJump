@@ -212,4 +212,5 @@ public interface ISpriteFactory extends IFactory {
 
     //Popup
     ISprite getPopupBackground();
+    ISprite getPopupOkButton();
 }

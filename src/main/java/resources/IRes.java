@@ -184,6 +184,7 @@ public interface IRes {
         // Miscellaneous
         waitDoNotShoot,
         avoid,
+        popupOkButton,
 
         // UFO
         ufo,
