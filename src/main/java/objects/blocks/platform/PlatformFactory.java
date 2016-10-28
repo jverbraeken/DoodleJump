@@ -20,11 +20,6 @@ public final class PlatformFactory implements IPlatformFactory {
     private PlatformFactory() { }
 
     /**
-     * Fifty-fifty chance.
-     */
-    private static final double FIFTY_FIFTY = 0.5d;
-
-    /**
      * Register the block factory into the service locator.
      *
      * @param sL the service locator.
@@ -79,7 +74,7 @@ public final class PlatformFactory implements IPlatformFactory {
      */
     @Override
     public IPlatform createBreakPlatform(final int x, final int y) {
-        ISprite sprite = serviceLocator.getSpriteFactory().getPlatformBrokenSprite1();
+        ISprite sprite = serviceLocator.getSpriteFactory().getPlatformBrokenSprite(1);
         IPlatform platform = new Platform(serviceLocator, x, y, sprite);
         IPlatform broken = new PlatformBroken(serviceLocator, platform);
 

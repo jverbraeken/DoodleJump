@@ -54,7 +54,7 @@ public class PlatformTest {
 
         sprite = mock(ISprite.class);
         sf = mock(ISpriteFactory.class);
-        when(sf.getPlatformBrokenSprite1()).thenReturn(sprite);
+        when(sf.getPlatformBrokenSprite(1)).thenReturn(sprite);
         when(sf.getPlatformSprite1()).thenReturn(sprite);
 
         serviceLocator = mock(IServiceLocator.class);

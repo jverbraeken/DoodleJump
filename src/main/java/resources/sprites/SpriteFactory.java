@@ -526,32 +526,19 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformBrokenSprite1() {
-        return this.getSprite(IRes.Sprites.platformBroken1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformBrokenSprite2() {
-        return this.getSprite(IRes.Sprites.platformBroken2);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformBrokenSprite3() {
-        return this.getSprite(IRes.Sprites.platformBroken3);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformBrokenSprite4() {
-        return this.getSprite(IRes.Sprites.platformBroken4);
+    public ISprite getPlatformBrokenSprite(final int index) {
+        if (index < 1 || index > 4) {
+            final String error = "The index of the platformBroken sprite must be between 1 and 4 (both inclusive)";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+        switch (index) {
+            case 1: return this.getSprite(IRes.Sprites.platformBroken1);
+            case 2: return this.getSprite(IRes.Sprites.platformBroken2);
+            case 3: return this.getSprite(IRes.Sprites.platformBroken3);
+            case 4: return this.getSprite(IRes.Sprites.platformBroken4);
+            default: return null;
+        }
     }
 
     /**
