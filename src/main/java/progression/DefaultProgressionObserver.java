@@ -4,7 +4,8 @@ import system.IServiceLocator;
 
 import java.util.concurrent.Callable;
 
-public abstract class DefaultProgressionObserver implements IProgressionObserver {
+/* package */ abstract class DefaultProgressionObserver implements IProgressionObserver {
+
     private Mission mission;
     private final IServiceLocator serviceLocator;
     private final int times;

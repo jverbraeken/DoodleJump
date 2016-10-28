@@ -77,145 +77,201 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawRectangle(final int x, final int y, final int width, final int height) {
+    public void drawRectangle(final Point point, final int width, final int height) {
         assert this.graphics != null;
 
-        String drawMsg = "drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        String drawMsg = "drawRectangle(" + point.getX() + ", " + point.getY() + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
-        this.graphics.drawRect(x, (int) (y - this.camera.getYPos()), width, height);
+        this.graphics.drawRect((int) point.getX(), (int) (point.getY() - this.camera.getYPos()), width, height);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawSprite(final ISprite sprite, final int x, final int y) {
+    public void drawSprite(final ISprite sprite, final Point point) {
         assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + point.getX() + ", " + point.getY() + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
-        this.graphics.drawImage(sprite.getImage(), x, (int) (y - this.camera.getYPos()), null);
+        this.graphics.drawImage(sprite.getImage(), (int) point.getX(), (int) (point.getY() - this.camera.getYPos()), null);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawSprite(final ISprite sprite, final int x, final int y, final int width, final int height) {
+    public void drawSprite(final ISprite sprite, final Point point, final double theta) {
         assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        String drawMsg = "drawSprite(" + sprite.getName() + ", " + x + ", " + y + ", " + width + ", " + height + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + point.getX() + ", " + point.getY() + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
-        this.graphics.drawImage(sprite.getImage(), x, (int) (y - this.camera.getYPos()), width, height, null);
+        double halfWidth = (sprite.getWidth() / 2);
+        double halfHeight = (sprite.getHeight() / 2);
+        double translateX = point.getX() + halfWidth;
+        double translateY = point.getY() - this.camera.getYPos() + halfHeight;
+
+        this.graphics.translate(translateX, translateY);
+        this.graphics.rotate(theta);
+        this.graphics.translate(-halfWidth, -halfHeight);
+        this.graphics.drawImage(sprite.getImage(), 0, 0, null);
+        this.graphics.translate(halfWidth, halfHeight);
+        this.graphics.rotate(-theta);
+        this.graphics.translate(-translateX, -translateY);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawRectangleHUD(final int x, final int y, final int width, final int height) {
-        assert this.graphics != null;
-
-        this.logger.info("drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
-        this.graphics.drawRect(x, y, width, height);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void drawSpriteHUD(final ISprite sprite, final int x, final int y) {
-        assert this.graphics != null;
-        if (sprite == null) {
-            throw new IllegalArgumentException("A null image is not allowed");
-        }
-
-        this.logger.info("drawImage(" + x + ", " + y + ")");
-        this.graphics.drawImage(sprite.getImage(), x, y, null);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void drawSpriteHUD(final ISprite sprite, final int x, final int y, final int width, final int height) {
+    public void drawSprite(final ISprite sprite, final Point point, final int width, final int height) {
         assert this.graphics != null;
         if (sprite == null) {
             throw new IllegalArgumentException("A null image is not allowed");
         }
 
-        this.logger.info("drawSprite(" + x + ", " + y + ")");
-        this.graphics.drawImage(sprite.getImage(), x, y, width, height, null);
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + point.getX() + ", " + point.getY() + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
+        this.logger.info(drawMsg + cameraMsg);
+
+        this.graphics.drawImage(sprite.getImage(), (int) point.getX(), (int) (point.getY() - this.camera.getYPos()), width, height, null);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawText(final int x, final int y, final String msg) {
+    public void drawSprite(final ISprite sprite, final Point point, final int width, final int height, final double theta) {
         assert this.graphics != null;
-        drawText(x, y, msg, TextAlignment.left);
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
+
+        String drawMsg = "drawSprite(" + sprite.getName() + ", " + point.getX() + ", " + point.getY() + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
+        this.logger.info(drawMsg + cameraMsg);
+
+        double halfWidth = (sprite.getWidth() / 2);
+        double halfHeight = (sprite.getHeight() / 2);
+        double translateX = point.getX() + halfWidth;
+        double translateY = point.getY() - this.camera.getYPos() + halfHeight;
+
+        this.graphics.translate(translateX, translateY);
+        this.graphics.rotate(theta);
+        this.graphics.translate(-halfWidth, -halfHeight);
+        this.graphics.drawImage(sprite.getImage(), 0, 0, width, height, null);
+        this.graphics.translate(halfWidth, halfHeight);
+        this.graphics.rotate(-theta);
+        this.graphics.translate(-translateX, -translateY);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawTextHUD(final int x, final int y, final String msg) {
+    public void drawRectangleHUD(final Point point, final int width, final int height) {
         assert this.graphics != null;
-        drawTextHUD(x, y, msg, TextAlignment.left);
+
+        this.logger.info("drawRectangle(" + point.getX() + ", " + point.getY() + ", " + width + ", " + height + ")");
+        this.graphics.drawRect((int) point.getX(), (int) point.getY(), width, height);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawText(final int x, final int y, final String msg, final TextAlignment alignment) {
+    public void drawSpriteHUD(final ISprite sprite, final Point point) {
+        assert this.graphics != null;
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
+
+        this.logger.info("drawImage(" + point.getX() + ", " + point.getY() + ")");
+        this.graphics.drawImage(sprite.getImage(), (int) point.getX(), (int) point.getY(), null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawSpriteHUD(final ISprite sprite, final Point point, final int width, final int height) {
+        assert this.graphics != null;
+        if (sprite == null) {
+            throw new IllegalArgumentException("A null image is not allowed");
+        }
+
+        this.logger.info("drawSprite(" + point.getX() + ", " + point.getY() + ")");
+        this.graphics.drawImage(sprite.getImage(), (int) point.getX(), (int) point.getY(), width, height, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawText(final Point point, final String msg) {
+        assert this.graphics != null;
+        drawText(point, msg, TextAlignment.left);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawTextHUD(final Point point, final String msg) {
+        assert this.graphics != null;
+        drawTextHUD(point, msg, TextAlignment.left);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawText(final Point point, final String msg, final TextAlignment alignment) {
         assert graphics != null;
-        drawText(x, (int) (y - camera.getYPos()), msg, alignment, Color.white);
+        drawText(new Point((int) point.getX(), (int) (point.getY() - camera.getYPos())), msg, alignment, Color.white);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawTextHUD(final int x, final int y, final String msg, final TextAlignment alignment) {
+    public void drawTextHUD(final Point point, final String msg, final TextAlignment alignment) {
         assert graphics != null;
-        drawTextHUD(x, y, msg, alignment, Color.white);
+        drawTextHUD(point,  msg, alignment, Color.white);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawText(final int x, final int y, final String msg, final Color color) {
+    public void drawText(final Point point, final String msg, final Color color) {
         assert this.graphics != null;
-        drawText(x, y, msg, TextAlignment.left, color);
+        drawText(point, msg, TextAlignment.left, color);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawTextExtraOptions(final int x, final int y, final String msg, final Color color, final double rotation, final int fontSize) {
+    public void drawTextExtraOptions(final Point point, final String msg, final Color color, final double rotation, final int fontSize) {
         assert this.graphics != null;
         java.awt.Color currentColor = graphics.getColor();
-        int xPos = prepareDrawText(x, y, msg, TextAlignment.center, color.getColor(), FONT.deriveFont(Font.BOLD, fontSize));
-        graphics.rotate(rotation, xPos, y);
-        graphics.drawString(msg, xPos, y);
-        this.logger.info("drawString(" + x + ", " + y + ", " + msg + ", " + color.name());
+        int xPos = prepareDrawText(point, msg, TextAlignment.center, color.getColor(), FONT.deriveFont(Font.BOLD, fontSize));
+        graphics.rotate(rotation, xPos, point.getY());
+        graphics.drawString(msg, xPos, (int) point.getY());
+        this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + color.name());
 
         graphics.setColor(currentColor);
     }
@@ -224,22 +280,22 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawTextHUD(final int x, final int y, final String msg, final Color color) {
+    public void drawTextHUD(final Point point, final String msg, final Color color) {
         assert this.graphics != null;
-        drawTextHUD(x, y, msg, TextAlignment.left, color);
+        drawTextHUD(point, msg, TextAlignment.left, color);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void drawTextNoAjustments(final int x, final int y, final String msg, final TextAlignment alignment, final Color color) {
+    public void drawTextNoAjustments(final Point point, final String msg, final TextAlignment alignment, final Color color) {
         assert graphics != null;
         java.awt.Color currentColor = graphics.getColor();
 
-        int xPos = prepareDrawText(x, y, msg, alignment, color.getColor(), FONT50);
-        graphics.drawString(msg, xPos, y);
-        this.logger.info("drawString(" + x + ", " + y + ", " + msg + ", " + alignment.name() + ", " + color.name());
+        int xPos = prepareDrawText(point, msg, alignment, color.getColor(), FONT50);
+        graphics.drawString(msg, xPos, (int) point.getY());
+        this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + alignment.name() + ", " + color.name());
 
         graphics.setColor(currentColor);
     }
@@ -248,13 +304,13 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawText(final int x, final int y, final String msg, final TextAlignment alignment, final Color color) {
+    public void drawText(final Point point, final String msg, final TextAlignment alignment, final Color color) {
         assert graphics != null;
         java.awt.Color currentColor = graphics.getColor();
 
-        int xPos = prepareDrawText(x, y, msg, alignment, color.getColor(), FONT50);
-        graphics.drawString(msg, xPos, (int) (y - camera.getYPos()));
-        this.logger.info("drawString(" + x + ", " + y + ", " + msg + ", " + alignment.name() + ", " + color.name());
+        int xPos = prepareDrawText(point, msg, alignment, color.getColor(), FONT50);
+        graphics.drawString(msg, (int) point.getX(), (int) (point.getY() - camera.getYPos()));
+        this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + alignment.name() + ", " + color.name());
 
         graphics.setColor(currentColor);
     }
@@ -263,13 +319,13 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawTextHUD(final int x, final int y, final String msg, final TextAlignment alignment, final Color color) {
+    public void drawTextHUD(final Point point, final String msg, final TextAlignment alignment, final Color color) {
         assert graphics != null;
         java.awt.Color currentColor = graphics.getColor();
 
-        int xPos = prepareDrawText(x, y, msg, alignment, color.getColor(), FONT50);
-        graphics.drawString(msg, xPos, y);
-        this.logger.info("drawString(" + x + ", " + y + ", " + msg + ", " + alignment.name() + ", " + color.name());
+        int xPos = prepareDrawText(point, msg, alignment, color.getColor(), FONT50);
+        graphics.drawString(msg, xPos, (int) point.getY());
+        this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + alignment.name() + ", " + color.name());
 
         graphics.setColor(currentColor);
     }
@@ -278,16 +334,16 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void fillRectangle(final int x, final int y, final int width, final int height, final Color color) {
+    public void fillRectangle(final Point point, final int width, final int height, final Color color) {
         assert this.graphics != null;
 
-        String drawMsg = "drawRectangle(" + x + ", y" + ", " + width + ", " + height + ") - ";
-        String cameraMsg = "Camera corrected Y-position = " + (y - this.camera.getYPos());
+        String drawMsg = "drawRectangle(" + point.getX() + ", " + point.getY() + ", " + width + ", " + height + ") - ";
+        String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
         java.awt.Color currentColor = graphics.getColor();
         graphics.setColor(color.getColor());
-        graphics.fillRect(x, (int) (y - camera.getYPos()), width, height);
+        graphics.fillRect((int) point.getX(), (int) (point.getY() - camera.getYPos()), width, height);
         graphics.setColor(currentColor);
     }
 
@@ -326,26 +382,26 @@ public final class Renderer implements IRenderer {
         this.camera = c;
     }
 
-    private int prepareDrawText(final int x, final int y, final String msg, final TextAlignment alignment, final java.awt.Color color, final Font font) {
+    private int prepareDrawText(final Point point, final String msg, final TextAlignment alignment, final java.awt.Color color, final Font font) {
         graphics.setFont(font);
         graphics.setColor(color);
-        int xPos = x;
+        double xPos = point.getX();
         switch (alignment) {
             case left:
-                xPos = x;
+                xPos = point.getX();
                 break;
             case center:
-                xPos = x - graphics.getFontMetrics().stringWidth(msg) / 2;
+                xPos = point.getX() - graphics.getFontMetrics().stringWidth(msg) / 2;
                 break;
             case right:
-                xPos = x - graphics.getFontMetrics().stringWidth(msg);
+                xPos = point.getX() - graphics.getFontMetrics().stringWidth(msg);
                 break;
             default:
                 final String error = "The text alignment enum constant could not be identified: " + alignment.toString();
                 logger.error(error);
                 throw new InternalError(error);
         }
-        return xPos;
+        return (int) xPos;
     }
 
 }

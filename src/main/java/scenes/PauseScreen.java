@@ -8,6 +8,7 @@ import rendering.Color;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.List;
 
 /**
@@ -102,18 +103,18 @@ import java.util.List;
         assert resumeButton != null;
         assert coinSprites[(int) coinSpriteIndex] != null;
 
-        serviceLocator.getRenderer().drawSpriteHUD(background, 0, 0);
+        serviceLocator.getRenderer().drawSpriteHUD(background, new Point(0, 0));
 
         resumeButton.render();
 
         ISprite coinSprite = this.coinSprites[(int) coinSpriteIndex];
         final int coinX = MARGIN + coinSprite.getHeight() / 2 - (int) (((double) coinSprite.getWidth() / (double) coinSprite.getHeight()) * (double) coinSprite.getHeight() / 2d);
         final int coinY = serviceLocator.getSpriteFactory().getScoreBarSprite().getHeight();
-        serviceLocator.getRenderer().drawSpriteHUD(coinSprite, coinX, coinY);
+        serviceLocator.getRenderer().drawSpriteHUD(coinSprite, new Point(coinX, coinY));
 
         final int coinTextX = MARGIN + coinSprite.getHeight() + MARGIN;
         final int coinTextY = coinY + coinSprite.getHeight() / 2;
-        serviceLocator.getRenderer().drawTextHUD(coinTextX, coinTextY, Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
+        serviceLocator.getRenderer().drawTextHUD(new Point(coinTextX, coinTextY), Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
 
         final List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
         final int missionSpriteHeight = serviceLocator.getSpriteFactory().getAchievementSprite().getHeight();

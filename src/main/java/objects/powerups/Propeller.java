@@ -3,6 +3,9 @@ package objects.powerups;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
+import java.awt.Point;
+
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Propeller powerup.
@@ -37,6 +40,10 @@ import system.IServiceLocator;
      * The refresh rate for the active animation.
      */
     private static final int ANIMATION_REFRESH_RATE = 3;
+    /**
+     * Angle per frame when falling.
+     */
+    private static final double ANGLE_PER_FRAME = 0.05;
 
     /**
      * The sprites for an active Propeller.
@@ -58,16 +65,19 @@ import system.IServiceLocator;
      * The vertical speed of the Propeller.
      */
     private double vSpeed = 0d;
+    /**
+     * The current rotation angle of the jetpack.
+     */
+    private double theta = 0;
 
     /**
      * Propeller constructor.
      *
      * @param sL - The Games service locator.
-     * @param x  - The X location for the Propeller.
-     * @param y  - The Y location for the Propeller.
+     * @param point  - The location for the Propeller.
      */
-    /* package */ Propeller(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);
+    /* package */ Propeller(final IServiceLocator sL, final Point point) {
+        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);
         Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
     }
 
@@ -113,6 +123,27 @@ import system.IServiceLocator;
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void render() {
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()), this.theta);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void endPowerup() {
+        this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
+        this.vSpeed = INITIAL_DROP_SPEED;
+
+        this.owner.removePowerup(this);
+        this.owner.getWorld().addDrawable(this);
+        this.owner.getWorld().addUpdatable(this);
+        this.owner = null;
+    }
 
     /**
      * Update method for when the Propeller is owned.
@@ -144,6 +175,7 @@ import system.IServiceLocator;
     private void updateFalling() {
         this.applyGravity();
         this.addXPos(HORIZONTAL_SPEED);
+        this.theta += Propeller.ANGLE_PER_FRAME;
     }
 
     /**
@@ -152,20 +184,6 @@ import system.IServiceLocator;
     private void applyGravity() {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         this.addYPos(this.vSpeed);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void endPowerup() {
-        this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
-        this.vSpeed = INITIAL_DROP_SPEED;
-
-        this.owner.removePowerup(this);
-        this.owner.getWorld().addDrawable(this);
-        this.owner.getWorld().addUpdatable(this);
-        this.owner = null;
     }
 
 }

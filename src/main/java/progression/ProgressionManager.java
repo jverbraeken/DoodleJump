@@ -201,7 +201,13 @@ public final class ProgressionManager implements IProgressionManager {
             logger.error(error);
             throw new IllegalArgumentException(error);
         }
-        return powerupLevels.get(powerup);
+
+        if (powerupLevels.get(powerup) == null) {
+            logger.warning("The powerupLevels for the powerup " + powerup.toString() + " are missing");
+            return 0;
+        } else {
+            return powerupLevels.get(powerup);
+        }
     }
 
     /**
@@ -233,7 +239,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void addExperience(final int amount) {
-        assert amount >= 0;
+        if (amount<0) {throw new IllegalArgumentException("Error: amount is negative.");}
         experience += amount;
         this.setRankAccordingExperience();
         saveData();

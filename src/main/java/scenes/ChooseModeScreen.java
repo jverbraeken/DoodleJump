@@ -15,6 +15,7 @@ import system.IServiceLocator;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.awt.Point;
 
 /**
  * This class is a scene that is displays when the doodle dies in a world.
@@ -160,9 +161,9 @@ import java.util.ArrayList;
      */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
+        serviceLocator.getRenderer().drawSpriteHUD(this.background, new Point(0, 0));
         double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomChooseModeScreen.getHeight();
-        serviceLocator.getRenderer().drawSpriteHUD(this.bottomChooseModeScreen, 0, (int) y);
+        serviceLocator.getRenderer().drawSpriteHUD(this.bottomChooseModeScreen, new Point(0, (int) y));
         buttons.forEach(IRenderable::render);
         renderByRank();
 

@@ -11,6 +11,7 @@ import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
+import java.awt.Point;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -50,7 +51,7 @@ public class JetpackTest {
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(spriteFactory.getJetpackActiveSprites()).thenReturn(spritePack);
 
-        jetpack = new Jetpack(serviceLocator, 0, 0);
+        jetpack = new Jetpack(serviceLocator, new Point(0, 0));
     }
 
     @Test
@@ -68,7 +69,7 @@ public class JetpackTest {
     @Test
     public void testRenderNoOwner() {
         jetpack.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, new Point(0, 0), 0);
         verify(doodle, times(0)).getXPos();
         verify(doodle, times(0)).getYPos();
     }
@@ -77,7 +78,7 @@ public class JetpackTest {
     public void testRenderWithOwner() {
         jetpack.collidesWith(doodle);
         jetpack.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, new Point(0, 0), 0);
     }
 
     @Test
@@ -94,7 +95,7 @@ public class JetpackTest {
         verify(doodle, times(0)).setVerticalSpeed(anyDouble());
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testPerformNoOwner() {
         jetpack.perform(PowerupOccasion.constant);
     }

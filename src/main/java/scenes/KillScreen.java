@@ -12,6 +12,8 @@ import rendering.TextAlignment;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
@@ -160,29 +162,29 @@ import system.IServiceLocator;
         IConstants constants = this.serviceLocator.getConstants();
         IRenderer renderer = this.serviceLocator.getRenderer();
 
-        renderer.drawSpriteHUD(this.background, 0, 0);
+        renderer.drawSpriteHUD(this.background, new Point(0, 0));
         renderer.drawSpriteHUD(this.gameOverSprite,
-                (int) (constants.getGameWidth() * KillScreen.GAME_OVER_TEXT_X),
-                (int) (constants.getGameHeight() * KillScreen.GAME_OVER_TEXT_Y));
+                new Point((int) (constants.getGameWidth() * KillScreen.GAME_OVER_TEXT_X),
+                (int) (constants.getGameHeight() * KillScreen.GAME_OVER_TEXT_Y)));
 
         double y = (double) constants.getGameHeight() - (double) this.bottomKillScreen.getHeight();
-        renderer.drawSpriteHUD(this.bottomKillScreen, 0, (int) y);
+        renderer.drawSpriteHUD(this.bottomKillScreen, new Point(0, (int) y));
         this.playAgainButton.render();
         this.mainMenuButton.render();
 
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         Ranks rank = progressionManager.getRank();
-        renderer.drawTextNoAjustments(
+        renderer.drawTextNoAjustments(new Point(
                 (int) (constants.getGameWidth() * KillScreen.SCORE_TEXT_X),
-                (int) (constants.getGameHeight() * KillScreen.SCORE_TEXT_Y),
+                (int) (constants.getGameHeight() * KillScreen.SCORE_TEXT_Y)),
                 "Score: " + score, TextAlignment.left, Color.black);
-        renderer.drawTextNoAjustments(
+        renderer.drawTextNoAjustments(new Point(
                 (int) (constants.getGameWidth() * KillScreen.RANK_TEXT_X),
-                (int) (constants.getGameHeight() * KillScreen.RANK_TEXT_Y),
+                (int) (constants.getGameHeight() * KillScreen.RANK_TEXT_Y)),
                 "Rank: " + rank.getName(), TextAlignment.left, Color.black);
-        renderer.drawTextExtraOptions(
+        renderer.drawTextExtraOptions(new Point(
                 (int) (constants.getGameWidth() * KillScreen.EXP_TEXT_X),
-                (int) (constants.getGameHeight() * KillScreen.EXP_TEXT_Y),
+                (int) (constants.getGameHeight() * KillScreen.EXP_TEXT_Y)),
                 "+" + expCount + " exp", Color.darkBlue, 0, expFontSize);
     }
 

@@ -2,9 +2,11 @@ package objects.powerups;
 
 import logging.ILogger;
 import objects.IGameObject;
+import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public final class PowerupFactory implements IPowerupFactory {
      * The boosts per level of {@link ATrampoline trampoline} powerups.
      */
     private static final int[] BOOST_TRAMPOLINE = new int[]{-40, -55, -70};
+
     /**
      * Used to gain access to all services.
      */
@@ -62,18 +65,10 @@ public final class PowerupFactory implements IPowerupFactory {
      * {@inheritDoc}
      */
     @Override
-    public IGameObject createJetpack(final int x, final int y) {
-        logger.info("A new Jetpack has been created");
-        return new Jetpack(serviceLocator, x, y);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public IGameObject createPropeller(final int x, final int y) {
         logger.info("A new Propeller has been created");
-        return new Propeller(serviceLocator, x, y);
+        final Point point = new Point(x, y);
+        return new Propeller(serviceLocator, point);
     }
 
     /**
@@ -82,7 +77,8 @@ public final class PowerupFactory implements IPowerupFactory {
     @Override
     public IGameObject createSizeDown(final int x, final int y) {
         logger.info("A new SizeDown has been created");
-        return new SizeDown(serviceLocator, x, y);
+        final Point point = new Point(x, y);
+        return new SizeDown(serviceLocator, point);
     }
 
     /**
@@ -91,7 +87,8 @@ public final class PowerupFactory implements IPowerupFactory {
     @Override
     public IGameObject createSizeUp(final int x, final int y) {
         logger.info("A new SizeUp has been created");
-        return new SizeUp(serviceLocator, x, y);
+        final Point point = new Point(x, y);
+        return new SizeUp(serviceLocator, point);
     }
 
     /**
@@ -102,20 +99,22 @@ public final class PowerupFactory implements IPowerupFactory {
         final Powerups type = Powerups.spring;
         final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        final Point point = new Point(x, y);
         ASpring spring;
         switch (level) {
             case 1:
                 logger.info("A new Spring has been created");
-                spring = new Spring(serviceLocator, x, y, spriteFactory.getPowerupSprite(type, 1), spriteFactory.getSpringUsedSprite(1), BOOST_SPRING[level - 1]);
+                ISprite[] sprites = {spriteFactory.getPowerupSprite(type, level), spriteFactory.getSpringUsedSprite(level)};
+                spring = new Spring(serviceLocator, point, sprites, BOOST_SPRING[level - 1]);
                 break;
             case 2:
                 logger.info("A new Double Spring has been created");
-                spring = new Spring(serviceLocator, x, y, spriteFactory.getPowerupSprite(type, 2), spriteFactory.getSpringUsedSprite(2), BOOST_SPRING[level - 1]);
-                break;
+                ISprite[] sprites2 = {spriteFactory.getPowerupSprite(type, level), spriteFactory.getSpringUsedSprite(level)};
+                spring = new Spring(serviceLocator, point, sprites2, BOOST_SPRING[level - 1]);break;
             case 3:
                 logger.info("A new Titanium Spring has been created");
-                spring = new Spring(serviceLocator, x, y, spriteFactory.getPowerupSprite(type, 3), spriteFactory.getSpringUsedSprite(3), BOOST_SPRING[level - 1]);
-                break;
+                ISprite[] sprites3 = {spriteFactory.getPowerupSprite(type, level), spriteFactory.getSpringUsedSprite(level)};
+                spring = new Spring(serviceLocator, point, sprites3, BOOST_SPRING[level - 1]);break;
             default:
                 logger.warning("The level of the " + type.name() + " is " + (level < 1 ? "lower" : "higher") + " than the PowerupFactory can handle: " + level);
                 return null;
@@ -132,7 +131,8 @@ public final class PowerupFactory implements IPowerupFactory {
     @Override
     public IGameObject createSpringShoes(final int x, final int y) {
         logger.info("A new pair of Spring Shoes has been created");
-        return new SpringShoes(serviceLocator, x, y);
+        final Point point = new Point(x, y);
+        return new SpringShoes(serviceLocator,point);
     }
 
     /**
@@ -143,19 +143,23 @@ public final class PowerupFactory implements IPowerupFactory {
         final Powerups type = Powerups.trampoline;
         final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
+        final Point point = new Point(x, y);
         ATrampoline trampoline;
         switch (level) {
             case 1:
                 logger.info("A new Spring has been created");
-                trampoline = new Trampoline(serviceLocator, x, y, spriteFactory.getPowerupSprite(type, 1), spriteFactory.getTrampolineUsedSprite(1), BOOST_TRAMPOLINE[level - 1]);
+                ISprite[] sprites = {spriteFactory.getPowerupSprite(type, level), spriteFactory.getTrampolineUsedSprite(level)};
+                trampoline = new Trampoline(serviceLocator, point, sprites, BOOST_TRAMPOLINE[level - 1]);
                 break;
             case 2:
                 logger.info("A new Double Spring has been created");
-                trampoline = new Trampoline(serviceLocator, x, y, spriteFactory.getPowerupSprite(type, 2), spriteFactory.getTrampolineUsedSprite(2), BOOST_TRAMPOLINE[level - 1]);
+                ISprite[] sprites2 = {spriteFactory.getPowerupSprite(type, level), spriteFactory.getTrampolineUsedSprite(level)};
+                trampoline = new Trampoline(serviceLocator, point, sprites2, BOOST_TRAMPOLINE[level - 1]);
                 break;
             case 3:
                 logger.info("A new Titanium Spring has been created");
-                trampoline = new Trampoline(serviceLocator, x, y, spriteFactory.getPowerupSprite(type, 3), spriteFactory.getTrampolineUsedSprite(3), BOOST_TRAMPOLINE[level - 1]);
+                ISprite[] sprites3 = {spriteFactory.getPowerupSprite(type, level), spriteFactory.getTrampolineUsedSprite(level)};
+                trampoline = new Trampoline(serviceLocator, point, sprites3, BOOST_TRAMPOLINE[level - 1]);
                 break;
             default:
                 logger.warning("The level of the " + type.name() + " is " + (level < 1 ? "lower" : "higher") + " than the PowerupFactory can handle: " + level);
@@ -165,6 +169,30 @@ public final class PowerupFactory implements IPowerupFactory {
             observer.trampolineCreated(trampoline);
         }
         return trampoline;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IGameObject createJetpack(final int x, final int y) {
+        final Powerups type = Powerups.jetpack;
+        final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
+        final Point point = new Point(x, y);
+        switch (level) {
+            case 1:
+                logger.info("A new Jetpack has been created");
+                return new Jetpack(serviceLocator, point);
+            case 2:
+                logger.info("A new Afterburner has been created");
+                return new Afterburner(serviceLocator, point);
+            case 3:
+                logger.info("A new SpaceRocket has been created");
+                return new SpaceRocket(serviceLocator, point);
+            default:
+                logger.warning("The level of the " + type.name() + " is " + (level < 1 ? "lower" : "higher") + " than the PowerupFactory can handle: " + level);
+                return null;
+        }
     }
 
     /**
