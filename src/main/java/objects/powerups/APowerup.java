@@ -70,7 +70,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
         double[] powHitbox = this.getHitBox();
         final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
         setXPos(setXPosOfPowerup(powerupXPos, (int) platform.getXPos(), platformWidth));
-        setYPos((int) platform.getYPos() - platformHeight / 2 - powerupHeight / 2);
+        setYPos((int) platform.getYPos() - powerupHeight);
     }
 
     /**
