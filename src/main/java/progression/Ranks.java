@@ -92,14 +92,13 @@ public enum Ranks {
     }
 
     /**
-     * Returns the first Ranks corresponding to the levelNumber. If none
-     * is found, returns null;
+     * Returns the first Ranks corresponding to the levelNumber. If none is found, returns null.
      * @return the first Ranks corresponding to the levelNumber.
      */
     public static Ranks getRankByLevelNumber(final int levelNumber) {
-        for (Ranks r : Ranks.values()) {
-            if (r.getLevelNumber() == levelNumber) {
-                return r;
+        for (Ranks rank : Ranks.values()) {
+            if (rank.getLevelNumber() == levelNumber) {
+                return rank;
             }
         }
         return null;

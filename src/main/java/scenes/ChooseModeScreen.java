@@ -6,21 +6,20 @@ import constants.IConstants;
 import logging.ILogger;
 import progression.IProgressionManager;
 import progression.Ranks;
-import rendering.*;
 import rendering.Color;
+import rendering.IRenderer;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
 import system.IServiceLocator;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.awt.Point;
 
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-public class ChooseModeScreen implements IScene {
+/* package */ class ChooseModeScreen implements IScene {
 
     /**
      * X & Y location in relation to the frame of the regular mode button.
@@ -161,18 +160,16 @@ public class ChooseModeScreen implements IScene {
      */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSpriteHUD(this.background, new Point(0, 0));
-        double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomChooseModeScreen.getHeight();
-        serviceLocator.getRenderer().drawSpriteHUD(this.bottomChooseModeScreen, new Point(0, (int) y));
-        //buttons.forEach(IButton::register);
-        buttons.forEach(IRenderable::render);
+        this.serviceLocator.getRenderer().drawSpriteHUD(this.background, new Point(0, 0));
+        double y = (double) this.serviceLocator.getConstants().getGameHeight() - (double) bottomChooseModeScreen.getHeight();
+        this.serviceLocator.getRenderer().drawSpriteHUD(this.bottomChooseModeScreen, new Point(0, (int) y));
+        this.buttons.forEach(IRenderable::render);
         renderByRank();
 
-        if(activePopup) {
-            buttons.forEach(IButton::deregister);
-            //renderPopup();
+        if (ChooseModeScreen.activePopup) {
+            this.buttons.forEach(IButton::deregister);
         } else {
-            buttons.forEach(IButton::register);
+            this.buttons.forEach(IButton::register);
         }
     }
 
@@ -187,8 +184,6 @@ public class ChooseModeScreen implements IScene {
      * Renders the popup with a message given in the attribute.
      */
     private void renderPopup() {
-        IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
-        //Ranks rank = progressionManager.getRank();
         IConstants constants = this.serviceLocator.getConstants();
         IRenderer renderer = this.serviceLocator.getRenderer();
 
