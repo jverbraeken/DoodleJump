@@ -30,6 +30,7 @@ public interface ISpriteFactory extends IFactory {
     ISprite getChooseModeButtonSprite();
 
     ISprite getShopButtonSprite();
+
     // Covers
     ISprite getBackground();
 
@@ -157,27 +158,24 @@ public interface ISpriteFactory extends IFactory {
 
     /**
      * Returns a list with sprites when a doodle has collided with a jetpack.
+     *
      * @return list of sprites.
      */
     ISprite[] getJetpackActiveSprites();
 
     /**
      * Returns a list with sprites when a doodle has collided with a propeller.
+     *
      * @return list of sprites.
      */
     ISprite[] getPropellerActiveSprites();
 
     /**
      * Returns a list with sprites when a doodle has collided with a space rocket.
+     *
      * @return list of sprites.
      */
     ISprite[] getSpaceRocketActiveSprites();
-
-    /**
-     * Returns a list with sprites when a doodle has collided with an afterburner.
-     * @return list of sprites.
-     */
-    ISprite[] getAfterburnerActiveSprites();
 
     // Projectiles
     ISprite getRegularProjectileSprite();

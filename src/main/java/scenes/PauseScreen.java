@@ -177,7 +177,7 @@ import java.util.Map;
         this.resumeButton.deregister();
         this.logger.info("The resume button is no longer available");
 
-        if(mode.equals(PauseScreenModes.shop)) {
+        if (mode == PauseScreenModes.shop) {
             this.stopShopCover();
         } else {
             this.switchShopButton.deregister();
@@ -204,10 +204,9 @@ import java.util.Map;
         final int coinTextY = coinY + coinSprite.getHeight() / 2;
         serviceLocator.getRenderer().drawTextHUD(coinTextX, coinTextY, Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
 
-        if(mode.equals(PauseScreenModes.mission)) {
+        if (mode == PauseScreenModes.mission) {
             this.renderMissions(coinY + coinSprite.getHeight());
-        }
-        else {
+        } else {
             this.renderShop();
         }
     }
@@ -220,7 +219,7 @@ import java.util.Map;
         final List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
         final int missionSpriteHeight = serviceLocator.getSpriteFactory().getAchievementSprite().getHeight();
         for (int i = 0; i < missions.size(); i++) {
-            missions.get(i).render(y + MARGIN  + i * (missionSpriteHeight + DISTANCE_BETWEEN_MISSIONS));
+            missions.get(i).render(y + MARGIN + i * (missionSpriteHeight + DISTANCE_BETWEEN_MISSIONS));
         }
     }
 
@@ -231,8 +230,7 @@ import java.util.Map;
         assert switchMissionButton != null;
 
         this.switchMissionButton.render();
-        for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet())
-        {
+        for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet()) {
             entry.getValue().render();
         }
         this.drawText();
@@ -244,11 +242,10 @@ import java.util.Map;
     private void setShopCover() {
         this.switchMissionButton.register();
         this.logger.info("The switch button to the mission cover is now available");
-        if(buttonMap.size() == 0) {
+        if (buttonMap.size() == 0) {
             this.createPowerupbutton();
         }
-        for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet())
-        {
+        for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet()) {
             entry.getValue().register();
         }
         this.logger.info("The powerup buttons are now available");
@@ -258,8 +255,7 @@ import java.util.Map;
      * Deactivates the buttons of the powerups that are displaying.
      */
     private void stopShopCover() {
-        for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet())
-        {
+        for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet()) {
             entry.getValue().deregister();
         }
         this.logger.info("The powerup buttons are no longer available");
@@ -272,7 +268,7 @@ import java.util.Map;
      */
     public void switchDisplay(PauseScreenModes mode) {
         this.mode = mode;
-        if(this.mode.equals(PauseScreenModes.mission)) {
+        if (this.mode.equals(PauseScreenModes.mission)) {
             this.stopShopCover();
             this.switchShopButton.register();
             this.logger.info("The switch button to the shop cover is now available");
@@ -320,8 +316,8 @@ import java.util.Map;
      * Draws the text consisting of the current level of the powerup and the cost to activate/upgrade it
      *
      * @param powerup The type of powerup
-     * @param x The relative X-position of the text.
-     * @param y The relative Y-position of the text.
+     * @param x       The relative X-position of the text.
+     * @param y       The relative Y-position of the text.
      */
     private void drawPowerupText(final Powerups powerup, final double x, final double y) {
         final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
@@ -336,8 +332,7 @@ import java.util.Map;
         if (level < powerup.getMaxLevel()) {
             final int price = powerup.getPrice(level + 1);
             string = ((level == 0) ? "X" : level) + " - " + price;
-        }
-        else {
+        } else {
             string = Integer.toString(level);
         }
         final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup) + 1).getHeight() / 2;
