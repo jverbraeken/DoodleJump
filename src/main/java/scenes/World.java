@@ -254,6 +254,8 @@ public class World implements IScene {
      *
      * @param doodle The Doodle to check the collisions for.
      */
+    // We suppress the PMD warning here because there's a bug in PMD that causes it to not noticing the usage of this private method
+    @SuppressWarnings("PMD.UnusedPrivateMethod")
     private void checkCollisions(final IDoodle doodle) {
         assert doodle != null;
         if (doodle.isAlive()) {

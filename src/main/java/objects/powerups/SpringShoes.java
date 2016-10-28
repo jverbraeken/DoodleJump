@@ -85,7 +85,7 @@ import system.IServiceLocator;
         } else if (this.owner != null) {
             int xPos = (int) owner.getXPos()
                     + owner.getSprite().getWidth() / 2
-                    - (this.getSprite().getWidth() / 2);
+                    - this.getSprite().getWidth() / 2;
             int yPos = (int) owner.getYPos()
                     + owner.getSprite().getHeight();
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), xPos, yPos);

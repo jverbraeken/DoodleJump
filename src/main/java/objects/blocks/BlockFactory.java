@@ -114,7 +114,7 @@ public final class BlockFactory implements IBlockFactory {
 
         IPlatform topJumpable = placeInitialStartBlockPlatforms(elements);
         IPlatform nowHighest = placeStartBlockPlatforms(elements, topJumpable, platformAmount, heightDividedPlatforms);
-        return new Block(serviceLocator, elements, nowHighest);
+        return new Block(elements, nowHighest);
     }
 
     /**
@@ -129,7 +129,7 @@ public final class BlockFactory implements IBlockFactory {
 
         IJumpable newTopJumpable = placeBlockPlatforms(elements, topJumpable, platformAmount, heightDividedPlatforms);
 
-        return new Block(serviceLocator, elements, newTopJumpable);
+        return new Block(elements, newTopJumpable);
     }
 
     /**

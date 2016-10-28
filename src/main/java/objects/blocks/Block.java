@@ -2,7 +2,6 @@ package objects.blocks;
 
 import objects.IGameObject;
 import objects.IJumpable;
-import system.IServiceLocator;
 
 import java.util.Set;
 
@@ -28,11 +27,10 @@ import java.util.Set;
     /**
      * Package protected constructor so only the BlockFactory can create blocks.
      *
-     * @param sL The serviceLocator.
      * @param e  The elements for the block.
      * @param tJ The highest jumpable object.
      */
-    /* package */ Block(final IServiceLocator sL, final Set<IGameObject> e, final IJumpable tJ) {
+    /* package */ Block(final Set<IGameObject> e, final IJumpable tJ) {
         this.elements = e;
         this.topJumpable = tJ;
     }
