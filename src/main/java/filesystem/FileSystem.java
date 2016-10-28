@@ -12,6 +12,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.FontFormatException;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -21,7 +23,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -33,7 +34,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.awt.GraphicsEnvironment;
 import java.util.List;
 
 /**
@@ -77,7 +77,7 @@ public final class FileSystem implements IFileSystem {
         File logFile = new File(Game.LOGFILE_NAME);
 
         try {
-            fw = new FileWriter(logFile, true);
+            fw = new OutputStreamWriter(new FileOutputStream(logFile), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -317,7 +317,11 @@ public final class FileSystem implements IFileSystem {
     @Override
     public File getProjectFile(final String filename) throws IOException {
         File file = new File(filename);
-        file.createNewFile();
+        // The only reason we do this is to suppress a FindBugs warning
+        final boolean didntExist = file.createNewFile();
+        if (didntExist) {
+            System.out.println("New file called \"" + filename + "\" created");
+        }
 
         return new File(filename);
     }
@@ -357,7 +361,7 @@ public final class FileSystem implements IFileSystem {
                     .getLocalGraphicsEnvironment();
 
             ge.registerFont(font);
-        } catch (Exception ex) {
+        } catch (IOException | FontFormatException ex) {
             System.err.println(name + " not loaded.  Using serif font.");
             font = DEFAULT_FONT;
         }
