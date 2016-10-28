@@ -27,8 +27,6 @@ import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.EnumMap;
-import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Doodle.
@@ -81,13 +79,13 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Fake Powerup instance to return when actual powerup value is null.
      */
-    private static APowerup fakePowerup;
+    private static volatile APowerup fakePowerup = null;
     /**
      * The world the Doodle lives in.
      */
     private final World world;
     /**
-     * A list of all the Projectiles shot by this Enemy.
+     * A list of all the projectiles shot by this Enemy.
      */
     private final List<IGameObject> projectiles = new ArrayList<>();
     /**
@@ -140,23 +138,29 @@ public class Doodle extends AGameObject implements IDoodle {
     /* package */ Doodle(final IServiceLocator sL, final World w) {
         super(sL,
                 new Point(sL.getConstants().getGameWidth() / 2,
-                sL.getConstants().getGameHeight() / 2),
+                        sL.getConstants().getGameHeight() / 2),
                 sL.getSpriteFactory().getDoodleLeftSprites()[0],
                 Doodle.class);
 
-        Doodle.fakePowerup = new APowerup(sL, new Point(0, 0), sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
-            @Override
-            public void render() {
-            }
+        if (Doodle.fakePowerup == null) {
+            synchronized (this) {
+                if (Doodle.fakePowerup == null) {
+                    Doodle.fakePowerup = new APowerup(sL, new Point(0, 0), sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
+                        @Override
+                        public void render() {
+                        }
 
-            @Override
-            public void collidesWith(final IDoodle doodle) {
-            }
+                        @Override
+                        public void collidesWith(final IDoodle doodle) {
+                        }
 
-            @Override
-            public void setPositionOnPlatform(final IPlatform platform) {
+                        @Override
+                        public void setPositionOnPlatform(final IPlatform platform) {
+                        }
+                    };
+                }
             }
-        };
+        }
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.shootingObserver = new ShootingObserver(sL, this);
@@ -328,14 +332,14 @@ public class Doodle extends AGameObject implements IDoodle {
         ISprite sprite = this.getSprite();
         Doodle.getServiceLocator().getRenderer().drawSprite(sprite,
                 new Point((int) this.getXPos(),
-                (int) this.getYPos()),
+                        (int) this.getYPos()),
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
         if (!this.isAlive()) {
             Doodle.getServiceLocator().getRenderer().drawSprite(getStarSprite(),
                     new Point((int) (this.getXPos() + (STARS_OFFSET * this.spriteScalar)),
-                    (int) this.getYPos()),
+                            (int) this.getYPos()),
                     (int) (getSprite().getWidth() * this.spriteScalar * STARS_SCALAR),
                     (int) (getSprite().getHeight() * this.spriteScalar * STARS_SCALAR));
         }
@@ -345,7 +349,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Render the Projectiles this Doodle has shot.
+     * Render the projectiles this Doodle has shot.
      */
     private void renderProjectiles() {
         for (IGameObject projectile : this.projectiles) {
@@ -369,7 +373,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Update the Projectiles this Doodle has shot.
+     * Update the projectiles this Doodle has shot.
      *
      * @param delta The time in milliseconds that has passed between the last frame and the new frame
      */
@@ -562,7 +566,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Adds a projectile to the Set with Projectiles.
+     * Adds a projectile to the Set with projectiles.
      *
      * @param projectile the projectile that has to be added.
      */

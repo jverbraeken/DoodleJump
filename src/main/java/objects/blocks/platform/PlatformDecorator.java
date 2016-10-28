@@ -15,7 +15,7 @@ import java.awt.Point;
  * This is due to the fact that each decorator need to be able to add functionality to this base case.</p>
  */
 @SuppressWarnings("checkstyle:designforextension")
-public abstract class PlatformDecorator implements IPlatform {
+/* package */ abstract class PlatformDecorator implements IPlatform {
 
     /**
      * The contained platform.
@@ -30,10 +30,10 @@ public abstract class PlatformDecorator implements IPlatform {
     /**
      * Platform decorator.
      *
-     * @param sL       the servicelocator.
-     * @param platform the encapsulated platform.
+     * @param sL       The serviceLocator.
+     * @param platform The encapsulated platform.
      */
-    public PlatformDecorator(final IServiceLocator sL, final IPlatform platform) {
+    /* package */ PlatformDecorator(final IServiceLocator sL, final IPlatform platform) {
         assert sL != null;
         assert platform != null;
 
@@ -147,6 +147,14 @@ public abstract class PlatformDecorator implements IPlatform {
     @Override
     public double getYPos() {
         return contained.getYPos();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Point getPoint() {
+        return new Point((int) contained.getXPos(), (int) contained.getYPos());
     }
 
     /**

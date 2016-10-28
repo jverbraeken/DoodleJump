@@ -50,7 +50,7 @@ public interface IRes {
         doodleRightAscend,
         doodleRightDescend,
 
-        // Projectiles
+        // projectiles
         regularProjectile,
 
         // Kill screen

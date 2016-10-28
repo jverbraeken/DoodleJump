@@ -118,8 +118,8 @@ public final class Renderer implements IRenderer {
         String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
-        double halfWidth = sprite.getWidth() / 2;
-        double halfHeight = sprite.getHeight() / 2;
+        double halfWidth = (double) sprite.getWidth() / 2d;
+        double halfHeight = (double) sprite.getHeight() / 2d;
         double translateX = point.getX() + halfWidth;
         double translateY = point.getY() - this.camera.getYPos() + halfHeight;
 
@@ -163,8 +163,8 @@ public final class Renderer implements IRenderer {
         String cameraMsg = "Camera corrected Y-position = " + (point.getY() - this.camera.getYPos());
         this.logger.info(drawMsg + cameraMsg);
 
-        double halfWidth = sprite.getWidth() / 2;
-        double halfHeight = sprite.getHeight() / 2;
+        double halfWidth = (double) sprite.getWidth() / 2d;
+        double halfHeight = (double) sprite.getHeight() / 2d;
         double translateX = point.getX() + halfWidth;
         double translateY = point.getY() - this.camera.getYPos() + halfHeight;
 
@@ -309,7 +309,7 @@ public final class Renderer implements IRenderer {
         java.awt.Color currentColor = graphics.getColor();
 
         int xPos = prepareDrawText(point, msg, alignment, color.getColor(), font50);
-        graphics.drawString(msg, (int) point.getX(), (int) (point.getY() - camera.getYPos()));
+        graphics.drawString(msg, xPos, (int) (point.getY() - camera.getYPos()));
         this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + alignment.name() + ", " + color.name());
 
         graphics.setColor(currentColor);

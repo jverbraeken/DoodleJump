@@ -140,20 +140,20 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void setKeys(final Keys left, final Keys right);
 
     /**
-     * Adds a projectile to the Projectiles from this Doodle.
+     * Adds a projectile to the projectiles from this Doodle.
      * @param projectile The projectile that has to be add.
      */
     void addProjectile(final IGameObject projectile);
 
     /**
-     * Removes a projectile from the Projectiles of this Doodle.
+     * Removes a projectile from the projectiles of this Doodle.
      * @param projectile the projectile that has to be removed.
      */
     void removeProjectile(final IGameObject projectile);
 
     /**
-     * Returns the list with Projectiles.
-     * @return the list with Projectiles.
+     * Returns the list with projectiles.
+     * @return the list with projectiles.
      */
     List<IGameObject> getProjectiles();
 

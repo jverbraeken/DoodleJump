@@ -70,7 +70,7 @@ public final class MissionFactory implements IMissionFactory {
     /**
      * Thrown when the MissionFactory was not able to construct a mission with the given type.
      */
-    private final class UnknownMissionTypeException extends RuntimeException {
+    private static final class UnknownMissionTypeException extends RuntimeException {
         /**
          * Construct a new UnknownMissionTypeException with a certain message.
          *
