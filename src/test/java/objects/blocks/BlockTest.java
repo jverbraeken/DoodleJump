@@ -48,7 +48,7 @@ public class BlockTest {
     @Test
     public void testGetElements() throws Exception {
         set.add(gameObject);
-        block = Whitebox.invokeConstructor(Block.class, serviceLocator, set, jumpObject);
+        block = Whitebox.invokeConstructor(Block.class, set, jumpObject);
         assertEquals(set, block.getElements());
     }
 
@@ -58,7 +58,7 @@ public class BlockTest {
      */
     @Test
     public void testGetTopJumpable() throws Exception {
-        block = Whitebox.invokeConstructor(Block.class, serviceLocator, set, jumpObject);
+        block = Whitebox.invokeConstructor(Block.class, set, jumpObject);
         assertEquals(jumpObject, block.getTopJumpable());
     }
 

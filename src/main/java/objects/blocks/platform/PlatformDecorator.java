@@ -6,16 +6,16 @@ import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 import java.util.Map;
+import java.awt.Point;
 
 /**
  * Abstract class for the platform decorations.
- * <p>
- * Note that the suppressed warning is intentional.
+ * <p>Note that the suppressed warning is intentional.
  * Design for extension doesnt apply since there are the base cases for each method and you don't want to make those final.
- * This is due to the fact that each decorator need to be able to add functionality to this base case.
+ * This is due to the fact that each decorator need to be able to add functionality to this base case.</p>
  */
 @SuppressWarnings("checkstyle:designforextension")
-public abstract class PlatformDecorator implements IPlatform {
+/* package */ abstract class PlatformDecorator implements IPlatform {
 
     /**
      * The contained platform.
@@ -30,10 +30,10 @@ public abstract class PlatformDecorator implements IPlatform {
     /**
      * Platform decorator.
      *
-     * @param sL       the servicelocator.
-     * @param platform the encapsulated platform.
+     * @param sL       The serviceLocator.
+     * @param platform The encapsulated platform.
      */
-    public PlatformDecorator(final IServiceLocator sL, final IPlatform platform) {
+    /* package */ PlatformDecorator(final IServiceLocator sL, final IPlatform platform) {
         assert sL != null;
         assert platform != null;
 
@@ -82,7 +82,7 @@ public abstract class PlatformDecorator implements IPlatform {
     @Override
     public void render() {
         contained.render();
-        serviceLocator.getRenderer().drawSprite(getSprite(), (int) contained.getXPos(), (int) contained.getYPos());
+        serviceLocator.getRenderer().drawSprite(getSprite(), new Point((int) contained.getXPos(), (int) contained.getYPos()));
     }
 
     /**
@@ -147,6 +147,14 @@ public abstract class PlatformDecorator implements IPlatform {
     @Override
     public double getYPos() {
         return contained.getYPos();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Point getPoint() {
+        return new Point((int) contained.getXPos(), (int) contained.getYPos());
     }
 
     /**

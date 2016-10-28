@@ -6,9 +6,7 @@ import math.ICalc;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -63,7 +61,7 @@ public final class Game {
     /**
      * Used to gain access to all services.
      */
-    private static IServiceLocator serviceLocator;
+    private static volatile IServiceLocator serviceLocator = null;
     /**
      * The logger for the Game class.
      */
@@ -181,16 +179,25 @@ public final class Game {
      * Used by Cucumber test.
      */
     private Game() {
-        Game.serviceLocator = ServiceLocatorNoAudio.getServiceLocator();
-        Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
+        if (Game.serviceLocator == null) {
+            synchronized (this) {
+                if (Game.serviceLocator == null) {
+                    Game.serviceLocator = ServiceLocatorNoAudio.getServiceLocator();
+                }
+            }
+            Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
+        }
     }
 
     /**
      * Prevents instantiation from outside the Game class.
+     *
      * @param sL the ServiceLocator of this game.
      */
     private Game(final IServiceLocator sL) {
-        Game.serviceLocator = sL;
+        if (Game.serviceLocator == null) {
+            Game.serviceLocator = sL;
+        }
         Game.logger = Game.serviceLocator.getLoggerFactory().createLogger(Game.class);
     }
 
@@ -202,7 +209,7 @@ public final class Game {
     public static void main(final String[] argv) {
         new Game(ServiceLocator.getServiceLocator());
         logger.info("The game has been launched");
-
+        serviceLocator.getProgressionManager().init();
         Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
         IInputManager inputManager = serviceLocator.getInputManager();
 
@@ -254,8 +261,6 @@ public final class Game {
         int x = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
         int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
         serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
-
-        serviceLocator.getProgressionManager().init();
 
         start();
     }
@@ -382,9 +387,10 @@ public final class Game {
 
     /**
      * Use a buffer to prevent ConcurrentModificationExceptions.
+     *
      * @param runnable The runnable to be executed during the next run
      */
-    public static void schedule(Runnable runnable) {
+    public static void schedule(final Runnable runnable) {
         Game.addToRunnables.add(runnable);
     }
 
@@ -429,5 +435,23 @@ public final class Game {
             return TARGET_FPS;
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
+    }
+
+    /**
+     * Returns the pause screen.
+     *
+     * @return IScene object
+     */
+    public static IScene getPauseScreen() {
+        return pauseScreen;
+    }
+
+    /**
+     * Returns the current scene.
+     *
+     * @return IScene object
+     */
+    public static IScene getScene() {
+        return scene;
     }
 }

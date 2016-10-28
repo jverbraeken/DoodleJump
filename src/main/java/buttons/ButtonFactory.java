@@ -1,11 +1,14 @@
 package buttons;
 
+import groovy.lang.Tuple2;
 import logging.ILogger;
 import objects.powerups.Powerups;
 import progression.IProgressionManager;
 import progression.Ranks;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
+import scenes.PauseScreenModes;
+import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
@@ -29,10 +32,21 @@ public final class ButtonFactory implements IButtonFactory {
      * The logger.
      */
     private final ILogger logger;
+    /**
+     * A copy of the game width constant, used to shorten the code.
+     */
     private final int gameWidth;
+    /**
+     * A copy of the game height constant, used to shorten the code.
+     */
     private final int gameHeight;
 
-    private ButtonFactory(IServiceLocator serviceLocator) {
+    /**
+     * Constructs a new ButtonFactory.
+     *
+     * @param serviceLocator The service locator
+     */
+    private ButtonFactory(final IServiceLocator serviceLocator) {
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
         this.gameWidth = serviceLocator.getConstants().getGameWidth();
         this.gameHeight = serviceLocator.getConstants().getGameHeight();
@@ -41,19 +55,20 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * Register the platform factory into the service locator.
      *
-     * @param sL the service locator.
+     * @param serviceLocator the service locator.
      */
-    public static void register(final IServiceLocator sL) {
-        if (sL == null) {
+    public static void register(final IServiceLocator serviceLocator) {
+        if (serviceLocator == null) {
             throw new IllegalArgumentException("The service locator cannot be null");
         }
-        ButtonFactory.serviceLocator = sL;
-        ButtonFactory.serviceLocator.provide(getButtonFactory(serviceLocator));
+        ButtonFactory.serviceLocator = serviceLocator;
+        ButtonFactory.serviceLocator.provide(getButtonFactory(ButtonFactory.serviceLocator));
     }
 
     /**
      * The synchronized getter of the singleton buttonFactory.
      *
+     * @param serviceLocator the service locator.
      * @return the button factory
      */
     private static synchronized IButtonFactory getButtonFactory(final IServiceLocator serviceLocator) {
@@ -95,7 +110,10 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getResumeButtonSprite();
-        Runnable resumeAction = () -> Game.setPaused(false);
+        Runnable resumeAction = () -> {
+            Game.setPaused(false);
+            ((World) Game.getScene()).registerDoodle();
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, resumeAction, "resume");
     }
 
@@ -278,7 +296,7 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createShopPowerupButton(final Powerups powerup, final double x, final double y) {
+    public IButton createShopPowerupButton(final Powerups powerup, final double x, final double y, final int height) {
         assert ButtonFactory.serviceLocator != null;
 
         if (powerup == null) {
@@ -304,6 +322,39 @@ public final class ButtonFactory implements IButtonFactory {
             }
 
         };
+        final int buttonWidth = (int) ((double) height * ((double) buttonSprite.getWidth() / (double) buttonSprite.getHeight()));
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, shop, "shop", new Tuple2<>(buttonWidth, height));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createPausePowerupButton(final Powerups powerup, final double x, final double y) {
+        assert ButtonFactory.serviceLocator != null;
+
+        if (powerup == null) {
+            final String error = "There cannot a button be created for a null powerup";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+
+        final IProgressionManager progressionManager = serviceLocator.getProgressionManager();
+        final int currentPowerupLevel = progressionManager.getPowerupLevel(powerup);
+
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getPowerupSprite(powerup, currentPowerupLevel + 1);
+        Runnable shop = () -> {
+            final int powerupLevel = progressionManager.getPowerupLevel(powerup);
+            if (powerupLevel < powerup.getMaxLevel()) {
+                final int price = powerup.getPrice(powerupLevel + 1);
+                if (progressionManager.getCoins() >= price) {
+                    progressionManager.decreaseCoins(price);
+                    progressionManager.increasePowerupLevel(powerup);
+                    Game.getPauseScreen().updateButton(powerup, x, y);
+                }
+            }
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, shop, "shop");
     }
 
@@ -315,8 +366,35 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPauseButtonSprite();
-        Runnable pause = () -> Game.setPaused(true);
+        Runnable pause = () -> {
+            Game.setPaused(true);
+            ((World) Game.getScene()).deregisterDoodle();
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, pause, "pause");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createSwitchToShopButton(final double x, final double y) {
+        assert ButtonFactory.serviceLocator != null;
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getShopButtonSprite();
+        Runnable switchAction = () -> Game.getPauseScreen().switchDisplay(PauseScreenModes.shop);
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, switchAction, "switch");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createSwitchToMissionButton(final double x, final double y) {
+        assert ButtonFactory.serviceLocator != null;
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getShopButtonSprite();
+        Runnable switchAction = () -> Game.getPauseScreen().switchDisplay(PauseScreenModes.mission);
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, switchAction, "switch");
     }
 
 }

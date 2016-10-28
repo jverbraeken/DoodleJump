@@ -2,10 +2,7 @@ package math;
 
 import system.IServiceLocator;
 
-import java.lang.ref.WeakReference;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * This class handles all advanced calculations.
@@ -19,7 +16,14 @@ public final class Calc implements ICalc {
     private static final Random RANDOM = new Random();
 
     /**
+     * Prevents instantiation from outside the class.
+     */
+    private Calc() {
+    }
+
+    /**
      * Register the FileSystem into the service locator.
+     *
      * @param sL the service locator.
      */
     public static void register(final IServiceLocator sL) {
@@ -27,12 +31,6 @@ public final class Calc implements ICalc {
             throw new IllegalArgumentException("The service locator cannot be null");
         }
         sL.provide(new Calc());
-    }
-
-    /**
-     * Prevents instantiation from outside the class.
-     */
-    private Calc() {
     }
 
     /**
@@ -44,7 +42,7 @@ public final class Calc implements ICalc {
             throw new IllegalArgumentException("The upper-bound cannot equal to or lower than the lower-bound");
         }
 
-        return RANDOM.nextInt(upper - lower) + lower + 1;
+        return RANDOM.nextInt(upper - lower) + lower;
     }
 
     /**

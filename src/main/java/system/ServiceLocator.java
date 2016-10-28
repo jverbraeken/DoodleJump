@@ -6,7 +6,6 @@ import resources.audio.IAudioManager;
 /**
  * Default implementation for the ServiceLocator. Used to gain access to all services.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 /* package */ final class ServiceLocator extends ServiceLocatorNoAudio implements IServiceLocator {
 
     // audio
@@ -22,7 +21,6 @@ import resources.audio.IAudioManager;
      * Initialize the ServiceLocator class.
      */
     private ServiceLocator() {
-        super();
         this.init();
     }
 

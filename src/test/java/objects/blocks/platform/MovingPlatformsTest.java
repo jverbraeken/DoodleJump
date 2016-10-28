@@ -18,6 +18,7 @@ import resources.sprites.ISpriteFactory;
 import resources.sprites.Sprite;
 import resources.sprites.SpriteFactory;
 import system.IServiceLocator;
+import java.awt.Point;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -74,7 +75,7 @@ public class MovingPlatformsTest {
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(serviceLocator.getCalc()).thenReturn(calc);
 
-        platform = new Platform(serviceLocator, 1, 1, sprite);
+        platform = new Platform(serviceLocator, new Point(1, 1), sprite);
         horizontal = new PlatformHorizontal(serviceLocator, platform);
         vertical = new PlatformVertical(serviceLocator, platform);
     }
@@ -147,7 +148,7 @@ public class MovingPlatformsTest {
         // 2 times because inheritance (?)
         horizontal.render();
         verify(serviceLocator, times(2)).getRenderer();
-        verify(renderer, times(2)).drawSprite(sprite, (int) vertical.getXPos(), (int) vertical.getYPos());
+        verify(renderer, times(2)).drawSprite(sprite, new Point((int) vertical.getXPos(), (int) vertical.getYPos()));
     }
 
     /**
@@ -158,7 +159,7 @@ public class MovingPlatformsTest {
         // 2 times because inheritance (?)
         vertical.render();
         verify(serviceLocator, times(2)).getRenderer();
-        verify(renderer, times(2)).drawSprite(sprite, (int) vertical.getXPos(), (int) vertical.getYPos());
+        verify(renderer, times(2)).drawSprite(sprite, new Point((int) vertical.getXPos(), (int) vertical.getYPos()));
     }
 
 }

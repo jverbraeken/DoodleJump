@@ -6,20 +6,27 @@ import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
+import java.awt.Point;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ISprite.class, ISprite[].class})
 public class JetpackTest {
 
     private IConstants constants = mock(IConstants.class);
@@ -48,9 +55,9 @@ public class JetpackTest {
         when(loggerFactory.createLogger(Jetpack.class)).thenReturn(logger);
         when(sprite.getHeight()).thenReturn(0);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
-        when(spriteFactory.getJetpackActiveSprites()).thenReturn(spritePack);
+        when(spriteFactory.getJetpackActiveSprites(anyInt())).thenReturn(spritePack);
 
-        jetpack = new Jetpack(serviceLocator, 0, 0);
+        jetpack = new Jetpack(serviceLocator, new Point(0, 0), 1, new ISprite[] {}, 0, 0);
     }
 
     @Test
@@ -60,7 +67,7 @@ public class JetpackTest {
         assertThat(owner, is(doodle));
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testCollidesWithNull() {
         jetpack.collidesWith(null);
     }
@@ -68,7 +75,7 @@ public class JetpackTest {
     @Test
     public void testRenderNoOwner() {
         jetpack.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, new Point(0, 0));
         verify(doodle, times(0)).getXPos();
         verify(doodle, times(0)).getYPos();
     }
@@ -77,7 +84,7 @@ public class JetpackTest {
     public void testRenderWithOwner() {
         jetpack.collidesWith(doodle);
         jetpack.render();
-        verify(renderer, times(1)).drawSprite(sprite, 0, 0);
+        verify(renderer, times(1)).drawSprite(sprite, new Point(0, 0));
     }
 
     @Test
@@ -91,12 +98,11 @@ public class JetpackTest {
     public void testPerformInvalidOccasion() {
         jetpack.collidesWith(doodle);
         jetpack.perform(PowerupOccasion.collision);
-        verify(doodle, times(0)).setVerticalSpeed(anyDouble());
+        verify(doodle, never()).setVerticalSpeed(anyDouble());
     }
 
     @Test(expected=NullPointerException.class)
     public void testPerformNoOwner() {
         jetpack.perform(PowerupOccasion.constant);
     }
-
 }

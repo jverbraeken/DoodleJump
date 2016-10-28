@@ -6,10 +6,11 @@ import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * The platform decorator to support breaking platforms.
  */
-@SuppressWarnings("checkstyle:magicnumber")
 public final class PlatformBroken extends PlatformDecorator implements IPlatform {
 
     /**
@@ -25,7 +26,7 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      */
     /* package */PlatformBroken(final IServiceLocator sL, final IPlatform platform) {
         super(sL, platform);
-        getContained().setSprite(sL.getSpriteFactory().getPlatformBrokenSprite1());
+        getContained().setSprite(sL.getSpriteFactory().getPlatformBrokenSprite(1));
         getContained().getProps().put(Platform.PlatformProperties.breaks, 1);
     }
 
@@ -33,18 +34,19 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("checkstyle:magicnumber")
     public void render() {
         int xPos = (int) this.getXPos();
         int yPos = (int) this.getYPos();
 
         int breaks = (int) getProps().get(Platform.PlatformProperties.breaks);
         if (breaks == 1) {
-            getServiceLocator().getRenderer().drawSprite(getSprite(), xPos, yPos);
+            getServiceLocator().getRenderer().drawSprite(getSprite(), new Point(xPos, yPos));
         } else if (breaks <= 4 && breaks > 1) {
-            getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), xPos, yPos);
+            getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), new Point(xPos, yPos));
         } else if (breaks == -1) {
             applyGravity();
-            getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), xPos, yPos);
+            getServiceLocator().getRenderer().drawSprite(getBrokenSprite(breaks), new Point(xPos, yPos));
         } else {
             getContained().render();
         }
@@ -57,20 +59,21 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      * @param numberOfAnimation the phase of the animation
      * @return the sprite belonging to this animation phase
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     private ISprite getBrokenSprite(final int numberOfAnimation) {
         switch (numberOfAnimation) {
-            case (2):
+            case 2:
                 getProps().replace(Platform.PlatformProperties.breaks, 3);
-                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite2();
-            case (3):
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite(2);
+            case 3:
                 getProps().replace(Platform.PlatformProperties.breaks, 4);
-                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite3();
-            case (4):
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite(3);
+            case 4:
                 getProps().replace(Platform.PlatformProperties.breaks, -1);
-                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite4();
-            case (-1):
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite(4);
+            case -1:
                 getProps().replace(Platform.PlatformProperties.breaks, -1);
-                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite4();
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite(4);
             default:
                 return getSprite();
         }

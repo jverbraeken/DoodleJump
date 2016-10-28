@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
  * <br>
  * It is not deemed necessary for all individual sounds to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class AudioManager implements IAudioManager {
 
     /**

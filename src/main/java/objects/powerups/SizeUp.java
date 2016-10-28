@@ -1,7 +1,10 @@
 package objects.powerups;
 
+import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
+
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the SizeUp powerup. Increasing the size of the Doodle when picked up.
@@ -21,19 +24,10 @@ import system.IServiceLocator;
      * SizeUp constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the SizeUp.
-     * @param y - The Y location for the SizeUp.
+     * @param point - The location for the SizeUp.
      */
-    /* package */ SizeUp(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.sizeUp, 1), SizeUp.class);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void render() {
-        SizeUp.getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+    /* package */ SizeUp(final IServiceLocator sL, final Point point) {
+        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.sizeUp, 1), SizeUp.class);
     }
 
     /**
@@ -52,4 +46,12 @@ import system.IServiceLocator;
         this.setXPos(this.getSprite().getWidth() * SizeUp.HIDE_MULTIPLIER);
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPositionOnPlatform(final IPlatform platform) {
+        super.setPositionOnPlatformRandom(platform);
+    }
 }

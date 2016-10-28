@@ -11,7 +11,6 @@ import java.util.Map;
  * <br>
  * It is not deemed necessary for all individual resources to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public final class Res implements IRes {
 
     /**
@@ -95,6 +94,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.background, SPRITE_PATH + "bck@2x.png");
         sprites.put(Sprites.pauseCover, SPRITE_PATH + "pause-cover-3@2x.png");
         sprites.put(Sprites.startCover, SPRITE_PATH + "Default@2x.png");
+        sprites.put(Sprites.shopCover, SPRITE_PATH + "pause-cover-4@2x.png");
 
         // Doodle
         sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "blue-lik-left@2x.png");
@@ -102,7 +102,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-right@2x.png");
         sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-right-odskok@2x.png");
 
-        // Projectiles
+        // projectiles
         sprites.put(Sprites.regularProjectile, SPRITE_PATH + "regular-projectile@2x.png");
 
         // Enemies
@@ -167,9 +167,12 @@ public final class Res implements IRes {
         sprites.put(Sprites.shield, SPRITE_PATH + "powerup-shield@2x.png");
         sprites.put(Sprites.sizeUp, SPRITE_PATH + "powerup-size-up@2x.png");
         sprites.put(Sprites.sizeDown, SPRITE_PATH + "powerup-size-down@2x.png");
+
         sprites.put(Sprites.spaceRocket, SPRITE_PATH + "space-rocket-0@2x.png");
         sprites.put(Sprites.rocketLauncher, SPRITE_PATH + "rocketlauncher-unused.png");
         sprites.put(Sprites.rocketLauncherUsed, SPRITE_PATH + "rocketlauncher-used.png");
+        sprites.put(Sprites.afterburner, SPRITE_PATH + "powerup-afterburner@2x.png");
+
 
         // Passive
 
@@ -186,6 +189,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.propeller0, SPRITE_PATH + "propeller-0@2x.png");
         sprites.put(Sprites.propeller1, SPRITE_PATH + "propeller-1@2x.png");
         sprites.put(Sprites.propeller2, SPRITE_PATH + "propeller-2@2x.png");
+
         sprites.put(Sprites.spaceRocket0, SPRITE_PATH + "rocket-0@2x.png");
         sprites.put(Sprites.spaceRocket1, SPRITE_PATH + "rocket-1@2x.png");
         sprites.put(Sprites.spaceRocket2, SPRITE_PATH + "rocket-2@2x.png");
@@ -195,8 +199,6 @@ public final class Res implements IRes {
         sprites.put(Sprites.spaceRocket6, SPRITE_PATH + "rocket-6@2x.png");
         sprites.put(Sprites.spaceRocket7, SPRITE_PATH + "rocket-7@2x.png");
         sprites.put(Sprites.spaceRocket8, SPRITE_PATH + "rocket-8@2x.png");
-
-
 
         // Score screen
         sprites.put(Sprites.scoreScreenBottom, SPRITE_PATH + "high-scores-bottom@2x.png");

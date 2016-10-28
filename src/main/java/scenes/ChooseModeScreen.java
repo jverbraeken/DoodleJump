@@ -5,6 +5,7 @@ import buttons.IButtonFactory;
 import logging.ILogger;
 import progression.IProgressionManager;
 import progression.Ranks;
+import objects.powerups.Powerups;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
@@ -12,6 +13,7 @@ import system.IRenderable;
 import system.IServiceLocator;
 
 import java.util.ArrayList;
+import java.awt.Point;
 
 /**
  * This class is a scene that is displays when the doodle dies in a world.
@@ -147,9 +149,9 @@ import java.util.ArrayList;
      */
     @Override
     public void render() {
-        serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
+        serviceLocator.getRenderer().drawSpriteHUD(this.background, new Point(0, 0));
         double y = (double) serviceLocator.getConstants().getGameHeight() - (double) bottomChooseModeScreen.getHeight();
-        serviceLocator.getRenderer().drawSpriteHUD(this.bottomChooseModeScreen, 0, (int) y);
+        serviceLocator.getRenderer().drawSpriteHUD(this.bottomChooseModeScreen, new Point(0, (int) y));
         buttons.forEach(IRenderable::render);
         renderByRank();
     }
@@ -170,20 +172,35 @@ import java.util.ArrayList;
         int gameHeight = this.serviceLocator.getConstants().getGameHeight();
         ISprite redCross = this.serviceLocator.getSpriteFactory().getRedCross();
         if (rankLevel < Game.Modes.story.getRankRequired()) {
-            serviceLocator.getRenderer().drawSprite(redCross, (int) (STORY_MODE_X * gameWidth), (int) (STORY_MODE_Y * gameHeight));
+            serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (STORY_MODE_X * gameWidth), (int) (STORY_MODE_Y * gameHeight)));
         }
         if (rankLevel < Game.Modes.underwater.getRankRequired()) {
-            serviceLocator.getRenderer().drawSprite(redCross, (int) (UNDERWATER_MODE_X * gameWidth), (int) (UNDERWATER_MODE_Y * gameHeight));
+            serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (UNDERWATER_MODE_X * gameWidth), (int) (UNDERWATER_MODE_Y * gameHeight)));
         }
         if (rankLevel < Game.Modes.space.getRankRequired()) {
-            serviceLocator.getRenderer().drawSprite(redCross, (int) (SPACE_MODE_X * gameWidth), (int) (SPACE_MODE_Y * gameHeight));
+            serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (SPACE_MODE_X * gameWidth), (int) (SPACE_MODE_Y * gameHeight)));
         }
         if (rankLevel < Game.Modes.darkness.getRankRequired()) {
-            serviceLocator.getRenderer().drawSprite(redCross, (int) (DARKNESS_MODE_X * gameWidth), (int) (DARKNESS_MODE_Y * gameHeight));
+            serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (DARKNESS_MODE_X * gameWidth), (int) (DARKNESS_MODE_Y * gameHeight)));
         }
         if (rankLevel < Game.Modes.invert.getRankRequired()) {
-            serviceLocator.getRenderer().drawSprite(redCross, (int) (INVERT_MODE_X * gameWidth), (int) (INVERT_MODE_Y * gameHeight));
+            serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (INVERT_MODE_X * gameWidth), (int) (INVERT_MODE_Y * gameHeight)));
         }
+    }
+
+
+         /*
+     * {@inheritDoc}
+     */
+    @Override
+    public final void switchDisplay(PauseScreenModes mode) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

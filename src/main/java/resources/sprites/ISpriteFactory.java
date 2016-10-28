@@ -1,6 +1,7 @@
 package resources.sprites;
 
 import objects.powerups.Powerups;
+import scenes.PauseScreenModes;
 import system.IFactory;
 
 /**
@@ -8,7 +9,6 @@ import system.IFactory;
  * <br>
  * It is not deemed necessary for all individual sprites to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface ISpriteFactory extends IFactory {
 
     // Buttons
@@ -29,10 +29,11 @@ public interface ISpriteFactory extends IFactory {
     ISprite getChooseModeButtonSprite();
 
     ISprite getShopButtonSprite();
+
     // Covers
     ISprite getBackground();
 
-    ISprite getPauseCoverSprite();
+    ISprite getPauseCoverSprite(PauseScreenModes mode);
 
     ISprite getStartCoverSprite();
 
@@ -119,13 +120,7 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getPlatformSprite9();
 
-    ISprite getPlatformBrokenSprite1();
-
-    ISprite getPlatformBrokenSprite2();
-
-    ISprite getPlatformBrokenSprite3();
-
-    ISprite getPlatformBrokenSprite4();
+    ISprite getPlatformBrokenSprite(final int index);
 
     ISprite getPlatformExplosiveSprite1();
 
@@ -152,21 +147,23 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getTrampolineUsedSprite(final int currentPowerupLevel);
 
-    ISprite getSpaceRocketSprite();
-
     ISprite getSpringUsedSprite(final int currentPowerupLevel);
 
-    ISprite[] getJetpackActiveSprites();
-
-    ISprite[] getPropellerActiveSprites();
-
     /**
-     * Resturns a list with sprites when a doodle has collided with the doodle.
+     * Returns a list with sprites when a doodle has collided with a jetpack.
+     *
      * @return list of sprites.
      */
-    ISprite[] getSpaceRocketActiveSprites();
+    ISprite[] getJetpackActiveSprites(final int level);
 
-    // Projectiles
+    /**
+     * Returns a list with sprites when a doodle has collided with a propeller.
+     *
+     * @return list of sprites.
+     */
+    ISprite[] getPropellerActiveSprites();
+
+    // projectiles
     ISprite getRegularProjectileSprite();
 
     // Score screen

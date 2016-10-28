@@ -71,11 +71,67 @@ public interface IPowerupFactory extends IFactory {
      */
     IGameObject createTrampoline(final int x, final int y);
 
+    /**
+     * Must be called by objects that want a notification when a new {@link Jetpack} is created.
+     * <br>
+     * <font color="red"><b>The method {@link #removeObserver(IJetpackCreatedObserver)} MUST be called when
+     * the {@code jetpackCreatedObserver} should be deleted. Otherwise {@code springCreatedObserver} will not be deleted
+     * due to a strong reference and a memory leak will occur</b></font>
+     *
+     * @param jetpackCreatedObserver The class that must get the notification
+     */
+    void addObserver(final IJetpackCreatedObserver jetpackCreatedObserver);
+
+    /**
+     * Must be called by objects that want a notification when a new {@link Spring} is created.
+     * <br>
+     * <font color="red"><b>The method {@link #removeObserver(ISpringCreatedObserver)} MUST be called when
+     * the {@code springCreatedObserver} should be deleted. Otherwise {@code springCreatedObserver} will not be deleted
+     * due to a strong reference and a memory leak will occur</b></font>
+     *
+     * @param springCreatedObserver The class that must get the notification
+     */
     void addObserver(final ISpringCreatedObserver springCreatedObserver);
 
+    /**
+     * Must be called by objects that want a notification when a new {@link Trampoline} is created.
+     * <br>
+     * <font color="red"><b>The method {@link #removeObserver(ITrampolineCreatedObserver)} MUST be called when
+     * the {@code trampolineCreatedObserver} should be deleted. Otherwise {@code trampolineCreatedObserver} will not be
+     * deleted due to a strong reference and a memory leak will occur</b></font>
+     *
+     * @param trampolineCreatedObserver The class that must get the notification
+     */
     void addObserver(final ITrampolineCreatedObserver trampolineCreatedObserver);
 
+    /**
+     * Must be called by objects that were register by {@link #addObserver(IJetpackCreatedObserver)} and do
+     * not want to receive this notfications anymore.
+     * <br>
+     * Must be called when the observing object is deleted as well!
+     *
+     * @param jetpackCreatedObserver The class that must not get the notifications anymore
+     */
+    void removeObserver(final IJetpackCreatedObserver jetpackCreatedObserver);
+
+    /**
+     * Must be called by objects that were register by {@link #addObserver(ISpringCreatedObserver)} and do
+     * not want to receive this notfications anymore.
+     * <br>
+     * Must be called when the observing object is deleted as well!
+     *
+     * @param springCreatedObserver The class that must not get the notifications anymore
+     */
     void removeObserver(final ISpringCreatedObserver springCreatedObserver);
 
+    /**
+     * Must be called by objects that were register by {@link #addObserver(ITrampolineCreatedObserver)} and do
+     * not want to receive this notfications anymore.
+     * <br>
+     * Must be called when the observing object is deleted as well!
+     *
+     * @param trampolineCreatedObserver The class that must not get the notifications anymore
+     */
     void removeObserver(final ITrampolineCreatedObserver trampolineCreatedObserver);
+
 }

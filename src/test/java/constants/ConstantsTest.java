@@ -83,44 +83,10 @@ public class ConstantsTest {
     }
 
     @Test
-    public void getLogFileTest() throws NoSuchFieldException, IllegalAccessException {
-        Field field = Constants.class.getDeclaredField("logFile");
-        field.setAccessible(true);
-        AtomicReference<String> logFile = (AtomicReference<String>) field.get(constants);
-        assertThat(constants.getLogFile(), is(logFile.toString()));
-        assertThat(constants.getLogFile(), instanceOf(String.class));
-    }
-
-    @Test
     public void getSaveFilePathTest() throws NoSuchFieldException, IllegalAccessException {
         Field field = Constants.class.getDeclaredField("SAVEFILE_DATA");
         field.setAccessible(true);
         assertThat(constants.getSaveFilePath(), is(field.get(constants)));
         assertThat(constants.getSaveFilePath(), instanceOf(String.class));
-    }
-
-    @Test
-    public void interpretJsonNormalTest() throws Exception {
-        Map<String, String> jsonObject = new HashMap<>();
-        String logFileName = "foobar";
-        jsonObject.put("logFile", logFileName);
-
-        Whitebox.invokeMethod(constants, jsonObject);
-
-        assertThat(constants.getLogFile(), is(logFileName));
-    }
-
-    @Test
-    public void interpretJsonDefaultCaseTest() throws Exception {
-        String logFileName = ((AtomicReference<String>) Whitebox.getInternalState(Constants.class, "logFile")).get();
-        assertThat(constants.getLogFile(), is(logFileName));
-
-        Map<String, String> jsonObject = new HashMap<>();
-        jsonObject.put("a", "b");
-
-        Whitebox.invokeMethod(constants, jsonObject);
-
-        assertThat(constants.getLogFile(), is(logFileName));
-        assertThat(constants.getLogFile(), not("b"));
     }
 }

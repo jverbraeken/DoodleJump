@@ -1,9 +1,12 @@
 package buttons;
 
+import groovy.lang.Tuple2;
 import logging.ILogger;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
+
+import java.awt.Point;
 
 /**
  * This IMMUTABLE class focuses on the implementation of button.
@@ -41,6 +44,7 @@ import system.IServiceLocator;
 
     /**
      * Constructor of a new button.
+     *
      * @param sL the service locator.
      * @param x  the x position of the button
      * @param y  the y position of the button
@@ -69,19 +73,51 @@ import system.IServiceLocator;
     }
 
     /**
-     * {@inheritDoc}
+     * Constructor of a new button with a custom width and height.
+     *
+     * @param sL         the service locator.
+     * @param x          the x position of the button
+     * @param y          the y position of the button
+     * @param s          the sprite of the button
+     * @param a          the action when the button is pressed
+     * @param n          the name of the button
+     * @param dimensions The width and height of the button
      */
-    @Override
-    public void render() {
-        this.serviceLocator.getRenderer().drawSpriteHUD(
-                this.sprite, this.topLeft[0], this.topLeft[1], this.width, this.height);
+    /* package */ Button(final IServiceLocator sL, final int x, final int y,
+                         final ISprite s, final Runnable a, final String n,
+                         final Tuple2<Integer, Integer> dimensions) {
+        super();
+
+        assert sL != null;
+        assert s != null;
+
+        this.serviceLocator = sL;
+        this.logger = sL.getLoggerFactory().createLogger(Button.class);
+        this.sprite = s;
+        this.topLeft[0] = x;
+        this.topLeft[1] = y;
+        this.bottomRight[0] = x + dimensions.getFirst();
+        this.bottomRight[1] = y + dimensions.getSecond();
+        this.action = a;
+        this.name = n;
+        this.width = dimensions.getFirst();
+        this.height = dimensions.getSecond();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void mouseClicked(final int x, final int y) {
+    public void render() {
+        this.serviceLocator.getRenderer().drawSpriteHUD(
+                this.sprite, new Point(this.topLeft[0], this.topLeft[1]), this.width, this.height);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseClicked(final int x, final int y) {
         assert x >= 0 && y >= 0;
 
         if (x > this.topLeft[0] && x < this.bottomRight[0] && y > this.topLeft[1] && y < this.bottomRight[1]) {

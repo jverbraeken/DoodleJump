@@ -11,11 +11,9 @@ import objects.blocks.platform.Platform;
 import objects.powerups.IPowerup;
 import system.IServiceLocator;
 
-import java.util.List;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -51,26 +49,18 @@ public final class BlockFactory implements IBlockFactory {
      * An offset to generate a minimum height deviation.
      */
     private static final double HEIGHT_DEVIATION_OFFSET = .8;
-
-    /**
-     * A weighted set for the spawning of platforms.
-     */
-    private GenerationSet platformGenerationSet;
-
-    /**
-     * A weighted set for the spawning of powerups.
-     */
-    private GenerationSet powerupGenerationSet;
-
-    /**
-     * A weighted set for the spawning of enemies.
-     */
-    private GenerationSet enemyGenerationSet;
-
     /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
+    /**
+     * A weighted set for the spawning of platforms.
+     */
+    private GenerationSet platformGenerationSet;
+    /**
+     * A weighted set for the spawning of powerups.
+     */
+    private GenerationSet powerupGenerationSet;
 
     /**
      * Initialize the BlockFactory.
@@ -94,6 +84,23 @@ public final class BlockFactory implements IBlockFactory {
     }
 
     /**
+     * Returns true if the platform has special properties, false otherwise.
+     *
+     * @param platform the platform that has to be checked.
+     * @return true or false, dependent on the properties of the platform.
+     */
+    public static boolean isSpecialPlatform(final IPlatform platform) {
+        Map<Platform.PlatformProperties, Integer> properties = platform.getProps();
+        Platform.PlatformProperties[] keys = Platform.PlatformProperties.values();
+        for (Platform.PlatformProperties key : keys) {
+            if (properties.containsKey(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -107,7 +114,7 @@ public final class BlockFactory implements IBlockFactory {
 
         IPlatform topJumpable = placeInitialStartBlockPlatforms(elements);
         IPlatform nowHighest = placeStartBlockPlatforms(elements, topJumpable, platformAmount, heightDividedPlatforms);
-        return new Block(serviceLocator, elements, nowHighest);
+        return new Block(elements, nowHighest);
     }
 
     /**
@@ -122,17 +129,17 @@ public final class BlockFactory implements IBlockFactory {
 
         IJumpable newTopJumpable = placeBlockPlatforms(elements, topJumpable, platformAmount, heightDividedPlatforms);
 
-        return new Block(serviceLocator, elements, newTopJumpable);
+        return new Block(elements, newTopJumpable);
     }
 
     /**
      * Places zero or more platforms before the loop placing the other platforms is processed.
      *
-     * @param elements                  The {@link Set} in which the platforms should be placed.
-     * @param topJumpable               The highest platform created before the block starts (normally the latest
-     *                                  platform created).
-     * @param platformAmount            The amount of platforms.
-     * @param heightDividedPlatforms    The height division of platforms (?).
+     * @param elements               The {@link Set} in which the platforms should be placed.
+     * @param topJumpable            The highest platform created before the block starts (normally the latest
+     *                               platform created).
+     * @param platformAmount         The amount of platforms.
+     * @param heightDividedPlatforms The height division of platforms (?).
      * @return The last and highest platform created by this method
      */
     private IJumpable placeBlockPlatforms(final Set<IGameObject> elements, final IJumpable topJumpable, final int platformAmount, final int heightDividedPlatforms) {
@@ -167,11 +174,11 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Places zero or more platforms before the loop placing the other platforms is processed.
      *
-     * @param elements                  The {@link Set} in which the platforms should be placed.
-     * @param topJumpable               The highest platform created before the block starts (normally the latest
-     *                                  platform created).
-     * @param platformAmount            The amount of platforms.
-     * @param heightDividedPlatforms    The height division of platforms (?).
+     * @param elements               The {@link Set} in which the platforms should be placed.
+     * @param topJumpable            The highest platform created before the block starts (normally the latest
+     *                               platform created).
+     * @param platformAmount         The amount of platforms.
+     * @param heightDividedPlatforms The height division of platforms (?).
      * @return The last and highest platform created.
      */
     private IPlatform placeStartBlockPlatforms(final Set<IGameObject> elements, final IPlatform topJumpable, final int platformAmount, final int heightDividedPlatforms) {
@@ -189,9 +196,9 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Places a single platform part in the block specified.
      *
-     * @param elements              A set of elements.
-     * @param topJumpable           The highest platform created before the block starts (normally the latest platform created)
-     * @param heightDivPlatforms    The height between the platforms
+     * @param elements           A set of elements.
+     * @param topJumpable        The highest platform created before the block starts (normally the latest platform created)
+     * @param heightDivPlatforms The height between the platforms
      * @return The last and highest platform created by this method
      */
     private IPlatform placeFollowingPlatform(final Set<IGameObject> elements, final IJumpable topJumpable, final int heightDivPlatforms) {
@@ -213,7 +220,7 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Make a platform following the last platform.
      *
-     * @param topJumpable The last jumpable object.
+     * @param topJumpable            The last jumpable object.
      * @param heightDividedPlatforms The height division for platforms.
      * @return A new platform.
      */
@@ -242,7 +249,7 @@ public final class BlockFactory implements IBlockFactory {
      * Checks if the platform collides with any of the elements in the Block.
      *
      * @param gameObject The {@link IGameObject object} that has to be checked for a collision
-     * @param elements The {@link Set} in which the platforms should be placed
+     * @param elements   The {@link Set} in which the platforms should be placed
      * @return True if platform collides with one of the elements of block.
      */
     private boolean verifyPlatformLocation(final IGameObject gameObject, final Set<IGameObject> elements) {
@@ -265,7 +272,7 @@ public final class BlockFactory implements IBlockFactory {
         if (!isSpecialPlatform(platform)) {
             IPowerup powerup = (IPowerup) powerupGenerationSet.getRandomElement();
             if (powerup != null) {
-                powerup.setPositionOnPlatform(powerup, platform);
+                powerup.setPositionOnPlatform(platform);
                 elements.add(powerup);
             }
         }
@@ -274,8 +281,8 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * Creates a random Enemy.
      *
-     * @param elements A set of elements.
-     * @param platform The platform a powerup potentially is placed on.
+     * @param elements               A set of elements.
+     * @param platform               The platform a powerup potentially is placed on.
      * @param heightDividedPlatforms the height devided by the amount of platforms.
      **/
     private void spawnEnemyWithChance(final Set<IGameObject> elements, final IPlatform platform, final int heightDividedPlatforms) {
@@ -294,7 +301,8 @@ public final class BlockFactory implements IBlockFactory {
 
     /**
      * Create the enemy at the given location and return it.
-     * @param platform the last platform.
+     *
+     * @param platform               the last platform.
      * @param heightDividedPlatforms the height devided by the amount of platforms.
      * @return the Enemy as IGameObject.
      */
@@ -307,22 +315,5 @@ public final class BlockFactory implements IBlockFactory {
         int yLoc = (int) (platform.getYPos() - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
 
         return serviceLocator.getEnemyFactory().createOrdinaryEnemy(xLoc, yLoc);
-    }
-
-    /**
-     * Returns true if the platform has special properties, false otherwise.
-     *
-     * @param platform the platform that has to be checked.
-     * @return true or false, dependent on the properties of the platform.
-     */
-    public static boolean isSpecialPlatform(final IPlatform platform) {
-        Map<Platform.PlatformProperties, Integer> properties = platform.getProps();
-        Platform.PlatformProperties[] keys = Platform.PlatformProperties.values();
-        for (Platform.PlatformProperties key : keys) {
-            if (properties.containsKey(key)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
