@@ -11,8 +11,6 @@ import scenes.ChooseModeScreen;
 import system.Game;
 import system.IServiceLocator;
 
-import javax.swing.*;
-
 
 /**
  * Standard implementation of the ButtonFactory. Used to create buttons.
