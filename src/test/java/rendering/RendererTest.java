@@ -230,4 +230,34 @@ public class RendererTest {
         verify(graphics, times(1)).setColor(rendering.Color.black.getColor());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testDrawSpriteNull() {
+        renderer.drawSprite(null, 1, 1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDrawSpriteNullAngle() {
+        renderer.drawSprite(null, 1, 1, 45);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDrawSpriteNullWidthHeight() {
+        renderer.drawSprite(null, 1, 1, 10, 10);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDrawSpriteNullWidthHeightAngle() {
+        renderer.drawSprite(null, 1, 1, 10, 10, 45);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDrawSpriteHUDNull() {
+        renderer.drawSpriteHUD(null, 1, 1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDrawSpriteHUDNullWidthNull() {
+        renderer.drawSpriteHUD(null, 1, 1, 10, 10);
+    }
+
 }
