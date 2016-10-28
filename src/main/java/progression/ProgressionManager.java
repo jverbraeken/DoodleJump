@@ -177,6 +177,7 @@ public final class ProgressionManager implements IProgressionManager {
         }
 
         if (powerupLevels.get(powerup) == null) {
+            logger.warning("The powerupLevels for the powerup " + powerup.toString() + " are missing");
             return 0;
         } else {
             return powerupLevels.get(powerup);

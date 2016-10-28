@@ -3,6 +3,9 @@ package objects.powerups;
 import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
+import java.awt.Point;
+
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Propeller powerup.
@@ -71,11 +74,10 @@ import system.IServiceLocator;
      * Propeller constructor.
      *
      * @param sL - The Games service locator.
-     * @param x  - The X location for the Propeller.
-     * @param y  - The Y location for the Propeller.
+     * @param point  - The location for the Propeller.
      */
-    /* package */ Propeller(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);
+    /* package */ Propeller(final IServiceLocator sL, final Point point) {
+        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);
         Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
     }
 
@@ -126,7 +128,7 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos(), this.theta);
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()), this.theta);
     }
 
     /**

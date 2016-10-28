@@ -141,7 +141,7 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
 
     /**
      * Adds a projectile to the Projectiles from this Doodle.
-     * @param projectile the projectile that has to be add.
+     * @param projectile The projectile that has to be add.
      */
     void addProjectile(final IGameObject projectile);
 

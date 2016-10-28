@@ -2,6 +2,9 @@ package objects.powerups;
 
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IServiceLocator;
+import java.awt.Point;
+
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Jetpack powerup.
@@ -22,11 +25,10 @@ import system.IServiceLocator;
      * Jetpack constructor.
      *
      * @param sL - The Game's service locator.
-     * @param x - The X location for the Jetpack.
-     * @param y - The Y location for the Jetpack.
+     * @param point - The location for the Jetpack.
      */
-    /* package */ Jetpack(final IServiceLocator sL, final int x, final int y) {
-        super(sL, x, y, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 1), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
+    /* package */ Jetpack(final IServiceLocator sL, final Point point) {
+        super(sL, point, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 1), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
     }
 
     /**
@@ -34,7 +36,7 @@ import system.IServiceLocator;
      */
     @Override
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos(), this.getAngle());
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()), this.getAngle());
     }
 
     /**

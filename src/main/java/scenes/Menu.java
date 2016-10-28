@@ -12,6 +12,7 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,7 +125,7 @@ public class Menu implements IScene {
 
         IDoodleFactory doodleFactory = sL.getDoodleFactory();
         this.doodle = doodleFactory.createStartScreenDoodle();
-        this.doodle.setXPos(Menu.DOODLE_X);
+        this.doodle.setXPos(gameWidth * Menu.DOODLE_X);
         this.doodle.setVerticalSpeed(-1);
 
         IPlatformFactory platformFactory = sL.getPlatformFactory();
@@ -164,7 +165,7 @@ public class Menu implements IScene {
      */
     @Override
     public final void render() {
-        this.serviceLocator.getRenderer().drawSpriteHUD(this.cover, 0, 0);
+        this.serviceLocator.getRenderer().drawSpriteHUD(this.cover, new Point(0, 0));
         for (IButton button : this.buttons) {
             button.render();
         }

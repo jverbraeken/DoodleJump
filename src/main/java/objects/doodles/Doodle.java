@@ -19,11 +19,13 @@ import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.EnumMap;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Doodle.
@@ -130,12 +132,12 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     /* package */ Doodle(final IServiceLocator sL, final World w) {
         super(sL,
-                sL.getConstants().getGameWidth() / 2,
-                sL.getConstants().getGameHeight() / 2,
+                new Point(sL.getConstants().getGameWidth() / 2,
+                sL.getConstants().getGameHeight() / 2),
                 sL.getSpriteFactory().getDoodleLeftSprites()[0],
                 Doodle.class);
 
-        Doodle.fakePowerup = new APowerup(sL, 0, 0, sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
+        Doodle.fakePowerup = new APowerup(sL, new Point(0, 0), sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
             @Override
             public void render() {
             }
@@ -311,15 +313,15 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void render() {
         ISprite sprite = this.getSprite();
         Doodle.getServiceLocator().getRenderer().drawSprite(sprite,
-                (int) this.getXPos(),
-                (int) this.getYPos(),
+                new Point((int) this.getXPos(),
+                (int) this.getYPos()),
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
         if (!this.isAlive()) {
             Doodle.getServiceLocator().getRenderer().drawSprite(getStarSprite(),
-                    (int) (this.getXPos() + (STARS_OFFSET * this.spriteScalar)),
-                    (int) this.getYPos(),
+                    new Point((int) (this.getXPos() + (STARS_OFFSET * this.spriteScalar)),
+                    (int) this.getYPos()),
                     (int) (getSprite().getWidth() * this.spriteScalar * STARS_SCALAR),
                     (int) (getSprite().getHeight() * this.spriteScalar * STARS_SCALAR));
         }
