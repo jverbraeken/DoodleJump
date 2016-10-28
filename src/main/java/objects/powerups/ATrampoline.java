@@ -20,12 +20,11 @@ public abstract class ATrampoline extends AJumpablePowerup {
      * @param sL           The locator providing services to the powerup
      * @param point        The coordinates of the powerup
      * @param boost        The value of the boost of the powerup
-     * @param defaultSprite The sprite when the object has not collided with a doodle
-     * @param usedSprite    The sprite when the object has collided with a doodle
+     * @param sprites      The sprites, must be 2.
      * @param powerup      The class of the powerup
      */
-    public ATrampoline(final IServiceLocator sL, final Point point, final double boost, final ISprite defaultSprite, final ISprite usedSprite, final Class<?> powerup) {
-        super(sL, point, boost, defaultSprite, usedSprite, powerup);
+    public ATrampoline(final IServiceLocator sL, final Point point, final double boost, final ISprite[] sprites, final Class<?> powerup) {
+        super(sL, point, boost, sprites, powerup);
     }
 
 

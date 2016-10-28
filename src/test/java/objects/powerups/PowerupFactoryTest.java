@@ -20,10 +20,15 @@ import system.IServiceLocator;
 import java.awt.*;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
-import static org.powermock.api.mockito.PowerMockito.*;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.verifyNew;
+import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({PowerupFactory.class,
@@ -44,7 +49,7 @@ public class PowerupFactoryTest {
     private static ISpringCreatedObserver springCreatedObserver = mock(ISpringCreatedObserver.class);
     private static ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
     private static ISprite sprite = mock(ISprite.class);
-    private static ISprite[] sprites = {sprite, sprite,};
+    private static ISprite[] sprites = {sprite, sprite};
     private static ITrampolineCreatedObserver trampolineCreatedObserver = mock(ITrampolineCreatedObserver.class);
     private static Jetpack jetpack = mock(Jetpack.class);
     private static Propeller propeller = mock(Propeller.class);
@@ -73,7 +78,6 @@ public class PowerupFactoryTest {
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(sprite.getWidth()).thenReturn(0);
         when(sprite.getHeight()).thenReturn(0);
-
     }
 
     @Before
@@ -141,9 +145,9 @@ public class PowerupFactoryTest {
 
         int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_SPRING");
 
-        whenNew(Spring.class).withArguments(serviceLocator, point, sprite, sprite, boost[0]).thenReturn(spring);
+        whenNew(Spring.class).withArguments(serviceLocator, point, sprites, boost[0]).thenReturn(spring);
         powerupFactory.createSpring(xPos, yPos);
-        verifyNew(Spring.class).withArguments(serviceLocator, point, sprite, sprite, boost[0]);
+        verifyNew(Spring.class).withArguments(serviceLocator, point, sprites, boost[0]);
     }
 
     @Test
@@ -154,9 +158,9 @@ public class PowerupFactoryTest {
 
         int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_SPRING");
 
-        whenNew(Spring.class).withArguments(serviceLocator, point, sprite, sprite, boost[1]).thenReturn(spring);
+        whenNew(Spring.class).withArguments(serviceLocator, point, sprites, boost[1]).thenReturn(spring);
         powerupFactory.createSpring(xPos, yPos);
-        verifyNew(Spring.class).withArguments(serviceLocator, point, sprite, sprite, boost[1]);
+        verifyNew(Spring.class).withArguments(serviceLocator, point, sprites, boost[1]);
     }
 
     @Test
@@ -167,9 +171,9 @@ public class PowerupFactoryTest {
 
         int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_SPRING");
 
-        whenNew(Spring.class).withArguments(serviceLocator, point, sprite, sprite, boost[2]).thenReturn(spring);
+        whenNew(Spring.class).withArguments(serviceLocator, point, sprites, boost[2]).thenReturn(spring);
         powerupFactory.createSpring(xPos, yPos);
-        verifyNew(Spring.class).withArguments(serviceLocator, point, sprite, sprite, boost[2]);
+        verifyNew(Spring.class).withArguments(serviceLocator, point, sprites, boost[2]);
     }
 
     @Test
@@ -194,9 +198,9 @@ public class PowerupFactoryTest {
 
         int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_TRAMPOLINE");
 
-        whenNew(Trampoline.class).withArguments(serviceLocator, point, sprite, sprite, boost[0]).thenReturn(trampoline);
+        whenNew(Trampoline.class).withArguments(serviceLocator, point, sprites, boost[0]).thenReturn(trampoline);
         powerupFactory.createTrampoline(xPos, yPos);
-        verifyNew(Trampoline.class).withArguments(serviceLocator, point, sprite, sprite, boost[0]);
+        verifyNew(Trampoline.class).withArguments(serviceLocator, point, sprites, boost[0]);
     }
 
     @Test
@@ -207,9 +211,9 @@ public class PowerupFactoryTest {
 
         int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_TRAMPOLINE");
 
-        whenNew(Trampoline.class).withArguments(serviceLocator, point, sprite, sprite, boost[1]).thenReturn(trampoline);
+        whenNew(Trampoline.class).withArguments(serviceLocator, point, sprites, boost[1]).thenReturn(trampoline);
         powerupFactory.createTrampoline(xPos, yPos);
-        verifyNew(Trampoline.class).withArguments(serviceLocator, point, sprite, sprite, boost[1]);
+        verifyNew(Trampoline.class).withArguments(serviceLocator, point, sprites, boost[1]);
     }
 
     @Test
@@ -220,9 +224,9 @@ public class PowerupFactoryTest {
 
         int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_TRAMPOLINE");
 
-        whenNew(Trampoline.class).withArguments(serviceLocator, point, sprite, sprite, boost[2]).thenReturn(trampoline);
+        whenNew(Trampoline.class).withArguments(serviceLocator, point, sprites, boost[2]).thenReturn(trampoline);
         powerupFactory.createTrampoline(xPos, yPos);
-        verifyNew(Trampoline.class).withArguments(serviceLocator, point, sprite, sprite, boost[2]);
+        verifyNew(Trampoline.class).withArguments(serviceLocator, point, sprites, boost[2]);
     }
 
     @Test
