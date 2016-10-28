@@ -34,7 +34,7 @@ import java.awt.Point;
      */
     @Override
     public void render() {
-        SizeUp.getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        SizeUp.getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
     }
 
     /**

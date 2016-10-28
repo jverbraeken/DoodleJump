@@ -26,6 +26,10 @@ public class Enemy extends AEnemy {
      * Will move 15 pixels left and right.
      */
     private static final double MOVING_DISTANCE = 15;
+    /**
+     * The amount of experience gained from killing this enemy.
+     */
+    private static final int EXP_AMOUNT_AT_KILL = 200;
 
     /**
      * OffSet of the movement from left to right.
@@ -56,7 +60,7 @@ public class Enemy extends AEnemy {
      * @param sprite The sprite of the enemy
      */
     public Enemy(final IServiceLocator sL, final Point point, final ISprite sprite) {
-        super(sL, point, sprite, Enemy.class);
+        super(sL, EXP_AMOUNT_AT_KILL, point, sprite, Enemy.class);
     }
 
     /**
@@ -73,7 +77,7 @@ public class Enemy extends AEnemy {
     @Override
     public final void render() {
         IRenderer renderer = getServiceLocator().getRenderer();
-        renderer.drawSprite(getSprite(), (int) this.getXPos(), (int) this.getYPos());
+        renderer.drawSprite(getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
     }
 
     /**

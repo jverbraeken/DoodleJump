@@ -121,7 +121,7 @@ public class Platform extends AGameObject implements IPlatform {
     public final void render() {
         double xPos = this.getXPos();
         double yPos = this.getYPos();
-        getServiceLocator().getRenderer().drawSprite(getSprite(), (int) xPos, (int) yPos);
+        getServiceLocator().getRenderer().drawSprite(getSprite(), new Point((int) xPos, (int) yPos));
     }
 
     /**

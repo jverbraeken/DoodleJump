@@ -141,7 +141,7 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
 
     /**
      * Adds a projectile to the Projectiles from this Doodle.
-     * @param projectile the projectile that has to be add.
+     * @param projectile The projectile that has to be add.
      */
     void addProjectile(final IGameObject projectile);
 
@@ -156,5 +156,11 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      * @return the list with projectiles.
      */
     List<IGameObject> getProjectiles();
+
+    /**
+     * Adds the extraAmountOfExperience to extraExp.
+     * @param extraAmountOfExperience the extra exp that has to be added.
+     */
+    void addExperiencePoints(final double extraAmountOfExperience);
 
 }

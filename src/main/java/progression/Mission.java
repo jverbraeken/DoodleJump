@@ -3,6 +3,8 @@ package progression;
 import rendering.TextAlignment;
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * <b>IMMUTABLE</b>
  * <p>
@@ -42,8 +44,8 @@ public final class Mission {
      * @param y The y-position at which the mission should be rendered.
      */
     public void render(int y) {
-        serviceLocator.getRenderer().drawSpriteHUD(serviceLocator.getSpriteFactory().getAchievementSprite(), 0, y);
-        serviceLocator.getRenderer().drawTextHUD(serviceLocator.getConstants().getGameWidth() / 2, y + TEXT_Y_OFFSET, this.message, TextAlignment.center);
+        serviceLocator.getRenderer().drawSpriteHUD(serviceLocator.getSpriteFactory().getAchievementSprite(), new Point(0, y));
+        serviceLocator.getRenderer().drawTextHUD(new Point(serviceLocator.getConstants().getGameWidth() / 2, y + TEXT_Y_OFFSET), this.message, TextAlignment.center);
     }
 
     /* package */ void alertStartOver() {

@@ -14,6 +14,7 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -193,16 +194,17 @@ import java.util.Map;
         assert coinSprites[(int) coinSpriteIndex] != null;
         assert resumeButton != null;
 
-        serviceLocator.getRenderer().drawSpriteHUD(serviceLocator.getSpriteFactory().getPauseCoverSprite(mode), 0, 0);
+        serviceLocator.getRenderer().drawSpriteHUD(serviceLocator.getSpriteFactory().getPauseCoverSprite(mode), new Point(0, 0));
+
         resumeButton.render();
         ISprite coinSprite = this.coinSprites[(int) coinSpriteIndex];
         final int coinX = MARGIN + coinSprite.getHeight() / 2 - (int) (((double) coinSprite.getWidth() / (double) coinSprite.getHeight()) * (double) coinSprite.getHeight() / 2d);
         final int coinY = serviceLocator.getSpriteFactory().getScoreBarSprite().getHeight();
-        serviceLocator.getRenderer().drawSpriteHUD(coinSprite, coinX, coinY);
+        serviceLocator.getRenderer().drawSpriteHUD(coinSprite, new Point(coinX, coinY));
 
         final int coinTextX = MARGIN + coinSprite.getHeight() + MARGIN;
         final int coinTextY = coinY + coinSprite.getHeight() / 2;
-        serviceLocator.getRenderer().drawTextHUD(coinTextX, coinTextY, Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
+        serviceLocator.getRenderer().drawTextHUD(new Point(coinTextX, coinTextY), Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
 
         if (mode == PauseScreenModes.mission) {
             this.renderMissions(coinY + coinSprite.getHeight());
@@ -284,8 +286,8 @@ import java.util.Map;
      */
     private void drawText() {
         serviceLocator.getRenderer().drawTextHUD(
-                (int) (POWERUP_INFO_X * serviceLocator.getConstants().getGameWidth()),
-                (int) (POWERUP_INFO_Y * serviceLocator.getConstants().getGameHeight()),
+                new Point((int) (POWERUP_INFO_X * serviceLocator.getConstants().getGameWidth()),
+                        (int) (POWERUP_INFO_Y * serviceLocator.getConstants().getGameHeight())),
                 "Level - Cost",
                 TextAlignment.left,
                 Color.black);
@@ -336,7 +338,7 @@ import java.util.Map;
             string = Integer.toString(level);
         }
         final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup) + 1).getHeight() / 2;
-        renderer.drawTextHUD((int) (x * width) + BUTTON_TEXT_OFFSET, (int) (y * height) + yOffset, string, Color.black);
+        renderer.drawTextHUD(new Point((int) (x * width) + BUTTON_TEXT_OFFSET, (int) (y * height) + yOffset), string, Color.black);
     }
 
     /**

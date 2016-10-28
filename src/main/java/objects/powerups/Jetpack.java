@@ -2,6 +2,7 @@ package objects.powerups;
 
 import objects.doodles.DoodleBehavior.MovementBehavior;
 import system.IServiceLocator;
+import java.awt.Point;
 
 import java.awt.Point;
 
@@ -36,7 +37,7 @@ import java.awt.Point;
     @Override
 
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), (int) this.getXPos(), (int) this.getYPos(), this.getAngle());
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()), this.getAngle());
     }
 
     /**
