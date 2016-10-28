@@ -1,5 +1,6 @@
 package objects.doodles;
 
+import logging.ILogger;
 import scenes.World;
 import system.IServiceLocator;
 
@@ -17,11 +18,17 @@ public final class DoodleFactory implements IDoodleFactory {
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
+    /**
+     * Logger for the DoodleFactory.
+     */
+    private ILogger logger;
 
     /**
      * Prevent instantiations of DoodleFactory.
      */
-    private DoodleFactory() { }
+    private DoodleFactory() {
+        this.logger = DoodleFactory.serviceLocator.getLoggerFactory().createLogger(DoodleFactory.class);
+    }
 
     /**
      * Register the doodle factory into the service locator.
@@ -33,7 +40,7 @@ public final class DoodleFactory implements IDoodleFactory {
             throw new IllegalArgumentException("The service locator cannot be null");
         }
         DoodleFactory.serviceLocator = sL;
-        sL.provide(new DoodleFactory());
+        DoodleFactory.serviceLocator.provide(new DoodleFactory());
     }
 
     /**
@@ -41,8 +48,9 @@ public final class DoodleFactory implements IDoodleFactory {
      */
     @Override
     public IDoodle createDoodle(final World world) {
+        logger.info("A new Doodle has been created");
         IDoodle doodle = new Doodle(serviceLocator, world);
-        doodle.setVerticalSpeed(DOODLE_INITIAL_SPEED);
+        doodle.setVerticalSpeed(DoodleFactory.DOODLE_INITIAL_SPEED);
         return doodle;
     }
 
@@ -51,6 +59,7 @@ public final class DoodleFactory implements IDoodleFactory {
      */
     @Override
     public IDoodle createStartScreenDoodle() {
+        logger.info("A new StartScreenDoodle has been created");
         return new StartScreenDoodle(serviceLocator);
     }
 
