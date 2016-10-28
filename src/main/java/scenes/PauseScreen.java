@@ -14,7 +14,7 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
