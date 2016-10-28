@@ -48,7 +48,7 @@ public class RegularProjectileTest {
 
     @Test
     public void testCollidesWith() {
-        projectile.collidesWith(doodle);
+        projectile.collidesWith(doodle); // Shouldn't do anything, so shouldn't crash
         assertTrue(true); // No crash
     }
 
