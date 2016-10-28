@@ -892,6 +892,14 @@ public final class SpriteFactory implements ISpriteFactory {
         return this.getSprite(IRes.Sprites.spaceMode);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getRedCross() {
+        return this.getSprite(IRes.Sprites.redCross);
+    }
+
     // Missions
 
     /**
@@ -900,6 +908,23 @@ public final class SpriteFactory implements ISpriteFactory {
     @Override
     public ISprite getAchievementSprite() {
         return getSprite(IRes.Sprites.achievement);
+    }
+
+    //Popup
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getPopupBackground() {
+        return getSprite(IRes.Sprites.popupBackground);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getPopupOkButton() {
+        return getSprite(IRes.Sprites.popupOkButton);
     }
 
     // Coins

@@ -90,6 +90,8 @@ public final class Res implements IRes {
         sprites.put(Sprites.chooseMode, SPRITE_PATH + "mode-button2@2x.png");
         sprites.put(Sprites.shop, SPRITE_PATH + "shop@2x.png");
 
+        sprites.put(Sprites.popupOkButton, SPRITE_PATH + "popup-ok-button.png");
+
         // Covers
         sprites.put(Sprites.background, SPRITE_PATH + "bck@2x.png");
         sprites.put(Sprites.pauseCover, SPRITE_PATH + "pause-cover-3@2x.png");
@@ -137,6 +139,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.seven, SPRITE_PATH + "7.png");
         sprites.put(Sprites.eight, SPRITE_PATH + "8.png");
         sprites.put(Sprites.nine, SPRITE_PATH + "9.png");
+
 
         // Platforms
         sprites.put(Sprites.platform1, SPRITE_PATH + "platform-green@2x.png");
@@ -215,6 +218,8 @@ public final class Res implements IRes {
         sprites.put(Sprites.spaceMode, SPRITE_PATH + "space-mode@4x.png");
         sprites.put(Sprites.underwaterMode, SPRITE_PATH + "underwater-mode@4x.png");
 
+        sprites.put(Sprites.redCross, SPRITE_PATH + "halfRedCross.png");
+
         // Coins
         sprites.put(Sprites.coin1, SPRITE_PATH + "coin1.png");
         sprites.put(Sprites.coin2, SPRITE_PATH + "coin2.png");
@@ -229,6 +234,9 @@ public final class Res implements IRes {
 
         // Missions
         sprites.put(Sprites.achievement, SPRITE_PATH + "achievement@2x.png");
+
+        // Popup
+        sprites.put(Sprites.popupBackground, SPRITE_PATH + "classic-popup-background@2x.png");
 
         // Unimplemented
         sprites.put(Sprites.unimplemented, SPRITE_PATH + "unimplemented.jpg");

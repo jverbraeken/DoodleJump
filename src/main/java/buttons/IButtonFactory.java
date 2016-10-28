@@ -134,6 +134,16 @@ public interface IButtonFactory extends IFactory {
      */
     IButton createStoryModeButton(final double x, final double y);
 
+    /**
+     * Creates and retuns an Ok button.
+     *
+     * @param x the x position of the button.
+     * @param y the y position of the button.
+     * @param popup the Popup this button belongs to.
+     * @return an Ok button.
+     */
+    IButton createOkPopupButton(final double x, final double y, final scenes.Popup popup);
+
 
     /////   SHOP
 

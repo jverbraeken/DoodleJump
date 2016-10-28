@@ -5,6 +5,7 @@ import logging.ILogger;
 import math.ICalc;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
+import scenes.Popup;
 
 import javax.swing.*;
 import java.awt.Graphics;
@@ -12,8 +13,10 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -69,7 +72,7 @@ public final class Game {
     /**
      * The current frame.
      */
-    private static JFrame frame;
+    public static JFrame frame;
     /**
      * The current panel.
      */
@@ -82,7 +85,10 @@ public final class Game {
      * Track if the game is paused.
      */
     private static boolean isPaused = false;
-
+    /**
+     * A {@link Queue} of popups.
+     */
+    private final static Set<Popup> activePopups = new HashSet<>();
     /**
      * The enums for the mode.
      */
@@ -90,30 +96,49 @@ public final class Game {
         /**
          * The regular game mode.
          */
-        regular,
+        regular(0),
         /**
          * The game mode taking place underwater.
          */
-        underwater,
+        underwater(2),
         /**
          * The game mode following a story.
          * UNIMPLEMENTED
          */
-        story,
+        story(1),
         /**
          * The game using the invertable platforms.
          * UNIMPLEMENTED
          */
-        invert,
+        invert(5),
         /**
          * The game mode with invisible platforms.
          * The platforms turn visible when touched by a doodle.
          */
-        darkness,
+        darkness(4),
         /**
          * The game mode taking place in space.
          */
-        space
+        space(3);
+        /**
+         * The rank required to play this mode.
+         */
+        private final int rankRequired;
+        /**
+         * Creates an instance of the enum Modes.
+         * @param rankRequired the rank required to play this mode.
+         */
+         /* package */ Modes(final int rankRequired) {
+            this.rankRequired = rankRequired;
+        }
+
+        /**
+         * Returns the variable rankRequired.
+         * @return the variable rankRequired.
+         */
+        public int getRankRequired() {
+            return rankRequired;
+        }
     }
 
     /**
@@ -230,6 +255,10 @@ public final class Game {
 
                 if (isPaused) {
                     pauseScreen.render();
+                }
+
+                for (Popup popup : activePopups) {
+                    popup.render();
                 }
 
                 ((Graphics2D) g).scale(scale, scale);
@@ -434,5 +463,21 @@ public final class Game {
      */
     public static IScene getScene() {
         return scene;
+    }
+
+    /**
+     * Add a Popup to the activePopups.
+     * @param popup the Popup that has to be added.
+     */
+    public static void addPopup(final Popup popup) {
+        activePopups.add(popup);
+    }
+
+    /**
+     * Deletes a Popup from the activePopups.
+     * @param popup the Popup that has to be deleted.
+     */
+    public static void deletePopup(final Popup popup) {
+        activePopups.remove(popup);
     }
 }

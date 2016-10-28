@@ -199,6 +199,8 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getUnderwaterModeButton();
 
+    ISprite getRedCross();
+
     // Coins
     ISprite getCoinSprite(final int i);
 
@@ -207,4 +209,8 @@ public interface ISpriteFactory extends IFactory {
     // Missions
 
     ISprite getAchievementSprite();
+
+    //Popup
+    ISprite getPopupBackground();
+    ISprite getPopupOkButton();
 }

@@ -181,8 +181,6 @@ public class Menu implements IScene {
         IConstants constants = this.serviceLocator.getConstants();
         IRenderer renderer = this.serviceLocator.getRenderer();
 
-        renderer.fillRectangle(new Point(0, 0), constants.getGameWidth(), TOP_RECTANGLE_HEIGHT, Color.halfOpaqueWhite);
-        renderer.drawText(new Point(0, RANK_TEXT_Y), "Rank: " + rank.getName(), Color.black);
 
         this.serviceLocator.getRenderer().drawSpriteHUD(this.cover, new Point(0, 0));
         for (IButton button : this.buttons) {
@@ -190,6 +188,9 @@ public class Menu implements IScene {
         }
         this.doodle.render();
         this.platform.render();
+
+        renderer.fillRectangle(new Point(0, 0), constants.getGameWidth(), TOP_RECTANGLE_HEIGHT, Color.halfOpaqueWhite);
+        renderer.drawText(new Point(0, RANK_TEXT_Y), "Rank: " + rank.getName(), Color.black);
 
     }
 

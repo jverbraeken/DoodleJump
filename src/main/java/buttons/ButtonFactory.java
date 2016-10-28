@@ -4,10 +4,13 @@ import groovy.lang.Tuple2;
 import logging.ILogger;
 import objects.powerups.Powerups;
 import progression.IProgressionManager;
+import progression.Ranks;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.PauseScreenModes;
 import scenes.World;
+import scenes.ChooseModeScreen;
+import scenes.Popup;
 import system.Game;
 import system.IServiceLocator;
 
@@ -188,8 +191,31 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getRegularModeButton();
-        Runnable regularMode = () -> Game.setMode(Game.Modes.regular);
+        Runnable regularMode = () -> {
+            if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.regular.getRankRequired()) {
+                Game.setMode(Game.Modes.regular);
+            } else {
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.regular.getRankRequired()).getName() + " rank required.");
+                Game.addPopup(popup);
+                ChooseModeScreen.activePopup = true;
+            }
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, regularMode, "regularMode");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IButton createOkPopupButton(final double x, final double y, final scenes.Popup popup) {
+        assert ButtonFactory.serviceLocator != null;
+        ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
+        ISprite buttonSprite = spriteFactory.getPopupOkButton();
+        Runnable deletePopup = () -> {
+            Game.deletePopup(popup);
+            ChooseModeScreen.activePopup = false;
+        };
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, deletePopup, "popupOkButton");
     }
 
     /**
@@ -200,7 +226,15 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getDarknessModeButton();
-        Runnable darknessMode = () -> Game.setMode(Game.Modes.darkness);
+        Runnable darknessMode = () -> {
+            if(serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.darkness.getRankRequired()) {
+                Game.setMode(Game.Modes.darkness);
+            } else {
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.darkness.getRankRequired()).getName() + " rank required.");
+                Game.addPopup(popup);
+                ChooseModeScreen.activePopup = true;
+            }
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, darknessMode, "darknessMode");
     }
 
@@ -212,7 +246,15 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getInvertModeButton();
-        Runnable invertMode = () -> Game.setMode(Game.Modes.invert);
+        Runnable invertMode = () -> {
+            if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.invert.getRankRequired()) {
+                Game.setMode(Game.Modes.invert);
+            } else {
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.invert.getRankRequired()).getName() + " rank required.");
+                Game.addPopup(popup);
+                ChooseModeScreen.activePopup = true;
+            }
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, invertMode, "invertMode");
     }
 
@@ -224,7 +266,15 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getSpaceModeButton();
-        Runnable spaceMode = () -> Game.setMode(Game.Modes.space);
+        Runnable spaceMode = () -> {
+            if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.space.getRankRequired()) {
+                Game.setMode(Game.Modes.space);
+            } else {
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.space.getRankRequired()).getName() + " rank required.");
+                Game.addPopup(popup);
+                ChooseModeScreen.activePopup = true;
+            }
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, spaceMode, "spaceMode");
     }
 
@@ -236,7 +286,15 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getUnderwaterModeButton();
-        Runnable underwaterMode = () -> Game.setMode(Game.Modes.underwater);
+        Runnable underwaterMode = () -> {
+            if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.underwater.getRankRequired()) {
+                Game.setMode(Game.Modes.underwater);
+            } else {
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.underwater.getRankRequired()).getName() + " rank required.");
+                Game.addPopup(popup);
+                ChooseModeScreen.activePopup = true;
+            }
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, underwaterMode, "underwaterMode");
     }
 
@@ -248,7 +306,15 @@ public final class ButtonFactory implements IButtonFactory {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getStoryModeButton();
-        Runnable storyMode = () -> Game.setMode(Game.Modes.story);
+        Runnable storyMode = () -> {
+            if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.story.getRankRequired()) {
+                Game.setMode(Game.Modes.story);
+            } else {
+                Popup popup = new scenes.Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.story.getRankRequired()).getName() + " rank required.");
+                Game.addPopup(popup);
+                ChooseModeScreen.activePopup = true;
+            }
+        };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, storyMode, "storyMode");
     }
 
