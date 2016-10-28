@@ -10,7 +10,6 @@ import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.DoodleBehavior.SpaceBehavior;
 import objects.doodles.DoodleBehavior.UnderwaterBehavior;
 import objects.enemies.AEnemy;
-import objects.enemies.IEnemy;
 import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
@@ -23,11 +22,10 @@ import system.IServiceLocator;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.EnumMap;
-import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Doodle.
@@ -120,7 +118,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * The keys the Doodle responds to.
      */
-    private Keys[] keys = new Keys[] { Keys.arrowLeft, Keys.arrowRight };
+    private Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
     /**
      * A list of all the projectiles shot by this Enemy.
      */
@@ -139,7 +137,7 @@ public class Doodle extends AGameObject implements IDoodle {
     /* package */ Doodle(final IServiceLocator sL, final World w) {
         super(sL,
                 new Point(sL.getConstants().getGameWidth() / 2,
-                sL.getConstants().getGameHeight() / 2),
+                        sL.getConstants().getGameHeight() / 2),
                 sL.getSpriteFactory().getDoodleLeftSprites()[0],
                 Doodle.class);
 
@@ -310,6 +308,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void deregister() {
+        shootingObserver.deregister();
         Doodle.getServiceLocator().getInputManager().removeObserver(this.getKeyLeft(), this);
         Doodle.getServiceLocator().getInputManager().removeObserver(this.getKeyRight(), this);
         this.getLogger().info("The doodle removed itself as an observer from the input manager");
@@ -323,14 +322,14 @@ public class Doodle extends AGameObject implements IDoodle {
         ISprite sprite = this.getSprite();
         Doodle.getServiceLocator().getRenderer().drawSprite(sprite,
                 new Point((int) this.getXPos(),
-                (int) this.getYPos()),
+                        (int) this.getYPos()),
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
         if (!this.isAlive()) {
             Doodle.getServiceLocator().getRenderer().drawSprite(getStarSprite(),
                     new Point((int) (this.getXPos() + (STARS_OFFSET * this.spriteScalar)),
-                    (int) this.getYPos()),
+                            (int) this.getYPos()),
                     (int) (getSprite().getWidth() * this.spriteScalar * STARS_SCALAR),
                     (int) (getSprite().getHeight() * this.spriteScalar * STARS_SCALAR));
         }
@@ -365,6 +364,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Update the projectiles this Doodle has shot.
+     *
      * @param delta The time in milliseconds that has passed between the last frame and the new frame
      */
     private void updateProjectiles(final double delta) {
@@ -372,7 +372,7 @@ public class Doodle extends AGameObject implements IDoodle {
         Set<IGameObject> toRemove = new HashSet<>();
         for (IGameObject projectile : projectiles) {
             if (projectile.getXPos() <= width + projectile.getHitBox()[2] && projectile.getXPos() >= -projectile.getHitBox()[2]
-             && projectile.getYPos() >= -projectile.getHitBox()[3] + getServiceLocator().getRenderer().getCamera().getYPos()) {
+                    && projectile.getYPos() >= -projectile.getHitBox()[3] + getServiceLocator().getRenderer().getCamera().getYPos()) {
                 projectile.update(delta);
             } else {
                 toRemove.add(projectile);
@@ -386,6 +386,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Returns the current score.
+     *
      * @return the score.
      */
     public final double getScore() {
@@ -553,6 +554,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
     /**
      * Adds a projectile to the Set with Projectiles.
+     *
      * @param projectile the projectile that has to be added.
      */
     @Override

@@ -15,7 +15,7 @@ import system.IRenderable;
 import system.IServiceLocator;
 import system.IUpdatable;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -523,4 +523,21 @@ public class World implements IScene {
     public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
+    /**
+     * Activate the input observers of doodles that are active in this scene.
+     */
+    public void registerDoodle() {
+        for (IDoodle doodle : doodles) {
+            doodle.register();
+        }
+    }
+
+    /**
+     * Deactivate the input observers of doodles that are active in this scene.
+     */
+    public void deregisterDoodle() {
+        for (IDoodle doodle : doodles) {
+            doodle.deregister();
+        }
+    }
 }
