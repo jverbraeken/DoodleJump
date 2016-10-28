@@ -84,8 +84,11 @@ import java.awt.Point;
         if (this.owner == null && this.uses < MAX_USES) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
         } else if (this.owner != null) {
-            int xPos = (int) owner.getXPos() + (owner.getSprite().getWidth() / 2) - (this.getSprite().getWidth() / 2);
-            int yPos = (int) owner.getYPos() + owner.getSprite().getHeight();
+            int xPos = (int) owner.getXPos()
+                    + owner.getSprite().getWidth() / 2
+                    - this.getSprite().getWidth() / 2;
+            int yPos = (int) owner.getYPos()
+                    + owner.getSprite().getHeight();
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point(xPos, yPos));
         }
     }

@@ -167,6 +167,7 @@ public final class SpaceBehavior implements MovementBehavior {
      *
      * @param delta Delta time since previous frame.
      */
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     private void animate(final double delta) {
         this.doodle.updateActiveSprite();
     }

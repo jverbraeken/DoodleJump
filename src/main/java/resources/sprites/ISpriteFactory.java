@@ -118,13 +118,7 @@ public interface ISpriteFactory extends IFactory {
 
     ISprite getPlatformSprite9();
 
-    ISprite getPlatformBrokenSprite1();
-
-    ISprite getPlatformBrokenSprite2();
-
-    ISprite getPlatformBrokenSprite3();
-
-    ISprite getPlatformBrokenSprite4();
+    ISprite getPlatformBrokenSprite(final int index);
 
     ISprite getPlatformExplosiveSprite1();
 

@@ -163,8 +163,11 @@ import java.awt.Point;
         }
 
         if (this.owner != null) {
-            this.setXPos((int) this.owner.getXPos() + (this.getSprite().getWidth() / 2));
-            this.setYPos((int) this.owner.getYPos() + (this.getSprite().getHeight() / 2) + OWNED_Y_OFFSET);
+            this.setXPos((int) this.owner.getXPos()
+                    + this.getSprite().getWidth() / 2);
+            this.setYPos((int) this.owner.getYPos()
+                    + this.getSprite().getHeight() / 2
+                    + OWNED_Y_OFFSET);
         }
     }
 

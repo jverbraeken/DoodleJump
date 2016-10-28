@@ -26,7 +26,7 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      */
     /* package */PlatformBroken(final IServiceLocator sL, final IPlatform platform) {
         super(sL, platform);
-        getContained().setSprite(sL.getSpriteFactory().getPlatformBrokenSprite1());
+        getContained().setSprite(sL.getSpriteFactory().getPlatformBrokenSprite(1));
         getContained().getProps().put(Platform.PlatformProperties.breaks, 1);
     }
 
@@ -62,18 +62,18 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
     @SuppressWarnings("checkstyle:magicnumber")
     private ISprite getBrokenSprite(final int numberOfAnimation) {
         switch (numberOfAnimation) {
-            case (2):
+            case 2:
                 getProps().replace(Platform.PlatformProperties.breaks, 3);
-                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite2();
-            case (3):
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite(2);
+            case 3:
                 getProps().replace(Platform.PlatformProperties.breaks, 4);
-                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite3();
-            case (4):
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite(3);
+            case 4:
                 getProps().replace(Platform.PlatformProperties.breaks, -1);
-                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite4();
-            case (-1):
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite(4);
+            case -1:
                 getProps().replace(Platform.PlatformProperties.breaks, -1);
-                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite4();
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite(4);
             default:
                 return getSprite();
         }
