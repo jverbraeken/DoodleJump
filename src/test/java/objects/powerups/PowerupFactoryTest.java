@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+import progression.IProgressionManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -38,6 +39,7 @@ public class PowerupFactoryTest {
 
     private static ILogger logger = mock(ILogger.class);
     private static ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
+    private static IProgressionManager progressionManager = mock(IProgressionManager.class);
     private static IServiceLocator serviceLocator = mock(IServiceLocator.class);
     private static ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
     private static ISprite sprite = mock(ISprite.class);
@@ -62,12 +64,12 @@ public class PowerupFactoryTest {
     public static void initMock() throws Exception {
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
+        when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
 
         when(loggerFactory.createLogger(PowerupFactory.class)).thenReturn(logger);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(sprite.getWidth()).thenReturn(0);
         when(sprite.getHeight()).thenReturn(0);
-
     }
 
     @Before
