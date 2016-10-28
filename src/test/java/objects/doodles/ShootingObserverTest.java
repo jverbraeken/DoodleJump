@@ -29,6 +29,7 @@ public class ShootingObserverTest {
 
     ShootingObserver shootingObserver;
 
+    int direction = 1;
     double doodleX = 10, doodleY = 10;
     double[] hitbox = new double[] { 0, 0, 10, 10 };
 
@@ -41,7 +42,7 @@ public class ShootingObserverTest {
         when(serviceLocator.getInputManager()).thenReturn(inputManager);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getProjectileFactory()).thenReturn(projectileFactory);
-        when(projectileFactory.createRegularProjectile(anyObject(), anyInt(), anyInt())).thenReturn(projectile);
+        when(projectileFactory.createRegularProjectile(anyObject(), anyInt())).thenReturn(projectile);
 
         shootingObserver = new ShootingObserver(serviceLocator, doodle);
     }
@@ -62,14 +63,14 @@ public class ShootingObserverTest {
     public void testMouseClickedRight() {
         shootingObserver.mouseClicked(0, 0);
         verify(serviceLocator, times(1)).getProjectileFactory();
-        verify(projectileFactory, times(1)).createRegularProjectile(anyObject(), anyInt(), anyInt());
+        verify(projectileFactory, times(1)).createRegularProjectile(anyObject(), anyInt());
     }
 
     @Test
     public void testMouseClickedLeft() {
         shootingObserver.mouseClicked(0, (int) (2 * doodleY));
         verify(serviceLocator, times(1)).getProjectileFactory();
-        verify(projectileFactory, times(1)).createRegularProjectile(anyObject(), anyInt(), anyInt());
+        verify(projectileFactory, times(1)).createRegularProjectile(anyObject(), anyInt());
     }
 
     @Test

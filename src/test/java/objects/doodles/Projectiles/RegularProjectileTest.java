@@ -6,6 +6,7 @@ import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.internal.util.reflection.Whitebox;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -13,8 +14,8 @@ import system.IServiceLocator;
 
 import java.awt.*;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -31,8 +32,8 @@ public class RegularProjectileTest {
     ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
     Point point = mock(Point.class);
 
-    int xDir = 10, yDir = 10;
-    RegularProjectile regularProjectile;
+    int direction = 10;
+    RegularProjectile projectile;
 
     @Before
     public void init() {
@@ -42,20 +43,36 @@ public class RegularProjectileTest {
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(spriteFactory.getRegularProjectileSprite()).thenReturn(sprite);
 
-        regularProjectile = new RegularProjectile(serviceLocator, point, xDir, yDir);
+        projectile = new RegularProjectile(serviceLocator, point, direction);
     }
 
     @Test
     public void testCollidesWith() {
-        regularProjectile.collidesWith(doodle);
+        projectile.collidesWith(doodle);
         assertTrue(true); // No crash
     }
 
     @Test
     public void testRender() {
-        regularProjectile.render();
+        projectile.render();
         verify(serviceLocator, times(1)).getRenderer();
-        verify(renderer, times(1)).drawSprite(sprite, anyObject());
+        verify(renderer, times(1)).drawSprite(sprite, new Point(0, 0));
+    }
+
+    @Test
+    public void testUpdateXPos() {
+        double xBefore = (double) Whitebox.getInternalState(projectile, "xPos");
+        projectile.update(0d);
+        double xAfter = (double) Whitebox.getInternalState(projectile, "xPos");
+        assertFalse(xBefore == xAfter);
+    }
+
+    @Test
+    public void testUpdateYPos() {
+        double yBefore = (double) Whitebox.getInternalState(projectile, "yPos");
+        projectile.update(0d);
+        double yAfter = (double) Whitebox.getInternalState(projectile, "yPos");
+        assertFalse(yBefore == yAfter);
     }
 
 }

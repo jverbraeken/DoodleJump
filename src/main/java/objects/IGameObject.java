@@ -5,6 +5,8 @@ import resources.sprites.ISprite;
 import system.IRenderable;
 import system.IUpdatable;
 
+import java.awt.*;
+
 /**
  * The interface implemented by {@link AGameObject}, the super class of all classes that represents objects in the game.
  */
@@ -66,6 +68,13 @@ public interface IGameObject extends IRenderable, IUpdatable {
      * @return the y position.
      */
     double getYPos();
+
+    /**
+     * Retrieve a point of the x and y position of the game object.
+     *
+     * @return The point.
+     */
+    Point getPoint();
 
     /**
      * Set the hitbox of the game object.

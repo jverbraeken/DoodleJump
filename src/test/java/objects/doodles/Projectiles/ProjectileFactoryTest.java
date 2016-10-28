@@ -2,7 +2,6 @@ package objects.doodles.Projectiles;
 
 import logging.ILogger;
 import logging.ILoggerFactory;
-import objects.doodles.DoodleBehavior.RegularBehavior;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +30,7 @@ public class ProjectileFactoryTest {
     IProjectileFactory projectileFactory;
 
     int xPos = 10, yPos = 10;
+    int direction = 1;
 
     @Before
     public void init() throws Exception {
@@ -43,9 +43,9 @@ public class ProjectileFactoryTest {
 
     @Test
     public void testCreateRegularProjectile() throws Exception {
-        whenNew(RegularProjectile.class).withArguments(serviceLocator, point, xPos, yPos).thenReturn(regularProjectile);
-        projectileFactory.createRegularProjectile(point, xPos, yPos);
-        verifyNew(RegularProjectile.class).withArguments(serviceLocator, point, xPos, yPos);
+        whenNew(RegularProjectile.class).withArguments(serviceLocator, point, direction).thenReturn(regularProjectile);
+        projectileFactory.createRegularProjectile(point, direction);
+        verifyNew(RegularProjectile.class).withArguments(serviceLocator, point, direction);
     }
 
 }

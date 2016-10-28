@@ -52,14 +52,14 @@ public class ShootingObserver implements IMouseInputObserver {
     public final void mouseClicked(final int x, final int y) {
         int doodleXPos = (int) (this.doodle.getXPos() + this.doodle.getHitBox()[1]/2);
         int doodleYPos = (int) this.doodle.getYPos();
-        int xDir = 0;
+        int direction;
         if (doodleYPos - y < 0) {
-            xDir = (-(doodleXPos - x)) /2;
+            direction = (-(doodleXPos - x)) /2;
         } else {
-            xDir = (doodleXPos - x) /2;
+            direction = (doodleXPos - x) /2;
         }
 
-        IGameObject projectile = this.serviceLocator.getProjectileFactory().createRegularProjectile(new Point(doodleXPos, doodleYPos), xDir, 0);
+        IGameObject projectile = this.serviceLocator.getProjectileFactory().createRegularProjectile(new Point(doodleXPos, doodleYPos), direction);
         this.doodle.addProjectile(projectile);
         this.logger.info("The mouse has been clicked in-game, a projectile has been created.");
     }

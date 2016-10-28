@@ -20,16 +20,16 @@ public class RegularProjectile extends AGameObject {
     /**
      * The speed this projectile is going up.
      */
-    private int xDirection;
+    private int direction;
 
     /**
      * Create and initialize a RegularProjectile.
      * @param sL The serviceLocator of this game.
      * @param point The location.
      */
-    /* package */ RegularProjectile(final IServiceLocator sL, final Point point, final int xDir, final int yDir) {
+    /* package */ RegularProjectile(final IServiceLocator sL, final Point point, final int direction) {
         super(sL, point, sL.getSpriteFactory().getRegularProjectileSprite(), RegularProjectile.class);
-        this.xDirection = xDir;
+        this.direction = direction;
     }
 
     /**
@@ -44,7 +44,7 @@ public class RegularProjectile extends AGameObject {
      */
     @Override
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), this.getPoint());
     }
 
     /**
@@ -53,7 +53,7 @@ public class RegularProjectile extends AGameObject {
     @Override
     public void update(final double delta) {
         this.setYPos(getYPos() + RegularProjectile.VERTICAL_SPEED);
-        this.setXPos(getXPos() + this.xDirection);
+        this.setXPos(getXPos() + this.direction);
     }
 
 }
