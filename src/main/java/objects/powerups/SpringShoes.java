@@ -1,6 +1,7 @@
 package objects.powerups;
 
 import objects.AGameObject;
+import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
@@ -32,8 +33,8 @@ import java.awt.Point;
     /**
      * Jump boots constructor.
      *
-     * @param sL - The Games service locator.
-     * @param point - The location for the SpringShoes.
+     * @param sL - The Games service locator
+     * @param point - The location for the SpringShoes
      */
     /* package */ SpringShoes(final IServiceLocator sL, final Point point) {
         super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.springShoes, 1), SpringShoes.class);
@@ -95,6 +96,14 @@ import java.awt.Point;
     @Override
     public void endPowerup() {
 
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setPositionOnPlatform(final IPlatform platform) {
+        super.setPositionOnPlatformRandom(platform);
     }
 
 }

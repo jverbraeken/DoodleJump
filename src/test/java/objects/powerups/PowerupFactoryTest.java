@@ -17,10 +17,9 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
@@ -33,7 +32,6 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({PowerupFactory.class,
         Jetpack.class,
-        SpaceRocket.class,
         Propeller.class,
         SizeDown.class,
         SizeUp.class,
@@ -55,11 +53,11 @@ public class PowerupFactoryTest {
     private static Propeller propeller = mock(Propeller.class);
     private static SizeDown sizeDown = mock(SizeDown.class);
     private static SizeUp sizeUp = mock(SizeUp.class);
-    private static SpaceRocket spaceRocket = mock(SpaceRocket.class);
     private static Spring spring = mock(Spring.class);
     private static SpringShoes springShoes = mock(SpringShoes.class);
     private static Trampoline trampoline = mock(Trampoline.class);
 
+    private static int level = 1;
     private static int xPos = 0;
     private static int yPos = 0;
     private static Point point = new Point(xPos, yPos);
@@ -75,6 +73,7 @@ public class PowerupFactoryTest {
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
         when(loggerFactory.createLogger(PowerupFactory.class)).thenReturn(logger);
+        when(spriteFactory.getJetpackActiveSprites(anyInt())).thenReturn(sprites);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(sprite.getWidth()).thenReturn(0);
         when(sprite.getHeight()).thenReturn(0);
@@ -93,28 +92,15 @@ public class PowerupFactoryTest {
 
 
     @Test
+    public void testCreateJetpack() throws Exception {
+        when(progressionManager.getPowerupLevel(anyObject())).thenReturn(1);
 
-    public void testCreateJetpackStage1() throws Exception {
-        when(progressionManager.getPowerupLevel(Powerups.jetpack)).thenReturn(1);
-        whenNew(Jetpack.class).withArguments(serviceLocator, point).thenReturn(jetpack);
+        int[] time = Whitebox.getInternalState(PowerupFactory.class, "MAX_TIME_JETPACK");
+        int[] yOffset = Whitebox.getInternalState(PowerupFactory.class, "OWNED_Y_OFFSET_JETPACK");
+        whenNew(Jetpack.class).withArguments(serviceLocator, point, level, sprites, time[0], yOffset[0]).thenReturn(jetpack);
         powerupFactory.createJetpack(xPos, yPos);
-        verifyNew(Jetpack.class).withArguments(serviceLocator, point);
+        verifyNew(Jetpack.class).withArguments(serviceLocator, point, level, sprites, time[0], yOffset[0]);
     }
-
-    @Test
-    public void testCreateJetpackStage2() throws Exception {
-        when(progressionManager.getPowerupLevel(Powerups.jetpack)).thenReturn(2);
-        whenNew(SpaceRocket.class).withArguments(serviceLocator, point).thenReturn(spaceRocket);
-        powerupFactory.createJetpack(xPos, yPos);
-        verifyNew(SpaceRocket.class).withArguments(serviceLocator, point);
-    }
-
-    @Test
-    public void testCreateJetpackLevelOutsideRange() throws Exception {
-        when(progressionManager.getPowerupLevel(Powerups.jetpack)).thenReturn(3);
-        assertEquals(null, powerupFactory.createJetpack(xPos, yPos));
-    }
-
 
     @Test
     public void testCreatePropeller() throws Exception {
@@ -138,101 +124,27 @@ public class PowerupFactoryTest {
     }
 
     @Test
-    public void testCreateSpring1() throws Exception {
-        when(progressionManager.getPowerupLevel(Powerups.spring)).thenReturn(1);
-        when(spriteFactory.getPowerupSprite(Powerups.spring, 1)).thenReturn(sprite);
+    public void testCreateSpring() throws Exception {
+        when(progressionManager.getPowerupLevel(Powerups.spring)).thenReturn(level);
         when(spriteFactory.getSpringUsedSprite(1)).thenReturn(sprite);
 
         int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_SPRING");
 
-        whenNew(Spring.class).withArguments(serviceLocator, point, sprites, boost[0]).thenReturn(spring);
+        whenNew(Spring.class).withArguments(serviceLocator, point, level, sprite, boost[0]).thenReturn(spring);
         powerupFactory.createSpring(xPos, yPos);
-        verifyNew(Spring.class).withArguments(serviceLocator, point, sprites, boost[0]);
-    }
-
-    @Test
-    public void testCreateSpring2() throws Exception {
-        when(progressionManager.getPowerupLevel(Powerups.spring)).thenReturn(2);
-        when(spriteFactory.getPowerupSprite(Powerups.spring, 2)).thenReturn(sprite);
-        when(spriteFactory.getSpringUsedSprite(2)).thenReturn(sprite);
-
-        int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_SPRING");
-
-        whenNew(Spring.class).withArguments(serviceLocator, point, sprites, boost[1]).thenReturn(spring);
-        powerupFactory.createSpring(xPos, yPos);
-        verifyNew(Spring.class).withArguments(serviceLocator, point, sprites, boost[1]);
-    }
-
-    @Test
-    public void testCreateSpring3() throws Exception {
-        when(progressionManager.getPowerupLevel(Powerups.spring)).thenReturn(3);
-        when(spriteFactory.getPowerupSprite(Powerups.spring, 3)).thenReturn(sprite);
-        when(spriteFactory.getSpringUsedSprite(3)).thenReturn(sprite);
-
-        int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_SPRING");
-
-        whenNew(Spring.class).withArguments(serviceLocator, point, sprites, boost[2]).thenReturn(spring);
-        powerupFactory.createSpring(xPos, yPos);
-        verifyNew(Spring.class).withArguments(serviceLocator, point, sprites, boost[2]);
-    }
-
-    @Test
-    public void testCreateSpringLevelOutsideRange() throws Exception {
-        when(progressionManager.getPowerupLevel(Powerups.spring)).thenReturn(4);
-        assertEquals(null, powerupFactory.createSpring(xPos, yPos));
-    }
-
-
-    @Test
-    public void testCreateSpringShoes() throws Exception {
-        whenNew(SpringShoes.class).withArguments(serviceLocator, point).thenReturn(springShoes);
-        powerupFactory.createSpringShoes(xPos, yPos);
-        verifyNew(SpringShoes.class).withArguments(serviceLocator, point);
+        verifyNew(Spring.class).withArguments(serviceLocator, point, level, sprite, boost[0]);
     }
 
     @Test
     public void testCreateTrampoline1() throws Exception {
         when(progressionManager.getPowerupLevel(Powerups.trampoline)).thenReturn(1);
-        when(spriteFactory.getPowerupSprite(Powerups.trampoline, 1)).thenReturn(sprite);
         when(spriteFactory.getTrampolineUsedSprite(1)).thenReturn(sprite);
 
         int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_TRAMPOLINE");
 
-        whenNew(Trampoline.class).withArguments(serviceLocator, point, sprites, boost[0]).thenReturn(trampoline);
+        whenNew(Trampoline.class).withArguments(serviceLocator, point, level, sprite, boost[0]).thenReturn(trampoline);
         powerupFactory.createTrampoline(xPos, yPos);
-        verifyNew(Trampoline.class).withArguments(serviceLocator, point, sprites, boost[0]);
-    }
-
-    @Test
-    public void testCreateTrampoline2() throws Exception {
-        when(progressionManager.getPowerupLevel(Powerups.trampoline)).thenReturn(2);
-        when(spriteFactory.getPowerupSprite(Powerups.trampoline, 2)).thenReturn(sprite);
-        when(spriteFactory.getTrampolineUsedSprite(2)).thenReturn(sprite);
-
-        int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_TRAMPOLINE");
-
-        whenNew(Trampoline.class).withArguments(serviceLocator, point, sprites, boost[1]).thenReturn(trampoline);
-        powerupFactory.createTrampoline(xPos, yPos);
-        verifyNew(Trampoline.class).withArguments(serviceLocator, point, sprites, boost[1]);
-    }
-
-    @Test
-    public void testCreateTrampoline3() throws Exception {
-        when(progressionManager.getPowerupLevel(Powerups.trampoline)).thenReturn(3);
-        when(spriteFactory.getPowerupSprite(Powerups.trampoline, 3)).thenReturn(sprite);
-        when(spriteFactory.getTrampolineUsedSprite(3)).thenReturn(sprite);
-
-        int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_TRAMPOLINE");
-
-        whenNew(Trampoline.class).withArguments(serviceLocator, point, sprites, boost[2]).thenReturn(trampoline);
-        powerupFactory.createTrampoline(xPos, yPos);
-        verifyNew(Trampoline.class).withArguments(serviceLocator, point, sprites, boost[2]);
-    }
-
-    @Test
-    public void testCreateTrampolineLevelOutsideRange() throws Exception {
-        when(progressionManager.getPowerupLevel(Powerups.trampoline)).thenReturn(4);
-        assertEquals(null, powerupFactory.createTrampoline(xPos, yPos));
+        verifyNew(Trampoline.class).withArguments(serviceLocator, point, level, sprite, boost[0]);
     }
 
     @Test

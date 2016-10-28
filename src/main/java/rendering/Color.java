@@ -1,7 +1,7 @@
 package rendering;
 
 /**
- * An enum for all Colors used in this program.
+ * Contains type-safe colors used for the {@link IRenderer renderer}.
  */
 public enum Color {
     /**
@@ -36,10 +36,11 @@ public enum Color {
     private final java.awt.Color color;
 
     /**
-     * Creates a new Java AWT Color
-     * @param red The red component (between 0 and 255 inclusive)
-     * @param green The green component (between 0 and 255 inclusive)
-     * @param blue The blue component (between 0 and 255 inclusive)
+     * Creates a new Java AWT Color.
+     *
+     * @param red     The red component (between 0 and 255 inclusive)
+     * @param green   The green component (between 0 and 255 inclusive)
+     * @param blue    The blue component (between 0 and 255 inclusive)
      * @param opacity The opacity component (between 0 and 255 inclusive)
      */
     Color(final int red, final int green, final int blue, final int opacity) {
@@ -48,6 +49,7 @@ public enum Color {
 
     /**
      * Returns the variable color.
+     *
      * @return the color as java.awt.Color.
      */
     java.awt.Color getColor() {

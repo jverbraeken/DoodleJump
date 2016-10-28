@@ -1,57 +1,76 @@
 package objects.powerups;
 
-import objects.doodles.DoodleBehavior.MovementBehavior;
+import logging.ILogger;
+import objects.blocks.platform.IPlatform;
+import objects.doodles.doodle_behavior.MovementBehavior;
+import resources.sprites.ISprite;
 import system.IServiceLocator;
-import java.awt.Point;
 
 import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Jetpack powerup.
  */
-/* package */ final class Jetpack extends AJetpack {
-
-    /**
-     * The maximum time the Jetpack is active.
-     */
-    private static final int MAX_TIME = 175;
+/* package */ final class Jetpack extends AFlyablePowerup {
 
     /**
      * Y offset for drawing the Jetpack when on Doodle.
      */
-    private static final int OWNED_Y_OFFSET = 35;
+    private final int ownedYOffset;
+    /**
+     * The level of the jetpack.
+     */
+    private final int level;
+    /**
+     * The logger.
+     */
+    private final ILogger logger;
 
     /**
      * Jetpack constructor.
      *
-     * @param sL - The Game's service locator.
+     * @param serviceLocator The Game's service locator.
      * @param point - The location for the Jetpack.
+     * @param level          The level of the Jetpack
+     * @param activeSprites  The animation used when the Jetpack is flying
+     * @param maxTime        The time in frames the Jetpack can fly
+     * @param ownedYOffset   The Y-offset for drawing the Jetpack when the Doodle is flying with it
      */
-    /* package */ Jetpack(final IServiceLocator sL, final Point point) {
-        super(sL, point, MAX_TIME, sL.getSpriteFactory().getPowerupSprite(Powerups.jetpack, 1), sL.getSpriteFactory().getJetpackActiveSprites(), Jetpack.class);
+    /* package */ Jetpack(final IServiceLocator serviceLocator, final Point point, final int level, final ISprite[] activeSprites, final int maxTime, final int ownedYOffset) {
+        super(serviceLocator, point, maxTime, serviceLocator.getSpriteFactory().getPowerupSprite(Powerups.jetpack, level), activeSprites, Jetpack.class);
+        this.ownedYOffset = ownedYOffset;
+        this.level = level;
+        this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-
-    public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()), this.getAngle());
+    public void setPosition() {
+        if (level == 1 || level == 2) {
+            MovementBehavior.Directions facing = getOwner().getFacing();
+            if (facing.equals(MovementBehavior.Directions.Left)) {
+                this.setXPos((int) getOwner().getXPos() + getOwner().getHitBox()[HITBOX_RIGHT]);
+            } else {
+                this.setXPos((int) getOwner().getXPos());
+            }
+        } else if (level == 3) {
+            this.setXPos(((this.getOwner().getSprite().getWidth() - this.getSprite().getWidth()) / 2) + this.getOwner().getXPos());
+        } else {
+            final String error = "Trying to set the position of the jetpack based on the unknown level: " + level;
+            logger.error(error);
+            throw new RuntimeException(error);
+        }
+        this.setYPos((int) getOwner().getYPos() + ownedYOffset);
     }
 
     /**
-     * Set the position of the jetpack with respect to the Doodle owning it.
+     * {@inheritDoc}
      */
-    public void setPosition() {
-        MovementBehavior.Directions facing = this.getOwner().getFacing();
-        if (facing.equals(MovementBehavior.Directions.Left)) {
-            this.setXPos((int) this.getOwner().getXPos() + this.getOwner().getHitBox()[HITBOX_RIGHT]);
-        } else {
-            this.setXPos((int) this.getOwner().getXPos());
-        }
-        this.setYPos((int) this.getOwner().getYPos() + OWNED_Y_OFFSET);
+    @Override
+    public void setPositionOnPlatform(final IPlatform platform) {
+        super.setPositionOnPlatformRandom(platform);
     }
 
 }
-

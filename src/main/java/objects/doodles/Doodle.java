@@ -5,10 +5,11 @@ import input.Keys;
 import objects.AGameObject;
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.doodles.DoodleBehavior.MovementBehavior;
-import objects.doodles.DoodleBehavior.RegularBehavior;
-import objects.doodles.DoodleBehavior.SpaceBehavior;
-import objects.doodles.DoodleBehavior.UnderwaterBehavior;
+import objects.blocks.platform.IPlatform;
+import objects.doodles.doodle_behavior.MovementBehavior;
+import objects.doodles.doodle_behavior.RegularBehavior;
+import objects.doodles.doodle_behavior.SpaceBehavior;
+import objects.doodles.doodle_behavior.UnderwaterBehavior;
 import objects.enemies.AEnemy;
 import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
@@ -30,7 +31,7 @@ import java.util.Set;
 /**
  * This class describes the behaviour of the Doodle.
  */
-@SuppressWarnings({"checkstyle:designforextension"})
+@SuppressWarnings("checkstyle:designforextension")
 public class Doodle extends AGameObject implements IDoodle {
 
     /**
@@ -62,6 +63,14 @@ public class Doodle extends AGameObject implements IDoodle {
      * Second star animation in frames.
      */
     private static final double SECOND_STAR_FRAME = 6d;
+    /**
+     * The scalar for the Stars sprite.
+     */
+    private static final double STARS_SCALAR = .7;
+    /**
+     * The offset for the Stars sprite.
+     */
+    private static final int STARS_OFFSET = 20;
     /**
      * The minimum and maximum value of the spriteScaler.
      */
@@ -108,14 +117,6 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private double spriteScalar = 1d;
     /**
-     * The scalar for the Stars sprite.
-     */
-    private static final double STARS_SCALAR = .7;
-    /**
-     * The offset for the Stars sprite.
-     */
-    private static final int STARS_OFFSET = 20;
-    /**
      * The keys the Doodle responds to.
      */
     private Keys[] keys = new Keys[]{Keys.arrowLeft, Keys.arrowRight};
@@ -148,6 +149,10 @@ public class Doodle extends AGameObject implements IDoodle {
 
             @Override
             public void collidesWith(final IDoodle doodle) {
+            }
+
+            @Override
+            public void setPositionOnPlatform(final IPlatform platform) {
             }
         };
 
@@ -339,7 +344,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Render the projectiles this Doodle has shot.
+     * Render the Projectiles this Doodle has shot.
      */
     private void renderProjectiles() {
         for (IGameObject projectile : this.projectiles) {
@@ -363,7 +368,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Update the projectiles this Doodle has shot.
+     * Update the Projectiles this Doodle has shot.
      *
      * @param delta The time in milliseconds that has passed between the last frame and the new frame
      */
@@ -371,11 +376,12 @@ public class Doodle extends AGameObject implements IDoodle {
         int width = getServiceLocator().getConstants().getGameWidth();
         Set<IGameObject> toRemove = new HashSet<>();
         for (IGameObject projectile : projectiles) {
-            if (projectile.getXPos() <= width + projectile.getHitBox()[2] && projectile.getXPos() >= -projectile.getHitBox()[2]
-                    && projectile.getYPos() >= -projectile.getHitBox()[3] + getServiceLocator().getRenderer().getCamera().getYPos()) {
-                projectile.update(delta);
-            } else {
-                toRemove.add(projectile);
+            if (projectile.getXPos() <= width + projectile.getHitBox()[HITBOX_TOP] && projectile.getXPos() >= -projectile.getHitBox()[HITBOX_TOP]) {
+                if (projectile.getYPos() >= -projectile.getHitBox()[HITBOX_BOTTOM] + getServiceLocator().getRenderer().getCamera().getYPos()) {
+                    projectile.update(delta);
+                } else {
+                    toRemove.add(projectile);
+                }
             }
         }
 
@@ -389,6 +395,7 @@ public class Doodle extends AGameObject implements IDoodle {
      *
      * @return the score.
      */
+
     public final double getScore() {
         return this.score;
     }

@@ -363,7 +363,7 @@ public final class Game {
      *
      * @param runnable The runnable to be executed during the next run
      */
-    public static void schedule(Runnable runnable) {
+    public static void schedule(final Runnable runnable) {
         Game.addToRunnables.add(runnable);
     }
 

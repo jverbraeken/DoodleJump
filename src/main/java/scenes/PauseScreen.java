@@ -27,7 +27,16 @@ import java.util.Map;
     /**
      * The X and Y location for the resume button.
      */
+
     private static final double RESUME_BUTTON_X = 0.55d, RESUME_BUTTON_Y = 0.7d;
+    /**
+     * The amount of digits in the decimal digit system.
+     */
+    private static final int BASE_TEN = 10;
+    /**
+     * The speed with which the coin rotates.
+     */
+    private static final double COIN_SPEED = 0.3d;
 
     /**
      * The X and Y location for the switch button.
@@ -112,7 +121,7 @@ import java.util.Map;
     /**
      * The sprites of the coin, animated.
      */
-    private final ISprite[] coinSprites = new ISprite[10];
+    private final ISprite[] coinSprites = new ISprite[BASE_TEN];
     /**
      * The index of the coin animation. Must be between 0 (inclusive) and 10 (exclusive).
      */
@@ -146,7 +155,7 @@ import java.util.Map;
         this.logger = sL.getLoggerFactory().createLogger(PauseScreen.class);
 
         // Coins
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < BASE_TEN; i++) {
             coinSprites[i] = this.serviceLocator.getSpriteFactory().getCoinSprite(i + 1);
         }
 
@@ -359,7 +368,7 @@ import java.util.Map;
      */
     @Override
     public void update(final double delta) {
-        coinSpriteIndex = (coinSpriteIndex + 0.3 * delta) % 10;
+        coinSpriteIndex = (coinSpriteIndex + COIN_SPEED * delta) % BASE_TEN;
     }
 
 }

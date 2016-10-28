@@ -2,9 +2,9 @@ package objects.doodles.DoodleBehavior;
 
 import constants.IConstants;
 import input.Keys;
-import objects.doodles.DoodleBehavior.MovementBehavior;
-import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.IDoodle;
+import objects.doodles.doodle_behavior.MovementBehavior;
+import objects.doodles.doodle_behavior.RegularBehavior;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import org.junit.Before;

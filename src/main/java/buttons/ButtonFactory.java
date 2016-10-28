@@ -1,5 +1,6 @@
 package buttons;
 
+import groovy.lang.Tuple2;
 import logging.ILogger;
 import objects.powerups.Powerups;
 import progression.IProgressionManager;
@@ -29,18 +30,18 @@ public final class ButtonFactory implements IButtonFactory {
      */
     private final ILogger logger;
     /**
-     * The width of the game's frame.
+     * A copy of the game width constant, used to shorten the code.
      */
     private final int gameWidth;
     /**
-     * The height of the game's frame.
+     * A copy of the game height constant, used to shorten the code.
      */
     private final int gameHeight;
 
     /**
-     * ButtonFactory constructor
+     * Constructs a new ButtonFactory.
      *
-     * @param serviceLocator The game's servicelocator
+     * @param serviceLocator The service locator
      */
     private ButtonFactory(final IServiceLocator serviceLocator) {
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
@@ -51,14 +52,14 @@ public final class ButtonFactory implements IButtonFactory {
     /**
      * Register the platform factory into the service locator.
      *
-     * @param sL the service locator.
+     * @param serviceLocator the service locator.
      */
-    public static void register(final IServiceLocator sL) {
-        if (sL == null) {
+    public static void register(final IServiceLocator serviceLocator) {
+        if (serviceLocator == null) {
             throw new IllegalArgumentException("The service locator cannot be null");
         }
-        ButtonFactory.serviceLocator = sL;
-        ButtonFactory.serviceLocator.provide(getButtonFactory(serviceLocator));
+        ButtonFactory.serviceLocator = serviceLocator;
+        ButtonFactory.serviceLocator.provide(getButtonFactory(ButtonFactory.serviceLocator));
     }
 
     /**
@@ -255,7 +256,7 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createShopPowerupButton(final Powerups powerup, final double x, final double y) {
+    public IButton createShopPowerupButton(final Powerups powerup, final double x, final double y, final int height) {
         assert ButtonFactory.serviceLocator != null;
 
         if (powerup == null) {
@@ -281,7 +282,8 @@ public final class ButtonFactory implements IButtonFactory {
             }
 
         };
-        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, shop, "shop");
+        final int buttonWidth = (int) ((double) height * ((double) buttonSprite.getWidth() / (double) buttonSprite.getHeight()));
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, shop, "shop", new Tuple2<>(buttonWidth, height));
     }
 
     /**

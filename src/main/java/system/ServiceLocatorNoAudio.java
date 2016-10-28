@@ -44,7 +44,6 @@ import scenes.SceneFactory;
  * Default implementation for the ServiceLocatorNoAudio. Used to gain access to all services.
  * The difference between this ServiceLcoator and the standard one is the absence of Audio services.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 /* package */ class ServiceLocatorNoAudio implements IServiceLocator {
 
     // constants.json
@@ -290,7 +289,6 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("methodlength")
     public IAudioManager getAudioManager() {
         return new IAudioManager() {
             @Override

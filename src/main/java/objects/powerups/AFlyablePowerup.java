@@ -4,125 +4,124 @@ import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.Point;
+import java.awt.*;
 
 /**
- * Class that describes the behaviour of subclasses of AJetpack.
+ * Extended by classes that are powerups with which the Doodle can fly.
  */
-/* package */ abstract class AJetpack extends APowerup implements IEquipmentPowerup {
+public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowerup {
 
     /**
-     * The boost the AJet object provides.
+     * The boost the flyable powerup object provides.
      */
     private static final double MAX_BOOST = -25d;
     /**
-     * The acceleration provided by the AJet.
+     * The acceleration provided by the flyable powerup.
      */
     private static final double ACCELERATION = -2d;
     /**
-     * The boost for the AJet when it is being dropped.
+     * The boost for the flyable powerup when it is being dropped.
      */
     private static final double INITIAL_DROP_SPEED = -25d;
     /**
-     * The horizontal speed for a AJet.
+     * The horizontal speed for a flyable powerup.
      */
     private static final double HORIZONTAL_SPEED = 1.2d;
     /**
-     * Percentage for the initial phase of the AJet animation.
+     * Percentage for the initial phase of the flyable powerup animation.
      */
     private static final double ANIMATION_PHASE_ONE = 0.1d;
     /**
-     * Percentage for the second phase of the AJet animation.
+     * Percentage for the second phase of the flyable powerup animation.
      */
     private static final double ANIMATION_PHASE_TWO = 0.8d;
     /**
-     * Percentage for the third phase of the AJet animation.
+     * Percentage for the third phase of the flyable powerup animation.
      */
     private static final double ANIMATION_PHASE_THREE = 1d;
     /**
      * The refresh rate for the active animation.
      */
     private static final int ANIMATION_REFRESH_RATE = 3;
+
     /**
-     * Offset for the initial phase of the AJet animation.
+     * Offset for the initial phase of the flyable powerup animation.
      */
     private static final int ANIMATION_OFFSET_ONE = 0;
     /**
-     * Offset for the second phase of the AJet animation.
+     * Offset for the second phase of the flyable powerup animation.
      */
     private static final int ANIMATION_OFFSET_TWO = 3;
     /**
-     * Offset for the third phase of the AJet animation.
+     * Offset for the third phase of the flyable powerup animation.
      */
     private static final int ANIMATION_OFFSET_THREE = 6;
-    /**
-     * Angle per frame when falling.
-     */
-    private static final double ANGLE_PER_FRAME = 0.01d;
 
     /**
-     * Default sprite of this AJet object.
+     * Default sprite of this flyable powerup object.
      */
     private ISprite defaultSprite;
+
     /**
-     * The sprites for an active AJet.
+     * The sprites for an active flyable powerup.
      */
     private ISprite[] spritePack;
     /**
-     * The Doodle that owns this AJet.
+     * The Doodle that owns this flyable powerup.
      */
     private IDoodle owner;
+
     /**
-     * The maximum time the AJet is active.
+     * The maximum time the flyable powerup is active.
      */
     private int timeLimit;
     /**
-     * The active timer for the AJet.
+     * The active timer for the flyable powerup.
      */
     private int timer = 0;
     /**
-     * The vertical speed of the AJet.
+     * The vertical speed of the flyable powerup.
      */
     private double vSpeed = 0d;
     /**
      * The index of the current sprite.
      */
     private int spriteIndex = 0;
-    /**
-     * The current rotation angle of the jetpack.
-     */
-    private double theta = 0d;
 
     /**
-     * AJetpack constructor.
+     * Flyable powerup constructor.
      *
-     * @param sL - The Games service locator
-     * @param point - The location for the AJetpack
-     * @param maxTime - The maximum duration of the AJetpack
-     * @param sprite - The default sprite
-     * @param sprites - The sprites that are used when a doodle collides with this AJetpack
-     * @param powerup - The type of object.
+     * @param sL      The service locator
+     * @param point   The location of the powerup
+     * @param maxTime the time for which the powerup can power the doodle
+     * @param sprite  The sprite used for the powerup placed on a platform
+     * @param sprites The animation used when the doodle equips the powerup
+     * @param powerup The class of the powerup
      */
-    /* package */ AJetpack(final IServiceLocator sL,
-                           final Point point,
-                           final int maxTime,
-                           final ISprite sprite,
-                           final ISprite[] sprites,
-                           final Class<?> powerup) {
+    /* package */ AFlyablePowerup(final IServiceLocator sL,
+                                  final Point point,
+                                  final int maxTime,
+                                  final ISprite sprite,
+                                  final ISprite[] sprites,
+                                  final Class<?> powerup) {
         super(sL, point, sprite, powerup);
         this.timeLimit = maxTime;
         this.defaultSprite = sprite;
         this.spritePack = sprites;
     }
 
+    /**
+     * Sets the position of the powerup when the Doodle is equipping it.
+     */
+    abstract void setPosition();
 
     /**
      * {@inheritDoc}
      */
     @Override
     public final void perform(final PowerupOccasion occasion) {
-        if (this.owner == null) {
-            throw new IllegalArgumentException("Owner cannot be null");
+        if (occasion == null) {
+            throw new IllegalArgumentException("Occasion cannot be null");
         }
 
         if (occasion == PowerupOccasion.constant) {
@@ -143,17 +142,17 @@ import java.awt.Point;
         }
     }
 
+
     /**
-     * Update method for when the AJet is falling.
+     * Update method for when the flyable powerup is falling.
      */
     private void updateFalling() {
         this.applyGravity();
         this.addXPos(HORIZONTAL_SPEED);
-        this.theta += AJetpack.ANGLE_PER_FRAME;
     }
 
     /**
-     * Applies gravity to the AJet when needed.
+     * Applies gravity to the flyable powerup when needed.
      */
     private void applyGravity() {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
@@ -163,7 +162,7 @@ import java.awt.Point;
     /**
      * Ends the powerup.
      */
-     public void endPowerup() {
+    public final void endPowerup() {
         this.setSprite(defaultSprite);
         this.vSpeed = INITIAL_DROP_SPEED;
         this.owner.removePowerup(this);
@@ -177,20 +176,19 @@ import java.awt.Point;
      */
     @Override
     public final void collidesWith(final IDoodle doodle) {
-        if (doodle.equals(null)) {
+        if (doodle == null) {
             throw new IllegalArgumentException("Doodle cannot be null");
         }
 
         if (this.owner == null) {
-            getLogger().info("Doodle collided with a Jetpack");
+            super.getLogger().info("Doodle collided with a flyable powerup");
             this.owner = doodle;
-
             doodle.setPowerup(this);
         }
     }
 
     /**
-     * Update method for when the Jetpack is owned.
+     * Update method for when the flyable powerup is owned.
      */
     private void updateOwned() {
         timer++;
@@ -214,37 +212,20 @@ import java.awt.Point;
             this.spriteIndex = offset + ((spriteIndex + 1) % ANIMATION_REFRESH_RATE);
             this.setSprite(this.spritePack[this.spriteIndex]);
         }
-        setPosition();
+
+        if (this.owner != null) {
+            setPosition();
+        }
     }
 
 
     /**
-     * Sets the position of the powerup when equipped.
+     * @return The owner of the Doodle, that is either {@code null} or a {@link objects.doodles.Doodle}
      */
-    abstract void setPosition();
-
-    /**
-     * Get the angle of the Jetpack.
-     */
-    /* package */ double getAngle() {
-        return this.theta;
-    }
-
-    /**
-     * Get the owner of this jetpack.
-     * @return The Doodle that owns the jetpack.
-     */
-    /* package */ final IDoodle getOwner() {
-        return this.owner;
-    }
-
-    /**
-     * Set the owner of the Jetpack.
-     * @param doodle The Doodle that should be the owner.
-     */
-    /* package */ final void setOwner(final IDoodle doodle) {
-        this.owner = doodle;
+    protected final IDoodle getOwner() {
+        return owner;
     }
 
 
 }
+

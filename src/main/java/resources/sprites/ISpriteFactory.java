@@ -9,7 +9,6 @@ import system.IFactory;
  * <br>
  * It is not deemed necessary for all individual sprites to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface ISpriteFactory extends IFactory {
 
     // Buttons
@@ -161,7 +160,7 @@ public interface ISpriteFactory extends IFactory {
      *
      * @return list of sprites.
      */
-    ISprite[] getJetpackActiveSprites();
+    ISprite[] getJetpackActiveSprites(final int level);
 
     /**
      * Returns a list with sprites when a doodle has collided with a propeller.
@@ -169,13 +168,6 @@ public interface ISpriteFactory extends IFactory {
      * @return list of sprites.
      */
     ISprite[] getPropellerActiveSprites();
-
-    /**
-     * Returns a list with sprites when a doodle has collided with a space rocket.
-     *
-     * @return list of sprites.
-     */
-    ISprite[] getSpaceRocketActiveSprites();
 
     // Projectiles
     ISprite getRegularProjectileSprite();
