@@ -4,7 +4,7 @@ import input.IKeyInputObserver;
 import input.Keys;
 import objects.IGameObject;
 import objects.IJumpable;
-import objects.doodles.DoodleBehavior.MovementBehavior;
+import objects.doodles.doodle_behavior.MovementBehavior;
 import objects.powerups.IPowerup;
 import scenes.World;
 
@@ -140,13 +140,13 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
     void setKeys(final Keys left, final Keys right);
 
     /**
-     * Adds a projectile to the Projectiles from this Doodle.
+     * Adds a projectile to the projectiles from this Doodle.
      * @param projectile The projectile that has to be add.
      */
     void addProjectile(final IGameObject projectile);
 
     /**
-     * Removes a projectile from the Projectiles of this Doodle.
+     * Removes a projectile from the projectiles of this Doodle.
      * @param projectile the projectile that has to be removed.
      */
     void removeProjectile(final IGameObject projectile);
@@ -156,5 +156,11 @@ public interface IDoodle extends IGameObject, IKeyInputObserver {
      * @return the list with projectiles.
      */
     List<IGameObject> getProjectiles();
+
+    /**
+     * Adds the extraAmountOfExperience to extraExp.
+     * @param extraAmountOfExperience the extra exp that has to be added.
+     */
+    void addExperiencePoints(final double extraAmountOfExperience);
 
 }

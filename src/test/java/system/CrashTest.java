@@ -52,7 +52,7 @@ public class CrashTest {
     @Test
     public void testCreateKillScreen() {
         Game.setScene(
-                sL.getSceneFactory().createKillScreen());
+                sL.getSceneFactory().createKillScreen(0, 0));
         //No crashes
         assertThat(true, is(true));
     }

@@ -1,7 +1,6 @@
-package objects.doodles.Projectiles;
+package objects.doodles.projectiles;
 
 import objects.AGameObject;
-import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
@@ -10,7 +9,7 @@ import java.awt.Point;
 /**
  * A RegularProjectile, mostly spawned in the regular gaming mode.
  */
-public class RegularProjectile extends AGameObject {
+public final class RegularProjectile extends AGameObject {
 
     /**
      * The speed this projectile is going up.
@@ -24,7 +23,8 @@ public class RegularProjectile extends AGameObject {
 
     /**
      * Create and initialize a RegularProjectile.
-     * @param sL The serviceLocator of this game.
+     *
+     * @param sL    The serviceLocator of this game.
      * @param point The location.
      */
     /* package */ RegularProjectile(final IServiceLocator sL, final Point point, final int direction) {

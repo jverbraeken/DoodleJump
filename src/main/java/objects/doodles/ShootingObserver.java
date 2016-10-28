@@ -11,7 +11,7 @@ import java.awt.Point;
  * A ShootingObserver is a MouseInputObserver which creates projectiles
  * at the click on the mouse.
  */
-public class ShootingObserver implements IMouseInputObserver {
+/* PACKAGE */ class ShootingObserver implements IMouseInputObserver {
 
     /**
      * The logger of this game.
@@ -28,8 +28,9 @@ public class ShootingObserver implements IMouseInputObserver {
 
     /**
      * Create and initialize a ShootingObserver.
-     * @param sL the servicelocator of this game.
-     * @param d the Doodle this observer belongs to.
+     *
+     * @param sL The serviceLocator of this game.
+     * @param d  The Doodle this observer belongs to.
      */
     /* package */ ShootingObserver(final IServiceLocator sL, final IDoodle d) {
         this.serviceLocator = sL;
@@ -60,6 +61,7 @@ public class ShootingObserver implements IMouseInputObserver {
         }
 
         IGameObject projectile = this.serviceLocator.getProjectileFactory().createRegularProjectile(new Point(doodleXPos, doodleYPos), direction);
+
         this.doodle.addProjectile(projectile);
         this.logger.info("The mouse has been clicked in-game, a projectile has been created.");
     }

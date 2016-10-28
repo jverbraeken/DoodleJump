@@ -5,7 +5,7 @@ import input.Keys;
 import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.IJumpable;
-import objects.doodles.DoodleBehavior.MovementBehavior;
+import objects.doodles.doodle_behavior.MovementBehavior;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;

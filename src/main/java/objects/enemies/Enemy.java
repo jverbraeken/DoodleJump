@@ -26,6 +26,10 @@ public class Enemy extends AEnemy {
      * Will move 15 pixels left and right.
      */
     private static final double MOVING_DISTANCE = 15;
+    /**
+     * The amount of experience gained from killing this enemy.
+     */
+    private static final int EXP_AMOUNT_AT_KILL = 200;
 
     /**
      * OffSet of the movement from left to right.
@@ -56,7 +60,7 @@ public class Enemy extends AEnemy {
      * @param sprite The sprite of the enemy
      */
     public Enemy(final IServiceLocator sL, final Point point, final ISprite sprite) {
-        super(sL, point, sprite, Enemy.class);
+        super(sL, EXP_AMOUNT_AT_KILL, point, sprite, Enemy.class);
     }
 
     /**
@@ -81,24 +85,24 @@ public class Enemy extends AEnemy {
      */
     @Override
     public final void update(final double delta) {
-        if (alive) {
+        if (this.alive) {
             int xPos;
-            if (movingDirection == 1) {
+            if (this.movingDirection == 1) {
                 xPos = (int) (this.getXPos() + 2);
-                offset = offset + 2;
-                if (offset > MOVING_DISTANCE) {
-                    movingDirection = 0;
+                this.offset = this.offset + 2;
+                if (this.offset > Enemy.MOVING_DISTANCE) {
+                    this.movingDirection = 0;
                 }
             } else {
                 xPos = (int) (this.getXPos() - 2);
-                offset = offset - 2;
-                if (offset < -MOVING_DISTANCE) {
-                    movingDirection = 1;
+                this.offset = this.offset - 2;
+                if (this.offset < -Enemy.MOVING_DISTANCE) {
+                    this.movingDirection = 1;
                 }
             }
             this.setXPos(xPos);
         } else {
-            applyGravity();
+            this.applyGravity();
         }
     }
 
@@ -124,7 +128,7 @@ public class Enemy extends AEnemy {
      */
     @Override
     public final int getOffSet() {
-        return offset;
+        return this.offset;
     }
 
     /**
@@ -132,14 +136,14 @@ public class Enemy extends AEnemy {
      */
     @Override
     public final double getVerticalSpeed() {
-        return vSpeed;
+        return this.vSpeed;
     }
 
     /**
      * Apply gravity to the Breaking platform.
      */
     public final void applyGravity() {
-        vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
+        this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
 
@@ -148,7 +152,7 @@ public class Enemy extends AEnemy {
      * @return the attribute alive.
      */
     public final boolean isAlive() {
-        return alive;
+        return this.alive;
     }
 
     /**

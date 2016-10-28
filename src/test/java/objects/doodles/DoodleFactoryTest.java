@@ -2,7 +2,7 @@ package objects.doodles;
 
 import logging.ILogger;
 import logging.ILoggerFactory;
-import objects.doodles.DoodleBehavior.MovementBehavior;
+import objects.doodles.doodle_behavior.MovementBehavior;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

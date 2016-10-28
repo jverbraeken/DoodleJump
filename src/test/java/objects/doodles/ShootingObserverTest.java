@@ -3,10 +3,13 @@ package objects.doodles;
 import input.IInputManager;
 import logging.ILogger;
 import logging.ILoggerFactory;
-import objects.doodles.Projectiles.IProjectileFactory;
-import objects.doodles.Projectiles.RegularProjectile;
+import objects.doodles.projectiles.IProjectileFactory;
+import objects.doodles.projectiles.RegularProjectile;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import system.IServiceLocator;
 
 import static org.mockito.Matchers.anyInt;
@@ -17,6 +20,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ShootingObserver.class, RegularProjectile.class})
 public class ShootingObserverTest {
 
     IDoodle doodle = mock(IDoodle.class);

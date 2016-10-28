@@ -1,9 +1,9 @@
-package objects.doodles.Projectiles;
+package objects.doodles.projectiles;
 
 import logging.ILogger;
 import logging.ILoggerFactory;
-import objects.doodles.DoodleBehavior.RegularBehavior;
 import objects.doodles.IDoodle;
+import objects.doodles.doodle_behavior.RegularBehavior;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.util.reflection.Whitebox;

@@ -1,4 +1,4 @@
-package objects.doodles.Projectiles;
+package objects.doodles.projectiles;
 
 import logging.ILogger;
 import logging.ILoggerFactory;

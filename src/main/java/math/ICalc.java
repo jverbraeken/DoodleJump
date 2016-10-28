@@ -1,11 +1,5 @@
 package math;
 
-import input.IKeyInputObserver;
-
-import java.lang.ref.WeakReference;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Interface for the class handles all advanced calculations.
  * Examples are random integers and doubles.

@@ -7,7 +7,7 @@ import objects.IJumpable;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
-import objects.doodles.Projectiles.RegularProjectile;
+import objects.enemies.AEnemy;
 import objects.enemies.IEnemy;
 import resources.sprites.ISprite;
 import system.Game;
@@ -48,6 +48,10 @@ public class World implements IScene {
      * The amount of blocks kept in a buffer.
      */
     private static final int BLOCK_BUFFER = 4;
+    /**
+     * The amount of experience earned from killing an enemy.
+     */
+    private static final int EXP_KILLING_ENEMY = 200;
 
     /**
      * Used to access all services.
@@ -70,7 +74,6 @@ public class World implements IScene {
      * {@link IRenderable renderables} that will be drawn first (eg platforms), the second set contains the
      * {@link IRenderable renderables} that will be drawn secondly (eg doodles) and the third set contains the
      * {@link IRenderable renderables} that will be drawn at last (eg HUD elements).</p>
-     * <p>
      * <p>The reason a list is used instead of an array is because we need to use a weak set. The only
      * way to make it (in Java) is by using Collections.newSetFromMap that creates the set for us (and
      * prohibits creating an array by doing that).</p>
@@ -140,8 +143,6 @@ public class World implements IScene {
         this.start();
         logger.info("Level started");
     }
-
-    ;
 
     /**
      * {@inheritDoc}
@@ -220,9 +221,11 @@ public class World implements IScene {
      *
      * @param score The score the player got.
      */
-    public final void endGameInstance(final double score) {
+    public final void endGameInstance(final double score, final double extraExp) {
         serviceLocator.getProgressionManager().addHighScore("Doodle", score);
-        Game.setScene(serviceLocator.getSceneFactory().createKillScreen());
+        serviceLocator.getProgressionManager().addExperience((int) score);
+
+        Game.setScene(serviceLocator.getSceneFactory().createKillScreen((int) score,(int) extraExp));
     }
 
     /**
@@ -230,7 +233,6 @@ public class World implements IScene {
      *
      * @param doodle The Doodle to add.
      */
-    /* package */
     final void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
         this.updatables.add(doodle);
@@ -269,13 +271,14 @@ public class World implements IScene {
                     if (doodle.checkCollision(element)) {
                         element.collidesWith(doodle);
                     }
-                    if (element instanceof IEnemy) {
+                    if (element instanceof AEnemy) {
+                        AEnemy enemy = (AEnemy) element;
                         HashSet<IGameObject> projectilesToRemove = new HashSet<>();
                         for (IGameObject projectile : doodle.getProjectiles()) {
-                            if (projectile.checkCollision(element)) {
-                                element.setXPos(1000);
-                                //((IEnemy) element).setAlive(false);
+                            if (projectile.checkCollision(enemy)) {
+                                enemy.setXPos(Integer.MAX_VALUE);
                                 projectilesToRemove.add(projectile);
+                                doodle.addExperiencePoints(enemy.getAmountOfExperience());
                             }
                         }
                         for (IGameObject projectile : projectilesToRemove) {
@@ -339,7 +342,7 @@ public class World implements IScene {
      * <br>
      * The bar on top of the screen displaying the score and pause button
      */
-    private final class ScoreBar implements IRenderable {
+    public final class ScoreBar implements IRenderable {
 
         /**
          * The transparent and black border at the bottom of the scoreBar that is not take into account when
@@ -371,10 +374,10 @@ public class World implements IScene {
         /**
          * Create a new scoreBar.
          */
-        private ScoreBar() {
+        public ScoreBar() {
             this.scoreBarSprite = World.this.serviceLocator.getSpriteFactory().getScoreBarSprite();
-            this.scaling = (double) World.this.serviceLocator.getConstants().getGameWidth() /
-                    (double) this.scoreBarSprite.getWidth();
+            this.scaling = (double) World.this.serviceLocator.getConstants().getGameWidth()
+                    / (double) this.scoreBarSprite.getWidth();
             this.scoreBarHeight = (int) (this.scaling * this.scoreBarSprite.getHeight());
 
             ISprite[] digitSprites = World.this.serviceLocator.getSpriteFactory().getDigitSprites();
@@ -385,8 +388,8 @@ public class World implements IScene {
             ISprite pauseSprite = World.this.serviceLocator.getSpriteFactory().getPauseButtonSprite();
             final int gameWidth = World.this.serviceLocator.getConstants().getGameWidth();
             double pauseX = 1d - pauseSprite.getWidth() * this.scaling / gameWidth - World.PAUSE_OFFSET * this.scaling / gameWidth;
-            double pauseY = this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d / gameWidth -
-                    (double) pauseSprite.getHeight() * this.scaling / 2d / gameWidth;
+            double pauseY = this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d / gameWidth
+                    - (double) pauseSprite.getHeight() * this.scaling / 2d / gameWidth;
             this.pauseButton = World.this.serviceLocator.getButtonFactory().createPauseButton(pauseX, pauseY);
         }
 

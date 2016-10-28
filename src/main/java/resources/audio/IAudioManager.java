@@ -5,7 +5,6 @@ package resources.audio;
  * <br>
  * It is not deemed necessary for all individual sounds to have a JavaDoc.
  */
-@SuppressWarnings({"checkstyle:javadocvariable", "checkstyle:javadoctype", "checkstyle:javadocmethod"})
 public interface IAudioManager {
 
     void preload();

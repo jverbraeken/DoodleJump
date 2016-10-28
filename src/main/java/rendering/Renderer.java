@@ -5,7 +5,11 @@ import logging.ILogger;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.RenderingHints;
+import java.awt.Point;
 
 /**
  * This class is responsible for rendering all Sprites.
@@ -13,9 +17,9 @@ import java.awt.*;
 public final class Renderer implements IRenderer {
 
     /**
-     * The default font size used by the Renderer.
+     * The font size used for {@link #font50}.
      */
-    private static final int FONT_SIZE = 28;
+    private static final float font50SIZE = 50F;
 
     /**
      * Used to gain access to all services.
@@ -34,21 +38,17 @@ public final class Renderer implements IRenderer {
      */
     private Graphics2D graphics;
     /**
-     * The font used to draw text.
+     * The font used to draw text with size 50.
      */
-    private final Font FONT;
-    /**
-     * The font used to draw text with size 24.
-     */
-    private final Font FONT50;
+    private final Font font50;
 
     /**
      * Prevent public instantiations of the Renderer.
      */
     private Renderer() {
         logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
-        FONT = serviceLocator.getFileSystem().getFont("al-seana.ttf");
-        FONT50 = FONT.deriveFont(Font.BOLD, 50F);
+        Font font = serviceLocator.getFileSystem().getFont("al-seana.ttf");
+        font50 = font.deriveFont(Font.BOLD, font50SIZE);
     }
 
     /**
@@ -265,9 +265,39 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
+    public void drawTextExtraOptions(final Point point, final String msg, final Color color, final double rotation, final int fontSize) {
+        assert this.graphics != null;
+        java.awt.Color currentColor = graphics.getColor();
+        int xPos = prepareDrawText(point, msg, TextAlignment.center, color.getColor(), serviceLocator.getFileSystem().getFont("al-seana.ttf").deriveFont(Font.BOLD, fontSize));
+        graphics.rotate(rotation, xPos, point.getY());
+        graphics.drawString(msg, xPos, (int) point.getY());
+        this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + color.name());
+
+        graphics.setColor(currentColor);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void drawTextHUD(final Point point, final String msg, final Color color) {
         assert this.graphics != null;
         drawTextHUD(point, msg, TextAlignment.left, color);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drawTextNoAjustments(final Point point, final String msg, final TextAlignment alignment, final Color color) {
+        assert graphics != null;
+        java.awt.Color currentColor = graphics.getColor();
+
+        int xPos = prepareDrawText(point, msg, alignment, color.getColor(), font50);
+        graphics.drawString(msg, xPos, (int) point.getY());
+        this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + alignment.name() + ", " + color.name());
+
+        graphics.setColor(currentColor);
     }
 
     /**
@@ -278,7 +308,7 @@ public final class Renderer implements IRenderer {
         assert graphics != null;
         java.awt.Color currentColor = graphics.getColor();
 
-        int xPos = prepareDrawText(point, msg, alignment, color.getColor(), FONT50);
+        int xPos = prepareDrawText(point, msg, alignment, color.getColor(), font50);
         graphics.drawString(msg, (int) point.getX(), (int) (point.getY() - camera.getYPos()));
         this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + alignment.name() + ", " + color.name());
 
@@ -293,7 +323,7 @@ public final class Renderer implements IRenderer {
         assert graphics != null;
         java.awt.Color currentColor = graphics.getColor();
 
-        int xPos = prepareDrawText(point, msg, alignment, color.getColor(), FONT50);
+        int xPos = prepareDrawText(point, msg, alignment, color.getColor(), font50);
         graphics.drawString(msg, xPos, (int) point.getY());
         this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + alignment.name() + ", " + color.name());
 
@@ -352,10 +382,19 @@ public final class Renderer implements IRenderer {
         this.camera = c;
     }
 
+    /**
+     * Returns the X-position at which text should be drawn.
+     *
+     * @param point The point at which the text should be drawn
+     * @param msg The text that should be drawn
+     * @param alignment The way the text is aligned
+     * @param font The font that's used to draw the text
+     * @return The X-position at which the text should be drawn
+     */
     private int prepareDrawText(final Point point, final String msg, final TextAlignment alignment, final java.awt.Color color, final Font font) {
         graphics.setFont(font);
         graphics.setColor(color);
-        double xPos = point.getX();
+        double xPos;
         switch (alignment) {
             case left:
                 xPos = point.getX();
