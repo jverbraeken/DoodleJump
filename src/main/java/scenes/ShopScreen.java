@@ -14,6 +14,7 @@ import resources.sprites.ISpriteFactory;
 import system.IRenderable;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
@@ -38,7 +39,7 @@ import java.util.ArrayList;
     /**
      * The Y-position at which the first button will be created.
      */
-    private static final double BUTTON_Y_START = 0.4d;
+    private static final double BUTTON_Y_START = 0.35d;
     /**
      * The Y-distance between the buttons (buttons themselves including).
      */
@@ -65,22 +66,21 @@ import java.util.ArrayList;
     private static final String POWERUP_INFO_LEVEL = "Level - Cost";
 
     /**
-     * X & Y location in relation to the frame of the {@link objects.powerups.Jetpack} upgrade button.
-     */
-    private static final double JETPACK_BUTTON_X = BUTTON_X_START, JETPACK_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 0;
-    /**
      * X & Y location in relation to the frame of the {@link objects.powerups.Propeller} upgrade button.
      */
-    private static final double PROPELLER_BUTTON_X = BUTTON_X_START, PROPELLER_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 1;
+    private static final double PROPELLER_BUTTON_X = BUTTON_X_START, PROPELLER_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 0;
     /**
      * X & Y location in relation to the frame of the {@link objects.powerups.SizeDown} upgrade button.
      */
-    private static final double SIZEDOWN_BUTTON_X = BUTTON_X_START, SIZEDOWN_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 2;
+    private static final double SIZEDOWN_BUTTON_X = BUTTON_X_START, SIZEDOWN_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 1;
     /**
      * X & Y location in relation to the frame of the {@link objects.powerups.SizeUp} upgrade button.
      */
-    private static final double SIZEUP_BUTTON_X = BUTTON_X_START, SIZEUP_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 3;
-
+    private static final double SIZEUP_BUTTON_X = BUTTON_X_START, SIZEUP_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 2;
+    /**
+     * X & Y location in relation to the frame of the {@link objects.powerups.Jetpack} upgrade button.
+     */
+    private static final double JETPACK_BUTTON_X = BUTTON_X_START, JETPACK_BUTTON_Y = BUTTON_Y_START + BUTTON_Y_OFFSET * 3;
     /**
      * X & Y location in relation to the frame of the {@link objects.powerups.Spring} upgrade button.
      */
@@ -237,29 +237,29 @@ import java.util.ArrayList;
         final IConstants constants = serviceLocator.getConstants();
         final int width = constants.getGameWidth();
         final int height = constants.getGameHeight();
-        renderer.drawSpriteHUD(this.background, 0, 0);
+        renderer.drawSpriteHUD(this.background, new Point(0, 0));
 
         double y = (double) height - (double) bottomChooseModeScreen.getHeight();
-        renderer.drawSpriteHUD(this.bottomChooseModeScreen, 0, (int) y);
+        renderer.drawSpriteHUD(this.bottomChooseModeScreen, new Point(0, (int) y));
 
         ISprite coinSprite = this.coinSprites[(int) coinSpriteIndex];
         final int coinX = width / 2 + coinSprite.getHeight() / 2 - (int) (((double) coinSprite.getWidth() / (double) coinSprite.getHeight()) * (double) coinSprite.getHeight() / 2d);
         final int coinY = (int) (COIN_Y * height);
-        renderer.drawSpriteHUD(coinSprite, coinX, coinY);
+        renderer.drawSpriteHUD(coinSprite, new Point(coinX, coinY));
 
         final int coinTextX = width / 2 + coinSprite.getHeight() + COIN_TEXT_OFFSET;
         final int coinTextY = coinY + coinSprite.getHeight() / 2;
-        renderer.drawTextHUD(coinTextX, coinTextY, Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
+        renderer.drawTextHUD(new Point(coinTextX, coinTextY), Integer.toString(serviceLocator.getProgressionManager().getCoins()), Color.black);
 
         buttons.forEach(IRenderable::render);
 
-        renderer.drawTextHUD((int) (POWERUP_INFO_X * width), (int) (POWERUP_INFO_Y * height), POWERUP_INFO_LEVEL, TextAlignment.left, Color.black);
-        renderer.drawTextHUD((int) (POWERUP_INFO_X2 * width), (int) (POWERUP_INFO_Y * height), POWERUP_INFO_LEVEL, TextAlignment.right, Color.black);
+        renderer.drawTextHUD(new Point((int) (POWERUP_INFO_X * width), (int) (POWERUP_INFO_Y * height)), POWERUP_INFO_LEVEL, TextAlignment.left, Color.black);
+        renderer.drawTextHUD(new Point((int) (POWERUP_INFO_X2 * width), (int) (POWERUP_INFO_Y * height)), POWERUP_INFO_LEVEL, TextAlignment.right, Color.black);
 
-        drawPowerupText(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y);
         drawPowerupText(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y);
         drawPowerupText(Powerups.sizeDown, SIZEDOWN_BUTTON_X, SIZEDOWN_BUTTON_Y);
         drawPowerupText(Powerups.sizeUp, SIZEUP_BUTTON_X, SIZEUP_BUTTON_Y);
+        drawPowerupText(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y);
         drawPowerupText(Powerups.spring, SPRING_BUTTON_X, SPRING_BUTTON_Y);
         drawPowerupText(Powerups.springShoes, SPRINGSHOES_BUTTON_X, SPRINGSHOES_BUTTON_Y);
         drawPowerupText(Powerups.trampoline, TRAMPOLINE_BUTTON_X, TRAMPOLINE_BUTTON_Y);
@@ -283,7 +283,7 @@ import java.util.ArrayList;
             string = Integer.toString(level);
         }
         final int yOffset = spriteFactory.getPowerupSprite(powerup, progressionManager.getPowerupLevel(powerup) + 1).getHeight() / 2;
-        renderer.drawTextHUD((int) (jetpackButtonX * width) + BUTTON_TEXT_OFFSET, (int) (jetpackButtonY * height) + yOffset, string, Color.black);
+        renderer.drawTextHUD(new Point((int) (jetpackButtonX * width) + BUTTON_TEXT_OFFSET, (int) (jetpackButtonY * height) + yOffset), string, Color.black);
     }
 
     /**

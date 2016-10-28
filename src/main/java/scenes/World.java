@@ -16,6 +16,7 @@ import system.IRenderable;
 import system.IServiceLocator;
 import system.IUpdatable;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -178,7 +179,7 @@ public class World implements IScene {
      */
     @Override
     public final void render() {
-        serviceLocator.getRenderer().drawSpriteHUD(this.background, 0, 0);
+        serviceLocator.getRenderer().drawSpriteHUD(this.background, new Point(0, 0));
 
         drawables.get(DrawableLevels.back).addAll(newDrawables);
         newDrawables.clear();
@@ -402,7 +403,7 @@ public class World implements IScene {
          */
         @Override
         public void render() {
-            World.this.serviceLocator.getRenderer().drawSpriteHUD(this.scoreBarSprite, 0, 0,
+            World.this.serviceLocator.getRenderer().drawSpriteHUD(this.scoreBarSprite, new Point(0, 0),
                     World.this.serviceLocator.getConstants().getGameWidth(), this.scoreBarHeight);
             this.scoreText.render();
             this.pauseButton.render();
@@ -482,8 +483,9 @@ public class World implements IScene {
                 while (!scoreDigits.isEmpty()) {
                     digit = scoreDigits.pop();
                     sprite = this.digitSprites[digit];
-                    World.this.serviceLocator.getRenderer().drawSpriteHUD(sprite, pos,
-                            this.digitData[digit * World.DIGIT_MULTIPLIER],
+                    World.this.serviceLocator.getRenderer().drawSpriteHUD(sprite,
+                            new Point(pos,
+                            this.digitData[digit * World.DIGIT_MULTIPLIER]),
                             this.digitData[digit * World.DIGIT_MULTIPLIER + 1],
                             this.digitData[digit * World.DIGIT_MULTIPLIER + 2]);
                     pos += this.digitData[digit * World.DIGIT_MULTIPLIER + 1] + 1;

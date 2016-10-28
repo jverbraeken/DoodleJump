@@ -2,7 +2,8 @@ package rendering;
 
 import resources.sprites.ISprite;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Graphics;
 
 /**
  * This class is responsible for rendering all Sprites.
@@ -18,174 +19,177 @@ public interface IRenderer {
      * Draw a sprite relative to the camera.
      *
      * @param image the sprite to be drawn.
-     * @param x     the x position of the sprite.
-     * @param y     the y position of the sprite.
+     * @param point     the position of the sprite.
      */
-    void drawSprite(final ISprite image, final int x, final int y);
+    void drawSprite(final ISprite image, final Point point);
 
     /**
      * Draw a sprite relative to the camera.
      *
      * @param image  the sprite to be drawn.
-     * @param x      the x position of the sprite.
-     * @param y      the y position of the sprite.
+     * @param point      the position of the sprite.
+     * @param theta  the angle to rotate the sprite by.
+     */
+    void drawSprite(final ISprite image, final Point point, final double theta);
+
+    /**
+     * Draw a sprite relative to the camera.
+     *
+     * @param image  the sprite to be drawn.
+     * @param point  the position of the sprite.
      * @param width  the width of the sprite.
      * @param height the height of the sprite.
      */
-    void drawSprite(final ISprite image, final int x, final int y, final int width, final int height);
+    void drawSprite(final ISprite image, final Point point, final int width, final int height);
+
+    /**
+     * Draw a sprite relative to the camera.
+     *
+     * @param image  the sprite to be drawn.
+     * @param point  the position of the sprite.
+     * @param width  the width of the sprite.
+     * @param height the height of the sprite.
+     * @param theta  the angle to rotate the sprite by.
+     */
+    void drawSprite(final ISprite image, final Point point, final int width, final int height, final double theta);
 
     /**
      * Draw a rectangle relative to the camera.
      *
-     * @param x      the x position of the rectangle
-     * @param y      the y position of the rectangle
+     * @param point  the position of the rectangle
      * @param width  the width of the rectangle
      * @param height the height of the rectangle
      */
-    void drawRectangle(final int x, final int y, final int width, final int height);
+    void drawRectangle(final Point point, final int width, final int height);
 
     /**
      * Draw a sprite relative to the screen.
      *
      * @param image the sprite to be drawn.
-     * @param x     the x position of the sprite.
-     * @param y     the y position of the sprite.
+     * @param point the position of the sprite.
      */
-    void drawSpriteHUD(final ISprite image, final int x, final int y);
+    void drawSpriteHUD(final ISprite image, final Point point);
 
     /**
      * Draw a sprite relative to the screen.
      *
      * @param image  the sprite to be drawn.
-     * @param x      the x position of the sprite.
-     * @param y      the y position of the sprite.
+     * @param point  the position of the sprite.
      * @param width  the width of the sprite.
      * @param height the height of the sprite.
      */
-    void drawSpriteHUD(final ISprite image, final int x, final int y, final int width, final int height);
+    void drawSpriteHUD(final ISprite image, final Point point, final int width, final int height);
 
     /**
      * Draw a rectangle relative to the screen.
      *
-     * @param x      the x position of the rectangle
-     * @param y      the y position of the rectangle
+     * @param point  the position of the rectangle
      * @param width  the width of the rectangle
      * @param height the height of the rectangle
      */
-    void drawRectangleHUD(final int x, final int y, final int width, final int height);
+    void drawRectangleHUD(final Point point, final int width, final int height);
 
     /**
      * Draw a string of text relative to the camera, left-aligned.
      *
-     * @param x   the x position of the text.
-     * @param y   the y position of the text.
+     * @param point
      * @param msg The message to draw.
      */
-    void drawText(final int x, final int y, final String msg);
+    void drawText(Point point, final String msg);
 
     /**
      * Draw a string of text relative to the screen, left-aligned.
      *
-     * @param x   the x position of the text.
-     * @param y   the y position of the text.
-     * @param msg The message to draw.
+     * @param point     The position of the text.
+     * @param msg       The message to draw.
      */
-    void drawTextHUD(final int x, final int y, final String msg);
+    void drawTextHUD(final Point point, final String msg);
 
     /**
      * Draw a string of text relative to the screen.
      *
-     * @param x         the x position of the text.
-     * @param y         the y position of the text.
+     * @param point     The position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
      */
-    void drawText(int x, int y, String msg, TextAlignment alignment);
+    void drawText(final Point point, String msg, TextAlignment alignment);
 
     /**
      * Draw a string of text relative to the screen.
      *
-     * @param x         the x position of the text.
-     * @param y         the y position of the text.
+     * @param point     The position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
      */
-    void drawTextHUD(int x, int y, String msg, TextAlignment alignment);
+    void drawTextHUD(final Point point, String msg, TextAlignment alignment);
 
     /**
      * Draw a string of text relative to the camera, left-aligned.
      *
-     * @param x   the x position of the text.
-     * @param y   the y position of the text.
-     * @param msg The message to draw.
+     * @param point     The position of the text.
+     * @param msg       The message to draw.
      */
-    void drawText(final int x, final int y, final String msg, final Color color);
+    void drawText(final Point point, final String msg, final Color color);
 
     /**
      * Draw a string of text relative to the camera, left-aligned.
      *
-     * @param x   the x position of the text.
-     * @param y   the y position of the text.
+     * @param point the x and y position.
      * @param msg The message to draw.
      * @param color the color of the text.
      * @param fontSize the fontSize of the text.
      * @param rotation the rotation of the text.
      */
-    void drawTextExtraOptions(final int x, final int y, final String msg, final Color color, final double rotation, final int fontSize);
+    void drawTextExtraOptions(final Point point, final String msg, final Color color, final double rotation, final int fontSize);
 
     /**
      * Draw a string of text relative to the screen, left-aligned.
      *
-     * @param x   the x position of the text.
-     * @param y   the y position of the text.
      * @param msg The message to draw.
      * @param color     The color of the text.
+     * @param point     The position of the text.
      */
-    void drawTextHUD(final int x, final int y, final String msg, final Color color);
+    void drawTextHUD(final Point point, final String msg, final Color color);
 
     /**
      * Draw a string of text relative to the screen.
      *
-     * @param x         the x position of the text.
-     * @param y         the y position of the text.
+     * @param point     the position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
      * @param color     The color of the text.
      */
-    void drawText(int x, int y, String msg, TextAlignment alignment, final Color color);
+    void drawText(final Point point, String msg, TextAlignment alignment, final Color color);
 
     /**
      * Draw a string of text absolute to the screen.
      *
-     * @param x         the x position of the text.
-     * @param y         the y position of the text.
+     * @param point     The x and y position.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
      * @param color     The color of the text.
      */
-    void drawTextNoAjustments(final int x, final int y, final String msg, final TextAlignment alignment, final Color color);
+    void drawTextNoAjustments(final Point point, final String msg, final TextAlignment alignment, final Color color);
 
     /**
      * Draw a string of text relative to the screen.
      *
-     * @param x         the x position of the text.
-     * @param y         the y position of the text.
+     * @param point     The position of the text.
      * @param msg       The message to draw.
      * @param alignment The alignment of the text.
      * @param color     The color of the text.
      */
-    void drawTextHUD(int x, int y, String msg, TextAlignment alignment, final Color color);
+    void drawTextHUD(final Point point, String msg, TextAlignment alignment, final Color color);
 
     /**
      * Draw a filled rectangle.
      *
-     * @param x      the x position of the rectangle.
-     * @param y      the y position of the rectangle.
+     * @param point  the position of the rectangle.
      * @param width  the width of the rectangle.
      * @param height the height of the rectangle.
      * @param color  the color of the rectangle.
      */
-    void fillRectangle(final int x, final int y, final int width, final int height, final Color color);
+    void fillRectangle(final Point point, final int width, final int height, final Color color);
 
     /**
      * Create a graphics buffer for smooth animations and rendering.

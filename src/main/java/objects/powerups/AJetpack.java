@@ -4,10 +4,12 @@ import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.Point;
+
 /**
  * Created by Michael on 10/20/2016.
  */
-public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
+/* package */ abstract class AJetpack extends APowerup implements IEquipmentPowerup {
 
     /**
      * The boost the AJet object provides.
@@ -41,7 +43,6 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * The refresh rate for the active animation.
      */
     private static final int ANIMATION_REFRESH_RATE = 3;
-
     /**
      * Offset for the initial phase of the AJet animation.
      */
@@ -54,12 +55,15 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * Offset for the third phase of the AJet animation.
      */
     private static final int ANIMATION_OFFSET_THREE = 6;
+    /**
+     * Angle per frame when falling.
+     */
+    private static final double ANGLE_PER_FRAME = 0.01d;
 
     /**
      * Default sprite of this AJet object.
      */
     private ISprite defaultSprite;
-
     /**
      * The sprites for an active AJet.
      */
@@ -68,7 +72,6 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * The Doodle that owns this AJet.
      */
     private IDoodle owner;
-
     /**
      * The maximum time the AJet is active.
      */
@@ -85,22 +88,24 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      * The index of the current sprite.
      */
     private int spriteIndex = 0;
+    /**
+     * The current rotation angle of the jetpack.
+     */
+    private double theta = 0d;
 
     /**
      * AJet constructor.
      *
      * @param sL - The Games service locator.
-     * @param x - The X location for the AJet.
-     * @param y - The Y location for the AJet.
+     * @param point - The location for the AJet.
      */
-    public AJetpack(final IServiceLocator sL,
-                final int x,
-                final int y,
-                final int maxTime,
-                final ISprite sprite,
-                final ISprite[] sprites,
-                final Class<?> powerup) {
-        super(sL, x, y, sprite, powerup);
+    /* package */ AJetpack(final IServiceLocator sL,
+                           final Point point,
+                           final int maxTime,
+                           final ISprite sprite,
+                           final ISprite[] sprites,
+                           final Class<?> powerup) {
+        super(sL, point, sprite, powerup);
         this.timeLimit = maxTime;
         this.defaultSprite = sprite;
         this.spritePack = sprites;
@@ -113,7 +118,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
      */
     @Override
     public final void perform(final PowerupOccasion occasion) {
-        if (this.owner.equals(null)) {
+        if (this.owner == null) {
             throw new IllegalArgumentException("Owner cannot be null");
         }
 
@@ -134,19 +139,19 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
         }
     }
 
-
     /**
      * Update method for when the AJet is falling.
      */
-    private final void updateFalling() {
+    private void updateFalling() {
         this.applyGravity();
         this.addXPos(HORIZONTAL_SPEED);
+        this.theta += AJetpack.ANGLE_PER_FRAME;
     }
 
     /**
      * Applies gravity to the AJet when needed.
      */
-    private final void applyGravity() {
+    private void applyGravity() {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         this.addYPos(this.vSpeed);
     }
@@ -182,7 +187,7 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
     /**
      * Update method for when the AJet is owned.
      */
-    private final void updateOwned() {
+    private void updateOwned() {
         timer++;
 
         if (timer >= timeLimit) {
@@ -206,17 +211,31 @@ public abstract class AJetpack extends APowerup implements IEquipmentPowerup{
         }
 
         if (this.owner != null) {
-            setPosition();
+            this.setPosition();
         }
     }
 
-    public final IDoodle getOwner() {
-        return owner;
+    /**
+     * Get the angle of the Jetpack.
+     */
+    /* package */ double getAngle() {
+        return this.theta;
     }
 
-    public final void setOwner(final IDoodle doodle) {
+    /**
+     * Get the owner of this jetpack.
+     * @return The Doodle that owns the jetpack.
+     */
+    /* package */ final IDoodle getOwner() {
+        return this.owner;
+    }
+
+    /**
+     * Set the owner of the Jetpack.
+     * @param doodle The Doodle that should be the owner.
+     */
+    /* package */ final void setOwner(final IDoodle doodle) {
         this.owner = doodle;
     }
-
 
 }
