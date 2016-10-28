@@ -8,6 +8,7 @@ import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
+import java.awt.Point;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -69,7 +70,7 @@ public class MissionTest {
 
         this.mission.render(renderY);
 
-        verifyPrivate(renderer, times(1)).invoke("drawSpriteHUD", any(ISprite.class), eq(0), eq(renderY));
+        verifyPrivate(renderer, times(1)).invoke("drawSpriteHUD", any(ISprite.class), eq(new Point(0, renderY)));
     }
 
     @Test

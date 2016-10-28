@@ -25,18 +25,16 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.World;
 import system.Game;
-import system.IRenderable;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -161,6 +159,16 @@ public class DoodleTest {
         doodle.setKeys(null, null);
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testSetKeysFirstNull() {
+        doodle.setKeys(null, Keys.d);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testSetKeysSecondNull() {
+        doodle.setKeys(Keys.a, null);
+    }
+
     @Test
     public void testGetLegsHeight() {
         double actual = Whitebox.getInternalState(Doodle.class, "LEGS_HEIGHT");
@@ -223,7 +231,7 @@ public class DoodleTest {
         int width = (int) scalar * spriteWidth;
 
         doodle.render();
-        verify(renderer, times(1)).drawSprite(spriteLeft1, (int) x, (int) y, width, height);
+        verify(renderer, times(1)).drawSprite(spriteLeft1, new Point((int) x, (int) y), width, height);
     }
 
     @Test

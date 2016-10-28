@@ -2,9 +2,11 @@ package objects.powerups;
 
 import logging.ILogger;
 import objects.IGameObject;
+import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +83,7 @@ public final class PowerupFactory implements IPowerupFactory {
         assert level > 0;
         assert level <= type.getMaxLevel();
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        Jetpack jetpack = new Jetpack(serviceLocator, x, y, level, spriteFactory.getJetpackActiveSprites(level), MAX_TIME_JETPACK[level - 1], OWNED_Y_OFFSET_JETPACK[level - 1]);
+        Jetpack jetpack = new Jetpack(serviceLocator, new Point(x, y), level, spriteFactory.getJetpackActiveSprites(level), MAX_TIME_JETPACK[level - 1], OWNED_Y_OFFSET_JETPACK[level - 1]);
         logger.info("A new Jetpack of level " + level + " was created");
         for (IJetpackCreatedObserver observer : jetpackObservers) {
             observer.alertJetpackCreated(jetpack);
@@ -95,7 +97,8 @@ public final class PowerupFactory implements IPowerupFactory {
     @Override
     public IGameObject createPropeller(final int x, final int y) {
         logger.info("A new Propeller has been created");
-        return new Propeller(serviceLocator, x, y);
+        final Point point = new Point(x, y);
+        return new Propeller(serviceLocator, point);
     }
 
     /**
@@ -104,7 +107,8 @@ public final class PowerupFactory implements IPowerupFactory {
     @Override
     public IGameObject createSizeDown(final int x, final int y) {
         logger.info("A new SizeDown has been created");
-        return new SizeDown(serviceLocator, x, y);
+        final Point point = new Point(x, y);
+        return new SizeDown(serviceLocator, point);
     }
 
     /**
@@ -113,7 +117,8 @@ public final class PowerupFactory implements IPowerupFactory {
     @Override
     public IGameObject createSizeUp(final int x, final int y) {
         logger.info("A new SizeUp has been created");
-        return new SizeUp(serviceLocator, x, y);
+        final Point point = new Point(x, y);
+        return new SizeUp(serviceLocator, point);
     }
 
     /**
@@ -126,7 +131,8 @@ public final class PowerupFactory implements IPowerupFactory {
         assert level > 0;
         assert level <= type.getMaxLevel();
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        Spring spring = new Spring(serviceLocator, x, y, level, spriteFactory.getSpringUsedSprite(level), BOOST_SPRING[level - 1]);
+        final Point point = new Point(x, y);
+        Spring spring = new Spring(serviceLocator, point, level, spriteFactory.getSpringUsedSprite(level), BOOST_SPRING[level - 1]);
         logger.info("A new Spring of level " + level + " was created");
         for (ISpringCreatedObserver observer : springObservers) {
             observer.alertSpringCreated(spring);
@@ -140,7 +146,8 @@ public final class PowerupFactory implements IPowerupFactory {
     @Override
     public IGameObject createSpringShoes(final int x, final int y) {
         logger.info("A new pair of Spring Shoes has been created");
-        return new SpringShoes(serviceLocator, x, y);
+        final Point point = new Point(x, y);
+        return new SpringShoes(serviceLocator,point);
     }
 
     /**
@@ -153,7 +160,8 @@ public final class PowerupFactory implements IPowerupFactory {
         assert level > 0;
         assert level <= type.getMaxLevel();
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        Trampoline trampoline = new Trampoline(serviceLocator, x, y, level, spriteFactory.getTrampolineUsedSprite(level), BOOST_TRAMPOLINE[level - 1]);
+        final Point point = new Point(x, y);
+        Trampoline trampoline = new Trampoline(serviceLocator, new Point(x, y), level, spriteFactory.getTrampolineUsedSprite(level), BOOST_TRAMPOLINE[level - 1]);
         logger.info("A new Trampoline of level " + level + " was created");
         for (ITrampolineCreatedObserver observer : trampolineObservers) {
             observer.trampolineCreated(trampoline);

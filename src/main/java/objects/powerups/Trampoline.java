@@ -12,6 +12,9 @@ import system.IServiceLocator;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Point;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This class describes the behaviour of the trampoline powerup.
@@ -38,14 +41,13 @@ import java.util.List;
      * Constructs a new Trampoline.
      *
      * @param serviceLocator The Game's service locator
-     * @param x              The X location for the trampoline
-     * @param y              The Y location for the trampoline
+     * @param point          The location for the trampoline
      * @param level          The level of the powerup
      * @param usedSprite     The sprite that's drawn when the powerup is used
      * @param boost          The vertical speed boost the {@link objects.doodles.IDoodle Doodle} gets after hitting the Trampoline
      */
-    /* package */ Trampoline(final IServiceLocator serviceLocator, final int x, final int y, final int level, final ISprite usedSprite, final int boost) {
-        super(serviceLocator, x, y, boost, serviceLocator.getSpriteFactory().getPowerupSprite(Powerups.trampoline, level), usedSprite, Trampoline.class);
+    /* package */ Trampoline(final IServiceLocator serviceLocator, final Point point, final int level, final ISprite usedSprite, final int boost) {
+        super(serviceLocator, point, boost, new ISprite[] {serviceLocator.getSpriteFactory().getPowerupSprite(Powerups.trampoline, level), usedSprite}, Trampoline.class);
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }
 

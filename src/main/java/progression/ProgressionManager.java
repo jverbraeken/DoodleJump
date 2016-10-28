@@ -76,6 +76,16 @@ public final class ProgressionManager implements IProgressionManager {
     private int level = 0;
 
     /**
+     * The amount of experience the player has.
+     */
+    private int experience;
+
+    /**
+     * The current rank of the player.
+     */
+    private Ranks rank;
+
+    /**
      * Prevents construction from outside the package.
      */
     private ProgressionManager() {
@@ -136,6 +146,22 @@ public final class ProgressionManager implements IProgressionManager {
      * {@inheritDoc}
      */
     @Override
+    public Ranks getRank() {
+        return rank;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getExperience() {
+        return experience;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<Mission> getMissions() {
         return missions;
     }
@@ -175,7 +201,13 @@ public final class ProgressionManager implements IProgressionManager {
             logger.error(error);
             throw new IllegalArgumentException(error);
         }
-        return powerupLevels.get(powerup);
+
+        if (powerupLevels.get(powerup) == null) {
+            logger.warning("The powerupLevels for the powerup " + powerup.toString() + " are missing");
+            return 0;
+        } else {
+            return powerupLevels.get(powerup);
+        }
     }
 
     /**
@@ -200,6 +232,30 @@ public final class ProgressionManager implements IProgressionManager {
         saveData();
 
         assert coins >= 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addExperience(final int amount) {
+        if (amount<0) {throw new IllegalArgumentException("Error: amount is negative.");}
+        experience += amount;
+        this.setRankAccordingExperience();
+        saveData();
+    }
+
+    /**
+     * Will set the rank variable according to the experience the player has.
+     */
+    private void setRankAccordingExperience() {
+        Ranks[] ranksArray = Ranks.values();
+        for (int i = 0; i < ranksArray.length; i++) {
+            if (ranksArray[i].getExperience() > experience) {
+                rank = ranksArray[i - 1];
+                break;
+            }
+        }
     }
 
     /**
@@ -246,6 +302,7 @@ public final class ProgressionManager implements IProgressionManager {
         SaveFile image = new SaveFile();
 
         image.setCoins(this.coins);
+        image.setExperience(this.experience);
 
         List<SaveFileHighScoreEntry> highScoreEntries = new ArrayList<>(MAX_HIGHSCORE_ENTRIES);
         for (HighScore highScore : highScores) {
@@ -281,6 +338,8 @@ public final class ProgressionManager implements IProgressionManager {
         powerupLevels.replace(Powerups.spring, 1);
 
         coins = 0;
+        experience = 0;
+        rank = Ranks.newbie;
 
         highScores.clear();
 
@@ -310,6 +369,10 @@ public final class ProgressionManager implements IProgressionManager {
 
         coins = json.getCoins();
         logger.info("Coins is set to: " + coins);
+
+        experience = json.getExperience();
+        logger.info("Experience is set to: " + experience);
+        this.setRankAccordingExperience();
 
         powerupLevels.clear();
         for (Map.Entry<String, Integer> entry : json.getPowerupLevels().entrySet()) {

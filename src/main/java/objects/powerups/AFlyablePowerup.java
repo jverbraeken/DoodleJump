@@ -4,6 +4,8 @@ import objects.doodles.IDoodle;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
+import java.awt.*;
+
 /**
  * Extended by classes that are powerups with which the Doodle can fly.
  */
@@ -89,22 +91,20 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
     /**
      * flyable powerup constructor.
      *
-     * @param sL      - The Games service locator.
-     * @param x       - The X location for the flyable powerup.
-     * @param y       - The Y location for the flyable powerup.
+     * @param sL      The service locator
+     * @param point   The location of the powerup
      * @param maxTime the time for which the powerup can power the doodle
      * @param sprite  The sprite used for the powerup placed on a platform
      * @param sprites The animation used when the doodle equips the powerup
      * @param powerup The class of the powerup
      */
     /* package */ AFlyablePowerup(final IServiceLocator sL,
-                                  final int x,
-                                  final int y,
+                                  final Point point,
                                   final int maxTime,
                                   final ISprite sprite,
                                   final ISprite[] sprites,
                                   final Class<?> powerup) {
-        super(sL, x, y, sprite, powerup);
+        super(sL, point, sprite, powerup);
         this.timeLimit = maxTime;
         this.defaultSprite = sprite;
         this.spritePack = sprites;

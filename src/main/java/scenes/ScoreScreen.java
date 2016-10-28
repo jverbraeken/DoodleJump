@@ -11,6 +11,7 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -92,19 +93,19 @@ import java.util.concurrent.atomic.AtomicInteger;
             // Entry background
             int backgroundY = scoreListTopY.get() + (i - 1) * entryHeight.get();
             Color color = Math.abs(i) % 2 == 1 ? Color.scoreEntryEven : Color.scoreEntryUneven;
-            renderer.fillRectangle(0, backgroundY, constants.getGameWidth(), entryHeight.get(), color);
+            renderer.fillRectangle(new Point(0, backgroundY), constants.getGameWidth(), entryHeight.get(), color);
 
             // Entry name & value
             HighScore score = highScores.get(i);
             int entryY = scoreListTopY.get() + i * entryHeight.get();
             String msg = score.getName() + " - " + score.getScore();
-            renderer.drawText(this.left.getWidth(), entryY, msg, Color.black);
+            renderer.drawText(new Point(this.left.getWidth(), entryY), msg, Color.black);
         }
 
         // Draw the hud.
-        renderer.drawSpriteHUD(this.bottom, 0, this.top.getHeight() + this.left.getHeight());
-        renderer.drawSpriteHUD(this.left, 0, this.top.getHeight());
-        renderer.drawSpriteHUD(this.top, 0, 0);
+        renderer.drawSpriteHUD(this.bottom, new Point(0, this.top.getHeight() + this.left.getHeight()));
+        renderer.drawSpriteHUD(this.left, new Point(0, this.top.getHeight()));
+        renderer.drawSpriteHUD(this.top, new Point(0, 0));
 
         // Draw the buttons.
         this.menuButton.render();
