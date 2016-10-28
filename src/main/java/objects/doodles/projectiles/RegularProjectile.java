@@ -4,7 +4,7 @@ import objects.AGameObject;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * A RegularProjectile, mostly spawned in the regular gaming mode.
@@ -19,18 +19,17 @@ public final class RegularProjectile extends AGameObject {
     /**
      * The speed this projectile is going up.
      */
-    private int xDirection;
+    private int direction;
 
     /**
      * Create and initialize a RegularProjectile.
      *
-     * @param sL    the servicelocator of this game.
+     * @param sL    The serviceLocator of this game.
      * @param point The location.
-     * @param xDir  The speed over the X-axis
      */
-    /* package */RegularProjectile(final IServiceLocator sL, final Point point, final int xDir) {
+    /* package */ RegularProjectile(final IServiceLocator sL, final Point point, final int direction) {
         super(sL, point, sL.getSpriteFactory().getRegularProjectileSprite(), RegularProjectile.class);
-        xDirection = xDir;
+        this.direction = direction;
     }
 
     /**
@@ -45,7 +44,7 @@ public final class RegularProjectile extends AGameObject {
      */
     @Override
     public void render() {
-        getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
+        getServiceLocator().getRenderer().drawSprite(this.getSprite(), this.getPoint());
     }
 
     /**
@@ -53,7 +52,8 @@ public final class RegularProjectile extends AGameObject {
      */
     @Override
     public void update(final double delta) {
-        setYPos(getYPos() + VERTICAL_SPEED);
-        setXPos(getXPos() + xDirection);
+        this.setYPos(getYPos() + RegularProjectile.VERTICAL_SPEED);
+        this.setXPos(getXPos() + this.direction);
     }
+
 }

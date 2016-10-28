@@ -87,7 +87,7 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private final World world;
     /**
-     * A list of all the Projectiles shot by this Enemy.
+     * A list of all the projectiles shot by this Enemy.
      */
     private final List<IGameObject> projectiles = new ArrayList<>();
     /**
@@ -345,7 +345,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Render the Projectiles this Doodle has shot.
+     * Render the projectiles this Doodle has shot.
      */
     private void renderProjectiles() {
         for (IGameObject projectile : this.projectiles) {
@@ -369,7 +369,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Update the Projectiles this Doodle has shot.
+     * Update the projectiles this Doodle has shot.
      *
      * @param delta The time in milliseconds that has passed between the last frame and the new frame
      */
@@ -561,7 +561,7 @@ public class Doodle extends AGameObject implements IDoodle {
     }
 
     /**
-     * Adds a projectile to the Set with Projectiles.
+     * Adds a projectile to the Set with projectiles.
      *
      * @param projectile the projectile that has to be added.
      */
