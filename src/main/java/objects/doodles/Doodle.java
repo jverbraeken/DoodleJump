@@ -416,7 +416,8 @@ public class Doodle extends AGameObject implements IDoodle {
             double oldScalar = this.spriteScalar;
             this.spriteScalar += inc;
 
-            double heightDiff = (this.getSprite().getHeight() * oldScalar) - (this.getSprite().getHeight() * this.spriteScalar);
+            double heightDiff = this.getSprite().getHeight() * oldScalar
+                    - this.getSprite().getHeight() * this.spriteScalar;
             this.addYPos(heightDiff);
 
             this.updateHitBox();

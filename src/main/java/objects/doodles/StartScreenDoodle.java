@@ -35,6 +35,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("PMD.UnnessaryReturn")
     public final void keyPress(final Keys key) {
         return;
     }
@@ -43,6 +44,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("PMD.UnnessaryReturn")
     public final void keyRelease(final Keys key) {
         return;
     }

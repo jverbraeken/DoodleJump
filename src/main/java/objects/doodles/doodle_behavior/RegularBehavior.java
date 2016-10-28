@@ -154,6 +154,7 @@ public final class RegularBehavior implements MovementBehavior {
      * Animate the Doodle.
      * @param delta Delta time since previous animate.
      */
+    @SuppressWarnings("PMD.UnusedFormalParameter")
     private void animate(final double delta) {
         this.doodle.updateActiveSprite();
     }
