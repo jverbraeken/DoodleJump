@@ -8,6 +8,7 @@ import objects.IJumpable;
 import objects.doodles.doodle_behavior.MovementBehavior;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -26,20 +27,20 @@ public class StartScreenDoodleTest {
     ILogger logger = mock(ILogger.class);
     ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
     IServiceLocator serviceLocator = mock(IServiceLocator.class);
-    ISprite sprite1 = mock(ISprite.class);
-    ISprite sprite2 = mock(ISprite.class);
     ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
     MovementBehavior behavior = mock(MovementBehavior.class);
 
+    static ISprite spriteLeft1 = Mockito.mock(ISprite.class);
+    static ISprite spriteLeft2 = Mockito.mock(ISprite.class);
+    static ISprite spriteRight1 = Mockito.mock(ISprite.class);
+    static ISprite spriteRight2 = Mockito.mock(ISprite.class);
+
     StartScreenDoodle doodle;
     double jumpableBoost = 10d;
-    ISprite[] sprites = new ISprite[2];
+    ISprite[] sprites = new ISprite[]{spriteLeft1, spriteLeft2, spriteRight1, spriteRight2};
 
     @Before
     public void init() {
-        sprites[0] = sprite1;
-        sprites[0] = sprite2;
-
         when(constants.getGameHeight()).thenReturn(100);
         when(constants.getGameWidth()).thenReturn(100);
         when(jumpable.getBoost()).thenReturn(jumpableBoost);
@@ -47,9 +48,9 @@ public class StartScreenDoodleTest {
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
-        when(spriteFactory.getDoodleLeftSprites()).thenReturn(sprites);
+        when(spriteFactory.getGreenDoodleSprites()).thenReturn(sprites);
 
-        doodle = new StartScreenDoodle(serviceLocator);
+        doodle = new StartScreenDoodle(serviceLocator, sprites);
     }
 
     @Test

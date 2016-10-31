@@ -61,8 +61,7 @@ public class DoodleTest {
     static ISprite spriteLeft2 = mock(ISprite.class);
     static ISprite spriteRight1 = mock(ISprite.class);
     static ISprite spriteRight2 = mock(ISprite.class);
-    ISprite[] spritesLeft = new ISprite[]{spriteLeft1, spriteLeft2};
-    ISprite[] spritesRight = new ISprite[]{spriteRight1, spriteRight2};
+    ISprite[] sprites = new ISprite[]{spriteLeft1, spriteLeft2, spriteRight1, spriteRight2};
     IDoodle doodle;
     double jumpableBoost = 10d;
     int spriteHeight = 10;
@@ -87,10 +86,8 @@ public class DoodleTest {
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(spriteLeft1.getHeight()).thenReturn(spriteHeight);
         when(spriteLeft1.getWidth()).thenReturn(spriteWidth);
-        when(spriteFactory.getDoodleLeftSprites()).thenReturn(spritesLeft);
-        when(spriteFactory.getDoodleRightSprites()).thenReturn(spritesRight);
 
-        doodle = new Doodle(serviceLocator, world);
+        doodle = new Doodle(serviceLocator, sprites, world);
 
         Whitebox.setInternalState(doodle, "behavior", regularBehavior);
         Whitebox.setInternalState(regularBehavior, "doodle", doodle);

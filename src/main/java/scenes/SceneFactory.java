@@ -96,7 +96,7 @@ public final class SceneFactory implements ISceneFactory {
         World world = new World(serviceLocator);
 
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
-        IDoodle doodle = doodleFactory.createDoodle(world);
+        IDoodle doodle = doodleFactory.createSinglePlayerDoodle(world);
         world.addDoodle(doodle);
 
         ICamera camera = serviceLocator.getCameraFactory().createDoodleCamera(doodle);
@@ -116,10 +116,10 @@ public final class SceneFactory implements ISceneFactory {
         World world = new World(serviceLocator);
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
 
-        IDoodle doodle1 = doodleFactory.createDoodle(world);
+        IDoodle doodle1 = doodleFactory.createMultiPlayerDoodle(world, 0);
         doodle1.setKeys(Keys.arrowLeft, Keys.arrowRight);
         world.addDoodle(doodle1);
-        IDoodle doodle2 = doodleFactory.createDoodle(world);
+        IDoodle doodle2 = doodleFactory.createMultiPlayerDoodle(world, 1);
         doodle2.setKeys(Keys.a, Keys.d);
         world.addDoodle(doodle2);
 

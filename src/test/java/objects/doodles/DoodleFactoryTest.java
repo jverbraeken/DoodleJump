@@ -48,7 +48,7 @@ public class DoodleFactoryTest {
     @Test
     public void testCreateDoodle() throws Exception {
         whenNew(Doodle.class).withArguments(serviceLocator, world).thenReturn(doodle);
-        doodleFactory.createDoodle(world);
+        doodleFactory.createSinglePlayerDoodle(world);
         verifyNew(Doodle.class).withArguments(serviceLocator, world);
         verify(doodle, times(1)).setVerticalSpeed(anyInt());
     }

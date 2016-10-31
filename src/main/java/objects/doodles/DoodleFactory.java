@@ -1,6 +1,8 @@
 package objects.doodles;
 
 import logging.ILogger;
+import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import scenes.World;
 import system.IServiceLocator;
 
@@ -47,9 +49,32 @@ public final class DoodleFactory implements IDoodleFactory {
      * {@inheritDoc}
      */
     @Override
-    public IDoodle createDoodle(final World world) {
-        logger.info("A new Doodle has been created");
-        IDoodle doodle = new Doodle(serviceLocator, world);
+    public IDoodle createSinglePlayerDoodle(final World world) {
+        this.logger.info("A new Doodle has been created");
+
+        ISpriteFactory spriteFactory = DoodleFactory.serviceLocator.getSpriteFactory();
+        ISprite[] sprites = spriteFactory.getGreenDoodleSprites();
+        IDoodle doodle = new Doodle(DoodleFactory.serviceLocator, sprites, world);
+        doodle.setVerticalSpeed(DoodleFactory.DOODLE_INITIAL_SPEED);
+        return doodle;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IDoodle createMultiPlayerDoodle(final World world, final int i) {
+        this.logger.info("A new Doodle has been created");
+
+        ISpriteFactory spriteFactory = DoodleFactory.serviceLocator.getSpriteFactory();
+        ISprite[] sprites = spriteFactory.getGreenDoodleSprites();
+        if (i == 0) {
+            sprites = spriteFactory.getBlueDoodleSprites();
+        } else if (i == 1) {
+            sprites = spriteFactory.getGreenDoodleSprites();
+        }
+
+        IDoodle doodle = new Doodle(DoodleFactory.serviceLocator, sprites, world);
         doodle.setVerticalSpeed(DoodleFactory.DOODLE_INITIAL_SPEED);
         return doodle;
     }
@@ -59,8 +84,11 @@ public final class DoodleFactory implements IDoodleFactory {
      */
     @Override
     public IDoodle createStartScreenDoodle() {
-        logger.info("A new StartScreenDoodle has been created");
-        return new StartScreenDoodle(serviceLocator);
+        this.logger.info("A new StartScreenDoodle has been created");
+
+        ISpriteFactory spriteFactory = DoodleFactory.serviceLocator.getSpriteFactory();
+        ISprite[] sprites = spriteFactory.getGreenDoodleSprites();
+        return new StartScreenDoodle(DoodleFactory.serviceLocator, sprites);
     }
 
 }

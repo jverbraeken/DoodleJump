@@ -2,6 +2,7 @@ package objects.doodles;
 
 import input.Keys;
 import objects.IJumpable;
+import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
@@ -19,8 +20,8 @@ import system.IServiceLocator;
      *
      * @param sL The ServiceLocator.
      */
-    /* package */ StartScreenDoodle(final IServiceLocator sL) {
-        super(sL, null);
+    /* package */ StartScreenDoodle(final IServiceLocator sL, final ISprite[] sprites) {
+        super(sL, sprites, null);
     }
 
     /**
