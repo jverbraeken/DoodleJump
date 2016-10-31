@@ -9,6 +9,7 @@ import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
 import objects.enemies.AEnemy;
 import objects.powerups.Powerups;
+import resources.IRes;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -134,7 +135,7 @@ public class World implements IScene {
             this.updatables.add(this.topBlock);
         }
 
-        this.background = sL.getSpriteFactory().getBackground();
+        this.background = sL.getSpriteFactory().getSprite(IRes.Sprites.background);
         this.scoreBar = new ScoreBar();
         this.drawables.get(DrawableLevels.front).add(this.scoreBar);
 
@@ -377,8 +378,8 @@ public class World implements IScene {
         /**
          * Create a new scoreBar.
          */
-        public ScoreBar() {
-            this.scoreBarSprite = World.this.serviceLocator.getSpriteFactory().getScoreBarSprite();
+        /* package */ ScoreBar() {
+            this.scoreBarSprite = World.this.serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.scoreBar);
             this.scaling = (double) World.this.serviceLocator.getConstants().getGameWidth()
                     / (double) this.scoreBarSprite.getWidth();
             this.scoreBarHeight = (int) (this.scaling * this.scoreBarSprite.getHeight());
@@ -388,7 +389,7 @@ public class World implements IScene {
             int scoreY = (int) (this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d);
             this.scoreText = new ScoreText(scoreX, scoreY, this.scaling, digitSprites);
 
-            ISprite pauseSprite = World.this.serviceLocator.getSpriteFactory().getPauseButtonSprite();
+            ISprite pauseSprite = World.this.serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.pause);
             final int gameWidth = World.this.serviceLocator.getConstants().getGameWidth();
             double pauseX = 1d - pauseSprite.getWidth() * this.scaling / gameWidth - World.PAUSE_OFFSET * this.scaling / gameWidth;
             double pauseY = this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d / gameWidth

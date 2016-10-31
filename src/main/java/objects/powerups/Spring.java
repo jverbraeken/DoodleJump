@@ -46,7 +46,7 @@ public final class Spring extends AJumpablePowerup {
      * @param boost          The vertical speed boost the {@link objects.doodles.IDoodle Doodle} gets after hitting the Spring
      */
     /* package */ Spring(final IServiceLocator serviceLocator, final Point point, final int level, final ISprite usedSprite, final int boost) {
-        super(serviceLocator, point, boost, new ISprite[] {serviceLocator.getSpriteFactory().getPowerupSprite(Powerups.spring, level), usedSprite}, Spring.class);
+        super(serviceLocator, point, boost, new ISprite[] {serviceLocator.getSpriteFactory().Powerups.spring.getSprite(level), usedSprite}, Spring.class);
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }
 
