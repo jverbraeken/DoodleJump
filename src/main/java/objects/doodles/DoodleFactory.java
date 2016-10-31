@@ -71,7 +71,7 @@ public final class DoodleFactory implements IDoodleFactory {
         if (i == 0) {
             sprites = spriteFactory.getBlueDoodleSprites();
         } else if (i == 1) {
-            sprites = spriteFactory.getGreenDoodleSprites();
+            sprites = spriteFactory.getRedDoodleSprites();
         }
 
         IDoodle doodle = new Doodle(DoodleFactory.serviceLocator, sprites, world);

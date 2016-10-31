@@ -418,16 +418,16 @@ public class Doodle extends AGameObject implements IDoodle {
      * Update the active sprite.
      */
     public final void updateActiveSprite() {
-        // -- Get the sprite array
+        // Get the sprite array
         ISprite[] sprites = this.sprites.get(this.getFacing());
 
-        // -- Get the index of the correct sprite in the array
+        // Get the index of the correct sprite in the array
         // Compare always returns -1, 0, 1
         int compare = Double.compare(this.getVerticalSpeed(), this.getJumpingThreshold());
         // Math.max() makes sure this is 0 or 1
         int index = Math.max(0, compare);
 
-        // -- Set the sprite
+        // Set the sprite
         this.setSprite(sprites[index]);
     }
 
