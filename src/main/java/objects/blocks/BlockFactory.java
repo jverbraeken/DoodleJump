@@ -152,6 +152,7 @@ public final class BlockFactory implements IBlockFactory {
             } while (breaking);
             newTopJumpable = platform;
             chanceForPowerup(elements, platform);
+            spawnEnemyWithChance(elements, (IPlatform) newTopJumpable, heightDividedPlatforms);
         }
 
         return new Block(newElements, newTopJumpable);
