@@ -267,7 +267,7 @@ public final class ButtonFactory implements IButtonFactory {
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getSpaceModeButton();
         Runnable spaceMode = () -> {
-            if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.space.getRankRequired()) {
+            if (this.serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.space.getRankRequired()) {
                 Game.setMode(Game.Modes.space);
             } else {
                 Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.space.getRankRequired()).getName() + " rank required.");
