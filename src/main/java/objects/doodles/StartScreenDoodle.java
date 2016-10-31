@@ -20,7 +20,7 @@ import system.IServiceLocator;
      *
      * @param sL The ServiceLocator.
      */
-    /* package */ StartScreenDoodle(final IServiceLocator sL, final ISprite[] sprites) {
+    /* package */ StartScreenDoodle(final ISprite[] sprites, final IServiceLocator sL) {
         super(sL, sprites, null);
     }
 

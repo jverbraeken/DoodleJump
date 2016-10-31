@@ -65,7 +65,7 @@ public final class DoodleFactory implements IDoodleFactory {
 
         ISpriteFactory spriteFactory = DoodleFactory.serviceLocator.getSpriteFactory();
         ISprite[] sprites = spriteFactory.getGreenDoodleSprites();
-        return new StartScreenDoodle(DoodleFactory.serviceLocator, sprites);
+        return new StartScreenDoodle(sprites, DoodleFactory.serviceLocator);
     }
 
     /**

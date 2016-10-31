@@ -50,7 +50,7 @@ public class StartScreenDoodleTest {
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(spriteFactory.getGreenDoodleSprites()).thenReturn(sprites);
 
-        doodle = new StartScreenDoodle(serviceLocator, sprites);
+        doodle = new StartScreenDoodle(sprites, serviceLocator);
     }
 
     @Test
