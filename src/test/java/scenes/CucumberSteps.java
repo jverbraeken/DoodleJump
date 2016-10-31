@@ -7,9 +7,11 @@ import objects.powerups.Powerups;
 import org.mockito.Matchers;
 import org.powermock.reflect.Whitebox;
 import progression.IProgressionManager;
+import progression.Ranks;
 import system.Game;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.any;
@@ -31,6 +33,7 @@ public class CucumberSteps implements En {
                 sL.getProgressionManager().init();
                 IProgressionManager progressionManager = mock(IProgressionManager.class);
                 when(progressionManager.getPowerupLevel(Matchers.<Powerups>any())).thenReturn(1);
+                when(progressionManager.getRank()).thenReturn(Ranks.theBoss);
                 sL.provide(progressionManager);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -57,8 +60,8 @@ public class CucumberSteps implements En {
         });
 
         When("^I press the (.*)-button$", (String button) -> {
-            Object scene = Whitebox.getInternalState(Game.class, "scene");
-            List<IButton> buttons = Whitebox.getInternalState(scene, "buttons");
+            IScene scene = Whitebox.getInternalState(Game.class, "scene");
+            List<Button> buttons = Whitebox.getInternalState(scene, "buttons");
             switch (button) {
                 //MENU
                 case "play":
