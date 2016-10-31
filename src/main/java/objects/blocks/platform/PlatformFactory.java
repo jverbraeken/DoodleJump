@@ -6,11 +6,8 @@ import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
-import javax.naming.directory.NoSuchAttributeException;
-import java.awt.Point;
+import java.awt.*;
 import java.util.NoSuchElementException;
-
-import static objects.blocks.ElementTypes.normalPlatform;
 
 /**
  * This class is a factory that produces platforms.
@@ -58,7 +55,7 @@ public final class PlatformFactory implements IPlatformFactory {
 
         if (Game.getMode().equals(Game.Modes.darkness)) {
             IPlatform darkness = new PlatformDarkness(serviceLocator, platform);
-            return  darkness;
+            return darkness;
         }
         return platform;
     }
@@ -67,7 +64,7 @@ public final class PlatformFactory implements IPlatformFactory {
      * {@inheritDoc}
      */
     @Override
-    public IPlatform createPlatform(final ElementTypes type) throws NoSuchElementException{
+    public IPlatform createPlatform(final ElementTypes type) {
         switch (type) {
             case normalPlatform:
                 return createPlatform(0, 0);
@@ -80,7 +77,7 @@ public final class PlatformFactory implements IPlatformFactory {
             case randomPlatform:
                 return createRandomPlatform(0, 0);
             default:
-                throw  new RuntimeException("No such element in platform types");
+                throw new RuntimeException("No such element (" + type + ") in platform types");
         }
     }
 
@@ -93,7 +90,7 @@ public final class PlatformFactory implements IPlatformFactory {
         final Point point = new Point(x, y);
         IPlatform platform = new Platform(serviceLocator, point, sprite);
         IPlatform darkness = new PlatformDarkness(serviceLocator, platform);
-        return  darkness;
+        return darkness;
     }
 
     /**

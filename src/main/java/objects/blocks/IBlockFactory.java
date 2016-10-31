@@ -19,7 +19,7 @@ public interface IBlockFactory extends IFactory {
     IBlock createBlock(IJumpable lastPlatform, BlockTypes type) throws RuntimeException;
 
     /**
-     * Create a initial block for the game. Which always has enough platforms to get started.
+     * Create a initial block for the game. Which generates a line of platforms to get started.
      *
      * @return The new block.
      */

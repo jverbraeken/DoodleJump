@@ -10,6 +10,7 @@ public interface IPlatformFactory extends IFactory {
 
     /**
      * Create a standard platform.
+     *
      * @param x the platform's x position
      * @param y the platform's y position
      * @return a new standard platform
@@ -19,13 +20,15 @@ public interface IPlatformFactory extends IFactory {
 
     /**
      * Create a platform of the specified type.
-     * @param type the type/
+     *
+     * @param type the type
      * @return a platform of the type.
      */
     IPlatform createPlatform(final ElementTypes type);
 
     /**
      * Create a horizontally moving platform.
+     *
      * @param x the platform's x position
      * @param y the platform's y position
      * @return a new horizontally moving platform
@@ -34,6 +37,7 @@ public interface IPlatformFactory extends IFactory {
 
     /**
      * Create a vertically moving platform.
+     *
      * @param x the platform's x position
      * @param y the platform's y position
      * @return a new vertically moving platform
@@ -42,6 +46,7 @@ public interface IPlatformFactory extends IFactory {
 
     /**
      * Create a platform that breaks.
+     *
      * @param x the platform's x position
      * @param y the platform's y position
      * @return a new breaking platform
@@ -50,6 +55,7 @@ public interface IPlatformFactory extends IFactory {
 
     /**
      * Create a dark platform.
+     *
      * @param x the platform's x position
      * @param y the platform's y position
      * @return a new dark platform
