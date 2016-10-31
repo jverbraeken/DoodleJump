@@ -49,32 +49,9 @@ public final class DoodleFactory implements IDoodleFactory {
      * {@inheritDoc}
      */
     @Override
-    public IDoodle createSinglePlayerDoodle(final World world) {
+    public IDoodle createDoodle(final World world, final DoodleColors color) {
         this.logger.info("A new Doodle has been created");
-
-        ISpriteFactory spriteFactory = DoodleFactory.serviceLocator.getSpriteFactory();
-        ISprite[] sprites = spriteFactory.getGreenDoodleSprites();
-        IDoodle doodle = new Doodle(DoodleFactory.serviceLocator, sprites, world);
-        doodle.setVerticalSpeed(DoodleFactory.DOODLE_INITIAL_SPEED);
-        return doodle;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public IDoodle createMultiPlayerDoodle(final World world, final int i) {
-        this.logger.info("A new Doodle has been created");
-
-        ISpriteFactory spriteFactory = DoodleFactory.serviceLocator.getSpriteFactory();
-        ISprite[] sprites = spriteFactory.getGreenDoodleSprites();
-        if (i == 0) {
-            sprites = spriteFactory.getBlueDoodleSprites();
-        } else if (i == 1) {
-            sprites = spriteFactory.getRedDoodleSprites();
-        }
-
-        IDoodle doodle = new Doodle(DoodleFactory.serviceLocator, sprites, world);
+        IDoodle doodle = new Doodle(DoodleFactory.serviceLocator, this.getSprites(color), world);
         doodle.setVerticalSpeed(DoodleFactory.DOODLE_INITIAL_SPEED);
         return doodle;
     }
@@ -89,6 +66,27 @@ public final class DoodleFactory implements IDoodleFactory {
         ISpriteFactory spriteFactory = DoodleFactory.serviceLocator.getSpriteFactory();
         ISprite[] sprites = spriteFactory.getGreenDoodleSprites();
         return new StartScreenDoodle(DoodleFactory.serviceLocator, sprites);
+    }
+
+    /**
+     * Get the correct sprites for the Doodle given its colors.
+     *
+     * @param   color           The color of the Doodle.
+     * @return                  An array of sprites.
+     */
+    private ISprite[] getSprites(final DoodleColors color) {
+        ISpriteFactory spriteFactory = DoodleFactory.serviceLocator.getSpriteFactory();
+        switch(color) {
+            case blue:
+                return spriteFactory.getBlueDoodleSprites();
+            case green:
+                return spriteFactory.getGreenDoodleSprites();
+            case red:
+                return spriteFactory.getRedDoodleSprites();
+            default:
+                return spriteFactory.getGreenDoodleSprites();
+
+        }
     }
 
 }
