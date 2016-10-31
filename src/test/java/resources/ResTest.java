@@ -18,10 +18,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.powermock.api.mockito.PowerMockito.doNothing;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.spy;
-import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
+import static org.powermock.api.mockito.PowerMockito.*;
 
 
 /**
@@ -430,6 +427,19 @@ public class ResTest {
      * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
      */
     @Test
+    public void testSetSkinRegularDefault() throws Exception {
+        Res mockedRes = spy(Whitebox.invokeConstructor(Res.class));
+        doNothing().when(mockedRes, "setDefaultSkin");
+        mockedRes.setSkin(Game.Modes.defaultmode);
+        verifyPrivate(mockedRes).invoke("setDefaultSkin");
+    }
+
+    /**
+     * Tests if the setDefaultSkin method is called when the input is the regular game mode
+     *
+     * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
+     */
+    @Test
     public void testSetSkinSpace() throws Exception {
         Res mockedRes = spy(Whitebox.invokeConstructor(Res.class));
         doNothing().when(mockedRes, "setSpaceSkin");
@@ -449,6 +459,87 @@ public class ResTest {
         mockedRes.setSkin(Game.Modes.underwater);
         verifyPrivate(mockedRes).invoke("setUnderwaterSkin");
     }
+
+    /**
+     * Tests if the setDarknessMode method is called when the input is the darkness game mode
+     *
+     * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
+     */
+    @Test
+    public void testSetSkinDarkness() throws Exception {
+        Res mockedRes = spy(Whitebox.invokeConstructor(Res.class));
+        doNothing().when(mockedRes, "setDarknessSkin");
+        mockedRes.setSkin(Game.Modes.darkness);
+        verifyPrivate(mockedRes).invoke("setDarknessSkin");
+    }
+
+    /**
+     * Tests if the method inserts the sprites for the top bar in the darkness game mode.
+     *
+     * @throws Exception throws an exception when a private method can not be called.
+     */
+    @Test
+    public void testSetDarknessSkinTopBar() throws Exception {
+        Whitebox.invokeMethod(res, "setDarknessSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertTrue(insertedSprites.containsKey(Sprites.scoreBar));
+    }
+
+    /**
+     * Tests if the method inserts the sprites for the covers in the darkness game mode.
+     *
+     * @throws Exception throws an exception when a private method can not be called.
+     */
+    @Test
+    public void testDarknessSkinCovers() throws Exception {
+        Whitebox.invokeMethod(res, "setDarknessSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertTrue(insertedSprites.containsKey(Sprites.background));
+        assertTrue(insertedSprites.containsKey(Sprites.startCover));
+    }
+
+    /**
+     * Tests if the method inserts the sprites for the doodle in the darkness game mode.
+     *
+     * @throws Exception throws an exception when a private method can not be called.
+     */
+    @Test
+    public void testDarknessSkinDoodle() throws Exception {
+        Whitebox.invokeMethod(res, "setDarknessSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftAscend));
+        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftDescend));
+        assertTrue(insertedSprites.containsKey(Sprites.doodleRightAscend));
+        assertTrue(insertedSprites.containsKey(Sprites.doodleRightDescend));
+    }
+
+    /**
+     * Tests if the method inserts the sprites for the platforms in the darkness game mode.
+     *
+     * @throws Exception throws an exception when a private method can not be called.
+     */
+    @Test
+    public void testSetDarknessSkinPlatforms() throws Exception {
+        Whitebox.invokeMethod(res, "setDarknessSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertTrue(insertedSprites.containsKey(Sprites.platform1));
+    }
+
+    /**
+     * Tests if the method inserts the sprites for the powerups in the darkness game mode.
+     *
+     * @throws Exception throws an exception when a private method can not be called.
+     */
+    @Test
+    public void testSetDarknessSkinPowerUps() throws Exception {
+        Whitebox.invokeMethod(res, "setDarknessSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertTrue(insertedSprites.containsKey(Sprites.trampoline));
+        assertTrue(insertedSprites.containsKey(Sprites.trampolineUsed));
+        assertTrue(insertedSprites.containsKey(Sprites.spring));
+        assertTrue(insertedSprites.containsKey(Sprites.springUsed));
+    }
+
 
     /**
      * Tests if the setSkin method returns a NullPointerException if the input is a null object.

@@ -119,7 +119,12 @@ public final class Game {
         /**
          * The game mode taking place in space.
          */
-        space(3);
+        space(3),
+        /**
+         * A default mode, same as regular.
+         * Now only used for testing.
+         */
+        defaultmode(-1);
         /**
          * The rank required to play this mode.
          */
