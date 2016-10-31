@@ -708,10 +708,10 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite[] getJetpackActiveSprites(final int level) {
-        ISprite[] sprites = new ISprite[9];
+        ISprite[] sprites;
         switch (level) {
             case 1:
-            case 2:
+                sprites = new ISprite[9];
                 sprites[0] = this.getSprite(IRes.Sprites.jetpack0);
                 sprites[1] = this.getSprite(IRes.Sprites.jetpack1);
                 sprites[2] = this.getSprite(IRes.Sprites.jetpack2);
@@ -722,8 +722,22 @@ public final class SpriteFactory implements ISpriteFactory {
                 sprites[7] = this.getSprite(IRes.Sprites.jetpack7);
                 sprites[8] = this.getSprite(IRes.Sprites.jetpack8);
                 break;
+            case 2:
+                sprites = new ISprite[10];
+                sprites[0] = this.getSprite(IRes.Sprites.afterburner0);
+                sprites[1] = this.getSprite(IRes.Sprites.afterburner1);
+                sprites[2] = this.getSprite(IRes.Sprites.afterburner2);
+                sprites[3] = this.getSprite(IRes.Sprites.afterburner3);
+                sprites[4] = this.getSprite(IRes.Sprites.afterburner4);
+                sprites[5] = this.getSprite(IRes.Sprites.afterburner5);
+                sprites[6] = this.getSprite(IRes.Sprites.afterburner6);
+                sprites[7] = this.getSprite(IRes.Sprites.afterburner7);
+                sprites[8] = this.getSprite(IRes.Sprites.afterburner8);
+                sprites[9] = this.getSprite(IRes.Sprites.afterburner9);
+                break;
             case 3:
             case 4:
+                sprites = new ISprite[9];
                 sprites[0] = getSprite(IRes.Sprites.spaceRocket0);
                 sprites[1] = getSprite(IRes.Sprites.spaceRocket1);
                 sprites[2] = getSprite(IRes.Sprites.spaceRocket2);
@@ -1023,7 +1037,7 @@ public final class SpriteFactory implements ISpriteFactory {
             case 1:
                 return getSprite(IRes.Sprites.jetpack);
             case 2:
-                return getSprite(IRes.Sprites.spaceRocket);
+                return getSprite(IRes.Sprites.afterburner);
             case 3:
                 return getSprite(IRes.Sprites.spaceRocket);
             case 4:
