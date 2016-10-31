@@ -15,6 +15,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static objects.blocks.ElementTypes.*;
+import static objects.blocks.platform.Platform.PlatformProperties.breaks;
+
 
 /**
  * This class is the factory in which separate blocks get created.
@@ -54,10 +57,6 @@ public final class BlockFactory implements IBlockFactory {
      */
     private static transient IServiceLocator serviceLocator;
     /**
-     * A weighted set for the spawning of platforms.
-     */
-    private GenerationSet platformGenerationSet;
-    /**
      * A weighted set for the spawning of powerups.
      */
     private GenerationSet powerupGenerationSet;
@@ -66,7 +65,6 @@ public final class BlockFactory implements IBlockFactory {
      * Initialize the BlockFactory.
      */
     private BlockFactory() {
-        platformGenerationSet = new GenerationSet(serviceLocator, "platforms");
         powerupGenerationSet = new GenerationSet(serviceLocator, "powerups");
     }
 
@@ -105,31 +103,81 @@ public final class BlockFactory implements IBlockFactory {
      */
     @Override
     public synchronized IBlock createStartBlock() {
-        final int minPlatforms = 6;
-        final int maxPlatforms = (serviceLocator.getConstants().getGameWidth() + serviceLocator.getConstants().getGameHeight()) / 130;
         Set<IGameObject> elements = new HashSet<>();
-
-        int platformAmount = serviceLocator.getCalc().getRandomIntBetween(minPlatforms, maxPlatforms);
-        int heightDividedPlatforms = serviceLocator.getConstants().getGameHeight() / platformAmount;
-
         IPlatform topJumpable = placeInitialStartBlockPlatforms(elements);
-        IPlatform nowHighest = placeStartBlockPlatforms(elements, topJumpable, platformAmount, heightDividedPlatforms);
-        return new Block(elements, nowHighest);
+        return new Block(elements, topJumpable);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public synchronized IBlock createBlock(final IJumpable topJumpable) {
+    public synchronized IBlock createBlock(final IJumpable topJumpable, BlockTypes type) throws RuntimeException {
         Set<IGameObject> elements = new HashSet<>();
 
         int platformAmount = serviceLocator.getCalc().getRandomIntBetween(MIN_PLATFORMS, MAX_PLATFORMS);
+
+        IJumpable newTopJumpable = topJumpable;
+
+        switch(type) {
+            case standardBlock:
+                return createTypeOnlyBlock(elements, topJumpable, platformAmount, randomPlatform);
+            case normalOnlyBlock:
+                return createTypeOnlyBlock(elements, topJumpable, platformAmount, normalPlatform);
+            case horizontalOnlyBlock:
+                return createTypeOnlyBlock(elements, topJumpable, platformAmount, horizontalMovingPlatform);
+            case verticalOnlyBlock:
+                return createTypeOnlyBlock(elements, topJumpable, platformAmount, verticalMovingPlatform);
+            default:
+                throw new RuntimeException("We exceeded the list in blockTypes somehow.");
+        }
+    }
+
+    private synchronized IBlock createTypeOnlyBlock(Set<IGameObject> elements, IJumpable topJumpable, int platformAmount, ElementTypes type) {
         int heightDividedPlatforms = serviceLocator.getConstants().getGameHeight() / platformAmount;
+        Set<IGameObject> newElements = elements;
+        IJumpable newTopJumpable = topJumpable;
 
-        IJumpable newTopJumpable = placeBlockPlatforms(elements, topJumpable, platformAmount, heightDividedPlatforms);
+        for (int i = 0; i < platformAmount; i++) {
 
-        return new Block(elements, newTopJumpable);
+            IPlatform platform;
+            boolean breaking;
+            do {
+                do {
+                        platform = createPlatform(newTopJumpable, heightDividedPlatforms, type);
+                    } while (verifyPlatformLocation(platform, newElements));
+                elements.add(platform);
+                Platform.PlatformProperties br = breaks;
+                breaking = platform.getProps().containsKey(br);
+            } while (breaking);
+            newTopJumpable = platform;
+            chanceForPowerup(elements, platform);
+        }
+
+        return new Block(newElements, newTopJumpable);
+    }
+
+    public IPlatform createPlatform(IJumpable topJumpable, int heightDividedPlatforms, ElementTypes type) {
+        IPlatform platform = serviceLocator.getPlatformFactory().createPlatform(type);
+
+        double heightDeviation = serviceLocator.getCalc().getRandomDouble(2d) - 1;
+        double widthDeviation = serviceLocator.getCalc().getRandomDouble(1d);
+
+        int yLast = (int) topJumpable.getYPos();
+        int yLoc = (int) (yLast - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms)/2);
+        int xLoc = (int) (widthDeviation * (serviceLocator.getConstants().getGameWidth() - 2* platform.getHitBox()[AGameObject.HITBOX_RIGHT]) + platform.getHitBox()[AGameObject.HITBOX_RIGHT]);
+
+        double jumpTime = topJumpable.getBoost() / serviceLocator.getConstants().getGravityAcceleration();
+        double maxY = (int) (serviceLocator.getConstants().getGravityAcceleration() * Math.pow(jumpTime, 2) / 2);
+        if (yLoc < yLast - maxY) {
+            yLoc = yLast - (int) maxY;
+        }
+
+        platform.setYPos(yLoc);
+        platform.setXPos(xLoc);
+
+        return platform;
+
     }
 
     /**
@@ -139,20 +187,20 @@ public final class BlockFactory implements IBlockFactory {
      * @param topJumpable            The highest platform created before the block starts (normally the latest
      *                               platform created).
      * @param platformAmount         The amount of platforms.
-     * @param heightDividedPlatforms The height division of platforms (?).
      * @return The last and highest platform created by this method
      */
-    private IJumpable placeBlockPlatforms(final Set<IGameObject> elements, final IJumpable topJumpable, final int platformAmount, final int heightDividedPlatforms) {
+    /*private Block placeBlockPlatforms(final Set<IGameObject> elements, final IJumpable topJumpable, final int platformAmount) {
         assert topJumpable != null;
         assert platformAmount > 0;
-        assert heightDividedPlatforms > 0;
+        int heightDividedPlatforms = serviceLocator.getConstants().getGameHeight() / platformAmount;
+
         IJumpable newTopJumpable = topJumpable;
         for (int i = 0; i < platformAmount; i++) {
             newTopJumpable = placeFollowingPlatform(elements, newTopJumpable, heightDividedPlatforms);
-            spawnEnemyWithChance(elements, (IPlatform) newTopJumpable, heightDividedPlatforms);
+            //spawnEnemyWithChance(elements, (IPlatform) newTopJumpable, heightDividedPlatforms);
         }
-        return newTopJumpable;
-    }
+        return new Block(elements, newTopJumpable);
+    }*/
 
     /**
      * Places zero or more platforms before the loop placing the other platforms is processed.
@@ -160,13 +208,19 @@ public final class BlockFactory implements IBlockFactory {
      * @param elements The {@link Set} in which the platforms should be placed
      * @return The last and highest platform created by this method
      */
-    private IPlatform placeInitialStartBlockPlatforms(final Set<IGameObject> elements) {
-        final double initialPlatformHeightDivider = 1.2d;
+    private IPlatform placeInitialStartBlockPlatforms(Set<IGameObject> elements) {
+        final double initialPlatformHeightDivider = 200d;
+        final int initialPlatforms = 6;
         IPlatformFactory platformFactory = serviceLocator.getPlatformFactory();
-        IPlatform platform = platformFactory.createPlatform(
-                serviceLocator.getConstants().getGameWidth() / 2,
-                (int) (serviceLocator.getConstants().getGameHeight() / initialPlatformHeightDivider));
-        elements.add(platform);
+
+        IPlatform platform = platformFactory.createPlatform(0,0);
+        for(int i = 0; i < initialPlatforms; i++) {
+            IPlatform newPlatform = platformFactory.createPlatform(
+                    i * serviceLocator.getConstants().getGameWidth() / initialPlatforms,
+                    (int) (serviceLocator.getConstants().getGameHeight() - initialPlatformHeightDivider));
+            elements.add(newPlatform);
+            platform = newPlatform;
+        }
 
         return platform;
     }
@@ -181,7 +235,7 @@ public final class BlockFactory implements IBlockFactory {
      * @param heightDividedPlatforms The height division of platforms (?).
      * @return The last and highest platform created.
      */
-    private IPlatform placeStartBlockPlatforms(final Set<IGameObject> elements, final IPlatform topJumpable, final int platformAmount, final int heightDividedPlatforms) {
+    /*private IPlatform placeStartBlockPlatforms(final Set<IGameObject> elements, final IPlatform topJumpable, final int platformAmount, final int heightDividedPlatforms) {
         assert topJumpable != null;
         assert platformAmount > 0;
         assert heightDividedPlatforms > 0;
@@ -191,7 +245,7 @@ public final class BlockFactory implements IBlockFactory {
             highest = placeFollowingPlatform(elements, highest, heightDividedPlatforms);
         }
         return highest;
-    }
+    }*/
 
     /**
      * Places a single platform part in the block specified.
@@ -201,7 +255,7 @@ public final class BlockFactory implements IBlockFactory {
      * @param heightDivPlatforms The height between the platforms
      * @return The last and highest platform created by this method
      */
-    private IPlatform placeFollowingPlatform(final Set<IGameObject> elements, final IJumpable topJumpable, final int heightDivPlatforms) {
+    /*private IPlatform placeFollowingPlatform(final Set<IGameObject> elements, final IJumpable topJumpable, final int heightDivPlatforms) {
         IPlatform platform;
         boolean breaks;
         do {
@@ -215,7 +269,7 @@ public final class BlockFactory implements IBlockFactory {
 
         chanceForPowerup(elements, platform);
         return platform;
-    }
+    }*/
 
     /**
      * Make a platform following the last platform.
@@ -224,7 +278,7 @@ public final class BlockFactory implements IBlockFactory {
      * @param heightDividedPlatforms The height division for platforms.
      * @return A new platform.
      */
-    private IPlatform makeFollowingPlatform(final IJumpable topJumpable, final int heightDividedPlatforms) {
+    /*private IPlatform makeFollowingPlatform(final IJumpable topJumpable, final int heightDividedPlatforms) {
         double heightDeviation = serviceLocator.getCalc().getRandomDouble(HEIGHT_DEVIATION_MULTIPLIER) - HEIGHT_DEVIATION_OFFSET;
         double widthDeviation = serviceLocator.getCalc().getRandomDouble(1d);
 
@@ -243,7 +297,7 @@ public final class BlockFactory implements IBlockFactory {
         platform.setXPos(xLoc);
 
         return platform;
-    }
+    }*/
 
     /**
      * Checks if the platform collides with any of the elements in the Block.

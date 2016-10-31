@@ -13,9 +13,10 @@ public interface IBlockFactory extends IFactory {
      * Creates a new block for the game.
      *
      * @param lastPlatform The last jumpable object from the previous block.
+     * @param type the block type.
      * @return The new block.
      */
-    IBlock createBlock(IJumpable lastPlatform);
+    IBlock createBlock(IJumpable lastPlatform, BlockTypes type) throws RuntimeException;
 
     /**
      * Create a initial block for the game. Which always has enough platforms to get started.

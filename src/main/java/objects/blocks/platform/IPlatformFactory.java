@@ -1,5 +1,6 @@
 package objects.blocks.platform;
 
+import objects.blocks.ElementTypes;
 import system.IFactory;
 
 /**
@@ -14,6 +15,14 @@ public interface IPlatformFactory extends IFactory {
      * @return a new standard platform
      */
     IPlatform createPlatform(final int x, final int y);
+
+
+    /**
+     * Create a platform of the specified type.
+     * @param type the type/
+     * @return a platform of the type.
+     */
+    IPlatform createPlatform(final ElementTypes type);
 
     /**
      * Create a horizontally moving platform.
@@ -38,5 +47,14 @@ public interface IPlatformFactory extends IFactory {
      * @return a new breaking platform
      */
     IPlatform createBreakPlatform(final int x, final int y);
+
+    /**
+     * Create a dark platform.
+     * @param x the platform's x position
+     * @param y the platform's y position
+     * @return a new dark platform
+     */
+    IPlatform createDarknessPlatform(final int x, final int y);
+
 
 }
