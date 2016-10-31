@@ -184,3 +184,44 @@ q2 = 15/15: excellent suggestions
 ### General Feedback
 - This was sprint 4, not 5 --> might be confusing which backlog and retrospective to look at
 - read your feedback! some recurring comments
+
+## Sprint #5 = :
+For grading the sprints I will use the rubrics to grade and give feedback about sprint management and code evolution quality. Then I will grade and give feedback to the assignment. These grades will construct the final grade for the sprint using a 20% (sprint management), 40% (code quality) and 40% (assignment) weight system.
+
+### Sprint Management = :
+- Definition = 7: why is refactoring according to incode not defined?
+- Splitting = 3: I would advice at least 2 people per task to make asking for help and processing difficulties easier. Hours ranging from 8 (Joost) to 19 (Michael), why is this so inconsistent?
+- Responsibility = 7: not really applicable as every task has only one assigned member.
+- Estimation = 7: way too little hours planned for incode (45 point exercise).
+- Prioritization = 7: If you define a A-E scale make sure to use the whole spectrum.
+- Reflection = 9: good retrospective, note you working on branches that already have a pr open, never do this as it is really confusing.
+
+### Code Evolution Quality = :
+- Code change quality = 9: new feature introduces a god class, shame!
+- Formatting = 10
+- Naming = 10
+- Comments = 10
+- Building = 3: 4 (4?!) failing pr's were merged this weeks, how did this happen?
+- Testing = :
+- Tooling = :
+- Branching = 7: a high amount of branches, good! however don't close a pr and open another one, reopen the same one. Also don't continue work on a branch after a pr has ben openend/merged.
+- Code review = 9: great work!
+
+### Assignments = /90 = :
+
+
+#### Assignment 1 = 10/30:
+q1 = 10/30: the project being able to run on every pc is not actually true (as my both pc's are an example), and your claim about the pom not being present is incorrect as it was included in all zips (with purpose), I however told you otherwise in a discussion so I won't retract any points for this.. package info deleting resulting in checkstyle warnings is also an invalid argument, when you include non-used file just to satisfy checkstyle you are doing something wrong. You should either alter the checkstyle rules (if you have a good reason) or include meaningfull info in the package info files. You actually include some small comments about the package in each, so you are using them correctly, make that claim in the report instead of the invalid argument you use now. You talk about reports not being included in the zip, however your peers are talking about auto generation of these reports when mvn site is run. In my testing a findbugs report was creating, but not a cobertura report (in that release), so invalid argument. Argument about powermock is very debatable, but you make it sound like it's the only solution, maybe try to show some understanding for your peers points. Where are the actual implementation of the points you did agree on (this should have been more). The text says you look into it and use it to improve the game further? The assignment states the peer suggestions should be implemented, I couldn't find any documentation on your checkstyle rules for example. 
+
+#### Assignment 2 = 36/45:
+q1 = 3/3
+q2.1 = 10/14: I understand why you would keep Sprite and SaveFile as data classes with minor severity. However DefaultProgressionObserver doesn't share this data role and therefore should have been refactored.
+q2.2 = 9/14: Good explanation for StartScreenDoodle. With respect to ServiceLocator: why implement the interface if the superclass does also, this would probly solve the error showed by incode.
+q2.3 = 14/14: excellent
+
+#### Assignment 3 = /15:
+q1 = /11: You introduced a god class (the first in your entire project) with this new feature, shame for the code quality.
+q2 = 4/4: excellent analysis.
+
+### General Feedback
+- do you ever close issues?
