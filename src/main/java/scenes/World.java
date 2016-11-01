@@ -365,7 +365,7 @@ public class World implements IScene {
      * <br>
      * The bar on top of the screen displaying the score and pause button
      */
-    public final class ScoreBar implements IRenderable {
+    private final class ScoreBar implements IRenderable {
 
         /**
          * The transparent and black border at the bottom of the scoreBar that is not take into account when
@@ -559,4 +559,5 @@ public class World implements IScene {
             doodle.deregister();
         }
     }
+
 }
