@@ -46,11 +46,19 @@ public interface IRes {
         shopCover,
 
         // Doodle
-        doodleLeftAscend,
-        doodleLeftDescend,
-        doodleRightAscend,
-        doodleRightDescend,
         doodleArrow,
+        greenDoodleLeftAscend,
+        greenDoodleLeftDescend,
+        greenDoodleRightAscend,
+        greenDoodleRightDescend,
+        redDoodleLeftAscend,
+        redDoodleLeftDescend,
+        redDoodleRightAscend,
+        redDoodleRightDescend,
+        blueDoodleLeftAscend,
+        blueDoodleLeftDescend,
+        blueDoodleRightAscend,
+        blueDoodleRightDescend,
 
         // projectiles
         regularProjectile,
