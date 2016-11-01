@@ -15,6 +15,7 @@ import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import rendering.ICamera;
+import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.World;
@@ -330,11 +331,20 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void render() {
+        IRenderer renderer = Doodle.getServiceLocator().getRenderer();
+        ISpriteFactory spriteFactory = Doodle.getServiceLocator().getSpriteFactory();
+        double camY = renderer.getCamera().getYPos();
         ISprite sprite = this.getSprite();
-        Doodle.getServiceLocator().getRenderer().drawSprite(sprite,
-                this.getPoint(),
-                (int) (sprite.getWidth() * this.spriteScalar),
-                (int) (sprite.getHeight() * this.spriteScalar));
+
+        if (camY > this.getYPos() + sprite.getHeight()) {
+            Point arrowPoint = new Point((int) this.getXPos(), spriteFactory.getScoreBarSprite().getHeight());
+            ISprite arrowSprite = spriteFactory.getDoodleLocationArrowSprite();
+            renderer.drawSpriteHUD(arrowSprite, arrowPoint);
+        } else {
+            int width = (int) (sprite.getWidth() * this.spriteScalar);
+            int height = (int) (sprite.getHeight() * this.spriteScalar);
+            renderer.drawSprite(sprite, this.getPoint(), width, height);
+        }
 
         if (!this.isAlive()) {
             Doodle.getServiceLocator().getRenderer().drawSprite(getStarSprite(),
@@ -342,13 +352,6 @@ public class Doodle extends AGameObject implements IDoodle {
                             (int) this.getYPos()),
                     (int) (getSprite().getWidth() * this.spriteScalar * STARS_SCALAR),
                     (int) (getSprite().getHeight() * this.spriteScalar * STARS_SCALAR));
-        }
-
-        double camY = Doodle.getServiceLocator().getRenderer().getCamera().getYPos();
-        if (camY > this.getYPos() + this.getSprite().getHeight()) {
-            Point arrowPoint = new Point((int) this.getXPos(), Doodle.getServiceLocator().getSpriteFactory().getScoreBarSprite().getHeight());
-            ISprite arrow = Doodle.getServiceLocator().getSpriteFactory().getDoodleLocationArrowSprite();
-            Doodle.getServiceLocator().getRenderer().drawSpriteHUD(arrow, arrowPoint);
         }
 
         this.getPowerup().render();
