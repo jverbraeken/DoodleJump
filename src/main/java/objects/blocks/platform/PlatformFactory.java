@@ -6,8 +6,7 @@ import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
 
-import java.awt.*;
-import java.util.NoSuchElementException;
+import java.awt.Point;
 
 /**
  * This class is a factory that produces platforms.
