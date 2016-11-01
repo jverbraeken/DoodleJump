@@ -92,7 +92,7 @@ public enum BlockTypes {
      *
      * @param w the new weight.
      */
-    private static void setAllWeights(int w) {
+    private static void setAllWeights(final int w) {
         for (BlockTypes type : getAllTypes()) {
             type.setWeight(w);
         }
@@ -130,7 +130,7 @@ public enum BlockTypes {
      *
      * @param w the new weights.
      */
-    public static void setAllWeights(List<Integer> w) {
+    public static void setAllWeights(final List<Integer> w) {
         List<Integer> weights = w;
         List<BlockTypes> types = getAllTypes();
 
@@ -145,7 +145,11 @@ public enum BlockTypes {
         }
     }
 
-    public static void setMode(Game.Modes m) {
+    /**
+     * Set the weigths to match the game mode.
+     * @param m the new game mode.
+     */
+    public static void setMode(final Game.Modes m) {
         setRegularWeights();
         switch (m) {
             case regular:

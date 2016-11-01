@@ -373,7 +373,6 @@ public final class ProgressionManager implements IProgressionManager {
         logger.info("Coins is set to: " + coins);
 
         experience = json.getExperience();
-        System.out.println(experience);
         logger.info("Experience is set to: " + experience);
         this.setRankAccordingExperience();
 
