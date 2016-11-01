@@ -339,18 +339,18 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void render() {
-        IRenderer renderer = Doodle.getServiceLocator().getRenderer();
-        ISpriteFactory spriteFactory = Doodle.getServiceLocator().getSpriteFactory();
-        double camY = renderer.getCamera().getYPos();
-        ISprite sprite = this.getSprite();
+        final IRenderer renderer = Doodle.getServiceLocator().getRenderer();
+        final ISpriteFactory spriteFactory = Doodle.getServiceLocator().getSpriteFactory();
+        final double camY = renderer.getCamera().getYPos();
+        final ISprite sprite = this.getSprite();
 
         if (camY > this.getYPos() + sprite.getHeight()) {
-            Point arrowPoint = new Point((int) this.getXPos(), spriteFactory.getScoreBarSprite().getHeight());
-            ISprite arrowSprite = spriteFactory.getDoodleLocationArrowSprite();
+            final Point arrowPoint = new Point((int) this.getXPos(), spriteFactory.getScoreBarSprite().getHeight());
+            final ISprite arrowSprite = spriteFactory.getDoodleLocationArrowSprite();
             renderer.drawSpriteHUD(arrowSprite, arrowPoint);
         } else {
-            int width = (int) (sprite.getWidth() * this.spriteScalar);
-            int height = (int) (sprite.getHeight() * this.spriteScalar);
+            final int width = (int) (sprite.getWidth() * this.spriteScalar);
+            final int height = (int) (sprite.getHeight() * this.spriteScalar);
             renderer.drawSprite(sprite, this.getPoint(), width, height);
         }
 
