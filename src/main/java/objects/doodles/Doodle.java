@@ -346,7 +346,7 @@ public class Doodle extends AGameObject implements IDoodle {
 
         double camY = Doodle.getServiceLocator().getRenderer().getCamera().getYPos();
         if (camY > this.getYPos() + this.getSprite().getHeight()) {
-            Point arrowPoint = new Point((int) this.getXPos(), 0);
+            Point arrowPoint = new Point((int) this.getXPos(), Doodle.getServiceLocator().getSpriteFactory().getScoreBarSprite().getHeight());
             ISprite arrow = Doodle.getServiceLocator().getSpriteFactory().getDoodleLocationArrowSprite();
             Doodle.getServiceLocator().getRenderer().drawSpriteHUD(arrow, arrowPoint);
         }
