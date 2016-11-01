@@ -28,7 +28,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
- * Created by Michael on 11/1/2016.
+ * Test suite for the Button.java class.
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({InputManager.class, Game.class})
@@ -41,7 +41,7 @@ public class ButtonTest {
 
     private Game game = mock(Game.class);
     private Tuple2<Integer, Integer> dimensions = new Tuple2<>(30, 20);
-    private IButton button, button2, nullButton;
+    private IButton button, button2;
     private Image image = mock(Image.class);
     private IRenderer renderer = mock(IRenderer.class);
     private ISprite sprite = mock(ISprite.class);
@@ -49,6 +49,8 @@ public class ButtonTest {
     private String buttonName = "test";
     private int xPos = 0;
     private int yPos = 0;
+    private int height = 20;
+    private int width = 30;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -60,8 +62,8 @@ public class ButtonTest {
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(loggerFactory.createLogger(Button.class)).thenReturn(logger);
         when(sprite.getImage()).thenReturn(image);
-        when(image.getWidth(anyObject())).thenReturn(30);
-        when(image.getHeight(anyObject())).thenReturn(20);
+        when(image.getWidth(anyObject())).thenReturn(width);
+        when(image.getHeight(anyObject())).thenReturn(height);
 
         button = new Button(serviceLocator, xPos, yPos, sprite, action, buttonName);
         button2 = new Button(serviceLocator, xPos, yPos, sprite, action, buttonName, dimensions);
@@ -70,7 +72,7 @@ public class ButtonTest {
     @Test
     public void testRenderer() {
         button.render();
-        verify(renderer, times(1)).drawSpriteHUD(sprite, new Point(xPos, yPos), 30, 20);
+        verify(renderer, times(1)).drawSpriteHUD(sprite, new Point(xPos, yPos), width, height);
     }
 
     @Test
@@ -156,7 +158,7 @@ public class ButtonTest {
         IServiceLocator nullServiceLocator = null;
 
         thrown.expect(NullPointerException.class);
-        nullButton = new Button(nullServiceLocator, xPos, yPos, nullSprite, nullAction, buttonName);
+        new Button(nullServiceLocator, xPos, yPos, nullSprite, nullAction, buttonName);
     }
 
     @Test(expected = AssertionError.class)
@@ -166,20 +168,20 @@ public class ButtonTest {
         IServiceLocator nullServiceLocator = null;
 
         thrown.expect(NullPointerException.class);
-        nullButton = new Button(nullServiceLocator, xPos, yPos, nullSprite, nullAction, buttonName, dimensions);
+        new Button(nullServiceLocator, xPos, yPos, nullSprite, nullAction, buttonName, dimensions);
     }
 
     @Test
     public void testConstructorNullInput3() {
         Runnable nullAction = null;
-        nullButton = new Button(serviceLocator, xPos, yPos, sprite, nullAction, buttonName);
+        new Button(serviceLocator, xPos, yPos, sprite, nullAction, buttonName);
     }
 
     @Test(expected = NullPointerException.class)
     public void testConstructorNullInput4() {
         Tuple2<Integer, Integer> nullDimensions = null;
         Runnable nullAction = null;
-        nullButton = new Button(serviceLocator, xPos, yPos, sprite, nullAction, buttonName, nullDimensions);
+        new Button(serviceLocator, xPos, yPos, sprite, nullAction, buttonName, nullDimensions);
     }
 
 }
