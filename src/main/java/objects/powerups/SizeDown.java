@@ -5,12 +5,10 @@ import objects.doodles.IDoodle;
 import system.IServiceLocator;
 import java.awt.Point;
 
-import java.awt.Point;
-
 /**
  * This class describes the behaviour of the SizeDown powerup. Decreasing the size of the Doodle when picked up.
  */
-/* package */ final class SizeDown extends APowerup implements IDisappearingPowerup {
+/* package */ final class SizeDown extends Powerup implements IDisappearingPowerup {
 
     /**
      * The scale increase provided by the SizeUp powerup.

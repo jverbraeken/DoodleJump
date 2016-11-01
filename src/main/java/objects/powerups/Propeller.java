@@ -10,7 +10,7 @@ import java.awt.Point;
 /**
  * This class describes the behaviour of the Propeller powerup.
  */
-/* package */ final class Propeller extends APowerup implements IEquipmentPowerup {
+/* package */ final class Propeller extends Powerup implements IEquipmentPowerup {
 
     /**
      * The acceleration provided by the Propeller.
@@ -88,20 +88,6 @@ import java.awt.Point;
             this.updateOwned();
         } else if (this.timer > 0) {
             this.updateFalling();
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void perform(final PowerupOccasion occasion) {
-        if (this.owner == null) {
-            throw new IllegalArgumentException("Owner cannot be null");
-        }
-
-        if (occasion == PowerupOccasion.constant) {
-            this.owner.setVerticalSpeed(this.vSpeed);
         }
     }
 

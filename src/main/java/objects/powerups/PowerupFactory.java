@@ -15,23 +15,6 @@ import java.util.List;
 public final class PowerupFactory implements IPowerupFactory {
 
     /**
-     * The boosts per level of {@link Spring spring} powerups.
-     */
-    private static final int[] BOOST_SPRING = new int[]{-30, -40, -50};
-    /**
-     * The boosts per level of {@link Trampoline trampoline} powerups.
-     */
-    private static final int[] BOOST_TRAMPOLINE = new int[]{-40, -55, -70};
-
-    /**
-     * The time measured in frames a {@link Jetpack} is in the air.
-     */
-    private static final int[] MAX_TIME_JETPACK = new int[]{175, 200, 225};
-    /**
-     * The Y-offset for drawing the Jetpack when on Doodle.
-     */
-    private static final int[] OWNED_Y_OFFSET_JETPACK = new int[]{35, 35, -70};
-    /**
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
@@ -82,7 +65,8 @@ public final class PowerupFactory implements IPowerupFactory {
         assert level > 0;
         assert level <= type.getMaxLevel();
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        Jetpack jetpack = new Jetpack(serviceLocator, new Point(x, y), level, spriteFactory.getJetpackActiveSprites(level), MAX_TIME_JETPACK[level - 1], OWNED_Y_OFFSET_JETPACK[level - 1]);
+        Powerup powerup = new Powerup(serviceLocator, new Point(x, y), type.getSprite(level), )
+        Jetpack jetpack = new Jetpack(serviceLocator, new Point(x, y), level, spriteFactory.getSprites(type.getLevel(level).), MAX_TIME_JETPACK[level - 1], OWNED_Y_OFFSET_JETPACK[level - 1]);
         logger.info("A new Jetpack of level " + level + " was created");
         for (IJetpackCreatedObserver observer : jetpackObservers) {
             observer.alertJetpackCreated(jetpack);

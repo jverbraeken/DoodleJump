@@ -9,7 +9,7 @@ import java.awt.*;
 /**
  * Extended by classes that are powerups with which the Doodle can fly.
  */
-public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowerup {
+public abstract class AFlyablePowerup extends Powerup implements IEquipmentPowerup {
 
     /**
      * The boost the flyable powerup object provides.

@@ -10,7 +10,7 @@ import java.awt.Point;
 /**
  * This class describes the behaviour of the SpringShoes powerup.
  */
-/* package */ final class SpringShoes extends APowerup implements IEquipmentPowerup {
+/* package */ final class SpringShoes extends Powerup implements IEquipmentPowerup {
 
     /**
      * The maximum amount of times SpringShoes can be used.
