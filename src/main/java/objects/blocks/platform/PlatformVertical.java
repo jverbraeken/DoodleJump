@@ -23,7 +23,7 @@ import system.IServiceLocator;
     /**
      * The speed of the moving platform.
      */
-    private int speed = 2;
+    private double speed = 2;
 
     /**
      * Vertical moving platform decorator constructor.
@@ -36,7 +36,9 @@ import system.IServiceLocator;
         this.getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteVertical());
         this.getContained().getProps().put(Platform.PlatformProperties.movingVertically, 1);
 
-        this.speed = sL.getCalc().getRandomDouble(1) < FIFTY_FIFTY ? MOVING_SPEED : -MOVING_SPEED;
+        this.speed = MOVING_SPEED;
+        double newOffset = sL.getCalc().getRandomDouble(this.getServiceLocator().getConstants().getGameHeight() * ONE_FIFTH);
+        this.setOffset(sL.getCalc().getRandomDouble(1d) < FIFTY_FIFTY ? newOffset : -newOffset);
     }
 
     /**
@@ -44,12 +46,10 @@ import system.IServiceLocator;
      */
     @Override
     public void update(final double delta) {
-        int distance = (int) (this.getServiceLocator().getConstants().getGameHeight() * ONE_FIFTH);
+        double distance = this.getServiceLocator().getConstants().getGameHeight() * ONE_FIFTH;
 
-        if (this.getOffset() > distance) {
-            this.speed = -MOVING_SPEED;
-        } else if (this.getOffset() < -distance) {
-            this.speed = MOVING_SPEED;
+        if (Math.abs(this.getOffset()) > distance) {
+            this.speed = -this.speed;
         }
 
         this.setOffset(this.getOffset() + this.speed);

@@ -3,6 +3,7 @@ package system;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
+import objects.blocks.BlockTypes;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
 import scenes.Popup;
@@ -313,6 +314,7 @@ public final class Game {
         serviceLocator.getRes().setSkin(m);
         SpriteFactory.register(serviceLocator);
         setScene(serviceLocator.getSceneFactory().newChooseMode());
+        BlockTypes.setMode(m);
         logger.info("The mode is now " + m);
     }
 

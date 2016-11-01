@@ -119,7 +119,6 @@ public final class PlatformFactory implements IPlatformFactory {
      */
     @Override
     public IPlatform createBreakPlatform(final int x, final int y) {
-        ISprite sprite = serviceLocator.getSpriteFactory().getPlatformBrokenSprite(1);
         IPlatform platform = createPlatform(x, y);
 
         return new PlatformBroken(serviceLocator, platform);

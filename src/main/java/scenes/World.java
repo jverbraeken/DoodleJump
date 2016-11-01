@@ -129,7 +129,7 @@ public class World implements IScene {
         this.updatables.add(this.topBlock);
 
         for (int i = 1; i < BLOCK_BUFFER; i++) {
-            this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable(), BlockTypes.normalOnlyBlock);
+            this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable(), BlockTypes.normalOnlyBlock, false);
             this.blocks.add(this.topBlock);
             this.drawables.get(DrawableLevels.back).add(this.topBlock);
             this.updatables.add(this.topBlock);
@@ -314,7 +314,7 @@ public class World implements IScene {
     private void newBlocks() {
         if (blocks.size() < BLOCK_BUFFER) {
             IJumpable topPlatform = topBlock.getTopJumpable();
-            this.topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform, BlockTypes.randomType());
+            this.topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform, BlockTypes.randomType(), doodles.size() < 2);
             this.blocks.add(topBlock);
             this.drawables.get(DrawableLevels.back).add(topBlock);
             this.updatables.add(topBlock);
