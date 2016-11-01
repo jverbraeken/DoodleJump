@@ -5,9 +5,7 @@ import input.InputManager;
 import logging.ILogger;
 import logging.ILoggerFactory;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -38,8 +36,7 @@ public class ButtonTest {
     private static ILogger logger = mock(ILogger.class);
     private static ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
     private static IServiceLocator serviceLocator = mock(IServiceLocator.class);
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+
     private Game game = mock(Game.class);
     private Tuple2<Integer, Integer> dimensions = new Tuple2<>(30, 20);
     private IButton button, button2;
