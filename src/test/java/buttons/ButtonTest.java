@@ -141,7 +141,8 @@ public class ButtonTest {
     @Test
     public void testConstructorNullInput1() {
         Runnable nullAction = null;
-        new Button(serviceLocator, xPos, yPos, sprite, nullAction, buttonName);
+        IButton button3 = new Button(serviceLocator, xPos, yPos, sprite, nullAction, buttonName);
+        assertEquals(nullAction, Whitebox.getInternalState(button3, "action"));
     }
 
     @Test(expected = NullPointerException.class)
