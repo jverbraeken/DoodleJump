@@ -92,7 +92,7 @@ public interface IRenderer {
     /**
      * Draw a string of text relative to the camera, left-aligned.
      *
-     * @param point
+     * @param point The position of the text.
      * @param msg The message to draw.
      */
     void drawText(Point point, final String msg);

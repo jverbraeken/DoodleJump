@@ -76,7 +76,7 @@ public final class DoodleFactory implements IDoodleFactory {
      */
     private ISprite[] getSprites(final DoodleColors color) {
         ISpriteFactory spriteFactory = DoodleFactory.serviceLocator.getSpriteFactory();
-        switch(color) {
+        switch (color) {
             case blue:
                 return spriteFactory.getBlueDoodleSprites();
             case green:
