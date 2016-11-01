@@ -101,10 +101,11 @@ public class ButtonTest {
         verify(game, times(0)).schedule(action);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void testMouseClickedNotOnButton2() {
         int xPosClicked = -1;
         int yPosClicked = -1;
+        thrown.expect(AssertionError.class);
         button.mouseClicked(xPosClicked, yPosClicked);
     }
 
