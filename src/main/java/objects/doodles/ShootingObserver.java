@@ -56,13 +56,13 @@ import java.awt.Point;
      */
     @Override
     public final void mouseClicked(final int x, final int y) {
-        int doodleXPos = (int) (this.doodle.getXPos() + this.doodle.getHitBox()[1]/2);
+        int doodleXPos = (int) (this.doodle.getXPos() + this.doodle.getHitBox()[1] / 2);
         int doodleYPos = (int) this.doodle.getYPos();
         int direction;
         if (doodleYPos - y < 0) {
-            direction = (-(doodleXPos - x)) /2;
+            direction = (-(doodleXPos - x)) / 2;
         } else {
-            direction = (doodleXPos - x) /2;
+            direction = (doodleXPos - x) / 2;
         }
 
         IGameObject projectile = this.serviceLocator.getProjectileFactory().createRegularProjectile(new Point(doodleXPos, doodleYPos), direction);

@@ -1,6 +1,8 @@
 package objects.doodles;
 
 import logging.ILogger;
+import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import scenes.World;
 import system.IServiceLocator;
 
@@ -47,9 +49,9 @@ public final class DoodleFactory implements IDoodleFactory {
      * {@inheritDoc}
      */
     @Override
-    public IDoodle createDoodle(final World world) {
-        logger.info("A new Doodle has been created");
-        IDoodle doodle = new Doodle(serviceLocator, world);
+    public IDoodle createDoodle(final World world, final DoodleColors color) {
+        this.logger.info("A new Doodle has been created");
+        IDoodle doodle = new Doodle(DoodleFactory.serviceLocator, this.getSprites(color), world);
         doodle.setVerticalSpeed(DoodleFactory.DOODLE_INITIAL_SPEED);
         return doodle;
     }
@@ -59,8 +61,32 @@ public final class DoodleFactory implements IDoodleFactory {
      */
     @Override
     public IDoodle createStartScreenDoodle() {
-        logger.info("A new StartScreenDoodle has been created");
-        return new StartScreenDoodle(serviceLocator);
+        this.logger.info("A new StartScreenDoodle has been created");
+
+        ISpriteFactory spriteFactory = DoodleFactory.serviceLocator.getSpriteFactory();
+        ISprite[] sprites = spriteFactory.getGreenDoodleSprites();
+        return new StartScreenDoodle(sprites, DoodleFactory.serviceLocator);
+    }
+
+    /**
+     * Get the correct sprites for the Doodle given its colors.
+     *
+     * @param   color           The color of the Doodle.
+     * @return                  An array of sprites.
+     */
+    private ISprite[] getSprites(final DoodleColors color) {
+        ISpriteFactory spriteFactory = DoodleFactory.serviceLocator.getSpriteFactory();
+        switch (color) {
+            case blue:
+                return spriteFactory.getBlueDoodleSprites();
+            case green:
+                return spriteFactory.getGreenDoodleSprites();
+            case red:
+                return spriteFactory.getRedDoodleSprites();
+            default:
+                return spriteFactory.getGreenDoodleSprites();
+
+        }
     }
 
 }

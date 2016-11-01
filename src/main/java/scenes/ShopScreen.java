@@ -14,7 +14,7 @@ import resources.sprites.ISpriteFactory;
 import system.IRenderable;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
