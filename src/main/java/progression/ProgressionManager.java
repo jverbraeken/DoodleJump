@@ -252,11 +252,9 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private void setRankAccordingExperience() {
         rank = Ranks.newbie;
-        Ranks[] ranksArray = Ranks.values();
-        for (int i = 0; i < ranksArray.length; i++) {
-            if (ranksArray[i].getExperience() > experience) {
-                rank = ranksArray[i - 1];
-                break;
+        for (Ranks checkRank : Ranks.values()) {
+            if (checkRank.getExperience() < experience) {
+                rank = checkRank;
             }
         }
     }
