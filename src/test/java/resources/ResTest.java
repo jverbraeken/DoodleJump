@@ -115,10 +115,10 @@ public class ResTest {
     public void testsetDefaultSkinDoodle() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftAscend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftDescend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleRightAscend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleRightDescend));
+        assertTrue(insertedSprites.containsKey(Sprites.greenDoodleLeftAscend));
+        assertTrue(insertedSprites.containsKey(Sprites.greenDoodleLeftDescend));
+        assertTrue(insertedSprites.containsKey(Sprites.greenDoodleRightAscend));
+        assertTrue(insertedSprites.containsKey(Sprites.greenDoodleRightDescend));
     }
 
     /**
@@ -301,10 +301,10 @@ public class ResTest {
     public void testSetSpaceSkinDoodle() throws Exception {
         Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftAscend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftDescend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleRightAscend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleRightDescend));
+        assertTrue(insertedSprites.containsKey(Sprites.greenDoodleLeftAscend));
+        assertTrue(insertedSprites.containsKey(Sprites.greenDoodleLeftDescend));
+        assertTrue(insertedSprites.containsKey(Sprites.greenDoodleRightAscend));
+        assertTrue(insertedSprites.containsKey(Sprites.greenDoodleRightDescend));
     }
 
     /**
@@ -366,10 +366,10 @@ public class ResTest {
     public void testUnderwaterSkinDoodle() throws Exception {
         Whitebox.invokeMethod(res, "setUnderwaterSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftAscend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftDescend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleRightAscend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleRightDescend));
+        assertTrue(insertedSprites.containsKey(Sprites.greenDoodleLeftAscend));
+        assertTrue(insertedSprites.containsKey(Sprites.greenDoodleLeftDescend));
+        assertTrue(insertedSprites.containsKey(Sprites.greenDoodleRightAscend));
+        assertTrue(insertedSprites.containsKey(Sprites.greenDoodleRightDescend));
     }
 
     /**
