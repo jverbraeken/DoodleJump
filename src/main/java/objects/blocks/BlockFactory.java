@@ -15,7 +15,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static objects.blocks.ElementTypes.*;
+import static objects.blocks.ElementTypes.horizontalMovingPlatform;
+import static objects.blocks.ElementTypes.normalPlatform;
+import static objects.blocks.ElementTypes.randomPlatform;
+import static objects.blocks.ElementTypes.verticalMovingPlatform;
 import static objects.blocks.platform.Platform.PlatformProperties.breaks;
 
 
@@ -23,7 +26,6 @@ import static objects.blocks.platform.Platform.PlatformProperties.breaks;
  * This class is the factory in which separate blocks get created.
  * In here one can specify the type of block one wants to create.
  */
-@SuppressWarnings("checksyle:starimport")
 public final class BlockFactory implements IBlockFactory {
 
     /**

@@ -13,7 +13,7 @@ import rendering.TextAlignment;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * This class is a scene that is displays when the doodle dies in a world.
