@@ -197,6 +197,18 @@ public class World implements IScene {
         this.cleanUp();
         this.newBlocks();
         this.checkCollisions();
+        this.updateCameraPosition();
+    }
+
+    private void updateCameraPosition() {
+        final double camY = this.serviceLocator.getRenderer().getCamera().getYPos();
+        for (IDoodle doodle : this.doodles) {
+            if (camY < doodle.getYPos() + doodle.getSprite().getHeight()) {
+                return;
+            }
+        }
+
+        System.out.println("all out");
     }
 
     /**
