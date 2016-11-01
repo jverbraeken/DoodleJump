@@ -38,7 +38,8 @@ public class ButtonTest {
     private static ILogger logger = mock(ILogger.class);
     private static ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
     private static IServiceLocator serviceLocator = mock(IServiceLocator.class);
-
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
     private Game game = mock(Game.class);
     private Tuple2<Integer, Integer> dimensions = new Tuple2<>(30, 20);
     private IButton button, button2;
@@ -51,9 +52,6 @@ public class ButtonTest {
     private int yPos = 0;
     private int height = 20;
     private int width = 30;
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void init() throws Exception {
@@ -103,13 +101,6 @@ public class ButtonTest {
         verify(game, times(0)).schedule(action);
     }
 
-    @Test(expected = AssertionError.class)
-    public void testMouseClickedNotOnButton2() {
-        int xPosClicked = -1;
-        int yPosClicked = -1;
-        button.mouseClicked(xPosClicked, yPosClicked);
-    }
-
     @Test
     public void testConstructor1() {
         int width = sprite.getImage().getWidth(null);
@@ -150,34 +141,14 @@ public class ButtonTest {
         assertEquals(bottomRight[1], yPos + height);
     }
 
-    @Test(expected = AssertionError.class)
-    public void testConstructorNullInput1() {
-        ISprite nullSprite = null;
-        Runnable nullAction = null;
-        IServiceLocator nullServiceLocator = null;
-
-        thrown.expect(NullPointerException.class);
-        new Button(nullServiceLocator, xPos, yPos, nullSprite, nullAction, buttonName);
-    }
-
-    @Test(expected = AssertionError.class)
-    public void testConstructorNullInput2() {
-        ISprite nullSprite = null;
-        Runnable nullAction = null;
-        IServiceLocator nullServiceLocator = null;
-
-        thrown.expect(NullPointerException.class);
-        new Button(nullServiceLocator, xPos, yPos, nullSprite, nullAction, buttonName, dimensions);
-    }
-
     @Test
-    public void testConstructorNullInput3() {
+    public void testConstructorNullInput1() {
         Runnable nullAction = null;
         new Button(serviceLocator, xPos, yPos, sprite, nullAction, buttonName);
     }
 
     @Test(expected = NullPointerException.class)
-    public void testConstructorNullInput4() {
+    public void testConstructorNullInput2() {
         Tuple2<Integer, Integer> nullDimensions = null;
         Runnable nullAction = null;
         new Button(serviceLocator, xPos, yPos, sprite, nullAction, buttonName, nullDimensions);
