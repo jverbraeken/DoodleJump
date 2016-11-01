@@ -66,6 +66,12 @@ public final class Res implements IRes {
             case darkness:
                 this.setDarknessSkin();
                 break;
+            case horizontalOnly:
+                this.setSkySkin();
+                break;
+            case verticalOnly:
+                this.setIceSkin();
+                break;
             default:
                 this.setDefaultSkin();
                 break;
@@ -309,7 +315,7 @@ public final class Res implements IRes {
     }
 
     /**
-     * Set the skin to underwater style.
+     * Set the skin to darkness style.
      */
     private void setDarknessSkin() {
         this.setDefaultSkin();
@@ -337,5 +343,46 @@ public final class Res implements IRes {
         // Top bar
         sprites.put(Sprites.scoreBar, SPRITE_PATH + "space-scorebar@2x.png");
     }
+
+    /**
+     * Set the skin to horizontal only style.
+     */
+    private void setSkySkin() {
+        this.setDefaultSkin();
+
+        // Covers
+        sprites.put(Sprites.startCover, SPRITE_PATH + "hop-bck2@2x.png");
+        sprites.put(Sprites.background, SPRITE_PATH + "hop-bck@2x.png");
+
+        //Platforms
+        sprites.put(Sprites.platform1, SPRITE_PATH + "platform-blue@2x.png");
+
+        // Doodle
+        sprites.put(Sprites.greenDoodleLeftAscend, SPRITE_PATH + "jungle-left@2x.png");
+        sprites.put(Sprites.greenDoodleLeftDescend, SPRITE_PATH + "jungle-left-odskok@2x.png");
+        sprites.put(Sprites.greenDoodleRightAscend, SPRITE_PATH + "jungle-right@2x.png");
+        sprites.put(Sprites.greenDoodleRightDescend, SPRITE_PATH + "jungle-right-odskok@2x.png");
+    }
+
+    /**
+     * Set the skin to vertical only style.
+     */
+    private void setIceSkin() {
+        this.setDefaultSkin();
+
+        // Covers
+        sprites.put(Sprites.startCover, SPRITE_PATH + "ice-bck2@2x.png");
+        sprites.put(Sprites.background, SPRITE_PATH + "ice-bck@2x.png");
+
+        //Platforms
+        sprites.put(Sprites.platform1, SPRITE_PATH + "platform-gray@2x.png");
+
+        // Doodle
+        sprites.put(Sprites.greenDoodleLeftAscend, SPRITE_PATH + "ice-left@2x.png");
+        sprites.put(Sprites.greenDoodleLeftDescend, SPRITE_PATH + "ice-left-odskok@2x.png");
+        sprites.put(Sprites.greenDoodleRightAscend, SPRITE_PATH + "ice-right@2x.png");
+        sprites.put(Sprites.greenDoodleRightDescend, SPRITE_PATH + "ice-right-odskok@2x.png");
+    }
+
 
 }

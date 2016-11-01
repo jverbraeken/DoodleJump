@@ -130,7 +130,7 @@ public class World implements IScene {
         this.drawables.get(DrawableLevels.back).add(this.topBlock);
         this.updatables.add(this.topBlock);
 
-        for (int i = 1; i < BLOCK_BUFFER; i++) {
+        for (int i = 1; i < 2; i++) {
             this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable(), BlockTypes.normalOnlyBlock, false);
             this.blocks.add(this.topBlock);
             this.drawables.get(DrawableLevels.back).add(this.topBlock);
