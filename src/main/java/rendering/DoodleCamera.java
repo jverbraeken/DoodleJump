@@ -57,6 +57,13 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
+    public void setAccelerationType(AccelerationType type) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void update(final double delta) {
         int height = this.serviceLocator.getConstants().getGameHeight();
         double newY = Math.min(this.getYPos(), this.doodle.getYPos() - height * DoodleCamera.DOODLE_THRESHOLD);
