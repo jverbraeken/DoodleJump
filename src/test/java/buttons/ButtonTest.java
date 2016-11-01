@@ -1,10 +1,13 @@
 package buttons;
 
+import groovy.lang.Tuple2;
 import input.InputManager;
 import logging.ILogger;
 import logging.ILoggerFactory;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -36,7 +39,7 @@ public class ButtonTest {
     private static ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
     private static InputManager inputManager = mock(InputManager.class);
     Game game = mock(Game.class);
-    private IButton button;
+    private IButton button, button2, nullButton;
     private Runnable action = mock(Runnable.class);
     private ISprite sprite = mock(ISprite.class);
     private IRenderer renderer = mock(IRenderer.class);
@@ -44,6 +47,10 @@ public class ButtonTest {
     private String buttonName = "test";
     private int xPos = 0;
     private int yPos = 0;
+    final Tuple2<Integer, Integer> dimensions = new Tuple2<>(30, 20);
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void init() throws Exception {
@@ -56,6 +63,7 @@ public class ButtonTest {
         when(image.getHeight(anyObject())).thenReturn(20);
 
         button = new Button(serviceLocator, xPos, yPos, sprite, action, buttonName);
+        button2 = new Button(serviceLocator, xPos, yPos, sprite, action, buttonName, dimensions);
     }
 
     @Test
@@ -93,7 +101,7 @@ public class ButtonTest {
     }
 
     @Test
-    public void testConstructor() {
+    public void testConstructor1() {
         int width = sprite.getImage().getWidth(null);
         int height = sprite.getImage().getHeight(null);
         int[] topLeft = Whitebox.getInternalState(button, "topLeft");
@@ -112,5 +120,24 @@ public class ButtonTest {
         assertEquals(bottomRight[1], yPos + height);
     }
 
+    @Test
+    public void testConstructor2() {
+
+    }
+
+    @Test (expected=AssertionError.class)
+    public void testConstructorNullInput1() {
+        ISprite nullSprite = null;
+        Runnable nullAction = null;
+        IServiceLocator nullServiceLocator = null;
+
+        nullButton = new Button(nullServiceLocator, xPos, yPos, nullSprite, nullAction, buttonName);
+    }
+
+    @Test
+    public void testConstructorNullInput2() {
+        Runnable nullAction = null;
+        nullButton = new Button(serviceLocator, xPos, yPos, sprite, nullAction, buttonName);
+    }
 
 }
