@@ -1,6 +1,8 @@
 package objects.powerups;
 
 import objects.doodles.IDoodle;
+import resources.IRes;
+import resources.sprites.Animation;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -9,7 +11,7 @@ import java.awt.*;
 /**
  * Extended by classes that are powerups with which the Doodle can fly.
  */
-public abstract class AFlyablePowerup extends Powerup implements IEquipmentPowerup {
+public abstract class AEquipmentPowerup extends APowerup implements IEquipmentPowerup {
 
     /**
      * The boost the flyable powerup object provides.
@@ -65,7 +67,7 @@ public abstract class AFlyablePowerup extends Powerup implements IEquipmentPower
     /**
      * The sprites for an active flyable powerup.
      */
-    private ISprite[] spritePack;
+    private Animation animation;
     /**
      * The Doodle that owns this flyable powerup.
      */
@@ -95,19 +97,19 @@ public abstract class AFlyablePowerup extends Powerup implements IEquipmentPower
      * @param point   The location of the powerup
      * @param maxTime the time for which the powerup can power the doodle
      * @param sprite  The sprite used for the powerup placed on a platform
-     * @param sprites The animation used when the doodle equips the powerup
+     * @param animation The animation used when the doodle equips the powerup
      * @param powerup The class of the powerup
      */
-    /* package */ AFlyablePowerup(final IServiceLocator sL,
-                                  final Point point,
-                                  final int maxTime,
-                                  final ISprite sprite,
-                                  final ISprite[] sprites,
-                                  final Class<?> powerup) {
+    /* package */ AEquipmentPowerup(final IServiceLocator sL,
+                                    final Point point,
+                                    final int maxTime,
+                                    final ISprite sprite,
+                                    final Animation animation,
+                                    final Class<?> powerup) {
         super(sL, point, sprite, powerup);
         this.timeLimit = maxTime;
         this.defaultSprite = sprite;
-        this.spritePack = sprites;
+        this.animation = animation;
     }
 
     /**
@@ -210,7 +212,7 @@ public abstract class AFlyablePowerup extends Powerup implements IEquipmentPower
             }
 
             this.spriteIndex = offset + ((spriteIndex + 1) % ANIMATION_REFRESH_RATE);
-            this.setSprite(this.spritePack[this.spriteIndex]);
+            this.setSprite(this.animation.getFromIndex(this.spriteIndex));
         }
 
         if (this.owner != null) {

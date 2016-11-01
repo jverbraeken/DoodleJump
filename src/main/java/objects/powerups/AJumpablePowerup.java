@@ -11,7 +11,7 @@ import java.awt.Point;
 /**
  * A powerup on which can be jumped.
  */
-public abstract class AJumpablePowerup extends Powerup implements IJumpable {
+public abstract class AJumpablePowerup extends APowerup implements IJumpable {
 
     /**
      * The default sprite for the jumpable powerup.

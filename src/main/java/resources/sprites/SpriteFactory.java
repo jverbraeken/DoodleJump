@@ -4,10 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import logging.ILogger;
-import objects.enemies.EEnemies;
-import objects.powerups.Powerups;
 import resources.IRes;
-import scenes.PauseScreenModes;
 import system.IServiceLocator;
 
 import java.awt.image.BufferedImage;
@@ -31,16 +28,21 @@ public final class SpriteFactory implements ISpriteFactory {
     private final ILogger logger;
 
     /**
-     * The cache for the SpriteFactory.
+     * The spriteCache for the SpriteFactory.
      */
-    private final LoadingCache<IRes.Sprites, ISprite> cache;
+    private final LoadingCache<IRes.Sprites, ISprite> spriteCache;
+
+    /**
+     * The animationCache for the SpriteFactory.
+     */
+    private final LoadingCache<IRes.Animations, IAnimation> animationCache;
 
     /**
      * Prevents instantiation from outside the class.
      */
     public SpriteFactory() {
         this.logger = SpriteFactory.serviceLocator.getLoggerFactory().createLogger(SpriteFactory.class);
-        cache = CacheBuilder.newBuilder()
+        spriteCache = CacheBuilder.newBuilder()
                 .maximumSize(Long.MAX_VALUE)
                 .build(
                         new CacheLoader<IRes.Sprites, ISprite>() {
@@ -48,6 +50,17 @@ public final class SpriteFactory implements ISpriteFactory {
                             public ISprite load(final IRes.Sprites sprite) {
                                 logger.info("Sprite loaded: \"" + sprite + "\"");
                                 return loadISprite(sprite);
+                            }
+                        }
+                );
+        animationCache = CacheBuilder.newBuilder()
+                .maximumSize(Long.MAX_VALUE)
+                .build(
+                        new CacheLoader<IRes.Animations, IAnimation>() {
+                            @Override
+                            public IAnimation load(final IRes.Animations sprite) {
+                                logger.info("Animation loaded: \"" + sprite + "\"");
+                                return loadIAnimation(sprite);
                             }
                         }
                 );
@@ -90,13 +103,45 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
+     * Loads an ISprite with the name {@code ISpriteName}.
+     *
+     * @param animationName the enumerator defining the requested sprite
+     * @return The {@link IAnimation animation} if it was found. null otherwise
+     */
+    private IAnimation loadIAnimation(final IRes.Animations animationName) {
+        assert animationName != null;
+
+        final int animLength = animationName.getSpriteReferences().length;
+        final ISprite[] sprites = new ISprite[animLength];
+        for (int i = 0; i < animLength; i++) {
+            sprites[i] = getSprite(animationName.getSpriteReferences()[i]);
+        }
+        return new Animation(sprites);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public ISprite getSprite(final IRes.Sprites sprite) {
         assert sprite != null;
         try {
-            return this.cache.get(sprite);
+            return this.spriteCache.get(sprite);
+        } catch (ExecutionException e) {
+            this.logger.error(e);
+        }
+
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IAnimation getAnimation(final IRes.Animations animation) {
+        assert animation != null;
+        try {
+            return this.animationCache.get(animation);
         } catch (ExecutionException e) {
             this.logger.error(e);
         }

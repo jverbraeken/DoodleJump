@@ -10,36 +10,36 @@ import java.awt.Point;
 /**
  * This class describes the behaviour of the Propeller powerup.
  */
-/* package */ final class Propeller extends Powerup implements IEquipmentPowerup {
+/* package */ final class Propeller extends APowerup implements IEquipmentPowerup {
 
     /**
      * The acceleration provided by the Propeller.
      */
-    private static final double ACCELERATION = -1d;
+    private final double acceleration;
     /**
      * The boost for the Propeller when it is being dropped.
      */
-    private static final double INITIAL_DROP_SPEED = -20d;
+    private final double initialDropSpeed;
     /**
      * The boost the Propeller gives.
      */
-    private static final double MAX_BOOST = -20d;
+    private final double maxBoost;
     /**
      * The horizontal speed for a Propeller.
      */
-    private static final double HORIZONTAL_SPEED = 1.2d;
+    private final double horizontalSpeed;
     /**
      * The maximum time the Propeller is active.
      */
-    private static final int MAX_TIMER = 150;
+    private final int maxTimer;
     /**
      * Y offset for drawing the Propeller when on Doodle.
      */
-    private static final int OWNED_Y_OFFSET = -26;
+    private final int ownedYOffset;
     /**
      * The refresh rate for the active animation.
      */
-    private static final int ANIMATION_REFRESH_RATE = 3;
+    private final int animationRefreshRate;
 
     /**
      * The sprites for an active Propeller.
@@ -68,8 +68,8 @@ import java.awt.Point;
      * @param sL - The Games service locator.
      * @param point  - The location for the Propeller.
      */
-    /* package */ Propeller(final IServiceLocator sL, final Point point) {
-        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);
+    /* package */ Propeller(final IServiceLocator sL, final Point point, final PhysicsData physicsData, final DrawingData drawingData, final int level) {
+        super(sL, point, sL.getSpriteFactory().getSprite(Powerups.propeller.getSprite(level)), Propeller.class);
         if (Propeller.spritePack == null) {
             synchronized (this) {
                 if (Propeller.spritePack == null) {
@@ -115,7 +115,7 @@ import java.awt.Point;
     @Override
     public void endPowerup() {
         this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
-        this.vSpeed = INITIAL_DROP_SPEED;
+        this.vSpeed = initialDropSpeed;
 
         this.owner.removePowerup(this);
         this.owner.getWorld().addDrawable(this);
@@ -137,14 +137,14 @@ import java.awt.Point;
     private void updateOwned() {
         this.timer++;
 
-        if (this.timer >= MAX_TIMER) {
+        if (this.timer >= maxTimer) {
             this.endPowerup();
             return;
-        } else if (this.vSpeed > MAX_BOOST) {
-            this.vSpeed += ACCELERATION;
+        } else if (this.vSpeed > maxBoost) {
+            this.vSpeed += acceleration;
         }
 
-        if (this.timer % ANIMATION_REFRESH_RATE == 0) {
+        if (this.timer % animationRefreshRate == 0) {
             this.spriteIndex = (spriteIndex + 1) % Propeller.spritePack.length;
             this.setSprite(Propeller.spritePack[this.spriteIndex]);
         }
@@ -154,7 +154,7 @@ import java.awt.Point;
                     + this.getSprite().getWidth() / 2);
             this.setYPos((int) this.owner.getYPos()
                     + this.getSprite().getHeight() / 2
-                    + OWNED_Y_OFFSET);
+                    + ownedYOffset);
         }
     }
 
@@ -163,7 +163,7 @@ import java.awt.Point;
      */
     private void updateFalling() {
         this.applyGravity();
-        this.addXPos(HORIZONTAL_SPEED);
+        this.addXPos(horizontalSpeed);
     }
 
     /**
@@ -174,4 +174,28 @@ import java.awt.Point;
         this.addYPos(this.vSpeed);
     }
 
+    public class PhysicsData {
+        private final double acceleration;
+        private final double initialDropSpeed;
+        private final double maxBoost;
+        private final double horizontalSpeed;
+
+        public PhysicsData(final double acceleration, final double initialDropSpeed, final double maxBoost, final double horizontalSpeed) {
+            this.acceleration = acceleration;
+            this.initialDropSpeed = initialDropSpeed;
+            this.maxBoost = maxBoost;
+            this.horizontalSpeed = horizontalSpeed;
+        }
+    }
+
+    public class DrawingData {
+        private final int maxTimer;
+        private final int ownedYOffset;
+        private final int animationRefreshRate;
+
+        public DrawingData(final int maxTimer, final int ownedYOffset, final int animationRefreshRate) {
+            this.maxTimer = maxTimer;
+            this.ownedYOffset = ownedYOffset;
+        }
+    }
 }

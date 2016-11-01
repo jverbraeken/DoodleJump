@@ -1,5 +1,6 @@
 package resources;
 
+import resources.sprites.ISprite;
 import system.Game;
 
 /**
@@ -213,4 +214,45 @@ public interface IRes {
         unimplemented
     }
 
+    enum Animations {
+        jetpack(
+                IRes.Sprites.jetpack0,
+                IRes.Sprites.jetpack1,
+                IRes.Sprites.jetpack2,
+                IRes.Sprites.jetpack3,
+                IRes.Sprites.jetpack4,
+                IRes.Sprites.jetpack5,
+                IRes.Sprites.jetpack6,
+                IRes.Sprites.jetpack7,
+                IRes.Sprites.jetpack8,
+                IRes.Sprites.jetpack9
+        ),
+        spaceRocket(
+                IRes.Sprites.spaceRocket0,
+                IRes.Sprites.spaceRocket1,
+                IRes.Sprites.spaceRocket2,
+                IRes.Sprites.spaceRocket3,
+                IRes.Sprites.spaceRocket4,
+                IRes.Sprites.spaceRocket5,
+                IRes.Sprites.spaceRocket6,
+                IRes.Sprites.spaceRocket7,
+                IRes.Sprites.spaceRocket8
+        ),
+        propeller(
+                IRes.Sprites.propeller0,
+                IRes.Sprites.propeller1,
+                IRes.Sprites.propeller0,
+                IRes.Sprites.propeller2
+        );
+
+        private final IRes.Sprites[] sprites;
+
+        Animations(IRes.Sprites... sprites) {
+            this.sprites = sprites;
+        }
+
+        public IRes.Sprites[] getSpriteReferences() {
+            return this.sprites;
+        }
+    }
 }

@@ -9,7 +9,7 @@ import java.awt.Point;
 /**
  * This class describes the behaviour of the SizeUp powerup. Increasing the size of the Doodle when picked up.
  */
-/* package */ final class SizeUp extends Powerup implements IDisappearingPowerup {
+/* package */ final class SizeUp extends APowerup implements IDisappearingPowerup {
 
     /**
      * The scale increase provided by the SizeUp powerup.

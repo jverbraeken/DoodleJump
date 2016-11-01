@@ -11,15 +11,15 @@ public enum Powerups {
      * Jetpack.
      */
     jetpack("jetpack", new PowerupLevel[]{
-            new EquipmentPowerupLevel(IRes.Sprites.jetpack, 50, Animations.jetpack, new JetpackPowerupBehaviour(new EquipmentPowerupBehaviourPhysics(-2d, -25d, -25d, 1.2d), 175, 35, 3, new double[]{0.1d, 0.8d, 1d}, new int[]{0, 3, 6})),
-            new EquipmentPowerupLevel(IRes.Sprites.jetpack, 100, Animations.jetpack, new JetpackPowerupBehaviour(new EquipmentPowerupBehaviourPhysics(-2d, -25d, -25d, 1.2d), 200, 35, 3, new double[]{0.1d, 0.8d, 1d}, new int[]{0, 3, 6})),
-            new EquipmentPowerupLevel(IRes.Sprites.spaceRocket, 150, Animations.spaceRocket, new JetpackPowerupBehaviour(new EquipmentPowerupBehaviourPhysics(-2d, -25d, -25d, 1.2d), 225, -70, 3, new double[]{0.1d, 0.8d, 1d}, new int[]{0, 3, 6}))
+            new EquipmentPowerupLevel(IRes.Sprites.jetpack, 50, IRes.Animations.jetpack, new JetpackPowerupBehaviour(new EquipmentPowerupBehaviourPhysics(-2d, -25d, -25d, 1.2d), 175, 35, 3, new double[]{0.1d, 0.8d, 1d}, new int[]{0, 3, 6})),
+            new EquipmentPowerupLevel(IRes.Sprites.jetpack, 100, IRes.Animations.jetpack, new JetpackPowerupBehaviour(new EquipmentPowerupBehaviourPhysics(-2d, -25d, -25d, 1.2d), 200, 35, 3, new double[]{0.1d, 0.8d, 1d}, new int[]{0, 3, 6})),
+            new EquipmentPowerupLevel(IRes.Sprites.spaceRocket, 150, IRes.Animations.spaceRocket, new JetpackPowerupBehaviour(new EquipmentPowerupBehaviourPhysics(-2d, -25d, -25d, 1.2d), 225, -70, 3, new double[]{0.1d, 0.8d, 1d}, new int[]{0, 3, 6}))
     }),
     /**
      * Propeller.
      */
     propeller("propeller", new PowerupLevel[]{
-            new EquipmentPowerupLevel(IRes.Sprites.propeller, 50, Animations.propeller, new EquipmentPowerupBehaviour(new EquipmentPowerupBehaviourPhysics(-1d, -20d, -20d, 1.2d), 150, -26, 3))
+            new EquipmentPowerupLevel(IRes.Sprites.propeller, 50, IRes.Animations.propeller, new EquipmentPowerupBehaviour(new EquipmentPowerupBehaviourPhysics(-1d, -20d, -20d, 1.2d), 150, -26, 3))
     }),
     springShoes("springShoes", new PowerupLevel[]{
             new SpringShoesPowerupLevel(IRes.Sprites.propeller, 50, 3, -30d)
@@ -90,21 +90,31 @@ public enum Powerups {
      * @return The price in coins of the upgrade to the level specified
      */
     public int getPrice(final int level) {
-        if (level <= 0) {
-            throw new IllegalArgumentException("Powerups do not have levels lower than or equal to 0");
-        }
-        if (level > powerupLevels.length) {
-            throw new IllegalArgumentException("The maximum level of the powerup \""
-                    + this.name
-                    + "\" is "
-                    + this.powerupLevels.length
-                    + ", while the price was asked for a level exceeding this maximum level: "
-                    + level);
-        }
+        checkLevel(level, "price");
         return powerupLevels[level - 1].coins; // The array is 0-indexed, the input 1-indexed
     }
 
     public IRes.Sprites getSprite(final int level) {
+        checkLevel(level, "sprite");
+        return powerupLevels[level - 1].sprite;
+    }
+
+    public IRes.Animations getAnimation(final int level) {
+        checkLevel(level, "animation");
+        return powerupLevels[level - 1].getAnimation();
+    }
+
+    public final int getMaxTimeInAir(final int level) {
+        checkLevel(level, "maxTimeInAir");
+        return powerupLevels[level - 1].getMaxTimeInAir();
+    }
+
+    public final int getOwnedYOffset(final int level) {
+        checkLevel(level, "ownedYOffset");
+        return powerupLevels[level - 1].getOwnedYOffset();
+    }
+
+    private void checkLevel(final int level, final String kind) {
         if (level <= 0) {
             throw new IllegalArgumentException("Powerups do not have levels lower than or equal to 0");
         }
@@ -116,45 +126,6 @@ public enum Powerups {
                     + ", while the sprite was asked for a level exceeding this maximum level: "
                     + level);
         }
-        return powerupLevels[level - 1].sprite;
-    }
-
-    private enum Animations {
-        jetpack(
-                IRes.Sprites.jetpack0,
-                IRes.Sprites.jetpack1,
-                IRes.Sprites.jetpack2,
-                IRes.Sprites.jetpack3,
-                IRes.Sprites.jetpack4,
-                IRes.Sprites.jetpack5,
-                IRes.Sprites.jetpack6,
-                IRes.Sprites.jetpack7,
-                IRes.Sprites.jetpack8,
-                IRes.Sprites.jetpack9
-        ),
-        spaceRocket(
-                IRes.Sprites.spaceRocket0,
-                IRes.Sprites.spaceRocket1,
-                IRes.Sprites.spaceRocket2,
-                IRes.Sprites.spaceRocket3,
-                IRes.Sprites.spaceRocket4,
-                IRes.Sprites.spaceRocket5,
-                IRes.Sprites.spaceRocket6,
-                IRes.Sprites.spaceRocket7,
-                IRes.Sprites.spaceRocket8
-        ),
-        propeller(
-                IRes.Sprites.propeller0,
-                IRes.Sprites.propeller1,
-                IRes.Sprites.propeller0,
-                IRes.Sprites.propeller2
-        );
-
-        private final IRes.Sprites[] sprites;
-
-        Animations(IRes.Sprites... sprites) {
-            this.sprites = sprites;
-        }
     }
 
     private abstract static class PowerupLevel {
@@ -165,16 +136,25 @@ public enum Powerups {
             this.sprite = sprite;
             this.coins = coins;
         }
+
+        /* package */ IRes.Animations getAnimation() {
+            return null;
+        }
     }
 
     private static final class EquipmentPowerupLevel extends PowerupLevel {
-        private final Animations animation;
+        private final IRes.Animations animation;
         private final EquipmentPowerupBehaviour behaviour;
 
-        private EquipmentPowerupLevel(final IRes.Sprites sprite, final int coins, final Animations animation, final EquipmentPowerupBehaviour behaviour) {
+        private EquipmentPowerupLevel(final IRes.Sprites sprite, final int coins, final IRes.Animations animation, final EquipmentPowerupBehaviour behaviour) {
             super(sprite, coins);
             this.animation = animation;
             this.behaviour = behaviour;
+        }
+
+        @Override
+        /* package */ IRes.Animations getAnimation() {
+            return animation;
         }
     }
 

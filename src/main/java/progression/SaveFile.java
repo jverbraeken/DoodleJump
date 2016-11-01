@@ -82,7 +82,7 @@ import java.util.Map;
     }
 
     /**
-     * @return A Map associating the name of the Powerup enum with its level
+     * @return A Map associating the name of the APowerup enum with its level
      */
     /* package */ Map<String, Integer> getPowerupLevels() {
         return powerupLevels;

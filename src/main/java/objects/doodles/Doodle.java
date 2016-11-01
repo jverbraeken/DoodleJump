@@ -11,7 +11,7 @@ import objects.doodles.doodle_behavior.RegularBehavior;
 import objects.doodles.doodle_behavior.SpaceBehavior;
 import objects.doodles.doodle_behavior.UnderwaterBehavior;
 import objects.enemies.AEnemy;
-import objects.powerups.Powerup;
+import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import rendering.ICamera;
@@ -77,9 +77,9 @@ public class Doodle extends AGameObject implements IDoodle {
     private static final double SPRITE_SCALAR_MIN = 0d, SPRITE_SCALAR_MAX = 2d;
 
     /**
-     * Fake Powerup instance to return when actual powerup value is null.
+     * Fake APowerup instance to return when actual powerup value is null.
      */
-    private static volatile Powerup fakePowerup = null;
+    private static volatile APowerup fakePowerup = null;
     /**
      * The world the Doodle lives in.
      */
@@ -145,7 +145,7 @@ public class Doodle extends AGameObject implements IDoodle {
         if (Doodle.fakePowerup == null) {
             synchronized (this) {
                 if (Doodle.fakePowerup == null) {
-                    Doodle.fakePowerup = new Powerup(sL, new Point(0, 0), sL.getSpriteFactory().getPauseButtonSprite(), Powerup.class) {
+                    Doodle.fakePowerup = new APowerup(sL, new Point(0, 0), sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
                         @Override
                         public void render() {
                         }

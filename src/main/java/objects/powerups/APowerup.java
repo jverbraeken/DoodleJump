@@ -11,7 +11,7 @@ import java.awt.Point;
 /**
  * This class describes the abstract functionality of powerups.
  */
-public class Powerup extends AGameObject implements IPowerup {
+public abstract class APowerup extends AGameObject implements IPowerup {
 
     /**
      * Creates a new powerup and determines its hitbox by using the sprites dimensions automatically.
@@ -21,7 +21,7 @@ public class Powerup extends AGameObject implements IPowerup {
      * @param sprite  The sprite of the powerup
      * @param powerup The class of the powerup
      */
-    public Powerup(final IServiceLocator sL, final Point point, final ISprite sprite, final Class<?> powerup) {
+    public APowerup(final IServiceLocator sL, final Point point, final ISprite sprite, final Class<?> powerup) {
         super(sL, point, sprite, powerup);
     }
 
@@ -30,7 +30,6 @@ public class Powerup extends AGameObject implements IPowerup {
      */
     @Override
     public void perform(final PowerupOccasion occasion) {
-        this.performBehaviour.execute(this, occasion);
     }
 
     /**

@@ -45,7 +45,7 @@ import java.util.List;
      * @param boost          The vertical speed boost the {@link objects.doodles.IDoodle Doodle} gets after hitting the Trampoline
      */
     /* package */ Trampoline(final IServiceLocator serviceLocator, final Point point, final int level, final ISprite usedSprite, final int boost) {
-        super(serviceLocator, point, boost, new ISprite[] {serviceLocator.getSpriteFactory().getPowerupSprite(Powerups.trampoline, level), usedSprite}, Trampoline.class);
+        super(serviceLocator, point, boost, new ISprite[] {serviceLocator.getSpriteFactory().getSprite(Powerups.trampoline.getSprite(level)), usedSprite}, Trampoline.class);
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }
 

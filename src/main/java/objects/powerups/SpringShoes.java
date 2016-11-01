@@ -10,16 +10,16 @@ import java.awt.Point;
 /**
  * This class describes the behaviour of the SpringShoes powerup.
  */
-/* package */ final class SpringShoes extends Powerup implements IEquipmentPowerup {
+/* package */ final class SpringShoes extends APowerup implements IEquipmentPowerup {
 
     /**
      * The maximum amount of times SpringShoes can be used.
      */
-    private static final int MAX_USES = 3;
+    private final int maxUses;
     /**
      * The boost provided by the SpringShoes.
      */
-    private static final double BOOST = -30d;
+    private final double boost;
 
     /**
      * The Doodle that owns these SpringShoes.
@@ -36,8 +36,10 @@ import java.awt.Point;
      * @param sL - The Games service locator
      * @param point - The location for the SpringShoes
      */
-    /* package */ SpringShoes(final IServiceLocator sL, final Point point) {
-        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.springShoes, 1), SpringShoes.class);
+    /* package */ SpringShoes(final IServiceLocator sL, final Point point, final int level, final int boost, final int maxUses) {
+        super(sL, point, sL.getSpriteFactory().getSprite(Powerups.springShoes.getSprite(level)), SpringShoes.class);
+        this.boost = boost;
+        this.maxUses = maxUses;
     }
 
     /**
@@ -51,9 +53,9 @@ import java.awt.Point;
 
         if (occasion == PowerupOccasion.collision) {
             this.uses += 1;
-            this.owner.setVerticalSpeed(BOOST);
+            this.owner.setVerticalSpeed(boost);
 
-            if (this.uses >= MAX_USES) {
+            if (this.uses >= maxUses) {
                 this.owner.removePowerup(this);
                 this.owner = null;
             }
@@ -81,7 +83,7 @@ import java.awt.Point;
      */
     @Override
     public void render() {
-        if (this.owner == null && this.uses < MAX_USES) {
+        if (this.owner == null && this.uses < maxUses) {
             getServiceLocator().getRenderer().drawSprite(this.getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
         } else if (this.owner != null) {
             int xPos = (int) owner.getXPos()

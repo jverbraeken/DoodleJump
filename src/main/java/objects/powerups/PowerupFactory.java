@@ -65,8 +65,7 @@ public final class PowerupFactory implements IPowerupFactory {
         assert level > 0;
         assert level <= type.getMaxLevel();
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        Powerup powerup = new Powerup(serviceLocator, new Point(x, y), type.getSprite(level), )
-        Jetpack jetpack = new Jetpack(serviceLocator, new Point(x, y), level, spriteFactory.getSprites(type.getLevel(level).), MAX_TIME_JETPACK[level - 1], OWNED_Y_OFFSET_JETPACK[level - 1]);
+        Jetpack jetpack = new Jetpack(serviceLocator, new Point(x, y), level, type.getAnimation(level), type.getMaxTimeInAir(level), type.getOwnedYOffset(level));
         logger.info("A new Jetpack of level " + level + " was created");
         for (IJetpackCreatedObserver observer : jetpackObservers) {
             observer.alertJetpackCreated(jetpack);
