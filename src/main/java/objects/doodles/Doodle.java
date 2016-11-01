@@ -332,8 +332,7 @@ public class Doodle extends AGameObject implements IDoodle {
     public final void render() {
         ISprite sprite = this.getSprite();
         Doodle.getServiceLocator().getRenderer().drawSprite(sprite,
-                new Point((int) this.getXPos(),
-                        (int) this.getYPos()),
+                this.getPoint(),
                 (int) (sprite.getWidth() * this.spriteScalar),
                 (int) (sprite.getHeight() * this.spriteScalar));
 
@@ -344,6 +343,10 @@ public class Doodle extends AGameObject implements IDoodle {
                     (int) (getSprite().getWidth() * this.spriteScalar * STARS_SCALAR),
                     (int) (getSprite().getHeight() * this.spriteScalar * STARS_SCALAR));
         }
+
+        Point arrowPoint = new Point((int) this.getXPos(), 0);
+        ISprite arrow = Doodle.getServiceLocator().getSpriteFactory().getPopupOkButton();
+        Doodle.getServiceLocator().getRenderer().drawSpriteHUD(arrow, arrowPoint);
 
         this.getPowerup().render();
         this.renderProjectiles();
