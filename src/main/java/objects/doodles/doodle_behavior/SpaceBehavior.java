@@ -69,7 +69,7 @@ public final class SpaceBehavior implements MovementBehavior {
     /**
      * The direction the Doodle is facing.
      */
-    private Directions facing = Directions.Left;
+    private Directions facing = Directions.Right;
 
     /**
      * The constructor of the regular behavior.

@@ -7,10 +7,10 @@ import progression.IProgressionManager;
 import progression.Ranks;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
-import scenes.PauseScreenModes;
-import scenes.World;
 import scenes.ChooseModeScreen;
+import scenes.PauseScreenModes;
 import scenes.Popup;
+import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 
@@ -227,7 +227,7 @@ public final class ButtonFactory implements IButtonFactory {
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getDarknessModeButton();
         Runnable darknessMode = () -> {
-            if(serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.darkness.getRankRequired()) {
+            if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.darkness.getRankRequired()) {
                 Game.setMode(Game.Modes.darkness);
             } else {
                 Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.darkness.getRankRequired()).getName() + " rank required.");
@@ -267,7 +267,7 @@ public final class ButtonFactory implements IButtonFactory {
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getSpaceModeButton();
         Runnable spaceMode = () -> {
-            if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.space.getRankRequired()) {
+            if (this.serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.space.getRankRequired()) {
                 Game.setMode(Game.Modes.space);
             } else {
                 Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.space.getRankRequired()).getName() + " rank required.");

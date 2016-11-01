@@ -8,7 +8,9 @@ import resources.sprites.SpriteFactory;
 import scenes.IScene;
 import scenes.Popup;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -89,7 +91,7 @@ public final class Game {
     /**
      * A {@link Queue} of popups.
      */
-    private final static Set<Popup> activePopups = new HashSet<>();
+    private static final Set<Popup> activePopups = new HashSet<>();
     /**
      * The enums for the mode.
      */

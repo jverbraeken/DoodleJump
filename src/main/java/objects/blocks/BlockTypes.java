@@ -38,9 +38,9 @@ public enum BlockTypes {
     /**
      * Initialize the weight.
      *
-     * @param w
+     * @param w the weight
      */
-    BlockTypes(final int w) {
+    /* package */BlockTypes(final int w) {
         weight = w;
     }
 

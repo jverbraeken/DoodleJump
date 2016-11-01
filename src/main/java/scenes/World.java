@@ -10,6 +10,8 @@ import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
 import objects.enemies.AEnemy;
 import objects.powerups.Powerups;
+import rendering.AccelerationType;
+import rendering.ICamera;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -197,6 +199,7 @@ public class World implements IScene {
         this.cleanUp();
         this.newBlocks();
         this.checkCollisions();
+        this.updateCameraSpeed();
     }
 
     /**
@@ -342,11 +345,27 @@ public class World implements IScene {
     }
 
     /**
+     * Update the camera speed based on Doodles locations.
+     */
+    private void updateCameraSpeed() {
+        final ICamera camera = this.serviceLocator.getRenderer().getCamera();
+        final double camY = camera.getYPos();
+        for (IDoodle doodle : this.doodles) {
+            if (camY < doodle.getYPos() + doodle.getSprite().getHeight()) {
+                camera.setAccelerationType(AccelerationType.normal);
+                return;
+            }
+        }
+
+        camera.setAccelerationType(AccelerationType.fast);
+    }
+
+    /**
      * IMMUTABLE.
      * <br>
      * The bar on top of the screen displaying the score and pause button
      */
-    public final class ScoreBar implements IRenderable {
+    private final class ScoreBar implements IRenderable {
 
         /**
          * The transparent and black border at the bottom of the scoreBar that is not take into account when
@@ -540,4 +559,5 @@ public class World implements IScene {
             doodle.deregister();
         }
     }
+
 }

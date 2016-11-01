@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 
 /**
  * Class representing a sprite.
- * <p>
- * <b>IMMUTABLE</b>
+ *
+ * <p><b>IMMUTABLE</b>
  */
 public class Sprite implements ISprite {
 
