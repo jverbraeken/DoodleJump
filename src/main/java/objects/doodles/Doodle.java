@@ -15,6 +15,7 @@ import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import rendering.ICamera;
+import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.World;
@@ -75,6 +76,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * The minimum and maximum value of the spriteScaler.
      */
     private static final double SPRITE_SCALAR_MIN = 0d, SPRITE_SCALAR_MAX = 2d;
+    /**
+     * The scalar value that assists in calculating the size of the out of screen arrow.
+     */
+    private static final double ARROW_SCALAR = 100d;
 
     /**
      * Fake Powerup instance to return when actual powerup value is null.
@@ -338,12 +343,21 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void render() {
-        ISprite sprite = this.getSprite();
-        Doodle.getServiceLocator().getRenderer().drawSprite(sprite,
-                new Point((int) this.getXPos(),
-                        (int) this.getYPos()),
-                (int) (sprite.getWidth() * this.spriteScalar),
-                (int) (sprite.getHeight() * this.spriteScalar));
+        final IRenderer renderer = Doodle.getServiceLocator().getRenderer();
+        final ISpriteFactory spriteFactory = Doodle.getServiceLocator().getSpriteFactory();
+        final double camY = renderer.getCamera().getYPos();
+        final ISprite sprite = this.getSprite();
+
+        if (camY > this.getYPos() + sprite.getHeight()) {
+            final Point arrowPoint = new Point((int) this.getXPos(), spriteFactory.getScoreBarSprite().getHeight());
+            ISprite arrowSprite = spriteFactory.getDoodleLocationArrowSprite();
+            final double scale = Math.sqrt((camY - getYPos() - sprite.getHeight()) / ARROW_SCALAR) + 2;
+            renderer.drawSpriteHUD(arrowSprite, arrowPoint, (int) (arrowPoint.getX() / scale), (int) (arrowPoint.getY() / scale));
+        } else {
+            final int width = (int) (sprite.getWidth() * this.spriteScalar);
+            final int height = (int) (sprite.getHeight() * this.spriteScalar);
+            renderer.drawSprite(sprite, this.getPoint(), width, height);
+        }
 
         if (!this.isAlive()) {
             Doodle.getServiceLocator().getRenderer().drawSprite(getStarSprite(),

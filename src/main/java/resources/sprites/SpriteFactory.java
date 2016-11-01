@@ -220,6 +220,14 @@ public final class SpriteFactory implements ISpriteFactory {
         return sprites;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getDoodleLocationArrowSprite() {
+        return this.getSprite(IRes.Sprites.doodleArrow);
+    }
+
 
     // Kill screen
 
