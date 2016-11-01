@@ -20,4 +20,12 @@ public final class Animation implements IAnimation {
         }
         return sprites[index];
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getLength() {
+        return this.sprites.length;
+    }
 }

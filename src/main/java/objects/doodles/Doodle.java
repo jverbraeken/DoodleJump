@@ -14,7 +14,9 @@ import objects.enemies.AEnemy;
 import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
+import objects.powerups.Powerups;
 import rendering.ICamera;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.World;
@@ -133,43 +135,32 @@ public class Doodle extends AGameObject implements IDoodle {
      * Doodle constructor.
      *
      * @param sL The service locator.
-     * @param w  The world the Doodle lives in.
+     * @param world  The world the Doodle lives in.
      */
-    /* package */ Doodle(final IServiceLocator sL, final World w) {
+    /* package */ Doodle(final IServiceLocator sL, final ISprite[] sprites, final World world) {
         super(sL,
                 new Point(sL.getConstants().getGameWidth() / 2,
                         sL.getConstants().getGameHeight() / 2),
-                sL.getSpriteFactory().getDoodleLeftSprites()[0],
+                sprites[0],
                 Doodle.class);
-
-        if (Doodle.fakePowerup == null) {
-            synchronized (this) {
-                if (Doodle.fakePowerup == null) {
-                    Doodle.fakePowerup = new APowerup(sL, new Point(0, 0), sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
-                        @Override
-                        public void render() {
-                        }
-
-                        @Override
-                        public void collidesWith(final IDoodle doodle) {
-                        }
-
-                        @Override
-                        public void setPositionOnPlatform(final IPlatform platform) {
-                        }
-                    };
-                }
-            }
-        }
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.shootingObserver = new ShootingObserver(sL, this);
 
         this.updateHitBox();
         this.setBehavior(Game.getMode());
-        this.sprites.put(MovementBehavior.Directions.Left, spriteFactory.getDoodleLeftSprites());
-        this.sprites.put(MovementBehavior.Directions.Right, spriteFactory.getDoodleRightSprites());
-        this.world = w;
+
+        ISprite[] leftSprites = new ISprite[2];
+        leftSprites[0] = sprites[0];
+        leftSprites[1] = sprites[1];
+        this.sprites.put(MovementBehavior.Directions.Left, leftSprites);
+
+        ISprite[] rightSprites = new ISprite[2];
+        rightSprites[0] = sprites[2];
+        rightSprites[1] = sprites[3];
+        this.sprites.put(MovementBehavior.Directions.Right, rightSprites);
+
+        this.world = world;
     }
 
     /**
@@ -559,11 +550,11 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private ISprite getStarSprite() {
         if (starNumber % STAR_FRAMES < FIRST_STAR_FRAME) {
-            return getServiceLocator().getSpriteFactory().getStarSprite1();
+            return getServiceLocator().getSpriteFactory().getSprite(IRes.Sprites.confusedStars1);
         } else if (starNumber % STAR_FRAMES < SECOND_STAR_FRAME) {
-            return getServiceLocator().getSpriteFactory().getStarSprite2();
+            return getServiceLocator().getSpriteFactory().getSprite(IRes.Sprites.confusedStars2);
         }
-        return getServiceLocator().getSpriteFactory().getStarSprite3();
+        return getServiceLocator().getSpriteFactory().getSprite(IRes.Sprites.confusedStars3);
     }
 
     /**

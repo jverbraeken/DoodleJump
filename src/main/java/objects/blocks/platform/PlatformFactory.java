@@ -1,5 +1,6 @@
 package objects.blocks.platform;
 
+import resources.IRes;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IServiceLocator;
@@ -39,7 +40,7 @@ public final class PlatformFactory implements IPlatformFactory {
      */
     @Override
     public IPlatform createPlatform(final int x, final int y) {
-        ISprite sprite = serviceLocator.getSpriteFactory().getPlatformSprite1();
+        ISprite sprite = serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.platform1);
         final Point point = new Point(x, y);
         IPlatform platform = new Platform(serviceLocator, point, sprite);
 

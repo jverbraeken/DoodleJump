@@ -5,7 +5,7 @@ import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
-import java.awt.Point;
+import java.awt.*;
 
 /**
  * This class describes the behaviour of the SpringShoes powerup.
@@ -33,13 +33,14 @@ import java.awt.Point;
     /**
      * Jump boots constructor.
      *
-     * @param sL - The Games service locator
+     * @param sL    - The Games service locator
      * @param point - The location for the SpringShoes
      */
-    /* package */ SpringShoes(final IServiceLocator sL, final Point point, final int level, final int boost, final int maxUses) {
-        super(sL, point, sL.getSpriteFactory().getSprite(Powerups.springShoes.getSprite(level)), SpringShoes.class);
-        this.boost = boost;
-        this.maxUses = maxUses;
+    /* package */ SpringShoes(final IServiceLocator sL, final Point point, final int level) {
+        super(sL, point, Powerups.springShoes, level);
+        final Powerups type = Powerups.springShoes;
+        this.boost = type.getBoost(level);
+        this.maxUses = type.getMaxUses(level);
     }
 
     /**

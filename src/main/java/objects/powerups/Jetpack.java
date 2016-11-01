@@ -3,11 +3,9 @@ package objects.powerups;
 import logging.ILogger;
 import objects.blocks.platform.IPlatform;
 import objects.doodles.doodle_behavior.MovementBehavior;
-import resources.IRes;
-import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.Point;
+import java.awt.*;
 
 /**
  * This class describes the behaviour of the Jetpack powerup.
@@ -30,16 +28,16 @@ import java.awt.Point;
     /**
      * Jetpack constructor.
      *
-     * @param serviceLocator The Game's service locator.
-     * @param point          - The location for the Jetpack.
-     * @param level          The level of the Jetpack
-     * @param activeAnimation  The animation used when the Jetpack is flying
-     * @param maxTime        The time in frames the Jetpack can fly
-     * @param ownedYOffset   The Y-offset for drawing the Jetpack when the Doodle is flying with it
+     * @param serviceLocator  The Game's service locator.
+     * @param point           - The location for the Jetpack.
+     * @param level           The level of the Jetpack
+     * @param activeAnimation The animation used when the Jetpack is flying
+     * @param maxTime         The time in frames the Jetpack can fly
+     * @param ownedYOffset    The Y-offset for drawing the Jetpack when the Doodle is flying with it
      */
-    /* package */ Jetpack(final IServiceLocator serviceLocator, final Point point, final int level, final IRes.Animations activeAnimation, final int maxTime, final int ownedYOffset) {
-        super(serviceLocator, point, maxTime, serviceLocator.getSpriteFactory().getSprite(Powerups.jetpack.getSprite(level)), activeAnimation, Jetpack.class);
-        this.ownedYOffset = ownedYOffset;
+    /* package */ Jetpack(final IServiceLocator serviceLocator, final Point point, final int level) {
+        super(serviceLocator, point, Powerups.jetpack, level);
+        this.ownedYOffset = Powerups.jetpack.getOwnedYOffset(level);
         this.level = level;
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
     }

@@ -4,7 +4,9 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import logging.ILogger;
+import objects.powerups.Powerups;
 import resources.IRes;
+import scenes.PauseScreenModes;
 import system.IServiceLocator;
 
 import java.awt.image.BufferedImage;
@@ -150,6 +152,175 @@ public final class SpriteFactory implements ISpriteFactory {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getPlatformBrokenSprite(final int index) {
+        if (index < 1 || index > 4) {
+            final String error = "The index of the platformBroken sprite must be between 1 and 4 (both inclusive)";
+            logger.error(error);
+            throw new IllegalArgumentException(error);
+        }
+        switch (index) {
+            case 1: return this.getSprite(IRes.Sprites.platformBroken1);
+            case 2: return this.getSprite(IRes.Sprites.platformBroken2);
+            case 3: return this.getSprite(IRes.Sprites.platformBroken3);
+            case 4: return this.getSprite(IRes.Sprites.platformBroken4);
+            default: return null;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getPauseCoverSprite(PauseScreenModes mode) {
+        switch (mode) {
+            case mission:
+                return this.getSprite(IRes.Sprites.pauseCover);
+            case shop:
+                return this.getSprite(IRes.Sprites.shopCover);
+            default:
+                final String error = "Trying to get the cover sprite of a mode that's not available";
+                logger.error(error);
+                throw new UnavailableLevelException(error);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getCoinSprite(final int digit) {
+        if (digit < 1 || digit > 10) {
+            throw new IllegalArgumentException("The coin animation sprites are between 1 and 10 (both inclusive)");
+        }
+        switch (digit) {
+            case 1:
+                return getSprite(IRes.Sprites.coin1);
+            case 2:
+                return getSprite(IRes.Sprites.coin2);
+            case 3:
+                return getSprite(IRes.Sprites.coin3);
+            case 4:
+                return getSprite(IRes.Sprites.coin4);
+            case 5:
+                return getSprite(IRes.Sprites.coin5);
+            case 6:
+                return getSprite(IRes.Sprites.coin6);
+            case 7:
+                return getSprite(IRes.Sprites.coin7);
+            case 8:
+                return getSprite(IRes.Sprites.coin8);
+            case 9:
+                return getSprite(IRes.Sprites.coin9);
+            case 10:
+                return getSprite(IRes.Sprites.coin10);
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getPowerupSprite(final Powerups powerup, final int level) throws UnavailableLevelException {
+        // TODO parameter checking
+        switch (powerup) {
+            case jetpack:
+                return getJetpackSprite(level);
+            case propeller:
+                return getSprite(IRes.Sprites.propeller);
+            case sizeDown:
+                return getSprite(IRes.Sprites.sizeDown);
+            case sizeUp:
+                return getSprite(IRes.Sprites.sizeUp);
+            case spring:
+                return getSpringSprite(level);
+            case springShoes:
+                return getSprite(IRes.Sprites.springShoes);
+            case trampoline:
+                return getTrampolineSprite(level);
+            default:
+                logger.error("The sprite of powerup " + powerup.name() + " could not be found");
+                return null;
+        }
+    }
+
+    /**
+     * Returns a sprite of the spring corresponding to the level of the object.
+     *
+     * @param level The level of the {@link objects.powerups.Spring spring} you want to have
+     * @return A sprite of the spring of the requested level
+     * @throws UnavailableLevelException Thrown when the level is either too low or too high
+     */
+    private ISprite getSpringSprite(final int level) throws UnavailableLevelException {
+        switch (level) {
+            case 1:
+                return getSprite(IRes.Sprites.spring);
+            case 2:
+                return getSprite(IRes.Sprites.doubleSpring);
+            case 3:
+                return getSprite(IRes.Sprites.titaniumSpring);
+            case 4:
+                return getSprite(IRes.Sprites.titaniumSpring);
+            default:
+                final String error = "Trying to get a spring of a level that's not available: " + level;
+                logger.error(error);
+                throw new UnavailableLevelException(error);
+        }
+    }
+
+    /**
+     * Returns a sprite of the trampoline corresponding to the level of the object.
+     *
+     * @param level The level of the {@link objects.powerups.Trampoline trampoline} you want to have
+     * @return A sprite of the trampoline of the requested level
+     * @throws UnavailableLevelException Thrown when the level is either too low or too high
+     */
+    private ISprite getTrampolineSprite(final int level) throws UnavailableLevelException {
+        switch (level) {
+            case 1:
+                return getSprite(IRes.Sprites.trampoline);
+            case 2:
+                return getSprite(IRes.Sprites.circusCannon);
+            case 3:
+                return getSprite(IRes.Sprites.rocketLauncher);
+            case 4:
+                return getSprite(IRes.Sprites.rocketLauncher);
+            default:
+                final String error = "Trying to get a trampoline of a level that's not available: " + level;
+                logger.error(error);
+                throw new UnavailableLevelException(error);
+        }
+    }
+
+    /**
+     * Returns a sprite of the jetpack corresponding to the level of the object.
+     *
+     * @param level The level of the {@link objects.powerups.Trampoline trampoline} you want to have
+     * @return A sprite of the trampoline of the requested level
+     * @throws UnavailableLevelException Thrown when the level is either too low or too high
+     */
+    private ISprite getJetpackSprite(final int level) throws UnavailableLevelException {
+        switch (level) {
+            case 1:
+                return getSprite(IRes.Sprites.jetpack);
+            case 2:
+                return getSprite(IRes.Sprites.spaceRocket);
+            case 3:
+                return getSprite(IRes.Sprites.spaceRocket);
+            case 4:
+                return getSprite(IRes.Sprites.spaceRocket);
+            default:
+                final String error = "Trying to get a space rocket of a level that's not available: " + level;
+                logger.error(error);
+                throw new UnavailableLevelException(error);
+        }
+    }
+
+    /**
      * Returns the filename from a filepath.
      * <br>
      * Example: {@code getFileName("resources/Sprites/sprite.png").equals("sprite.png")}
@@ -163,5 +334,20 @@ public final class SpriteFactory implements ISpriteFactory {
 
         int fileNameIndex = filepath.lastIndexOf('/') + 1;
         return filepath.substring(fileNameIndex);
+    }
+
+    /**
+     * Thrown when the sprite is asked for a level that's either too low or too high.
+     */
+    private static final class UnavailableLevelException extends RuntimeException {
+
+        /**
+         * Creates a new UnavailableException.
+         *
+         * @param message The message describing what went wrong
+         */
+        private UnavailableLevelException(final String message) {
+            super(message);
+        }
     }
 }

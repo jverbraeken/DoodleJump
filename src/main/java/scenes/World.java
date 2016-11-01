@@ -11,6 +11,7 @@ import objects.enemies.AEnemy;
 import objects.powerups.Powerups;
 import resources.IRes;
 import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IRenderable;
 import system.IServiceLocator;
@@ -384,7 +385,21 @@ public class World implements IScene {
                     / (double) this.scoreBarSprite.getWidth();
             this.scoreBarHeight = (int) (this.scaling * this.scoreBarSprite.getHeight());
 
-            ISprite[] digitSprites = World.this.serviceLocator.getSpriteFactory().getDigitSprites();
+            ISpriteFactory sf = serviceLocator.getSpriteFactory();
+
+            ISprite[] digitSprites = new ISprite[]{
+                    sf.getSprite(IRes.Sprites.zero),
+                    sf.getSprite(IRes.Sprites.one),
+                    sf.getSprite(IRes.Sprites.two),
+                    sf.getSprite(IRes.Sprites.three),
+                    sf.getSprite(IRes.Sprites.four),
+                    sf.getSprite(IRes.Sprites.five),
+                    sf.getSprite(IRes.Sprites.six),
+                    sf.getSprite(IRes.Sprites.seven),
+                    sf.getSprite(IRes.Sprites.eight),
+                    sf.getSprite(IRes.Sprites.nine),
+            };
+
             int scoreX = (int) (digitSprites[2].getWidth() * this.scaling);
             int scoreY = (int) (this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d);
             this.scoreText = new ScoreText(scoreX, scoreY, this.scaling, digitSprites);

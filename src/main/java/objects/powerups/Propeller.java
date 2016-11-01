@@ -2,10 +2,10 @@ package objects.powerups;
 
 import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
-import resources.sprites.ISprite;
+import resources.sprites.IAnimation;
 import system.IServiceLocator;
 
-import java.awt.Point;
+import java.awt.*;
 
 /**
  * This class describes the behaviour of the Propeller powerup.
@@ -23,7 +23,7 @@ import java.awt.Point;
     /**
      * The boost the Propeller gives.
      */
-    private final double maxBoost;
+    private final double boost;
     /**
      * The horizontal speed for a Propeller.
      */
@@ -42,9 +42,13 @@ import java.awt.Point;
     private final int animationRefreshRate;
 
     /**
-     * The sprites for an active Propeller.
+     * The animation for an active Propeller.
      */
-    private static volatile ISprite[] spritePack = null;
+    private final IAnimation animation;
+    /**
+     * The current level of the powerup.
+     */
+    private final int level;
     /**
      * The index of the current sprite.
      */
@@ -65,18 +69,21 @@ import java.awt.Point;
     /**
      * Propeller constructor.
      *
-     * @param sL - The Games service locator.
-     * @param point  - The location for the Propeller.
+     * @param sL    - The Games service locator.
+     * @param point - The location for the Propeller.
      */
-    /* package */ Propeller(final IServiceLocator sL, final Point point, final PhysicsData physicsData, final DrawingData drawingData, final int level) {
-        super(sL, point, sL.getSpriteFactory().getSprite(Powerups.propeller.getSprite(level)), Propeller.class);
-        if (Propeller.spritePack == null) {
-            synchronized (this) {
-                if (Propeller.spritePack == null) {
-                    Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
-                }
-            }
-        }
+    /* package */ Propeller(final IServiceLocator sL, final Point point, final int level) {
+        super(sL, point, Powerups.propeller, level);
+        final Powerups type = Powerups.propeller;
+        this.animation = sL.getSpriteFactory().getAnimation(type.getAnimation(level));
+        this.acceleration = type.getAcceleration(level);
+        this.initialDropSpeed = type.getInitDropSpeed(level);
+        this.boost = type.getBoost(level);
+        this.horizontalSpeed = type.getHorSpeed(level);
+        this.maxTimer = type.getMaxTimeInAir(level);
+        this.ownedYOffset = type.getOwnedYOffset(level);
+        this.animationRefreshRate = type.getAnimationRefreshRate(level);
+        this.level = level;
     }
 
     /**
@@ -114,7 +121,7 @@ import java.awt.Point;
      */
     @Override
     public void endPowerup() {
-        this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
+        this.setSprite(getServiceLocator().getSpriteFactory().getSprite(Powerups.propeller.getSprite(level)));
         this.vSpeed = initialDropSpeed;
 
         this.owner.removePowerup(this);
@@ -140,13 +147,13 @@ import java.awt.Point;
         if (this.timer >= maxTimer) {
             this.endPowerup();
             return;
-        } else if (this.vSpeed > maxBoost) {
+        } else if (this.vSpeed > boost) {
             this.vSpeed += acceleration;
         }
 
         if (this.timer % animationRefreshRate == 0) {
-            this.spriteIndex = (spriteIndex + 1) % Propeller.spritePack.length;
-            this.setSprite(Propeller.spritePack[this.spriteIndex]);
+            this.spriteIndex = (spriteIndex + 1) % this.animation.getLength();
+            this.setSprite(this.animation.getFromIndex(this.spriteIndex));
         }
 
         if (this.owner != null) {
@@ -174,10 +181,22 @@ import java.awt.Point;
         this.addYPos(this.vSpeed);
     }
 
-    public class PhysicsData {
+    /* package */ class PhysicsData {
+        /**
+         * The acceleration provided by the Propeller.
+         */
         private final double acceleration;
+        /**
+         * The boost for the Propeller when it is being dropped.
+         */
         private final double initialDropSpeed;
+        /**
+         * The boost the Propeller gives.
+         */
         private final double maxBoost;
+        /**
+         * The horizontal speed for a Propeller.
+         */
         private final double horizontalSpeed;
 
         public PhysicsData(final double acceleration, final double initialDropSpeed, final double maxBoost, final double horizontalSpeed) {
@@ -188,14 +207,24 @@ import java.awt.Point;
         }
     }
 
-    public class DrawingData {
+    /* package */ class DrawingData {
+        /**
+         * The maximum time the Propeller is active.
+         */
         private final int maxTimer;
+        /**
+         * Y offset for drawing the Propeller when on Doodle.
+         */
         private final int ownedYOffset;
+        /**
+         * The refresh rate for the active animation.
+         */
         private final int animationRefreshRate;
 
         public DrawingData(final int maxTimer, final int ownedYOffset, final int animationRefreshRate) {
             this.maxTimer = maxTimer;
             this.ownedYOffset = ownedYOffset;
+            this.animationRefreshRate = animationRefreshRate;
         }
     }
 }

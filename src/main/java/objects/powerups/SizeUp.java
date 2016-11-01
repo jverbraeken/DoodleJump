@@ -4,7 +4,7 @@ import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
-import java.awt.Point;
+import java.awt.*;
 
 /**
  * This class describes the behaviour of the SizeUp powerup. Increasing the size of the Doodle when picked up.
@@ -12,22 +12,23 @@ import java.awt.Point;
 /* package */ final class SizeUp extends APowerup implements IDisappearingPowerup {
 
     /**
-     * The scale increase provided by the SizeUp powerup.
-     */
-    private static final double SCALE_INCREASE = 0.4d;
-    /**
      * Multiplier to hide the SizeUp when picked up.
      */
     private static final int HIDE_MULTIPLIER = -2;
+    /**
+     * The scale increase provided by the SizeUp powerup.
+     */
+    private final double scaleIncrease;
 
     /**
      * SizeUp constructor.
      *
-     * @param sL - The Games service locator.
+     * @param sL    - The Games service locator.
      * @param point - The location for the SizeUp.
      */
-    /* package */ SizeUp(final IServiceLocator sL, final Point point) {
-        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.sizeUp, 1), SizeUp.class);
+    /* package */ SizeUp(final IServiceLocator sL, final Point point, final int level) {
+        super(sL, point, Powerups.sizeUp, level);
+        this.scaleIncrease = Powerups.sizeUp.getScale(level);
     }
 
     /**
@@ -40,7 +41,7 @@ import java.awt.Point;
         }
 
         this.getLogger().info("Doodle collided with a SizeUp");
-        doodle.increaseSpriteScalar(SizeUp.SCALE_INCREASE);
+        doodle.increaseSpriteScalar(this.scaleIncrease);
 
         // Hide the powerup so it will be deleted automatically
         this.setXPos(this.getSprite().getWidth() * SizeUp.HIDE_MULTIPLIER);

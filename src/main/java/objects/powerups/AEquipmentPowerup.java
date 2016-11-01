@@ -1,8 +1,7 @@
 package objects.powerups;
 
 import objects.doodles.IDoodle;
-import resources.IRes;
-import resources.sprites.Animation;
+import resources.sprites.IAnimation;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -67,7 +66,7 @@ public abstract class AEquipmentPowerup extends APowerup implements IEquipmentPo
     /**
      * The sprites for an active flyable powerup.
      */
-    private Animation animation;
+    private IAnimation animation;
     /**
      * The Doodle that owns this flyable powerup.
      */
@@ -93,23 +92,21 @@ public abstract class AEquipmentPowerup extends APowerup implements IEquipmentPo
     /**
      * Flyable powerup constructor.
      *
-     * @param sL      The service locator
-     * @param point   The location of the powerup
-     * @param maxTime the time for which the powerup can power the doodle
-     * @param sprite  The sprite used for the powerup placed on a platform
+     * @param sL        The service locator
+     * @param point     The location of the powerup
+     * @param maxTime   the time for which the powerup can power the doodle
+     * @param sprite    The sprite used for the powerup placed on a platform
      * @param animation The animation used when the doodle equips the powerup
-     * @param powerup The class of the powerup
+     * @param powerup   The class of the powerup
      */
     /* package */ AEquipmentPowerup(final IServiceLocator sL,
                                     final Point point,
-                                    final int maxTime,
-                                    final ISprite sprite,
-                                    final Animation animation,
-                                    final Class<?> powerup) {
-        super(sL, point, sprite, powerup);
-        this.timeLimit = maxTime;
-        this.defaultSprite = sprite;
-        this.animation = animation;
+                                    final Powerups type,
+                                    final int level) {
+        super(sL, point, type, level);
+        this.timeLimit = type.getMaxTimeInAir(level);
+        this.defaultSprite = sL.getSpriteFactory().getSprite(type.getSprite(level));
+        this.animation = sL.getSpriteFactory().getAnimation(type.getAnimation(level));
     }
 
     /**

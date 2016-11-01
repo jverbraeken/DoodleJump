@@ -9,6 +9,7 @@ import progression.Ranks;
 import objects.powerups.Powerups;
 import rendering.Color;
 import rendering.IRenderer;
+import resources.IRes;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -96,8 +97,8 @@ public class ChooseModeScreen implements IScene {
         this.serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(ChooseModeScreen.class);
 
-        background = sL.getSpriteFactory().getBackground();
-        bottomChooseModeScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
+        background = sL.getSpriteFactory().getSprite(IRes.Sprites.background);
+        bottomChooseModeScreen = sL.getSpriteFactory().getSprite(IRes.Sprites.killScreenBottom);
 
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         rank = progressionManager.getRank();
@@ -199,7 +200,7 @@ public class ChooseModeScreen implements IScene {
         int rankLevel = rank.getLevelNumber();
         int gameWidth = this.serviceLocator.getConstants().getGameWidth();
         int gameHeight = this.serviceLocator.getConstants().getGameHeight();
-        ISprite redCross = this.serviceLocator.getSpriteFactory().getRedCross();
+        ISprite redCross = this.serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.redCross);
         if (rankLevel < Game.Modes.story.getRankRequired()) {
             serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (STORY_MODE_X * gameWidth), (int) (STORY_MODE_Y * gameHeight)));
         }

@@ -10,6 +10,7 @@ import progression.Mission;
 import rendering.Color;
 import rendering.IRenderer;
 import rendering.TextAlignment;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -208,7 +209,7 @@ import java.util.Map;
         resumeButton.render();
         ISprite coinSprite = this.coinSprites[(int) coinSpriteIndex];
         final int coinX = MARGIN + coinSprite.getHeight() / 2 - (int) (((double) coinSprite.getWidth() / (double) coinSprite.getHeight()) * (double) coinSprite.getHeight() / 2d);
-        final int coinY = serviceLocator.getSpriteFactory().getScoreBarSprite().getHeight();
+        final int coinY = serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.scoreBar).getHeight();
         serviceLocator.getRenderer().drawSpriteHUD(coinSprite, new Point(coinX, coinY));
 
         final int coinTextX = MARGIN + coinSprite.getHeight() + MARGIN;
@@ -228,7 +229,7 @@ import java.util.Map;
     private void renderMissions(final int y) {
         this.switchShopButton.render();
         final List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
-        final int missionSpriteHeight = serviceLocator.getSpriteFactory().getAchievementSprite().getHeight();
+        final int missionSpriteHeight = serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.achievement).getHeight();
         for (int i = 0; i < missions.size(); i++) {
             missions.get(i).render(y + MARGIN + i * (missionSpriteHeight + DISTANCE_BETWEEN_MISSIONS));
         }

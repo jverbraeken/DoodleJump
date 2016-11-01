@@ -1,6 +1,7 @@
 package progression;
 
 import rendering.TextAlignment;
+import resources.IRes;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -67,7 +68,7 @@ public final class Mission {
      * @param y The y-position at which the mission should be rendered.
      */
     public void render(final int y) {
-        serviceLocator.getRenderer().drawSpriteHUD(serviceLocator.getSpriteFactory().getAchievementSprite(), new Point(0, y));
+        serviceLocator.getRenderer().drawSpriteHUD(serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.achievement), new Point(0, y));
         serviceLocator.getRenderer().drawTextHUD(new Point(serviceLocator.getConstants().getGameWidth() / 2, y + TEXT_Y_OFFSET), this.message, TextAlignment.center);
     }
 

@@ -31,16 +31,12 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
      *
      * @param sL            The locator providing services to the powerup
      * @param point        The coordinates of the powerup
-     * @param boost         The value of the boost of the powerup
-     * @param sprites      The sprites, must be size 2.
-     * @param powerup       The class of the powerup
      */
-    /* package */ AJumpablePowerup(final IServiceLocator sL, final Point point, final double boost, final ISprite[] sprites, final Class<?> powerup) {
-        super(sL, point, sprites[0], powerup);
-        assert(sprites.length == 2);
-        this.usedSprite = sprites[1];
-        this.defaultSprite = sprites[0];
-        this.boost = boost;
+    /* package */ AJumpablePowerup(final IServiceLocator sL, final Point point, final Powerups type, final int level) {
+        super(sL, point, type, level);
+        this.boost = type.getBoost(level);
+        this.defaultSprite = sL.getSpriteFactory().getSprite(type.getSprite(level));
+        this.usedSprite = sL.getSpriteFactory().getSprite(type.getUsedSprite(level));
     }
 
     /**

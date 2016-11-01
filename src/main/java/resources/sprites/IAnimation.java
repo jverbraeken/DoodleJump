@@ -10,4 +10,9 @@ public interface IAnimation {
      * @return The frame of the animation
      */
     ISprite getFromIndex(int index);
+
+    /**
+     * @return The amount of frames of the animation
+     */
+    int getLength();
 }

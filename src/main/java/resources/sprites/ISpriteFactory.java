@@ -26,4 +26,12 @@ public interface ISpriteFactory extends IFactory {
      * @return The {@link IAnimation animation} if it was found. null otherwise
      */
     IAnimation getAnimation(final IRes.Animations animation);
+
+    ISprite getPlatformBrokenSprite(final int index);
+
+    ISprite getPauseCoverSprite(PauseScreenModes mode);
+
+    ISprite getCoinSprite(final int digit);
+
+    ISprite getPowerupSprite(final Powerups powerup, final int currentPowerupLevel);
 }

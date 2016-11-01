@@ -13,6 +13,7 @@ import progression.IProgressionManager;
 import progression.Ranks;
 import rendering.Color;
 import rendering.IRenderer;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -111,7 +112,7 @@ public class Menu implements IScene {
         this.serviceLocator = sL;
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        this.cover = spriteFactory.getStartCoverSprite();
+        this.cover = spriteFactory.getSprite(IRes.Sprites.startCover);
 
         IConstants constants = sL.getConstants();
         final int gameWidth = constants.getGameWidth();

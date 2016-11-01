@@ -1,7 +1,6 @@
 package objects.powerups;
 
 import resources.IRes;
-import resources.sprites.ISprite;
 
 /**
  * Indicates which types of powerups are available.
@@ -10,41 +9,111 @@ public enum Powerups {
     /**
      * Jetpack.
      */
-    jetpack("jetpack", new PowerupLevel[]{
-            new EquipmentPowerupLevel(IRes.Sprites.jetpack, 50, IRes.Animations.jetpack, new JetpackPowerupBehaviour(new EquipmentPowerupBehaviourPhysics(-2d, -25d, -25d, 1.2d), 175, 35, 3, new double[]{0.1d, 0.8d, 1d}, new int[]{0, 3, 6})),
-            new EquipmentPowerupLevel(IRes.Sprites.jetpack, 100, IRes.Animations.jetpack, new JetpackPowerupBehaviour(new EquipmentPowerupBehaviourPhysics(-2d, -25d, -25d, 1.2d), 200, 35, 3, new double[]{0.1d, 0.8d, 1d}, new int[]{0, 3, 6})),
-            new EquipmentPowerupLevel(IRes.Sprites.spaceRocket, 150, IRes.Animations.spaceRocket, new JetpackPowerupBehaviour(new EquipmentPowerupBehaviourPhysics(-2d, -25d, -25d, 1.2d), 225, -70, 3, new double[]{0.1d, 0.8d, 1d}, new int[]{0, 3, 6}))
+    jetpack(Jetpack.class, new PowerupLevel[]{
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.jetpack, 50)
+                    .setAnimation(IRes.Animations.jetpack)
+                    .setAcceleration(-2d)
+                    .setInitDropSpeed(-25d)
+                    .setBoost(-25d)
+                    .setHorSpeed(1.2d)
+                    .setMaxTimeInAir(175)
+                    .setOwnedYOffset(35)
+                    .setAnimationRefreshRate(3)
+                    .setAnimationPhases(new double[]{0.1d, 0.8d, 1d})
+                    .setAnimationOffsets(new int[]{0, 3, 6})
+                    .build(),
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.jetpack, 100)
+                    .setAnimation(IRes.Animations.jetpack)
+                    .setAcceleration(-2d)
+                    .setInitDropSpeed(-25d)
+                    .setBoost(-25d)
+                    .setHorSpeed(1.2d)
+                    .setMaxTimeInAir(200)
+                    .setOwnedYOffset(35)
+                    .setAnimationRefreshRate(3)
+                    .setAnimationPhases(new double[]{0.1d, 0.8d, 1d})
+                    .setAnimationOffsets(new int[]{0, 3, 6})
+                    .build(),
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.spaceRocket, 150)
+                    .setAnimation(IRes.Animations.spaceRocket)
+                    .setAcceleration(-2d)
+                    .setInitDropSpeed(-25d)
+                    .setBoost(-25d)
+                    .setHorSpeed(1.2d)
+                    .setMaxTimeInAir(225)
+                    .setOwnedYOffset(-70)
+                    .setAnimationRefreshRate(3)
+                    .setAnimationPhases(new double[]{0.1d, 0.8d, 1d})
+                    .setAnimationOffsets(new int[]{0, 3, 6})
+                    .build()
     }),
     /**
      * Propeller.
      */
-    propeller("propeller", new PowerupLevel[]{
-            new EquipmentPowerupLevel(IRes.Sprites.propeller, 50, IRes.Animations.propeller, new EquipmentPowerupBehaviour(new EquipmentPowerupBehaviourPhysics(-1d, -20d, -20d, 1.2d), 150, -26, 3))
+    propeller(Propeller.class, new PowerupLevel[]{
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.propeller, 50)
+                    .setAnimation(IRes.Animations.propeller)
+                    .setAcceleration(-1d)
+                    .setInitDropSpeed(-20d)
+                    .setBoost(-20d)
+                    .setHorSpeed(1.2d)
+                    .setMaxTimeInAir(150)
+                    .setOwnedYOffset(-26)
+                    .setAnimationRefreshRate(3)
+                    .build()
     }),
-    springShoes("springShoes", new PowerupLevel[]{
-            new SpringShoesPowerupLevel(IRes.Sprites.propeller, 50, 3, -30d)
+    springShoes(SpringShoes.class, new PowerupLevel[]{
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.propeller, 50)
+                    .setMaxUses(3)
+                    .setBoost(-30d)
+                    .build()
     }),
-    sizeUp("sizeUp", new PowerupLevel[]{
-            new ScalingPowerupLevel(IRes.Sprites.sizeUp, 50, 0.4d)
+    sizeUp(SizeUp.class, new PowerupLevel[]{
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.sizeUp, 50)
+                    .setScale(0.4d)
+                    .build()
     }),
-    sizeDown("sizeDown", new PowerupLevel[]{
-            new ScalingPowerupLevel(IRes.Sprites.sizeUp, 50, -0.4d)
+    sizeDown(SizeDown.class, new PowerupLevel[]{
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.sizeDown, 50)
+                    .setScale(-0.4d)
+                    .build()
     }),
-    spring("spring", new PowerupLevel[]{
-            new JumpablePowerupLevel(IRes.Sprites.spring, 0, IRes.Sprites.springUsed, -30),
-            new JumpablePowerupLevel(IRes.Sprites.doubleSpring, 0, IRes.Sprites.doubleSpringUsed, -40),
-            new JumpablePowerupLevel(IRes.Sprites.titaniumSpring, 0, IRes.Sprites.titaniumSpringUsed, -50)
+    spring(Spring.class, new PowerupLevel[]{
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.spring, 0)
+                    .setUsedSprite(IRes.Sprites.springUsed)
+                    .setBoost(-30)
+                    .build(),
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.doubleSpring, 0)
+                    .setUsedSprite(IRes.Sprites.doubleSpringUsed)
+                    .setBoost(-40)
+                    .build(),
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.titaniumSpring, 0)
+                    .setUsedSprite(IRes.Sprites.titaniumSpringUsed)
+                    .setBoost(-50)
+                    .build()
     }),
-    trampoline("trampoline", new PowerupLevel[]{
-            new JumpablePowerupLevel(IRes.Sprites.trampoline, 0, IRes.Sprites.trampolineUsed, -30),
-            new JumpablePowerupLevel(IRes.Sprites.circusCannon, 0, IRes.Sprites.circusCannonUsed, -40),
-            new JumpablePowerupLevel(IRes.Sprites.rocketLauncher, 0, IRes.Sprites.rocketLauncherUsed, -50)
+    trampoline(Trampoline.class, new PowerupLevel[]{
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.trampoline, 0)
+                    .setUsedSprite(IRes.Sprites.trampolineUsed)
+                    .setBoost(-30)
+                    .setRetractSpeed(250)
+                    .build(),
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.circusCannon, 0)
+                    .setUsedSprite(IRes.Sprites.circusCannonUsed)
+                    .setBoost(-40)
+                    .setRetractSpeed(250)
+                    .build(),
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.rocketLauncher, 0)
+                    .setUsedSprite(IRes.Sprites.rocketLauncherUsed)
+                    .setBoost(-50)
+                    .setRetractSpeed(250)
+                    .build()
     });
 
     /**
      * Used for debugging purposes; the name of the enum value.
      */
-    private final String name;
+    private final Class<?> associatedClass;
 
     /**
      * Contains the data for each level of the powerup.
@@ -54,12 +123,16 @@ public enum Powerups {
     /**
      * Construct a new powerup.
      *
-     * @param name          The name of the powerup, only used for debugging purposes
-     * @param powerupLevels The data of each level of the powerup
+     * @param associatedClass The Java class associated with the enum powerup type
+     * @param powerupLevels   The data of each level of the powerup
      */
-    Powerups(final String name, final PowerupLevel[] powerupLevels) {
-        this.name = name;
+    <T extends APowerup> Powerups(final Class<T> associatedClass, final PowerupLevel[] powerupLevels) {
+        this.associatedClass = associatedClass;
         this.powerupLevels = powerupLevels;
+    }
+
+    public Class<?> getAssociatedClass() {
+        return associatedClass;
     }
 
     /**
@@ -70,28 +143,14 @@ public enum Powerups {
     }
 
     /**
-     * @return The level specified of the powerup
-     */
-    /*public PowerupLevel getLevel(final int index) {
-        if (index < 0) {
-            throw new IllegalArgumentException("Powerups do not have levels lower than 0, the level specified was: " + index);
-        }
-        if (index > powerupLevels.length - 1) {
-            throw new IllegalArgumentException("The level requested was too high: the maximum level of powerup \""
-            + this.name + "\" = " + this.powerupLevels.length + ", requested was " + index);
-        }
-        return this.powerupLevels[index];
-    }*/
-
-    /**
      * Returns the price to upgrade to a certain level.
      *
-     * @param level The level you want the amount of coins it costs to upgrade to from
-     * @return The price in coins of the upgrade to the level specified
+     * @param level The level you want the amount of price it costs to upgrade to from
+     * @return The price in price of the upgrade to the level specified
      */
     public int getPrice(final int level) {
         checkLevel(level, "price");
-        return powerupLevels[level - 1].coins; // The array is 0-indexed, the input 1-indexed
+        return powerupLevels[level - 1].price; // The array is 0-indexed, the input 1-indexed
     }
 
     public IRes.Sprites getSprite(final int level) {
@@ -101,26 +160,81 @@ public enum Powerups {
 
     public IRes.Animations getAnimation(final int level) {
         checkLevel(level, "animation");
-        return powerupLevels[level - 1].getAnimation();
+        return powerupLevels[level - 1].animation;
     }
 
-    public final int getMaxTimeInAir(final int level) {
+    public int getMaxTimeInAir(final int level) {
         checkLevel(level, "maxTimeInAir");
-        return powerupLevels[level - 1].getMaxTimeInAir();
+        return powerupLevels[level - 1].maxTimeInAir;
     }
 
-    public final int getOwnedYOffset(final int level) {
+    public int getOwnedYOffset(final int level) {
         checkLevel(level, "ownedYOffset");
-        return powerupLevels[level - 1].getOwnedYOffset();
+        return powerupLevels[level - 1].ownedYOffset;
     }
 
-    private void checkLevel(final int level, final String kind) {
+    public double getAcceleration(final int level) {
+        checkLevel(level, "acceleration");
+        return powerupLevels[level - 1].acceleration;
+    }
+
+    public double getInitDropSpeed(final int level) {
+        checkLevel(level, "initDropSpeed");
+        return powerupLevels[level - 1].initDropSpeed;
+    }
+
+    public double getBoost(final int level) {
+        checkLevel(level, "boost");
+        return powerupLevels[level - 1].boost;
+    }
+
+    public double getHorSpeed(final int level) {
+        checkLevel(level, "horSpeed");
+        return powerupLevels[level - 1].horSpeed;
+    }
+
+    public int getAnimationRefreshRate(final int level) {
+        checkLevel(level, "animationRefreshRate");
+        return powerupLevels[level - 1].animationRefreshRate;
+    }
+
+    public int getMaxUses(final int level) {
+        checkLevel(level, "maxUses");
+        return powerupLevels[level - 1].maxUses;
+    }
+
+    public double[] getAnimationPhases(final int level) {
+        checkLevel(level, "animationPhases");
+        return powerupLevels[level - 1].animationPhases;
+    }
+
+    public int[] getAnimationOffsets(final int level) {
+        checkLevel(level, "animationOffsets");
+        return powerupLevels[level - 1].animationOffsets;
+    }
+
+    public IRes.Sprites getUsedSprite(final int level) {
+        checkLevel(level, "animationPhases");
+        return powerupLevels[level - 1].usedSprite;
+    }
+
+    public double getScale(final int level) {
+        checkLevel(level, "animationOffsets");
+        return powerupLevels[level - 1].scale;
+    }
+
+    public int getRetractSpeed(final int level) {
+        checkLevel(level, "retractSpeed");
+        return powerupLevels[level - 1].retractSpeed;
+    }
+
+    private void checkLevel(final int level, final String name) {
         if (level <= 0) {
             throw new IllegalArgumentException("Powerups do not have levels lower than or equal to 0");
         }
-        if (level > powerupLevels.length) {
+        if (level > this.powerupLevels.length) {
             throw new IllegalArgumentException("The maximum level of the powerup \""
-                    + this.name
+                    + name
                     + "\" is "
                     + this.powerupLevels.length
                     + ", while the sprite was asked for a level exceeding this maximum level: "
@@ -128,151 +242,139 @@ public enum Powerups {
         }
     }
 
-    private abstract static class PowerupLevel {
+    private static class PowerupLevel {
         private final IRes.Sprites sprite;
-        private final int coins;
-
-        private PowerupLevel(final IRes.Sprites sprite, final int coins) {
-            this.sprite = sprite;
-            this.coins = coins;
-        }
-
-        /* package */ IRes.Animations getAnimation() {
-            return null;
-        }
-    }
-
-    private static final class EquipmentPowerupLevel extends PowerupLevel {
+        private final int price;
         private final IRes.Animations animation;
-        private final EquipmentPowerupBehaviour behaviour;
-
-        private EquipmentPowerupLevel(final IRes.Sprites sprite, final int coins, final IRes.Animations animation, final EquipmentPowerupBehaviour behaviour) {
-            super(sprite, coins);
-            this.animation = animation;
-            this.behaviour = behaviour;
-        }
-
-        @Override
-        /* package */ IRes.Animations getAnimation() {
-            return animation;
-        }
-    }
-
-    private static class EquipmentPowerupBehaviour {
-        private final EquipmentPowerupBehaviourPhysics physics;
-        /**
-         * The time measured in frames the powerup is in the air.
-         */
-        private final int maxTime;
-        /**
-         * The Y-offset for drawing the powerup when on the Doodle.
-         */
+        private final int maxTimeInAir;
         private final int ownedYOffset;
-        /**
-         * The refresh rate for the active animation.
-         */
-        private final int animationRefreshRate;
-
-        private EquipmentPowerupBehaviour(final EquipmentPowerupBehaviourPhysics physics, final int maxTime, final int ownedYOffset, final int animationRefreshRate) {
-            this.physics = physics;
-            this.maxTime = maxTime;
-            this.ownedYOffset = ownedYOffset;
-            this.animationRefreshRate = animationRefreshRate;
-        }
-    }
-
-    private static final class JetpackPowerupBehaviour extends EquipmentPowerupBehaviour {
-        /**
-         * Percentage for the phases of the jetpack powerup animation.
-         */
-        private final double[] animationPhases;
-        /**
-         * Offset for the phases of the jetpack powerup animation.
-         */
-        private final int[] animationOffsets;
-
-        private JetpackPowerupBehaviour(final EquipmentPowerupBehaviourPhysics physics, final int maxTime, final int ownedYOffset, final int animationRefreshRate, final double[] animationPhases, final int[] animationOffsets) {
-            super(physics, maxTime, ownedYOffset, animationRefreshRate);
-            if (animationPhases.length != 3) {
-                throw new IllegalArgumentException("animationPhases must have a length of 3, but the length was: " + animationPhases.length);
-            }
-            if (animationOffsets.length != 3) {
-                throw new IllegalArgumentException("animationOffsets must have a length of 3, but the length was: " + animationOffsets.length);
-            }
-            this.animationPhases = animationPhases;
-            this.animationOffsets = animationOffsets;
-        }
-    }
-
-    private static final class EquipmentPowerupBehaviourPhysics {
-        /**
-         * The acceleration provided by the equipment powerup.
-         */
         private final double acceleration;
-        /**
-         * The boost for the equipment powerup when it is being dropped.
-         */
         private final double initDropSpeed;
-        /**
-         * The boost the equipment powerup object provides.
-         */
-        private final double maxBoost;
-        /**
-         * The horizontal speed for a equipment powerup.
-         */
-        private final double horSpeed;
-
-        private EquipmentPowerupBehaviourPhysics(final double acceleration, final double initDropSpeed, final double maxBoost, final double horSpeed) {
-            this.acceleration = acceleration;
-            this.initDropSpeed = initDropSpeed;
-            this.maxBoost = maxBoost;
-            this.horSpeed = horSpeed;
-        }
-    }
-
-    private static final class JumpablePowerupLevel extends PowerupLevel {
-        /**
-         * The sprite used after the doodle has jumped on the jumpable powerup.
-         */
-        private final IRes.Sprites usedSprite;
-        /**
-         * The speed boost the doodle gets after jumping upon the powerup.
-         */
-        private final int boost;
-
-        private JumpablePowerupLevel(final IRes.Sprites sprite, final int coins, final IRes.Sprites usedSprite, final int boost) {
-            super(sprite, coins);
-            this.usedSprite = usedSprite;
-            this.boost = boost;
-        }
-    }
-
-    private static final class ScalingPowerupLevel extends PowerupLevel {
-        /**
-         * The scale increase provided by scaling powerups.
-         */
-        private final double scale;
-
-        private ScalingPowerupLevel(final IRes.Sprites sprite, final int coins, final double scale) {
-            super(sprite, coins);
-            this.scale = scale;
-        }
-    }
-
-    private static final class SpringShoesPowerupLevel extends PowerupLevel {
-        /**
-         * The maximum amount of times SpringShoes can be used.
-         */
-        private final int maxUses;
-        /**
-         * The boost provided by the SpringShoes.
-         */
         private final double boost;
+        private final double horSpeed;
+        private final double[] animationPhases;
+        private final int[] animationOffsets;
+        private final int animationRefreshRate;
+        private final int maxUses;
+        private final IRes.Sprites usedSprite;
+        private final double scale;
+        private final int retractSpeed;
 
-        private SpringShoesPowerupLevel(final IRes.Sprites sprite, final int coins, final int maxUses, final double boost) {
-            super(sprite, coins);
-            this.maxUses = maxUses;
-            this.boost = boost;
+        private PowerupLevel(final PowerupLevelBuilder builder) {
+            this.sprite = builder.sprite;
+            this.price = builder.price;
+            this.animation = builder.animation;
+            this.maxTimeInAir = builder.maxTimeInAir;
+            this.ownedYOffset = builder.ownedYOffset;
+            this.acceleration = builder.acceleration;
+            this.initDropSpeed = builder.initDropSpeed;
+            this.boost = builder.boost;
+            this.horSpeed = builder.horSpeed;
+            this.animationPhases = builder.animationPhases;
+            this.animationOffsets = builder.animationOffsets;
+            this.animationRefreshRate = builder.animationRefreshRate;
+            this.maxUses = builder.maxUses;
+            this.usedSprite = builder.usedSprite;
+            this.scale = builder.scale;
+            this.retractSpeed = builder.retractSpeed;
+        }
+
+        private static final class PowerupLevelBuilder {
+            private final IRes.Sprites sprite;
+            private final int price;
+            private IRes.Animations animation;
+            private int maxTimeInAir;
+            private int ownedYOffset;
+            private double acceleration;
+            private double initDropSpeed;
+            private int animationRefreshRate;
+            private int maxUses;
+            private IRes.Sprites usedSprite;
+            private double boost;
+            private double horSpeed;
+            private double[] animationPhases;
+            private int[] animationOffsets;
+            private double scale;
+            private int retractSpeed;
+
+            /* package */ PowerupLevelBuilder(final IRes.Sprites sprite, final int price) {
+                this.sprite = sprite;
+                this.price = price;
+            }
+
+            /* package */ PowerupLevelBuilder setAnimation(final IRes.Animations animation) {
+                this.animation = animation;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setAcceleration(final double acceleration) {
+                this.acceleration = acceleration;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setInitDropSpeed(final double initDropSpeed) {
+                this.initDropSpeed = initDropSpeed;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setBoost(final double boost) {
+                this.boost = boost;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setHorSpeed(final double horSpeed) {
+                this.horSpeed = horSpeed;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setMaxTimeInAir(final int maxTimeInAir) {
+                this.maxTimeInAir = maxTimeInAir;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setOwnedYOffset(final int ownedYOffset) {
+                this.ownedYOffset = ownedYOffset;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setAnimationRefreshRate(final int animationRefreshRate) {
+                this.animationRefreshRate = animationRefreshRate;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setMaxUses(final int maxUses) {
+                this.maxUses = maxUses;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setUsedSprite(final IRes.Sprites usedSprite) {
+                this.usedSprite = usedSprite;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setAnimationPhases(final double[] animationPhases) {
+                this.animationPhases = animationPhases;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setAnimationOffsets(final int[] animationOffsets) {
+                this.animationOffsets = animationOffsets;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setScale(final double scale) {
+                this.scale = scale;
+                return this;
+            }
+
+            /* package */ PowerupLevelBuilder setRetractSpeed(final int retractSpeed) {
+                this.retractSpeed = retractSpeed;
+                return this;
+            }
+
+            /* package */ PowerupLevel build() {
+                return new PowerupLevel(this);
+            }
         }
     }
 }

@@ -21,8 +21,8 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      * @param sprite  The sprite of the powerup
      * @param powerup The class of the powerup
      */
-    public APowerup(final IServiceLocator sL, final Point point, final ISprite sprite, final Class<?> powerup) {
-        super(sL, point, sprite, powerup);
+    public APowerup(final IServiceLocator sL, final Point point, final Powerups type, final int level) {
+        super(sL, point, sL.getSpriteFactory().getSprite(type.getSprite(level)), type.getAssociatedClass());
     }
 
     /**
