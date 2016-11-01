@@ -47,6 +47,10 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({RegularBehavior.class, RegularProjectile.class, Enemy.class, RegularBehavior.class})
 public class DoodleTest {
 
+    static ISprite spriteLeft1 = mock(ISprite.class);
+    static ISprite spriteLeft2 = mock(ISprite.class);
+    static ISprite spriteRight1 = mock(ISprite.class);
+    static ISprite spriteRight2 = mock(ISprite.class);
     AEnemy enemy = mock(AEnemy.class);
     ICamera camera = mock(ICamera.class);
     IConstants constants = mock(IConstants.class);
@@ -64,11 +68,6 @@ public class DoodleTest {
     MovementBehavior movementBehavior = mock(MovementBehavior.class);
     RegularBehavior regularBehavior = mock(RegularBehavior.class);
     World world = mock(World.class);
-
-    static ISprite spriteLeft1 = mock(ISprite.class);
-    static ISprite spriteLeft2 = mock(ISprite.class);
-    static ISprite spriteRight1 = mock(ISprite.class);
-    static ISprite spriteRight2 = mock(ISprite.class);
     ISprite[] sprites = new ISprite[]{spriteLeft1, spriteLeft2, spriteRight1, spriteRight2};
     IDoodle doodle;
     double jumpableBoost = 10d;
@@ -258,7 +257,7 @@ public class DoodleTest {
         double x = Whitebox.getInternalState(doodle, "xPos");
 
         doodle.render();
-        verify(renderer, times(1)).drawSpriteHUD(arrowSprite, new Point((int) x, scorebarHeight));
+        verify(renderer, times(1)).drawSpriteHUD(arrowSprite, new Point((int) x, scorebarHeight), 0, 5);
     }
 
     @Test
