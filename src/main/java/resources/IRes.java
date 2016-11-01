@@ -46,6 +46,7 @@ public interface IRes {
         shopCover,
 
         // Doodle
+        doodleArrow,
         greenDoodleLeftAscend,
         greenDoodleLeftDescend,
         greenDoodleRightAscend,

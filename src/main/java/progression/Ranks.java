@@ -13,32 +13,48 @@ public enum Ranks {
     /**
      * The second rank.
      */
-    starter(10000, "Starter", 1),
+    starter(5000, "Starter", 1),
 
     /**
      * The third rank.
      */
-    partyPooper(100000, "Party pooper", 2),
+    partyPooper(10000, "Party pooper", 2),
 
     /**
      * The fourth rank.
      */
-    tiredLegs(250000, "Tired-legs", 3),
+    tiredLegs(20000, "Tired-legs", 3),
 
     /**
      * The fifth rank.
      */
-    oldMan(750000, "Old man", 4),
+    oldMan(40000, "Old man", 4),
 
     /**
      * The sixth rank.
      */
-    tooEasy(1500000, "Too easy", 5),
+    tooEasy(80000, "Too easy", 5),
 
     /**
-     * The last rank.
+     * The seventh rank.
      */
-    theBoss(3000000, "Tha Boss", 6);
+    theBoss(160000, "Tha Boss", 6),
+
+    /**
+     * The eight rank.
+     */
+    doodleMaster(320000, "Doodle Master", 7),
+
+    /**
+     * The ninth rank.
+     */
+    doodleGod(640000, "Doodle God", 8),
+
+    /**
+     * The tenth rank.
+     */
+    cheater(1280000, "You cheater!", 9);
+
 
     /**
      * The experience needed to reach this rank.

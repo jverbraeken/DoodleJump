@@ -105,6 +105,8 @@ public final class Res implements IRes {
         sprites.put(Sprites.shopCover, SPRITE_PATH + "pause-cover-4@2x.png");
 
         // Doodle
+        sprites.put(Sprites.doodleArrow, SPRITE_PATH + "location-arrow@2x.png");
+
         sprites.put(Sprites.greenDoodleLeftAscend, SPRITE_PATH + "lik-left@2x.png");
         sprites.put(Sprites.greenDoodleLeftDescend, SPRITE_PATH + "lik-left-odskok@2x.png");
         sprites.put(Sprites.greenDoodleRightAscend, SPRITE_PATH + "lik-right@2x.png");
