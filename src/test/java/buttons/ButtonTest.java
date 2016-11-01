@@ -107,7 +107,6 @@ public class ButtonTest {
     public void testMouseClickedNotOnButton2() {
         int xPosClicked = -1;
         int yPosClicked = -1;
-        thrown.expect(AssertionError.class);
         button.mouseClicked(xPosClicked, yPosClicked);
     }
 
