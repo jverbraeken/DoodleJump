@@ -43,6 +43,10 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({RegularBehavior.class, RegularProjectile.class})
 public class DoodleTest {
 
+    static ISprite spriteLeft1 = mock(ISprite.class);
+    static ISprite spriteLeft2 = mock(ISprite.class);
+    static ISprite spriteRight1 = mock(ISprite.class);
+    static ISprite spriteRight2 = mock(ISprite.class);
     ICamera camera = mock(ICamera.class);
     IConstants constants = mock(IConstants.class);
     IInputManager inputManager = mock(IInputManager.class);
@@ -56,11 +60,6 @@ public class DoodleTest {
     MovementBehavior movementBehavior = mock(MovementBehavior.class);
     RegularBehavior regularBehavior = mock(RegularBehavior.class);
     World world = mock(World.class);
-
-    static ISprite spriteLeft1 = mock(ISprite.class);
-    static ISprite spriteLeft2 = mock(ISprite.class);
-    static ISprite spriteRight1 = mock(ISprite.class);
-    static ISprite spriteRight2 = mock(ISprite.class);
     ISprite[] spritesLeft = new ISprite[]{spriteLeft1, spriteLeft2};
     ISprite[] spritesRight = new ISprite[]{spriteRight1, spriteRight2};
     IDoodle doodle;
