@@ -47,6 +47,10 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({RegularBehavior.class, RegularProjectile.class, Enemy.class, RegularBehavior.class})
 public class DoodleTest {
 
+    static ISprite spriteLeft1 = mock(ISprite.class);
+    static ISprite spriteLeft2 = mock(ISprite.class);
+    static ISprite spriteRight1 = mock(ISprite.class);
+    static ISprite spriteRight2 = mock(ISprite.class);
     AEnemy enemy = mock(AEnemy.class);
     ICamera camera = mock(ICamera.class);
     IConstants constants = mock(IConstants.class);
@@ -57,21 +61,19 @@ public class DoodleTest {
     IPowerup somePowerup = mock(IPowerup.class);
     IRenderer renderer = mock(IRenderer.class);
     IServiceLocator serviceLocator = mock(IServiceLocator.class);
+    ISprite arrowSprite = mock(ISprite.class);
+    ISprite scorebarSprite = mock(ISprite.class);
     ISprite starSprite = mock(ISprite.class);
     ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
     MovementBehavior movementBehavior = mock(MovementBehavior.class);
     RegularBehavior regularBehavior = mock(RegularBehavior.class);
     World world = mock(World.class);
-
-    static ISprite spriteLeft1 = mock(ISprite.class);
-    static ISprite spriteLeft2 = mock(ISprite.class);
-    static ISprite spriteRight1 = mock(ISprite.class);
-    static ISprite spriteRight2 = mock(ISprite.class);
     ISprite[] sprites = new ISprite[]{spriteLeft1, spriteLeft2, spriteRight1, spriteRight2};
     IDoodle doodle;
     double jumpableBoost = 10d;
     int spriteHeight = 10;
     int spriteWidth = 10;
+    int scorebarHeight = 20;
     RegularProjectile projectile = mock(RegularProjectile.class);
     List<RegularProjectile> projectiles = new ArrayList<>();
 
@@ -79,6 +81,7 @@ public class DoodleTest {
     public void init() {
         Whitebox.setInternalState(Game.class, "mode", Game.Modes.regular);
 
+        when(camera.getYPos()).thenReturn(0d);
         when(constants.getGravityAcceleration()).thenReturn(1d);
         when(constants.getGameHeight()).thenReturn(1000);
         when(jumpable.getBoost()).thenReturn(jumpableBoost);
@@ -92,6 +95,9 @@ public class DoodleTest {
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(spriteLeft1.getHeight()).thenReturn(spriteHeight);
         when(spriteLeft1.getWidth()).thenReturn(spriteWidth);
+        when(scorebarSprite.getHeight()).thenReturn(scorebarHeight);
+        when(spriteFactory.getDoodleLocationArrowSprite()).thenReturn(arrowSprite);
+        when(spriteFactory.getScoreBarSprite()).thenReturn(scorebarSprite);
 
         when(spriteFactory.getStarSprite1()).thenReturn(starSprite);
 
@@ -243,6 +249,15 @@ public class DoodleTest {
 
         doodle.render();
         verify(renderer, times(1)).drawSprite(spriteLeft1, new Point((int) x, (int) y), width, height);
+    }
+
+    @Test
+    public void testRenderArrow() {
+        Whitebox.setInternalState(doodle, "yPos", -200d);
+        double x = Whitebox.getInternalState(doodle, "xPos");
+
+        doodle.render();
+        verify(renderer, times(1)).drawSpriteHUD(arrowSprite, new Point((int) x, scorebarHeight), 0, 5);
     }
 
     @Test

@@ -84,7 +84,7 @@ public final class DoodleFactory implements IDoodleFactory {
             case red:
                 return spriteFactory.getRedDoodleSprites();
             default:
-                return spriteFactory.getGreenDoodleSprites();
+                throw new IllegalArgumentException("The color " + color + " is not defined for Doodles");
 
         }
     }
