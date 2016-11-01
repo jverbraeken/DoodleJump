@@ -345,7 +345,7 @@ public class Doodle extends AGameObject implements IDoodle {
         }
 
         Point arrowPoint = new Point((int) this.getXPos(), 0);
-        ISprite arrow = Doodle.getServiceLocator().getSpriteFactory().getPopupOkButton();
+        ISprite arrow = Doodle.getServiceLocator().getSpriteFactory().getDoodleLocationArrowSprite();
         Doodle.getServiceLocator().getRenderer().drawSpriteHUD(arrow, arrowPoint);
 
         this.getPowerup().render();

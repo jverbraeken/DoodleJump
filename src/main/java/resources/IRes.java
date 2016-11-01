@@ -50,6 +50,7 @@ public interface IRes {
         doodleLeftDescend,
         doodleRightAscend,
         doodleRightDescend,
+        doodleArrow,
 
         // projectiles
         regularProjectile,
