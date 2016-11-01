@@ -271,10 +271,10 @@ public class ResTest {
     public void testSetDefaultSkinIcons() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.storyMode));
+        assertTrue(insertedSprites.containsKey(Sprites.horzontalOnlyMode));
         assertTrue(insertedSprites.containsKey(Sprites.regularMode));
         assertTrue(insertedSprites.containsKey(Sprites.darknessMode));
-        assertTrue(insertedSprites.containsKey(Sprites.invertMode));
+        assertTrue(insertedSprites.containsKey(Sprites.verticalOnlyMode));
         assertTrue(insertedSprites.containsKey(Sprites.spaceMode));
         assertTrue(insertedSprites.containsKey(Sprites.underwaterMode));
     }

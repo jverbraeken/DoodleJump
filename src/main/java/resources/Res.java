@@ -221,10 +221,10 @@ public final class Res implements IRes {
         sprites.put(Sprites.scoreBar, SPRITE_PATH + "scorebar.png");
 
         // Choose mode icons
-        sprites.put(Sprites.storyMode, SPRITE_PATH + "story-mode@4x.png");
+        sprites.put(Sprites.horzontalOnlyMode, SPRITE_PATH + "only-horizontal-mode@4x.png");
         sprites.put(Sprites.regularMode, SPRITE_PATH + "regular-mode@4x.png");
         sprites.put(Sprites.darknessMode, SPRITE_PATH + "darkness-mode@4x.png");
-        sprites.put(Sprites.invertMode, SPRITE_PATH + "invert-mode@4x.png");
+        sprites.put(Sprites.verticalOnlyMode, SPRITE_PATH + "only-vertical-mode@4x.png");
         sprites.put(Sprites.spaceMode, SPRITE_PATH + "space-mode@4x.png");
         sprites.put(Sprites.underwaterMode, SPRITE_PATH + "underwater-mode@4x.png");
 

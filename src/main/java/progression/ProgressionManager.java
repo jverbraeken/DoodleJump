@@ -254,9 +254,8 @@ public final class ProgressionManager implements IProgressionManager {
         rank = Ranks.newbie;
         Ranks[] ranksArray = Ranks.values();
         for (int i = 0; i < ranksArray.length; i++) {
-            if (ranksArray[i].getExperience() > experience) {
-                rank = ranksArray[i - 1];
-                break;
+            if (ranksArray[i].getExperience() <= experience) {
+                rank = ranksArray[i];
             }
         }
     }
@@ -374,6 +373,7 @@ public final class ProgressionManager implements IProgressionManager {
         logger.info("Coins is set to: " + coins);
 
         experience = json.getExperience();
+        System.out.println(experience);
         logger.info("Experience is set to: " + experience);
         this.setRankAccordingExperience();
 

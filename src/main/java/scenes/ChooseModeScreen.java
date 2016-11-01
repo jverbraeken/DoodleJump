@@ -35,11 +35,11 @@ public class ChooseModeScreen implements IScene {
      */
     private static final double SPACE_MODE_X = 0.2, SPACE_MODE_Y = 0.65;
     /**
-     * X & Y location in relation to the frame of the invert mode button.
+     * X & Y location in relation to the frame of the verticalOnly mode button.
      */
     private static final double INVERT_MODE_X = 0.6, INVERT_MODE_Y = 0.65;
     /**
-     * X & Y location in relation to the frame of the story mode button.
+     * X & Y location in relation to the frame of the horizontalOnly mode button.
      */
     private static final double STORY_MODE_X = 0.6, STORY_MODE_Y = 0.25;
     /**
@@ -200,7 +200,7 @@ public class ChooseModeScreen implements IScene {
         int gameWidth = this.serviceLocator.getConstants().getGameWidth();
         int gameHeight = this.serviceLocator.getConstants().getGameHeight();
         ISprite redCross = this.serviceLocator.getSpriteFactory().getRedCross();
-        if (rankLevel < Game.Modes.story.getRankRequired()) {
+        if (rankLevel < Game.Modes.horizontalOnly.getRankRequired()) {
             serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (STORY_MODE_X * gameWidth), (int) (STORY_MODE_Y * gameHeight)));
         }
         if (rankLevel < Game.Modes.underwater.getRankRequired()) {
@@ -212,7 +212,7 @@ public class ChooseModeScreen implements IScene {
         if (rankLevel < Game.Modes.darkness.getRankRequired()) {
             serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (DARKNESS_MODE_X * gameWidth), (int) (DARKNESS_MODE_Y * gameHeight)));
         }
-        if (rankLevel < Game.Modes.invert.getRankRequired()) {
+        if (rankLevel < Game.Modes.verticalOnly.getRankRequired()) {
             serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (INVERT_MODE_X * gameWidth), (int) (INVERT_MODE_Y * gameHeight)));
         }
     }

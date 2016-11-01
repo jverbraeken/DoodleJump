@@ -105,15 +105,13 @@ public final class Game {
          */
         underwater(2),
         /**
-         * The game mode following a story.
-         * UNIMPLEMENTED
+         * The game mode following a horizontalOnly platforms.
          */
-        story(1),
+        horizontalOnly(1),
         /**
-         * The game using the invertable platforms.
-         * UNIMPLEMENTED
+         * The game using the vertical platforms.
          */
-        invert(5),
+        verticalOnly(5),
         /**
          * The game mode with invisible platforms.
          * The platforms turn visible when touched by a doodle.

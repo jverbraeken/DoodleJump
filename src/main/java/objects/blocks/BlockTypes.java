@@ -154,7 +154,7 @@ public enum BlockTypes {
                 break;
             case underwater:
                 break;
-            case invert:
+            case verticalOnly:
                 List<Integer> verticalOnlyWeights = new ArrayList<>();
                 //regular blocks.
                 verticalOnlyWeights.add(0);
@@ -174,7 +174,7 @@ public enum BlockTypes {
                 darknessWeights.add(1);
                 setAllWeights(darknessWeights);
                 break;
-            case story:
+            case horizontalOnly:
                 List<Integer> horizontalOnlyWeigths = new ArrayList<>();
                 //regular blocks.
                 horizontalOnlyWeigths.add(0);

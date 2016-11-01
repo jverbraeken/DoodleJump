@@ -875,7 +875,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getStoryModeButton() {
-        return this.getSprite(IRes.Sprites.storyMode);
+        return this.getSprite(IRes.Sprites.horzontalOnlyMode);
     }
 
     /**
@@ -891,7 +891,7 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getInvertModeButton() {
-        return this.getSprite(IRes.Sprites.invertMode);
+        return this.getSprite(IRes.Sprites.verticalOnlyMode);
     }
 
     /**
