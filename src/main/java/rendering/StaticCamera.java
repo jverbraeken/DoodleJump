@@ -29,6 +29,13 @@ import com.google.common.util.concurrent.AtomicDouble;
      * {@inheritDoc}
      */
     @Override
+    public void setAccelerationType(AccelerationType type) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public double getYPos() {
         return StaticCamera.y.get();
     }

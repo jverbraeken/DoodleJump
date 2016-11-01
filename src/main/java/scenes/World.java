@@ -10,6 +10,8 @@ import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
 import objects.enemies.AEnemy;
 import objects.powerups.Powerups;
+import rendering.AccelerationType;
+import rendering.ICamera;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -197,18 +199,7 @@ public class World implements IScene {
         this.cleanUp();
         this.newBlocks();
         this.checkCollisions();
-        this.updateCameraPosition();
-    }
-
-    private void updateCameraPosition() {
-        final double camY = this.serviceLocator.getRenderer().getCamera().getYPos();
-        for (IDoodle doodle : this.doodles) {
-            if (camY < doodle.getYPos() + doodle.getSprite().getHeight()) {
-                return;
-            }
-        }
-
-        System.out.println("all out");
+        this.updateCameraSpeed();
     }
 
     /**
@@ -351,6 +342,22 @@ public class World implements IScene {
          * The things that should be drawn in the back (such as platforms).
          */
         back
+    }
+
+    /**
+     * Update the camera speed based on Doodles locations.
+     */
+    private void updateCameraSpeed() {
+        final ICamera camera = this.serviceLocator.getRenderer().getCamera();
+        final double camY = camera.getYPos();
+        for (IDoodle doodle : this.doodles) {
+            if (camY < doodle.getYPos() + doodle.getSprite().getHeight()) {
+                camera.setAccelerationType(AccelerationType.normal);
+                return;
+            }
+        }
+
+        camera.setAccelerationType(AccelerationType.fast);
     }
 
     /**
