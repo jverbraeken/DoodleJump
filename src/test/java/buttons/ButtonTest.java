@@ -5,7 +5,9 @@ import input.InputManager;
 import logging.ILogger;
 import logging.ILoggerFactory;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -47,6 +49,9 @@ public class ButtonTest {
     private String buttonName = "test";
     private int xPos = 0;
     private int yPos = 0;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void init() throws Exception {
@@ -149,6 +154,7 @@ public class ButtonTest {
         Runnable nullAction = null;
         IServiceLocator nullServiceLocator = null;
 
+        thrown.expect(NullPointerException.class);
         nullButton = new Button(nullServiceLocator, xPos, yPos, nullSprite, nullAction, buttonName);
     }
 
@@ -158,6 +164,7 @@ public class ButtonTest {
         Runnable nullAction = null;
         IServiceLocator nullServiceLocator = null;
 
+        thrown.expect(NullPointerException.class);
         nullButton = new Button(nullServiceLocator, xPos, yPos, nullSprite, nullAction, buttonName, dimensions);
     }
 
