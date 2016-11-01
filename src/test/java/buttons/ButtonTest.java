@@ -8,13 +8,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
-import system.IServiceLocator;
 import system.Game;
+import system.IServiceLocator;
+
 import java.awt.Image;
 import java.awt.Point;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -28,27 +31,24 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({InputManager.class, Game.class})
 public class ButtonTest {
 
-    private IButton button;
     private static IServiceLocator serviceLocator = mock(IServiceLocator.class);
-    private Runnable action = mock(Runnable.class);
     private static ILogger logger = mock(ILogger.class);
     private static ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
+    private static InputManager inputManager = mock(InputManager.class);
+    Game game = mock(Game.class);
+    private IButton button;
+    private Runnable action = mock(Runnable.class);
     private ISprite sprite = mock(ISprite.class);
     private IRenderer renderer = mock(IRenderer.class);
     private Image image = mock(Image.class);
-    private static InputManager inputManager = mock(InputManager.class);
     private String buttonName = "test";
     private int xPos = 0;
     private int yPos = 0;
 
-    Game game = mock(Game.class);
-
-
-
     @Before
     public void init() throws Exception {
         when(serviceLocator.getRenderer()).thenReturn(renderer);
-      when(serviceLocator.getInputManager()).thenReturn(inputManager);
+        when(serviceLocator.getInputManager()).thenReturn(inputManager);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(loggerFactory.createLogger(Button.class)).thenReturn(logger);
         when(sprite.getImage()).thenReturn(image);
@@ -91,6 +91,26 @@ public class ButtonTest {
         button.mouseClicked(xPosClicked, yPosClicked);
         verify(game, times(0)).schedule(action);
     }
-    
+
+    @Test
+    public void testConstructor() {
+        int width = sprite.getImage().getWidth(null);
+        int height = sprite.getImage().getHeight(null);
+        int[] topLeft = Whitebox.getInternalState(button, "topLeft");
+        int[] bottomRight = Whitebox.getInternalState(button, "bottomRight");
+
+        assertEquals(serviceLocator, Whitebox.getInternalState(button, "serviceLocator"));
+        assertEquals(logger, Whitebox.getInternalState(button, "logger"));
+        assertEquals(sprite, Whitebox.getInternalState(button, "sprite"));
+        assertEquals(action, Whitebox.getInternalState(button, "action"));
+        assertEquals(buttonName, Whitebox.getInternalState(button, "name"));
+        assertEquals(width, (int) Whitebox.getInternalState(button, "width"));
+        assertEquals(height, (int) Whitebox.getInternalState(button, "height"));
+        assertEquals(topLeft[0], xPos);
+        assertEquals(topLeft[1], yPos);
+        assertEquals(bottomRight[0], xPos + width);
+        assertEquals(bottomRight[1], yPos + height);
+    }
+
 
 }
