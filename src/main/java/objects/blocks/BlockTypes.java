@@ -106,10 +106,9 @@ public enum BlockTypes {
     private static List<BlockTypes> getAllTypes() {
         List<BlockTypes> types = new ArrayList<>();
 
-        types.add(standardBlock);
-        types.add(normalOnlyBlock);
-        types.add(horizontalOnlyBlock);
-        types.add(verticalOnlyBlock);
+        for(BlockTypes type : BlockTypes.values()) {
+            types.add(type);
+        }
 
         return types;
     }
@@ -119,10 +118,12 @@ public enum BlockTypes {
      */
     public static void setRegularWeights() {
         setAllWeights(0);
-        standardBlock.setWeight(10);
-        normalOnlyBlock.setWeight(2);
-        horizontalOnlyBlock.setWeight(2);
-        verticalOnlyBlock.setWeight(1);
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(10);
+        list.add(20);
+        list.add(2);
+        list.add(1);
+        setAllWeights(list);
     }
 
     /**
