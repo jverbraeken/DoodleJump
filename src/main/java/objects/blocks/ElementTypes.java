@@ -23,6 +23,16 @@ public enum ElementTypes {
      */
     breakingPlatform,
 
+    /**
+     * The dark platform (used in darkness mode).
+     */
+    darknessPlatform,
+
+    /**
+     * The dark platform (used in darkness mode).
+     */
+    randomPlatform,
+
     // Powerups
     /**
      * The spring powerup.
