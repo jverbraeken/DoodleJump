@@ -76,7 +76,6 @@ public class Doodle extends AGameObject implements IDoodle {
      * The minimum and maximum value of the spriteScaler.
      */
     private static final double SPRITE_SCALAR_MIN = 0d, SPRITE_SCALAR_MAX = 2d;
-
     /**
      * The scalar value that assists in calculating the size of the out of screen arrow.
      */
@@ -352,8 +351,8 @@ public class Doodle extends AGameObject implements IDoodle {
         if (camY > this.getYPos() + sprite.getHeight()) {
             final Point arrowPoint = new Point((int) this.getXPos(), spriteFactory.getScoreBarSprite().getHeight());
             ISprite arrowSprite = spriteFactory.getDoodleLocationArrowSprite();
-            final double scale = Math.sqrt((camY - getYPos() - sprite.getHeight())/ARROW_SCALAR) + 2;
-            renderer.drawSpriteHUD(arrowSprite, arrowPoint, (int) (arrowPoint.getX()/scale), (int) (arrowPoint.getY()/scale));
+            final double scale = Math.sqrt((camY - getYPos() - sprite.getHeight()) / ARROW_SCALAR) + 2;
+            renderer.drawSpriteHUD(arrowSprite, arrowPoint, (int) (arrowPoint.getX() / scale), (int) (arrowPoint.getY() / scale));
         } else {
             final int width = (int) (sprite.getWidth() * this.spriteScalar);
             final int height = (int) (sprite.getHeight() * this.spriteScalar);
