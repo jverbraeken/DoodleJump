@@ -1,6 +1,5 @@
 package resources.sprites;
 
-import objects.enemies.EEnemies;
 import objects.powerups.Powerups;
 import resources.IRes;
 import scenes.PauseScreenModes;

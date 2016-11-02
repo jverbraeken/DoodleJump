@@ -53,10 +53,6 @@ public class World implements IScene {
      * The amount of blocks kept in a buffer.
      */
     private static final int BLOCK_BUFFER = 4;
-    /**
-     * The amount of experience earned from killing an enemy.
-     */
-    private static final int EXP_KILLING_ENEMY = 200;
 
     /**
      * Used to access all services.

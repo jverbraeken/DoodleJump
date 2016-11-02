@@ -11,7 +11,6 @@ import objects.doodles.doodle_behavior.RegularBehavior;
 import objects.doodles.doodle_behavior.SpaceBehavior;
 import objects.doodles.doodle_behavior.UnderwaterBehavior;
 import objects.enemies.AEnemy;
-import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import rendering.ICamera;

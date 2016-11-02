@@ -74,7 +74,7 @@ public final class PlatformFactory implements IPlatformFactory {
             case darknessPlatform:
                 return createDarknessPlatform(0, 0);
             case randomPlatform:
-                return createRandomPlatform(0, 0);
+                return createRandomPlatform();
             default:
                 throw new RuntimeException("No such element (" + type + ") in platform types");
         }
@@ -116,13 +116,12 @@ public final class PlatformFactory implements IPlatformFactory {
      */
     @Override
     public IPlatform createBreakPlatform(final int x, final int y) {
-        ISprite sprite = serviceLocator.getSpriteFactory().getPlatformBrokenSprite(1);
         IPlatform platform = createPlatform(x, y);
 
         return new PlatformBroken(serviceLocator, platform);
     }
 
-    private IPlatform createRandomPlatform(final int x, final int y) {
+    private IPlatform createRandomPlatform() {
         return (IPlatform) platformGenerationSet.getRandomElement();
     }
 }

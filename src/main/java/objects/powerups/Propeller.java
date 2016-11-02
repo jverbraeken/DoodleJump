@@ -5,7 +5,7 @@ import objects.doodles.IDoodle;
 import resources.sprites.IAnimation;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Propeller powerup.

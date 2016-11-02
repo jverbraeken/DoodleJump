@@ -1,6 +1,5 @@
 package resources;
 
-import resources.sprites.ISprite;
 import system.Game;
 
 /**
@@ -259,7 +258,9 @@ public interface IRes {
         }
 
         public IRes.Sprites[] getSpriteReferences() {
-            return this.sprites;
+            IRes.Sprites[] dest = new IRes.Sprites[sprites.length];
+            System.arraycopy(sprites, 0, dest, 0, sprites.length);
+            return dest;
         }
     }
 }

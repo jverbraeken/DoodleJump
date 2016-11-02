@@ -198,7 +198,7 @@ public final class ButtonFactory implements IButtonFactory {
             } else {
                 Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.regular.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
-                ChooseModeScreen.activePopup = true;
+                ChooseModeScreen.showPopup();
             }
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, regularMode, "regularMode");
@@ -208,13 +208,13 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createOkPopupButton(final double x, final double y, final scenes.Popup popup) {
+    public IButton createOkPopupButton(final double x, final double y, final Popup popup) {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getSprite(IRes.Sprites.popupOkButton);
         Runnable deletePopup = () -> {
             Game.deletePopup(popup);
-            ChooseModeScreen.activePopup = false;
+            ChooseModeScreen.hidePopup();
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, deletePopup, "popupOkButton");
     }
@@ -233,7 +233,7 @@ public final class ButtonFactory implements IButtonFactory {
             } else {
                 Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.darkness.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
-                ChooseModeScreen.activePopup = true;
+                ChooseModeScreen.showPopup();
             }
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, darknessMode, "darknessMode");
@@ -253,7 +253,7 @@ public final class ButtonFactory implements IButtonFactory {
             } else {
                 Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.invert.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
-                ChooseModeScreen.activePopup = true;
+                ChooseModeScreen.showPopup();
             }
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, invertMode, "invertMode");
@@ -273,7 +273,7 @@ public final class ButtonFactory implements IButtonFactory {
             } else {
                 Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.space.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
-                ChooseModeScreen.activePopup = true;
+                ChooseModeScreen.showPopup();
             }
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, spaceMode, "spaceMode");
@@ -293,7 +293,7 @@ public final class ButtonFactory implements IButtonFactory {
             } else {
                 Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.underwater.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
-                ChooseModeScreen.activePopup = true;
+                ChooseModeScreen.showPopup();
             }
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, underwaterMode, "underwaterMode");
@@ -311,9 +311,9 @@ public final class ButtonFactory implements IButtonFactory {
             if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.story.getRankRequired()) {
                 Game.setMode(Game.Modes.story);
             } else {
-                Popup popup = new scenes.Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.story.getRankRequired()).getName() + " rank required.");
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.story.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
-                ChooseModeScreen.activePopup = true;
+                ChooseModeScreen.showPopup();
             }
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, storyMode, "storyMode");

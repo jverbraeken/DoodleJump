@@ -5,7 +5,7 @@ import objects.blocks.platform.IPlatform;
 import objects.doodles.doodle_behavior.MovementBehavior;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the Jetpack powerup.

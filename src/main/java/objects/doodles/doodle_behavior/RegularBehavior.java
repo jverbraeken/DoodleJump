@@ -2,7 +2,6 @@ package objects.doodles.doodle_behavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
-import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import system.IServiceLocator;

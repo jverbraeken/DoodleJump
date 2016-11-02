@@ -130,8 +130,6 @@ public final class BlockFactory implements IBlockFactory {
     @Override
     public synchronized IBlock createBlock(final IJumpable topJumpable, final BlockTypes type) throws RuntimeException {
 
-        IJumpable newTopJumpable = topJumpable;
-
         switch (type) {
             case standardBlock:
                 return createTypeOnlyBlock(topJumpable, randomPlatform);

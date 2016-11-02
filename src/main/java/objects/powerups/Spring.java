@@ -9,7 +9,7 @@ import progression.SpringUsedObserver;
 import resources.audio.IAudioManager;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;

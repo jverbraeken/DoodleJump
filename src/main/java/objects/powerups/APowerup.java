@@ -5,7 +5,7 @@ import objects.AGameObject;
 import objects.blocks.platform.IPlatform;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * This class describes the abstract functionality of powerups.
@@ -64,7 +64,6 @@ public abstract class APowerup extends AGameObject implements IPowerup {
 
         double[] hitbox = platform.getHitBox();
         final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
-        final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
         int powerupXPos = (int) (calc.getRandomDouble(platformWidth));
         double[] powHitbox = this.getHitBox();
         final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];

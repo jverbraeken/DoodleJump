@@ -4,7 +4,7 @@ import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * This class describes the behaviour of the SizeUp powerup. Increasing the size of the Doodle when picked up.

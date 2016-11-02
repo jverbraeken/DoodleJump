@@ -4,8 +4,7 @@ import objects.doodles.IDoodle;
 import resources.sprites.IAnimation;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
-
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * Extended by classes that are powerups with which the Doodle can fly.

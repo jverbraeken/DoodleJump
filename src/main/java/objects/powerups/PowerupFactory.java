@@ -2,7 +2,6 @@ package objects.powerups;
 
 import logging.ILogger;
 import objects.IGameObject;
-import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import java.awt.Point;
