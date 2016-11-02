@@ -1,7 +1,7 @@
 package progression;
 
-
 import com.google.gson.reflect.TypeToken;
+import filesystem.IFileSystem;
 import logging.ILogger;
 import objects.powerups.Powerups;
 import system.IServiceLocator;
@@ -18,7 +18,7 @@ import java.util.Queue;
 
 /**
  * Standard implementation of the ProgressionManager. Used to contain all "global" variables that describe
- * the progression of the player, eg coins, highscores, unlocked/upgraded items.
+ * the progression of the player, eg coins, high scores, unlocked/upgraded items.
  */
 public final class ProgressionManager implements IProgressionManager {
 
@@ -89,7 +89,7 @@ public final class ProgressionManager implements IProgressionManager {
      * Prevents construction from outside the package.
      */
     private ProgressionManager() {
-        logger = serviceLocator.getLoggerFactory().createLogger(ProgressionManager.class);
+        this.logger = serviceLocator.getLoggerFactory().createLogger(ProgressionManager.class);
     }
 
     /**
@@ -100,7 +100,7 @@ public final class ProgressionManager implements IProgressionManager {
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         ProgressionManager.serviceLocator = sL;
-        sL.provide(new ProgressionManager());
+        ProgressionManager.serviceLocator.provide(new ProgressionManager());
     }
 
     /**
@@ -108,8 +108,8 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void init() {
-        if (powerupLevels.isEmpty()) {
-            loadData();
+        if (this.powerupLevels.isEmpty()) {
+            this.loadData();
         }
     }
 
@@ -122,8 +122,8 @@ public final class ProgressionManager implements IProgressionManager {
     @Override
     public void addHighScore(final String name, final double score) {
         HighScore scoreEntry = new HighScore(name, score);
-        highScores.add(scoreEntry);
-        updateHighScores();
+        this.highScores.add(scoreEntry);
+        this.updateHighScores();
     }
 
     /**
@@ -131,7 +131,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public List<HighScore> getHighscores() {
-        return highScores;
+        return this.highScores;
     }
 
     /**
@@ -139,7 +139,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public int getCoins() {
-        return coins;
+        return this.coins;
     }
 
     /**
@@ -147,7 +147,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public Ranks getRank() {
-        return rank;
+        return this.rank;
     }
 
     /**
@@ -155,7 +155,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public int getExperience() {
-        return experience;
+        return this.experience;
     }
 
     /**
@@ -163,7 +163,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public List<Mission> getMissions() {
-        return missions;
+        return this.missions;
     }
 
     /**
@@ -171,13 +171,13 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void alertMissionFinished(final Mission mission) {
-        if (!missions.contains(mission)) {
+        if (!this.missions.contains(mission)) {
             final String error = "The mission that's said to be finished is not an active mission";
-            logger.warning(error);
+            this.logger.warning(error);
             throw new InternalError(error);
         }
-        logger.info("Mission succeeded!");
-        finishedMissionsQueue.add(mission);
+        this.logger.info("Mission succeeded!");
+        this.finishedMissionsQueue.add(mission);
     }
 
     /**
@@ -185,8 +185,8 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void update() {
-        while (finishedMissionsQueue.size() > 0) {
-            missions.remove(finishedMissionsQueue.remove());
+        while (this.finishedMissionsQueue.size() > 0) {
+            this.missions.remove(this.finishedMissionsQueue.remove());
             createNewMission();
         }
     }
@@ -198,15 +198,15 @@ public final class ProgressionManager implements IProgressionManager {
     public int getPowerupLevel(final Powerups powerup) {
         if (powerup == null) {
             final String error = "The powerup cannot be null";
-            logger.error(error);
+            this.logger.error(error);
             throw new IllegalArgumentException(error);
         }
 
-        if (powerupLevels.get(powerup) == null) {
-            logger.warning("The powerupLevels for the powerup " + powerup.toString() + " are missing");
+        if (this.powerupLevels.get(powerup) == null) {
+            this.logger.warning("The powerupLevels for the powerup " + powerup.toString() + " are missing");
             return 0;
         } else {
-            return powerupLevels.get(powerup);
+            return this.powerupLevels.get(powerup);
         }
     }
 
@@ -215,23 +215,24 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void decreaseCoins(final int amount) {
-        assert coins >= 0;
+        assert this.coins >= 0;
 
         if (amount < 0) {
             final String error = "The amount of coins to be subtracted must be more than 0";
-            logger.error(error);
+            this.logger.error(error);
             throw new IllegalArgumentException(error);
         }
         if (coins - amount < 0) {
-            final String error = "Insufficient coins available: coins = " + coins + ", subtraction amount = " + amount;
-            logger.error(error);
+            final String error = "Insufficient coins available: coins = " + this.coins
+                    + ", subtraction amount = " + amount;
+            this.logger.error(error);
             throw new InsufficientCoinsException(error);
         }
         this.coins -= amount;
 
-        saveData();
+        this.saveData();
 
-        assert coins >= 0;
+        assert this.coins >= 0;
     }
 
     /**
@@ -242,19 +243,20 @@ public final class ProgressionManager implements IProgressionManager {
         if (amount < 0) {
             throw new IllegalArgumentException("Error: amount is negative.");
         }
-        experience += amount;
+
+        this.experience += amount;
         this.setRankAccordingExperience();
-        saveData();
+        this.saveData();
     }
 
     /**
      * Will set the rank variable according to the experience the player has.
      */
     private void setRankAccordingExperience() {
-        rank = Ranks.newbie;
+        this.rank = Ranks.newbie;
         for (Ranks checkRank : Ranks.values()) {
-            if (checkRank.getExperience() < experience) {
-                rank = checkRank;
+            if (checkRank.getExperience() < this.experience) {
+                this.rank = checkRank;
             }
         }
     }
@@ -275,7 +277,7 @@ public final class ProgressionManager implements IProgressionManager {
 
         this.powerupLevels.replace(powerup, currentLevel + 1);
 
-        saveData();
+        this.saveData();
     }
 
     /**
@@ -284,15 +286,17 @@ public final class ProgressionManager implements IProgressionManager {
     private void loadData() {
         Object jsonObject = null;
         try {
-            jsonObject = serviceLocator.getFileSystem().parseJson(serviceLocator.getConstants().getSaveFilePath(), new TypeToken<SaveFile>() {
+            jsonObject = ProgressionManager.serviceLocator.getFileSystem().parseJson(
+                    ProgressionManager.serviceLocator.getConstants().getSaveFilePath(), new TypeToken<SaveFile>() {
             }.getType());
         } catch (FileNotFoundException e) {
-            logger.warning("Save file was not found -> default progression used.");
+            this.logger.warning("Save file was not found -> default progression used.");
         }
+
         if (jsonObject == null) {
-            progressionFromDefault();
+            this.progressionFromDefault();
         } else {
-            progressionFromJson((SaveFile) jsonObject);
+            this.progressionFromJson((SaveFile) jsonObject);
         }
     }
 
@@ -305,8 +309,8 @@ public final class ProgressionManager implements IProgressionManager {
         image.setCoins(this.coins);
         image.setExperience(this.experience);
 
-        List<SaveFileHighScoreEntry> highScoreEntries = new ArrayList<>(MAX_HIGHSCORE_ENTRIES);
-        for (HighScore highScore : highScores) {
+        List<SaveFileHighScoreEntry> highScoreEntries = new ArrayList<>(ProgressionManager.MAX_HIGHSCORE_ENTRIES);
+        for (HighScore highScore : this.highScores) {
             SaveFileHighScoreEntry entry = new SaveFileHighScoreEntry();
             entry.setName(highScore.getName());
             entry.setScore(highScore.getScore());
@@ -315,16 +319,17 @@ public final class ProgressionManager implements IProgressionManager {
         image.setHighScores(highScoreEntries);
 
         Map<String, Integer> powerupLevelEntries = new HashMap<>();
-        for (Map.Entry<Powerups, Integer> entry : powerupLevels.entrySet()) {
+        for (Map.Entry<Powerups, Integer> entry : this.powerupLevels.entrySet()) {
             powerupLevelEntries.put(entry.getKey().name(), entry.getValue());
         }
         image.setPowerupLevels(powerupLevelEntries);
 
-        String json = serviceLocator.getFileSystem().serializeJson(image);
+        IFileSystem fileSystem = ProgressionManager.serviceLocator.getFileSystem();
+        String json = fileSystem.serializeJson(image);
         try {
-            serviceLocator.getFileSystem().writeProjectFile(serviceLocator.getConstants().getSaveFilePath(), json);
+            fileSystem.writeProjectFile(ProgressionManager.serviceLocator.getConstants().getSaveFilePath(), json);
         } catch (FileNotFoundException e) {
-            logger.info("Save file was not found -> a new file is made.");
+            this.logger.info("Save file was not found -> a new file is made.");
         }
     }
 
@@ -332,23 +337,23 @@ public final class ProgressionManager implements IProgressionManager {
      * Sets the progression to the default values: the values used when the game is started for the first time.
      */
     private void progressionFromDefault() {
-        powerupLevels.clear();
+        this.powerupLevels.clear();
         for (Powerups powerup : Powerups.values()) {
-            powerupLevels.put(powerup, 0);
+            this.powerupLevels.put(powerup, 0);
         }
-        powerupLevels.replace(Powerups.spring, 1);
+        this.powerupLevels.replace(Powerups.spring, 1);
 
-        coins = 0;
-        experience = 0;
-        rank = Ranks.newbie;
+        this.coins = 0;
+        this.experience = 0;
+        this.rank = Ranks.newbie;
 
-        highScores.clear();
+        this.highScores.clear();
 
-        for (int i = 0; i < MAX_MISSIONS; i++) {
-            createNewMission();
+        for (int i = 0; i < ProgressionManager.MAX_MISSIONS; i++) {
+            this.createNewMission();
         }
 
-        saveData();
+        this.saveData();
     }
 
     /**
@@ -357,65 +362,68 @@ public final class ProgressionManager implements IProgressionManager {
      * @param json The json containing the progression
      */
     private void progressionFromJson(final SaveFile json) {
-        for (int i = 0; i < MAX_MISSIONS; i++) {
+        for (int i = 0; i < ProgressionManager.MAX_MISSIONS; i++) {
             createNewMission();
         }
 
-        highScores.clear();
+        this.highScores.clear();
         for (SaveFileHighScoreEntry entry : json.getHighScores()) {
-            highScores.add(new HighScore(entry.getName(), entry.getScore()));
-            logger.info("A highscore is added: " + entry.getName() + " - " + entry.getScore());
+            this.highScores.add(new HighScore(entry.getName(), entry.getScore()));
+            this.logger.info("A highscore is added: " + entry.getName() + " - " + entry.getScore());
         }
 
-        coins = json.getCoins();
-        logger.info("Coins is set to: " + coins);
+        this.coins = json.getCoins();
+        this.logger.info("Coins is set to: " + this.coins);
 
-        experience = json.getExperience();
-        logger.info("Experience is set to: " + experience);
+        this.experience = json.getExperience();
+        this.logger.info("Experience is set to: " + this.experience);
         this.setRankAccordingExperience();
 
-        powerupLevels.clear();
+        this.powerupLevels.clear();
         for (Map.Entry<String, Integer> entry : json.getPowerupLevels().entrySet()) {
             switch (entry.getKey()) {
                 case "jetpack":
-                    powerupLevels.put(Powerups.jetpack, entry.getValue());
-                    logger.info("Jetpack level is loaded from save file: " + entry.getValue());
+                    this.powerupLevels.put(Powerups.jetpack, entry.getValue());
+                    this.logger.info("Jetpack level is loaded from save file: " + entry.getValue());
                     break;
                 case "propeller":
-                    powerupLevels.put(Powerups.propeller, entry.getValue());
-                    logger.info("Propeller level is loaded from save file: " + entry.getValue());
+                    this.powerupLevels.put(Powerups.propeller, entry.getValue());
+                    this.logger.info("Propeller level is loaded from save file: " + entry.getValue());
                     break;
                 case "sizeDown":
-                    powerupLevels.put(Powerups.sizeDown, entry.getValue());
-                    logger.info("SizeDown level is loaded from save file: " + entry.getValue());
+                    this.powerupLevels.put(Powerups.sizeDown, entry.getValue());
+                    this.logger.info("SizeDown level is loaded from save file: " + entry.getValue());
                     break;
                 case "sizeUp":
-                    powerupLevels.put(Powerups.sizeUp, entry.getValue());
-                    logger.info("SizeUp level is loaded from save file: " + entry.getValue());
+                    this.powerupLevels.put(Powerups.sizeUp, entry.getValue());
+                    this.logger.info("SizeUp level is loaded from save file: " + entry.getValue());
                     break;
                 case "spring":
-                    powerupLevels.put(Powerups.spring, entry.getValue());
-                    logger.info("Spring level is loaded from save file: " + entry.getValue());
+                    this.powerupLevels.put(Powerups.spring, entry.getValue());
+                    this.logger.info("Spring level is loaded from save file: " + entry.getValue());
                     break;
                 case "springShoes":
-                    powerupLevels.put(Powerups.springShoes, entry.getValue());
-                    logger.info("SpringShoes level is loaded from save file: " + entry.getValue());
+                    this.powerupLevels.put(Powerups.springShoes, entry.getValue());
+                    this.logger.info("SpringShoes level is loaded from save file: " + entry.getValue());
                     break;
                 case "trampoline":
-                    powerupLevels.put(Powerups.trampoline, entry.getValue());
-                    logger.info("Trampoline level is loaded from save file: " + entry.getValue());
+                    this.powerupLevels.put(Powerups.trampoline, entry.getValue());
+                    this.logger.info("Trampoline level is loaded from save file: " + entry.getValue());
                     break;
                 default:
-                    logger.warning("Unidentified powerup classifier found in savefile: \"" + entry.getKey() + "\"");
+                    this.logger.warning("Unidentified powerup classifier found in save file: \""
+                            + entry.getKey() + "\"");
                     break;
             }
         }
+
         for (Powerups powerup : Powerups.values()) {
-            if (!powerupLevels.containsKey(powerup)) {
-                powerupLevels.put(powerup, 0);
+            if (!this.powerupLevels.containsKey(powerup)) {
+                this.powerupLevels.put(powerup, 0);
             }
         }
-        updateHighScores();
+
+        this.updateHighScores();
     }
 
     /**
@@ -424,51 +432,52 @@ public final class ProgressionManager implements IProgressionManager {
      * scores are saved.
      */
     private void updateHighScores() {
-        Collections.sort(highScores);
-        for (int i = highScores.size(); i > MAX_HIGHSCORE_ENTRIES; i--) {
-            highScores.remove(i - 1);
+        Collections.sort(this.highScores);
+        for (int i = this.highScores.size(); i > ProgressionManager.MAX_HIGHSCORE_ENTRIES; i--) {
+            this.highScores.remove(i - 1);
         }
-        saveData();
+
+        this.saveData();
     }
 
     /**
      * Create a new mission based on the {@link #level} of the doodle.
      */
     private void createNewMission() {
-        assert missions.size() < MAX_MISSIONS;
-        if (level < missionsData.length) {
-            final int levelCopy = level;
-            logger.info("New mission was created: level = "
+        assert this.missions.size() < ProgressionManager.MAX_MISSIONS;
+        if (this.level < this.missionsData.length) {
+            final int levelCopy = this.level;
+            this.logger.info("New mission was created: level = "
                     + levelCopy
                     + ", mission = "
-                    + missionsData[levelCopy].type.toString()
+                    + this.missionsData[levelCopy].type.toString()
                     + ", amount = "
-                    + missionsData[levelCopy].amount
+                    + this.missionsData[levelCopy].amount
                     + ", reward = "
-                    + missionsData[levelCopy].reward);
-            missions.add(serviceLocator.getMissionFactory().createMission(
-                    missionsData[levelCopy].type,
-                    missionsData[levelCopy].observerType,
-                    missionsData[levelCopy].amount,
+                    + this.missionsData[levelCopy].reward);
+            this.missions.add(serviceLocator.getMissionFactory().createMission(
+                    this.missionsData[levelCopy].type,
+                    this.missionsData[levelCopy].observerType,
+                    this.missionsData[levelCopy].amount,
                     () -> {
-                        coins += missionsData[levelCopy].reward;
+                        this.coins += missionsData[levelCopy].reward;
                         return null;
                     }
             ));
         } else {
-            logger.info("Maximum mission limit reached at level" + level + ". Last mission created again...");
-            missions.add(serviceLocator.getMissionFactory().createMission(
-                    missionsData[missionsData.length - 1].type,
-                    missionsData[missionsData.length - 1].observerType,
-                    missionsData[missionsData.length - 1].amount,
+            this.logger.info("Maximum mission limit reached at level" + level + ". Last mission created again...");
+            this.missions.add(serviceLocator.getMissionFactory().createMission(
+                    this.missionsData[missionsData.length - 1].type,
+                    this.missionsData[missionsData.length - 1].observerType,
+                    this.missionsData[missionsData.length - 1].amount,
                     () -> {
-                        coins += missionsData[missionsData.length - 1].reward;
+                        this.coins += missionsData[missionsData.length - 1].reward;
                         return null;
                     }
             ));
         }
 
-        level++;
+        this.level++;
     }
 
     /**

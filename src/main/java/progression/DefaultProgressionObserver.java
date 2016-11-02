@@ -91,7 +91,7 @@ import java.util.concurrent.Callable;
      */
     @Override
     public final double getProgression() {
-        return counter;
+        return this.counter;
     }
 
     /**
@@ -99,7 +99,7 @@ import java.util.concurrent.Callable;
      */
     @Override
     public final void reset() {
-        counter = 0;
+        this.counter = 0;
     }
 
     /**
@@ -115,7 +115,7 @@ import java.util.concurrent.Callable;
      */
     @Override
     public final int getMaximumTimes() {
-        return times;
+        return this.times;
     }
 
     /**
@@ -129,7 +129,7 @@ import java.util.concurrent.Callable;
      * @return The service locator
      */
     protected final IServiceLocator getServiceLocator() {
-        return serviceLocator;
+        return this.serviceLocator;
     }
 
     /**
@@ -137,8 +137,8 @@ import java.util.concurrent.Callable;
      * to use that name unfortunately.
      */
     /* package */ final void alert() {
-        counter++;
-        checkFinished();
+        this.counter++;
+        this.checkFinished();
     }
 
     /**
@@ -147,10 +147,10 @@ import java.util.concurrent.Callable;
     /* package */ abstract IProgressionObserver getThis();
 
     /**
-     * Returns true if the observer has reached its goal (was notificated {@link #times} times.
+     * Returns true if the observer has reached its goal (was notified {@link #times} times).
      */
     private void checkFinished() {
-        if ((int) Math.round(counter) == times) {
+        if ((int) Math.round(this.counter) == this.times) {
             finished();
         }
     }
@@ -162,7 +162,7 @@ import java.util.concurrent.Callable;
      * @param amount The amount of which the variable that caused the trigger to alert the observers has been changed.
      */
     private void alert(final double amount) {
-        counter += amount;
+        this.counter += amount;
         checkFinished();
     }
 
@@ -171,14 +171,16 @@ import java.util.concurrent.Callable;
      */
     private void finished() {
         try {
-            action.call();
+            this.action.call();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (mission != null) {
-            mission.alertFinished();
+
+        if (this.mission != null) {
+            this.mission.alertFinished();
         }
-        finishedExtension();
+
+        this.finishedExtension();
     }
 
 }

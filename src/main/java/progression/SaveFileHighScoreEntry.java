@@ -28,7 +28,7 @@ package progression;
      * @return The name associated with the high score
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -42,7 +42,7 @@ package progression;
      * @return The score associated with the high score
      */
     public int getScore() {
-        return score;
+        return this.score;
     }
 
     /**
@@ -57,7 +57,7 @@ package progression;
      */
     @Override
     public String toString() {
-        return "HighScoreEntry{" + "name='" + name + '\'' + ", score=" + score + '}';
+        return "HighScoreEntry{" + "name='" + this.name + '\'' + ", score=" + this.score + '}';
     }
 
 }

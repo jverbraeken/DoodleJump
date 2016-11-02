@@ -35,7 +35,7 @@ package progression;
      * @return A String with the correct message of the mission type
      */
     public String getMessage(final int number) {
-        return preText + number + postText;
+        return this.preText + number + this.postText;
     }
 
 }
