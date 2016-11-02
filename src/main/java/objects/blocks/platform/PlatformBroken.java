@@ -65,16 +65,16 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
         switch (numberOfAnimation) {
             case 2:
                 getProps().replace(Platform.PlatformProperties.breaks, 3);
-                return getServiceLocator().getSpriteFactory().getSprite(IRes.Sprites.platformBroken2);
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite(2);
             case 3:
                 getProps().replace(Platform.PlatformProperties.breaks, 4);
-                return getServiceLocator().getSpriteFactory().getSprite(IRes.Sprites.platformBroken3);
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite(3);
             case 4:
                 getProps().replace(Platform.PlatformProperties.breaks, -1);
-                return getServiceLocator().getSpriteFactory().getSprite(IRes.Sprites.platformBroken4);
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite(4);
             case -1:
                 getProps().replace(Platform.PlatformProperties.breaks, -1);
-                return getServiceLocator().getSpriteFactory().getSprite(IRes.Sprites.platformBroken4);
+                return getServiceLocator().getSpriteFactory().getPlatformBrokenSprite(4);
             default:
                 return getSprite();
         }

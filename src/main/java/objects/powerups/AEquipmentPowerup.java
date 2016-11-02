@@ -92,19 +92,19 @@ import java.awt.*;
     /**
      * Flyable powerup constructor.
      *
-     * @param sL    The service locator
-     * @param point The location of the powerup
-     * @param type  The type of the powerup
-     * @param level The level of the powerup
+     * @param serviceLocator The service locator
+     * @param point          The location of the powerup
+     * @param type           The type of the powerup
+     * @param level          The level of the powerup
      */
-    /* package */ AEquipmentPowerup(final IServiceLocator sL,
+    /* package */ AEquipmentPowerup(final IServiceLocator serviceLocator,
                                     final Point point,
                                     final Powerups type,
                                     final int level) {
-        super(sL, point, type, level);
+        super(serviceLocator, point, type, level);
         this.timeLimit = type.getMaxTimeInAir(level);
-        this.defaultSprite = sL.getSpriteFactory().getSprite(type.getSprite(level));
-        this.animation = sL.getSpriteFactory().getAnimation(type.getAnimation(level));
+        this.defaultSprite = serviceLocator.getSpriteFactory().getPowerupSprite(type, level);
+        this.animation = serviceLocator.getSpriteFactory().getAnimation(type.getAnimation(level));
     }
 
     /**

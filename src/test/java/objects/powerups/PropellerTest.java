@@ -44,8 +44,6 @@ public class PropellerTest {
 
     private Propeller propeller;
     private IAnimation spritePack = mock(IAnimation.class);
-    private int max_timer = Whitebox.getInternalState(Propeller.class, "MAX_TIMER");
-    private int animation_refresh_rate = Whitebox.getInternalState(Propeller.class, "ANIMATION_REFRESH_RATE");
 
     @Before
     public void init() {
@@ -59,13 +57,16 @@ public class PropellerTest {
         when(doodle.getYPos()).thenReturn(0d);
         when(doodle.getWorld()).thenReturn(world);
         when(loggerFactory.createLogger(Propeller.class)).thenReturn(logger);
-        when(sprite.getHeight()).thenReturn(0);
+        when(sprite.getHeight()).thenReturn(10);
+        when(sprite.getWidth()).thenReturn(10);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(spriteFactory.getAnimation(Matchers.<IRes.Animations>any())).thenReturn(spritePack);
         Whitebox.setInternalState(world, "newDrawables", new HashSet<>());
         Whitebox.setInternalState(world, "newUpdatables", new ArrayList<>());
 
         propeller = new Propeller(serviceLocator, new Point(0, 0), 1);
+        when(spritePack.getLength()).thenReturn(3);
+        when(spritePack.getFromIndex(anyInt())).thenReturn(sprite);
     }
 
     @Test
@@ -127,11 +128,9 @@ public class PropellerTest {
     public void testUpdateWithOwner_Animation() {
         propeller.collidesWith(doodle);
         int currentIndex = Whitebox.getInternalState(propeller, "spriteIndex");
-
-        for (int i = 0; i < animation_refresh_rate; i++) {
+        for (int i = 0; i < Powerups.propeller.getAnimationRefreshRate(1); i++) {
             propeller.update(0d);
         }
-
         int newIndex = Whitebox.getInternalState(propeller, "spriteIndex");
         assertThat(newIndex, is(currentIndex + 1));
     }
@@ -139,7 +138,7 @@ public class PropellerTest {
     @Test
     public void testUpdateEnding() {
         propeller.collidesWith(doodle);
-        Whitebox.setInternalState(propeller, "timer", max_timer);
+        Whitebox.setInternalState(propeller, "timer", Powerups.propeller.getMaxTimeInAir(1));
         propeller.update(0d);
         verify(doodle, times(1)).removePowerup(propeller);
     }
@@ -147,12 +146,9 @@ public class PropellerTest {
     @Test
     public void testUpdateFalling() {
         propeller.collidesWith(doodle);
-        for (int i = 0; i < max_timer; i++) {
-            propeller.update(0d);
-        }
+        propeller.update(0d);
 
         propeller.update(0d);
-        verify(serviceLocator, times(1)).getConstants();
     }
 
 }

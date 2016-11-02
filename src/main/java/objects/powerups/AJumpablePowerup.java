@@ -35,7 +35,7 @@ import java.awt.Point;
     /* package */ AJumpablePowerup(final IServiceLocator sL, final Point point, final Powerups type, final int level) {
         super(sL, point, type, level);
         this.boost = type.getBoost(level);
-        this.defaultSprite = sL.getSpriteFactory().getSprite(type.getSprite(level));
+        this.defaultSprite = sL.getSpriteFactory().getPowerupSprite(type, level);
         this.usedSprite = sL.getSpriteFactory().getSprite(type.getUsedSprite(level));
     }
 

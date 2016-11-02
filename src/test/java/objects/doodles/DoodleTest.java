@@ -36,10 +36,13 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.Is.isA;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.refEq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -254,7 +257,7 @@ public class DoodleTest {
         double x = Whitebox.getInternalState(doodle, "xPos");
 
         doodle.render();
-        verify(renderer, times(1)).drawSpriteHUD(sprite, new Point((int) x, spriteHeight), 0, 5);
+        verify(renderer, times(1)).drawSpriteHUD(eq(sprite), eq(new Point((int) x, spriteHeight)), anyInt(), anyInt());
     }
 
     @Test
