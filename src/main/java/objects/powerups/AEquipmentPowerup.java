@@ -63,7 +63,7 @@ import java.awt.Point;
     private ISprite defaultSprite;
 
     /**
-     * The sprites for an active flyable powerup.
+     * The animation for an active flyable powerup.
      */
     private IAnimation animation;
     /**
