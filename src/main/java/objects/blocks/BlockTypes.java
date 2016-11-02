@@ -7,6 +7,10 @@ import java.util.List;
 
 /**
  * An enumerator describing the different blocktypes and their weighted chance of spawning.
+ *
+ * important notes:
+ * Do not change the order of the enums.
+ * When adding a new block type, add it last.
  */
 public enum BlockTypes {
 
@@ -119,9 +123,13 @@ public enum BlockTypes {
     public static void setRegularWeights() {
         setAllWeights(0);
         ArrayList<Integer> list = new ArrayList<>();
+        //Standard block
         list.add(10);
-        list.add(20);
+        //Normal platform block
         list.add(2);
+        //Horizontal platform block
+        list.add(2);
+        //Vertical platform block
         list.add(1);
         setAllWeights(list);
     }
