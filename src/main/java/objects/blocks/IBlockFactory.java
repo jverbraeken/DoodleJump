@@ -16,7 +16,7 @@ public interface IBlockFactory extends IFactory {
      * @param type the block type.
      * @return The new block.
      */
-    IBlock createBlock(IJumpable lastPlatform, BlockTypes type, boolean enemy) throws RuntimeException;
+    IBlock createBlock(final IJumpable lastPlatform, final BlockTypes type, final boolean enemy) throws RuntimeException;
 
     /**
      * Create a initial block for the game. Which generates a line of platforms to get started.
