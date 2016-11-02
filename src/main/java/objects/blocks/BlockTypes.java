@@ -2,9 +2,7 @@ package objects.blocks;
 
 import system.Game;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
 
 /**
  * An enumerator describing the different blocktypes and their weighted chance of spawning.
@@ -50,49 +48,22 @@ public enum BlockTypes {
      * @return the type.
      */
     public static BlockTypes randomType() {
-        List<BlockTypes> types = getAllTypes();
 
-        double total = 0d;
-        for (BlockTypes type : types) {
+        int total = 0;
+        for (BlockTypes type : BlockTypes.values()) {
             total += type.getWeight();
         }
 
-        double r = Math.random() * total;
+        int select = (int) (Math.ceil(Math.random() * total));
+        int current = 0;
 
-        double current = 0d;
-        for (BlockTypes type : types) {
+        for (BlockTypes type : BlockTypes.values()) {
             current += type.getWeight();
-            if (current >= r) {
+            if (current >= select) {
                 return type;
             }
         }
         throw new RuntimeException("We exceeded the list in blockTypes somehow.");
-    }
-
-    /**
-     * Set all types to a certain weight.
-     *
-     * @param w the new weight.
-     */
-    private static void setAllWeights(final int w) {
-        for (BlockTypes type : getAllTypes()) {
-            type.setWeight(w);
-        }
-    }
-
-    /**
-     * Get all the block types.
-     *
-     * @return a list of block types.
-     */
-    private static List<BlockTypes> getAllTypes() {
-        List<BlockTypes> types = new ArrayList<>();
-
-        for (BlockTypes type : BlockTypes.values()) {
-            types.add(type);
-        }
-
-        return types;
     }
 
     /**
@@ -101,10 +72,12 @@ public enum BlockTypes {
      * @param newMap the new weights.
      */
     private static void setAllWeights(final EnumMap<BlockTypes, Integer> newMap) {
-        setAllWeights(0);
+
         for (BlockTypes type : BlockTypes.values()) {
-            if (newMap.containsKey(type)){
-                map.put(type, newMap.get(type));
+            if (newMap.containsKey(type)) {
+                type.setWeight(newMap.get(type));
+            } else {
+                type.setWeight(0);
             }
         }
     }
