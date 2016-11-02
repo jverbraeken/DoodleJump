@@ -40,12 +40,12 @@ public final class WeightsMap {
     /**
      * The chance of the jetpack spawning.
      */
-    private static final double JETPACK_POWERUP = 0.009;
+    private static final double JETPACK_POWERUP = 0.9;
 
     /**
      * The chance of the propellor spawning.
      */
-    private static final double PROPELLOR_POWERUP = 0.9;
+    private static final double PROPELLOR_POWERUP = 0.009;
 
     /**
      * The chance of the size up powerup spawning.

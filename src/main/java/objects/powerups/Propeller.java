@@ -103,6 +103,20 @@ import java.awt.*;
      * {@inheritDoc}
      */
     @Override
+    public void perform(final PowerupOccasion occasion) {
+        if (this.owner == null) {
+            throw new IllegalArgumentException("Owner cannot be null");
+        }
+
+        if (occasion == PowerupOccasion.constant) {
+            this.owner.setVerticalSpeed(this.vSpeed);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void collidesWith(final IDoodle doodle) {
         if (doodle == null) {
             throw new IllegalArgumentException("Doodle cannot be null");
