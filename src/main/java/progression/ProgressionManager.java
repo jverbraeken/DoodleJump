@@ -49,7 +49,7 @@ public final class ProgressionManager implements IProgressionManager {
     private final List<HighScore> highScores = new ArrayList<>(MAX_HIGHSCORE_ENTRIES + 1);
     /**
      * Contains the current missions of the player. Note that this is a list instead of a set, because we don't
-     * want the missios to be drawn in another order every time the screen refreshes.
+     * want the missions to be drawn in another order every time the screen refreshes.
      */
     private final List<Mission> missions = new ArrayList<>();
     /**
@@ -357,7 +357,6 @@ public final class ProgressionManager implements IProgressionManager {
      * @param json The json containing the progression
      */
     private void progressionFromJson(final SaveFile json) {
-
         for (int i = 0; i < MAX_MISSIONS; i++) {
             createNewMission();
         }
@@ -433,7 +432,7 @@ public final class ProgressionManager implements IProgressionManager {
     }
 
     /**
-     * Create a new missio based on the {@link #level} of the doodle.
+     * Create a new mission based on the {@link #level} of the doodle.
      */
     private void createNewMission() {
         assert missions.size() < MAX_MISSIONS;
@@ -476,6 +475,7 @@ public final class ProgressionManager implements IProgressionManager {
      * A data container class for missions.
      */
     private static final class MissionData {
+
         /**
          * The type of the mission.
          */
@@ -507,12 +507,14 @@ public final class ProgressionManager implements IProgressionManager {
             this.amount = amount;
             this.reward = reward;
         }
+
     }
 
     /**
      * Thrown when there are more coins requested to be subtracted from the budget than there are available.
      */
     private static final class InsufficientCoinsException extends RuntimeException {
+
         /**
          * Construct a new InsufficientCoinsException with a certain message.
          *
@@ -521,5 +523,7 @@ public final class ProgressionManager implements IProgressionManager {
         private InsufficientCoinsException(final String message) {
             super(message);
         }
+
     }
+
 }

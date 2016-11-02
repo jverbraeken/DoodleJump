@@ -11,8 +11,9 @@ import java.util.Map;
  * for regular usage in the game!</b>
  */
 /* package */ final class SaveFile {
+
     /**
-     * Lists the highscores of the player.
+     * Lists the high scores of the player.
      */
     private List<SaveFileHighScoreEntry> highScores;
     /**
@@ -32,7 +33,6 @@ import java.util.Map;
      * Construct a new save file.
      */
     /* package */ SaveFile() {
-
     }
 
     /**
@@ -94,4 +94,5 @@ import java.util.Map;
     /* package */ void setPowerupLevels(final Map<String, Integer> powerupLevels) {
         this.powerupLevels = powerupLevels;
     }
+
 }

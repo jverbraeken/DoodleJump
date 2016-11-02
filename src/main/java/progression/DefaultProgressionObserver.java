@@ -8,6 +8,7 @@ import java.util.concurrent.Callable;
  * Observes a progression attribute and notifies a mission when it's finished observing.
  */
 /* package */ abstract class DefaultProgressionObserver implements IProgressionObserver {
+
     /**
      * The service locator.
      */
@@ -118,41 +119,6 @@ import java.util.concurrent.Callable;
     }
 
     /**
-     * Executes everything that must be done when the mission is finished successfully.
-     */
-    protected final void finished() {
-        try {
-            action.call();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (mission != null) {
-            mission.alertFinished();
-        }
-        finishedExtension();
-    }
-
-    /**
-     * Of course we rather use notify, but as that name is occupied already by java.lang it's not possible
-     * to use that name unfortunately.
-     */
-    protected final void alert() {
-        counter++;
-        checkFinished();
-    }
-
-    /**
-     * Of course we rather use notify, but as that name is occupied already by java.lang it's not possible
-     * to use that name unfortunately.
-     *
-     * @param amount The amount of which the variable that caused the trigger to alert the observers has been changed.
-     */
-    protected final void alert(final double amount) {
-        counter += amount;
-        checkFinished();
-    }
-
-    /**
      * Can be used by subclasses to extend the functionality of {@link #alert()} and {@link #alert(double)}.
      */
     protected void finishedExtension() {
@@ -164,6 +130,15 @@ import java.util.concurrent.Callable;
      */
     protected final IServiceLocator getServiceLocator() {
         return serviceLocator;
+    }
+
+    /**
+     * Of course we rather use notify, but as that name is occupied already by java.lang it's not possible
+     * to use that name unfortunately.
+     */
+    /* package */ final void alert() {
+        counter++;
+        checkFinished();
     }
 
     /**
@@ -179,4 +154,31 @@ import java.util.concurrent.Callable;
             finished();
         }
     }
+
+    /**
+     * Of course we rather use notify, but as that name is occupied already by java.lang it's not possible
+     * to use that name unfortunately.
+     *
+     * @param amount The amount of which the variable that caused the trigger to alert the observers has been changed.
+     */
+    private void alert(final double amount) {
+        counter += amount;
+        checkFinished();
+    }
+
+    /**
+     * Executes everything that must be done when the mission is finished successfully.
+     */
+    private void finished() {
+        try {
+            action.call();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (mission != null) {
+            mission.alertFinished();
+        }
+        finishedExtension();
+    }
+
 }

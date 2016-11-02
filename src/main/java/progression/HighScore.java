@@ -3,6 +3,8 @@ package progression;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import javax.annotation.Nonnull;
+
 /**
  * Class representing a score. <b>Is immutable</b>.
  */
@@ -43,7 +45,7 @@ public final class HighScore implements Comparable<HighScore> {
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(final HighScore that) {
+    public int compareTo(@Nonnull final HighScore that) {
         if (this.getScore() > that.getScore()) {
             return -1;
         } else if (this.getScore() < that.getScore()) {

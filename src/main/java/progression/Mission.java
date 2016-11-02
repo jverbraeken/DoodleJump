@@ -10,6 +10,7 @@ import java.awt.Point;
  * <p>This class represents a mission that the player can complete.</p>
  */
 public final class Mission {
+
     /**
      * The offset for text of the mission entry drawn at the pause menu.
      */
@@ -57,7 +58,7 @@ public final class Mission {
     /**
      * @return The maximum amount of times its observer must be notified before the mission is considered finished.
      */
-    public int getMaximumTimes() {
+    /* package */ int getMaximumTimes() {
         return observer.getMaximumTimes();
     }
 
@@ -84,4 +85,5 @@ public final class Mission {
     /* package */ void alertFinished() {
         serviceLocator.getProgressionManager().alertMissionFinished(this);
     }
+
 }

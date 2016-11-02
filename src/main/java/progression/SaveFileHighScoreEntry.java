@@ -7,7 +7,8 @@ package progression;
  * <b>NOTE: this class is designed to be used by JSON (de)serializers only and is not meant
  * for regular usage in the game!</b>
  */
-public final class SaveFileHighScoreEntry {
+/* package */ final class SaveFileHighScoreEntry {
+
     /**
      * The name associated with the high score.
      */
@@ -18,9 +19,9 @@ public final class SaveFileHighScoreEntry {
     private int score;
 
     /**
-     * Construct a new Highscore entry.
+     * Construct a new HighScore entry.
      */
-    public SaveFileHighScoreEntry() {
+    /* package */ SaveFileHighScoreEntry() {
     }
 
     /**
@@ -58,4 +59,5 @@ public final class SaveFileHighScoreEntry {
     public String toString() {
         return "HighScoreEntry{" + "name='" + name + '\'' + ", score=" + score + '}';
     }
+
 }
