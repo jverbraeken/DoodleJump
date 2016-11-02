@@ -15,7 +15,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import progression.IProgressionManager;
 import resources.IRes;
-import resources.sprites.IAnimation;
+import resources.animations.IAnimation;
+import resources.animations.IAnimationFactory;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -54,6 +55,7 @@ public class PowerupFactoryTest {
     private static ISprite sprite = mock(ISprite.class);
     private static IAnimation sprites = mock(IAnimation.class);
     private static ITrampolineCreatedObserver trampolineCreatedObserver = mock(ITrampolineCreatedObserver.class);
+    private static IAnimationFactory animationFactory = mock(IAnimationFactory.class);
     private static Jetpack jetpack = mock(Jetpack.class);
     private static Propeller propeller = mock(Propeller.class);
     private static SizeDown sizeDown = mock(SizeDown.class);
@@ -78,7 +80,7 @@ public class PowerupFactoryTest {
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
         when(loggerFactory.createLogger(PowerupFactory.class)).thenReturn(logger);
-        when(spriteFactory.getAnimation(Matchers.<IRes.Animations>any())).thenReturn(sprites);
+        when(animationFactory.getAnimation(Matchers.<IRes.Animations>any())).thenReturn(sprites);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(sprite.getWidth()).thenReturn(0);
         when(sprite.getHeight()).thenReturn(0);

@@ -6,6 +6,8 @@ import com.google.common.cache.LoadingCache;
 import logging.ILogger;
 import objects.powerups.Powerups;
 import resources.IRes;
+import resources.animations.Animation;
+import resources.animations.IAnimation;
 import scenes.PauseScreenModes;
 import system.IServiceLocator;
 
@@ -15,8 +17,6 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Standard implementation of the SpriteFactory. Used to load and get sprites.
- * <br>
- * It is not deemed necessary for all individual sprites to have a JavaDoc.
  */
 public final class SpriteFactory implements ISpriteFactory {
 
@@ -35,14 +35,9 @@ public final class SpriteFactory implements ISpriteFactory {
     private final LoadingCache<IRes.Sprites, ISprite> spriteCache;
 
     /**
-     * The animationCache for the SpriteFactory.
-     */
-    private final LoadingCache<IRes.Animations, IAnimation> animationCache;
-
-    /**
      * Prevents instantiation from outside the class.
      */
-    public SpriteFactory() {
+    private SpriteFactory() {
         this.logger = SpriteFactory.serviceLocator.getLoggerFactory().createLogger(SpriteFactory.class);
         spriteCache = CacheBuilder.newBuilder()
                 .maximumSize(Long.MAX_VALUE)
@@ -51,16 +46,6 @@ public final class SpriteFactory implements ISpriteFactory {
                             @Override
                             public ISprite load(final IRes.Sprites sprite) {
                                 return loadISprite(sprite);
-                            }
-                        }
-                );
-        animationCache = CacheBuilder.newBuilder()
-                .maximumSize(Long.MAX_VALUE)
-                .build(
-                        new CacheLoader<IRes.Animations, IAnimation>() {
-                            @Override
-                            public IAnimation load(final IRes.Animations sprite) {
-                                return loadIAnimation(sprite);
                             }
                         }
                 );
@@ -100,24 +85,6 @@ public final class SpriteFactory implements ISpriteFactory {
             e.printStackTrace();
             return null;
         }
-    }
-
-    /**
-     * Loads an ISprite with the name {@code ISpriteName}.
-     *
-     * @param animationName the enumerator defining the requested sprite
-     * @return The {@link IAnimation animation} if it was found. null otherwise
-     */
-    private IAnimation loadIAnimation(final IRes.Animations animationName) {
-        assert animationName != null;
-
-        final int animLength = animationName.getSpriteReferences().length;
-        final ISprite[] sprites = new ISprite[animLength];
-        for (int i = 0; i < animLength; i++) {
-            sprites[i] = getSprite(animationName.getSpriteReferences()[i]);
-        }
-        this.logger.info("Animation loaded: \"" + animationName.toString() + "\"");
-        return new Animation(sprites);
     }
 
     /**
@@ -200,21 +167,6 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public IAnimation getAnimation(final IRes.Animations animation) {
-        assert animation != null;
-        try {
-            return this.animationCache.get(animation);
-        } catch (ExecutionException e) {
-            this.logger.error(e);
-        }
-
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public ISprite getPlatformBrokenSprite(final int index) {
         if (index < 1 || index > 4) {
             final String error = "The index of the platformBroken sprite must be between 1 and 4 (both inclusive)";
@@ -286,7 +238,6 @@ public final class SpriteFactory implements ISpriteFactory {
      */
     @Override
     public ISprite getPowerupSprite(final Powerups powerup, final int level) throws UnavailableLevelException {
-        // TODO parameter checking
         switch (powerup) {
             case jetpack:
                 return getJetpackSprite(level);

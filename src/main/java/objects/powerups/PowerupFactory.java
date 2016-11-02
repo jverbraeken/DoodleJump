@@ -34,19 +34,19 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     private final List<IJetpackCreatedObserver> jetpackObservers = new ArrayList<>();
     /**
-     * The jetpack creation observers of PowerupFactory.
+     * The sizeDown creation observers of PowerupFactory.
      */
     private final List<ISizeDownCreatedObserver> sizeDownObservers = new ArrayList<>();
     /**
-     * The jetpack creation observers of PowerupFactory.
+     * The sizeUp creation observers of PowerupFactory.
      */
     private final List<ISizeUpCreatedObserver> sizeUpObservers = new ArrayList<>();
     /**
-     * The jetpack creation observers of PowerupFactory.
+     * The springShoes creation observers of PowerupFactory.
      */
     private final List<ISpringShoesCreatedObserver> springShoesObservers = new ArrayList<>();
     /**
-     * The jetpack creation observers of PowerupFactory.
+     * The propeller creation observers of PowerupFactory.
      */
     private final List<IPropellerCreatedObserver> propellerObservers = new ArrayList<>();
 

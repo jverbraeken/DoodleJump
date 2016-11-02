@@ -7,19 +7,17 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.Matchers;
 import org.powermock.reflect.Whitebox;
 import org.powermock.reflect.exceptions.ConstructorNotFoundException;
 import progression.IProgressionManager;
 import rendering.IRenderer;
 import resources.IRes;
+import resources.animations.IAnimationFactory;
 import resources.audio.IAudioManager;
-import resources.sprites.IAnimation;
+import resources.animations.IAnimation;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
-import java.awt.Point;
-
 import java.awt.Point;
 
 import static org.junit.Assert.assertEquals;
@@ -40,6 +38,7 @@ public class SpringTest {
     private IAudioManager audioManager;
     private IServiceLocator serviceLocator;
     private ISpriteFactory spriteFactory;
+    private IAnimationFactory animationFactory;
     private ISprite sprite, usedSprite;
     private IRenderer renderer;
     private Spring spring;
@@ -59,6 +58,7 @@ public class SpringTest {
     public void init() {
         serviceLocator = mock(IServiceLocator.class);
         spriteFactory = mock(ISpriteFactory.class);
+        animationFactory = mock(IAnimationFactory.class);
         sprite = mock(ISprite.class);
         usedSprite = mock(ISprite.class);
         audioManager = mock(IAudioManager.class);
@@ -74,7 +74,7 @@ public class SpringTest {
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(spriteFactory.getPowerupSprite(any(Powerups.class), anyInt())).thenReturn(sprite);
         when(spriteFactory.getSprite(any(IRes.Sprites.class))).thenReturn(usedSprite);
-        when(spriteFactory.getAnimation(any(IRes.Animations.class))).thenReturn(animation);
+        when(animationFactory.getAnimation(any(IRes.Animations.class))).thenReturn(animation);
         when(serviceLocator.getAudioManager()).thenReturn(audioManager);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);

@@ -34,6 +34,8 @@ import rendering.IRenderer;
 import rendering.Renderer;
 import resources.IRes;
 import resources.Res;
+import resources.animations.AnimationFactory;
+import resources.animations.IAnimationFactory;
 import resources.audio.IAudioManager;
 import resources.sprites.ISpriteFactory;
 import resources.sprites.SpriteFactory;
@@ -78,6 +80,7 @@ import scenes.SceneFactory;
     private IMissionFactory missionFactory;
 
     // resources
+    private IAnimationFactory animationFactory;
     private ISpriteFactory spriteFactory;
     private IRes res;
 
@@ -283,6 +286,15 @@ import scenes.SceneFactory;
     public void provide(final IMissionFactory missionFactory) {
         assert missionFactory != null;
         this.missionFactory = missionFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void provide(final IAnimationFactory animationFactory) {
+        assert animationFactory != null;
+        this.animationFactory = animationFactory;
     }
 
     /**
@@ -679,6 +691,15 @@ import scenes.SceneFactory;
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IAnimationFactory getAnimationFactory() {
+        assert this.animationFactory != null;
+        return this.animationFactory;
+    }
+
+    /**
      * Initialize the ServiceLocator.
      */
     private void init() {
@@ -702,5 +723,6 @@ import scenes.SceneFactory;
         ProjectileFactory.register(this);
         ProgressionManager.register(this);
         MissionFactory.register(this);
+        AnimationFactory.register(this);
     }
 }

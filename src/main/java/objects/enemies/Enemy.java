@@ -3,9 +3,7 @@ package objects.enemies;
 import objects.AGameObject;
 import objects.doodles.IDoodle;
 import rendering.IRenderer;
-import resources.sprites.Animation;
-import resources.sprites.IAnimation;
-import resources.sprites.ISprite;
+import resources.animations.IAnimation;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -56,7 +54,7 @@ public final class Enemy extends AGameObject implements IEnemy {
     /* package */ Enemy(final IServiceLocator serviceLocator, final Point point, final Enemies type) {
         super(serviceLocator, point, serviceLocator.getSpriteFactory().getSprite(type.getAnimation().getSpriteReference(0)), Enemy.class);
         this.type = type;
-        this.animation = serviceLocator.getSpriteFactory().getAnimation(this.type.getAnimation());
+        this.animation = serviceLocator.getAnimationFactory().getAnimation(this.type.getAnimation());
     }
 
     /**

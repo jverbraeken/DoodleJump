@@ -1,4 +1,6 @@
-package resources.sprites;
+package resources.animations;
+
+import resources.sprites.ISprite;
 
 /**
  * Defines an animation.

@@ -2,9 +2,7 @@ package objects.enemies;
 
 import logging.ILogger;
 import objects.IGameObject;
-import resources.IRes;
-import resources.sprites.IAnimation;
-import resources.sprites.ISprite;
+import resources.animations.IAnimation;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -48,7 +46,6 @@ public final class EnemyFactory implements IEnemyFactory {
      */
     @Override
     public IGameObject createEnemy(final Enemies type, final int x, final int y) {
-        final IAnimation animation = serviceLocator.getSpriteFactory().getAnimation(type.getAnimation());
         logger.info("A new Ordinary Enemy has been created: x = " + x + ", y = " + y);
         final Point point = new Point(x, y);
         return new Enemy(serviceLocator, point, type);

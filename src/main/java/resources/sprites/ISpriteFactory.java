@@ -2,6 +2,7 @@ package resources.sprites;
 
 import objects.powerups.Powerups;
 import resources.IRes;
+import resources.animations.IAnimation;
 import scenes.PauseScreenModes;
 import system.IFactory;
 
@@ -17,14 +18,6 @@ public interface ISpriteFactory extends IFactory {
      * @return The {@link ISprite sprite} if it was found. null otherwise
      */
     ISprite getSprite(final IRes.Sprites sprite);
-
-    /**
-     * Loads an IAnimation with the name {@code animation}.
-     *
-     * @param animation The enumerator defining the requested animation
-     * @return The {@link IAnimation animation} if it was found. null otherwise
-     */
-    IAnimation getAnimation(final IRes.Animations animation);
 
     ISprite[] getGreenDoodleSprites();
 

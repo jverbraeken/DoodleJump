@@ -29,6 +29,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      */
     @Override
     public void perform(final PowerupOccasion occasion) {
+        // Do nothing because not all powerups want to do something at an occasion.
     }
 
     /**

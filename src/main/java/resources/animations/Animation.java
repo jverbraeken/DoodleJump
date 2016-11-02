@@ -1,8 +1,22 @@
-package resources.sprites;
+package resources.animations;
 
+import resources.sprites.ISprite;
+
+/**
+ * An animation.
+ */
 public final class Animation implements IAnimation {
+
+    /**
+     * The frames of which the animation consists.
+     */
     private final ISprite[] sprites;
 
+    /**
+     * Prevents instantiation from outside the package.
+     *
+     * @param sprites The frames of the animation
+     */
     /* package */ Animation(final ISprite[] sprites) {
         this.sprites = sprites;
     }

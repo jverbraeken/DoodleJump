@@ -51,9 +51,9 @@ public class EnemyFactoryTest {
 
     @Test
     public void testCreateOrdinaryEnemy() throws Exception {
-        whenNew(Enemy.class).withArguments(serviceLocator, point, sprite).thenReturn(enemy);
+        whenNew(Enemy.class).withArguments(serviceLocator, point, Enemies.ordinaryMonster).thenReturn(enemy);
         enemyFactory.createEnemy(Enemies.ordinaryMonster, xPos, yPos);
-        verifyNew(Enemy.class).withArguments(serviceLocator, point, sprite);
+        verifyNew(Enemy.class).withArguments(serviceLocator, point, Enemies.ordinaryMonster);
     }
 
 }

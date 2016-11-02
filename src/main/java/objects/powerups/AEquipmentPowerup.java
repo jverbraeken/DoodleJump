@@ -1,7 +1,7 @@
 package objects.powerups;
 
 import objects.doodles.IDoodle;
-import resources.sprites.IAnimation;
+import resources.animations.IAnimation;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 import java.awt.Point;
@@ -103,7 +103,7 @@ import java.awt.Point;
         super(serviceLocator, point, type, level);
         this.timeLimit = type.getMaxTimeInAir(level);
         this.defaultSprite = serviceLocator.getSpriteFactory().getPowerupSprite(type, level);
-        this.animation = serviceLocator.getSpriteFactory().getAnimation(type.getAnimation(level));
+        this.animation = serviceLocator.getAnimationFactory().getAnimation(type.getAnimation(level));
     }
 
     /**

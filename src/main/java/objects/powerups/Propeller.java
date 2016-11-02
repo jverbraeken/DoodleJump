@@ -2,7 +2,7 @@ package objects.powerups;
 
 import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
-import resources.sprites.IAnimation;
+import resources.animations.IAnimation;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -76,7 +76,7 @@ import java.awt.Point;
     /* package */ Propeller(final IServiceLocator serviceLocator, final Point point, final int level) {
         super(serviceLocator, point, Powerups.propeller, level);
         final Powerups type = Powerups.propeller;
-        this.animation = serviceLocator.getSpriteFactory().getAnimation(type.getAnimation(level));
+        this.animation = serviceLocator.getAnimationFactory().getAnimation(type.getAnimation(level));
         this.acceleration = type.getAcceleration(level);
         this.initialDropSpeed = type.getInitDropSpeed(level);
         this.boost = type.getBoost(level);

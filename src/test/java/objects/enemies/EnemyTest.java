@@ -7,16 +7,22 @@ import objects.blocks.platform.Platform;
 import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
+import resources.IRes;
+import resources.animations.IAnimation;
+import resources.animations.IAnimationFactory;
 import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 import java.awt.Point;
-import java.lang.reflect.Field;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -31,6 +37,9 @@ public class EnemyTest {
     IServiceLocator serviceLocator = mock(IServiceLocator.class);
     ISprite sprite = mock(ISprite.class);
     ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
+    ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
+    private IAnimationFactory animationFactory = mock(IAnimationFactory.class);
+    IAnimation animation = mock(IAnimation.class);
 
     Enemy enemy;
 
@@ -42,16 +51,17 @@ public class EnemyTest {
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
+        when(serviceLocator.getAnimationFactory()).thenReturn(animationFactory);
+        when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
+        when(animationFactory.getAnimation(Matchers.<IRes.Animations>any())).thenReturn(animation);
+        when(animation.getFromIndex(anyInt())).thenReturn(mock(ISprite.class));
 
         enemy = new Enemy(serviceLocator, new Point(1, 1), Enemies.ordinaryMonster);
     }
 
     @Test
     public void getBoostTest() throws NoSuchFieldException, IllegalAccessException {
-        Field field = Enemy.class.getDeclaredField("BOOST");
-        field.setAccessible(true);
-
-        assertThat(enemy.getBoost(), is(field.get(enemy)));
+        assertThat(enemy.getBoost(), is(Enemies.ordinaryMonster.getBoost()));
     }
 
     @Test
@@ -59,7 +69,7 @@ public class EnemyTest {
         enemy.render();
 
         verify(serviceLocator).getRenderer();
-        verify(renderer).drawSprite(sprite, new Point(1, 1));
+        verify(renderer).drawSprite(Matchers.<ISprite>any(), eq(new Point(1, 1)));
     }
 
     @Test
@@ -77,16 +87,14 @@ public class EnemyTest {
         Whitebox.setInternalState(enemy, "alive", false);
         enemy.update(0d);
 
-        verify(serviceLocator, times(1)).getConstants();
         verify(constants, times(1)).getGravityAcceleration();
     }
 
     @Test
     public void testUpdateChangeMovingDirection() {
-        double movingDistance = Whitebox.getInternalState(Enemy.class, "MOVING_DISTANCE");
         Whitebox.setInternalState(enemy, "movingDirection", 1);
 
-        int offset = (int) movingDistance * 2;
+        int offset = (int) Enemies.ordinaryMonster.getMovingDistance() * 2;
         Whitebox.setInternalState(enemy, "offset", offset);
 
         enemy.update(0d);
@@ -96,10 +104,9 @@ public class EnemyTest {
 
     @Test
     public void testUpdateChangeMovingDirection2() {
-        double movingDistance = Whitebox.getInternalState(Enemy.class, "MOVING_DISTANCE");
         Whitebox.setInternalState(enemy, "movingDirection", 0);
 
-        int offset = (int) movingDistance * -2;
+        int offset = (int) Enemies.ordinaryMonster.getMovingDistance() * -2;
         Whitebox.setInternalState(enemy, "offset", offset);
 
         enemy.update(0d);
@@ -115,7 +122,7 @@ public class EnemyTest {
         }
 
         verify(serviceLocator, Mockito.times(10)).getRenderer();
-        verify(renderer, Mockito.times(10)).drawSprite(sprite, new Point(1, 1));
+        verify(renderer, Mockito.times(10)).drawSprite(Matchers.<ISprite>any(), eq(new Point(1, 1)));
     }
 
     @Test
