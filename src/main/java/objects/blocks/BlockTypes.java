@@ -3,67 +3,45 @@ package objects.blocks;
 import system.Game;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 
 /**
  * An enumerator describing the different blocktypes and their weighted chance of spawning.
- *
- * important notes:
- * Do not change the order of the enums.
- * When adding a new block type, add it last.
  */
 public enum BlockTypes {
 
     /**
      * A standard block.
      */
-    standardBlock(10),
+    standardBlock,
 
     /**
      * Normal platforms only.
      */
-    normalOnlyBlock(2),
+    normalOnlyBlock,
 
     /**
      * Horizontal platforms only.
      */
-    horizontalOnlyBlock(2),
+    horizontalOnlyBlock,
 
     /**
      * Vertical platforms only.
      */
-    verticalOnlyBlock(1);
+    verticalOnlyBlock;
 
     /**
-     * The weight of the block type.
+     * A map containing the weight of each block type.
      */
-    private int weight;
+    private static EnumMap<BlockTypes, Integer> map;
 
     /**
      * Initialize the weight.
-     *
-     * @param w the weight
      */
-    /* package */BlockTypes(final int w) {
-        weight = w;
-    }
-
-    /**
-     * Get the weight of the block type.
-     *
-     * @return the weight
-     */
-    private int getWeight() {
-        return weight;
-    }
-
-    /**
-     * Set the weight of the block type.
-     *
-     * @param w the new weight.
-     */
-    private void setWeight(final int w) {
-        weight = w;
+    static {
+        map = new EnumMap<>(BlockTypes.class);
+        setMode(Game.Modes.regular);
     }
 
     /**
@@ -110,7 +88,7 @@ public enum BlockTypes {
     private static List<BlockTypes> getAllTypes() {
         List<BlockTypes> types = new ArrayList<>();
 
-        for(BlockTypes type : BlockTypes.values()) {
+        for (BlockTypes type : BlockTypes.values()) {
             types.add(type);
         }
 
@@ -118,89 +96,77 @@ public enum BlockTypes {
     }
 
     /**
-     * Reset the standard weights.
-     */
-    public static void setRegularWeights() {
-        setAllWeights(0);
-        ArrayList<Integer> list = new ArrayList<>();
-        //Standard block
-        list.add(10);
-        //Normal platform block
-        list.add(2);
-        //Horizontal platform block
-        list.add(2);
-        //Vertical platform block
-        list.add(1);
-        setAllWeights(list);
-    }
-
-    /**
      * Set the weights of the blocktypes.
      *
-     * @param w the new weights.
+     * @param newMap the new weights.
      */
-    public static void setAllWeights(final List<Integer> w) {
-        List<Integer> weights = w;
-        List<BlockTypes> types = getAllTypes();
-
-        while (weights.size() < types.size()) {
-            weights.add(0);
-        }
-
-        int i = 0;
-
-        for (BlockTypes type : types) {
-            type.setWeight(weights.get(i++));
+    private static void setAllWeights(final EnumMap<BlockTypes, Integer> newMap) {
+        setAllWeights(0);
+        for (BlockTypes type : BlockTypes.values()) {
+            if (newMap.containsKey(type)){
+                map.put(type, newMap.get(type));
+            }
         }
     }
 
     /**
      * Set the weigths to match the game mode.
+     *
      * @param m the new game mode.
      */
     public static void setMode(final Game.Modes m) {
-        setRegularWeights();
+        EnumMap<BlockTypes, Integer> newMap = new EnumMap<>(BlockTypes.class);
+
         switch (m) {
             case regular:
+                newMap.put(standardBlock, 10);
+                newMap.put(normalOnlyBlock, 2);
+                newMap.put(horizontalOnlyBlock, 2);
+                newMap.put(verticalOnlyBlock, 1);
                 break;
             case space:
+                newMap.put(standardBlock, 10);
+                newMap.put(normalOnlyBlock, 2);
+                newMap.put(horizontalOnlyBlock, 2);
+                newMap.put(verticalOnlyBlock, 1);
                 break;
             case underwater:
+                newMap.put(standardBlock, 10);
+                newMap.put(normalOnlyBlock, 2);
+                newMap.put(horizontalOnlyBlock, 2);
+                newMap.put(verticalOnlyBlock, 1);
                 break;
             case verticalOnly:
-                List<Integer> verticalOnlyWeights = new ArrayList<>();
-                //regular blocks.
-                verticalOnlyWeights.add(0);
-                //normal only blocks.
-                verticalOnlyWeights.add(0);
-                //horizontal only blocks.
-                verticalOnlyWeights.add(0);
-                //vertical only blocks.
-                verticalOnlyWeights.add(1);
-                setAllWeights(verticalOnlyWeights);
+                newMap.put(verticalOnlyBlock, 1);
                 break;
             case darkness:
-                List<Integer> darknessWeights = new ArrayList<>();
-                //regular blocks.
-                darknessWeights.add(0);
-                //normal only blocks.
-                darknessWeights.add(1);
-                setAllWeights(darknessWeights);
+                newMap.put(normalOnlyBlock, 1);
                 break;
             case horizontalOnly:
-                List<Integer> horizontalOnlyWeigths = new ArrayList<>();
-                //regular blocks.
-                horizontalOnlyWeigths.add(0);
-                //normal only blocks.
-                horizontalOnlyWeigths.add(0);
-                //horizontal only blocks.
-                horizontalOnlyWeigths.add(1);
-                //vertical only blocks.
-                horizontalOnlyWeigths.add(0);
-                setAllWeights(horizontalOnlyWeigths);
+                newMap.put(horizontalOnlyBlock, 1);
                 break;
             default:
                 throw new RuntimeException("No such mode (" + m + ") in modes");
         }
+
+        setAllWeights(newMap);
+    }
+
+    /**
+     * Get the weight of the block type.
+     *
+     * @return the weight
+     */
+    private int getWeight() {
+        return map.get(this);
+    }
+
+    /**
+     * Set the weight of the block type.
+     *
+     * @param w the new weight.
+     */
+    private void setWeight(final int w) {
+        map.put(this, w);
     }
 }
