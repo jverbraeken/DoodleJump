@@ -20,7 +20,7 @@ import java.awt.Point;
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-public class ChooseModeScreen implements IScene {
+public final class ChooseModeScreen implements IScene {
 
     /**
      * X & Y location in relation to the frame of the regular mode button.

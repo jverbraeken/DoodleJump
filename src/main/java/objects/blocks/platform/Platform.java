@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * This class focuses on the implementation of platforms.
  */
-public class Platform extends AGameObject implements IPlatform {
+public final class Platform extends AGameObject implements IPlatform {
 
     /**
      * The boost the Doodle gets from colliding with the platform.
