@@ -1,7 +1,10 @@
 package objects.enemies;
 
+import objects.AGameObject;
 import objects.doodles.IDoodle;
 import rendering.IRenderer;
+import resources.sprites.Animation;
+import resources.sprites.IAnimation;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -10,26 +13,7 @@ import java.awt.Point;
 /**
  * A sample enemy class.
  */
-public class Enemy extends AEnemy {
-
-    /**
-     * The boost the Doodle gets from colliding with the Enemy.
-     */
-    private static final double BOOST = -22;
-
-    /**
-     * When the Enemy is hit, the Doodle shouldn't go faster than this.
-     */
-    private static final double TOO_FAST_SPEED = -5;
-
-    /**
-     * Will move 15 pixels left and right.
-     */
-    private static final double MOVING_DISTANCE = 15;
-    /**
-     * The amount of experience gained from killing this enemy.
-     */
-    private static final int EXP_AMOUNT_AT_KILL = 200;
+public final class Enemy extends AGameObject implements IEnemy {
 
     /**
      * OffSet of the movement from left to right.
@@ -53,50 +37,62 @@ public class Enemy extends AEnemy {
     private boolean alive = true;
 
     /**
+     * The type of the enemy.
+     */
+    private final Enemies type;
+
+    /**
+     * The animation of the enemy.
+     */
+    private final IAnimation animation;
+
+    /**
      * Creates a new enemy and determines its hitbox by using the sprites dimensions automatically.
      *
-     * @param sL The service locator
+     * @param serviceLocator The service locator
      * @param point The coordinates of the enemy
-     * @param sprite The sprite of the enemy
+     * @param type The type of the enemy
      */
-    public Enemy(final IServiceLocator sL, final Point point, final ISprite sprite) {
-        super(sL, EXP_AMOUNT_AT_KILL, point, sprite, Enemy.class);
+    /* package */ Enemy(final IServiceLocator serviceLocator, final Point point, final Enemies type) {
+        super(serviceLocator, point, serviceLocator.getSpriteFactory().getSprite(type.getAnimation().getSpriteReference(0)), Enemy.class);
+        this.type = type;
+        this.animation = serviceLocator.getSpriteFactory().getAnimation(this.type.getAnimation());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final double getBoost() {
-        return Enemy.BOOST;
+    public double getBoost() {
+        return type.getBoost();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         IRenderer renderer = getServiceLocator().getRenderer();
-        renderer.drawSprite(getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
+        renderer.drawSprite(this.animation.getFromIndex(0), new Point((int) this.getXPos(), (int) this.getYPos()));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         if (this.alive) {
             int xPos;
             if (this.movingDirection == 1) {
                 xPos = (int) (this.getXPos() + 2);
                 this.offset = this.offset + 2;
-                if (this.offset > Enemy.MOVING_DISTANCE) {
+                if (this.offset > type.getMovingDistance()) {
                     this.movingDirection = 0;
                 }
             } else {
                 xPos = (int) (this.getXPos() - 2);
                 this.offset = this.offset - 2;
-                if (this.offset < -Enemy.MOVING_DISTANCE) {
+                if (this.offset < -type.getMovingDistance()) {
                     this.movingDirection = 1;
                 }
             }
@@ -110,14 +106,14 @@ public class Enemy extends AEnemy {
      * {@inheritDoc}
      */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         if (doodle.getVerticalSpeed() > 0) {
             alive = false;
             vSpeed = doodle.getVerticalSpeed();
             doodle.collide(this);
         } else if (alive) {
-            if (doodle.getVerticalSpeed() < TOO_FAST_SPEED) {
-                doodle.setVerticalSpeed(TOO_FAST_SPEED);
+            if (doodle.getVerticalSpeed() < type.getTooFastSpeed()) {
+                doodle.setVerticalSpeed(type.getTooFastSpeed());
             }
             doodle.setAlive(false);
         }
@@ -127,7 +123,7 @@ public class Enemy extends AEnemy {
      * {@inheritDoc}
      */
     @Override
-    public final int getOffSet() {
+    public int getOffSet() {
         return this.offset;
     }
 
@@ -135,23 +131,32 @@ public class Enemy extends AEnemy {
      * {@inheritDoc}
      */
     @Override
-    public final double getVerticalSpeed() {
+    public double getVerticalSpeed() {
         return this.vSpeed;
     }
 
     /**
      * Apply gravity to the Breaking platform.
      */
-    public final void applyGravity() {
+    @Override
+    public void applyGravity() {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getAmountOfExperience() {
+        return type.getExpAmountAtKill();
     }
 
     /**
      * Get if the Enemy is alive.
      * @return the attribute alive.
      */
-    public final boolean isAlive() {
+    public boolean isAlive() {
         return this.alive;
     }
 
@@ -159,7 +164,7 @@ public class Enemy extends AEnemy {
      * Set if the Enemy is alive.
      * @param alive a boolean if the Enemy is alive.
      */
-    public final void setAlive(final boolean alive) {
+    public void setAlive(final boolean alive) {
         this.alive = alive;
     }
 

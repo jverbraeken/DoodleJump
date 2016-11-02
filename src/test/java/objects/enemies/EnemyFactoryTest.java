@@ -2,7 +2,6 @@ package objects.enemies;
 
 import logging.ILogger;
 import logging.ILoggerFactory;
-import objects.powerups.PowerupFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +52,7 @@ public class EnemyFactoryTest {
     @Test
     public void testCreateOrdinaryEnemy() throws Exception {
         whenNew(Enemy.class).withArguments(serviceLocator, point, sprite).thenReturn(enemy);
-        enemyFactory.createOrdinaryEnemy(xPos, yPos);
+        enemyFactory.createEnemy(Enemies.ordinaryMonster, xPos, yPos);
         verifyNew(Enemy.class).withArguments(serviceLocator, point, sprite);
     }
 

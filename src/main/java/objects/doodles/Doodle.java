@@ -10,7 +10,7 @@ import objects.doodles.doodle_behavior.MovementBehavior;
 import objects.doodles.doodle_behavior.RegularBehavior;
 import objects.doodles.doodle_behavior.SpaceBehavior;
 import objects.doodles.doodle_behavior.UnderwaterBehavior;
-import objects.enemies.AEnemy;
+import objects.enemies.IEnemy;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import rendering.ICamera;
@@ -87,27 +87,22 @@ public class Doodle extends AGameObject implements IDoodle {
     private static volatile IPowerup fakePowerup = new IPowerup() {
         @Override
         public void perform(PowerupOccasion occasion) {
-
         }
 
         @Override
         public void setPositionOnPlatform(IPlatform platform) {
-
         }
 
         @Override
         public void endPowerup() {
-
         }
 
         @Override
         public void addXPos(double xPos) {
-
         }
 
         @Override
         public void addYPos(double yPos) {
-
         }
 
         @Override
@@ -117,7 +112,6 @@ public class Doodle extends AGameObject implements IDoodle {
 
         @Override
         public void collidesWith(IDoodle doodle) {
-
         }
 
         @Override
@@ -147,32 +141,26 @@ public class Doodle extends AGameObject implements IDoodle {
 
         @Override
         public void setHitBox(int left, int top, int right, int bottom) {
-
         }
 
         @Override
         public void setSprite(ISprite sprite) {
-
         }
 
         @Override
         public void setXPos(double xPos) {
-
         }
 
         @Override
         public void setYPos(double yPos) {
-
         }
 
         @Override
         public void render() {
-
         }
 
         @Override
         public void update(double delta) {
-
         }
     };
     /**
@@ -227,17 +215,17 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Doodle constructor.
      *
-     * @param sL The service locator.
+     * @param serviceLocator The service locator.
      * @param world  The world the Doodle lives in.
      */
-    /* package */ Doodle(final IServiceLocator sL, final ISprite[] sprites, final World world) {
-        super(sL,
-                new Point(sL.getConstants().getGameWidth() / 2,
-                        sL.getConstants().getGameHeight() / 2),
+    /* package */ Doodle(final IServiceLocator serviceLocator, final ISprite[] sprites, final World world) {
+        super(serviceLocator,
+                new Point(serviceLocator.getConstants().getGameWidth() / 2,
+                        serviceLocator.getConstants().getGameHeight() / 2),
                 sprites[0],
                 Doodle.class);
 
-        this.shootingObserver = new ShootingObserver(sL, this);
+        this.shootingObserver = new ShootingObserver(serviceLocator, this);
 
         this.updateHitBox();
         this.setBehavior(Game.getMode());
@@ -279,8 +267,8 @@ public class Doodle extends AGameObject implements IDoodle {
         double boost = jumpable.getBoost();
         this.behavior.setVerticalSpeed(boost);
         this.getPowerup().perform(PowerupOccasion.collision);
-        if (jumpable instanceof AEnemy) {
-            addExperiencePoints(((AEnemy) jumpable).getAmountOfExperience());
+        if (jumpable instanceof IEnemy) {
+            addExperiencePoints(((IEnemy) jumpable).getAmountOfExperience());
         }
     }
 

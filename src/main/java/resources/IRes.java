@@ -1,5 +1,6 @@
 package resources;
 
+import resources.sprites.ISprite;
 import system.Game;
 
 /**
@@ -249,6 +250,71 @@ public interface IRes {
                 IRes.Sprites.propeller1,
                 IRes.Sprites.propeller0,
                 IRes.Sprites.propeller2
+        ),
+        puddingMonster(
+                IRes.Sprites.puddingMonster1,
+                IRes.Sprites.puddingMonster2,
+                IRes.Sprites.puddingMonster3,
+                IRes.Sprites.puddingMonster4,
+                IRes.Sprites.puddingMonster5
+        ),
+        /**
+         * By default the blue twin
+         */
+        twinMonster(
+                IRes.Sprites.twinMonster
+        ),
+        /**
+         * By default three yellow eyes
+         */
+        threeEyedMonster(
+                IRes.Sprites.threeEyedMonster1,
+                IRes.Sprites.threeEyedMonster2,
+                IRes.Sprites.threeEyedMonster3,
+                IRes.Sprites.threeEyedMonster4,
+                IRes.Sprites.threeEyedMonster5
+        ),
+        /**
+         * By default a blue monster with 2 red teeth
+         */
+        vampireMonster(
+                IRes.Sprites.vampireMonster1,
+                IRes.Sprites.vampireMonster2,
+                IRes.Sprites.vampireMonster3,
+                IRes.Sprites.vampireMonster4,
+                IRes.Sprites.vampireMonster5
+        ),
+        /**
+         * By default the purple monster with a blank head
+         */
+        ordinaryMonster(
+                IRes.Sprites.ordinaryMonster
+        ),
+        /**
+         * By default with three flaps at its Left and Right side and three eyes
+         */
+        cactusMonster(
+                IRes.Sprites.cactusMonster1,
+                IRes.Sprites.cactusMonster2
+        ),
+        /**
+         * By default a blue pudding with 5 red feet
+         */
+        fiveFeetMonster(
+                IRes.Sprites.fiveFeetMonster
+        ),
+        /**
+         * By default a green very low monster with 5 feet
+         */
+        lowFiveFeetMonster(
+                IRes.Sprites.lowFiveFeetMonster1,
+                IRes.Sprites.lowFiveFeetMonster2
+        ),
+        /**
+         * By default a very small three eyed red monster
+         */
+        smallMonster(
+                IRes.Sprites.smallMonster
         );
 
         private final IRes.Sprites[] sprites;
@@ -261,6 +327,16 @@ public interface IRes {
             IRes.Sprites[] dest = new IRes.Sprites[sprites.length];
             System.arraycopy(sprites, 0, dest, 0, sprites.length);
             return dest;
+        }
+
+        public IRes.Sprites getSpriteReference(final int index) {
+            if (index < 0) {
+                throw new IllegalArgumentException("Negative values are not allowed for an animation index");
+            }
+            if (index >= sprites.length) {
+                throw new IllegalArgumentException("The frame requested was number " + index + ", while the maximum number of frames is " + sprites.length);
+            }
+            return this.sprites[index];
         }
     }
 }

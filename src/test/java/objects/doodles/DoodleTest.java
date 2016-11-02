@@ -10,7 +10,7 @@ import objects.IJumpable;
 import objects.doodles.doodle_behavior.MovementBehavior;
 import objects.doodles.doodle_behavior.RegularBehavior;
 import objects.doodles.projectiles.RegularProjectile;
-import objects.enemies.AEnemy;
+import objects.enemies.IEnemy;
 import objects.enemies.Enemy;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
@@ -57,7 +57,7 @@ public class DoodleTest {
     static ISprite spriteRight1 = mock(ISprite.class);
     static ISprite spriteRight2 = mock(ISprite.class);
 
-    AEnemy enemy = mock(AEnemy.class);
+    IEnemy enemy = mock(IEnemy.class);
     ICamera camera = mock(ICamera.class);
     IConstants constants = mock(IConstants.class);
     IInputManager inputManager = mock(IInputManager.class);

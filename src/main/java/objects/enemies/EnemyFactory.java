@@ -3,6 +3,7 @@ package objects.enemies;
 import logging.ILogger;
 import objects.IGameObject;
 import resources.IRes;
+import resources.sprites.IAnimation;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -46,11 +47,11 @@ public final class EnemyFactory implements IEnemyFactory {
      * {@inheritDoc}
      */
     @Override
-    public IGameObject createOrdinaryEnemy(final int x, final int y) {
-        ISprite sprite = serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.ordinaryMonster);
+    public IGameObject createEnemy(final Enemies type, final int x, final int y) {
+        final IAnimation animation = serviceLocator.getSpriteFactory().getAnimation(type.getAnimation());
         logger.info("A new Ordinary Enemy has been created: x = " + x + ", y = " + y);
         final Point point = new Point(x, y);
-        return new Enemy(serviceLocator, point, sprite);
+        return new Enemy(serviceLocator, point, type);
     }
 
 }

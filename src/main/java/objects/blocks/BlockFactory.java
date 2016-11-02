@@ -8,6 +8,7 @@ import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
+import objects.enemies.Enemies;
 import objects.powerups.IPowerup;
 import system.IServiceLocator;
 
@@ -253,7 +254,7 @@ public final class BlockFactory implements IBlockFactory {
         ICalc calc = serviceLocator.getCalc();
         double randomDouble = calc.getRandomDouble(MAX_RANDOM_THRESHOLD);
         final int randomNr = (int) (randomDouble);
-        IGameObject enemy = null;
+        IGameObject enemy;
 
         if (randomNr >= ENEMY_CHANCE) {
             do {
@@ -278,6 +279,6 @@ public final class BlockFactory implements IBlockFactory {
         int xLoc = (int) (widthDeviation * (serviceLocator.getConstants().getGameWidth() - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
         int yLoc = (int) (platform.getYPos() - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
 
-        return serviceLocator.getEnemyFactory().createOrdinaryEnemy(xLoc, yLoc);
+        return serviceLocator.getEnemyFactory().createEnemy(Enemies.ordinaryMonster, xLoc, yLoc);
     }
 }

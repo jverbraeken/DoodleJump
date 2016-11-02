@@ -121,6 +121,10 @@ public final class PlatformFactory implements IPlatformFactory {
         return new PlatformBroken(serviceLocator, platform);
     }
 
+    /**
+     * Create a new random platform.
+     * @return A platform with a random type
+     */
     private IPlatform createRandomPlatform() {
         return (IPlatform) platformGenerationSet.getRandomElement();
     }

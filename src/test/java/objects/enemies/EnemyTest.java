@@ -43,7 +43,7 @@ public class EnemyTest {
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
 
-        enemy = new Enemy(serviceLocator, new Point(1, 1), sprite);
+        enemy = new Enemy(serviceLocator, new Point(1, 1), Enemies.ordinaryMonster);
     }
 
     @Test

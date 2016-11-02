@@ -8,7 +8,7 @@ import objects.blocks.BlockTypes;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
-import objects.enemies.AEnemy;
+import objects.enemies.IEnemy;
 import objects.powerups.Powerups;
 import rendering.AccelerationType;
 import rendering.ICamera;
@@ -276,8 +276,8 @@ public class World implements IScene {
                     if (doodle.checkCollision(element)) {
                         element.collidesWith(doodle);
                     }
-                    if (element instanceof AEnemy) {
-                        AEnemy enemy = (AEnemy) element;
+                    if (element instanceof IEnemy) {
+                        IEnemy enemy = (IEnemy) element;
                         HashSet<IGameObject> projectilesToRemove = new HashSet<>();
                         for (IGameObject projectile : doodle.getProjectiles()) {
                             if (projectile.checkCollision(enemy)) {
