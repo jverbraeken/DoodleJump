@@ -47,10 +47,19 @@ public interface IRes {
         shopCover,
 
         // Doodle
-        doodleLeftAscend,
-        doodleLeftDescend,
-        doodleRightAscend,
-        doodleRightDescend,
+        doodleArrow,
+        greenDoodleLeftAscend,
+        greenDoodleLeftDescend,
+        greenDoodleRightAscend,
+        greenDoodleRightDescend,
+        redDoodleLeftAscend,
+        redDoodleLeftDescend,
+        redDoodleRightAscend,
+        redDoodleRightDescend,
+        blueDoodleLeftAscend,
+        blueDoodleLeftDescend,
+        blueDoodleRightAscend,
+        blueDoodleRightDescend,
 
         // projectiles
         regularProjectile,
@@ -147,7 +156,6 @@ public interface IRes {
         jetpack6,
         jetpack7,
         jetpack8,
-        jetpack9,
         propeller0,
         propeller1,
         propeller2,
@@ -224,8 +232,7 @@ public interface IRes {
                 IRes.Sprites.jetpack5,
                 IRes.Sprites.jetpack6,
                 IRes.Sprites.jetpack7,
-                IRes.Sprites.jetpack8,
-                IRes.Sprites.jetpack9
+                IRes.Sprites.jetpack8
         ),
         spaceRocket(
                 IRes.Sprites.spaceRocket0,

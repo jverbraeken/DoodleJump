@@ -1,5 +1,7 @@
 package objects.blocks.platform;
 
+import math.GenerationSet;
+import objects.blocks.ElementTypes;
 import resources.IRes;
 import resources.sprites.ISprite;
 import system.Game;
@@ -18,9 +20,16 @@ public final class PlatformFactory implements IPlatformFactory {
     private static transient IServiceLocator serviceLocator;
 
     /**
+     * A weighted set for the spawning of platforms.
+     */
+    private GenerationSet platformGenerationSet;
+
+    /**
      * Prevent instantiations of PlatformFactory.
      */
-    private PlatformFactory() { }
+    private PlatformFactory() {
+        platformGenerationSet = new GenerationSet(serviceLocator, "platforms");
+    }
 
     /**
      * Register the block factory into the service locator.
@@ -45,8 +54,7 @@ public final class PlatformFactory implements IPlatformFactory {
         IPlatform platform = new Platform(serviceLocator, point, sprite);
 
         if (Game.getMode().equals(Game.Modes.darkness)) {
-            IPlatform darkness = new PlatformDarkness(serviceLocator, platform);
-            return  darkness;
+            return new PlatformDarkness(serviceLocator, platform);
         }
         return platform;
     }
@@ -55,11 +63,42 @@ public final class PlatformFactory implements IPlatformFactory {
      * {@inheritDoc}
      */
     @Override
+    public IPlatform createPlatform(final ElementTypes type) {
+        switch (type) {
+            case normalPlatform:
+                return createPlatform(0, 0);
+            case verticalMovingPlatform:
+                return createVerticalMovingPlatform(0, 0);
+            case horizontalMovingPlatform:
+                return createHorizontalMovingPlatform(0, 0);
+            case darknessPlatform:
+                return createDarknessPlatform(0, 0);
+            case randomPlatform:
+                return createRandomPlatform(0, 0);
+            default:
+                throw new RuntimeException("No such element (" + type + ") in platform types");
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IPlatform createDarknessPlatform(final int x, final int y) {
+        ISprite sprite = serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.platform1);
+        final Point point = new Point(x, y);
+        IPlatform platform = new Platform(serviceLocator, point, sprite);
+        return new PlatformDarkness(serviceLocator, platform);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IPlatform createHorizontalMovingPlatform(final int x, final int y) {
         IPlatform platform = createPlatform(x, y);
-        IPlatform sideways = new PlatformHorizontal(serviceLocator, platform);
 
-        return sideways;
+        return new PlatformHorizontal(serviceLocator, platform);
     }
 
     /**
@@ -68,9 +107,8 @@ public final class PlatformFactory implements IPlatformFactory {
     @Override
     public IPlatform createVerticalMovingPlatform(final int x, final int y) {
         IPlatform platform = createPlatform(x, y);
-        IPlatform vertical = new PlatformVertical(serviceLocator, platform);
 
-        return vertical;
+        return new PlatformVertical(serviceLocator, platform);
     }
 
     /**
@@ -84,4 +122,7 @@ public final class PlatformFactory implements IPlatformFactory {
         return new PlatformBroken(serviceLocator, platform);
     }
 
+    private IPlatform createRandomPlatform(final int x, final int y) {
+        return (IPlatform) platformGenerationSet.getRandomElement();
+    }
 }

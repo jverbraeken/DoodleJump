@@ -28,12 +28,9 @@ import java.awt.*;
     /**
      * Jetpack constructor.
      *
-     * @param serviceLocator  The Game's service locator.
-     * @param point           - The location for the Jetpack.
-     * @param level           The level of the Jetpack
-     * @param activeAnimation The animation used when the Jetpack is flying
-     * @param maxTime         The time in frames the Jetpack can fly
-     * @param ownedYOffset    The Y-offset for drawing the Jetpack when the Doodle is flying with it
+     * @param serviceLocator The service locator
+     * @param point          The location for the powerup
+     * @param level          The level of the powerup
      */
     /* package */ Jetpack(final IServiceLocator serviceLocator, final Point point, final int level) {
         super(serviceLocator, point, Powerups.jetpack, level);

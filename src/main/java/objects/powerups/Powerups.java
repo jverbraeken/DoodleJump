@@ -63,7 +63,7 @@ public enum Powerups {
                     .build()
     }),
     springShoes(SpringShoes.class, new PowerupLevel[]{
-            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.propeller, 50)
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.springShoes, 50)
                     .setMaxUses(3)
                     .setBoost(-30d)
                     .build()

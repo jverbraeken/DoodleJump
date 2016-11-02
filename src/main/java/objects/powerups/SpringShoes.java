@@ -33,11 +33,12 @@ import java.awt.*;
     /**
      * Jump boots constructor.
      *
-     * @param sL    - The Games service locator
-     * @param point - The location for the SpringShoes
+     * @param serviceLocator The service locator
+     * @param point          The location for the powerup
+     * @param level          The level of the powerup
      */
-    /* package */ SpringShoes(final IServiceLocator sL, final Point point, final int level) {
-        super(sL, point, Powerups.springShoes, level);
+    /* package */ SpringShoes(final IServiceLocator serviceLocator, final Point point, final int level) {
+        super(serviceLocator, point, Powerups.springShoes, level);
         final Powerups type = Powerups.springShoes;
         this.boost = type.getBoost(level);
         this.maxUses = type.getMaxUses(level);

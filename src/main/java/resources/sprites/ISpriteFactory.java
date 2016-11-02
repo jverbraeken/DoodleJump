@@ -27,6 +27,14 @@ public interface ISpriteFactory extends IFactory {
      */
     IAnimation getAnimation(final IRes.Animations animation);
 
+    ISprite[] getGreenDoodleSprites();
+
+    ISprite[] getRedDoodleSprites();
+
+    ISprite[] getBlueDoodleSprites();
+
+    ISprite[] getDigitSprites();
+
     ISprite getPlatformBrokenSprite(final int index);
 
     ISprite getPauseCoverSprite(PauseScreenModes mode);

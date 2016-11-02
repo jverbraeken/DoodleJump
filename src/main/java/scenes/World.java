@@ -4,11 +4,14 @@ import buttons.IButton;
 import logging.ILogger;
 import objects.IGameObject;
 import objects.IJumpable;
+import objects.blocks.BlockTypes;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
 import objects.enemies.AEnemy;
 import objects.powerups.Powerups;
+import rendering.AccelerationType;
+import rendering.ICamera;
 import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -130,7 +133,7 @@ public class World implements IScene {
         this.updatables.add(this.topBlock);
 
         for (int i = 1; i < BLOCK_BUFFER; i++) {
-            this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable());
+            this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable(), BlockTypes.normalOnlyBlock);
             this.blocks.add(this.topBlock);
             this.drawables.get(DrawableLevels.back).add(this.topBlock);
             this.updatables.add(this.topBlock);
@@ -198,6 +201,7 @@ public class World implements IScene {
         this.cleanUp();
         this.newBlocks();
         this.checkCollisions();
+        this.updateCameraSpeed();
     }
 
     /**
@@ -315,7 +319,7 @@ public class World implements IScene {
     private void newBlocks() {
         if (blocks.size() < BLOCK_BUFFER) {
             IJumpable topPlatform = topBlock.getTopJumpable();
-            this.topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform);
+            this.topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform, BlockTypes.randomType());
             this.blocks.add(topBlock);
             this.drawables.get(DrawableLevels.back).add(topBlock);
             this.updatables.add(topBlock);
@@ -343,11 +347,27 @@ public class World implements IScene {
     }
 
     /**
+     * Update the camera speed based on Doodles locations.
+     */
+    private void updateCameraSpeed() {
+        final ICamera camera = this.serviceLocator.getRenderer().getCamera();
+        final double camY = camera.getYPos();
+        for (IDoodle doodle : this.doodles) {
+            if (camY < doodle.getYPos() + doodle.getSprite().getHeight()) {
+                camera.setAccelerationType(AccelerationType.normal);
+                return;
+            }
+        }
+
+        camera.setAccelerationType(AccelerationType.fast);
+    }
+
+    /**
      * IMMUTABLE.
      * <br>
      * The bar on top of the screen displaying the score and pause button
      */
-    public final class ScoreBar implements IRenderable {
+    private final class ScoreBar implements IRenderable {
 
         /**
          * The transparent and black border at the bottom of the scoreBar that is not take into account when
@@ -555,4 +575,5 @@ public class World implements IScene {
             doodle.deregister();
         }
     }
+
 }

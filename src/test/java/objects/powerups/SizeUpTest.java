@@ -48,7 +48,7 @@ public class SizeUpTest {
         when(sprite.getWidth()).thenReturn(0);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
 
-        sizeUp = new SizeUp(serviceLocator, new Point(0, 0));
+        sizeUp = new SizeUp(serviceLocator, new Point(0, 0), 1);
     }
 
     @Test

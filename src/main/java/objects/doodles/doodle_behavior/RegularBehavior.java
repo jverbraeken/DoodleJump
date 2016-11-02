@@ -2,6 +2,8 @@ package objects.doodles.doodle_behavior;
 
 import input.Keys;
 import objects.doodles.IDoodle;
+import objects.powerups.APowerup;
+import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import system.IServiceLocator;
 
@@ -57,7 +59,7 @@ public final class RegularBehavior implements MovementBehavior {
     /**
      * The direction the Doodle is facing.
      */
-    private Directions facing = Directions.Left;
+    private Directions facing = Directions.Right;
 
     /**
      * The constructor of the regular behavior.
@@ -115,7 +117,8 @@ public final class RegularBehavior implements MovementBehavior {
         this.animate(delta);
         this.applyGravity(delta);
         this.moveHorizontally(delta);
-        this.doodle.getPowerup().perform(PowerupOccasion.constant);
+        final IPowerup powerup = this.doodle.getPowerup();
+        powerup.perform(PowerupOccasion.constant);
     }
 
     /**

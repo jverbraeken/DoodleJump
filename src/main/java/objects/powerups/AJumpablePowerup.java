@@ -11,7 +11,7 @@ import java.awt.Point;
 /**
  * A powerup on which can be jumped.
  */
-public abstract class AJumpablePowerup extends APowerup implements IJumpable {
+/* package */ abstract class AJumpablePowerup extends APowerup implements IJumpable {
 
     /**
      * The default sprite for the jumpable powerup.
@@ -61,40 +61,22 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
     }
 
     /**
-     * Returns the usedSprite when a doodle collides with this object.
-     *
-     * @return a ISprite object.
-     */
-    public final ISprite getUsedSprite() {
-        return this.usedSprite;
-    }
-
-    /**
-     * Returns the default sprite.
-     *
-     * @return a ISprite object.
-     */
-    public final ISprite getDefaultSprite() {
-        return this.defaultSprite;
-    }
-
-    /**
      * Executes the default animation: a change between the default- and used-sprite after the player hit the powerup.
      *
      * @param powerup      The powerup that requested the animation
      * @param retractSpeed The speed with which the {@link AJumpablePowerup powerup} rectracts after it is used.
      */
     protected final void executeDefaultAnimation(final AJumpablePowerup powerup, final int retractSpeed) {
-        int oldHeight = getSprite().getHeight();
-        int newHeight = this.getUsedSprite().getHeight();
+        final int oldHeight = getSprite().getHeight();
+        final int newHeight = this.usedSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
-        this.setSprite(this.getUsedSprite());
+        this.setSprite(this.usedSprite);
 
-        AJumpablePowerup self = this;
+        final AJumpablePowerup self = this;
         new Timer().schedule(new TimerTask() {
             public void run() {
                 self.addYPos(newHeight - oldHeight);
-                self.setSprite(self.getDefaultSprite());
+                self.setSprite(self.defaultSprite);
             }
         }, retractSpeed);
     }

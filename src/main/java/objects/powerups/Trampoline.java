@@ -37,8 +37,8 @@ import java.util.List;
     /**
      * Constructs a new Trampoline.
      *
-     * @param serviceLocator The Game's service locator
-     * @param point          The location for the trampoline
+     * @param serviceLocator The service locator
+     * @param point          The location for the powerup
      * @param level          The level of the powerup
      */
     /* package */ Trampoline(final IServiceLocator serviceLocator, final Point point, final int level) {

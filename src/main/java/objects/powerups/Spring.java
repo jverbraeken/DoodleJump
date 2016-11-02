@@ -38,11 +38,9 @@ public final class Spring extends AJumpablePowerup {
     /**
      * Constructs a new Spring.
      *
-     * @param serviceLocator The Game's service locator
-     * @param point          The coordinates of the trampoline
+     * @param serviceLocator The service locator
+     * @param point          The location for the powerup
      * @param level          The level of the powerup
-     * @param usedSprite     The sprite that's drawn when the powerup is used
-     * @param boost          The vertical speed boost the {@link objects.doodles.IDoodle Doodle} gets after hitting the Spring
      */
     /* package */ Spring(final IServiceLocator serviceLocator, final Point point, final int level) {
         super(serviceLocator, point, Powerups.spring, level);

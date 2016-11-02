@@ -50,7 +50,6 @@ public final class SpriteFactory implements ISpriteFactory {
                         new CacheLoader<IRes.Sprites, ISprite>() {
                             @Override
                             public ISprite load(final IRes.Sprites sprite) {
-                                logger.info("Sprite loaded: \"" + sprite + "\"");
                                 return loadISprite(sprite);
                             }
                         }
@@ -61,7 +60,6 @@ public final class SpriteFactory implements ISpriteFactory {
                         new CacheLoader<IRes.Animations, IAnimation>() {
                             @Override
                             public IAnimation load(final IRes.Animations sprite) {
-                                logger.info("Animation loaded: \"" + sprite + "\"");
                                 return loadIAnimation(sprite);
                             }
                         }
@@ -118,7 +116,69 @@ public final class SpriteFactory implements ISpriteFactory {
         for (int i = 0; i < animLength; i++) {
             sprites[i] = getSprite(animationName.getSpriteReferences()[i]);
         }
+        this.logger.info("Animation loaded: \"" + animationName.toString() + "\"");
         return new Animation(sprites);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite[] getDigitSprites() {
+        return new ISprite[]{
+                this.getSprite(IRes.Sprites.zero),
+                this.getSprite(IRes.Sprites.one),
+                this.getSprite(IRes.Sprites.two),
+                this.getSprite(IRes.Sprites.three),
+                this.getSprite(IRes.Sprites.four),
+                this.getSprite(IRes.Sprites.five),
+                this.getSprite(IRes.Sprites.six),
+                this.getSprite(IRes.Sprites.seven),
+                this.getSprite(IRes.Sprites.eight),
+                this.getSprite(IRes.Sprites.nine)
+        };
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite[] getGreenDoodleSprites() {
+        ISprite[] sprites = new ISprite[4];
+        sprites[0] = this.getSprite(IRes.Sprites.greenDoodleLeftDescend);
+        sprites[1] = this.getSprite(IRes.Sprites.greenDoodleLeftAscend);
+        sprites[2] = this.getSprite(IRes.Sprites.greenDoodleRightDescend);
+        sprites[3] = this.getSprite(IRes.Sprites.greenDoodleRightAscend);
+
+        return sprites;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite[] getRedDoodleSprites() {
+        ISprite[] sprites = new ISprite[4];
+        sprites[0] = this.getSprite(IRes.Sprites.redDoodleLeftDescend);
+        sprites[1] = this.getSprite(IRes.Sprites.redDoodleLeftAscend);
+        sprites[2] = this.getSprite(IRes.Sprites.redDoodleRightDescend);
+        sprites[3] = this.getSprite(IRes.Sprites.redDoodleRightAscend);
+
+        return sprites;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite[] getBlueDoodleSprites() {
+        ISprite[] sprites = new ISprite[4];
+        sprites[0] = this.getSprite(IRes.Sprites.blueDoodleLeftDescend);
+        sprites[1] = this.getSprite(IRes.Sprites.blueDoodleLeftAscend);
+        sprites[2] = this.getSprite(IRes.Sprites.blueDoodleRightDescend);
+        sprites[3] = this.getSprite(IRes.Sprites.blueDoodleRightAscend);
+
+        return sprites;
     }
 
     /**

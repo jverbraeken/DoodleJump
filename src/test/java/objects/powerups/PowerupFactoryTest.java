@@ -9,10 +9,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import progression.IProgressionManager;
+import resources.IRes;
+import resources.sprites.IAnimation;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -47,7 +50,7 @@ public class PowerupFactoryTest {
     private static ISpringCreatedObserver springCreatedObserver = mock(ISpringCreatedObserver.class);
     private static ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
     private static ISprite sprite = mock(ISprite.class);
-    private static ISprite[] sprites = {sprite, sprite};
+    private static IAnimation sprites = mock(IAnimation.class);
     private static ITrampolineCreatedObserver trampolineCreatedObserver = mock(ITrampolineCreatedObserver.class);
     private static Jetpack jetpack = mock(Jetpack.class);
     private static Propeller propeller = mock(Propeller.class);
@@ -73,7 +76,7 @@ public class PowerupFactoryTest {
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(serviceLocator.getProgressionManager()).thenReturn(progressionManager);
         when(loggerFactory.createLogger(PowerupFactory.class)).thenReturn(logger);
-        when(spriteFactory.getJetpackActiveSprites(anyInt())).thenReturn(sprites);
+        when(spriteFactory.getAnimation(Matchers.<IRes.Animations>any())).thenReturn(sprites);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(sprite.getWidth()).thenReturn(0);
         when(sprite.getHeight()).thenReturn(0);
@@ -126,7 +129,7 @@ public class PowerupFactoryTest {
     @Test
     public void testCreateSpring() throws Exception {
         when(progressionManager.getPowerupLevel(Powerups.spring)).thenReturn(level);
-        when(spriteFactory.getSpringUsedSprite(1)).thenReturn(sprite);
+        when(spriteFactory.getSprite(Matchers.<IRes.Sprites>any())).thenReturn(sprite);
 
         int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_SPRING");
 
@@ -138,7 +141,7 @@ public class PowerupFactoryTest {
     @Test
     public void testCreateTrampoline1() throws Exception {
         when(progressionManager.getPowerupLevel(Powerups.trampoline)).thenReturn(1);
-        when(spriteFactory.getTrampolineUsedSprite(1)).thenReturn(sprite);
+        when(spriteFactory.getSprite(Matchers.<IRes.Sprites>any())).thenReturn(sprite);
 
         int[] boost = Whitebox.getInternalState(PowerupFactory.class, "BOOST_TRAMPOLINE");
 

@@ -46,7 +46,7 @@ public class SizeDownTest {
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(loggerFactory.createLogger(SizeDown.class)).thenReturn(logger);
 
-        sizeDown = new SizeDown(serviceLocator, new Point(0, 0));
+        sizeDown = new SizeDown(serviceLocator, new Point(0, 0), 1);
     }
 
     @Test

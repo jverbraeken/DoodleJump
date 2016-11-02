@@ -23,11 +23,12 @@ import java.awt.*;
     /**
      * SizeUp constructor.
      *
-     * @param sL    - The Games service locator.
-     * @param point - The location for the SizeUp.
+     * @param serviceLocator The service locator
+     * @param point          The location for the powerup
+     * @param level          The level of the powerup
      */
-    /* package */ SizeUp(final IServiceLocator sL, final Point point, final int level) {
-        super(sL, point, Powerups.sizeUp, level);
+    /* package */ SizeUp(final IServiceLocator serviceLocator, final Point point, final int level) {
+        super(serviceLocator, point, Powerups.sizeUp, level);
         this.scaleIncrease = Powerups.sizeUp.getScale(level);
     }
 

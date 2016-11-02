@@ -6,8 +6,11 @@ import logging.ILoggerFactory;
 import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
+import resources.IRes;
+import resources.sprites.IAnimation;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.World;
@@ -40,7 +43,7 @@ public class PropellerTest {
     private World world = mock(World.class);
 
     private Propeller propeller;
-    private ISprite[] spritePack = new ISprite[]{sprite, sprite, sprite, sprite};
+    private IAnimation spritePack = mock(IAnimation.class);
     private int max_timer = Whitebox.getInternalState(Propeller.class, "MAX_TIMER");
     private int animation_refresh_rate = Whitebox.getInternalState(Propeller.class, "ANIMATION_REFRESH_RATE");
 
@@ -58,11 +61,11 @@ public class PropellerTest {
         when(loggerFactory.createLogger(Propeller.class)).thenReturn(logger);
         when(sprite.getHeight()).thenReturn(0);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
-        when(spriteFactory.getPropellerActiveSprites()).thenReturn(spritePack);
+        when(spriteFactory.getAnimation(Matchers.<IRes.Animations>any())).thenReturn(spritePack);
         Whitebox.setInternalState(world, "newDrawables", new HashSet<>());
         Whitebox.setInternalState(world, "newUpdatables", new ArrayList<>());
 
-        propeller = new Propeller(serviceLocator, new Point(0, 0));
+        propeller = new Propeller(serviceLocator, new Point(0, 0), 1);
     }
 
     @Test

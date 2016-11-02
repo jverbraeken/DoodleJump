@@ -1,11 +1,11 @@
 package rendering;
 
 import com.google.common.util.concurrent.AtomicDouble;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -41,6 +41,12 @@ public class StaticCameraTest {
 
         camera.setYPos(3d);
         assertThat(((AtomicDouble) y).get(), is(0d));
+    }
+
+    @Test
+    public void testSetAccelerationType() {
+        camera.setAccelerationType(AccelerationType.fast);
+        assertTrue(true); // No crash
     }
 
 }

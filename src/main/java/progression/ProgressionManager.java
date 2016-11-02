@@ -239,7 +239,9 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void addExperience(final int amount) {
-        if (amount<0) {throw new IllegalArgumentException("Error: amount is negative.");}
+        if (amount < 0) {
+            throw new IllegalArgumentException("Error: amount is negative.");
+        }
         experience += amount;
         this.setRankAccordingExperience();
         saveData();
@@ -249,11 +251,10 @@ public final class ProgressionManager implements IProgressionManager {
      * Will set the rank variable according to the experience the player has.
      */
     private void setRankAccordingExperience() {
-        Ranks[] ranksArray = Ranks.values();
-        for (int i = 0; i < ranksArray.length; i++) {
-            if (ranksArray[i].getExperience() > experience) {
-                rank = ranksArray[i - 1];
-                break;
+        rank = Ranks.newbie;
+        for (Ranks checkRank : Ranks.values()) {
+            if (checkRank.getExperience() < experience) {
+                rank = checkRank;
             }
         }
     }

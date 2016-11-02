@@ -10,7 +10,7 @@ import java.awt.*;
 /**
  * Extended by classes that are powerups with which the Doodle can fly.
  */
-public abstract class AEquipmentPowerup extends APowerup implements IEquipmentPowerup {
+/* package */ abstract class AEquipmentPowerup extends APowerup implements IEquipmentPowerup {
 
     /**
      * The boost the flyable powerup object provides.
@@ -92,12 +92,10 @@ public abstract class AEquipmentPowerup extends APowerup implements IEquipmentPo
     /**
      * Flyable powerup constructor.
      *
-     * @param sL        The service locator
-     * @param point     The location of the powerup
-     * @param maxTime   the time for which the powerup can power the doodle
-     * @param sprite    The sprite used for the powerup placed on a platform
-     * @param animation The animation used when the doodle equips the powerup
-     * @param powerup   The class of the powerup
+     * @param sL    The service locator
+     * @param point The location of the powerup
+     * @param type  The type of the powerup
+     * @param level The level of the powerup
      */
     /* package */ AEquipmentPowerup(final IServiceLocator sL,
                                     final Point point,
@@ -224,7 +222,5 @@ public abstract class AEquipmentPowerup extends APowerup implements IEquipmentPo
     protected final IDoodle getOwner() {
         return owner;
     }
-
-
 }
 
