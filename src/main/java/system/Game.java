@@ -223,7 +223,7 @@ public final class Game {
         new Game(ServiceLocator.getServiceLocator());
         logger.info("The game has been launched");
         serviceLocator.getProgressionManager().init();
-        Game.pauseScreen = (PauseScreen) serviceLocator.getSceneFactory().createPauseScreen();
+        Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
         IInputManager inputManager = serviceLocator.getInputManager();
 
         // Initialize frame

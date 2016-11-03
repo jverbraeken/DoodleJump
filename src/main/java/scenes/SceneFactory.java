@@ -65,7 +65,7 @@ public final class SceneFactory implements ISceneFactory {
      * {@inheritDoc}
      */
     @Override
-    public IScene createPauseScreen() {
+    public PauseScreen createPauseScreen() {
         logger.info("A new PauseScreen has been created");
         return new PauseScreen(serviceLocator);
     }
