@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 /**
  * This class describes the scene in which the actual standard game is played.
  */
-public class World implements IScene {
+public final class World implements IScene {
 
     /**
      * The offset of the pause button.

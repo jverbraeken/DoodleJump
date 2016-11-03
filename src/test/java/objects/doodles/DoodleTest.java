@@ -44,7 +44,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({RegularBehavior.class, RegularProjectile.class, Enemy.class, RegularBehavior.class})
+@PrepareForTest({RegularBehavior.class, RegularProjectile.class, Enemy.class, RegularBehavior.class, World.class})
 public class DoodleTest {
 
     static ISprite spriteLeft1 = mock(ISprite.class);

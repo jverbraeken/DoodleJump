@@ -11,8 +11,9 @@ import java.util.Map;
  * for regular usage in the game!</b>
  */
 /* package */ final class SaveFile {
+
     /**
-     * Lists the highscores of the player.
+     * Lists the high scores of the player.
      */
     private List<SaveFileHighScoreEntry> highScores;
     /**
@@ -32,14 +33,13 @@ import java.util.Map;
      * Construct a new save file.
      */
     /* package */ SaveFile() {
-
     }
 
     /**
      * @return A list containing the high score entries ready to be serialized
      */
     /* package */ List<SaveFileHighScoreEntry> getHighScores() {
-        return highScores;
+        return this.highScores;
     }
 
     /**
@@ -53,7 +53,7 @@ import java.util.Map;
      * @return The amount of coins
      */
     public int getCoins() {
-        return coins;
+        return this.coins;
     }
 
     /**
@@ -69,7 +69,7 @@ import java.util.Map;
      * @return The amount of experience.
      */
     public int getExperience() {
-        return experience;
+        return this.experience;
     }
 
     /**
@@ -85,7 +85,7 @@ import java.util.Map;
      * @return A Map associating the name of the Powerup enum with its level
      */
     /* package */ Map<String, Integer> getPowerupLevels() {
-        return powerupLevels;
+        return this.powerupLevels;
     }
 
     /**
@@ -94,4 +94,5 @@ import java.util.Map;
     /* package */ void setPowerupLevels(final Map<String, Integer> powerupLevels) {
         this.powerupLevels = powerupLevels;
     }
+
 }

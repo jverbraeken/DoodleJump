@@ -18,11 +18,8 @@ import resources.sprites.ISpriteFactory;
 import scenes.World;
 import system.IRenderable;
 import system.IServiceLocator;
+
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -35,7 +32,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({World.class})
+@PrepareForTest(World.class)
 public class PropellerTest {
 
     private IConstants constants = mock(IConstants.class);
@@ -81,7 +78,7 @@ public class PropellerTest {
         assertThat(owner, is(doodle));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCollidesWithNull() {
         propeller.collidesWith(null);
     }
@@ -101,7 +98,7 @@ public class PropellerTest {
         verify(doodle, times(0)).setVerticalSpeed(anyDouble());
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testPerformNoOwner() {
         propeller.perform(PowerupOccasion.constant);
     }

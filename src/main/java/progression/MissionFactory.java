@@ -14,7 +14,6 @@ public final class MissionFactory implements IMissionFactory {
      * Used to gain access to all services.
      */
     private static transient IServiceLocator serviceLocator;
-
     /**
      * The logger.
      */
@@ -35,7 +34,7 @@ public final class MissionFactory implements IMissionFactory {
     public static void register(final IServiceLocator serviceLocator) {
         assert serviceLocator != null;
         MissionFactory.serviceLocator = serviceLocator;
-        serviceLocator.provide(new MissionFactory());
+        MissionFactory.serviceLocator.provide(new MissionFactory());
     }
 
     /**
@@ -51,7 +50,7 @@ public final class MissionFactory implements IMissionFactory {
         IProgressionObserver observer;
         switch (type) {
             case jumpOnSpring:
-                observer = new SpringUsedObserver(serviceLocator, times, action);
+                observer = new SpringUsedObserver(this.serviceLocator, times, action);
                 break;
             default:
                 final String error = "The mission type\"" + type.name() + "\" could not be identified";
@@ -60,7 +59,7 @@ public final class MissionFactory implements IMissionFactory {
         }
 
         final String message = type.getMessage(times);
-        Mission mission = new Mission(serviceLocator, type, message, observer);
+        Mission mission = new Mission(this.serviceLocator, type, message, observer);
 
         observer.setMission(mission);
 
@@ -71,6 +70,7 @@ public final class MissionFactory implements IMissionFactory {
      * Thrown when the MissionFactory was not able to construct a mission with the given type.
      */
     private static final class UnknownMissionTypeException extends RuntimeException {
+
         /**
          * Construct a new UnknownMissionTypeException with a certain message.
          *
@@ -79,5 +79,7 @@ public final class MissionFactory implements IMissionFactory {
         private UnknownMissionTypeException(final String message) {
             super(message);
         }
+
     }
+
 }
