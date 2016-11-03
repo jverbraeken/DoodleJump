@@ -77,10 +77,10 @@ public enum Ranks {
      * @param n the name of the rank.
      * @param l the level this rank represents.
      */
-    Ranks(final int exp, final String n, final int l) {
-        experience = exp;
-        name = n;
-        level = l;
+    /* package */ Ranks(final int exp, final String n, final int l) {
+        this.experience = exp;
+        this.name = n;
+        this.level = l;
     }
 
     /**
@@ -88,7 +88,7 @@ public enum Ranks {
      * @return the variable experience.
      */
     public int getExperience() {
-        return experience;
+        return this.experience;
     }
 
     /**
@@ -96,7 +96,7 @@ public enum Ranks {
      * @return the variable name.
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -104,7 +104,7 @@ public enum Ranks {
      * @return the variable level.
      */
     public int getLevelNumber() {
-        return level;
+        return this.level;
     }
 
     /**
