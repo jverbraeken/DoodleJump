@@ -128,19 +128,19 @@ public class World implements IScene {
         IBlockFactory blockFactory = sL.getBlockFactory();
         this.topBlock = blockFactory.createStartBlock();
         this.blocks.add(this.topBlock);
-        this.drawables.get(DrawableLevels.back).add(this.topBlock);
+        this.newDrawables.get(DrawableLevels.back).add(this.topBlock);
         this.updatables.add(this.topBlock);
 
         for (int i = 1; i < 2; i++) {
             this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable(), BlockTypes.normalOnlyBlock, false);
             this.blocks.add(this.topBlock);
-            this.drawables.get(DrawableLevels.back).add(this.topBlock);
+            this.newDrawables.get(DrawableLevels.back).add(this.topBlock);
             this.updatables.add(this.topBlock);
         }
 
         this.background = sL.getSpriteFactory().getBackground();
         this.scoreBar = new ScoreBar();
-        this.drawables.get(DrawableLevels.front).add(this.scoreBar);
+        this.newDrawables.get(DrawableLevels.front).add(this.scoreBar);
 
         this.serviceLocator.getAudioManager().playStart();
         this.serviceLocator.getAudioManager().loopThemeSong();
@@ -243,7 +243,7 @@ public class World implements IScene {
     final void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
         this.updatables.add(doodle);
-        this.drawables.get(DrawableLevels.middle).add(doodle);
+        this.newDrawables.get(DrawableLevels.middle).add(doodle);
     }
 
     /**
@@ -323,7 +323,7 @@ public class World implements IScene {
             this.topBlock = this.serviceLocator.getBlockFactory()
                     .createBlock(topPlatform, BlockTypes.randomType(), this.doodles.size() < 2);
             this.blocks.add(this.topBlock);
-            this.drawables.get(DrawableLevels.back).add(this.topBlock);
+            this.newDrawables.get(DrawableLevels.back).add(this.topBlock);
             this.updatables.add(this.topBlock);
         }
     }
@@ -549,19 +549,15 @@ public class World implements IScene {
     /**
      * Activate the input observers of doodles that are active in this scene.
      */
-    public void registerDoodle() {
-        for (IDoodle doodle : doodles) {
-            doodle.register();
-        }
+    public void registerDoodles() {
+        this.doodles.forEach(IDoodle::register);
     }
 
     /**
      * Deactivate the input observers of doodles that are active in this scene.
      */
-    public void deregisterDoodle() {
-        for (IDoodle doodle : doodles) {
-            doodle.deregister();
-        }
+    public void deregisterDoodles() {
+        this.doodles.forEach(IDoodle::deregister);
     }
 
 }
