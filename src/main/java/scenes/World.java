@@ -83,7 +83,7 @@ public class World implements IScene {
     /**
      * A set of drawables that should be added next time the World is rendered.
      */
-    private final Set<IRenderable> newDrawables = new HashSet<>();
+    private final Map<DrawableLevels, Set<IRenderable>> newDrawables = new EnumMap<>(DrawableLevels.class);
     /**
      * List of game objects that should be updated every frame.
      */
@@ -121,6 +121,9 @@ public class World implements IScene {
         this.drawables.put(DrawableLevels.back, Collections.newSetFromMap(new WeakHashMap<>()));
         this.drawables.put(DrawableLevels.middle, Collections.newSetFromMap(new WeakHashMap<>()));
         this.drawables.put(DrawableLevels.front, Collections.newSetFromMap(new WeakHashMap<>()));
+        this.newDrawables.put(DrawableLevels.back, Collections.newSetFromMap(new WeakHashMap<>()));
+        this.newDrawables.put(DrawableLevels.middle, Collections.newSetFromMap(new WeakHashMap<>()));
+        this.newDrawables.put(DrawableLevels.front, Collections.newSetFromMap(new WeakHashMap<>()));
 
         IBlockFactory blockFactory = sL.getBlockFactory();
         this.topBlock = blockFactory.createStartBlock();
@@ -174,8 +177,12 @@ public class World implements IScene {
     public final void render() {
         this.serviceLocator.getRenderer().drawSpriteHUD(this.background, new Point(0, 0));
 
-        this.drawables.get(DrawableLevels.back).addAll(this.newDrawables);
-        this.newDrawables.clear();
+        this.drawables.get(DrawableLevels.back).addAll(this.newDrawables.get(DrawableLevels.back));
+        this.drawables.get(DrawableLevels.middle).addAll(this.newDrawables.get(DrawableLevels.middle));
+        this.drawables.get(DrawableLevels.front).addAll(this.newDrawables.get(DrawableLevels.front));
+        this.newDrawables.get(DrawableLevels.back).clear();
+        this.newDrawables.get(DrawableLevels.middle).clear();
+        this.newDrawables.get(DrawableLevels.front).clear();
 
         this.drawables.get(DrawableLevels.back).forEach(IRenderable::render);
         this.drawables.get(DrawableLevels.middle).forEach(IRenderable::render);
@@ -202,7 +209,7 @@ public class World implements IScene {
      * @param renderable An object implementing the IRenderable interface.
      */
     public final void addDrawable(final IRenderable renderable) {
-        this.newDrawables.add(renderable);
+        this.newDrawables.get(DrawableLevels.middle).add(renderable);
     }
 
     /**
