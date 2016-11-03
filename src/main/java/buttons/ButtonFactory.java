@@ -112,7 +112,7 @@ public final class ButtonFactory implements IButtonFactory {
         ISprite buttonSprite = spriteFactory.getResumeButtonSprite();
         Runnable resumeAction = () -> {
             Game.setPaused(false);
-            ((World) Game.getScene()).registerDoodle();
+            ((World) Game.getScene()).registerDoodles();
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, resumeAction, "resume");
     }
@@ -394,7 +394,7 @@ public final class ButtonFactory implements IButtonFactory {
         ISprite buttonSprite = spriteFactory.getPauseButtonSprite();
         Runnable pause = () -> {
             Game.setPaused(true);
-            ((World) Game.getScene()).deregisterDoodle();
+            ((World) Game.getScene()).deregisterDoodles();
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, pause, "pause");
     }
