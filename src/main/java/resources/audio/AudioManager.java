@@ -4,6 +4,7 @@ import logging.ILogger;
 import system.IServiceLocator;
 
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import java.io.FileNotFoundException;
 
 /**
@@ -330,6 +331,7 @@ public final class AudioManager implements IAudioManager {
      */
     @Override
     public void loopThemeSong() {
+        Sound.THEMESONG.clip.setFramePosition(0);
         Sound.THEMESONG.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
