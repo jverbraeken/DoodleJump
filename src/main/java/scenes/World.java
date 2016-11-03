@@ -129,13 +129,13 @@ public class World implements IScene {
         this.topBlock = blockFactory.createStartBlock();
         this.blocks.add(this.topBlock);
         this.newDrawables.get(DrawableLevels.back).add(this.topBlock);
-        this.updatables.add(this.topBlock);
+        this.newUpdatables.add(this.topBlock);
 
         for (int i = 1; i < 2; i++) {
             this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable(), BlockTypes.normalOnlyBlock, false);
             this.blocks.add(this.topBlock);
             this.newDrawables.get(DrawableLevels.back).add(this.topBlock);
-            this.updatables.add(this.topBlock);
+            this.newUpdatables.add(this.topBlock);
         }
 
         this.background = sL.getSpriteFactory().getBackground();
@@ -194,8 +194,6 @@ public class World implements IScene {
      */
     @Override
     public final void update(final double delta) {
-        this.updatables.addAll(this.newUpdatables);
-
         this.updateObjects(delta);
         this.cleanUp();
         this.newBlocks();
@@ -242,7 +240,7 @@ public class World implements IScene {
      */
     final void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
-        this.updatables.add(doodle);
+        this.newUpdatables.add(doodle);
         this.newDrawables.get(DrawableLevels.middle).add(doodle);
     }
 
@@ -252,8 +250,11 @@ public class World implements IScene {
      * @param delta The time since the previous update.
      */
     private void updateObjects(final double delta) {
-        for (IUpdatable e : this.updatables) {
-            e.update(delta);
+        this.updatables.addAll(this.newUpdatables);
+        this.newUpdatables.clear();
+
+        for (IUpdatable updatable : this.updatables) {
+            updatable.update(delta);
         }
     }
 
@@ -275,7 +276,7 @@ public class World implements IScene {
     private void checkCollisions(final IDoodle doodle) {
         assert doodle != null;
         if (doodle.isAlive()) {
-            for (IBlock block : blocks) {
+            for (IBlock block : this.blocks) {
                 Set<IGameObject> elements = block.getElements();
                 for (IGameObject element : elements) {
                     if (doodle.checkCollision(element)) {
@@ -324,7 +325,7 @@ public class World implements IScene {
                     .createBlock(topPlatform, BlockTypes.randomType(), this.doodles.size() < 2);
             this.blocks.add(this.topBlock);
             this.newDrawables.get(DrawableLevels.back).add(this.topBlock);
-            this.updatables.add(this.topBlock);
+            this.newUpdatables.add(this.topBlock);
         }
     }
 
