@@ -99,11 +99,11 @@ public interface IButtonFactory extends IFactory {
     IButton createDarknessModeButton(final double x, final double y);
 
     /**
-     * Create a press to go set the mode to invert.
+     * Create a press to go set the mode to verticalOnly.
      *
      * @param x the x position of the button.
      * @param y the y position of the button.
-     * @return an invert mode button.
+     * @return an verticalOnly mode button.
      */
     IButton createInvertModeButton(final double x, final double y);
 
@@ -126,11 +126,11 @@ public interface IButtonFactory extends IFactory {
     IButton createSpaceModeButton(final double x, final double y);
 
     /**
-     * Create a press to go set the mode to story.
+     * Create a press to go set the mode to horizontalOnly.
      *
      * @param x the x position of the button.
      * @param y the y position of the button.
-     * @return a story mode button.
+     * @return a horizontalOnly mode button.
      */
     IButton createStoryModeButton(final double x, final double y);
 

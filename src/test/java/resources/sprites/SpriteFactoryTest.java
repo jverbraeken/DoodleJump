@@ -498,7 +498,7 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetStoryModeButton() throws Exception {
-        TestSprite(IRes.Sprites.storyMode, () -> spriteFactory.getStoryModeButton());
+        TestSprite(IRes.Sprites.horzontalOnlyMode, () -> spriteFactory.getStoryModeButton());
     }
 
     @Test
@@ -508,7 +508,7 @@ public class SpriteFactoryTest {
 
     @Test
     public void TestGetInvertModeButton() throws Exception {
-        TestSprite(IRes.Sprites.invertMode, () -> spriteFactory.getInvertModeButton());
+        TestSprite(IRes.Sprites.verticalOnlyMode, () -> spriteFactory.getInvertModeButton());
     }
 
     @Test

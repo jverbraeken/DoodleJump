@@ -128,19 +128,19 @@ public final class BlockFactory implements IBlockFactory {
      * {@inheritDoc}
      */
     @Override
-    public synchronized IBlock createBlock(final IJumpable topJumpable, final BlockTypes type) throws RuntimeException {
+    public synchronized IBlock createBlock(final IJumpable topJumpable, final BlockTypes type, final boolean enemies) throws RuntimeException {
 
         IJumpable newTopJumpable = topJumpable;
 
         switch (type) {
             case standardBlock:
-                return createTypeOnlyBlock(topJumpable, randomPlatform);
+                return createTypeOnlyBlock(topJumpable, randomPlatform, enemies);
             case normalOnlyBlock:
-                return createTypeOnlyBlock(topJumpable, normalPlatform);
+                return createTypeOnlyBlock(topJumpable, normalPlatform, enemies);
             case horizontalOnlyBlock:
-                return createTypeOnlyBlock(topJumpable, horizontalMovingPlatform);
+                return createTypeOnlyBlock(topJumpable, horizontalMovingPlatform, enemies);
             case verticalOnlyBlock:
-                return createTypeOnlyBlock(topJumpable, verticalMovingPlatform);
+                return createTypeOnlyBlock(topJumpable, verticalMovingPlatform, enemies);
             default:
                 throw new RuntimeException(type + "is an unknown block type to the BlockFactory");
         }
@@ -153,7 +153,7 @@ public final class BlockFactory implements IBlockFactory {
      * @param type        the type of platforms to be put into the block.
      * @return a block containing platforms of the type.
      */
-    private synchronized IBlock createTypeOnlyBlock(final IJumpable topJumpable, final ElementTypes type) {
+    private synchronized IBlock createTypeOnlyBlock(final IJumpable topJumpable, final ElementTypes type, final boolean enemy) {
 
         int platformAmount = serviceLocator.getCalc().getRandomIntBetween(MIN_PLATFORMS, MAX_PLATFORMS);
         int heightDividedPlatforms = serviceLocator.getConstants().getGameHeight() / platformAmount;
@@ -174,7 +174,9 @@ public final class BlockFactory implements IBlockFactory {
             } while (breaking);
             newTopJumpable = platform;
             chanceForPowerup(elements, platform);
-            spawnEnemyWithChance(elements, (IPlatform) newTopJumpable, heightDividedPlatforms);
+            if (enemy) {
+                spawnEnemyWithChance(elements, (IPlatform) newTopJumpable, heightDividedPlatforms);
+            }
         }
 
         return new Block(elements, newTopJumpable);

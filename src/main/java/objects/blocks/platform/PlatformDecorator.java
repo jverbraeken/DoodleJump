@@ -209,7 +209,7 @@ import java.awt.Point;
      * {@inheritDoc}
      */
     @Override
-    public void setOffset(final int offSet) {
+    public void setOffset(final double offSet) {
         contained.setOffset(offSet);
     }
 
@@ -217,7 +217,7 @@ import java.awt.Point;
      * {@inheritDoc}
      */
     @Override
-    public int getOffset() {
+    public double getOffset() {
         return contained.getOffset();
     }
 

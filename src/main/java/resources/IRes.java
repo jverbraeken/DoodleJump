@@ -202,10 +202,10 @@ public interface IRes {
         // Mode icons
         regularMode,
         darknessMode,
-        invertMode,
+        verticalOnlyMode,
         underwaterMode,
         spaceMode,
-        storyMode,
+        horzontalOnlyMode,
 
         redCross,
 

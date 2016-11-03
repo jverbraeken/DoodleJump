@@ -118,10 +118,11 @@ public class MovingPlatformsTest {
      */
     @Test
     public void updateEnumsTestFlip1Vertical() {
-        vertical.setOffset(100);
+        vertical.setOffset(1000);
+        Whitebox.setInternalState(vertical, "speed", 2);
         vertical.update(0d);
 
-        int speed = Whitebox.getInternalState(vertical, "speed");
+        double speed = Whitebox.getInternalState(vertical, "speed");
         assertThat(speed < 0, is(true));
     }
 
@@ -133,11 +134,12 @@ public class MovingPlatformsTest {
      */
     @Test
     public void updateEnumsTestFlipMin1Vertical() {
-        vertical.setOffset(-100);
+        vertical.setOffset(-1000);
+        Whitebox.setInternalState(vertical, "speed", -2);
         vertical.update(0d);
 
-        int speed = Whitebox.getInternalState(vertical, "speed");
-        assertThat(speed > 0, is(true));
+        double speed = Whitebox.getInternalState(vertical, "speed");
+        assertThat(speed < 0d, is(false));
     }
 
     /**
