@@ -1,10 +1,10 @@
-package objects.doodles.DoodleBehavior;
+package objects.doodle.doodle_behavior;
 
 import constants.IConstants;
 import input.Keys;
-import objects.doodles.IDoodle;
 import objects.doodles.doodle_behavior.MovementBehavior;
 import objects.doodles.doodle_behavior.RegularBehavior;
+import objects.doodles.IDoodle;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import org.junit.Before;
