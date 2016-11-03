@@ -51,10 +51,6 @@ public final class World implements IScene {
      * The amount of blocks kept in a buffer.
      */
     private static final int BLOCK_BUFFER = 4;
-    /**
-     * The amount of experience earned from killing an enemy.
-     */
-    private static final int EXP_KILLING_ENEMY = 200;
 
     /**
      * Used to access all services.
@@ -153,13 +149,8 @@ public final class World implements IScene {
      */
     @Override
     public final void start() {
-        this.serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
-        this.scoreBar.register();
-        for (IDoodle doodle : this.doodles) {
-            doodle.register();
-        }
-
-        logger.info("The world is now displaying");
+        this.register();
+        this.logger.info("The world is now displaying");
     }
 
     /**
@@ -167,11 +158,29 @@ public final class World implements IScene {
      */
     @Override
     public final void stop() {
+        this.deregister();
+        this.logger.info("The world scene is stopped");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void register() {
+        this.serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
+        this.scoreBar.register();
+        this.doodles.forEach(IDoodle::register);
+        this.logger.info("The world is now registered");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void deregister() {
         this.scoreBar.deregister();
-        for (IDoodle doodle : this.doodles) {
-            doodle.deregister();
-        }
-        logger.info("The world scene is stopped");
+        this.doodles.forEach(IDoodle::deregister);
+        logger.info("The world scene is now deregistered");
     }
 
     /**
@@ -528,20 +537,6 @@ public final class World implements IScene {
 
         }
 
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void switchDisplay(PauseScreenModes mode) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
     /**

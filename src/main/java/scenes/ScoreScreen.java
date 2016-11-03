@@ -117,8 +117,8 @@ import java.util.concurrent.atomic.AtomicInteger;
      */
     @Override
     public void start() {
-        this.menuButton.register();
-        logger.info("The score scene is now displaying");
+        this.register();
+        this.logger.info("The score scene is now displaying");
     }
 
     /**
@@ -126,8 +126,20 @@ import java.util.concurrent.atomic.AtomicInteger;
      */
     @Override
     public void stop() {
+        this.deregister();
+        this.logger.info("The score scene is no longer displaying");
+    }
+
+    @Override
+    public void register() {
+        this.menuButton.register();
+        this.logger.info("The score scene is now registered");
+    }
+
+    @Override
+    public void deregister() {
         this.menuButton.deregister();
-        logger.info("The score scene is no longer displaying");
+        this.logger.info("The score scene is now deregister");
     }
 
     /**
@@ -135,20 +147,6 @@ import java.util.concurrent.atomic.AtomicInteger;
      */
     @Override
     public void update(final double delta) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void switchDisplay(PauseScreenModes mode) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

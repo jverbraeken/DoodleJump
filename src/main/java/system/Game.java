@@ -6,6 +6,7 @@ import math.ICalc;
 import objects.blocks.BlockTypes;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
+import scenes.PauseScreen;
 import scenes.Popup;
 
 import javax.swing.JFrame;
@@ -177,7 +178,7 @@ public final class Game {
     /**
      * The pause screen for the game.
      */
-    private static IScene pauseScreen;
+    private static PauseScreen pauseScreen;
     /**
      * Runnables scheduled to run during the next iteration.
      */
@@ -222,7 +223,7 @@ public final class Game {
         new Game(ServiceLocator.getServiceLocator());
         logger.info("The game has been launched");
         serviceLocator.getProgressionManager().init();
-        Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
+        Game.pauseScreen = (PauseScreen) serviceLocator.getSceneFactory().createPauseScreen();
         IInputManager inputManager = serviceLocator.getInputManager();
 
         // Initialize frame
@@ -459,7 +460,7 @@ public final class Game {
      *
      * @return IScene object
      */
-    public static IScene getPauseScreen() {
+    public static PauseScreen getPauseScreen() {
         return pauseScreen;
     }
 

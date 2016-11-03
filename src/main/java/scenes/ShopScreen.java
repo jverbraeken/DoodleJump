@@ -26,8 +26,6 @@ import java.util.ArrayList;
      * X & Y location in relation to the frame of the main menu button.
      */
     private static final double MAIN_MENU_BUTTON_X = 0.35, MAIN_MENU_BUTTON_Y = 0.03;
-
-
     /**
      * The X-position at which the buttons in the first row will be created.
      */
@@ -255,10 +253,8 @@ import java.util.ArrayList;
      */
     @Override
     public final void start() {
-        for (IButton button : buttons) {
-            button.register();
-        }
-        logger.info("The choose mode scene is now displaying");
+        this.register();
+        this.logger.info("The choose mode scene is now displaying");
     }
 
     /**
@@ -266,10 +262,24 @@ import java.util.ArrayList;
      */
     @Override
     public final void stop() {
-        for (IButton button : buttons) {
+        this.deregister();
+        this.logger.info("The choose mode scene is no longer displaying");
+    }
+
+    @Override
+    public void register() {
+        for (IButton button : this.buttons) {
+            button.register();
+        }
+        this.logger.info("The score scene is now registered");
+    }
+
+    @Override
+    public void deregister() {
+        for (IButton button : this.buttons) {
             button.deregister();
         }
-        logger.info("The choose mode scene is no longer displaying");
+        this.logger.info("The score scene is now deregistered");
     }
 
     /**
@@ -343,20 +353,6 @@ import java.util.ArrayList;
     public final void update(final double delta) {
         coinSpriteIndex += COIN_SPEED * delta;
         coinSpriteIndex = coinSpriteIndex % BASE_TEN;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void switchDisplay(PauseScreenModes mode) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

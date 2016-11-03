@@ -20,19 +20,13 @@ public interface IScene extends IUpdatable, IRenderable {
     void stop();
 
     /**
-     * This method allows the game to change the display of a scene.
-     *
-     * @param mode The mode of the display
+     * This method must be called to register the scene.
      */
-    void switchDisplay(PauseScreenModes mode); // Most scenes do not use this method.
+    void register();
 
     /**
-     * This method replaces the button of a powerup.
-     *
-     * @param powerup The type of powerup
-     * @param x The x position of the button
-     * @param y The y position of the button
+     * This method must be called to deregister the scene.
      */
-    void updateButton(final Powerups powerup, final double x, final double y);
+    void deregister();
 
 }

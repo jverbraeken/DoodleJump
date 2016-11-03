@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * PauseScreen implementation of a scene.
  */
-/* package */ final class PauseScreen implements IScene {
+public final class PauseScreen implements IScene {
 
     /**
      * The X and Y location for the resume button.
@@ -172,7 +172,30 @@ import java.util.Map;
      */
     @Override
     public void start() {
-        mode = PauseScreenModes.mission; // when opening the pause screen, the screen will display the missions by default.
+        this.mode = PauseScreenModes.mission; // when opening the pause screen, the screen will display the missions by default.
+        this.register();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void stop() {
+        this.deregister();
+
+        if (mode == PauseScreenModes.shop) {
+            this.stopShopCover();
+        } else {
+            this.switchShopButton.deregister();
+            this.logger.info("The switch button to the shop cover is no longer available");
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register() {
         this.resumeButton.register();
         this.logger.info("The resume button is now available");
         this.switchShopButton.register();
@@ -183,16 +206,12 @@ import java.util.Map;
      * {@inheritDoc}
      */
     @Override
-    public void stop() {
+    public void deregister() {
         this.resumeButton.deregister();
         this.logger.info("The resume button is no longer available");
+        this.switchShopButton.deregister();
+        this.logger.info("The switch button is no longer available");
 
-        if (mode == PauseScreenModes.shop) {
-            this.stopShopCover();
-        } else {
-            this.switchShopButton.deregister();
-            this.logger.info("The switch button to the shop cover is no longer available");
-        }
     }
 
     /**
@@ -254,7 +273,7 @@ import java.util.Map;
         this.switchMissionButton.register();
         this.logger.info("The switch button to the mission cover is now available");
         if (buttonMap.size() == 0) {
-            this.createPowerupbutton();
+            this.createPowerupButton();
         }
         for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet()) {
             entry.getValue().register();
@@ -312,7 +331,7 @@ import java.util.Map;
     /**
      * Creates the buttons for the powerps that can be unlocked or upgraded.
      */
-    private void createPowerupbutton() {
+    private void createPowerupButton() {
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
         this.buttonMap.put(Powerups.jetpack, buttonFactory.createPausePowerupButton(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y));
         this.buttonMap.put(Powerups.propeller, buttonFactory.createPausePowerupButton(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y));
@@ -353,7 +372,6 @@ import java.util.Map;
     /**
      * {@inheritDoc}
      */
-    @Override
     public void updateButton(final Powerups powerup, final double x, final double y) {
         buttonMap.get(powerup).deregister();
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
