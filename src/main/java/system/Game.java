@@ -49,7 +49,7 @@ public final class Game {
     /**
      * The current frame.
      */
-    private static final JFrame frame = new JFrame("Doodle Jump");
+    private static JFrame frame;
 
     /**
      * The time in milliseconds per frame.
@@ -223,6 +223,7 @@ public final class Game {
         IInputManager inputManager = serviceLocator.getInputManager();
 
         // Initialize frame
+        frame = new JFrame("Doodle Jump");
         frame.addMouseListener(inputManager);
         frame.addKeyListener(inputManager);
         frame.setSize(serviceLocator.getConstants().getGameWidth(), serviceLocator.getConstants().getGameHeight());
