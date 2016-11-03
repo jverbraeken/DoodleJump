@@ -551,18 +551,4 @@ public final class World implements IScene {
 
     }
 
-    /**
-     * Activate the input observers of doodles that are active in this scene.
-     */
-    public void registerDoodles() {
-        this.doodles.forEach(IDoodle::register);
-    }
-
-    /**
-     * Deactivate the input observers of doodles that are active in this scene.
-     */
-    public void deregisterDoodles() {
-        this.doodles.forEach(IDoodle::deregister);
-    }
-
 }
