@@ -142,6 +142,7 @@ public class World implements IScene {
         this.drawables.get(DrawableLevels.front).add(this.scoreBar);
 
         serviceLocator.getAudioManager().playStart();
+        serviceLocator.getAudioManager().loopThemeSong();
 
         this.start();
         logger.info("Level started");
@@ -228,6 +229,7 @@ public class World implements IScene {
     public final void endGameInstance(final double score, final double extraExp) {
         serviceLocator.getProgressionManager().addHighScore("Doodle", score);
         serviceLocator.getProgressionManager().addExperience((int) score);
+        serviceLocator.getAudioManager().stopLoopingThemeSong();
 
         Game.setScene(serviceLocator.getSceneFactory().createKillScreen((int) score, (int) extraExp));
     }
