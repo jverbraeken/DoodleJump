@@ -2,6 +2,8 @@ package filesystem;
 
 import logging.ILogger;
 import logging.ILoggerFactory;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,8 +34,8 @@ public class FileSystemTest {
     private static FileSystem fileSystem;
     private static final String NOT_EXISTING_NAME = "qwewrteryuifdhgxfg";
 
-    @BeforeClass
-    public static void initialize() throws Exception {
+    @Before
+    public void init() throws Exception {
         ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
         when(loggerFactory.createLogger(any(Class.class))).thenReturn(mock(ILogger.class));
 
@@ -44,6 +46,11 @@ public class FileSystemTest {
 
         fileSystem = Whitebox.invokeConstructor(FileSystem.class);
 
+        (new File(NOT_EXISTING_NAME)).delete();
+    }
+
+    @After
+    public void end() {
         (new File(NOT_EXISTING_NAME)).delete();
     }
 
