@@ -331,8 +331,8 @@ public final class AudioManager implements IAudioManager {
      */
     @Override
     public void loopThemeSong() {
-        Sound.THEMESONG.clip.setFramePosition(0);
-        Sound.THEMESONG.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        Sound.THEME_SONG.clip.setFramePosition(0);
+        Sound.THEME_SONG.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     /**
@@ -340,7 +340,7 @@ public final class AudioManager implements IAudioManager {
      */
     @Override
     public void stopLoopingThemeSong() {
-        Sound.THEMESONG.clip.stop();
+        Sound.THEME_SONG.clip.stop();
     }
 
     /**
@@ -438,7 +438,7 @@ public final class AudioManager implements IAudioManager {
         SPRING_SHOES("sounds/springshoes.wav"),
         START("sounds/start.wav"),
         THUNDER("sounds/thunder.wav"),
-        THEMESONG("sounds/TomboFry_-_Chaser.wav"),
+        THEME_SONG("sounds/chaserthemesong.wav"),
         TRAMPOLINE("sounds/trampoline.wav"),
         UFO("sounds/ufo.wav"),
         UFO_POGODAK("sounds/ufopogodak.wav"),
