@@ -7,6 +7,7 @@ import objects.powerups.Powerups;
 import system.IServiceLocator;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -323,7 +324,7 @@ public final class ProgressionManager implements IProgressionManager {
         String json = serviceLocator.getFileSystem().serializeJson(image);
         try {
             serviceLocator.getFileSystem().writeProjectFile(serviceLocator.getConstants().getSaveFilePath(), json);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             logger.info("Save file was not found -> a new file is made.");
         }
     }
