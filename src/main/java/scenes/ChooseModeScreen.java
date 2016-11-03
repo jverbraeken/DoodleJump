@@ -178,10 +178,10 @@ public final class ChooseModeScreen implements IScene {
      * Render the crosses that indicate whether a mode is available given the rank of the player.
      */
     private void renderByRank() {
-        int rankLevel = rank.getLevelNumber();
-        int gameWidth = this.serviceLocator.getConstants().getGameWidth();
-        int gameHeight = this.serviceLocator.getConstants().getGameHeight();
-        ISprite redCross = this.serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.redCross);
+        final int rankLevel = rank.getLevelNumber();
+        final int gameWidth = this.serviceLocator.getConstants().getGameWidth();
+        final int gameHeight = this.serviceLocator.getConstants().getGameHeight();
+        final ISprite redCross = this.serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.redCross);
         if (rankLevel < Game.Modes.horizontalOnly.getRankRequired()) {
             serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (STORY_MODE_X * gameWidth), (int) (STORY_MODE_Y * gameHeight)));
         }

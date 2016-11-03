@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
@@ -19,11 +21,14 @@ import resources.animations.IAnimationFactory;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.World;
+import system.IRenderable;
 import system.IServiceLocator;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -54,7 +59,7 @@ public class PropellerTest {
     private IAnimation spritePack = mock(IAnimation.class);
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         when(serviceLocator.getConstants()).thenReturn(constants);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
@@ -70,7 +75,6 @@ public class PropellerTest {
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
         when(serviceLocator.getAnimationFactory()).thenReturn(animationFactory);
         when(animationFactory.getAnimation(Matchers.<IRes.Animations>any())).thenReturn(spritePack);
-        Whitebox.setInternalState(world, "newDrawables", new HashSet<>());
         Whitebox.setInternalState(world, "newUpdatables", new ArrayList<>());
 
         propeller = new Propeller(serviceLocator, new Point(0, 0), 1);
