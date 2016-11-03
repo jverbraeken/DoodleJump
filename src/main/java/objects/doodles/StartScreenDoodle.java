@@ -8,7 +8,7 @@ import system.IServiceLocator;
 /**
  * This class describes the behaviour of the doodle in the StartScreen.
  */
-/* package */ class StartScreenDoodle extends Doodle {
+/* package */ final class StartScreenDoodle extends Doodle {
 
     /**
      * Boost reduction specifically for the StartScreen Doodle.

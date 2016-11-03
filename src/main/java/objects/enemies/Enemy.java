@@ -10,7 +10,7 @@ import java.awt.Point;
 /**
  * A sample enemy class.
  */
-public class Enemy extends AEnemy {
+public final class Enemy extends AEnemy {
 
     /**
      * The boost the Doodle gets from colliding with the Enemy.
