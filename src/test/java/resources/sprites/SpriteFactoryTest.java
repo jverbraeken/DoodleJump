@@ -99,29 +99,63 @@ public class SpriteFactoryTest {
     }
 
     @Test
-    public void TestGetDoodleSpriteLeft() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.doodleLeftDescend);
+    public void TestGetGreenDoodleSprite() throws Exception {
+        ISprite mock1 = mock(ISprite.class);
+        doReturn(mock1).when(spriteFactory, "getSprite", IRes.Sprites.greenDoodleLeftDescend);
         ISprite mock2 = mock(ISprite.class);
-        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.doodleLeftAscend);
-        ISprite[] result = spriteFactory.getDoodleLeftSprites();
-        ISprite[] expected = new ISprite[2];
-        expected[0] = mock;
+        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.greenDoodleLeftAscend);
+        ISprite mock3 = mock(ISprite.class);
+        doReturn(mock3).when(spriteFactory, "getSprite", IRes.Sprites.greenDoodleRightDescend);
+        ISprite mock4 = mock(ISprite.class);
+        doReturn(mock4).when(spriteFactory, "getSprite", IRes.Sprites.greenDoodleRightAscend);
+
+        ISprite[] result = spriteFactory.getGreenDoodleSprites();
+        ISprite[] expected = new ISprite[4];
+        expected[0] = mock1;
         expected[1] = mock2;
-        assertThat(Arrays.equals(expected, result), is(true));
+        expected[2] = mock3;
+        expected[3] = mock4;
+        assertThat(expected, is(result));
     }
 
     @Test
-    public void TestGetDoodleSpriteRight() throws Exception {
-        ISprite mock = mock(ISprite.class);
-        doReturn(mock).when(spriteFactory, "getSprite", IRes.Sprites.doodleRightDescend);
+    public void TestGetRedDoodleSprite() throws Exception {
+        ISprite mock1 = mock(ISprite.class);
+        doReturn(mock1).when(spriteFactory, "getSprite", IRes.Sprites.redDoodleLeftDescend);
         ISprite mock2 = mock(ISprite.class);
-        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.doodleRightAscend);
-        ISprite[] result = spriteFactory.getDoodleRightSprites();
-        ISprite[] expected = new ISprite[2];
-        expected[0] = mock;
+        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.redDoodleLeftAscend);
+        ISprite mock3 = mock(ISprite.class);
+        doReturn(mock3).when(spriteFactory, "getSprite", IRes.Sprites.redDoodleRightDescend);
+        ISprite mock4 = mock(ISprite.class);
+        doReturn(mock4).when(spriteFactory, "getSprite", IRes.Sprites.redDoodleRightAscend);
+
+        ISprite[] result = spriteFactory.getRedDoodleSprites();
+        ISprite[] expected = new ISprite[4];
+        expected[0] = mock1;
         expected[1] = mock2;
-        assertThat(Arrays.equals(expected, result), is(true));
+        expected[2] = mock3;
+        expected[3] = mock4;
+        assertThat(expected, is(result));
+    }
+
+    @Test
+    public void TestGetBlueDoodleSprite() throws Exception {
+        ISprite mock1 = mock(ISprite.class);
+        doReturn(mock1).when(spriteFactory, "getSprite", IRes.Sprites.blueDoodleLeftDescend);
+        ISprite mock2 = mock(ISprite.class);
+        doReturn(mock2).when(spriteFactory, "getSprite", IRes.Sprites.blueDoodleLeftAscend);
+        ISprite mock3 = mock(ISprite.class);
+        doReturn(mock3).when(spriteFactory, "getSprite", IRes.Sprites.blueDoodleRightDescend);
+        ISprite mock4 = mock(ISprite.class);
+        doReturn(mock4).when(spriteFactory, "getSprite", IRes.Sprites.blueDoodleRightAscend);
+
+        ISprite[] result = spriteFactory.getBlueDoodleSprites();
+        ISprite[] expected = new ISprite[4];
+        expected[0] = mock1;
+        expected[1] = mock2;
+        expected[2] = mock3;
+        expected[3] = mock4;
+        assertThat(expected, is(result));
     }
 
     @Test

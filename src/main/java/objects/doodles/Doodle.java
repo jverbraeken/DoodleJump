@@ -15,6 +15,7 @@ import objects.powerups.APowerup;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import rendering.ICamera;
+import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.World;
@@ -75,6 +76,10 @@ public class Doodle extends AGameObject implements IDoodle {
      * The minimum and maximum value of the spriteScaler.
      */
     private static final double SPRITE_SCALAR_MIN = 0d, SPRITE_SCALAR_MAX = 2d;
+    /**
+     * The scalar value that assists in calculating the size of the out of screen arrow.
+     */
+    private static final double ARROW_SCALAR = 100d;
 
     /**
      * Fake Powerup instance to return when actual powerup value is null.
@@ -135,11 +140,11 @@ public class Doodle extends AGameObject implements IDoodle {
      * @param sL The service locator.
      * @param w  The world the Doodle lives in.
      */
-    /* package */ Doodle(final IServiceLocator sL, final World w) {
+    /* package */ Doodle(final IServiceLocator sL, final ISprite[] sprites, final World w) {
         super(sL,
                 new Point(sL.getConstants().getGameWidth() / 2,
                         sL.getConstants().getGameHeight() / 2),
-                sL.getSpriteFactory().getDoodleLeftSprites()[0],
+                sprites[0],
                 Doodle.class);
 
         if (Doodle.fakePowerup == null) {
@@ -162,13 +167,21 @@ public class Doodle extends AGameObject implements IDoodle {
             }
         }
 
-        ISpriteFactory spriteFactory = sL.getSpriteFactory();
         this.shootingObserver = new ShootingObserver(sL, this);
 
         this.updateHitBox();
         this.setBehavior(Game.getMode());
-        this.sprites.put(MovementBehavior.Directions.Left, spriteFactory.getDoodleLeftSprites());
-        this.sprites.put(MovementBehavior.Directions.Right, spriteFactory.getDoodleRightSprites());
+
+        ISprite[] leftSprites = new ISprite[2];
+        leftSprites[0] = sprites[0];
+        leftSprites[1] = sprites[1];
+        this.sprites.put(MovementBehavior.Directions.Left, leftSprites);
+
+        ISprite[] rightSprites = new ISprite[2];
+        rightSprites[0] = sprites[2];
+        rightSprites[1] = sprites[3];
+        this.sprites.put(MovementBehavior.Directions.Right, rightSprites);
+
         this.world = w;
     }
 
@@ -330,12 +343,21 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     @Override
     public final void render() {
-        ISprite sprite = this.getSprite();
-        Doodle.getServiceLocator().getRenderer().drawSprite(sprite,
-                new Point((int) this.getXPos(),
-                        (int) this.getYPos()),
-                (int) (sprite.getWidth() * this.spriteScalar),
-                (int) (sprite.getHeight() * this.spriteScalar));
+        final IRenderer renderer = Doodle.getServiceLocator().getRenderer();
+        final ISpriteFactory spriteFactory = Doodle.getServiceLocator().getSpriteFactory();
+        final double camY = renderer.getCamera().getYPos();
+        final ISprite sprite = this.getSprite();
+
+        if (camY > this.getYPos() + sprite.getHeight()) {
+            final Point arrowPoint = new Point((int) this.getXPos(), spriteFactory.getScoreBarSprite().getHeight());
+            ISprite arrowSprite = spriteFactory.getDoodleLocationArrowSprite();
+            final double scale = Math.sqrt((camY - getYPos() - sprite.getHeight()) / ARROW_SCALAR) + 2;
+            renderer.drawSpriteHUD(arrowSprite, arrowPoint, (int) (arrowPoint.getX() / scale), (int) (arrowPoint.getY() / scale));
+        } else {
+            final int width = (int) (sprite.getWidth() * this.spriteScalar);
+            final int height = (int) (sprite.getHeight() * this.spriteScalar);
+            renderer.drawSprite(sprite, this.getPoint(), width, height);
+        }
 
         if (!this.isAlive()) {
             Doodle.getServiceLocator().getRenderer().drawSprite(getStarSprite(),
@@ -410,16 +432,16 @@ public class Doodle extends AGameObject implements IDoodle {
      * Update the active sprite.
      */
     public final void updateActiveSprite() {
-        // -- Get the sprite array
+        // Get the sprite array
         ISprite[] sprites = this.sprites.get(this.getFacing());
 
-        // -- Get the index of the correct sprite in the array
+        // Get the index of the correct sprite in the array
         // Compare always returns -1, 0, 1
         int compare = Double.compare(this.getVerticalSpeed(), this.getJumpingThreshold());
         // Math.max() makes sure this is 0 or 1
         int index = Math.max(0, compare);
 
-        // -- Set the sprite
+        // Set the sprite
         this.setSprite(sprites[index]);
     }
 
@@ -599,4 +621,5 @@ public class Doodle extends AGameObject implements IDoodle {
     public void addExperiencePoints(final double extraAmountOfExperience) {
         this.experience += extraAmountOfExperience;
     }
+
 }

@@ -116,10 +116,10 @@ public class ResTest {
     public void testsetDefaultSkinDoodle() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertThat(insertedSprites.get(Sprites.doodleLeftAscend), is(SPRITE_PATH + "blue-lik-left@2x.png"));
-        assertThat(insertedSprites.get(Sprites.doodleLeftDescend), is(SPRITE_PATH + "blue-lik-left-odskok@2x.png"));
-        assertThat(insertedSprites.get(Sprites.doodleRightAscend), is(SPRITE_PATH + "blue-lik-right@2x.png"));
-        assertThat(insertedSprites.get(Sprites.doodleRightDescend), is(SPRITE_PATH + "blue-lik-right-odskok@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftAscend), is(SPRITE_PATH + "lik-left@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftDescend), is(SPRITE_PATH + "lik-left-odskok@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightAscend), is(SPRITE_PATH + "lik-right@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightDescend), is(SPRITE_PATH + "lik-right-odskok@2x.png"));
     }
 
     /**
@@ -308,10 +308,10 @@ public class ResTest {
     public void testSetSpaceSkinDoodle() throws Exception {
         Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertThat(insertedSprites.get(Sprites.doodleLeftAscend), is(SPRITE_PATH + "space-left@2x.png"));
-        assertThat(insertedSprites.get(Sprites.doodleLeftDescend), is(SPRITE_PATH + "space-left-odskok@2x.png"));
-        assertThat(insertedSprites.get(Sprites.doodleRightAscend), is(SPRITE_PATH + "space-right@2x.png"));
-        assertThat(insertedSprites.get(Sprites.doodleRightDescend), is(SPRITE_PATH + "space-right-odskok@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftAscend), is(SPRITE_PATH + "space-left@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftDescend), is(SPRITE_PATH + "space-left-odskok@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightAscend), is(SPRITE_PATH + "space-right@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightDescend), is(SPRITE_PATH + "space-right-odskok@2x.png"));
     }
 
     /**
@@ -373,10 +373,10 @@ public class ResTest {
     public void testUnderwaterSkinDoodle() throws Exception {
         Whitebox.invokeMethod(res, "setUnderwaterSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertThat(insertedSprites.get(Sprites.doodleLeftAscend), is(SPRITE_PATH + "underwater-left@2x.png"));
-        assertThat(insertedSprites.get(Sprites.doodleLeftDescend), is(SPRITE_PATH + "underwater-left-odskok@2x.png"));
-        assertThat(insertedSprites.get(Sprites.doodleRightAscend), is(SPRITE_PATH + "underwater-right@2x.png"));
-        assertThat(insertedSprites.get(Sprites.doodleRightDescend), is(SPRITE_PATH + "underwater-right-odskok@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftAscend), is(SPRITE_PATH + "underwater-left@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftDescend), is(SPRITE_PATH + "underwater-left-odskok@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightAscend), is(SPRITE_PATH + "underwater-right@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightDescend), is(SPRITE_PATH + "underwater-right-odskok@2x.png"));
     }
 
     /**
@@ -517,10 +517,10 @@ public class ResTest {
     public void testDarknessSkinDoodle() throws Exception {
         Whitebox.invokeMethod(res, "setDarknessSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertThat(insertedSprites.get(Sprites.doodleLeftAscend), is(SPRITE_PATH + "ghost-left@2x.png"));
-        assertThat(insertedSprites.get(Sprites.doodleLeftDescend), is(SPRITE_PATH + "ghost-left-odskok@2x.png"));
-        assertThat(insertedSprites.get(Sprites.doodleRightAscend), is(SPRITE_PATH + "ghost-right@2x.png"));
-        assertThat(insertedSprites.get(Sprites.doodleRightDescend), is(SPRITE_PATH + "ghost-right-odskok@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftAscend), is(SPRITE_PATH + "ghost-left@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftDescend), is(SPRITE_PATH + "ghost-left-odskok@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightAscend), is(SPRITE_PATH + "ghost-right@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightDescend), is(SPRITE_PATH + "ghost-right-odskok@2x.png"));
     }
 
     /**

@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 import system.IServiceLocator;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -57,6 +58,12 @@ public class DoodleCameraTest {
     public void testUpdate() {
         camera.update(0d);
         verify(doodle, times(1)).getYPos();
+    }
+
+    @Test
+    public void testSetAccelerationType() {
+        camera.setAccelerationType(AccelerationType.fast);
+        assertTrue(true); // No crash
     }
 
 }

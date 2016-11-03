@@ -182,10 +182,12 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite[] getDoodleLeftSprites() {
-        ISprite[] sprites = new ISprite[2];
-        sprites[0] = this.getSprite(IRes.Sprites.doodleLeftDescend);
-        sprites[1] = this.getSprite(IRes.Sprites.doodleLeftAscend);
+    public ISprite[] getGreenDoodleSprites() {
+        ISprite[] sprites = new ISprite[4];
+        sprites[0] = this.getSprite(IRes.Sprites.greenDoodleLeftDescend);
+        sprites[1] = this.getSprite(IRes.Sprites.greenDoodleLeftAscend);
+        sprites[2] = this.getSprite(IRes.Sprites.greenDoodleRightDescend);
+        sprites[3] = this.getSprite(IRes.Sprites.greenDoodleRightAscend);
 
         return sprites;
     }
@@ -194,12 +196,36 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite[] getDoodleRightSprites() {
-        ISprite[] sprites = new ISprite[2];
-        sprites[0] = this.getSprite(IRes.Sprites.doodleRightDescend);
-        sprites[1] = this.getSprite(IRes.Sprites.doodleRightAscend);
+    public ISprite[] getRedDoodleSprites() {
+        ISprite[] sprites = new ISprite[4];
+        sprites[0] = this.getSprite(IRes.Sprites.redDoodleLeftDescend);
+        sprites[1] = this.getSprite(IRes.Sprites.redDoodleLeftAscend);
+        sprites[2] = this.getSprite(IRes.Sprites.redDoodleRightDescend);
+        sprites[3] = this.getSprite(IRes.Sprites.redDoodleRightAscend);
 
         return sprites;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite[] getBlueDoodleSprites() {
+        ISprite[] sprites = new ISprite[4];
+        sprites[0] = this.getSprite(IRes.Sprites.blueDoodleLeftDescend);
+        sprites[1] = this.getSprite(IRes.Sprites.blueDoodleLeftAscend);
+        sprites[2] = this.getSprite(IRes.Sprites.blueDoodleRightDescend);
+        sprites[3] = this.getSprite(IRes.Sprites.blueDoodleRightAscend);
+
+        return sprites;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getDoodleLocationArrowSprite() {
+        return this.getSprite(IRes.Sprites.doodleArrow);
     }
 
 
