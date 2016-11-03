@@ -340,6 +340,12 @@ public final class FileSystem implements IFileSystem {
         }
     }
 
+    /**
+     * Writes the content of a file.
+     *
+     * @param file The file that must be read
+     * @return A list containing the lines of the file
+     */
     private List<String> readFile(final File file) {
         List<String> result = new ArrayList<>();
         String line;
