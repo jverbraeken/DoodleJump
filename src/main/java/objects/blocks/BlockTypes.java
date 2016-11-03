@@ -119,7 +119,7 @@ public enum BlockTypes {
                 newMap.put(horizontalOnlyBlock, 1);
                 break;
             default:
-                throw new RuntimeException("No such mode (" + m + ") in modes");
+                throw new RuntimeException("No such mode (" + m + ") defined");
         }
 
         setAllWeights(newMap);
