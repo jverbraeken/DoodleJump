@@ -51,6 +51,7 @@ public class DoodleTest {
     static ISprite spriteLeft2 = mock(ISprite.class);
     static ISprite spriteRight1 = mock(ISprite.class);
     static ISprite spriteRight2 = mock(ISprite.class);
+
     AEnemy enemy = mock(AEnemy.class);
     ICamera camera = mock(ICamera.class);
     IConstants constants = mock(IConstants.class);
