@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * This class is a scene that is displays when the game is started.
  */
-public class Menu implements IScene {
+/* package */ final class Menu implements IScene {
 
     /**
      * The X-position at which the first button will be created.

@@ -24,7 +24,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({DoodleFactory.class, Doodle.class})
+@PrepareForTest({DoodleFactory.class, Doodle.class, World.class, StartScreenDoodle.class})
 public class DoodleFactoryTest {
 
     Doodle doodle = mock(Doodle.class);

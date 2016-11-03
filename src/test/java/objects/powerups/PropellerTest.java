@@ -3,15 +3,20 @@ package objects.powerups;
 import constants.IConstants;
 import logging.ILogger;
 import logging.ILoggerFactory;
+import objects.blocks.platform.Platform;
 import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.World;
 import system.IServiceLocator;
+
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,12 +26,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(World.class)
 public class PropellerTest {
 
     private IConstants constants = mock(IConstants.class);
@@ -72,7 +78,7 @@ public class PropellerTest {
         assertThat(owner, is(doodle));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCollidesWithNull() {
         propeller.collidesWith(null);
     }
@@ -92,7 +98,7 @@ public class PropellerTest {
         verify(doodle, times(0)).setVerticalSpeed(anyDouble());
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testPerformNoOwner() {
         propeller.perform(PowerupOccasion.constant);
     }

@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Score screen implementation of a scene.
  */
-/* package */ class ScoreScreen implements IScene {
+/* package */ final class ScoreScreen implements IScene {
 
     /**
      * The X and Y location for the resume button.
