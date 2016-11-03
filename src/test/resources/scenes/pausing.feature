@@ -25,3 +25,4 @@ Feature: pausing
    When the world is paused
    And I do nothing
    Then the scene should be PauseScreen
+   
