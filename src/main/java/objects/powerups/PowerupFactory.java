@@ -159,7 +159,6 @@ public final class PowerupFactory implements IPowerupFactory {
         assert level > 0;
         assert level <= type.getMaxLevel();
         final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        final Point point = new Point(x, y);
         Trampoline trampoline = new Trampoline(serviceLocator, new Point(x, y), level, spriteFactory.getTrampolineUsedSprite(level), BOOST_TRAMPOLINE[level - 1]);
         logger.info("A new Trampoline of level " + level + " was created");
         for (ITrampolineCreatedObserver observer : trampolineObservers) {

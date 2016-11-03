@@ -254,7 +254,7 @@ import java.util.ArrayList;
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
+    public void start() {
         for (IButton button : buttons) {
             button.register();
         }
@@ -265,7 +265,7 @@ import java.util.ArrayList;
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
+    public void stop() {
         for (IButton button : buttons) {
             button.deregister();
         }
@@ -340,7 +340,7 @@ import java.util.ArrayList;
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         coinSpriteIndex += COIN_SPEED * delta;
         coinSpriteIndex = coinSpriteIndex % BASE_TEN;
     }

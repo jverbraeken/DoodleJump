@@ -2,7 +2,6 @@ package progression;
 
 import rendering.IRenderer;
 import rendering.TextAlignment;
-import system.IRenderable;
 import system.IServiceLocator;
 
 import java.awt.Point;

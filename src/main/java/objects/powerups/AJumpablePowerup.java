@@ -37,7 +37,7 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
      */
     /* package */ AJumpablePowerup(final IServiceLocator sL, final Point point, final double boost, final ISprite[] sprites, final Class<?> powerup) {
         super(sL, point, sprites[0], powerup);
-        assert (sprites.length == 2);
+        assert sprites.length == 2;
         this.usedSprite = sprites[1];
         this.defaultSprite = sprites[0];
         this.boost = boost;

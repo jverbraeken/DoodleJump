@@ -207,7 +207,7 @@ public final class ButtonFactory implements IButtonFactory {
      * {@inheritDoc}
      */
     @Override
-    public IButton createOkPopupButton(final double x, final double y, final scenes.Popup popup) {
+    public IButton createOkPopupButton(final double x, final double y, final Popup popup) {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getPopupOkButton();
@@ -310,7 +310,7 @@ public final class ButtonFactory implements IButtonFactory {
             if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.horizontalOnly.getRankRequired()) {
                 Game.setMode(Game.Modes.horizontalOnly);
             } else {
-                Popup popup = new scenes.Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.horizontalOnly.getRankRequired()).getName() + " rank required.");
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.horizontalOnly.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
                 ChooseModeScreen.activePopup = true;
             }

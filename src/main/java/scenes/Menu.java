@@ -151,7 +151,7 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
+    public void start() {
         for (IButton button : this.buttons) {
             button.register();
         }
@@ -163,7 +163,7 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
+    public void stop() {
         for (IButton button : this.buttons) {
             button.deregister();
         }
@@ -175,7 +175,7 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         Ranks rank = progressionManager.getRank();
         IConstants constants = this.serviceLocator.getConstants();
@@ -198,7 +198,7 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         this.doodle.update(delta);
 
         if (this.doodle.checkCollision(this.platform)) {

@@ -400,7 +400,7 @@ public final class Renderer implements IRenderer {
                 xPos = point.getX();
                 break;
             case center:
-                xPos = point.getX() - graphics.getFontMetrics().stringWidth(msg) / 2;
+                xPos = point.getX() - graphics.getFontMetrics().stringWidth(msg) / (double) 2;
                 break;
             case right:
                 xPos = point.getX() - graphics.getFontMetrics().stringWidth(msg);

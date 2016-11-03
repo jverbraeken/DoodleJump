@@ -67,7 +67,7 @@ public final class Enemy extends AEnemy {
      * {@inheritDoc}
      */
     @Override
-    public final double getBoost() {
+    public double getBoost() {
         return Enemy.BOOST;
     }
 
@@ -75,7 +75,7 @@ public final class Enemy extends AEnemy {
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         IRenderer renderer = getServiceLocator().getRenderer();
         renderer.drawSprite(getSprite(), new Point((int) this.getXPos(), (int) this.getYPos()));
     }
@@ -84,7 +84,7 @@ public final class Enemy extends AEnemy {
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         if (this.alive) {
             int xPos;
             if (this.movingDirection == 1) {
@@ -110,7 +110,7 @@ public final class Enemy extends AEnemy {
      * {@inheritDoc}
      */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         if (doodle.getVerticalSpeed() > 0) {
             alive = false;
             vSpeed = doodle.getVerticalSpeed();
@@ -127,7 +127,7 @@ public final class Enemy extends AEnemy {
      * {@inheritDoc}
      */
     @Override
-    public final int getOffSet() {
+    public int getOffSet() {
         return this.offset;
     }
 
@@ -135,14 +135,14 @@ public final class Enemy extends AEnemy {
      * {@inheritDoc}
      */
     @Override
-    public final double getVerticalSpeed() {
+    public double getVerticalSpeed() {
         return this.vSpeed;
     }
 
     /**
      * Apply gravity to the Breaking platform.
      */
-    public final void applyGravity() {
+    public void applyGravity() {
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         addYPos(this.vSpeed);
     }
@@ -151,7 +151,7 @@ public final class Enemy extends AEnemy {
      * Get if the Enemy is alive.
      * @return the attribute alive.
      */
-    public final boolean isAlive() {
+    public boolean isAlive() {
         return this.alive;
     }
 
@@ -159,7 +159,7 @@ public final class Enemy extends AEnemy {
      * Set if the Enemy is alive.
      * @param alive a boolean if the Enemy is alive.
      */
-    public final void setAlive(final boolean alive) {
+    public void setAlive(final boolean alive) {
         this.alive = alive;
     }
 

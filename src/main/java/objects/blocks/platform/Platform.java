@@ -88,7 +88,7 @@ public final class Platform extends AGameObject implements IPlatform {
     * {@inheritDoc}
      */
     @Override
-    public final double getBoost() {
+    public double getBoost() {
         return Platform.BOOST;
     }
 
@@ -96,14 +96,14 @@ public final class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         double xPos = this.getXPos();
         double yPos = this.getYPos();
         getServiceLocator().getRenderer().drawSprite(getSprite(), new Point((int) xPos, (int) yPos));
@@ -113,14 +113,14 @@ public final class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final void updateEnums(final double xPos, final double yPos) {
+    public void updateEnums(final double xPos, final double yPos) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         if (doodle == null) {
             throw new IllegalArgumentException("Doodle cannot be null");
         }
@@ -143,7 +143,7 @@ public final class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final Map<PlatformProperties, Integer> getProps() {
+    public Map<PlatformProperties, Integer> getProps() {
         return props;
     }
 
@@ -151,7 +151,7 @@ public final class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final Map<Directions, Integer> getDirections() {
+    public Map<Directions, Integer> getDirections() {
         return directions;
     }
 
@@ -159,7 +159,7 @@ public final class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final void setOffset(final double value) {
+    public void setOffset(final double value) {
         this.offSet = value;
     }
 
@@ -167,7 +167,7 @@ public final class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final double getOffset() {
+    public double getOffset() {
         return offSet;
     }
 
