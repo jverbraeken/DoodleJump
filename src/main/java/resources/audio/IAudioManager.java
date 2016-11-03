@@ -79,6 +79,10 @@ public interface IAudioManager {
 
     void playThunder();
 
+    void loopThemeSong();
+
+    void stopLoopingThemeSong();
+
     void playTrampoline();
 
     void playUFO();
