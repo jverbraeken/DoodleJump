@@ -105,8 +105,8 @@ public class PlatformTest {
      */
     @Test
     public void setOffSetTest() {
-        p.setOffset(10);
-        assertThat(p.getOffset(), is(10));
+        p.setOffset(10d);
+        assertThat(p.getOffset(), is(10d));
     }
 
     /**

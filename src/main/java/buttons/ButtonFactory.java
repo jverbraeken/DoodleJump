@@ -246,17 +246,17 @@ public final class ButtonFactory implements IButtonFactory {
     public IButton createInvertModeButton(final double x, final double y) {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getSprite(IRes.Sprites.invertMode);
+        ISprite buttonSprite = spriteFactory.getSprite(IRes.Sprites.verticalOnlyMode);
         Runnable invertMode = () -> {
-            if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.invert.getRankRequired()) {
-                Game.setMode(Game.Modes.invert);
+            if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.verticalOnly.getRankRequired()) {
+                Game.setMode(Game.Modes.verticalOnly);
             } else {
-                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.invert.getRankRequired()).getName() + " rank required.");
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.verticalOnly.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
                 ChooseModeScreen.showPopup();
             }
         };
-        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, invertMode, "invertMode");
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, invertMode, "verticalOnlyMode");
     }
 
     /**
@@ -306,17 +306,17 @@ public final class ButtonFactory implements IButtonFactory {
     public IButton createStoryModeButton(final double x, final double y) {
         assert ButtonFactory.serviceLocator != null;
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
-        ISprite buttonSprite = spriteFactory.getSprite(IRes.Sprites.storyMode);
+        ISprite buttonSprite = spriteFactory.getSprite(IRes.Sprites.horizontalOnlyMode);
         Runnable storyMode = () -> {
-            if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.story.getRankRequired()) {
-                Game.setMode(Game.Modes.story);
+            if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.horizontalOnly.getRankRequired()) {
+                Game.setMode(Game.Modes.horizontalOnly);
             } else {
-                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.story.getRankRequired()).getName() + " rank required.");
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.horizontalOnly.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
                 ChooseModeScreen.showPopup();
             }
         };
-        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, storyMode, "storyMode");
+        return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, storyMode, "horizontalOnlyMode");
     }
 
     /**

@@ -19,7 +19,7 @@ import java.awt.Point;
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-/* package */ class KillScreen implements IScene {
+/* package */ final class KillScreen implements IScene {
 
     /**
      * X & Y location in relation to the frame of the play again button.

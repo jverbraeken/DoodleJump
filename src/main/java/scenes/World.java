@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 /**
  * This class describes the scene in which the actual standard game is played.
  */
-public class World implements IScene {
+public final class World implements IScene {
 
     /**
      * The offset of the pause button.
@@ -128,8 +128,8 @@ public class World implements IScene {
         this.drawables.get(DrawableLevels.back).add(this.topBlock);
         this.updatables.add(this.topBlock);
 
-        for (int i = 1; i < BLOCK_BUFFER; i++) {
-            this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable(), BlockTypes.normalOnlyBlock);
+        for (int i = 1; i < 2; i++) {
+            this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable(), BlockTypes.normalOnlyBlock, false);
             this.blocks.add(this.topBlock);
             this.drawables.get(DrawableLevels.back).add(this.topBlock);
             this.updatables.add(this.topBlock);
@@ -140,6 +140,7 @@ public class World implements IScene {
         this.drawables.get(DrawableLevels.front).add(this.scoreBar);
 
         serviceLocator.getAudioManager().playStart();
+        serviceLocator.getAudioManager().loopThemeSong();
 
         this.start();
         logger.info("Level started");
@@ -226,6 +227,7 @@ public class World implements IScene {
     public final void endGameInstance(final double score, final double extraExp) {
         serviceLocator.getProgressionManager().addHighScore("Doodle", score);
         serviceLocator.getProgressionManager().addExperience((int) score);
+        serviceLocator.getAudioManager().stopLoopingThemeSong();
 
         Game.setScene(serviceLocator.getSceneFactory().createKillScreen((int) score, (int) extraExp));
     }
@@ -315,7 +317,7 @@ public class World implements IScene {
     private void newBlocks() {
         if (blocks.size() < BLOCK_BUFFER) {
             IJumpable topPlatform = topBlock.getTopJumpable();
-            this.topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform, BlockTypes.randomType());
+            this.topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform, BlockTypes.randomType(), doodles.size() < 2);
             this.blocks.add(topBlock);
             this.drawables.get(DrawableLevels.back).add(topBlock);
             this.updatables.add(topBlock);

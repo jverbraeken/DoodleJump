@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * This class focuses on the implementation of platforms.
  */
-public class Platform extends AGameObject implements IPlatform {
+public final class Platform extends AGameObject implements IPlatform {
 
     /**
      * The boost the Doodle gets from colliding with the platform.
@@ -22,7 +22,7 @@ public class Platform extends AGameObject implements IPlatform {
     /**
      * The offSet of the vertical moving platform.
      */
-    private int offSet = 0;
+    private double offSet = 0;
     /**
      * The properties for this platform.
      */
@@ -159,7 +159,7 @@ public class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final void setOffset(final int value) {
+    public final void setOffset(final double value) {
         this.offSet = value;
     }
 
@@ -167,7 +167,7 @@ public class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final int getOffset() {
+    public final double getOffset() {
         return offSet;
     }
 

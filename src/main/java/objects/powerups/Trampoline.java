@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * This class describes the behaviour of the trampoline powerup.
  */
-/* package */ public final class Trampoline extends AJumpablePowerup {
+public final class Trampoline extends AJumpablePowerup {
 
     /**
      * The speed with which the trampoline retracts after it is used.

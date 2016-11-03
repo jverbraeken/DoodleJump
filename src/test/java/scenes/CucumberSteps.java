@@ -1,6 +1,5 @@
 package scenes;
 
-import buttons.IButton;
 import cucumber.api.java8.En;
 import objects.doodles.IDoodle;
 import objects.powerups.Powerups;
@@ -14,7 +13,6 @@ import system.IServiceLocator;
 import java.awt.*;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -89,7 +87,7 @@ public class CucumberSteps implements En {
                     Object action01 = Whitebox.getInternalState(buttons.get(1), "action");
                     ((Runnable) action01).run();
                     break;
-                case "story":
+                case "horizontalOnly":
                     Object action02 = Whitebox.getInternalState(buttons.get(2), "action");
                     ((Runnable) action02).run();
                     break;
@@ -101,7 +99,7 @@ public class CucumberSteps implements En {
                     Object action04 = Whitebox.getInternalState(buttons.get(4), "action");
                     ((Runnable) action04).run();
                     break;
-                case "invert":
+                case "verticalOnly":
                     Object action05 = Whitebox.getInternalState(buttons.get(5), "action");
                     ((Runnable) action05).run();
                     break;
@@ -153,11 +151,11 @@ public class CucumberSteps implements En {
                 case "darkness":
                     assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.darkness));
                     break;
-                case "invert":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.invert));
+                case "verticalOnly":
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.verticalOnly));
                     break;
-                case "story":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.story));
+                case "horizontalOnly":
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.horizontalOnly));
                     break;
             }
         });

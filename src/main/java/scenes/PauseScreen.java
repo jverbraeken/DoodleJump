@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * PauseScreen implementation of a scene.
  */
-/* package */ class PauseScreen implements IScene {
+/* package */ final class PauseScreen implements IScene {
 
     /**
      * The X and Y location for the resume button.

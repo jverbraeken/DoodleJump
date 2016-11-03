@@ -90,4 +90,5 @@ public final class SpringUsedObserver extends DefaultProgressionObserver impleme
     protected void finishedExtension() {
         super.getServiceLocator().getPowerupFactory().removeObserver(this);
     }
+
 }

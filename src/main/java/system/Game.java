@@ -3,6 +3,7 @@ package system;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
+import objects.blocks.BlockTypes;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
 import scenes.Popup;
@@ -105,15 +106,13 @@ public final class Game {
          */
         underwater(2),
         /**
-         * The game mode following a story.
-         * UNIMPLEMENTED
+         * The game mode following a horizontalOnly platforms.
          */
-        story(1),
+        horizontalOnly(1),
         /**
-         * The game using the invertable platforms.
-         * UNIMPLEMENTED
+         * The game using the vertical platforms.
          */
-        invert(5),
+        verticalOnly(5),
         /**
          * The game mode with invisible platforms.
          * The platforms turn visible when touched by a doodle.
@@ -122,7 +121,12 @@ public final class Game {
         /**
          * The game mode taking place in space.
          */
-        space(3);
+        space(3),
+        /**
+         * A default mode, same as regular.
+         * Now only used for testing.
+         */
+        defaultmode(-1);
         /**
          * The rank required to play this mode.
          */
@@ -316,6 +320,7 @@ public final class Game {
         serviceLocator.getRes().setSkin(m);
         SpriteFactory.register(serviceLocator);
         setScene(serviceLocator.getSceneFactory().newChooseMode());
+        BlockTypes.setMode(m);
         logger.info("The mode is now " + m);
     }
 

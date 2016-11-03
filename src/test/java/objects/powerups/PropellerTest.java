@@ -3,10 +3,14 @@ package objects.powerups;
 import constants.IConstants;
 import logging.ILogger;
 import logging.ILoggerFactory;
+import objects.blocks.platform.Platform;
 import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Matchers;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
 import resources.IRes;
@@ -17,7 +21,7 @@ import resources.sprites.ISpriteFactory;
 import scenes.World;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -31,6 +35,8 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(World.class)
 public class PropellerTest {
 
     private IConstants constants = mock(IConstants.class);
