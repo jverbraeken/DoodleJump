@@ -182,17 +182,6 @@ public final class ChooseModeScreen implements IScene {
     }
 
     /**
-     * Renders the popup with a message given in the attribute.
-     */
-    private void renderPopup() {
-        IConstants constants = this.serviceLocator.getConstants();
-        IRenderer renderer = this.serviceLocator.getRenderer();
-
-        renderer.fillRectangle(new Point(0, 0), constants.getGameWidth(), TOP_RECTANGLE_HEIGHT, rendering.Color.halfOpaqueWhite);
-        renderer.drawText(new Point(0, POPUP_TEXT_Y), "Rank: " + rank.getName(), Color.red);
-    }
-
-    /**
      * Render the crosses that indicate whether a mode is available given the rank of the player.
      */
     private void renderByRank() {
