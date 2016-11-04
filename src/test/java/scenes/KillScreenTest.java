@@ -107,7 +107,7 @@ public class KillScreenTest {
         verify(playagain, times(1)).register();
         verify(menu, times(1)).register();
 
-        verify(logger, times(1)).info("The kill screen scene is now displaying");
+        verify(logger).info(anyString());
     }
 
     @Test
@@ -116,8 +116,8 @@ public class KillScreenTest {
 
         verify(playagain, times(1)).deregister();
         verify(menu, times(1)).deregister();
-
-        verify(logger, times(1)).info("The kill screen scene is no longer displaying");
+        
+        verify(logger).info(anyString());
     }
 
 }
