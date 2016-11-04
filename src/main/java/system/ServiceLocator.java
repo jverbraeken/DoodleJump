@@ -30,7 +30,7 @@ import resources.audio.IAudioManager;
      * @return the service locator.
      */
     public static IServiceLocator getServiceLocator() {
-        return SERVICE_LOCATOR;
+        return ServiceLocator.SERVICE_LOCATOR;
     }
 
     /**
@@ -47,8 +47,8 @@ import resources.audio.IAudioManager;
      */
     @Override
     public IAudioManager getAudioManager() {
-        assert audioManager != null;
-        return audioManager;
+        assert this.audioManager != null;
+        return this.audioManager;
     }
 
     /**
