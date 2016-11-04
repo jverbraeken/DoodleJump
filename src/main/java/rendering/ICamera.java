@@ -8,6 +8,13 @@ import system.IUpdatable;
 public interface ICamera extends IUpdatable {
 
     /**
+     * Get the Y position of the camera.
+     *
+     * @return The Y position.
+     */
+    double getYPos();
+
+    /**
      * Sets the y-position of the camera to the value specified.
      *
      * @param yPos The new y-value of the camera
@@ -15,10 +22,10 @@ public interface ICamera extends IUpdatable {
     void setYPos(final double yPos);
 
     /**
-     * Get the Y position of the camera.
+     * Sets the acceleration type of the camera to the specified value.
      *
-     * @return The Y position.
+     * @param type The new acceleration type for the camera
      */
-    double getYPos();
+    void setAccelerationType(final AccelerationType type);
 
 }

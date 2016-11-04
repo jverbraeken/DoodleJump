@@ -9,25 +9,24 @@ import progression.IProgressionManager;
 import rendering.Color;
 import rendering.IRenderer;
 import rendering.TextAlignment;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IRenderable;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-/* package */ class ShopScreen implements IScene {
+/* package */ final class ShopScreen implements IScene {
 
     /**
      * X & Y location in relation to the frame of the main menu button.
      */
     private static final double MAIN_MENU_BUTTON_X = 0.35, MAIN_MENU_BUTTON_Y = 0.03;
-
-
     /**
      * The X-position at which the buttons in the first row will be created.
      */
@@ -179,8 +178,8 @@ import java.util.ArrayList;
         this.serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(ShopScreen.class);
 
-        background = sL.getSpriteFactory().getBackground();
-        bottomChooseModeScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
+        background = sL.getSpriteFactory().getSprite(IRes.Sprites.background);
+        bottomChooseModeScreen = sL.getSpriteFactory().getSprite(IRes.Sprites.killScreenBottom);
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         IButton mainMenuButton = buttonFactory.createMainMenuButton(
@@ -254,22 +253,40 @@ import java.util.ArrayList;
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
-        for (IButton button : buttons) {
-            button.register();
-        }
-        logger.info("The choose mode scene is now displaying");
+    public void start() {
+        this.register();
+        this.logger.info("The choose mode scene is now displaying");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
-        for (IButton button : buttons) {
+    public void stop() {
+        this.deregister();
+        this.logger.info("The choose mode scene is no longer displaying");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register() {
+        for (IButton button : this.buttons) {
+            button.register();
+        }
+        this.logger.info("The score scene is now registered");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deregister() {
+        for (IButton button : this.buttons) {
             button.deregister();
         }
-        logger.info("The choose mode scene is no longer displaying");
+        this.logger.info("The score scene is now deregistered");
     }
 
     /**
@@ -340,23 +357,9 @@ import java.util.ArrayList;
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         coinSpriteIndex += COIN_SPEED * delta;
         coinSpriteIndex = coinSpriteIndex % BASE_TEN;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void switchDisplay(PauseScreenModes mode) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

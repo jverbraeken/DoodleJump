@@ -34,7 +34,10 @@ import rendering.IRenderer;
 import rendering.Renderer;
 import resources.IRes;
 import resources.Res;
+import resources.animations.AnimationFactory;
+import resources.animations.IAnimationFactory;
 import resources.audio.IAudioManager;
+import resources.audio.Sounds;
 import resources.sprites.ISpriteFactory;
 import resources.sprites.SpriteFactory;
 import scenes.ISceneFactory;
@@ -42,50 +45,45 @@ import scenes.SceneFactory;
 
 /**
  * Default implementation for the ServiceLocatorNoAudio. Used to gain access to all services.
- * The difference between this ServiceLcoator and the standard one is the absence of Audio services.
+ * The difference between this ServiceLocator and the standard one is the absence of Audio services.
  */
 /* package */ class ServiceLocatorNoAudio implements IServiceLocator {
-
-    // constants.json
-    private IConstants constants;
-
-    // input
-    private IInputManager inputManager;
-
-    // enemies
-    private IEnemyFactory enemyFactory;
-
-    // rendering
-    private ICameraFactory cameraFactory;
-    private IRenderer renderer;
-    private IButtonFactory buttonFactory;
 
     // filesystem
     private IFileSystem fileSystem;
 
-    // util
-    private ILoggerFactory loggerFactory;
+    // input
+    private IInputManager inputManager;
 
     // objects
-    private IPowerupFactory powerupFactory;
-    private IDoodleFactory doodleFactory;
     private IBlockFactory blockFactory;
+    private IDoodleFactory doodleFactory;
+    private IEnemyFactory enemyFactory;
     private IPlatformFactory platformFactory;
+    private IPowerupFactory powerupFactory;
     private IProjectileFactory projectileFactory;
 
     // progression
-    private IProgressionManager progressionManager;
     private IMissionFactory missionFactory;
+    private IProgressionManager progressionManager;
+
+    // rendering
+    private ICameraFactory cameraFactory;
+    private IRenderer renderer;
 
     // resources
-    private ISpriteFactory spriteFactory;
+    private IAnimationFactory animationFactory;
     private IRes res;
+    private ISpriteFactory spriteFactory;
 
     // scenes
     private ISceneFactory sceneFactory;
 
     // utility
+    private IButtonFactory buttonFactory;
     private ICalc calc;
+    private IConstants constants;
+    private ILoggerFactory loggerFactory;
 
     /**
      * The serviceLocator.
@@ -95,7 +93,7 @@ import scenes.SceneFactory;
     /**
      * Initialize the ServiceLocator class.
      */
-    protected ServiceLocatorNoAudio() {
+    /* package */ ServiceLocatorNoAudio() {
         this.init();
     }
 
@@ -105,7 +103,7 @@ import scenes.SceneFactory;
      * @return the service locator.
      */
     public static IServiceLocator getServiceLocator() {
-        return SERVICE_LOCATOR;
+        return ServiceLocatorNoAudio.SERVICE_LOCATOR;
     }
 
     /**
@@ -113,6 +111,7 @@ import scenes.SceneFactory;
      */
     @Override
     public void provide(final IAudioManager aM) {
+        // Shouldn't do anything, as this is a ServiceLocator without an AudioManager
     }
 
     /**
@@ -289,220 +288,32 @@ import scenes.SceneFactory;
      * {@inheritDoc}
      */
     @Override
+    public void provide(final IAnimationFactory animationFactory) {
+        assert animationFactory != null;
+        this.animationFactory = animationFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public IAudioManager getAudioManager() {
+        // Returns a fake AudioManager that doesn't do anything.
         return new IAudioManager() {
             @Override
             public void preload() {
             }
 
             @Override
-            public void playBijeli() {
-
+            public void play(Sounds sound) {
             }
 
             @Override
-            public void playBlizzard() {
-
+            public void loop(Sounds sound) {
             }
 
             @Override
-            public void playBubbles1() {
-
-            }
-
-            @Override
-            public void playBubbles2() {
-
-            }
-
-            @Override
-            public void playChill() {
-
-            }
-
-            @Override
-            public void playCollect() {
-
-            }
-
-            @Override
-            public void playCrnarupa() {
-
-            }
-
-            @Override
-            public void playEggMonsterHit() {
-
-            }
-
-            @Override
-            public void playExplodingPlatform() {
-
-            }
-
-            @Override
-            public void playExplodingPlatform2() {
-
-            }
-
-            @Override
-            public void playFeder() {
-
-            }
-
-            @Override
-            public void playJetpack() {
-
-            }
-
-            @Override
-            public void playJump() {
-
-            }
-
-            @Override
-            public void playJumpOnMonster() {
-
-            }
-
-            @Override
-            public void playLomise() {
-
-            }
-
-            @Override
-            public void playMatchSound() {
-
-            }
-
-            @Override
-            public void playMonsterCrash() {
-
-            }
-
-            @Override
-            public void playMonsterBlizu() {
-
-            }
-
-            @Override
-            public void playMonsterPogodak() {
-
-            }
-
-            @Override
-            public void playOogapucanje() {
-
-            }
-
-            @Override
-            public void playOogapucanje2() {
-
-            }
-
-            @Override
-            public void playPada() {
-
-            }
-
-            @Override
-            public void playPropeller() {
-
-            }
-
-            @Override
-            public void playPucanje() {
-
-            }
-
-            @Override
-            public void playPucanje2() {
-
-            }
-
-            @Override
-            public void playRain() {
-
-            }
-
-            @Override
-            public void playRocket() {
-
-            }
-
-            @Override
-            public void playSnowballMonsterHit() {
-
-            }
-
-            @Override
-            public void playSnowballThrow() {
-
-            }
-
-            @Override
-            public void playSnowballThrow2() {
-
-            }
-
-            @Override
-            public void playSoccerMonsterCrash() {
-
-            }
-
-            @Override
-            public void playSoccerMonsterHit() {
-
-            }
-
-            @Override
-            public void playSpringShoes() {
-
-            }
-
-            @Override
-            public void playStart() {
-
-            }
-
-            @Override
-            public void playThunder() {
-
-            }
-
-            @Override
-            public void playTrampoline() {
-
-            }
-
-            @Override
-            public void playUFO() {
-
-            }
-
-            @Override
-            public void playUFOPogodak() {
-
-            }
-
-            @Override
-            public void playUnderwaterShoot() {
-
-            }
-
-            @Override
-            public void playUnderwaterShoot2() {
-
-            }
-
-            @Override
-            public void playUsaugateufo() {
-
-            }
-
-            @Override
-            public void playWin() {
-
+            public void stop(Sounds sound) {
             }
         };
     }
@@ -512,8 +323,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IEnemyFactory getEnemyFactory() {
-        assert enemyFactory != null;
-        return enemyFactory;
+        assert this.enemyFactory != null;
+        return this.enemyFactory;
     }
 
     /**
@@ -521,8 +332,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IFileSystem getFileSystem() {
-        assert fileSystem != null;
-        return fileSystem;
+        assert this.fileSystem != null;
+        return this.fileSystem;
     }
 
     /**
@@ -530,8 +341,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IInputManager getInputManager() {
-        assert inputManager != null;
-        return inputManager;
+        assert this.inputManager != null;
+        return this.inputManager;
     }
 
     /**
@@ -539,8 +350,8 @@ import scenes.SceneFactory;
      */
     @Override
     public ICalc getCalc() {
-        assert calc != null;
-        return calc;
+        assert this.calc != null;
+        return this.calc;
     }
 
     /**
@@ -548,8 +359,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IBlockFactory getBlockFactory() {
-        assert blockFactory != null;
-        return blockFactory;
+        assert this.blockFactory != null;
+        return this.blockFactory;
     }
 
     /**
@@ -557,8 +368,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IDoodleFactory getDoodleFactory() {
-        assert doodleFactory != null;
-        return doodleFactory;
+        assert this.doodleFactory != null;
+        return this.doodleFactory;
     }
 
     /**
@@ -566,8 +377,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IPowerupFactory getPowerupFactory() {
-        assert powerupFactory != null;
-        return powerupFactory;
+        assert this.powerupFactory != null;
+        return this.powerupFactory;
     }
 
     /**
@@ -575,8 +386,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IRenderer getRenderer() {
-        assert renderer != null;
-        return renderer;
+        assert this.renderer != null;
+        return this.renderer;
     }
 
     /**
@@ -584,8 +395,8 @@ import scenes.SceneFactory;
      */
     @Override
     public ISpriteFactory getSpriteFactory() {
-        assert spriteFactory != null;
-        return spriteFactory;
+        assert this.spriteFactory != null;
+        return this.spriteFactory;
     }
 
     /**
@@ -593,8 +404,8 @@ import scenes.SceneFactory;
      */
     @Override
     public ISceneFactory getSceneFactory() {
-        assert sceneFactory != null;
-        return sceneFactory;
+        assert this.sceneFactory != null;
+        return this.sceneFactory;
     }
 
     /**
@@ -602,8 +413,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IPlatformFactory getPlatformFactory() {
-        assert platformFactory != null;
-        return platformFactory;
+        assert this.platformFactory != null;
+        return this.platformFactory;
     }
 
     /**
@@ -611,8 +422,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IRes getRes() {
-        assert res != null;
-        return res;
+        assert this.res != null;
+        return this.res;
     }
 
     /**
@@ -620,8 +431,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IButtonFactory getButtonFactory() {
-        assert buttonFactory != null;
-        return buttonFactory;
+        assert this.buttonFactory != null;
+        return this.buttonFactory;
     }
 
     /**
@@ -629,8 +440,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IConstants getConstants() {
-        assert constants != null;
-        return constants;
+        assert this.constants != null;
+        return this.constants;
     }
 
     /**
@@ -638,8 +449,8 @@ import scenes.SceneFactory;
      */
     @Override
     public ILoggerFactory getLoggerFactory() {
-        assert loggerFactory != null;
-        return loggerFactory;
+        assert this.loggerFactory != null;
+        return this.loggerFactory;
     }
 
     /**
@@ -679,14 +490,25 @@ import scenes.SceneFactory;
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IAnimationFactory getAnimationFactory() {
+        assert this.animationFactory != null;
+        return this.animationFactory;
+    }
+
+    /**
      * Initialize the ServiceLocator.
      */
     private void init() {
+        // Need to be registered first
         Res.register(this);
         FileSystem.register(this);
         Constants.register(this);
         LoggerFactory.register(this);
 
+        // Registering order does not matter here
         EnemyFactory.register(this);
         InputManager.register(this);
         Calc.register(this);
@@ -702,5 +524,7 @@ import scenes.SceneFactory;
         ProjectileFactory.register(this);
         ProgressionManager.register(this);
         MissionFactory.register(this);
+        AnimationFactory.register(this);
     }
+
 }

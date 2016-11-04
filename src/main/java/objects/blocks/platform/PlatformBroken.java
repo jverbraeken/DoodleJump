@@ -2,7 +2,9 @@ package objects.blocks.platform;
 
 import objects.AGameObject;
 import objects.doodles.IDoodle;
+import resources.IRes;
 import resources.audio.IAudioManager;
+import resources.audio.Sounds;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -26,7 +28,7 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      */
     /* package */PlatformBroken(final IServiceLocator sL, final IPlatform platform) {
         super(sL, platform);
-        getContained().setSprite(sL.getSpriteFactory().getPlatformBrokenSprite(1));
+        getContained().setSprite(sL.getSpriteFactory().getSprite(IRes.Sprites.platformBroken1));
         getContained().getProps().put(Platform.PlatformProperties.breaks, 1);
     }
 
@@ -110,6 +112,6 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      */
     private void playBreakSound() {
         IAudioManager audioManager = getServiceLocator().getAudioManager();
-        audioManager.playLomise();
+        audioManager.play(Sounds.LOMISE);
     }
 }

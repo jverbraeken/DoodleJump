@@ -2,13 +2,10 @@ package scenes;
 
 import buttons.IButton;
 import buttons.IButtonFactory;
-import constants.IConstants;
 import logging.ILogger;
 import progression.IProgressionManager;
 import progression.Ranks;
-import objects.powerups.Powerups;
-import rendering.Color;
-import rendering.IRenderer;
+import resources.IRes;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -20,7 +17,7 @@ import java.awt.Point;
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-public class ChooseModeScreen implements IScene {
+public final class ChooseModeScreen implements IScene {
 
     /**
      * X & Y location in relation to the frame of the regular mode button.
@@ -35,11 +32,11 @@ public class ChooseModeScreen implements IScene {
      */
     private static final double SPACE_MODE_X = 0.2, SPACE_MODE_Y = 0.65;
     /**
-     * X & Y location in relation to the frame of the invert mode button.
+     * X & Y location in relation to the frame of the verticalOnly mode button.
      */
     private static final double INVERT_MODE_X = 0.6, INVERT_MODE_Y = 0.65;
     /**
-     * X & Y location in relation to the frame of the story mode button.
+     * X & Y location in relation to the frame of the horizontalOnly mode button.
      */
     private static final double STORY_MODE_X = 0.6, STORY_MODE_Y = 0.25;
     /**
@@ -50,11 +47,6 @@ public class ChooseModeScreen implements IScene {
      * X & Y location in relation to the frame of the main menu button.
      */
     private static final double MAIN_MENU_BUTTON_X = 0.35, MAIN_MENU_BUTTON_Y = 0.13;
-
-    /**
-     * The height of the rectangle on the top and the Y location of the rank text.
-     */
-    private static final int TOP_RECTANGLE_HEIGHT = 65, POPUP_TEXT_Y = 10;
 
     /**
      * Used to gain access to all services.
@@ -84,7 +76,7 @@ public class ChooseModeScreen implements IScene {
     /**
      * If the popup is active.
      */
-    public static boolean activePopup = false;
+    private static boolean activePopup = false;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -96,8 +88,8 @@ public class ChooseModeScreen implements IScene {
         this.serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(ChooseModeScreen.class);
 
-        background = sL.getSpriteFactory().getBackground();
-        bottomChooseModeScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
+        background = sL.getSpriteFactory().getSprite(IRes.Sprites.background);
+        bottomChooseModeScreen = sL.getSpriteFactory().getSprite(IRes.Sprites.killScreenBottom);
 
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         rank = progressionManager.getRank();
@@ -138,22 +130,34 @@ public class ChooseModeScreen implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
-        for (IButton button : buttons) {
-            button.register();
-        }
-        logger.info("The choose mode scene is now displaying");
+    public void start() {
+        this.register();
+        this.logger.info("The choose mode scene is now displaying");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
-        for (IButton button : buttons) {
+    public void stop() {
+        this.deregister();
+        this.logger.info("The choose mode scene is no longer displaying");
+    }
+
+    @Override
+    public void register() {
+        for (IButton button : this.buttons) {
+            button.register();
+        }
+        this.logger.info("The score scene is now registered");
+    }
+
+    @Override
+    public void deregister() {
+        for (IButton button : this.buttons) {
             button.deregister();
         }
-        logger.info("The choose mode scene is no longer displaying");
+        this.logger.info("The score scene is now deregistered");
     }
 
     /**
@@ -178,29 +182,18 @@ public class ChooseModeScreen implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
-    }
-
-    /**
-     * Renders the popup with a message given in the attribute.
-     */
-    private void renderPopup() {
-        IConstants constants = this.serviceLocator.getConstants();
-        IRenderer renderer = this.serviceLocator.getRenderer();
-
-        renderer.fillRectangle(new Point(0, 0), constants.getGameWidth(), TOP_RECTANGLE_HEIGHT, rendering.Color.halfOpaqueWhite);
-        renderer.drawText(new Point(0, POPUP_TEXT_Y), "Rank: " + rank.getName(), Color.red);
+    public void update(final double delta) {
     }
 
     /**
      * Render the crosses that indicate whether a mode is available given the rank of the player.
      */
     private void renderByRank() {
-        int rankLevel = rank.getLevelNumber();
-        int gameWidth = this.serviceLocator.getConstants().getGameWidth();
-        int gameHeight = this.serviceLocator.getConstants().getGameHeight();
-        ISprite redCross = this.serviceLocator.getSpriteFactory().getRedCross();
-        if (rankLevel < Game.Modes.story.getRankRequired()) {
+        final int rankLevel = rank.getLevelNumber();
+        final int gameWidth = this.serviceLocator.getConstants().getGameWidth();
+        final int gameHeight = this.serviceLocator.getConstants().getGameHeight();
+        final ISprite redCross = this.serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.redCross);
+        if (rankLevel < Game.Modes.horizontalOnly.getRankRequired()) {
             serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (STORY_MODE_X * gameWidth), (int) (STORY_MODE_Y * gameHeight)));
         }
         if (rankLevel < Game.Modes.underwater.getRankRequired()) {
@@ -212,24 +205,23 @@ public class ChooseModeScreen implements IScene {
         if (rankLevel < Game.Modes.darkness.getRankRequired()) {
             serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (DARKNESS_MODE_X * gameWidth), (int) (DARKNESS_MODE_Y * gameHeight)));
         }
-        if (rankLevel < Game.Modes.invert.getRankRequired()) {
+        if (rankLevel < Game.Modes.verticalOnly.getRankRequired()) {
             serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (INVERT_MODE_X * gameWidth), (int) (INVERT_MODE_Y * gameHeight)));
         }
     }
 
-
-         /*
-     * {@inheritDoc}
+    /**
+     * Show a popup on the screen.
      */
-    @Override
-    public final void switchDisplay(PauseScreenModes mode) {
+    public static void showPopup() {
+        activePopup = true;
     }
 
     /**
-     * {@inheritDoc}
+     * Hide the popup from the screen.
      */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
+    public static void hidePopup() {
+        activePopup = false;
     }
 
 }

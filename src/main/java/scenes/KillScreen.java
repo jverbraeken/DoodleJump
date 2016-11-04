@@ -4,21 +4,21 @@ import buttons.IButton;
 import buttons.IButtonFactory;
 import constants.IConstants;
 import logging.ILogger;
-import objects.powerups.Powerups;
 import progression.IProgressionManager;
 import progression.Ranks;
 import rendering.Color;
 import rendering.IRenderer;
 import rendering.TextAlignment;
+import resources.IRes;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-/* package */ class KillScreen implements IScene {
+/* package */ final class KillScreen implements IScene {
 
     /**
      * X & Y location in relation to the frame of the play again button.
@@ -123,9 +123,9 @@ import java.awt.*;
         countUpAmount = (double) totalExperience / (double) SCORE_COUNT_TIME_CONSTANT;
         this.logger = sL.getLoggerFactory().createLogger(KillScreen.class);
 
-        this.background = sL.getSpriteFactory().getBackground();
-        this.bottomKillScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
-        this.gameOverSprite = sL.getSpriteFactory().getGameOverSprite();
+        this.background = sL.getSpriteFactory().getSprite(IRes.Sprites.background);
+        this.bottomKillScreen = sL.getSpriteFactory().getSprite(IRes.Sprites.killScreenBottom);
+        this.gameOverSprite = sL.getSpriteFactory().getSprite(IRes.Sprites.gameOver);
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         this.playAgainButton = buttonFactory.createPlayAgainButton(
@@ -140,9 +140,8 @@ import java.awt.*;
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
-        this.playAgainButton.register();
-        this.mainMenuButton.register();
+    public void start() {
+        this.register();
         this.logger.info("The kill screen scene is now displaying");
     }
 
@@ -150,10 +149,29 @@ import java.awt.*;
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
+    public void stop() {
+        this.deregister();
+        this.logger.info("The kill screen scene is no longer displaying");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register() {
+        this.playAgainButton.register();
+        this.mainMenuButton.register();
+        this.logger.info("The kill screen scene is now registered");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deregister() {
         this.playAgainButton.deregister();
         this.mainMenuButton.deregister();
-        this.logger.info("The kill screen scene is no longer displaying");
+        this.logger.info("The kill screen scene is now deregistered");
     }
 
     /**
@@ -176,11 +194,11 @@ import java.awt.*;
 
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         Ranks rank = progressionManager.getRank();
-        renderer.drawTextNoAjustments(new Point(
+        renderer.drawTextHUD(new Point(
                         (int) (constants.getGameWidth() * KillScreen.SCORE_TEXT_X),
                         (int) (constants.getGameHeight() * KillScreen.SCORE_TEXT_Y)),
                 "Score: " + score, TextAlignment.left, Color.black);
-        renderer.drawTextNoAjustments(new Point(
+        renderer.drawTextHUD(new Point(
                         (int) (constants.getGameWidth() * KillScreen.RANK_TEXT_X),
                         (int) (constants.getGameHeight() * KillScreen.RANK_TEXT_Y)),
                 "Rank: " + rank.getName(), TextAlignment.left, Color.black);
@@ -194,7 +212,7 @@ import java.awt.*;
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         if (expCount < totalExperience) {
             expCount += countUpAmount;
         }
@@ -209,19 +227,6 @@ import java.awt.*;
         if (expFontSize > INITIAL_EXP_FONTSIZE + MAX_EXP_FONT_SIZE_DIFFERENCE || expFontSize < INITIAL_EXP_FONTSIZE - MAX_EXP_FONT_SIZE_DIFFERENCE) {
             expFontSizeSpeed = -expFontSizeSpeed;
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void switchDisplay(PauseScreenModes mode) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

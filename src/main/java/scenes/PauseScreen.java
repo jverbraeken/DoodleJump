@@ -10,6 +10,7 @@ import progression.Mission;
 import rendering.Color;
 import rendering.IRenderer;
 import rendering.TextAlignment;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -22,7 +23,7 @@ import java.util.Map;
 /**
  * PauseScreen implementation of a scene.
  */
-/* package */ class PauseScreen implements IScene {
+public final class PauseScreen implements IScene {
 
     /**
      * The X and Y location for the resume button.
@@ -151,6 +152,9 @@ import java.util.Map;
      * @param sL The games service locator.
      */
     /* package */ PauseScreen(final IServiceLocator sL) {
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         this.serviceLocator = sL;
         this.logger = sL.getLoggerFactory().createLogger(PauseScreen.class);
 
@@ -172,7 +176,24 @@ import java.util.Map;
      */
     @Override
     public void start() {
-        mode = PauseScreenModes.mission; // when opening the pause screen, the screen will display the missions by default.
+        this.mode = PauseScreenModes.mission; // when opening the pause screen, the screen will display the missions by default.
+        this.register();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void stop() {
+        this.deregister();
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register() {
         this.resumeButton.register();
         this.logger.info("The resume button is now available");
         this.switchShopButton.register();
@@ -183,7 +204,7 @@ import java.util.Map;
      * {@inheritDoc}
      */
     @Override
-    public void stop() {
+    public void deregister() {
         this.resumeButton.deregister();
         this.logger.info("The resume button is no longer available");
 
@@ -191,8 +212,9 @@ import java.util.Map;
             this.stopShopCover();
         } else {
             this.switchShopButton.deregister();
-            this.logger.info("The switch button to the shop cover is no longer available");
+            this.logger.info("The switch button is no longer available");
         }
+
     }
 
     /**
@@ -208,7 +230,7 @@ import java.util.Map;
         resumeButton.render();
         ISprite coinSprite = this.coinSprites[(int) coinSpriteIndex];
         final int coinX = MARGIN + coinSprite.getHeight() / 2 - (int) (((double) coinSprite.getWidth() / (double) coinSprite.getHeight()) * (double) coinSprite.getHeight() / 2d);
-        final int coinY = serviceLocator.getSpriteFactory().getScoreBarSprite().getHeight();
+        final int coinY = serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.scoreBar).getHeight();
         serviceLocator.getRenderer().drawSpriteHUD(coinSprite, new Point(coinX, coinY));
 
         final int coinTextX = MARGIN + coinSprite.getHeight() + MARGIN;
@@ -228,7 +250,7 @@ import java.util.Map;
     private void renderMissions(final int y) {
         this.switchShopButton.render();
         final List<Mission> missions = serviceLocator.getProgressionManager().getMissions();
-        final int missionSpriteHeight = serviceLocator.getSpriteFactory().getAchievementSprite().getHeight();
+        final int missionSpriteHeight = serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.achievement).getHeight();
         for (int i = 0; i < missions.size(); i++) {
             missions.get(i).render(y + MARGIN + i * (missionSpriteHeight + DISTANCE_BETWEEN_MISSIONS));
         }
@@ -254,7 +276,7 @@ import java.util.Map;
         this.switchMissionButton.register();
         this.logger.info("The switch button to the mission cover is now available");
         if (buttonMap.size() == 0) {
-            this.createPowerupbutton();
+            this.createPowerupButton();
         }
         for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet()) {
             entry.getValue().register();
@@ -272,22 +294,6 @@ import java.util.Map;
         this.logger.info("The powerup buttons are no longer available");
         this.switchMissionButton.deregister();
         this.logger.info("The switch button to the mission cover is no longer available");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void switchDisplay(PauseScreenModes mode) {
-        this.mode = mode;
-        if (this.mode.equals(PauseScreenModes.mission)) {
-            this.stopShopCover();
-            this.switchShopButton.register();
-            this.logger.info("The switch button to the shop cover is now available");
-        } else {
-            this.switchShopButton.deregister();
-            this.logger.info("The switch button to the shop cover is no longer available");
-            this.setShopCover();
-        }
     }
 
     /**
@@ -310,9 +316,9 @@ import java.util.Map;
     }
 
     /**
-     * Creates the buttons for the powerps that can be unlocked or upgraded.
+     * Creates the buttons for the powerups that can be unlocked or upgraded.
      */
-    private void createPowerupbutton() {
+    private void createPowerupButton() {
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
         this.buttonMap.put(Powerups.jetpack, buttonFactory.createPausePowerupButton(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y));
         this.buttonMap.put(Powerups.propeller, buttonFactory.createPausePowerupButton(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y));
@@ -361,6 +367,23 @@ import java.util.Map;
         buttonMap.remove(powerup);
         buttonMap.put(powerup, button);
         button.register();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void switchDisplay(final PauseScreenModes mode) {
+        this.mode = mode;
+        if (this.mode.equals(PauseScreenModes.mission)) {
+            this.stopShopCover();
+            this.switchShopButton.register();
+            this.logger.info("The switch button to the shop cover is now available");
+        } else {
+            this.switchShopButton.deregister();
+            this.logger.info("The switch button to the shop cover is no longer available");
+            this.setShopCover();
+        }
     }
 
     /**

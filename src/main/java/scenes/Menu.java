@@ -8,23 +8,23 @@ import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
-import objects.powerups.Powerups;
 import progression.IProgressionManager;
 import progression.Ranks;
 import rendering.Color;
 import rendering.IRenderer;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class is a scene that is displays when the game is started.
  */
-public class Menu implements IScene {
+/* package */ final class Menu implements IScene {
 
     /**
      * The X-position at which the first button will be created.
@@ -111,7 +111,7 @@ public class Menu implements IScene {
         this.serviceLocator = sL;
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        this.cover = spriteFactory.getStartCoverSprite();
+        this.cover = spriteFactory.getSprite(IRes.Sprites.startCover);
 
         IConstants constants = sL.getConstants();
         final int gameWidth = constants.getGameWidth();
@@ -128,8 +128,8 @@ public class Menu implements IScene {
                 Menu.MULTIPLAYER_BUTTON_X,
                 Menu.MULTIPLAYER_BUTTON_Y));
         this.buttons.add(buttonFactory.createShopButton(
-                SHOP_BUTTON_X,
-                SHOP_BUTTON_Y));
+                Menu.SHOP_BUTTON_X,
+                Menu.SHOP_BUTTON_Y));
         this.buttons.add(buttonFactory.createChooseModeButton(
                 Menu.CHOOSE_MODE_X,
                 Menu.CHOOSE_MODE_Y));
@@ -151,11 +151,8 @@ public class Menu implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
-        for (IButton button : this.buttons) {
-            button.register();
-        }
-        this.logger.info("The main menu registered itself as an observer of the input manager");
+    public void start() {
+        this.register();
         this.logger.info("The menu scene is now displaying");
     }
 
@@ -163,11 +160,8 @@ public class Menu implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
-        for (IButton button : this.buttons) {
-            button.deregister();
-        }
-        this.logger.info("The main menu removed itself as an observer from the input manager");
+    public void stop() {
+        this.deregister();
         this.logger.info("The menu scene is no longer displaying");
     }
 
@@ -175,7 +169,29 @@ public class Menu implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void register() {
+        for (IButton button : this.buttons) {
+            button.register();
+        }
+        this.logger.info("The main menu registered itself as an observer of the input manager");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deregister() {
+        for (IButton button : this.buttons) {
+            button.deregister();
+        }
+        this.logger.info("The main menu removed itself as an observer from the input manager");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void render() {
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         Ranks rank = progressionManager.getRank();
         IConstants constants = this.serviceLocator.getConstants();
@@ -198,26 +214,12 @@ public class Menu implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         this.doodle.update(delta);
 
         if (this.doodle.checkCollision(this.platform)) {
             this.platform.collidesWith(this.doodle);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void switchDisplay(PauseScreenModes mode) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

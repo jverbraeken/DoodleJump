@@ -289,21 +289,6 @@ public final class Renderer implements IRenderer {
      * {@inheritDoc}
      */
     @Override
-    public void drawTextNoAjustments(final Point point, final String msg, final TextAlignment alignment, final Color color) {
-        assert graphics != null;
-        java.awt.Color currentColor = graphics.getColor();
-
-        int xPos = prepareDrawText(point, msg, alignment, color.getColor(), font50);
-        graphics.drawString(msg, xPos, (int) point.getY());
-        this.logger.info("drawString(" + point.getX() + ", " + point.getY() + ", " + msg + ", " + alignment.name() + ", " + color.name());
-
-        graphics.setColor(currentColor);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void drawText(final Point point, final String msg, final TextAlignment alignment, final Color color) {
         assert graphics != null;
         java.awt.Color currentColor = graphics.getColor();
@@ -400,10 +385,10 @@ public final class Renderer implements IRenderer {
                 xPos = point.getX();
                 break;
             case center:
-                xPos = point.getX() - graphics.getFontMetrics().stringWidth(msg) / 2;
+                xPos = point.getX() - (double) graphics.getFontMetrics().stringWidth(msg) / 2d;
                 break;
             case right:
-                xPos = point.getX() - graphics.getFontMetrics().stringWidth(msg);
+                xPos = point.getX() - (double) graphics.getFontMetrics().stringWidth(msg);
                 break;
             default:
                 final String error = "The text alignment enum constant could not be identified: " + alignment.toString();

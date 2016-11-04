@@ -1,18 +1,18 @@
 package scenes;
 
-import buttons.IButton;
 import cucumber.api.java8.En;
 import objects.doodles.IDoodle;
 import objects.powerups.Powerups;
 import org.mockito.Matchers;
 import org.powermock.reflect.Whitebox;
 import progression.IProgressionManager;
+import progression.Ranks;
 import system.Game;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -28,14 +28,17 @@ public class CucumberSteps implements En {
             try {
                 Whitebox.invokeConstructor(Game.class);
                 sL = Whitebox.getInternalState(Game.class, "serviceLocator");
+                Whitebox.setInternalState(Game.class, "pauseScreen", sL.getSceneFactory().createPauseScreen());
                 sL.getProgressionManager().init();
                 IProgressionManager progressionManager = mock(IProgressionManager.class);
                 when(progressionManager.getPowerupLevel(Matchers.<Powerups>any())).thenReturn(1);
+                when(progressionManager.getRank()).thenReturn(Ranks.theBoss);
                 sL.provide(progressionManager);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
+
         Given("^that the scene is (.*)$", (String scene) -> {
             switch (scene) {
                 case "Menu":
@@ -53,12 +56,25 @@ public class CucumberSteps implements En {
             }
         });
 
-        When("^I do nothing$", () -> {
+        When("^the world is (.*)$", (String paused) -> {
+            if (paused.equals("running")) {
+                Game.resumeGame();
+            } else if (paused.equals("paused")) {
+                Game.pauseGame();
+            }
         });
 
+        When("^I do nothing$", () -> {
+            Game.getScene().update(0d);
+        });
+
+        When("^I resume the game$", Game::resumeGame);
+
+        When("^I pause the game$", Game::pauseGame);
+
         When("^I press the (.*)-button$", (String button) -> {
-            Object scene = Whitebox.getInternalState(Game.class, "scene");
-            List<IButton> buttons = Whitebox.getInternalState(scene, "buttons");
+            IScene scene = Whitebox.getInternalState(Game.class, "scene");
+            List<Button> buttons = Whitebox.getInternalState(scene, "buttons");
             switch (button) {
                 //MENU
                 case "play":
@@ -77,6 +93,10 @@ public class CucumberSteps implements En {
                     Object action2 = Whitebox.getInternalState(buttons.get(2), "action");
                     ((Runnable) action2).run();
                     break;
+                case "shop":
+                    Object action4 = Whitebox.getInternalState(buttons.get(3), "action");
+                    ((Runnable) action4).run();
+                    break;
                 //CHOOSEMODE
                 case "menu":
                     Object action00 = Whitebox.getInternalState(buttons.get(0), "action");
@@ -86,7 +106,7 @@ public class CucumberSteps implements En {
                     Object action01 = Whitebox.getInternalState(buttons.get(1), "action");
                     ((Runnable) action01).run();
                     break;
-                case "story":
+                case "horizontalOnly":
                     Object action02 = Whitebox.getInternalState(buttons.get(2), "action");
                     ((Runnable) action02).run();
                     break;
@@ -98,7 +118,7 @@ public class CucumberSteps implements En {
                     Object action04 = Whitebox.getInternalState(buttons.get(4), "action");
                     ((Runnable) action04).run();
                     break;
-                case "invert":
+                case "verticalOnly":
                     Object action05 = Whitebox.getInternalState(buttons.get(5), "action");
                     ((Runnable) action05).run();
                     break;
@@ -124,13 +144,16 @@ public class CucumberSteps implements En {
                 case "Menu":
                     assertThat(Whitebox.getInternalState(Game.class, "scene") instanceof Menu, is(true));
                     break;
+                case "ShopScreen":
+                    assertThat(Whitebox.getInternalState(Game.class, "scene") instanceof ShopScreen, is(true));
+                    break;
             }
         });
 
         Then("^the score should be (\\d+)", (String score) -> {
             double scoreDouble = Double.parseDouble(score);
             Object scene = Whitebox.getInternalState(Game.class, "scene");
-            List<IDoodle> doodles = (List<IDoodle>) Whitebox.getInternalState(scene, "doodles");
+            List<IDoodle> doodles = Whitebox.getInternalState(scene, "doodles");
             for (IDoodle doodle : doodles) {
                 assertThat((double) Whitebox.getInternalState(doodle, "score") >= (scoreDouble), is(true));
             }
@@ -150,11 +173,11 @@ public class CucumberSteps implements En {
                 case "darkness":
                     assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.darkness));
                     break;
-                case "invert":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.invert));
+                case "verticalOnly":
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.verticalOnly));
                     break;
-                case "story":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.story));
+                case "horizontalOnly":
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.horizontalOnly));
                     break;
             }
         });

@@ -8,17 +8,22 @@ import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 import rendering.ICamera;
 import rendering.IRenderer;
+import resources.IRes;
+import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
+import resources.audio.Sounds;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 import java.awt.Point;
 import java.lang.reflect.Field;
 
+import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -55,7 +60,7 @@ public class PlatformTest {
         sprite = mock(ISprite.class);
         sf = mock(ISpriteFactory.class);
         when(sf.getPlatformBrokenSprite(1)).thenReturn(sprite);
-        when(sf.getPlatformSprite1()).thenReturn(sprite);
+        when(sf.getSprite(Matchers.<IRes.Sprites>any())).thenReturn(sprite);
 
         serviceLocator = mock(IServiceLocator.class);
         ILogger logger = mock(ILogger.class);
@@ -102,8 +107,8 @@ public class PlatformTest {
      */
     @Test
     public void setOffSetTest() {
-        p.setOffset(10);
-        assertThat(p.getOffset(), is(10));
+        p.setOffset(10d);
+        assertThat(p.getOffset(), is(10d));
     }
 
     /**
@@ -127,7 +132,7 @@ public class PlatformTest {
         p.collidesWith(doodle);
 
         Mockito.verify(doodle).collide(p);
-        Mockito.verify(audioManager).playJump();
+        Mockito.verify(audioManager).play(Sounds.JUMP);
     }
 
     @Test
@@ -135,7 +140,7 @@ public class PlatformTest {
         q.collidesWith(doodle);
 
         Mockito.verify(doodle, Mockito.times(0)).collide(q);
-        Mockito.verify(audioManager).playLomise();
+        Mockito.verify(audioManager).play(Sounds.LOMISE);
     }
 
     @Test(expected=IllegalArgumentException.class)

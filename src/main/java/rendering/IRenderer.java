@@ -92,7 +92,7 @@ public interface IRenderer {
     /**
      * Draw a string of text relative to the camera, left-aligned.
      *
-     * @param point
+     * @param point The position of the text.
      * @param msg The message to draw.
      */
     void drawText(Point point, final String msg);
@@ -160,16 +160,6 @@ public interface IRenderer {
      * @param color     The color of the text.
      */
     void drawText(final Point point, String msg, TextAlignment alignment, final Color color);
-
-    /**
-     * Draw a string of text absolute to the screen.
-     *
-     * @param point     The x and y position
-     * @param msg       The message to draw
-     * @param alignment The alignment of the text
-     * @param color     The color of the text
-     */
-    void drawTextNoAjustments(final Point point, final String msg, final TextAlignment alignment, final Color color);
 
     /**
      * Draw a string of text relative to the screen.

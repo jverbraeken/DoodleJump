@@ -8,11 +8,13 @@ import math.ICalc;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import rendering.ICamera;
 import rendering.IRenderer;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import resources.sprites.Sprite;
@@ -59,8 +61,7 @@ public class MovingPlatformsTest {
         when(sprite.getWidth()).thenReturn(0);
 
         spriteFactory = mock(SpriteFactory.class);
-        when(spriteFactory.getPlatformSpriteHorizontal()).thenReturn(sprite);
-        when(spriteFactory.getPlatformSpriteVertical()).thenReturn(sprite);
+        when(spriteFactory.getSprite(Matchers.<IRes.Sprites>any())).thenReturn(sprite);
 
         calc = mock(Calc.class);
         when(calc.getRandomDouble(1)).thenReturn(0d);
@@ -83,8 +84,6 @@ public class MovingPlatformsTest {
     /**
      * Test that the updateEnums method changes the horizontal direction
      * from right to left.
-     * @throws NoSuchFieldException if the field does not exist.
-     * @throws IllegalAccessException if you can't acces that field.
      */
     @Test
     public void updateEnumsTestFlip1Horizontal() {
@@ -98,8 +97,6 @@ public class MovingPlatformsTest {
     /**
      * Test that the updateEnums method changes the horizontal direction
      * from left to right.
-     * @throws NoSuchFieldException if the field does not exist.
-     * @throws IllegalAccessException if you can't acces that field.
      */
     @Test
     public void updateEnumsTestFlipMin1Horizontal() {
@@ -113,31 +110,29 @@ public class MovingPlatformsTest {
     /**
      * Test that the updateEnums method changes the vertical direction
      * from down to up.
-     * @throws NoSuchFieldException if the field does not exist.
-     * @throws IllegalAccessException if you can't acces that field.
      */
     @Test
     public void updateEnumsTestFlip1Vertical() {
-        vertical.setOffset(100);
+        vertical.setOffset(1000);
+        Whitebox.setInternalState(vertical, "speed", 2);
         vertical.update(0d);
 
-        int speed = Whitebox.getInternalState(vertical, "speed");
+        double speed = Whitebox.getInternalState(vertical, "speed");
         assertThat(speed < 0, is(true));
     }
 
     /**
      * Test that the updateEnums method changes the vertical direction
      * from up to down.
-     * @throws NoSuchFieldException if the field does not exist.
-     * @throws IllegalAccessException if you can't acces that field.
      */
     @Test
     public void updateEnumsTestFlipMin1Vertical() {
-        vertical.setOffset(-100);
+        vertical.setOffset(-1000);
+        Whitebox.setInternalState(vertical, "speed", -2);
         vertical.update(0d);
 
-        int speed = Whitebox.getInternalState(vertical, "speed");
-        assertThat(speed > 0, is(true));
+        double speed = Whitebox.getInternalState(vertical, "speed");
+        assertThat(speed < 0d, is(false));
     }
 
     /**

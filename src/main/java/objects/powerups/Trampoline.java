@@ -6,7 +6,7 @@ import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import progression.ITrampolineJumpedObserver;
 import resources.audio.IAudioManager;
-import resources.sprites.ISprite;
+import resources.audio.Sounds;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -17,12 +17,12 @@ import java.util.List;
 /**
  * This class describes the behaviour of the trampoline powerup.
  */
-/* package */ public final class Trampoline extends AJumpablePowerup {
+public final class Trampoline extends AJumpablePowerup {
 
     /**
      * The speed with which the trampoline retracts after it is used.
      */
-    private static final int RETRACT_SPEED = 250;
+    private final int retractSpeed;
 
     /**
      * A list containing the observer that want to get a notification when the doodle jumps upon a Trampoline.
@@ -38,15 +38,14 @@ import java.util.List;
     /**
      * Constructs a new Trampoline.
      *
-     * @param serviceLocator The Game's service locator
-     * @param point          The location for the trampoline
+     * @param serviceLocator The service locator
+     * @param point          The location for the powerup
      * @param level          The level of the powerup
-     * @param usedSprite     The sprite that's drawn when the powerup is used
-     * @param boost          The vertical speed boost the {@link objects.doodles.IDoodle Doodle} gets after hitting the Trampoline
      */
-    /* package */ Trampoline(final IServiceLocator serviceLocator, final Point point, final int level, final ISprite usedSprite, final int boost) {
-        super(serviceLocator, point, boost, new ISprite[] {serviceLocator.getSpriteFactory().getPowerupSprite(Powerups.trampoline, level), usedSprite}, Trampoline.class);
+    /* package */ Trampoline(final IServiceLocator serviceLocator, final Point point, final int level) {
+        super(serviceLocator, point, Powerups.trampoline, level);
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+        this.retractSpeed = Powerups.trampoline.getRetractSpeed(level);
     }
 
     /**
@@ -54,7 +53,7 @@ import java.util.List;
      */
     @Override
     public void animate() {
-        super.executeDefaultAnimation(this, RETRACT_SPEED);
+        super.executeDefaultAnimation(retractSpeed);
     }
 
     /**
@@ -93,7 +92,7 @@ import java.util.List;
      */
     /* package */ void playSound() {
         IAudioManager audioManager = getServiceLocator().getAudioManager();
-        audioManager.playTrampoline();
+        audioManager.play(Sounds.TRAMPOLINE);
     }
 
     /**

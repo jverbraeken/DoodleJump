@@ -16,12 +16,11 @@ import system.IServiceLocator;
 import java.util.EnumMap;
 import java.util.Map;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.powermock.api.mockito.PowerMockito.doNothing;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.spy;
-import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
+import static org.powermock.api.mockito.PowerMockito.*;
 
 
 /**
@@ -36,6 +35,7 @@ public class ResTest {
     private String filePath = "mockedSprite.jpg";
     private Map<Sprites, String> mockedSprites = new EnumMap<>(Sprites.class);
     private Map<Sprites, String> insertedSprites;
+    private static final String SPRITE_PATH = "sprites/";
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -83,12 +83,14 @@ public class ResTest {
     public void testSetDefaultSkinButtons() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.menu));
-        assertTrue(insertedSprites.containsKey(Sprites.play));
-        assertTrue(insertedSprites.containsKey(Sprites.playAgain));
-        assertTrue(insertedSprites.containsKey(Sprites.resume));
-        assertTrue(insertedSprites.containsKey(Sprites.scoreButton));
-        assertTrue(insertedSprites.containsKey(Sprites.chooseMode));
+        assertThat(insertedSprites.get(Sprites.menu), is(SPRITE_PATH + "menu@2x.png"));
+        assertThat(insertedSprites.get(Sprites.play), is(SPRITE_PATH + "play@2x.png"));
+        assertThat(insertedSprites.get(Sprites.multiplayer), is(SPRITE_PATH + "multiplayer@2x.png"));
+        assertThat(insertedSprites.get(Sprites.playAgain), is(SPRITE_PATH + "playagain@2x.png"));
+        assertThat(insertedSprites.get(Sprites.resume), is(SPRITE_PATH + "resume@2x.png"));
+        assertThat(insertedSprites.get(Sprites.scoreButton), is(SPRITE_PATH + "scores-on@2x.png"));
+        assertThat(insertedSprites.get(Sprites.chooseMode), is(SPRITE_PATH + "mode-button2@2x.png"));
+        assertThat(insertedSprites.get(Sprites.shop), is(SPRITE_PATH + "shop@2x.png"));
     }
 
     /**
@@ -100,10 +102,10 @@ public class ResTest {
     public void testsetDefaultSkinCovers() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.background));
-        assertTrue(insertedSprites.containsKey(Sprites.startCover));
-        assertTrue(insertedSprites.containsKey(Sprites.pauseCover));
-        assertTrue(insertedSprites.containsKey(Sprites.shopCover));
+        assertThat(insertedSprites.get(Sprites.background), is(SPRITE_PATH + "bck@2x.png"));
+        assertThat(insertedSprites.get(Sprites.pauseCover), is(SPRITE_PATH + "pause-cover-3@2x.png"));
+        assertThat(insertedSprites.get(Sprites.startCover), is(SPRITE_PATH + "Default@2x.png"));
+        assertThat(insertedSprites.get(Sprites.shopCover), is(SPRITE_PATH + "pause-cover-4@2x.png"));
     }
 
     /**
@@ -115,10 +117,10 @@ public class ResTest {
     public void testsetDefaultSkinDoodle() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftAscend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftDescend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleRightAscend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleRightDescend));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftAscend), is(SPRITE_PATH + "lik-left@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftDescend), is(SPRITE_PATH + "lik-left-odskok@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightAscend), is(SPRITE_PATH + "lik-right@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightDescend), is(SPRITE_PATH + "lik-right-odskok@2x.png"));
     }
 
     /**
@@ -130,8 +132,8 @@ public class ResTest {
     public void testsetDefaultSkinKillScreen() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.gameOver));
-        assertTrue(insertedSprites.containsKey(Sprites.killScreenBottom));
+        assertThat(insertedSprites.get(Sprites.gameOver), is(SPRITE_PATH + "gameover@2x.png"));
+        assertThat(insertedSprites.get(Sprites.killScreenBottom), is(SPRITE_PATH + "kill-bottom@2x.png"));
     }
 
     /**
@@ -143,17 +145,16 @@ public class ResTest {
     public void testsetDefaultSkinNumbers() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.pause));
-        assertTrue(insertedSprites.containsKey(Sprites.zero));
-        assertTrue(insertedSprites.containsKey(Sprites.one));
-        assertTrue(insertedSprites.containsKey(Sprites.two));
-        assertTrue(insertedSprites.containsKey(Sprites.three));
-        assertTrue(insertedSprites.containsKey(Sprites.four));
-        assertTrue(insertedSprites.containsKey(Sprites.five));
-        assertTrue(insertedSprites.containsKey(Sprites.six));
-        assertTrue(insertedSprites.containsKey(Sprites.seven));
-        assertTrue(insertedSprites.containsKey(Sprites.eight));
-        assertTrue(insertedSprites.containsKey(Sprites.nine));
+        assertThat(insertedSprites.get(Sprites.pause), is(SPRITE_PATH + "pause.png"));
+        assertThat(insertedSprites.get(Sprites.zero), is(SPRITE_PATH + "0.png"));
+        assertThat(insertedSprites.get(Sprites.one), is(SPRITE_PATH + "1.png"));
+        assertThat(insertedSprites.get(Sprites.two), is(SPRITE_PATH + "2.png"));
+        assertThat(insertedSprites.get(Sprites.three), is(SPRITE_PATH + "3.png"));
+        assertThat(insertedSprites.get(Sprites.four), is(SPRITE_PATH + "4.png"));
+        assertThat(insertedSprites.get(Sprites.five), is(SPRITE_PATH + "5.png"));
+        assertThat(insertedSprites.get(Sprites.six), is(SPRITE_PATH + "6.png"));
+        assertThat(insertedSprites.get(Sprites.seven), is(SPRITE_PATH + "7.png"));
+        assertThat(insertedSprites.get(Sprites.eight), is(SPRITE_PATH + "8.png"));
     }
 
     /**
@@ -165,13 +166,13 @@ public class ResTest {
     public void testsetDefaultSkinPlatforms() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.platform1));
-        assertTrue(insertedSprites.containsKey(Sprites.platformHorizontal));
-        assertTrue(insertedSprites.containsKey(Sprites.platformVertical));
-        assertTrue(insertedSprites.containsKey(Sprites.platformBroken1));
-        assertTrue(insertedSprites.containsKey(Sprites.platformBroken2));
-        assertTrue(insertedSprites.containsKey(Sprites.platformBroken3));
-        assertTrue(insertedSprites.containsKey(Sprites.platformBroken4));
+        assertThat(insertedSprites.get(Sprites.platform1), is(SPRITE_PATH + "platform-green@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platformHorizontal), is(SPRITE_PATH + "platform-blue@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platformVertical), is(SPRITE_PATH + "platform-gray@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platformBroken1), is(SPRITE_PATH + "platform-broken1@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platformBroken2), is(SPRITE_PATH + "platform-broken2@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platformBroken3), is(SPRITE_PATH + "platform-broken3@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platformBroken4), is(SPRITE_PATH + "platform-broken4@2x.png"));
     }
 
     /**
@@ -183,57 +184,63 @@ public class ResTest {
     public void testSetDefaultSkinPowerUps() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.propeller));
-        assertTrue(insertedSprites.containsKey(Sprites.jetpack));
-        assertTrue(insertedSprites.containsKey(Sprites.spring));
-        assertTrue(insertedSprites.containsKey(Sprites.springUsed));
-        assertTrue(insertedSprites.containsKey(Sprites.springShoes));
-        assertTrue(insertedSprites.containsKey(Sprites.trampoline));
-        assertTrue(insertedSprites.containsKey(Sprites.trampolineUsed));
-        assertTrue(insertedSprites.containsKey(Sprites.shield));
-        assertTrue(insertedSprites.containsKey(Sprites.sizeUp));
-        assertTrue(insertedSprites.containsKey(Sprites.sizeDown));
-        assertTrue(insertedSprites.containsKey(Sprites.afterburner));
+        assertThat(insertedSprites.get(Sprites.propeller), is(SPRITE_PATH + "powerup-propeller@2x.png"));
+        assertThat(insertedSprites.get(Sprites.jetpack), is(SPRITE_PATH + "powerup-jetpack@2x.png"));
+        assertThat(insertedSprites.get(Sprites.spring), is(SPRITE_PATH + "powerup-spring@2x.png"));
+        assertThat(insertedSprites.get(Sprites.springUsed), is(SPRITE_PATH + "powerup-spring-used@2x.png"));
+        assertThat(insertedSprites.get(Sprites.doubleSpring), is(SPRITE_PATH + "powerup-double-spring@2x.png"));
+        assertThat(insertedSprites.get(Sprites.doubleSpringUsed), is(SPRITE_PATH + "powerup-double-spring-used@2x.png"));
+        assertThat(insertedSprites.get(Sprites.titaniumSpring), is(SPRITE_PATH + "powerup-titanium-spring@2x.png"));
+        assertThat(insertedSprites.get(Sprites.titaniumSpringUsed), is(SPRITE_PATH + "powerup-titanium-spring-used@2x.png"));
+        assertThat(insertedSprites.get(Sprites.springShoes), is(SPRITE_PATH + "powerup-springshoes-3@2x.png"));
+        assertThat(insertedSprites.get(Sprites.trampoline), is(SPRITE_PATH + "powerup-trampoline@2x.png"));
+        assertThat(insertedSprites.get(Sprites.trampolineUsed), is(SPRITE_PATH + "powerup-trampoline-used@2x.png"));
+        assertThat(insertedSprites.get(Sprites.circusCannon), is(SPRITE_PATH + "powerup-circusCannon@2x.png"));
+        assertThat(insertedSprites.get(Sprites.circusCannonUsed), is(SPRITE_PATH + "powerup-circusCannon-used@2x.png"));
+        assertThat(insertedSprites.get(Sprites.rocketLauncher), is(SPRITE_PATH + "rocketlauncher-unused.png"));
+        assertThat(insertedSprites.get(Sprites.rocketLauncherUsed), is(SPRITE_PATH + "rocketlauncher-used.png"));
+        assertThat(insertedSprites.get(Sprites.shield), is(SPRITE_PATH + "powerup-shield@2x.png"));
+        assertThat(insertedSprites.get(Sprites.sizeUp), is(SPRITE_PATH +"powerup-size-up@2x.png"));
+        assertThat(insertedSprites.get(Sprites.sizeDown), is(SPRITE_PATH + "powerup-size-down@2x.png"));
     }
 
     @Test
     public void testSetDefaultSkinPropellerUsed() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.propeller0));
-        assertTrue(insertedSprites.containsKey(Sprites.propeller1));
-        assertTrue(insertedSprites.containsKey(Sprites.propeller2));
+        assertThat(insertedSprites.get(Sprites.propeller0), is(SPRITE_PATH + "propeller-0@2x.png"));
+        assertThat(insertedSprites.get(Sprites.propeller1), is(SPRITE_PATH + "propeller-1@2x.png"));
+        assertThat(insertedSprites.get(Sprites.propeller2), is(SPRITE_PATH + "propeller-2@2x.png"));
     }
 
     @Test
     public void testSetDefaultSkinJetpackUsed() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.jetpack0));
-        assertTrue(insertedSprites.containsKey(Sprites.jetpack1));
-        assertTrue(insertedSprites.containsKey(Sprites.jetpack2));
-        assertTrue(insertedSprites.containsKey(Sprites.jetpack3));
-        assertTrue(insertedSprites.containsKey(Sprites.jetpack4));
-        assertTrue(insertedSprites.containsKey(Sprites.jetpack5));
-        assertTrue(insertedSprites.containsKey(Sprites.jetpack6));
-        assertTrue(insertedSprites.containsKey(Sprites.jetpack7));
-        assertTrue(insertedSprites.containsKey(Sprites.jetpack8));
-        assertTrue(insertedSprites.containsKey(Sprites.jetpack9));
+        assertThat(insertedSprites.get(Sprites.jetpack0), is(SPRITE_PATH + "jetpack-0@2x.png"));
+        assertThat(insertedSprites.get(Sprites.jetpack1), is(SPRITE_PATH + "jetpack-1@2x.png"));
+        assertThat(insertedSprites.get(Sprites.jetpack2), is(SPRITE_PATH + "jetpack-2@2x.png"));
+        assertThat(insertedSprites.get(Sprites.jetpack3), is(SPRITE_PATH + "jetpack-3@2x.png"));
+        assertThat(insertedSprites.get(Sprites.jetpack4), is(SPRITE_PATH + "jetpack-4@2x.png"));
+        assertThat(insertedSprites.get(Sprites.jetpack5), is(SPRITE_PATH + "jetpack-5@2x.png"));
+        assertThat(insertedSprites.get(Sprites.jetpack6), is(SPRITE_PATH + "jetpack-6@2x.png"));
+        assertThat(insertedSprites.get(Sprites.jetpack7), is(SPRITE_PATH + "jetpack-7@2x.png"));
+        assertThat(insertedSprites.get(Sprites.jetpack8), is(SPRITE_PATH + "jetpack-8@2x.png"));
     }
 
     @Test
     public void testSetDefaultSkinSpaceRocketUsed() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket0));
-        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket1));
-        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket2));
-        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket3));
-        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket4));
-        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket5));
-        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket6));
-        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket7));
-        assertTrue(insertedSprites.containsKey(Sprites.spaceRocket8));
+        assertThat(insertedSprites.get(Sprites.spaceRocket0), is(SPRITE_PATH + "rocket-0@2x.png"));
+        assertThat(insertedSprites.get(Sprites.spaceRocket1), is(SPRITE_PATH + "rocket-1@2x.png"));
+        assertThat(insertedSprites.get(Sprites.spaceRocket2), is(SPRITE_PATH + "rocket-2@2x.png"));
+        assertThat(insertedSprites.get(Sprites.spaceRocket3), is(SPRITE_PATH + "rocket-3@2x.png"));
+        assertThat(insertedSprites.get(Sprites.spaceRocket4), is(SPRITE_PATH + "rocket-4@2x.png"));
+        assertThat(insertedSprites.get(Sprites.spaceRocket5), is(SPRITE_PATH + "rocket-5@2x.png"));
+        assertThat(insertedSprites.get(Sprites.spaceRocket6), is(SPRITE_PATH + "rocket-6@2x.png"));
+        assertThat(insertedSprites.get(Sprites.spaceRocket7), is(SPRITE_PATH + "rocket-7@2x.png"));
+        assertThat(insertedSprites.get(Sprites.spaceRocket8), is(SPRITE_PATH + "rocket-8@2x.png"));
     }
 
     /**
@@ -245,9 +252,9 @@ public class ResTest {
     public void testResetScoreScreen() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.scoreScreenBottom));
-        assertTrue(insertedSprites.containsKey(Sprites.scoreScreenLeft));
-        assertTrue(insertedSprites.containsKey(Sprites.scoreScreenTop));
+        assertThat(insertedSprites.get(Sprites.scoreScreenBottom), is(SPRITE_PATH + "high-scores-bottom@2x.png"));
+        assertThat(insertedSprites.get(Sprites.scoreScreenLeft), is(SPRITE_PATH + "high-scores-left@2x.png"));
+        assertThat(insertedSprites.get(Sprites.scoreScreenTop), is(SPRITE_PATH + "high-scores-top@2x.png"));
     }
 
     /**
@@ -259,7 +266,7 @@ public class ResTest {
     public void testSetDefaultSkinTopBar() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.scoreBar));
+        assertThat(insertedSprites.get(Sprites.scoreBar), is(SPRITE_PATH + "scorebar.png"));
     }
 
     /**
@@ -271,12 +278,12 @@ public class ResTest {
     public void testSetDefaultSkinIcons() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.storyMode));
-        assertTrue(insertedSprites.containsKey(Sprites.regularMode));
-        assertTrue(insertedSprites.containsKey(Sprites.darknessMode));
-        assertTrue(insertedSprites.containsKey(Sprites.invertMode));
-        assertTrue(insertedSprites.containsKey(Sprites.spaceMode));
-        assertTrue(insertedSprites.containsKey(Sprites.underwaterMode));
+        assertThat(insertedSprites.get(Sprites.horizontalOnlyMode), is(SPRITE_PATH + "only-horizontal-mode@4x.png"));
+        assertThat(insertedSprites.get(Sprites.regularMode), is(SPRITE_PATH + "regular-mode@4x.png"));
+        assertThat(insertedSprites.get(Sprites.darknessMode), is(SPRITE_PATH + "darkness-mode@4x.png"));
+        assertThat(insertedSprites.get(Sprites.verticalOnlyMode), is(SPRITE_PATH + "only-vertical-mode@4x.png"));
+        assertThat(insertedSprites.get(Sprites.spaceMode), is(SPRITE_PATH + "space-mode@4x.png"));
+        assertThat(insertedSprites.get(Sprites.underwaterMode), is(SPRITE_PATH + "underwater-mode@4x.png"));
     }
 
     /**
@@ -288,8 +295,8 @@ public class ResTest {
     public void testSetSpaceSkinCovers() throws Exception {
         Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.background));
-        assertTrue(insertedSprites.containsKey(Sprites.startCover));
+        assertThat(insertedSprites.get(Sprites.background), is(SPRITE_PATH + "space-bck@2x.png"));
+        assertThat(insertedSprites.get(Sprites.startCover), is(SPRITE_PATH + "space-Default@2x.png"));
     }
 
     /**
@@ -301,10 +308,10 @@ public class ResTest {
     public void testSetSpaceSkinDoodle() throws Exception {
         Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftAscend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftDescend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleRightAscend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleRightDescend));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftAscend), is(SPRITE_PATH + "space-left@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftDescend), is(SPRITE_PATH + "space-left-odskok@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightAscend), is(SPRITE_PATH + "space-right@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightDescend), is(SPRITE_PATH + "space-right-odskok@2x.png"));
     }
 
     /**
@@ -316,7 +323,7 @@ public class ResTest {
     public void testSetSpaceSkinPlatforms() throws Exception {
         Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.platform1));
+        assertThat(insertedSprites.get(Sprites.platform1), is(SPRITE_PATH + "space-platform@2x.png"));
     }
 
     /**
@@ -328,8 +335,8 @@ public class ResTest {
     public void testSetSpaceSkinPowerUps() throws Exception {
         Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.trampoline));
-        assertTrue(insertedSprites.containsKey(Sprites.trampolineUsed));
+        assertThat(insertedSprites.get(Sprites.trampoline), is(SPRITE_PATH + "space-powerup-trampoline@2x.png"));
+        assertThat(insertedSprites.get(Sprites.trampolineUsed), is(SPRITE_PATH + "space-powerup-trampoline-used@2x.png"));
     }
 
     /**
@@ -341,7 +348,7 @@ public class ResTest {
     public void testSetSpaceSkinTopBar() throws Exception {
         Whitebox.invokeMethod(res, "setSpaceSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.scoreBar));
+        assertThat(insertedSprites.get(Sprites.scoreBar), is(SPRITE_PATH + "space-scoreBar@2x.png"));
     }
 
     /**
@@ -351,10 +358,10 @@ public class ResTest {
      */
     @Test
     public void testUnderwaterSkinCovers() throws Exception {
-        Whitebox.invokeMethod(res, "setSpaceSkin");
+        Whitebox.invokeMethod(res, "setUnderwaterSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.background));
-        assertTrue(insertedSprites.containsKey(Sprites.startCover));
+        assertThat(insertedSprites.get(Sprites.background), is(SPRITE_PATH + "underwater-bck2@2x.png"));
+        assertThat(insertedSprites.get(Sprites.startCover), is(SPRITE_PATH + "underwater-Default@2x.png"));
     }
 
     /**
@@ -366,10 +373,10 @@ public class ResTest {
     public void testUnderwaterSkinDoodle() throws Exception {
         Whitebox.invokeMethod(res, "setUnderwaterSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftAscend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleLeftDescend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleRightAscend));
-        assertTrue(insertedSprites.containsKey(Sprites.doodleRightDescend));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftAscend), is(SPRITE_PATH + "underwater-left@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftDescend), is(SPRITE_PATH + "underwater-left-odskok@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightAscend), is(SPRITE_PATH + "underwater-right@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightDescend), is(SPRITE_PATH + "underwater-right-odskok@2x.png"));
     }
 
     /**
@@ -381,7 +388,7 @@ public class ResTest {
     public void testSetUnderwaterSkinPlatforms() throws Exception {
         Whitebox.invokeMethod(res, "setUnderwaterSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.platform1));
+        assertThat(insertedSprites.get(Sprites.platform1), is(SPRITE_PATH + "underwater-platform@2x.png"));
     }
 
     /**
@@ -393,10 +400,10 @@ public class ResTest {
     public void testSetUnderwaterSkinPowerUps() throws Exception {
         Whitebox.invokeMethod(res, "setUnderwaterSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.trampoline));
-        assertTrue(insertedSprites.containsKey(Sprites.trampolineUsed));
-        assertTrue(insertedSprites.containsKey(Sprites.spring));
-        assertTrue(insertedSprites.containsKey(Sprites.springUsed));
+        assertThat(insertedSprites.get(Sprites.trampoline), is(SPRITE_PATH + "underwater-powerup-trampoline@2x.png"));
+        assertThat(insertedSprites.get(Sprites.trampolineUsed), is(SPRITE_PATH + "underwater-powerup-trampoline-used@2x.png"));
+        assertThat(insertedSprites.get(Sprites.spring), is(SPRITE_PATH + "underwater-powerup-spring@2x.png"));
+        assertThat(insertedSprites.get(Sprites.springUsed), is(SPRITE_PATH + "underwater-powerup-spring-used@2x.png"));
     }
 
     /**
@@ -408,7 +415,7 @@ public class ResTest {
     public void testSetUnderwaterSkinTopBar() throws Exception {
         Whitebox.invokeMethod(res, "setUnderwaterSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertTrue(insertedSprites.containsKey(Sprites.scoreBar));
+        assertThat(insertedSprites.get(Sprites.scoreBar), is(SPRITE_PATH + "underwater-scorebar@2x.png"));
     }
 
     /**
@@ -421,6 +428,19 @@ public class ResTest {
         Res mockedRes = spy(Whitebox.invokeConstructor(Res.class));
         doNothing().when(mockedRes, "setDefaultSkin");
         mockedRes.setSkin(Game.Modes.regular);
+        verifyPrivate(mockedRes).invoke("setDefaultSkin");
+    }
+
+    /**
+     * Tests if the setDefaultSkin method is called when the input is the regular game mode
+     *
+     * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
+     */
+    @Test
+    public void testSetSkinRegularDefault() throws Exception {
+        Res mockedRes = spy(Whitebox.invokeConstructor(Res.class));
+        doNothing().when(mockedRes, "setDefaultSkin");
+        mockedRes.setSkin(Game.Modes.defaultmode);
         verifyPrivate(mockedRes).invoke("setDefaultSkin");
     }
 
@@ -449,6 +469,94 @@ public class ResTest {
         mockedRes.setSkin(Game.Modes.underwater);
         verifyPrivate(mockedRes).invoke("setUnderwaterSkin");
     }
+
+    /**
+     * Tests if the setDarknessMode method is called when the input is the darkness game mode
+     *
+     * @throws Exception throws an exception when the constructor can not be called the verify method returns an error.
+     */
+    @Test
+    public void testSetSkinDarkness() throws Exception {
+        Res mockedRes = spy(Whitebox.invokeConstructor(Res.class));
+        doNothing().when(mockedRes, "setDarknessSkin");
+        mockedRes.setSkin(Game.Modes.darkness);
+        verifyPrivate(mockedRes).invoke("setDarknessSkin");
+    }
+
+    /**
+     * Tests if the method inserts the sprites for the top bar in the darkness game mode.
+     *
+     * @throws Exception throws an exception when a private method can not be called.
+     */
+    @Test
+    public void testSetDarknessSkinTopBar() throws Exception {
+        Whitebox.invokeMethod(res, "setDarknessSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertThat(insertedSprites.get(Sprites.scoreBar), is(SPRITE_PATH + "space-scorebar@2x.png"));
+    }
+
+    /**
+     * Tests if the method inserts the sprites for the covers in the darkness game mode.
+     *
+     * @throws Exception throws an exception when a private method can not be called.
+     */
+    @Test
+    public void testDarknessSkinCovers() throws Exception {
+        Whitebox.invokeMethod(res, "setDarknessSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertThat(insertedSprites.get(Sprites.background), is(SPRITE_PATH + "darkness-bck@2x.png"));
+        assertThat(insertedSprites.get(Sprites.startCover), is(SPRITE_PATH + "darkness-Default@2x.png"));
+    }
+
+    /**
+     * Tests if the method inserts the sprites for the doodle in the darkness game mode.
+     *
+     * @throws Exception throws an exception when a private method can not be called.
+     */
+    @Test
+    public void testDarknessSkinDoodle() throws Exception {
+        Whitebox.invokeMethod(res, "setDarknessSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftAscend), is(SPRITE_PATH + "ghost-left@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleLeftDescend), is(SPRITE_PATH + "ghost-left-odskok@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightAscend), is(SPRITE_PATH + "ghost-right@2x.png"));
+        assertThat(insertedSprites.get(Sprites.greenDoodleRightDescend), is(SPRITE_PATH + "ghost-right-odskok@2x.png"));
+    }
+
+    /**
+     * Tests if the method inserts the sprites for the platforms in the darkness game mode.
+     *
+     * @throws Exception throws an exception when a private method can not be called.
+     */
+    @Test
+    public void testSetDarknessSkinPlatforms() throws Exception {
+        Whitebox.invokeMethod(res, "setDarknessSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertThat(insertedSprites.get(Sprites.platform1), is(SPRITE_PATH + "invisible-platform@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platformHorizontal), is(SPRITE_PATH + "invisible-platform@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platformVertical), is(SPRITE_PATH + "invisible-platform@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platformBroken1), is(SPRITE_PATH + "invisible-platform@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platformBroken2), is(SPRITE_PATH + "invisible-platform@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platformBroken3), is(SPRITE_PATH + "invisible-platform@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platformBroken4), is(SPRITE_PATH + "invisible-platform@2x.png"));
+        assertThat(insertedSprites.get(Sprites.platform4), is(SPRITE_PATH + "space-platform@2x.png"));
+    }
+
+    /**
+     * Tests if the method inserts the sprites for the powerups in the darkness game mode.
+     *
+     * @throws Exception throws an exception when a private method can not be called.
+     */
+    @Test
+    public void testSetDarknessSkinPowerUps() throws Exception {
+        Whitebox.invokeMethod(res, "setDarknessSkin");
+        insertedSprites = Whitebox.getInternalState(res, "sprites");
+        assertThat(insertedSprites.get(Sprites.trampoline), is(SPRITE_PATH + "powerup-trampoline@2x.png"));
+        assertThat(insertedSprites.get(Sprites.trampolineUsed), is(SPRITE_PATH + "powerup-trampoline-used@2x.png"));
+        assertThat(insertedSprites.get(Sprites.spring), is(SPRITE_PATH + "powerup-spring@2x.png"));
+        assertThat(insertedSprites.get(Sprites.springUsed), is(SPRITE_PATH + "powerup-spring-used@2x.png"));
+    }
+
 
     /**
      * Tests if the setSkin method returns a NullPointerException if the input is a null object.

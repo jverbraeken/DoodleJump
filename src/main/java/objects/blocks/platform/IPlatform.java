@@ -49,13 +49,13 @@ public interface IPlatform extends IGameObject, IJumpable {
      *
      * @param offSet the offSet that this.offSet has to be set to.
      */
-    void setOffset(final int offSet);
+    void setOffset(final double offSet);
 
     /**
      * Returns the offSet of the platform.
      *
      * @return the offSet of the platform.
      */
-    int getOffset();
+    double getOffset();
 
 }

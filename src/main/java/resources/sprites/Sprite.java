@@ -5,10 +5,10 @@ import java.awt.image.BufferedImage;
 
 /**
  * Class representing a sprite.
- * <p>
- * <b>IMMUTABLE</b>
+ *
+ * <p><b>IMMUTABLE</b>
  */
-public class Sprite implements ISprite {
+public final class Sprite implements ISprite {
 
     /**
      * The name of the sprite.
@@ -45,7 +45,7 @@ public class Sprite implements ISprite {
      * {@inheritDoc}
      */
     @Override
-    public final String getName() {
+    public String getName() {
         return this.name;
     }
 
@@ -53,7 +53,7 @@ public class Sprite implements ISprite {
      * {@inheritDoc}
      */
     @Override
-    public final Image getImage() {
+    public Image getImage() {
         return this.image;
     }
 
@@ -61,7 +61,7 @@ public class Sprite implements ISprite {
      * {@inheritDoc}
      */
     @Override
-    public final int getWidth() {
+    public int getWidth() {
         return this.width;
     }
 
@@ -69,7 +69,7 @@ public class Sprite implements ISprite {
      * {@inheritDoc}
      */
     @Override
-    public final int getHeight() {
+    public int getHeight() {
         return this.height;
     }
 
@@ -77,7 +77,7 @@ public class Sprite implements ISprite {
      * {@inheritDoc}
      */
     @Override
-    public final double getRatio() {
+    public double getRatio() {
         return this.ratio;
     }
 

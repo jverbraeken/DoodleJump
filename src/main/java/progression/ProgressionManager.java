@@ -1,12 +1,13 @@
 package progression;
 
-
 import com.google.gson.reflect.TypeToken;
+import filesystem.IFileSystem;
 import logging.ILogger;
 import objects.powerups.Powerups;
 import system.IServiceLocator;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -18,19 +19,9 @@ import java.util.Queue;
 
 /**
  * Standard implementation of the ProgressionManager. Used to contain all "global" variables that describe
- * the progression of the player, eg coins, highscores, unlocked/upgraded items.
+ * the progression of the player, eg coins, high scores, unlocked/upgraded items.
  */
 public final class ProgressionManager implements IProgressionManager {
-
-    /**
-     * The maximum amount of entries in a HighScoresList.
-     */
-    private static final int MAX_HIGHSCORE_ENTRIES = 10;
-    /**
-     * The maximum amount of missions active at the same time.
-     */
-    private static final int MAX_MISSIONS = 3;
-
     /**
      * Used to gain access to all services.
      */
@@ -40,56 +31,46 @@ public final class ProgressionManager implements IProgressionManager {
      */
     private final ILogger logger;
     /**
-     * The level that the player has unlocked of each powerup. 0 = not available yet.
+     * The class responsible for managing the coins.
      */
-    private final Map<Powerups, Integer> powerupLevels = new EnumMap<>(Powerups.class);
+    private final CoinManager coinManager;
     /**
-     * A list of high scores for the game.
+     * The class responsible for managing the ranks.
      */
-    private final List<HighScore> highScores = new ArrayList<>(MAX_HIGHSCORE_ENTRIES + 1);
+    private final RankManager rankManager;
     /**
-     * Contains the current missions of the player. Note that this is a list instead of a set, because we don't
-     * want the missios to be drawn in another order every time the screen refreshes.
+     * The class responsible for managing the experience.
      */
-    private final List<Mission> missions = new ArrayList<>();
+    private final ExperienceManager experienceManager;
     /**
-     * Used to prevent an {@link java.util.ConcurrentModificationException ConcurrentModificationException}
-     * when deleting a mission while iterating over the missions.
+     * The class responsible for managing the levels.
      */
-    private final Queue<Mission> finishedMissionsQueue = new LinkedList<>();
+    private final LevelManager levelManager;
     /**
-     * Contains the data used to create new missions.
+     * The class responsible for managing the highscores.
      */
-    private final MissionData[] missionsData = new MissionData[]{
-            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 1, 10),
-            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 2, 20),
-            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 3, 30),
-            new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 4, 40)
-    };
+    private final HighScoreManager highScoreManager;
     /**
-     * The amount of coins the player has.
+     * The class responsible for managing the missions.
      */
-    private int coins;
+    private final MissionManager missionManager;
     /**
-     * Incremented by 1 after every mission; used to determine which mission should be created.
+     * The class responsible for managing the powerup levels.
      */
-    private int level = 0;
-
-    /**
-     * The amount of experience the player has.
-     */
-    private int experience;
-
-    /**
-     * The current rank of the player.
-     */
-    private Ranks rank;
+    private final PowerupLevelManager powerupLevelManager;
 
     /**
      * Prevents construction from outside the package.
      */
     private ProgressionManager() {
-        logger = serviceLocator.getLoggerFactory().createLogger(ProgressionManager.class);
+        this.logger = serviceLocator.getLoggerFactory().createLogger(ProgressionManager.class);
+        this.coinManager = new CoinManager(this);
+        this.rankManager = new RankManager(this);
+        this.experienceManager = new ExperienceManager(this);
+        this.levelManager = new LevelManager();
+        this.highScoreManager = new HighScoreManager(this);
+        this.missionManager = new MissionManager(this);
+        this.powerupLevelManager = new PowerupLevelManager(this);
     }
 
     /**
@@ -100,7 +81,7 @@ public final class ProgressionManager implements IProgressionManager {
     public static void register(final IServiceLocator sL) {
         assert sL != null;
         ProgressionManager.serviceLocator = sL;
-        sL.provide(new ProgressionManager());
+        ProgressionManager.serviceLocator.provide(new ProgressionManager());
     }
 
     /**
@@ -108,8 +89,8 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void init() {
-        if (powerupLevels.isEmpty()) {
-            loadData();
+        if (this.powerupLevelManager.powerupLevels.isEmpty()) {
+            this.loadData();
         }
     }
 
@@ -122,8 +103,8 @@ public final class ProgressionManager implements IProgressionManager {
     @Override
     public void addHighScore(final String name, final double score) {
         HighScore scoreEntry = new HighScore(name, score);
-        highScores.add(scoreEntry);
-        updateHighScores();
+        this.highScoreManager.highScores.add(scoreEntry);
+        this.highScoreManager.updateHighScores();
     }
 
     /**
@@ -131,7 +112,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public List<HighScore> getHighscores() {
-        return highScores;
+        return this.highScoreManager.highScores;
     }
 
     /**
@@ -139,7 +120,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public int getCoins() {
-        return coins;
+        return this.coinManager.coins;
     }
 
     /**
@@ -147,7 +128,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public Ranks getRank() {
-        return rank;
+        return this.rankManager.rank;
     }
 
     /**
@@ -155,7 +136,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public int getExperience() {
-        return experience;
+        return this.experienceManager.experience;
     }
 
     /**
@@ -163,7 +144,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public List<Mission> getMissions() {
-        return missions;
+        return this.missionManager.missions;
     }
 
     /**
@@ -171,13 +152,13 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void alertMissionFinished(final Mission mission) {
-        if (!missions.contains(mission)) {
+        if (!this.missionManager.missions.contains(mission)) {
             final String error = "The mission that's said to be finished is not an active mission";
-            logger.warning(error);
+            this.logger.warning(error);
             throw new InternalError(error);
         }
-        logger.info("Mission succeeded!");
-        finishedMissionsQueue.add(mission);
+        this.logger.info("Mission succeeded!");
+        this.missionManager.finishedMissionsQueue.add(mission);
     }
 
     /**
@@ -185,9 +166,9 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void update() {
-        while (finishedMissionsQueue.size() > 0) {
-            missions.remove(finishedMissionsQueue.remove());
-            createNewMission();
+        while (this.missionManager.finishedMissionsQueue.size() > 0) {
+            this.missionManager.missions.remove(this.missionManager.finishedMissionsQueue.remove());
+            this.missionManager.createNewMission();
         }
     }
 
@@ -196,18 +177,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public int getPowerupLevel(final Powerups powerup) {
-        if (powerup == null) {
-            final String error = "The powerup cannot be null";
-            logger.error(error);
-            throw new IllegalArgumentException(error);
-        }
-
-        if (powerupLevels.get(powerup) == null) {
-            logger.warning("The powerupLevels for the powerup " + powerup.toString() + " are missing");
-            return 0;
-        } else {
-            return powerupLevels.get(powerup);
-        }
+        return this.powerupLevelManager.getPowerupLevel(powerup);
     }
 
     /**
@@ -215,23 +185,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void decreaseCoins(final int amount) {
-        assert coins >= 0;
-
-        if (amount < 0) {
-            final String error = "The amount of coins to be subtracted must be more than 0";
-            logger.error(error);
-            throw new IllegalArgumentException(error);
-        }
-        if (coins - amount < 0) {
-            final String error = "Insufficient coins available: coins = " + coins + ", subtraction amount = " + amount;
-            logger.error(error);
-            throw new InsufficientCoinsException(error);
-        }
-        this.coins -= amount;
-
-        saveData();
-
-        assert coins >= 0;
+        this.coinManager.decreaseCoins(amount);
     }
 
     /**
@@ -239,23 +193,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void addExperience(final int amount) {
-        if (amount<0) {throw new IllegalArgumentException("Error: amount is negative.");}
-        experience += amount;
-        this.setRankAccordingExperience();
-        saveData();
-    }
-
-    /**
-     * Will set the rank variable according to the experience the player has.
-     */
-    private void setRankAccordingExperience() {
-        Ranks[] ranksArray = Ranks.values();
-        for (int i = 0; i < ranksArray.length; i++) {
-            if (ranksArray[i].getExperience() > experience) {
-                rank = ranksArray[i - 1];
-                break;
-            }
-        }
+        this.experienceManager.addExperience(amount);
     }
 
     /**
@@ -263,18 +201,7 @@ public final class ProgressionManager implements IProgressionManager {
      */
     @Override
     public void increasePowerupLevel(final Powerups powerup) {
-        if (powerup == null) {
-            throw new IllegalArgumentException("The level of the null powerup cannot be increased");
-        }
-        assert this.powerupLevels.containsKey(powerup);
-
-        final int currentLevel = this.powerupLevels.get(powerup);
-
-        assert currentLevel + 1 < powerup.getMaxLevel();
-
-        this.powerupLevels.replace(powerup, currentLevel + 1);
-
-        saveData();
+        this.powerupLevelManager.increasePowerupLevel(powerup);
     }
 
     /**
@@ -283,15 +210,17 @@ public final class ProgressionManager implements IProgressionManager {
     private void loadData() {
         Object jsonObject = null;
         try {
-            jsonObject = serviceLocator.getFileSystem().parseJson(serviceLocator.getConstants().getSaveFilePath(), new TypeToken<SaveFile>() {
+            jsonObject = ProgressionManager.serviceLocator.getFileSystem().parseJson(
+                    ProgressionManager.serviceLocator.getConstants().getSaveFilePath(), new TypeToken<SaveFile>() {
             }.getType());
         } catch (FileNotFoundException e) {
-            logger.warning("Save file was not found -> default progression used.");
+            this.logger.warning("Save file was not found -> default progression used.");
         }
+
         if (jsonObject == null) {
-            progressionFromDefault();
+            this.progressionFromDefault();
         } else {
-            progressionFromJson((SaveFile) jsonObject);
+            this.progressionFromJson((SaveFile) jsonObject);
         }
     }
 
@@ -301,11 +230,11 @@ public final class ProgressionManager implements IProgressionManager {
     private void saveData() {
         SaveFile image = new SaveFile();
 
-        image.setCoins(this.coins);
-        image.setExperience(this.experience);
+        image.setCoins(this.coinManager.coins);
+        image.setExperience(this.experienceManager.experience);
 
-        List<SaveFileHighScoreEntry> highScoreEntries = new ArrayList<>(MAX_HIGHSCORE_ENTRIES);
-        for (HighScore highScore : highScores) {
+        List<SaveFileHighScoreEntry> highScoreEntries = new ArrayList<>(ProgressionManager.HighScoreManager.MAX_HIGHSCORE_ENTRIES);
+        for (HighScore highScore : this.highScoreManager.highScores) {
             SaveFileHighScoreEntry entry = new SaveFileHighScoreEntry();
             entry.setName(highScore.getName());
             entry.setScore(highScore.getScore());
@@ -314,15 +243,16 @@ public final class ProgressionManager implements IProgressionManager {
         image.setHighScores(highScoreEntries);
 
         Map<String, Integer> powerupLevelEntries = new HashMap<>();
-        for (Map.Entry<Powerups, Integer> entry : powerupLevels.entrySet()) {
+        for (Map.Entry<Powerups, Integer> entry : this.powerupLevelManager.powerupLevels.entrySet()) {
             powerupLevelEntries.put(entry.getKey().name(), entry.getValue());
         }
         image.setPowerupLevels(powerupLevelEntries);
 
-        String json = serviceLocator.getFileSystem().serializeJson(image);
+        IFileSystem fileSystem = ProgressionManager.serviceLocator.getFileSystem();
+        String json = fileSystem.serializeJson(image);
         try {
-            serviceLocator.getFileSystem().writeProjectFile(serviceLocator.getConstants().getSaveFilePath(), json);
-        } catch (FileNotFoundException e) {
+            fileSystem.writeProjectFile(serviceLocator.getConstants().getSaveFilePath(), json);
+        } catch (IOException e) {
             logger.info("Save file was not found -> a new file is made.");
         }
     }
@@ -331,23 +261,23 @@ public final class ProgressionManager implements IProgressionManager {
      * Sets the progression to the default values: the values used when the game is started for the first time.
      */
     private void progressionFromDefault() {
-        powerupLevels.clear();
+        this.powerupLevelManager.powerupLevels.clear();
         for (Powerups powerup : Powerups.values()) {
-            powerupLevels.put(powerup, 0);
+            this.powerupLevelManager.powerupLevels.put(powerup, 0);
         }
-        powerupLevels.replace(Powerups.spring, 1);
+        this.powerupLevelManager.powerupLevels.replace(Powerups.spring, 1);
 
-        coins = 0;
-        experience = 0;
-        rank = Ranks.newbie;
+        this.coinManager.coins = 0;
+        this.experienceManager.experience = 0;
+        this.rankManager.rank = Ranks.newbie;
 
-        highScores.clear();
+        this.highScoreManager.highScores.clear();
 
-        for (int i = 0; i < MAX_MISSIONS; i++) {
-            createNewMission();
+        for (int i = 0; i < this.missionManager.MAX_MISSIONS; i++) {
+            this.missionManager.createNewMission();
         }
 
-        saveData();
+        this.saveData();
     }
 
     /**
@@ -356,125 +286,75 @@ public final class ProgressionManager implements IProgressionManager {
      * @param json The json containing the progression
      */
     private void progressionFromJson(final SaveFile json) {
-
-        for (int i = 0; i < MAX_MISSIONS; i++) {
-            createNewMission();
+        for (int i = 0; i < this.missionManager.MAX_MISSIONS; i++) {
+            this.missionManager.createNewMission();
         }
 
-        highScores.clear();
+        this.highScoreManager.highScores.clear();
         for (SaveFileHighScoreEntry entry : json.getHighScores()) {
-            highScores.add(new HighScore(entry.getName(), entry.getScore()));
-            logger.info("A highscore is added: " + entry.getName() + " - " + entry.getScore());
+            this.highScoreManager.highScores.add(new HighScore(entry.getName(), entry.getScore()));
+            this.logger.info("A highscore is added: " + entry.getName() + " - " + entry.getScore());
         }
 
-        coins = json.getCoins();
-        logger.info("Coins is set to: " + coins);
+        this.coinManager.coins = json.getCoins();
+        this.logger.info("Coins is set to: " + this.coinManager.coins);
 
-        experience = json.getExperience();
-        logger.info("Experience is set to: " + experience);
-        this.setRankAccordingExperience();
+        this.experienceManager.experience = json.getExperience();
+        this.logger.info("Experience is set to: " + this.experienceManager.experience);
+        this.rankManager.setRankAccordingExperience();
 
-        powerupLevels.clear();
+        this.powerupLevelManager.powerupLevels.clear();
         for (Map.Entry<String, Integer> entry : json.getPowerupLevels().entrySet()) {
             switch (entry.getKey()) {
                 case "jetpack":
-                    powerupLevels.put(Powerups.jetpack, entry.getValue());
-                    logger.info("Jetpack level is loaded from save file: " + entry.getValue());
+                    this.powerupLevelManager.powerupLevels.put(Powerups.jetpack, entry.getValue());
+                    this.logger.info("Jetpack level is loaded from save file: " + entry.getValue());
                     break;
                 case "propeller":
-                    powerupLevels.put(Powerups.propeller, entry.getValue());
-                    logger.info("Propeller level is loaded from save file: " + entry.getValue());
+                    this.powerupLevelManager.powerupLevels.put(Powerups.propeller, entry.getValue());
+                    this.logger.info("Propeller level is loaded from save file: " + entry.getValue());
                     break;
                 case "sizeDown":
-                    powerupLevels.put(Powerups.sizeDown, entry.getValue());
-                    logger.info("SizeDown level is loaded from save file: " + entry.getValue());
+                    this.powerupLevelManager.powerupLevels.put(Powerups.sizeDown, entry.getValue());
+                    this.logger.info("SizeDown level is loaded from save file: " + entry.getValue());
                     break;
                 case "sizeUp":
-                    powerupLevels.put(Powerups.sizeUp, entry.getValue());
-                    logger.info("SizeUp level is loaded from save file: " + entry.getValue());
+                    this.powerupLevelManager.powerupLevels.put(Powerups.sizeUp, entry.getValue());
+                    this.logger.info("SizeUp level is loaded from save file: " + entry.getValue());
                     break;
                 case "spring":
-                    powerupLevels.put(Powerups.spring, entry.getValue());
-                    logger.info("Spring level is loaded from save file: " + entry.getValue());
+                    this.powerupLevelManager.powerupLevels.put(Powerups.spring, entry.getValue());
+                    this.logger.info("Spring level is loaded from save file: " + entry.getValue());
                     break;
                 case "springShoes":
-                    powerupLevels.put(Powerups.springShoes, entry.getValue());
-                    logger.info("SpringShoes level is loaded from save file: " + entry.getValue());
+                    this.powerupLevelManager.powerupLevels.put(Powerups.springShoes, entry.getValue());
+                    this.logger.info("SpringShoes level is loaded from save file: " + entry.getValue());
                     break;
                 case "trampoline":
-                    powerupLevels.put(Powerups.trampoline, entry.getValue());
-                    logger.info("Trampoline level is loaded from save file: " + entry.getValue());
+                    this.powerupLevelManager.powerupLevels.put(Powerups.trampoline, entry.getValue());
+                    this.logger.info("Trampoline level is loaded from save file: " + entry.getValue());
                     break;
                 default:
-                    logger.warning("Unidentified powerup classifier found in savefile: \"" + entry.getKey() + "\"");
+                    this.logger.warning("Unidentified powerup classifier found in save file: \""
+                            + entry.getKey() + "\"");
                     break;
             }
         }
+
         for (Powerups powerup : Powerups.values()) {
-            if (!powerupLevels.containsKey(powerup)) {
-                powerupLevels.put(powerup, 0);
+            if (!this.powerupLevelManager.powerupLevels.containsKey(powerup)) {
+                this.powerupLevelManager.powerupLevels.put(powerup, 0);
             }
         }
-        updateHighScores();
-    }
 
-    /**
-     * Update the high scores for the game. Makes sure the
-     * max amount of high scores is not exceeded and the high
-     * scores are saved.
-     */
-    private void updateHighScores() {
-        Collections.sort(highScores);
-        for (int i = highScores.size(); i > MAX_HIGHSCORE_ENTRIES; i--) {
-            highScores.remove(i - 1);
-        }
-        saveData();
-    }
-
-    /**
-     * Create a new missio based on the {@link #level} of the doodle.
-     */
-    private void createNewMission() {
-        assert missions.size() < MAX_MISSIONS;
-        if (level < missionsData.length) {
-            final int levelCopy = level;
-            logger.info("New mission was created: level = "
-                    + levelCopy
-                    + ", mission = "
-                    + missionsData[levelCopy].type.toString()
-                    + ", amount = "
-                    + missionsData[levelCopy].amount
-                    + ", reward = "
-                    + missionsData[levelCopy].reward);
-            missions.add(serviceLocator.getMissionFactory().createMission(
-                    missionsData[levelCopy].type,
-                    missionsData[levelCopy].observerType,
-                    missionsData[levelCopy].amount,
-                    () -> {
-                        coins += missionsData[levelCopy].reward;
-                        return null;
-                    }
-            ));
-        } else {
-            logger.info("Maximum mission limit reached at level" + level + ". Last mission created again...");
-            missions.add(serviceLocator.getMissionFactory().createMission(
-                    missionsData[missionsData.length - 1].type,
-                    missionsData[missionsData.length - 1].observerType,
-                    missionsData[missionsData.length - 1].amount,
-                    () -> {
-                        coins += missionsData[missionsData.length - 1].reward;
-                        return null;
-                    }
-            ));
-        }
-
-        level++;
+        this.highScoreManager.updateHighScores();
     }
 
     /**
      * A data container class for missions.
      */
     private static final class MissionData {
+
         /**
          * The type of the mission.
          */
@@ -506,19 +386,336 @@ public final class ProgressionManager implements IProgressionManager {
             this.amount = amount;
             this.reward = reward;
         }
+
     }
 
     /**
-     * Thrown when there are more coins requested to be subtracted from the budget than there are available.
+     * Responsible for managing the coins
      */
-    private static final class InsufficientCoinsException extends RuntimeException {
+    /* package */ final class CoinManager {
         /**
-         * Construct a new InsufficientCoinsException with a certain message.
-         *
-         * @param message The message describing the exception
+         * The amount of coins the player has.
          */
-        private InsufficientCoinsException(final String message) {
-            super(message);
+        private int coins;
+
+        /**
+         * A reference to the progressionManager class
+         */
+        private final ProgressionManager progressionManager;
+
+        /**
+         * Construct a class responsible for managing the coins.
+         * @param progressionManager The ProgressionManager used in the game
+         */
+        private CoinManager(final ProgressionManager progressionManager) {
+            this.progressionManager = progressionManager;
+        }
+
+        /**
+         * Decreases the amount of coins with {@code amount}.
+         *
+         * @param amount The amount of coins that should be subtracted from the total amount of coins
+         */
+        private void decreaseCoins(final int amount) {
+            assert this.coins >= 0;
+
+            if (amount < 0) {
+                final String error = "The amount of coins to be subtracted must be more than 0";
+                progressionManager.logger.error(error);
+                throw new IllegalArgumentException(error);
+            }
+            if (this.coins - amount < 0) {
+                final String error = "Insufficient coins available: coins = " + this.coins
+                        + ", subtraction amount = " + amount;
+                progressionManager.logger.error(error);
+                throw new InsufficientCoinsException(error);
+            }
+            this.coins -= amount;
+
+            progressionManager.saveData();
+
+            assert this.coins >= 0;
+        }
+
+        /**
+         * Thrown when there are more coins requested to be subtracted from the budget than there are available.
+         */
+        /* package */ final class InsufficientCoinsException extends RuntimeException {
+
+            /**
+             * Construct a new InsufficientCoinsException with a certain message.
+             *
+             * @param message The message describing the exception
+             */
+            private InsufficientCoinsException(final String message) {
+                super(message);
+            }
+
         }
     }
+
+    /**
+     * Responsible for managing the ranks
+     */
+    private final class RankManager {
+        /**
+         * The current rank of the player.
+         */
+        private Ranks rank;
+
+        /**
+         * A reference to the progressionManager class
+         */
+        private final ProgressionManager progressionManager;
+
+        /**
+         * Construct a class responsible for managing the rank.
+         * @param progressionManager The ProgressionManager used in the game
+         */
+        private RankManager(final ProgressionManager progressionManager) {
+            this.progressionManager = progressionManager;
+        }
+
+        /**
+         * Will set the rank variable according to the experience the player has.
+         */
+        private void setRankAccordingExperience() {
+            this.rank = Ranks.newbie;
+            for (Ranks checkRank : Ranks.values()) {
+                if (checkRank.getExperience() < this.progressionManager.experienceManager.experience) {
+                    this.rank = checkRank;
+                }
+            }
+        }
+    }
+
+    /**
+     * Responsible for managing the experience
+     */
+    private final class ExperienceManager {
+        /**
+         * The amount of experience the player has.
+         */
+        private int experience;
+
+        /**
+         * A reference to the progressionManager class
+         */
+        private final ProgressionManager progressionManager;
+
+        /**
+         * Construct a class responsible for managing the experience.
+         * @param progressionManager The ProgressionManager used in the game
+         */
+        private ExperienceManager(final ProgressionManager progressionManager) {
+            this.progressionManager = progressionManager;
+        }
+
+        /**
+         * Adds {@code} experience to the experience of the player.
+         * @param amount The amount of experience that should be added
+         */
+        private void addExperience(final int amount) {
+            if (amount < 0) {
+                throw new IllegalArgumentException("Error: amount is negative.");
+            }
+
+            this.experience += amount;
+            ProgressionManager.this.rankManager.setRankAccordingExperience();
+            progressionManager.saveData();
+        }
+    }
+
+    /**
+     * Responsible for managing the level of the doodle
+     */
+    private final class LevelManager {
+        /**
+         * Incremented by 1 after every mission; used to determine which mission should be created.
+         */
+        private int level = 0;
+    }
+    
+    /* package */ final class HighScoreManager {
+        /**
+         * The maximum amount of entries in a HighScoresList.
+         */
+        private static final int MAX_HIGHSCORE_ENTRIES = 10;
+
+        /**
+         * A reference to the progressionManager class
+         */
+        private final ProgressionManager progressionManager;
+
+        /**
+         * Construct a class responsible for managing the highscores.
+         * @param progressionManager The ProgressionManager used in the game
+         */
+        private HighScoreManager(final ProgressionManager progressionManager) {
+            this.progressionManager = progressionManager;
+        }
+        
+        /**
+         * A list of high scores for the game.
+         */
+        private final List<HighScore> highScores = new ArrayList<>(MAX_HIGHSCORE_ENTRIES + 1);
+
+        /**
+         * Update the high scores for the game. Makes sure the
+         * max amount of high scores is not exceeded and the high
+         * scores are saved.
+         */
+        private void updateHighScores() {
+            Collections.sort(this.highScores);
+            for (int i = this.highScores.size(); i > HighScoreManager.MAX_HIGHSCORE_ENTRIES; i--) {
+                this.highScores.remove(i - 1);
+            }
+
+            progressionManager.saveData();
+        }
+    }
+
+    /**
+     * Responsible for managing the missions
+     */
+    /* package */ final class MissionManager {
+        /**
+         * The maximum amount of missions active at the same time.
+         */
+        private final int MAX_MISSIONS = 3;
+        /**
+         * Contains the current missions of the player. Note that this is a list instead of a set, because we don't
+         * want the missions to be drawn in another order every time the screen refreshes.
+         */
+        private final List<Mission> missions = new ArrayList<>();
+        /**
+         * Used to prevent an {@link java.util.ConcurrentModificationException ConcurrentModificationException}
+         * when deleting a mission while iterating over the missions.
+         */
+        private final Queue<Mission> finishedMissionsQueue = new LinkedList<>();
+        /**
+         * Contains the data used to create new missions.
+         */
+        private final MissionData[] missionsData = new MissionData[]{
+                new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 1, 10),
+                new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 2, 20),
+                new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 3, 30),
+                new MissionData(MissionType.jumpOnSpring, ProgressionObservers.spring, 4, 40)
+        };
+
+        /**
+         * A reference to the progressionManager class
+         */
+        private final ProgressionManager progressionManager;
+
+        /**
+         * Construct a class responsible for managing the missions.
+         * @param progressionManager The ProgressionManager used in the game
+         */
+        private MissionManager(final ProgressionManager progressionManager) {
+            this.progressionManager = progressionManager;
+        }
+
+        /**
+         * Create a new mission based on the level of the doodle.
+         */
+        private void createNewMission() {
+            assert this.missions.size() < this.MAX_MISSIONS;
+            if (progressionManager.levelManager.level < this.missionsData.length) {
+                final int levelCopy = progressionManager.levelManager.level;
+                progressionManager.logger.info("New mission was created: level = "
+                        + levelCopy
+                        + ", mission = "
+                        + this.missionsData[levelCopy].type.toString()
+                        + ", amount = "
+                        + this.missionsData[levelCopy].amount
+                        + ", reward = "
+                        + this.missionsData[levelCopy].reward);
+                progressionManager.missionManager.missions.add(serviceLocator.getMissionFactory().createMission(
+                        this.missionsData[levelCopy].type,
+                        this.missionsData[levelCopy].observerType,
+                        this.missionsData[levelCopy].amount,
+                        () -> {
+                            progressionManager.coinManager.coins += this.missionsData[levelCopy].reward;
+                            return null;
+                        }
+                ));
+            } else {
+                progressionManager.logger.info("Maximum mission limit reached at level" + progressionManager.levelManager.level + ". Last mission created again...");
+                this.missions.add(serviceLocator.getMissionFactory().createMission(
+                        this.missionsData[this.missionsData.length - 1].type,
+                        this.missionsData[this.missionsData.length - 1].observerType,
+                        this.missionsData[this.missionsData.length - 1].amount,
+                        () -> {
+                            progressionManager.coinManager.coins += this.missionsData[this.missionsData.length - 1].reward;
+                            return null;
+                        }
+                ));
+            }
+            progressionManager.levelManager.level++;
+        }
+    }
+
+    /**
+     * Responsible for managing the powerups
+     */
+    /* package */ final class PowerupLevelManager {
+        /**
+         * The level that the player has unlocked of each powerup. 0 = not available yet.
+         */
+        private final Map<Powerups, Integer> powerupLevels = new EnumMap<>(Powerups.class);
+
+        /**
+         * A reference to the progressionManager class
+         */
+        private final ProgressionManager progressionManager;
+
+        /**
+         * Construct a class responsible for managing the powerup levels.
+         * @param progressionManager The ProgressionManager used in the game
+         */
+        private PowerupLevelManager(final ProgressionManager progressionManager) {
+            this.progressionManager = progressionManager;
+        }
+
+        /**
+         * @param powerup The powerup you want to retrieve the current level from. Cannot be null
+         * @return The level of the powerup
+         */
+        private int getPowerupLevel(final Powerups powerup) {
+            if (powerup == null) {
+                final String error = "The powerup cannot be null";
+                progressionManager.logger.error(error);
+                throw new IllegalArgumentException(error);
+            }
+
+            if (this.powerupLevels.get(powerup) == null) {
+                progressionManager.logger.warning("The powerupLevels for the powerup " + powerup.toString() + " are missing");
+                return 0;
+            } else {
+                return this.powerupLevels.get(powerup);
+            }
+        }
+
+        /**
+         * Increases the powerup level of the powerup specified by 1.
+         *
+         * @param powerup The powerup that should be upgraded
+         */
+        private void increasePowerupLevel(final Powerups powerup) {
+            if (powerup == null) {
+                throw new IllegalArgumentException("The level of the null powerup cannot be increased");
+            }
+            assert this.powerupLevels.containsKey(powerup);
+
+            final int currentLevel = this.powerupLevels.get(powerup);
+
+            assert currentLevel + 1 < powerup.getMaxLevel();
+
+            this.powerupLevels.replace(powerup, currentLevel + 1);
+
+            progressionManager.saveData();
+        }
+    }
+
 }

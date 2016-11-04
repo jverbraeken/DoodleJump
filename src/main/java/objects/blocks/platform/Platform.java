@@ -3,6 +3,7 @@ package objects.blocks.platform;
 import objects.AGameObject;
 import objects.doodles.IDoodle;
 import resources.audio.IAudioManager;
+import resources.audio.Sounds;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -13,7 +14,7 @@ import java.util.Map;
 /**
  * This class focuses on the implementation of platforms.
  */
-public class Platform extends AGameObject implements IPlatform {
+public final class Platform extends AGameObject implements IPlatform {
 
     /**
      * The boost the Doodle gets from colliding with the platform.
@@ -22,7 +23,7 @@ public class Platform extends AGameObject implements IPlatform {
     /**
      * The offSet of the vertical moving platform.
      */
-    private int offSet = 0;
+    private double offSet = 0;
     /**
      * The properties for this platform.
      */
@@ -88,7 +89,7 @@ public class Platform extends AGameObject implements IPlatform {
     * {@inheritDoc}
      */
     @Override
-    public final double getBoost() {
+    public double getBoost() {
         return Platform.BOOST;
     }
 
@@ -96,14 +97,14 @@ public class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         double xPos = this.getXPos();
         double yPos = this.getYPos();
         getServiceLocator().getRenderer().drawSprite(getSprite(), new Point((int) xPos, (int) yPos));
@@ -113,14 +114,14 @@ public class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final void updateEnums(final double xPos, final double yPos) {
+    public void updateEnums(final double xPos, final double yPos) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void collidesWith(final IDoodle doodle) {
+    public void collidesWith(final IDoodle doodle) {
         if (doodle == null) {
             throw new IllegalArgumentException("Doodle cannot be null");
         }
@@ -136,14 +137,14 @@ public class Platform extends AGameObject implements IPlatform {
      */
     private void playSound() {
         IAudioManager audioManager = getServiceLocator().getAudioManager();
-        audioManager.playJump();
+        audioManager.play(Sounds.JUMP);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final Map<PlatformProperties, Integer> getProps() {
+    public Map<PlatformProperties, Integer> getProps() {
         return props;
     }
 
@@ -151,7 +152,7 @@ public class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final Map<Directions, Integer> getDirections() {
+    public Map<Directions, Integer> getDirections() {
         return directions;
     }
 
@@ -159,7 +160,7 @@ public class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final void setOffset(final int value) {
+    public void setOffset(final double value) {
         this.offSet = value;
     }
 
@@ -167,7 +168,7 @@ public class Platform extends AGameObject implements IPlatform {
      * {@inheritDoc}
      */
     @Override
-    public final int getOffset() {
+    public double getOffset() {
         return offSet;
     }
 

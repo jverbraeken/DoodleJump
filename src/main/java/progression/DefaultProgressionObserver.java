@@ -8,6 +8,7 @@ import java.util.concurrent.Callable;
  * Observes a progression attribute and notifies a mission when it's finished observing.
  */
 /* package */ abstract class DefaultProgressionObserver implements IProgressionObserver {
+
     /**
      * The service locator.
      */
@@ -90,7 +91,7 @@ import java.util.concurrent.Callable;
      */
     @Override
     public final double getProgression() {
-        return counter;
+        return this.counter;
     }
 
     /**
@@ -98,7 +99,7 @@ import java.util.concurrent.Callable;
      */
     @Override
     public final void reset() {
-        counter = 0;
+        this.counter = 0;
     }
 
     /**
@@ -114,42 +115,7 @@ import java.util.concurrent.Callable;
      */
     @Override
     public final int getMaximumTimes() {
-        return times;
-    }
-
-    /**
-     * Executes everything that must be done when the mission is finished successfully.
-     */
-    protected final void finished() {
-        try {
-            action.call();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (mission != null) {
-            mission.alertFinished();
-        }
-        finishedExtension();
-    }
-
-    /**
-     * Of course we rather use notify, but as that name is occupied already by java.lang it's not possible
-     * to use that name unfortunately.
-     */
-    protected final void alert() {
-        counter++;
-        checkFinished();
-    }
-
-    /**
-     * Of course we rather use notify, but as that name is occupied already by java.lang it's not possible
-     * to use that name unfortunately.
-     *
-     * @param amount The amount of which the variable that caused the trigger to alert the observers has been changed.
-     */
-    protected final void alert(final double amount) {
-        counter += amount;
-        checkFinished();
+        return this.times;
     }
 
     /**
@@ -163,7 +129,16 @@ import java.util.concurrent.Callable;
      * @return The service locator
      */
     protected final IServiceLocator getServiceLocator() {
-        return serviceLocator;
+        return this.serviceLocator;
+    }
+
+    /**
+     * Of course we rather use notify, but as that name is occupied already by java.lang it's not possible
+     * to use that name unfortunately.
+     */
+    /* package */ final void alert() {
+        this.counter++;
+        this.checkFinished();
     }
 
     /**
@@ -172,11 +147,29 @@ import java.util.concurrent.Callable;
     /* package */ abstract IProgressionObserver getThis();
 
     /**
-     * Returns true if the observer has reached its goal (was notificated {@link #times} times.
+     * Returns true if the observer has reached its goal (was notified {@link #times} times).
      */
     private void checkFinished() {
-        if ((int) Math.round(counter) == times) {
+        if ((int) Math.round(this.counter) == this.times) {
             finished();
         }
     }
+
+    /**
+     * Executes everything that must be done when the mission is finished successfully.
+     */
+    private void finished() {
+        try {
+            this.action.call();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (this.mission != null) {
+            this.mission.alertFinished();
+        }
+
+        this.finishedExtension();
+    }
+
 }

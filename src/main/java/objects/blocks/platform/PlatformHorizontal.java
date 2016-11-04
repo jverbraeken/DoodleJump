@@ -1,5 +1,6 @@
 package objects.blocks.platform;
 
+import resources.IRes;
 import system.IServiceLocator;
 
 /**
@@ -29,7 +30,7 @@ import system.IServiceLocator;
      */
     /* package */PlatformHorizontal(final IServiceLocator sL, final IPlatform platform) {
         super(sL, platform);
-        this.getContained().setSprite(sL.getSpriteFactory().getPlatformSpriteHorizontal());
+        this.getContained().setSprite(sL.getSpriteFactory().getSprite(IRes.Sprites.platformHorizontal));
         this.getContained().getProps().put(Platform.PlatformProperties.movingVertically, 1);
 
         this.speed = sL.getCalc().getRandomDouble(1) < FIFTY_FIFTY ? MOVING_SPEED : -MOVING_SPEED;

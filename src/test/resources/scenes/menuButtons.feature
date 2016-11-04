@@ -10,7 +10,6 @@ Feature: annotation
     Then the scene should be World
     And the score should be 0
 
-
   Scenario:
     When I press the mode-button
     Then the scene should be ChooseMode
@@ -23,6 +22,10 @@ Feature: annotation
     When I press the multiplayer-button
     Then the scene should be World
     And the score should be 0
+
+  Scenario:
+    When I press the shop-button
+    Then the scene should be ShopScreen
 
   Scenario:
         When I do nothing
