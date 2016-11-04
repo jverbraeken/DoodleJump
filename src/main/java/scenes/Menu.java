@@ -153,10 +153,7 @@ import java.util.List;
      */
     @Override
     public final void start() {
-        for (IButton button : this.buttons) {
-            button.register();
-        }
-        this.logger.info("The main menu registered itself as an observer of the input manager");
+        this.register();
         this.logger.info("The menu scene is now displaying");
     }
 
@@ -165,11 +162,24 @@ import java.util.List;
      */
     @Override
     public final void stop() {
+        this.deregister();
+        this.logger.info("The menu scene is no longer displaying");
+    }
+
+    @Override
+    public void register() {
+        for (IButton button : this.buttons) {
+            button.register();
+        }
+        this.logger.info("The main menu registered itself as an observer of the input manager");
+    }
+
+    @Override
+    public void deregister() {
         for (IButton button : this.buttons) {
             button.deregister();
         }
         this.logger.info("The main menu removed itself as an observer from the input manager");
-        this.logger.info("The menu scene is no longer displaying");
     }
 
     /**
@@ -205,20 +215,6 @@ import java.util.List;
         if (this.doodle.checkCollision(this.platform)) {
             this.platform.collidesWith(this.doodle);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void switchDisplay(PauseScreenModes mode) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }
