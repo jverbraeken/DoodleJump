@@ -11,7 +11,7 @@ import java.awt.Point;
  * A ShootingObserver is a MouseInputObserver which creates projectiles
  * at the click on the mouse.
  */
-/* PACKAGE */ class ShootingObserver implements IMouseInputObserver {
+/* package */ final class ShootingObserver implements IMouseInputObserver {
 
     /**
      * The logger of this game.

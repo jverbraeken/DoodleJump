@@ -73,4 +73,12 @@ public class CrashTest {
         assertThat(true, is(true));
     }
 
+    @Test
+    public void testCreateShopSceen() {
+        Game.setScene(
+                sL.getSceneFactory().createShopScreen());
+        //No crashes
+        assertThat(true, is(true));
+    }
+
 }

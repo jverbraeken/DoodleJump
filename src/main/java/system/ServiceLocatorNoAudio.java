@@ -471,6 +471,16 @@ import scenes.SceneFactory;
             }
 
             @Override
+            public void loopThemeSong() {
+
+            }
+
+            @Override
+            public void stopLoopingThemeSong() {
+
+            }
+
+            @Override
             public void playTrampoline() {
 
             }

@@ -75,6 +75,8 @@ public final class PlatformFactory implements IPlatformFactory {
                 return createDarknessPlatform(0, 0);
             case randomPlatform:
                 return createRandomPlatform(0, 0);
+            case breakingPlatform:
+                return createBreakPlatform(0, 0);
             default:
                 throw new RuntimeException("No such element (" + type + ") in platform types");
         }

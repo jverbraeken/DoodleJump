@@ -4,6 +4,7 @@ import logging.ILogger;
 import system.IServiceLocator;
 
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import java.io.FileNotFoundException;
 
 /**
@@ -329,6 +330,23 @@ public final class AudioManager implements IAudioManager {
      * {@inheritDoc}
      */
     @Override
+    public void loopThemeSong() {
+        Sound.THEME_SONG.clip.setFramePosition(0);
+        Sound.THEME_SONG.clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void stopLoopingThemeSong() {
+        Sound.THEME_SONG.clip.stop();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void playTrampoline() {
         Sound.TRAMPOLINE.play();
     }
@@ -420,6 +438,7 @@ public final class AudioManager implements IAudioManager {
         SPRING_SHOES("sounds/springshoes.wav"),
         START("sounds/start.wav"),
         THUNDER("sounds/thunder.wav"),
+        THEME_SONG("sounds/chaserthemesong.wav"),
         TRAMPOLINE("sounds/trampoline.wav"),
         UFO("sounds/ufo.wav"),
         UFO_POGODAK("sounds/ufopogodak.wav"),
