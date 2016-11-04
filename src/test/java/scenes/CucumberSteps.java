@@ -58,9 +58,9 @@ public class CucumberSteps implements En {
 
         When("^the world is (.*)$", (String paused) -> {
             if (paused.equals("running")) {
-                Game.setPaused(false);
+                Game.resumeGame();
             } else if (paused.equals("paused")) {
-                Game.setPaused(true);
+                Game.pauseGame();
             }
         });
 
@@ -68,13 +68,9 @@ public class CucumberSteps implements En {
             Game.getScene().update(0d);
         });
 
-        When("^I resume the game$", () -> {
-            Game.setPaused(false);
-        });
+        When("^I resume the game$", Game::resumeGame);
 
-        When("^I pause the game$", () -> {
-            Game.setPaused(true);
-        });
+        When("^I pause the game$", Game::pauseGame);
 
         When("^I press the (.*)-button$", (String button) -> {
             IScene scene = Whitebox.getInternalState(Game.class, "scene");
