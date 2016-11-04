@@ -140,7 +140,7 @@ public class ChooseModeTest {
         verify(horizontal, times(1)).register();
         verify(vertical, times(1)).register();
 
-        verify(logger, times(1)).info("The choose mode scene is now displaying");
+        verify(logger).info(anyString());
     }
 
     @Test
@@ -154,7 +154,7 @@ public class ChooseModeTest {
         verify(horizontal, times(1)).deregister();
         verify(vertical, times(1)).deregister();
 
-        verify(logger, times(1)).info("The choose mode scene is no longer displaying");
+        verify(logger).info(anyString());
     }
 
 }
