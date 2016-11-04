@@ -1,7 +1,7 @@
 package resources.audio;
 
 /**
- * Enum with the paths to all sound files.
+ * Enumeration with the paths to all sound files.
  */
 public enum Sounds {
 
@@ -52,7 +52,7 @@ public enum Sounds {
     /**
      * A clip containing the sounds.
      */
-    private String filepath;
+    private final String filepath;
 
     /**
      * Preload a sound.
