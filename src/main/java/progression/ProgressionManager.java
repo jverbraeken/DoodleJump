@@ -387,7 +387,10 @@ public final class ProgressionManager implements IProgressionManager {
         }
 
     }
-    
+
+    /**
+     * Responsible for managing the coins
+     */
     /* package */ final class CoinManager {
         /**
          * The amount of coins the player has.
@@ -450,7 +453,10 @@ public final class ProgressionManager implements IProgressionManager {
         }
     }
 
-    /* package */ final class RankManager {
+    /**
+     * Responsible for managing the ranks
+     */
+    private final class RankManager {
         /**
          * The current rank of the player.
          */
@@ -481,8 +487,11 @@ public final class ProgressionManager implements IProgressionManager {
             }
         }
     }
-    
-    /* package */ final class ExperienceManager {
+
+    /**
+     * Responsible for managing the experience
+     */
+    private final class ExperienceManager {
         /**
          * The amount of experience the player has.
          */
@@ -515,8 +524,11 @@ public final class ProgressionManager implements IProgressionManager {
             progressionManager.saveData();
         }
     }
-    
-    /* package */ final class LevelManager {
+
+    /**
+     * Responsible for managing the level of the doodle
+     */
+    private final class LevelManager {
         /**
          * Incremented by 1 after every mission; used to determine which mission should be created.
          */
@@ -561,8 +573,11 @@ public final class ProgressionManager implements IProgressionManager {
             progressionManager.saveData();
         }
     }
-    
-    /* package */ final class MissionManager {
+
+    /**
+     * Responsible for managing the missions
+     */
+    private final class MissionManager {
         /**
          * The maximum amount of missions active at the same time.
          */
@@ -639,7 +654,10 @@ public final class ProgressionManager implements IProgressionManager {
             progressionManager.levelManager.level++;
         }
     }
-    
+
+    /**
+     * Responsible for managing the powerups
+     */
     /* package */ final class PowerupLevelManager {
         /**
          * The level that the player has unlocked of each powerup. 0 = not available yet.
