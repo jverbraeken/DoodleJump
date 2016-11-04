@@ -55,7 +55,7 @@ public final class Spring extends AJumpablePowerup {
      */
     @Override
     public void animate() {
-        super.executeDefaultAnimation(this, RETRACT_SPEED);
+        super.executeDefaultAnimation(RETRACT_SPEED);
     }
 
     /**

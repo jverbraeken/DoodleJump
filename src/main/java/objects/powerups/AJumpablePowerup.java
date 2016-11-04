@@ -85,10 +85,9 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
     /**
      * Executes the default animation: a change between the default- and used-sprite after the player hit the powerup.
      *
-     * @param powerup      The powerup that requested the animation
      * @param retractSpeed The speed with which the {@link AJumpablePowerup powerup} rectracts after it is used.
      */
-    protected final void executeDefaultAnimation(final AJumpablePowerup powerup, final int retractSpeed) {
+    protected final void executeDefaultAnimation(final int retractSpeed) {
         int oldHeight = getSprite().getHeight();
         int newHeight = this.getUsedSprite().getHeight();
         this.addYPos(oldHeight - newHeight);
