@@ -106,8 +106,7 @@ public class PauseScreenTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testConstructor2() throws Exception {
-        IServiceLocator nullServiceLocator = null;
-        new PauseScreen(nullServiceLocator);
+        new PauseScreen(null);
     }
 
     @Test

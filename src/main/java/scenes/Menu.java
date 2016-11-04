@@ -152,11 +152,8 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
-        for (IButton button : this.buttons) {
-            button.register();
-        }
-        this.logger.info("The main menu registered itself as an observer of the input manager");
+    public void start() {
+        this.register();
         this.logger.info("The menu scene is now displaying");
     }
 
@@ -164,11 +161,8 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
-        for (IButton button : this.buttons) {
-            button.deregister();
-        }
-        this.logger.info("The main menu removed itself as an observer from the input manager");
+    public void stop() {
+        this.deregister();
         this.logger.info("The menu scene is no longer displaying");
     }
 
@@ -176,7 +170,29 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void register() {
+        for (IButton button : this.buttons) {
+            button.register();
+        }
+        this.logger.info("The main menu registered itself as an observer of the input manager");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deregister() {
+        for (IButton button : this.buttons) {
+            button.deregister();
+        }
+        this.logger.info("The main menu removed itself as an observer from the input manager");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void render() {
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         Ranks rank = progressionManager.getRank();
         IConstants constants = this.serviceLocator.getConstants();
@@ -199,26 +215,12 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         this.doodle.update(delta);
 
         if (this.doodle.checkCollision(this.platform)) {
             this.platform.collidesWith(this.doodle);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void switchDisplay(PauseScreenModes mode) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

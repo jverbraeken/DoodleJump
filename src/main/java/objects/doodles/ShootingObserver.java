@@ -41,12 +41,12 @@ import java.awt.Point;
     /**
      * Registers this ShootingObserver at the InputManager.
      */
-    public final void register() {
+    public void register() {
         this.serviceLocator.getInputManager().addObserver(this);
         this.logger.info("The doodle registered an observer to observe the mouse input for shooting.");
     }
 
-    public final void deregister() {
+    public void deregister() {
         this.serviceLocator.getInputManager().removeObserver(this);
         this.logger.info("The doodle registered an observer to observe the mouse input for shooting.");
     }
@@ -55,7 +55,7 @@ import java.awt.Point;
      * {@inheritDoc}
      */
     @Override
-    public final void mouseClicked(final int x, final int y) {
+    public void mouseClicked(final int x, final int y) {
         int doodleXPos = (int) (this.doodle.getXPos() + this.doodle.getHitBox()[1] / 2);
         int doodleYPos = (int) this.doodle.getYPos();
         int direction;

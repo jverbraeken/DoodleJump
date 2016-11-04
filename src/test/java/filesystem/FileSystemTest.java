@@ -87,10 +87,23 @@ public class FileSystemTest {
 
     @Test
     public void testDeleteFile() throws IOException {
-        final File file = ((new File(NOT_EXISTING_NAME)));
-        file.createNewFile();
-        fileSystem.deleteFile(NOT_EXISTING_NAME);
-        assertThat(file.exists(), is(false));
+        (new Thread() {
+            public void run() {
+                final File file = ((new File(NOT_EXISTING_NAME)));
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                fileSystem.deleteFile(NOT_EXISTING_NAME);
+                assertThat(file.exists(), is(false));
+            }
+        }).start();
     }
 
     @Test

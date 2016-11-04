@@ -65,7 +65,7 @@ import java.awt.Point;
      *
      * @param retractSpeed The speed with which the {@link AJumpablePowerup powerup} rectracts after it is used.
      */
-    protected final void executeDefaultAnimation(final int retractSpeed) {
+    /* package */ final void executeDefaultAnimation(final int retractSpeed) {
         final int oldHeight = getSprite().getHeight();
         final int newHeight = this.usedSprite.getHeight();
         this.addYPos(oldHeight - newHeight);

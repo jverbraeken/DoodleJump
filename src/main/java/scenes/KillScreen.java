@@ -141,9 +141,8 @@ import java.awt.Point;
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
-        this.playAgainButton.register();
-        this.mainMenuButton.register();
+    public void start() {
+        this.register();
         this.logger.info("The kill screen scene is now displaying");
     }
 
@@ -151,10 +150,29 @@ import java.awt.Point;
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
+    public void stop() {
+        this.deregister();
+        this.logger.info("The kill screen scene is no longer displaying");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register() {
+        this.playAgainButton.register();
+        this.mainMenuButton.register();
+        this.logger.info("The kill screen scene is now registered");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deregister() {
         this.playAgainButton.deregister();
         this.mainMenuButton.deregister();
-        this.logger.info("The kill screen scene is no longer displaying");
+        this.logger.info("The kill screen scene is now deregistered");
     }
 
     /**
@@ -195,7 +213,7 @@ import java.awt.Point;
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         if (expCount < totalExperience) {
             expCount += countUpAmount;
         }
@@ -210,19 +228,6 @@ import java.awt.Point;
         if (expFontSize > INITIAL_EXP_FONTSIZE + MAX_EXP_FONT_SIZE_DIFFERENCE || expFontSize < INITIAL_EXP_FONTSIZE - MAX_EXP_FONT_SIZE_DIFFERENCE) {
             expFontSizeSpeed = -expFontSizeSpeed;
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void switchDisplay(PauseScreenModes mode) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
 }

@@ -29,7 +29,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      */
     @Override
     public void perform(final PowerupOccasion occasion) {
-        // Do nothing because not all powerups want to do something at an occasion.
+        // Do nothing because not all powerups want to do something at any occasion.
     }
 
     /**
@@ -60,7 +60,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      *
      * @param platform The platform at which the powerup must be placed
      */
-    protected final void setPositionOnPlatformRandom(final IPlatform platform) {
+    /* package */ final void setPositionOnPlatformRandom(final IPlatform platform) {
         ICalc calc = AGameObject.getServiceLocator().getCalc();
 
         double[] hitbox = platform.getHitBox();
@@ -80,7 +80,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      * @param platformWidth The width of the platform.
      * @return integer of the X position of the powerup.
      */
-    protected final int setXPosOfPowerup(final int powerupXPos, final int xPosPlatform, final int platformWidth) {
+    private int setXPosOfPowerup(final int powerupXPos, final int xPosPlatform, final int platformWidth) {
         double[] powHitbox = this.getHitBox();
         final int powerupWidth = (int) powHitbox[AGameObject.HITBOX_RIGHT];
 
