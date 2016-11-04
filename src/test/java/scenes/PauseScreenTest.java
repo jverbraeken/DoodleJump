@@ -20,6 +20,7 @@ import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -43,6 +44,9 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({Mission.class})
 public class PauseScreenTest {
 
+    int spriteHeight = 100;
+    int yPos = 50;
+    private EnumMap<Powerups, IButton> buttonMap = new EnumMap<>(Powerups.class);
     private IServiceLocator serviceLocator = mock(IServiceLocator.class);
     private ILogger logger = mock(ILogger.class);
     private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
@@ -54,20 +58,16 @@ public class PauseScreenTest {
     private IButton shopButton = mock(IButton.class);
     private IButton powerupButton = mock(IButton.class);
     private ISprite sprite = mock(ISprite.class);
+    private ISprite missionSprite = mock(ISprite.class);
+    private ISprite shopSprite = mock(ISprite.class);
+    private ISprite[] sprites = {sprite, sprite, sprite, sprite, sprite, sprite, sprite, sprite, sprite, sprite};
     private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
     private IProgressionManager progressionManager = mock(IProgressionManager.class);
     private IConstants constants = mock(IConstants.class);
-    private Runnable action = mock(Runnable.class);
-    ISprite[] sprites = {sprite, sprite, sprite, sprite, sprite, sprite, sprite, sprite, sprite, sprite};
     private Mission mission = mock(Mission.class);
-    int spriteHeight = 100;
-    int yPos = 50;
-    EnumMap<Powerups, IButton> buttonMap = new EnumMap<>(Powerups.class);
-
     private List<Mission> missions = new ArrayList<>();
 
-
-    private IScene pausescreen;
+    private IScene pauseScreen;
 
     @Before
     public void init() throws Exception {
@@ -86,22 +86,25 @@ public class PauseScreenTest {
         when(spriteFactory.getResumeButtonSprite()).thenReturn(sprite);
         when(spriteFactory.getAchievementSprite()).thenReturn(sprite);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
+        when(spriteFactory.getScoreBarSprite()).thenReturn(sprite);
+        when(spriteFactory.getPauseCoverSprite(PauseScreenModes.mission)).thenReturn(missionSprite);
+        when(spriteFactory.getPauseCoverSprite(PauseScreenModes.shop)).thenReturn(shopSprite);
         when(sprite.getHeight()).thenReturn(spriteHeight);
 
-        pausescreen = new PauseScreen(serviceLocator);
+        pauseScreen = new PauseScreen(serviceLocator);
     }
 
     @Test
     public void testConstructor1() throws Exception {
-        assertEquals(serviceLocator, Whitebox.getInternalState(pausescreen, "serviceLocator"));
-        assertEquals(logger, Whitebox.getInternalState(pausescreen, "logger"));
-        assertEquals(resumeButton, Whitebox.getInternalState(pausescreen, "resumeButton"));
-        assertEquals(missionButton, Whitebox.getInternalState(pausescreen, "switchMissionButton"));
-        assertEquals(shopButton, Whitebox.getInternalState(pausescreen, "switchShopButton"));
-        assertEquals(sprites, Whitebox.getInternalState(pausescreen, "coinSprites") );
+        assertEquals(serviceLocator, Whitebox.getInternalState(pauseScreen, "serviceLocator"));
+        assertEquals(logger, Whitebox.getInternalState(pauseScreen, "logger"));
+        assertEquals(resumeButton, Whitebox.getInternalState(pauseScreen, "resumeButton"));
+        assertEquals(missionButton, Whitebox.getInternalState(pauseScreen, "switchMissionButton"));
+        assertEquals(shopButton, Whitebox.getInternalState(pauseScreen, "switchShopButton"));
+        assertEquals(sprites, Whitebox.getInternalState(pauseScreen, "coinSprites"));
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void testConstructor2() throws Exception {
         IServiceLocator nullServiceLocator = null;
         new PauseScreen(nullServiceLocator);
@@ -109,31 +112,31 @@ public class PauseScreenTest {
 
     @Test
     public void testStart() throws Exception {
-        pausescreen.start();
-        assertThat(Whitebox.getInternalState(pausescreen, "mode"), is(PauseScreenModes.mission));
+        pauseScreen.start();
+        assertThat(Whitebox.getInternalState(pauseScreen, "mode"), is(PauseScreenModes.mission));
         verify(resumeButton, times(1)).register();
         verify(shopButton, times(1)).register();
     }
 
     @Test
     public void testStop1() throws Exception {
-        pausescreen.stop();
+        pauseScreen.stop();
         verify(resumeButton, times(1)).deregister();
         verify(shopButton, times(1)).deregister();
     }
 
     @Test
     public void testStop2() throws Exception {
-        Whitebox.setInternalState(pausescreen, "mode", PauseScreenModes.shop);
-        pausescreen.stop();
+        Whitebox.setInternalState(pauseScreen, "mode", PauseScreenModes.shop);
+        pauseScreen.stop();
         verify(resumeButton, times(1)).deregister();
     }
 
     @Test
-    public void testRenderMssions() throws Exception{
+    public void testRenderMssions() throws Exception {
         missions.add(mission);
         when(progressionManager.getMissions()).thenReturn(missions);
-        Whitebox.invokeMethod(pausescreen, "renderMissions", yPos);
+        Whitebox.invokeMethod(pauseScreen, "renderMissions", yPos);
         verify(shopButton, times(1)).render();
         verify(mission, times(1)).render(anyInt());
     }
@@ -142,8 +145,8 @@ public class PauseScreenTest {
     @Test
     public void testRenderShop() throws Exception {
         buttonMap.put(Powerups.jetpack, button);
-        Whitebox.setInternalState(pausescreen, "buttonMap", buttonMap);
-        Whitebox.invokeMethod(pausescreen, "renderShop");
+        Whitebox.setInternalState(pauseScreen, "buttonMap", buttonMap);
+        Whitebox.invokeMethod(pauseScreen, "renderShop");
         verify(button, times(1)).render();
     }
 
@@ -152,8 +155,8 @@ public class PauseScreenTest {
         double newSpriteIndex = 5.0;
         double delta = 150d;
         double deviation = 0.001;
-        Whitebox.invokeMethod(pausescreen, "update", delta);
-        assertEquals(newSpriteIndex, (double) Whitebox.getInternalState(pausescreen, "coinSpriteIndex"), deviation);
+        Whitebox.invokeMethod(pauseScreen, "update", delta);
+        assertEquals(newSpriteIndex, Whitebox.getInternalState(pauseScreen, "coinSpriteIndex"), deviation);
     }
 
     @Test
@@ -161,8 +164,8 @@ public class PauseScreenTest {
         double newXPos = 50d;
         double newYPos = 60d;
         buttonMap.put(Powerups.jetpack, button);
-        Whitebox.setInternalState(pausescreen, "buttonMap", buttonMap);
-        Whitebox.invokeMethod(pausescreen, "updateButton", Powerups.jetpack, newXPos, newYPos);
+        Whitebox.setInternalState(pauseScreen, "buttonMap", buttonMap);
+        Whitebox.invokeMethod(pauseScreen, "updateButton", Powerups.jetpack, newXPos, newYPos);
         verify(button, times(1)).deregister();
         verify(powerupButton, times(1)).register();
     }
@@ -172,16 +175,16 @@ public class PauseScreenTest {
         double newXPos = 50d;
         double newYPos = 60d;
         buttonMap.put(Powerups.jetpack, button);
-        Whitebox.setInternalState(pausescreen, "buttonMap", buttonMap);
-        Whitebox.invokeMethod(pausescreen, "updateButton", Powerups.jetpack, newXPos, newYPos);
-        EnumMap<Powerups, IButton> buttonMap2 = Whitebox.getInternalState(pausescreen, "buttonMap");
+        Whitebox.setInternalState(pauseScreen, "buttonMap", buttonMap);
+        Whitebox.invokeMethod(pauseScreen, "updateButton", Powerups.jetpack, newXPos, newYPos);
+        EnumMap<Powerups, IButton> buttonMap2 = Whitebox.getInternalState(pauseScreen, "buttonMap");
         assertNotEquals(button, buttonMap2.get(Powerups.jetpack));
     }
 
     @Test
     public void testCreatePowerupButton() throws Exception {
-        Whitebox.invokeMethod(pausescreen, "createPowerupButton");
-        EnumMap<Powerups, IButton> buttonMap3 = Whitebox.getInternalState(pausescreen, "buttonMap");
+        Whitebox.invokeMethod(pauseScreen, "createPowerupButton");
+        EnumMap<Powerups, IButton> buttonMap3 = Whitebox.getInternalState(pauseScreen, "buttonMap");
         assertEquals(powerupButton, buttonMap3.get(Powerups.jetpack));
         assertEquals(powerupButton, buttonMap3.get(Powerups.propeller));
         assertEquals(powerupButton, buttonMap3.get(Powerups.sizeDown));
@@ -193,7 +196,7 @@ public class PauseScreenTest {
 
     @Test
     public void testSetShopCover1() throws Exception {
-        Whitebox.invokeMethod(pausescreen, "setShopCover");
+        Whitebox.invokeMethod(pauseScreen, "setShopCover");
         verify(missionButton, times(1)).register();
         verify(powerupButton, times(7)).register();
     }
@@ -201,10 +204,63 @@ public class PauseScreenTest {
     @Test
     public void testSetShopCover2() throws Exception {
         buttonMap.put(Powerups.jetpack, powerupButton);
-        Whitebox.setInternalState(pausescreen, "buttonMap", buttonMap);
-        Whitebox.invokeMethod(pausescreen, "setShopCover");
+        Whitebox.setInternalState(pauseScreen, "buttonMap", buttonMap);
+        Whitebox.invokeMethod(pauseScreen, "setShopCover");
         verify(missionButton, times(1)).register();
         verify(powerupButton, times(1)).register();
+    }
+
+    @Test
+    public void testStopShopCover1() throws Exception{
+        Whitebox.invokeMethod(pauseScreen, "stopShopCover");
+        verify(missionButton, times(1)).deregister();
+    }
+
+    @Test
+    public void testStopShopCover2() throws Exception{
+        buttonMap.put(Powerups.jetpack, powerupButton);
+        buttonMap.put(Powerups.propeller, powerupButton);
+        Whitebox.setInternalState(pauseScreen, "buttonMap", buttonMap);
+        Whitebox.invokeMethod(pauseScreen, "stopShopCover");
+        verify(missionButton, times(1)).deregister();
+        verify(powerupButton, times(2)).deregister();
+    }
+
+    @Test
+    public void testSwitchDisplay1() {
+        pauseScreen.switchDisplay(PauseScreenModes.mission);
+        verify(missionButton, times(1)).deregister();
+        verify(shopButton, times(1)).register();
+    }
+
+    @Test
+    public void testSwitchDisplay2() {
+        pauseScreen.switchDisplay(PauseScreenModes.shop);
+        verify(missionButton, times(1)).register();
+        verify(shopButton, times(1)).deregister();
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testSwitchDisplay3() {
+        pauseScreen.switchDisplay(null);
+    }
+
+    @Test
+    public void testRender1() {
+        Whitebox.setInternalState(pauseScreen, "mode", PauseScreenModes.mission);
+        pauseScreen.render();
+        verify(renderer, times(1)).drawSpriteHUD(missionSprite, new Point(0, 0));
+        verify(resumeButton, times(1)).render();
+        verify(shopButton, times(1)).render();
+    }
+
+    @Test
+    public void testRender2() {
+        Whitebox.setInternalState(pauseScreen, "mode", PauseScreenModes.shop);
+        pauseScreen.render();
+        verify(renderer, times(1)).drawSpriteHUD(shopSprite, new Point(0, 0));
+        verify(resumeButton, times(1)).render();
+        verify(missionButton, times(1)).render();
     }
 
     @After
