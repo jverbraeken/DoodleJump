@@ -8,6 +8,7 @@ import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
+import objects.enemies.Enemies;
 import objects.powerups.IPowerup;
 import system.IServiceLocator;
 
@@ -20,7 +21,6 @@ import static objects.blocks.ElementTypes.normalPlatform;
 import static objects.blocks.ElementTypes.randomPlatform;
 import static objects.blocks.ElementTypes.verticalMovingPlatform;
 import static objects.blocks.platform.Platform.PlatformProperties.breaks;
-
 
 /**
  * This class is the factory in which separate blocks get created.
@@ -36,12 +36,10 @@ public final class BlockFactory implements IBlockFactory {
      * The minimum amount of platforms per block.
      */
     private static final int MIN_PLATFORMS = 5;
-
     /**
      * The chance that an enemy will spawn.
      */
-    private static final double ENEMY_CHANCE = 9700;
-
+    private static final double ENEMY_CHANCE = 9700d;
     /**
      * Total threshold number for item generation.
      * random int(10000)
@@ -55,6 +53,7 @@ public final class BlockFactory implements IBlockFactory {
      * An offset to generate a minimum height deviation.
      */
     private static final double HEIGHT_DEVIATION_OFFSET = .8;
+
     /**
      * Used to gain access to all services.
      */
@@ -68,7 +67,7 @@ public final class BlockFactory implements IBlockFactory {
      * Initialize the BlockFactory.
      */
     private BlockFactory() {
-        powerupGenerationSet = new GenerationSet(serviceLocator, "powerups");
+        this.powerupGenerationSet = new GenerationSet(serviceLocator, "powerups");
     }
 
     /**
@@ -82,23 +81,6 @@ public final class BlockFactory implements IBlockFactory {
         }
         BlockFactory.serviceLocator = sL;
         BlockFactory.serviceLocator.provide(new BlockFactory());
-    }
-
-    /**
-     * Returns true if the platform has special properties, false otherwise.
-     *
-     * @param platform the platform that has to be checked.
-     * @return true or false, dependent on the properties of the platform.
-     */
-    public static boolean isSpecialPlatform(final IPlatform platform) {
-        Map<Platform.PlatformProperties, Integer> properties = platform.getProps();
-        Platform.PlatformProperties[] keys = Platform.PlatformProperties.values();
-        for (Platform.PlatformProperties key : keys) {
-            if (properties.containsKey(key)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -129,7 +111,6 @@ public final class BlockFactory implements IBlockFactory {
      */
     @Override
     public synchronized IBlock createBlock(final IJumpable topJumpable, final BlockTypes type, final boolean enemies) throws RuntimeException {
-
         switch (type) {
             case standardBlock:
                 return createTypeOnlyBlock(topJumpable, randomPlatform, enemies);
@@ -145,6 +126,23 @@ public final class BlockFactory implements IBlockFactory {
     }
 
     /**
+     * Returns true if the platform has special properties, false otherwise.
+     *
+     * @param platform the platform that has to be checked.
+     * @return true or false, dependent on the properties of the platform.
+     */
+    private static boolean isSpecialPlatform(final IPlatform platform) {
+        Map<Platform.PlatformProperties, Integer> properties = platform.getProps();
+        Platform.PlatformProperties[] keys = Platform.PlatformProperties.values();
+        for (Platform.PlatformProperties key : keys) {
+            if (properties.containsKey(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Create a block with the specified platform types.
      *
      * @param topJumpable the current top platform.
@@ -152,7 +150,6 @@ public final class BlockFactory implements IBlockFactory {
      * @return a block containing platforms of the type.
      */
     private synchronized IBlock createTypeOnlyBlock(final IJumpable topJumpable, final ElementTypes type, final boolean enemy) {
-
         int platformAmount = serviceLocator.getCalc().getRandomIntBetween(MIN_PLATFORMS, MAX_PLATFORMS);
         int heightDividedPlatforms = serviceLocator.getConstants().getGameHeight() / platformAmount;
         Set<IGameObject> elements = new HashSet<>();
@@ -255,7 +252,7 @@ public final class BlockFactory implements IBlockFactory {
         ICalc calc = serviceLocator.getCalc();
         double randomDouble = calc.getRandomDouble(MAX_RANDOM_THRESHOLD);
         final int randomNr = (int) (randomDouble);
-        IGameObject enemy = null;
+        IGameObject enemy;
 
         if (randomNr >= ENEMY_CHANCE) {
             do {
@@ -280,6 +277,7 @@ public final class BlockFactory implements IBlockFactory {
         int xLoc = (int) (widthDeviation * (serviceLocator.getConstants().getGameWidth() - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
         int yLoc = (int) (platform.getYPos() - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
 
-        return serviceLocator.getEnemyFactory().createOrdinaryEnemy(xLoc, yLoc);
+        return serviceLocator.getEnemyFactory().createEnemy(Enemies.ordinaryMonster, xLoc, yLoc);
     }
+
 }

@@ -6,6 +6,7 @@ import logging.ILogger;
 import progression.IProgressionManager;
 import progression.Ranks;
 import objects.powerups.Powerups;
+import resources.IRes;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -76,7 +77,7 @@ public final class ChooseModeScreen implements IScene {
     /**
      * If the popup is active.
      */
-    public static boolean activePopup = false;
+    private static boolean activePopup = false;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -88,8 +89,8 @@ public final class ChooseModeScreen implements IScene {
         this.serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(ChooseModeScreen.class);
 
-        background = sL.getSpriteFactory().getBackground();
-        bottomChooseModeScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
+        background = sL.getSpriteFactory().getSprite(IRes.Sprites.background);
+        bottomChooseModeScreen = sL.getSpriteFactory().getSprite(IRes.Sprites.killScreenBottom);
 
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         rank = progressionManager.getRank();
@@ -177,10 +178,10 @@ public final class ChooseModeScreen implements IScene {
      * Render the crosses that indicate whether a mode is available given the rank of the player.
      */
     private void renderByRank() {
-        int rankLevel = rank.getLevelNumber();
-        int gameWidth = this.serviceLocator.getConstants().getGameWidth();
-        int gameHeight = this.serviceLocator.getConstants().getGameHeight();
-        ISprite redCross = this.serviceLocator.getSpriteFactory().getRedCross();
+        final int rankLevel = rank.getLevelNumber();
+        final int gameWidth = this.serviceLocator.getConstants().getGameWidth();
+        final int gameHeight = this.serviceLocator.getConstants().getGameHeight();
+        final ISprite redCross = this.serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.redCross);
         if (rankLevel < Game.Modes.horizontalOnly.getRankRequired()) {
             serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (STORY_MODE_X * gameWidth), (int) (STORY_MODE_Y * gameHeight)));
         }
@@ -211,6 +212,20 @@ public final class ChooseModeScreen implements IScene {
      */
     @Override
     public void updateButton(final Powerups powerup, final double x, final double y) {
+    }
+
+    /**
+     * Show a popup on the screen.
+     */
+    public static void showPopup() {
+        activePopup = true;
+    }
+
+    /**
+     * Hide the popup from the screen.
+     */
+    public static void hidePopup() {
+        activePopup = false;
     }
 
 }

@@ -400,10 +400,10 @@ public final class Renderer implements IRenderer {
                 xPos = point.getX();
                 break;
             case center:
-                xPos = point.getX() - graphics.getFontMetrics().stringWidth(msg) / (double) 2;
+                xPos = point.getX() - (double) graphics.getFontMetrics().stringWidth(msg) / 2d;
                 break;
             case right:
-                xPos = point.getX() - graphics.getFontMetrics().stringWidth(msg);
+                xPos = point.getX() - (double) graphics.getFontMetrics().stringWidth(msg);
                 break;
             default:
                 final String error = "The text alignment enum constant could not be identified: " + alignment.toString();

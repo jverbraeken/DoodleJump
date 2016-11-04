@@ -17,6 +17,7 @@ import progression.IProgressionManager;
 import rendering.ICameraFactory;
 import rendering.IRenderer;
 import resources.IRes;
+import resources.animations.IAnimationFactory;
 import resources.audio.IAudioManager;
 import resources.sprites.ISpriteFactory;
 import scenes.ISceneFactory;
@@ -66,6 +67,8 @@ public interface IServiceLocator {
 
     void provide(IProjectileFactory projectileFactory);
 
+    void provide(IAnimationFactory animationFactory);
+
     IAudioManager getAudioManager();
 
     IEnemyFactory getEnemyFactory();
@@ -105,5 +108,7 @@ public interface IServiceLocator {
     ICameraFactory getCameraFactory();
 
     IProjectileFactory getProjectileFactory();
+
+    IAnimationFactory getAnimationFactory();
 
 }

@@ -46,7 +46,6 @@ public final class Game {
      * does need the name of the log file.
      */
     public static final String LOGFILE_NAME = "async.log";
-
     /**
      * The time in milliseconds per frame.
      */
@@ -146,12 +145,10 @@ public final class Game {
             return rankRequired;
         }
     }
-
     /**
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
-
     /**
      * The enums for the player mode.
      */
@@ -165,7 +162,6 @@ public final class Game {
          */
         multi
     }
-
     /**
      * Track the current playerMode of the game.
      */

@@ -54,7 +54,7 @@ public class SpringShoesTest {
         when(doodle.getLegsHeight()).thenReturn(0d);
         when(doodle.getVerticalSpeed()).thenReturn(1d);
 
-        springShoes = new SpringShoes(serviceLocator, new Point(0, 0));
+        springShoes = new SpringShoes(serviceLocator, new Point(0, 0), 1);
     }
 
     @Test
