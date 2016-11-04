@@ -3,7 +3,6 @@ package objects.powerups;
 import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import system.IServiceLocator;
-import java.awt.Point;
 
 import java.awt.Point;
 
@@ -13,22 +12,24 @@ import java.awt.Point;
 /* package */ final class SizeDown extends APowerup implements IDisappearingPowerup {
 
     /**
-     * The scale increase provided by the SizeUp powerup.
-     */
-    private static final double SCALE_INCREASE = -0.4d;
-    /**
      * Multiplier to hide the SizeDown when picked up.
      */
     private static final int HIDE_MULTIPLIER = -2;
+    /**
+     * The scale increase provided by the SizeUp powerup.
+     */
+    private final double scaleIncrease;
 
     /**
      * SizeUp constructor.
      *
-     * @param sL - The Games service locator.
-     * @param point - The location for the SizeUp.
+     * @param serviceLocator The service locator
+     * @param point          The location for the powerup
+     * @param level          The level of the powerup
      */
-    /* package */ SizeDown(final IServiceLocator sL, final Point point) {
-        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.sizeDown, 1), SizeDown.class);
+    /* package */ SizeDown(final IServiceLocator serviceLocator, final Point point, final int level) {
+        super(serviceLocator, point, Powerups.sizeDown, level);
+        this.scaleIncrease = Powerups.sizeDown.getScale(level);
     }
 
     /**
@@ -41,7 +42,7 @@ import java.awt.Point;
         }
 
         this.getLogger().info("Doodle collided with a SizeDown");
-        doodle.increaseSpriteScalar(SizeDown.SCALE_INCREASE);
+        doodle.increaseSpriteScalar(this.scaleIncrease);
 
         // Hide the powerup so it will be deleted automatically
         this.setXPos(this.getSprite().getWidth() * SizeDown.HIDE_MULTIPLIER);

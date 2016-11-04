@@ -3,7 +3,6 @@ package objects.powerups;
 import math.ICalc;
 import objects.AGameObject;
 import objects.blocks.platform.IPlatform;
-import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -16,13 +15,13 @@ public abstract class APowerup extends AGameObject implements IPowerup {
     /**
      * Creates a new powerup and determines its hitbox by using the sprites dimensions automatically.
      *
-     * @param sL      The locator providing services to the powerup
-     * @param point   The coordinates of the powerup
-     * @param sprite  The sprite of the powerup
-     * @param powerup The class of the powerup
+     * @param serviceLocator The service locator
+     * @param point          The coordinates of the powerup
+     * @param type           The type of the powerup
+     * @param level          The level of the powerup
      */
-    public APowerup(final IServiceLocator sL, final Point point, final ISprite sprite, final Class<?> powerup) {
-        super(sL, point, sprite, powerup);
+    public APowerup(final IServiceLocator serviceLocator, final Point point, final Powerups type, final int level) {
+        super(serviceLocator, point, serviceLocator.getSpriteFactory().getPowerupSprite(type, level), type.getAssociatedClass());
     }
 
     /**
@@ -30,6 +29,7 @@ public abstract class APowerup extends AGameObject implements IPowerup {
      */
     @Override
     public void perform(final PowerupOccasion occasion) {
+        // Do nothing because not all powerups want to do something at an occasion.
     }
 
     /**
@@ -65,7 +65,6 @@ public abstract class APowerup extends AGameObject implements IPowerup {
 
         double[] hitbox = platform.getHitBox();
         final int platformWidth = (int) hitbox[AGameObject.HITBOX_RIGHT];
-        final int platformHeight = (int) hitbox[AGameObject.HITBOX_BOTTOM];
         int powerupXPos = (int) (calc.getRandomDouble(platformWidth));
         double[] powHitbox = this.getHitBox();
         final int powerupHeight = (int) powHitbox[AGameObject.HITBOX_BOTTOM];
