@@ -152,7 +152,7 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
+    public void start() {
         this.register();
         this.logger.info("The menu scene is now displaying");
     }
@@ -161,11 +161,14 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
+    public void stop() {
         this.deregister();
         this.logger.info("The menu scene is no longer displaying");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void register() {
         for (IButton button : this.buttons) {
@@ -174,6 +177,9 @@ import java.util.List;
         this.logger.info("The main menu registered itself as an observer of the input manager");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deregister() {
         for (IButton button : this.buttons) {
@@ -186,7 +192,7 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         Ranks rank = progressionManager.getRank();
         IConstants constants = this.serviceLocator.getConstants();
@@ -209,7 +215,7 @@ import java.util.List;
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         this.doodle.update(delta);
 
         if (this.doodle.checkCollision(this.platform)) {

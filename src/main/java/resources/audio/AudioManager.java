@@ -4,7 +4,6 @@ import logging.ILogger;
 import system.IServiceLocator;
 
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
 import java.io.FileNotFoundException;
 
 /**

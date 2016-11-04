@@ -311,7 +311,7 @@ public final class ButtonFactory implements IButtonFactory {
             if (serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.horizontalOnly.getRankRequired()) {
                 Game.setMode(Game.Modes.horizontalOnly);
             } else {
-                Popup popup = new scenes.Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.horizontalOnly.getRankRequired()).getName() + " rank required.");
+                Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.horizontalOnly.getRankRequired()).getName() + " rank required.");
                 Game.addPopup(popup);
                 ChooseModeScreen.showPopup();
             }

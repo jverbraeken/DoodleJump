@@ -36,7 +36,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void keyPress(final Keys key) {
+    public void keyPress(final Keys key) {
         // Prevents the StartDoodle from moving
     }
 
@@ -44,7 +44,7 @@ import system.IServiceLocator;
      * {@inheritDoc}
      */
     @Override
-    public final void keyRelease(final Keys key) {
+    public void keyRelease(final Keys key) {
         // Prevents the StartDoodle from moving
     }
 

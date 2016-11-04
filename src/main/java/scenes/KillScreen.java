@@ -141,7 +141,7 @@ import java.awt.Point;
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
+    public void start() {
         this.register();
         this.logger.info("The kill screen scene is now displaying");
     }
@@ -150,11 +150,14 @@ import java.awt.Point;
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
+    public void stop() {
         this.deregister();
         this.logger.info("The kill screen scene is no longer displaying");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void register() {
         this.playAgainButton.register();
@@ -162,6 +165,9 @@ import java.awt.Point;
         this.logger.info("The kill screen scene is now registered");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deregister() {
         this.playAgainButton.deregister();
@@ -207,7 +213,7 @@ import java.awt.Point;
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         if (expCount < totalExperience) {
             expCount += countUpAmount;
         }

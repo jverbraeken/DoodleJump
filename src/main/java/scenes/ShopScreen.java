@@ -253,7 +253,7 @@ import java.util.ArrayList;
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
+    public void start() {
         this.register();
         this.logger.info("The choose mode scene is now displaying");
     }
@@ -262,11 +262,14 @@ import java.util.ArrayList;
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
+    public void stop() {
         this.deregister();
         this.logger.info("The choose mode scene is no longer displaying");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void register() {
         for (IButton button : this.buttons) {
@@ -275,6 +278,9 @@ import java.util.ArrayList;
         this.logger.info("The score scene is now registered");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deregister() {
         for (IButton button : this.buttons) {
@@ -351,7 +357,7 @@ import java.util.ArrayList;
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         coinSpriteIndex += COIN_SPEED * delta;
         coinSpriteIndex = coinSpriteIndex % BASE_TEN;
     }
