@@ -2,7 +2,6 @@ package resources.sprites;
 
 import objects.powerups.Powerups;
 import resources.IRes;
-import resources.animations.IAnimation;
 import scenes.PauseScreenModes;
 import system.IFactory;
 

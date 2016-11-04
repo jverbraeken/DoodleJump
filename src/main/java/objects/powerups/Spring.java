@@ -5,8 +5,6 @@ import objects.AGameObject;
 import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
 import progression.ISpringUsedObserver;
-import progression.SpringUsedObserver;
-import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
 import resources.audio.Sounds;
 import system.IServiceLocator;

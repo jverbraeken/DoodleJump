@@ -136,36 +136,5 @@ public enum Enemies {
         private EnemyData(final IRes.Animations animation) {
             this.animation = animation;
         }
-
-        /**
-         * @param expAmountAtKill The amount of experience the player gains when he jumpos upon the enemy
-         */
-        private EnemyData setExpAmountAtKill(final int expAmountAtKill) {
-            this.expAmountAtKill = expAmountAtKill;
-            return this;
-        }
-
-        /**
-         * @param boost The boost the Doodle gets from colliding with the Enemy.
-         */
-        private EnemyData setBoost(final double boost) {
-            this.boost = boost;
-            return this;
-        }
-
-        /**
-         * @param tooFastSpeed The boost the Doodle gets from colliding with the Enemy.
-         */
-        private EnemyData setTooFastSpeed(final double tooFastSpeed) {
-            this.tooFastSpeed = tooFastSpeed;
-            return this;
-        }
-        /**
-         * @param movingDistance The amount of pixels the enemy should move left and right
-         */
-        private EnemyData setMovingDistance(final double movingDistance) {
-            this.movingDistance = movingDistance;
-            return this;
-        }
     }
 }

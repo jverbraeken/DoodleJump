@@ -11,7 +11,6 @@ import resources.sprites.ISpriteFactory;
 import scenes.ChooseModeScreen;
 import scenes.PauseScreenModes;
 import scenes.Popup;
-import scenes.World;
 import system.Game;
 import system.IServiceLocator;
 

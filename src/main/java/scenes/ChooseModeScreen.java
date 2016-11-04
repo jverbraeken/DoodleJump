@@ -5,7 +5,6 @@ import buttons.IButtonFactory;
 import logging.ILogger;
 import progression.IProgressionManager;
 import progression.Ranks;
-import objects.powerups.Powerups;
 import resources.IRes;
 import resources.sprites.ISprite;
 import system.Game;
@@ -131,7 +130,7 @@ public final class ChooseModeScreen implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
+    public void start() {
         this.register();
         this.logger.info("The choose mode scene is now displaying");
     }
@@ -140,7 +139,7 @@ public final class ChooseModeScreen implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
+    public void stop() {
         this.deregister();
         this.logger.info("The choose mode scene is no longer displaying");
     }

@@ -7,12 +7,8 @@ import com.google.common.cache.LoadingCache;
 import logging.ILogger;
 import resources.IRes;
 import resources.sprites.ISprite;
-import resources.sprites.ISpriteFactory;
-import resources.sprites.Sprite;
 import system.IServiceLocator;
 
-import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
 
 /**

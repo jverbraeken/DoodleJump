@@ -4,8 +4,7 @@ import resources.IRes;
 
 /**
  * Indicates which types of powerups are available.
- *
- * We supress the CheckStyle warning javadocMethod here, because the methods are very straightfoward
+ * We suppress the CheckStyle warning javadocMethod here, because the methods are very straightfoward
  * and do not require any additional javadoc.
  */
 @SuppressWarnings("checkstyle:javadocmethod")
