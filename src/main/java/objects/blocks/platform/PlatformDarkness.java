@@ -1,6 +1,7 @@
 package objects.blocks.platform;
 
 import objects.doodles.IDoodle;
+import resources.IRes;
 import system.IServiceLocator;
 
 /**
@@ -20,7 +21,7 @@ public final class PlatformDarkness extends PlatformDecorator implements IPlatfo
     /* package */PlatformDarkness(final IServiceLocator sL, final IPlatform platform) {
         super(sL, platform);
         if (!getProps().containsKey(Platform.PlatformProperties.breaks)) {
-            getContained().setSprite(sL.getSpriteFactory().getPlatformSprite1());
+            getContained().setSprite(sL.getSpriteFactory().getSprite(IRes.Sprites.platform1));
         }
     }
 
@@ -29,7 +30,7 @@ public final class PlatformDarkness extends PlatformDecorator implements IPlatfo
      */
     @Override
     public void collidesWith(final IDoodle doodle) {
-        getContained().setSprite(getServiceLocator().getSpriteFactory().getPlatformSprite4());
+        getContained().setSprite(getServiceLocator().getSpriteFactory().getSprite(IRes.Sprites.platform4));
         getContained().collidesWith(doodle);
     }
 
