@@ -1,6 +1,5 @@
 package resources;
 
-import resources.sprites.ISprite;
 import system.Game;
 
 /**
@@ -233,6 +232,18 @@ public interface IRes {
                 IRes.Sprites.jetpack6,
                 IRes.Sprites.jetpack7,
                 IRes.Sprites.jetpack8
+        ),
+        afterburner(
+                Sprites.afterburner0,
+                Sprites.afterburner1,
+                Sprites.afterburner2,
+                Sprites.afterburner3,
+                Sprites.afterburner4,
+                Sprites.afterburner5,
+                Sprites.afterburner6,
+                Sprites.afterburner7,
+                Sprites.afterburner8,
+                Sprites.afterburner9
         ),
         spaceRocket(
                 IRes.Sprites.spaceRocket0,
