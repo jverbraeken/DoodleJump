@@ -130,12 +130,6 @@ public class ChooseModeTest {
     }
 
     @Test
-    public void testUpdate() {
-        chooseMode.update(0d);
-        assertEquals(true, true);
-    }
-
-    @Test
     public void testStart() {
         chooseMode.start();
 
