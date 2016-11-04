@@ -61,9 +61,7 @@ public class KillScreenTest {
         gameOver = mock(ISprite.class);
 
         spriteFactory = mock(ISpriteFactory.class);
-        when(spriteFactory.getBackground()).thenReturn(background);
-        when(spriteFactory.getKillScreenBottomSprite()).thenReturn(bottomKillSCreen);
-        when(spriteFactory.getGameOverSprite()).thenReturn(gameOver);
+        when(spriteFactory.getSprite(any())).thenReturn(background);
 
         progressionManager = mock(IProgressionManager.class);
         when(progressionManager.getRank()).thenReturn(Ranks.theBoss);
@@ -83,7 +81,7 @@ public class KillScreenTest {
     public void testRender() {
         killScreen.render();
         verify(renderer, times(1)).drawSpriteHUD(background, new Point(0, 0));
-        verify(renderer, times(1)).drawSpriteHUD(bottomKillSCreen, new Point(0, 90));
+        verify(renderer, times(1)).drawSpriteHUD(background, new Point(10, 30));
 
         verify(menu, times(1)).render();
         verify(playagain, times(1)).render();
