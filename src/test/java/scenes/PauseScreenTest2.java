@@ -32,7 +32,7 @@ public class PauseScreenTest2 {
     private ILogger logger;
     private ILoggerFactory loggerFactory;
     private ISpriteFactory spriteFactory;
-    private ISprite coinsprites, background, scoreBar, powerup;
+    private ISprite coinsprites, background, powerup;
     private IProgressionManager progressionManager;
     private IButtonFactory buttonFactory;
     private IButton resume, switchMission, switchShop, jetPack, propellor, sizeUp, sizeDown,spring, springShoes, trampoline;
@@ -73,9 +73,7 @@ public class PauseScreenTest2 {
         loggerFactory = mock(ILoggerFactory.class);
         when(loggerFactory.createLogger(any())).thenReturn(logger);
         background = mock(ISprite.class);
-
-        scoreBar = mock(ISprite.class);
-        when(scoreBar.getHeight()).thenReturn(10);
+        when(background.getHeight()).thenReturn(10);
         powerup = mock(ISprite.class);
         when(powerup.getHeight()).thenReturn(10);
         coinsprites = mock(ISprite.class);
@@ -84,7 +82,7 @@ public class PauseScreenTest2 {
         spriteFactory = mock(ISpriteFactory.class);
         when(spriteFactory.getPauseCoverSprite(any())).thenReturn(background);
         when(spriteFactory.getCoinSprite(anyInt())).thenReturn(coinsprites);
-        when(spriteFactory.getScoreBarSprite()).thenReturn(scoreBar);
+        when(spriteFactory.getSprite(any())).thenReturn(background);
         when(spriteFactory.getPowerupSprite(any(Powerups.class), anyInt())).thenReturn(powerup);
 
         progressionManager = mock(IProgressionManager.class);
@@ -181,7 +179,7 @@ public class PauseScreenTest2 {
 
     @Test
     public void testCreatePowerupButton() throws Exception {
-        Whitebox.invokeMethod(pauseScreen, "createPowerupbutton");
+        Whitebox.invokeMethod(pauseScreen, "createPowerupButton");
         EnumMap<Powerups, IButton> map = Whitebox.getInternalState(pauseScreen, "buttonMap");
 
         assertEquals(jetPack, map.get(Powerups.jetpack));
@@ -192,10 +190,4 @@ public class PauseScreenTest2 {
         assertEquals(springShoes, map.get(Powerups.springShoes));
         assertEquals(trampoline, map.get(Powerups.trampoline));
     }
-
-    @Test
-    public void testSwitchDisplay() {
-
-    }
-
 }
