@@ -69,9 +69,7 @@ public class ChooseModeTest {
         bottomChooseModeScreen = mock(ISprite.class);
         when(bottomChooseModeScreen.getHeight()).thenReturn(10);
         spriteFactory = mock(ISpriteFactory.class);
-        when(spriteFactory.getBackground()).thenReturn(background);
-        when(spriteFactory.getKillScreenBottomSprite()).thenReturn(bottomChooseModeScreen);
-
+        when(spriteFactory.getSprite(any())).thenReturn(background);
         progressionManager = mock(IProgressionManager.class);
         when(progressionManager.getRank()).thenReturn(Ranks.theBoss);
 
@@ -109,7 +107,7 @@ public class ChooseModeTest {
 
     @Test
     public void testRenderActivePopup() {
-        chooseMode.activePopup = true;
+        Whitebox.setInternalState(chooseMode, "activePopup", true);
         chooseMode.render();
         verify(renderer, times(1)).drawSpriteHUD(background, new Point(0, 0));
         verify(renderer, times(1)).drawSpriteHUD(bottomChooseModeScreen, new Point(0, 90));
