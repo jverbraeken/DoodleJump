@@ -4,8 +4,10 @@ import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
 import objects.blocks.BlockTypes;
+import objects.powerups.Powerups;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
+import scenes.PauseScreenModes;
 import scenes.Popup;
 
 import javax.swing.JFrame;
@@ -82,7 +84,31 @@ public final class Game {
     /**
      * The current scene.
      */
-    private static IScene scene;
+    private static IScene scene = new IScene() {
+        @Override
+        public void start() {
+        }
+
+        @Override
+        public void stop() {
+        }
+
+        @Override
+        public void switchDisplay(final PauseScreenModes mode) {
+        }
+
+        @Override
+        public void updateButton(final Powerups powerup, final double x, final double y) {
+        }
+
+        @Override
+        public void render() {
+        }
+
+        @Override
+        public void update(final double delta) {
+        }
+    };
     /**
      * Track if the game is paused.
      */
@@ -385,11 +411,7 @@ public final class Game {
      */
     public static void setScene(final IScene scene) {
         assert scene != null;
-        if (Game.scene == null) {
-            synchronized (Game.LOCK) {
-                Game.startScene(scene);
-            }
-        } else {
+        synchronized (Game.LOCK) {
             Game.scene.stop();
             Game.startScene(scene);
         }
