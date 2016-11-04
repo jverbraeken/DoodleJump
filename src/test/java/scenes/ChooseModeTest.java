@@ -88,7 +88,7 @@ public class ChooseModeTest {
     public void testRenderNoActivePopup() {
         chooseMode.render();
         verify(renderer, times(1)).drawSpriteHUD(background, new Point(0, 0));
-        verify(renderer, times(1)).drawSpriteHUD(bottomChooseModeScreen, new Point(0, 90));
+        verify(renderer, times(1)).drawSpriteHUD(background, new Point(0, 100));
 
         verify(regular, times(1)).render();
         verify(space, times(1)).render();
@@ -107,10 +107,10 @@ public class ChooseModeTest {
 
     @Test
     public void testRenderActivePopup() {
-        Whitebox.setInternalState(chooseMode, "activePopup", true);
+        Whitebox.setInternalState(ChooseModeScreen.class, "activePopup", true);
         chooseMode.render();
         verify(renderer, times(1)).drawSpriteHUD(background, new Point(0, 0));
-        verify(renderer, times(1)).drawSpriteHUD(bottomChooseModeScreen, new Point(0, 90));
+        verify(renderer, times(1)).drawSpriteHUD(background, new Point(0, 100));
 
         verify(regular, times(1)).render();
         verify(space, times(1)).render();
