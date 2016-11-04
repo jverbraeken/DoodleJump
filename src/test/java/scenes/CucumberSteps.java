@@ -58,9 +58,9 @@ public class CucumberSteps implements En {
 
         When("^the world is (.*)$", (String paused) -> {
             if (paused.equals("running")) {
-                Game.setPaused(false);
+                Game.resumeGame();
             } else if (paused.equals("paused")) {
-                Game.setPaused(true);
+                Game.pauseGame();
             }
         });
 
@@ -69,11 +69,11 @@ public class CucumberSteps implements En {
         });
 
         When("^I resume the game$", () -> {
-            Game.setPaused(false);
+            Game.resumeGame();
         });
 
         When("^I pause the game$", () -> {
-            Game.setPaused(true);
+            Game.pauseGame();
         });
 
         When("^I press the (.*)-button$", (String button) -> {
