@@ -3,7 +3,8 @@ package progression;
 /**
  * Represents the types of missions we have.
  */
-public enum MissionType {
+/* package */ enum MissionType {
+
     jumpOnDisappearingPlatform("Jump on ", " disappearing platforms"),
     pickUpJetPack("Pick up ", " jetpacks"),
     pickupPropeller("Pick up ", " propellers"),
@@ -34,6 +35,7 @@ public enum MissionType {
      * @return A String with the correct message of the mission type
      */
     public String getMessage(final int number) {
-        return preText + number + postText;
+        return this.preText + number + this.postText;
     }
+
 }

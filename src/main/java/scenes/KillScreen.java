@@ -10,15 +10,16 @@ import progression.Ranks;
 import rendering.Color;
 import rendering.IRenderer;
 import rendering.TextAlignment;
+import resources.IRes;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-/* package */ class KillScreen implements IScene {
+/* package */ final class KillScreen implements IScene {
 
     /**
      * X & Y location in relation to the frame of the play again button.
@@ -123,9 +124,9 @@ import java.awt.*;
         countUpAmount = (double) totalExperience / (double) SCORE_COUNT_TIME_CONSTANT;
         this.logger = sL.getLoggerFactory().createLogger(KillScreen.class);
 
-        this.background = sL.getSpriteFactory().getBackground();
-        this.bottomKillScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
-        this.gameOverSprite = sL.getSpriteFactory().getGameOverSprite();
+        this.background = sL.getSpriteFactory().getSprite(IRes.Sprites.background);
+        this.bottomKillScreen = sL.getSpriteFactory().getSprite(IRes.Sprites.killScreenBottom);
+        this.gameOverSprite = sL.getSpriteFactory().getSprite(IRes.Sprites.gameOver);
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         this.playAgainButton = buttonFactory.createPlayAgainButton(

@@ -7,10 +7,14 @@ import objects.doodles.IDoodle;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import rendering.IRenderer;
+import resources.IRes;
+import resources.animations.IAnimation;
+import resources.animations.IAnimationFactory;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -36,10 +40,11 @@ public class JetpackTest {
     private IRenderer renderer = mock(IRenderer.class);
     private IServiceLocator serviceLocator = mock(IServiceLocator.class);
     private ISprite sprite = mock(ISprite.class);
-    private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);;
+    private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
+    private IAnimationFactory animationFactory = mock(IAnimationFactory.class);
 
     private Jetpack jetpack;
-    private ISprite[] spritePack = new ISprite[10];
+    private IAnimation spritePack = mock(IAnimation.class);
 
 
     @Before
@@ -55,9 +60,10 @@ public class JetpackTest {
         when(loggerFactory.createLogger(Jetpack.class)).thenReturn(logger);
         when(sprite.getHeight()).thenReturn(0);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
-        when(spriteFactory.getJetpackActiveSprites(anyInt())).thenReturn(spritePack);
+        when(serviceLocator.getAnimationFactory()).thenReturn(animationFactory);
+        when(animationFactory.getAnimation(Matchers.<IRes.Animations>any())).thenReturn(spritePack);
 
-        jetpack = new Jetpack(serviceLocator, new Point(0, 0), 1, new ISprite[] {}, 0, 0);
+        jetpack = new Jetpack(serviceLocator, new Point(0, 0), 1);
     }
 
     @Test

@@ -3,7 +3,8 @@ package progression;
 /**
  * Lists all kind of progression observers.
  */
-public enum ProgressionObservers {
+/* package */ enum ProgressionObservers {
+
     disappearingPowerup,
     equipmentPowerup,
     height,
@@ -16,5 +17,6 @@ public enum ProgressionObservers {
     sizeUp,
     springShoes,
     spring,
-    trampoline;
+    trampoline
+
 }

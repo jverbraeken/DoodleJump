@@ -10,16 +10,20 @@ import objects.IJumpable;
 import objects.doodles.doodle_behavior.MovementBehavior;
 import objects.doodles.doodle_behavior.RegularBehavior;
 import objects.doodles.projectiles.RegularProjectile;
+import objects.enemies.IEnemy;
+import objects.enemies.Enemy;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import rendering.ICamera;
 import rendering.IRenderer;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.World;
@@ -32,17 +36,28 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.Is.isA;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.refEq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
+import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({RegularBehavior.class, RegularProjectile.class})
+@PrepareForTest({RegularBehavior.class, RegularProjectile.class, Enemy.class, RegularBehavior.class, World.class})
 public class DoodleTest {
 
+    static ISprite spriteLeft1 = mock(ISprite.class);
+    static ISprite spriteLeft2 = mock(ISprite.class);
+    static ISprite spriteRight1 = mock(ISprite.class);
+    static ISprite spriteRight2 = mock(ISprite.class);
+
+    IEnemy enemy = mock(IEnemy.class);
     ICamera camera = mock(ICamera.class);
     IConstants constants = mock(IConstants.class);
     IInputManager inputManager = mock(IInputManager.class);
@@ -52,17 +67,12 @@ public class DoodleTest {
     IPowerup somePowerup = mock(IPowerup.class);
     IRenderer renderer = mock(IRenderer.class);
     IServiceLocator serviceLocator = mock(IServiceLocator.class);
+    ISprite sprite = mock(ISprite.class);
     ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
     MovementBehavior movementBehavior = mock(MovementBehavior.class);
     RegularBehavior regularBehavior = mock(RegularBehavior.class);
     World world = mock(World.class);
-
-    static ISprite spriteLeft1 = mock(ISprite.class);
-    static ISprite spriteLeft2 = mock(ISprite.class);
-    static ISprite spriteRight1 = mock(ISprite.class);
-    static ISprite spriteRight2 = mock(ISprite.class);
-    ISprite[] spritesLeft = new ISprite[]{spriteLeft1, spriteLeft2};
-    ISprite[] spritesRight = new ISprite[]{spriteRight1, spriteRight2};
+    ISprite[] sprites = new ISprite[]{spriteLeft1, spriteLeft2, spriteRight1, spriteRight2};
     IDoodle doodle;
     double jumpableBoost = 10d;
     int spriteHeight = 10;
@@ -74,6 +84,7 @@ public class DoodleTest {
     public void init() {
         Whitebox.setInternalState(Game.class, "mode", Game.Modes.regular);
 
+        when(camera.getYPos()).thenReturn(0d);
         when(constants.getGravityAcceleration()).thenReturn(1d);
         when(constants.getGameHeight()).thenReturn(1000);
         when(jumpable.getBoost()).thenReturn(jumpableBoost);
@@ -87,15 +98,16 @@ public class DoodleTest {
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
         when(spriteLeft1.getHeight()).thenReturn(spriteHeight);
         when(spriteLeft1.getWidth()).thenReturn(spriteWidth);
-        when(spriteFactory.getDoodleLeftSprites()).thenReturn(spritesLeft);
-        when(spriteFactory.getDoodleRightSprites()).thenReturn(spritesRight);
+        when(sprite.getHeight()).thenReturn(spriteHeight);
+        when(spriteFactory.getSprite(Matchers.<IRes.Sprites>any())).thenReturn(sprite);
 
-        doodle = new Doodle(serviceLocator, world);
+        doodle = new Doodle(serviceLocator, sprites, world);
 
         Whitebox.setInternalState(doodle, "behavior", regularBehavior);
         Whitebox.setInternalState(regularBehavior, "doodle", doodle);
         Whitebox.setInternalState(regularBehavior, "facing", MovementBehavior.Directions.Left);
         Whitebox.setInternalState(regularBehavior, "serviceLocator", serviceLocator);
+        when(regularBehavior.getFacing()).thenReturn(MovementBehavior.Directions.Left);
     }
 
     @Test
@@ -110,6 +122,12 @@ public class DoodleTest {
         Whitebox.setInternalState(doodle, "behavior", movementBehavior);
         doodle.collide(jumpable);
         verify(movementBehavior, times(1)).setVerticalSpeed(jumpableBoost);
+    }
+
+    @Test
+    public void testJumpableEnemyCollide() {
+        doodle.collide(enemy);
+        verify(enemy, times(1)).getAmountOfExperience();
     }
 
     @Test
@@ -234,6 +252,15 @@ public class DoodleTest {
     }
 
     @Test
+    public void testRenderArrow() {
+        Whitebox.setInternalState(doodle, "yPos", -200d);
+        double x = Whitebox.getInternalState(doodle, "xPos");
+
+        doodle.render();
+        verify(renderer, times(1)).drawSpriteHUD(eq(sprite), eq(new Point((int) x, spriteHeight)), anyInt(), anyInt());
+    }
+
+    @Test
     public void testRenderPowerup() {
         Whitebox.setInternalState(doodle, "powerup", somePowerup);
         doodle.render();
@@ -257,6 +284,13 @@ public class DoodleTest {
 
         doodle.render();
         verify(projectile, times(2)).render();
+    }
+
+    @Test
+    public void testRenderDead() {
+        Whitebox.setInternalState(doodle, "alive", false);
+        doodle.render();
+        verify(renderer, times(2)).drawSprite(anyObject(), anyObject(), anyInt(), anyInt());
     }
 
     @Test
@@ -371,6 +405,20 @@ public class DoodleTest {
         expected.add(projectile);
         List<IGameObject> actual = doodle.getProjectiles();
         assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void testGetVerticalSpeed() {
+        double expected = Whitebox.getInternalState(regularBehavior, "vSpeed");
+        double actual = doodle.getVerticalSpeed();
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void testUpdateActiveSprite() {
+        doodle.updateActiveSprite();
+        ISprite actual = Whitebox.getInternalState(doodle, "sprite");
+        assertThat(actual, is(spriteLeft1));
     }
 
 }

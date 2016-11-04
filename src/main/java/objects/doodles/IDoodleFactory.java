@@ -14,7 +14,7 @@ public interface IDoodleFactory extends IFactory {
      * @param world The world the Doodle will live in.
      * @return The new Doodle.
      */
-    IDoodle createDoodle(final World world);
+    IDoodle createDoodle(final World world, final DoodleColors color);
 
     /**
      * Create a new Doodle for the StartScreen.

@@ -11,7 +11,7 @@ import java.awt.Point;
 /**
  * A powerup on which can be jumped.
  */
-public abstract class AJumpablePowerup extends APowerup implements IJumpable {
+/* package */ abstract class AJumpablePowerup extends APowerup implements IJumpable {
 
     /**
      * The default sprite for the jumpable powerup.
@@ -31,16 +31,12 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
      *
      * @param sL            The locator providing services to the powerup
      * @param point        The coordinates of the powerup
-     * @param boost         The value of the boost of the powerup
-     * @param sprites      The sprites, must be size 2.
-     * @param powerup       The class of the powerup
      */
-    /* package */ AJumpablePowerup(final IServiceLocator sL, final Point point, final double boost, final ISprite[] sprites, final Class<?> powerup) {
-        super(sL, point, sprites[0], powerup);
-        assert(sprites.length == 2);
-        this.usedSprite = sprites[1];
-        this.defaultSprite = sprites[0];
-        this.boost = boost;
+    /* package */ AJumpablePowerup(final IServiceLocator sL, final Point point, final Powerups type, final int level) {
+        super(sL, point, type, level);
+        this.boost = type.getBoost(level);
+        this.defaultSprite = sL.getSpriteFactory().getPowerupSprite(type, level);
+        this.usedSprite = sL.getSpriteFactory().getSprite(type.getUsedSprite(level));
     }
 
     /**
@@ -65,40 +61,21 @@ public abstract class AJumpablePowerup extends APowerup implements IJumpable {
     }
 
     /**
-     * Returns the usedSprite when a doodle collides with this object.
-     *
-     * @return a ISprite object.
-     */
-    public final ISprite getUsedSprite() {
-        return this.usedSprite;
-    }
-
-    /**
-     * Returns the default sprite.
-     *
-     * @return a ISprite object.
-     */
-    public final ISprite getDefaultSprite() {
-        return this.defaultSprite;
-    }
-
-    /**
      * Executes the default animation: a change between the default- and used-sprite after the player hit the powerup.
      *
-     * @param powerup      The powerup that requested the animation
      * @param retractSpeed The speed with which the {@link AJumpablePowerup powerup} rectracts after it is used.
      */
-    protected final void executeDefaultAnimation(final AJumpablePowerup powerup, final int retractSpeed) {
-        int oldHeight = getSprite().getHeight();
-        int newHeight = this.getUsedSprite().getHeight();
+    protected final void executeDefaultAnimation(final int retractSpeed) {
+        final int oldHeight = getSprite().getHeight();
+        final int newHeight = this.usedSprite.getHeight();
         this.addYPos(oldHeight - newHeight);
-        this.setSprite(this.getUsedSprite());
+        this.setSprite(this.usedSprite);
 
-        AJumpablePowerup self = this;
+        final AJumpablePowerup self = this;
         new Timer().schedule(new TimerTask() {
             public void run() {
                 self.addYPos(newHeight - oldHeight);
-                self.setSprite(self.getDefaultSprite());
+                self.setSprite(self.defaultSprite);
             }
         }, retractSpeed);
     }

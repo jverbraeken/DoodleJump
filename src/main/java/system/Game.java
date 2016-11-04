@@ -3,11 +3,14 @@ package system;
 import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
+import objects.blocks.BlockTypes;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
 import scenes.Popup;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -45,6 +48,11 @@ public final class Game {
     public static final String LOGFILE_NAME = "async.log";
 
     /**
+     * The current frame.
+     */
+    private static JFrame frame;
+
+    /**
      * The time in milliseconds per frame.
      */
     private static final int FRAME_TIME = 16;
@@ -70,10 +78,6 @@ public final class Game {
      */
     private static ILogger logger;
     /**
-     * The current frame.
-     */
-    public static JFrame frame;
-    /**
      * The current panel.
      */
     private static JPanel panel;
@@ -88,7 +92,7 @@ public final class Game {
     /**
      * A {@link Queue} of popups.
      */
-    private final static Set<Popup> activePopups = new HashSet<>();
+    private static final Set<Popup> activePopups = new HashSet<>();
     /**
      * The enums for the mode.
      */
@@ -102,15 +106,13 @@ public final class Game {
          */
         underwater(2),
         /**
-         * The game mode following a story.
-         * UNIMPLEMENTED
+         * The game mode following a horizontalOnly platforms.
          */
-        story(1),
+        horizontalOnly(1),
         /**
-         * The game using the invertable platforms.
-         * UNIMPLEMENTED
+         * The game using the vertical platforms.
          */
-        invert(5),
+        verticalOnly(5),
         /**
          * The game mode with invisible platforms.
          * The platforms turn visible when touched by a doodle.
@@ -119,7 +121,12 @@ public final class Game {
         /**
          * The game mode taking place in space.
          */
-        space(3);
+        space(3),
+        /**
+         * A default mode, same as regular.
+         * Now only used for testing.
+         */
+        defaultmode(-1);
         /**
          * The rank required to play this mode.
          */
@@ -313,6 +320,7 @@ public final class Game {
         serviceLocator.getRes().setSkin(m);
         SpriteFactory.register(serviceLocator);
         setScene(serviceLocator.getSceneFactory().newChooseMode());
+        BlockTypes.setMode(m);
         logger.info("The mode is now " + m);
     }
 

@@ -2,6 +2,7 @@ package scenes;
 
 import input.Keys;
 import logging.ILogger;
+import objects.doodles.DoodleColors;
 import objects.doodles.IDoodle;
 import objects.doodles.IDoodleFactory;
 import rendering.ICamera;
@@ -96,7 +97,7 @@ public final class SceneFactory implements ISceneFactory {
         World world = new World(serviceLocator);
 
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
-        IDoodle doodle = doodleFactory.createDoodle(world);
+        IDoodle doodle = doodleFactory.createDoodle(world, DoodleColors.green);
         world.addDoodle(doodle);
 
         ICamera camera = serviceLocator.getCameraFactory().createDoodleCamera(doodle);
@@ -116,10 +117,10 @@ public final class SceneFactory implements ISceneFactory {
         World world = new World(serviceLocator);
         IDoodleFactory doodleFactory = serviceLocator.getDoodleFactory();
 
-        IDoodle doodle1 = doodleFactory.createDoodle(world);
+        IDoodle doodle1 = doodleFactory.createDoodle(world, DoodleColors.red);
         doodle1.setKeys(Keys.arrowLeft, Keys.arrowRight);
         world.addDoodle(doodle1);
-        IDoodle doodle2 = doodleFactory.createDoodle(world);
+        IDoodle doodle2 = doodleFactory.createDoodle(world, DoodleColors.blue);
         doodle2.setKeys(Keys.a, Keys.d);
         world.addDoodle(doodle2);
 

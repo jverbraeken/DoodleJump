@@ -66,6 +66,12 @@ public final class Res implements IRes {
             case darkness:
                 this.setDarknessSkin();
                 break;
+            case horizontalOnly:
+                this.setSkySkin();
+                break;
+            case verticalOnly:
+                this.setIceSkin();
+                break;
             default:
                 this.setDefaultSkin();
                 break;
@@ -99,10 +105,22 @@ public final class Res implements IRes {
         sprites.put(Sprites.shopCover, SPRITE_PATH + "pause-cover-4@2x.png");
 
         // Doodle
-        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "blue-lik-left@2x.png");
-        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "blue-lik-left-odskok@2x.png");
-        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "blue-lik-right@2x.png");
-        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "blue-lik-right-odskok@2x.png");
+        sprites.put(Sprites.doodleArrow, SPRITE_PATH + "location-arrow@2x.png");
+
+        sprites.put(Sprites.greenDoodleLeftAscend, SPRITE_PATH + "lik-left@2x.png");
+        sprites.put(Sprites.greenDoodleLeftDescend, SPRITE_PATH + "lik-left-odskok@2x.png");
+        sprites.put(Sprites.greenDoodleRightAscend, SPRITE_PATH + "lik-right@2x.png");
+        sprites.put(Sprites.greenDoodleRightDescend, SPRITE_PATH + "lik-right-odskok@2x.png");
+
+        sprites.put(Sprites.redDoodleLeftAscend, SPRITE_PATH + "red-lik-left@2x.png");
+        sprites.put(Sprites.redDoodleLeftDescend, SPRITE_PATH + "red-lik-left-odskok@2x.png");
+        sprites.put(Sprites.redDoodleRightAscend, SPRITE_PATH + "red-lik-right@2x.png");
+        sprites.put(Sprites.redDoodleRightDescend, SPRITE_PATH + "red-lik-right-odskok@2x.png");
+
+        sprites.put(Sprites.blueDoodleLeftAscend, SPRITE_PATH + "blue-lik-left@2x.png");
+        sprites.put(Sprites.blueDoodleLeftDescend, SPRITE_PATH + "blue-lik-left-odskok@2x.png");
+        sprites.put(Sprites.blueDoodleRightAscend, SPRITE_PATH + "blue-lik-right@2x.png");
+        sprites.put(Sprites.blueDoodleRightDescend, SPRITE_PATH + "blue-lik-right-odskok@2x.png");
 
         // projectiles
         sprites.put(Sprites.regularProjectile, SPRITE_PATH + "regular-projectile@2x.png");
@@ -187,7 +205,6 @@ public final class Res implements IRes {
         sprites.put(Sprites.jetpack6, SPRITE_PATH + "jetpack-6@2x.png");
         sprites.put(Sprites.jetpack7, SPRITE_PATH + "jetpack-7@2x.png");
         sprites.put(Sprites.jetpack8, SPRITE_PATH + "jetpack-8@2x.png");
-        sprites.put(Sprites.jetpack9, SPRITE_PATH + "jetpack-9@2x.png");
         sprites.put(Sprites.propeller0, SPRITE_PATH + "propeller-0@2x.png");
         sprites.put(Sprites.propeller1, SPRITE_PATH + "propeller-1@2x.png");
         sprites.put(Sprites.propeller2, SPRITE_PATH + "propeller-2@2x.png");
@@ -222,10 +239,10 @@ public final class Res implements IRes {
         sprites.put(Sprites.scoreBar, SPRITE_PATH + "scorebar.png");
 
         // Choose mode icons
-        sprites.put(Sprites.storyMode, SPRITE_PATH + "story-mode@4x.png");
+        sprites.put(Sprites.horizontalOnlyMode, SPRITE_PATH + "only-horizontal-mode@4x.png");
         sprites.put(Sprites.regularMode, SPRITE_PATH + "regular-mode@4x.png");
         sprites.put(Sprites.darknessMode, SPRITE_PATH + "darkness-mode@4x.png");
-        sprites.put(Sprites.invertMode, SPRITE_PATH + "invert-mode@4x.png");
+        sprites.put(Sprites.verticalOnlyMode, SPRITE_PATH + "only-vertical-mode@4x.png");
         sprites.put(Sprites.spaceMode, SPRITE_PATH + "space-mode@4x.png");
         sprites.put(Sprites.underwaterMode, SPRITE_PATH + "underwater-mode@4x.png");
 
@@ -264,10 +281,10 @@ public final class Res implements IRes {
         sprites.put(Sprites.background, SPRITE_PATH + "space-bck@2x.png");
 
         // Doodle
-        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "space-left@2x.png");
-        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "space-left-odskok@2x.png");
-        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "space-right@2x.png");
-        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "space-right-odskok@2x.png");
+        sprites.put(Sprites.greenDoodleLeftAscend, SPRITE_PATH + "space-left@2x.png");
+        sprites.put(Sprites.greenDoodleLeftDescend, SPRITE_PATH + "space-left-odskok@2x.png");
+        sprites.put(Sprites.greenDoodleRightAscend, SPRITE_PATH + "space-right@2x.png");
+        sprites.put(Sprites.greenDoodleRightDescend, SPRITE_PATH + "space-right-odskok@2x.png");
 
         // Platforms
         sprites.put(Sprites.platform1, SPRITE_PATH + "space-platform@2x.png");
@@ -291,10 +308,10 @@ public final class Res implements IRes {
         sprites.put(Sprites.background, SPRITE_PATH + "underwater-bck2@2x.png");
 
         // Doodle
-        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "underwater-left@2x.png");
-        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "underwater-left-odskok@2x.png");
-        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "underwater-right@2x.png");
-        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "underwater-right-odskok@2x.png");
+        sprites.put(Sprites.greenDoodleLeftAscend, SPRITE_PATH + "underwater-left@2x.png");
+        sprites.put(Sprites.greenDoodleLeftDescend, SPRITE_PATH + "underwater-left-odskok@2x.png");
+        sprites.put(Sprites.greenDoodleRightAscend, SPRITE_PATH + "underwater-right@2x.png");
+        sprites.put(Sprites.greenDoodleRightDescend, SPRITE_PATH + "underwater-right-odskok@2x.png");
 
         // Platforms
         sprites.put(Sprites.platform1, SPRITE_PATH + "underwater-platform@2x.png");
@@ -310,7 +327,7 @@ public final class Res implements IRes {
     }
 
     /**
-     * Set the skin to underwater style.
+     * Set the skin to darkness style.
      */
     private void setDarknessSkin() {
         this.setDefaultSkin();
@@ -320,10 +337,10 @@ public final class Res implements IRes {
         sprites.put(Sprites.background, SPRITE_PATH + "darkness-bck@2x.png");
 
         // Doodle
-        sprites.put(Sprites.doodleLeftAscend, SPRITE_PATH + "ghost-left@2x.png");
-        sprites.put(Sprites.doodleLeftDescend, SPRITE_PATH + "ghost-left-odskok@2x.png");
-        sprites.put(Sprites.doodleRightAscend, SPRITE_PATH + "ghost-right@2x.png");
-        sprites.put(Sprites.doodleRightDescend, SPRITE_PATH + "ghost-right-odskok@2x.png");
+        sprites.put(Sprites.greenDoodleLeftAscend, SPRITE_PATH + "ghost-left@2x.png");
+        sprites.put(Sprites.greenDoodleLeftDescend, SPRITE_PATH + "ghost-left-odskok@2x.png");
+        sprites.put(Sprites.greenDoodleRightAscend, SPRITE_PATH + "ghost-right@2x.png");
+        sprites.put(Sprites.greenDoodleRightDescend, SPRITE_PATH + "ghost-right-odskok@2x.png");
 
         // Platforms
         sprites.put(Sprites.platform1, SPRITE_PATH + "invisible-platform@2x.png");
@@ -338,5 +355,46 @@ public final class Res implements IRes {
         // Top bar
         sprites.put(Sprites.scoreBar, SPRITE_PATH + "space-scorebar@2x.png");
     }
+
+    /**
+     * Set the skin to horizontal only style.
+     */
+    private void setSkySkin() {
+        this.setDefaultSkin();
+
+        // Covers
+        sprites.put(Sprites.startCover, SPRITE_PATH + "hop-bck2@2x.png");
+        sprites.put(Sprites.background, SPRITE_PATH + "hop-bck@2x.png");
+
+        //Platforms
+        sprites.put(Sprites.platform1, SPRITE_PATH + "platform-blue@2x.png");
+
+        // Doodle
+        sprites.put(Sprites.greenDoodleLeftAscend, SPRITE_PATH + "jungle-left@2x.png");
+        sprites.put(Sprites.greenDoodleLeftDescend, SPRITE_PATH + "jungle-left-odskok@2x.png");
+        sprites.put(Sprites.greenDoodleRightAscend, SPRITE_PATH + "jungle-right@2x.png");
+        sprites.put(Sprites.greenDoodleRightDescend, SPRITE_PATH + "jungle-right-odskok@2x.png");
+    }
+
+    /**
+     * Set the skin to vertical only style.
+     */
+    private void setIceSkin() {
+        this.setDefaultSkin();
+
+        // Covers
+        sprites.put(Sprites.startCover, SPRITE_PATH + "ice-bck2@2x.png");
+        sprites.put(Sprites.background, SPRITE_PATH + "ice-bck@2x.png");
+
+        //Platforms
+        sprites.put(Sprites.platform1, SPRITE_PATH + "platform-gray@2x.png");
+
+        // Doodle
+        sprites.put(Sprites.greenDoodleLeftAscend, SPRITE_PATH + "ice-left@2x.png");
+        sprites.put(Sprites.greenDoodleLeftDescend, SPRITE_PATH + "ice-left-odskok@2x.png");
+        sprites.put(Sprites.greenDoodleRightAscend, SPRITE_PATH + "ice-right@2x.png");
+        sprites.put(Sprites.greenDoodleRightDescend, SPRITE_PATH + "ice-right-odskok@2x.png");
+    }
+
 
 }

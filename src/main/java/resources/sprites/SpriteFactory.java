@@ -6,6 +6,8 @@ import com.google.common.cache.LoadingCache;
 import logging.ILogger;
 import objects.powerups.Powerups;
 import resources.IRes;
+import resources.animations.Animation;
+import resources.animations.IAnimation;
 import scenes.PauseScreenModes;
 import system.IServiceLocator;
 
@@ -15,8 +17,6 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Standard implementation of the SpriteFactory. Used to load and get sprites.
- * <br>
- * It is not deemed necessary for all individual sprites to have a JavaDoc.
  */
 public final class SpriteFactory implements ISpriteFactory {
 
@@ -30,22 +30,21 @@ public final class SpriteFactory implements ISpriteFactory {
     private final ILogger logger;
 
     /**
-     * The cache for the SpriteFactory.
+     * The spriteCache for the SpriteFactory.
      */
-    private final LoadingCache<IRes.Sprites, ISprite> cache;
+    private final LoadingCache<IRes.Sprites, ISprite> spriteCache;
 
     /**
      * Prevents instantiation from outside the class.
      */
-    public SpriteFactory() {
+    private SpriteFactory() {
         this.logger = SpriteFactory.serviceLocator.getLoggerFactory().createLogger(SpriteFactory.class);
-        cache = CacheBuilder.newBuilder()
+        spriteCache = CacheBuilder.newBuilder()
                 .maximumSize(Long.MAX_VALUE)
                 .build(
                         new CacheLoader<IRes.Sprites, ISprite>() {
                             @Override
                             public ISprite load(final IRes.Sprites sprite) {
-                                logger.info("Sprite loaded: \"" + sprite + "\"");
                                 return loadISprite(sprite);
                             }
                         }
@@ -65,378 +64,28 @@ public final class SpriteFactory implements ISpriteFactory {
         SpriteFactory.serviceLocator.provide(new SpriteFactory());
     }
 
-
-    // Buttons
-
     /**
-     * {@inheritDoc}
+     * Loads an ISprite with the name {@code ISpriteName}.
+     *
+     * @param spriteName the enumerator defining the requested sprite
+     * @return The {@link ISprite sprite} if it was found. null otherwise
      */
-    @Override
-    public ISprite getMenuButtonSprite() {
-        return this.getSprite(IRes.Sprites.menu);
-    }
+    private ISprite loadISprite(final IRes.Sprites spriteName) {
+        assert spriteName != null;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPauseButtonSprite() {
-        return this.getSprite(IRes.Sprites.pause);
-    }
+        String filepath = SpriteFactory.serviceLocator.getRes().getSpritePath(spriteName);
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlayButtonSprite() {
-        return this.getSprite(IRes.Sprites.play);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getMultiplayerButtonSprite() {
-        return this.getSprite(IRes.Sprites.multiplayer);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlayAgainButtonSprite() {
-        return this.getSprite(IRes.Sprites.playAgain);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getResumeButtonSprite() {
-        return this.getSprite(IRes.Sprites.resume);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getScoreButtonSprite() {
-        return this.getSprite(IRes.Sprites.scoreButton);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getChooseModeButtonSprite() {
-        return this.getSprite(IRes.Sprites.chooseMode);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getShopButtonSprite() {
-        return getSprite(IRes.Sprites.shop);
-    }
-
-    // Covers
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getBackground() {
-        return this.getSprite(IRes.Sprites.background);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPauseCoverSprite(PauseScreenModes mode) {
-        switch (mode) {
-            case mission:
-                return this.getSprite(IRes.Sprites.pauseCover);
-            case shop:
-                return this.getSprite(IRes.Sprites.shopCover);
-            default:
-                final String error = "Trying to get the cover sprite of a mode that's not available";
-                logger.error(error);
-                throw new UnavailableLevelException(error);
+        try {
+            BufferedImage image = SpriteFactory.serviceLocator.getFileSystem().readImage(filepath);
+            this.logger.info("Sprite loaded: \"" + filepath + "\"");
+            return new Sprite(getFileName(filepath), image);
+        } catch (FileNotFoundException e) {
+            this.logger.error("CRITICAL ERROR: the sprite \"" + spriteName.toString() + "\" could not be found!");
+            this.logger.error(e);
+            e.printStackTrace();
+            return null;
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getStartCoverSprite() {
-        return this.getSprite(IRes.Sprites.startCover);
-    }
-
-
-    // Doodle
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite[] getDoodleLeftSprites() {
-        ISprite[] sprites = new ISprite[2];
-        sprites[0] = this.getSprite(IRes.Sprites.doodleLeftDescend);
-        sprites[1] = this.getSprite(IRes.Sprites.doodleLeftAscend);
-
-        return sprites;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite[] getDoodleRightSprites() {
-        ISprite[] sprites = new ISprite[2];
-        sprites[0] = this.getSprite(IRes.Sprites.doodleRightDescend);
-        sprites[1] = this.getSprite(IRes.Sprites.doodleRightAscend);
-
-        return sprites;
-    }
-
-
-    // Kill screen
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getGameOverSprite() {
-        return this.getSprite(IRes.Sprites.gameOver);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getKillScreenBottomSprite() {
-        return this.getSprite(IRes.Sprites.killScreenBottom);
-    }
-
-
-    // Monsters
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPuddingMonsterSprite1() {
-        return this.getSprite(IRes.Sprites.puddingMonster1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPuddingMonsterSprite2() {
-        return this.getSprite(IRes.Sprites.puddingMonster2);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPuddingMonsterSprite3() {
-        return this.getSprite(IRes.Sprites.puddingMonster3);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPuddingMonsterSprite4() {
-        return this.getSprite(IRes.Sprites.puddingMonster4);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPuddingMonsterSprite5() {
-        return this.getSprite(IRes.Sprites.puddingMonster5);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getTwinMonsterSprite() {
-        return this.getSprite(IRes.Sprites.twinMonster);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getThreeEyedMonsterSprite1() {
-        return this.getSprite(IRes.Sprites.threeEyedMonster1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getThreeEyedMonsterSprite2() {
-        return this.getSprite(IRes.Sprites.threeEyedMonster2);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getThreeEyedMonsterSprite3() {
-        return this.getSprite(IRes.Sprites.threeEyedMonster3);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getThreeEyedMonsterSprite4() {
-        return this.getSprite(IRes.Sprites.threeEyedMonster4);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getThreeEyedMonsterSprite5() {
-        return this.getSprite(IRes.Sprites.threeEyedMonster5);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getVampireMonsterSprite1() {
-        return this.getSprite(IRes.Sprites.vampireMonster1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getVampireMonsterSprite2() {
-        return this.getSprite(IRes.Sprites.vampireMonster2);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getVampireMonsterSprite3() {
-        return this.getSprite(IRes.Sprites.vampireMonster3);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getVampireMonsterSprite4() {
-        return this.getSprite(IRes.Sprites.vampireMonster4);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getVampireMonsterSprite5() {
-        return this.getSprite(IRes.Sprites.vampireMonster5);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getOrdinaryMonsterSprite() {
-        return this.getSprite(IRes.Sprites.ordinaryMonster);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getCactusMonsterSprite1() {
-        return this.getSprite(IRes.Sprites.cactusMonster1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getCactusMonsterSprite2() {
-        return this.getSprite(IRes.Sprites.cactusMonster2);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getFiveFeetMonsterSprite() {
-        return this.getSprite(IRes.Sprites.fiveFeetMonster);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getLowFiveFeetMonsterSprite1() {
-        return this.getSprite(IRes.Sprites.lowFiveFeetMonster1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getLowFiveFeetMonsterSprite2() {
-        return this.getSprite(IRes.Sprites.lowFiveFeetMonster2);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getSmallMonsterSprite() {
-        return this.getSprite(IRes.Sprites.smallMonster);
-    }
-
-
-    // Stars
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getStarSprite1() {
-        return this.getSprite(IRes.Sprites.confusedStars1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getStarSprite2() {
-        return this.getSprite(IRes.Sprites.confusedStars2);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getStarSprite3() {
-        return this.getSprite(IRes.Sprites.confusedStars3);
-    }
-
-
-    // Numbers
 
     /**
      * {@inheritDoc}
@@ -457,79 +106,61 @@ public final class SpriteFactory implements ISpriteFactory {
         };
     }
 
-
-    // Platform
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSprite1() {
-        return this.getSprite(IRes.Sprites.platform1);
+    public ISprite[] getGreenDoodleSprites() {
+        ISprite[] sprites = new ISprite[4];
+        sprites[0] = this.getSprite(IRes.Sprites.greenDoodleLeftDescend);
+        sprites[1] = this.getSprite(IRes.Sprites.greenDoodleLeftAscend);
+        sprites[2] = this.getSprite(IRes.Sprites.greenDoodleRightDescend);
+        sprites[3] = this.getSprite(IRes.Sprites.greenDoodleRightAscend);
+
+        return sprites;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSpriteHorizontal() {
-        return this.getSprite(IRes.Sprites.platformHorizontal);
+    public ISprite[] getRedDoodleSprites() {
+        ISprite[] sprites = new ISprite[4];
+        sprites[0] = this.getSprite(IRes.Sprites.redDoodleLeftDescend);
+        sprites[1] = this.getSprite(IRes.Sprites.redDoodleLeftAscend);
+        sprites[2] = this.getSprite(IRes.Sprites.redDoodleRightDescend);
+        sprites[3] = this.getSprite(IRes.Sprites.redDoodleRightAscend);
+
+        return sprites;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSpriteVertical() {
-        return this.getSprite(IRes.Sprites.platformVertical);
+    public ISprite[] getBlueDoodleSprites() {
+        ISprite[] sprites = new ISprite[4];
+        sprites[0] = this.getSprite(IRes.Sprites.blueDoodleLeftDescend);
+        sprites[1] = this.getSprite(IRes.Sprites.blueDoodleLeftAscend);
+        sprites[2] = this.getSprite(IRes.Sprites.blueDoodleRightDescend);
+        sprites[3] = this.getSprite(IRes.Sprites.blueDoodleRightAscend);
+
+        return sprites;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformSprite4() {
-        return this.getSprite(IRes.Sprites.platform4);
-    }
+    public ISprite getSprite(final IRes.Sprites sprite) {
+        assert sprite != null;
+        try {
+            return this.spriteCache.get(sprite);
+        } catch (ExecutionException e) {
+            this.logger.error(e);
+        }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformSprite5() {
-        return this.getSprite(IRes.Sprites.platform5);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformSprite6() {
-        return this.getSprite(IRes.Sprites.platform6);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformSprite7() {
-        return this.getSprite(IRes.Sprites.platform7);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformSprite8() {
-        return this.getSprite(IRes.Sprites.platform8);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformSprite9() {
-        return this.getSprite(IRes.Sprites.platform9);
+        return null;
     }
 
     /**
@@ -555,393 +186,18 @@ public final class SpriteFactory implements ISpriteFactory {
      * {@inheritDoc}
      */
     @Override
-    public ISprite getPlatformExplosiveSprite1() {
-        return this.getSprite(IRes.Sprites.platformExplosive1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformExplosiveSprite2() {
-        return this.getSprite(IRes.Sprites.platformExplosive2);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformExplosiveSprite3() {
-        return this.getSprite(IRes.Sprites.platformExplosive3);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformMovableSprite1() {
-        return this.getSprite(IRes.Sprites.platformMovable1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformMovableSprite2() {
-        return this.getSprite(IRes.Sprites.platformMovable2);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformMovableSprite3() {
-        return this.getSprite(IRes.Sprites.platformMovable3);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformMovableSprite4() {
-        return this.getSprite(IRes.Sprites.platformMovable4);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformShiningSprite1() {
-        return this.getSprite(IRes.Sprites.platformShining1);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformShiningSprite2() {
-        return this.getSprite(IRes.Sprites.platformShining2);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPlatformShiningSprite3() {
-        return this.getSprite(IRes.Sprites.platformShining3);
-    }
-
-
-    // Powerups
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPowerupSprite(final Powerups powerup, final int level) throws UnavailableLevelException {
-        // TODO parameter checking
-        switch (powerup) {
-            case jetpack:
-                return getJetpackSprite(level);
-            case propeller:
-                return getSprite(IRes.Sprites.propeller);
-            case shield:
-                return getSprite(IRes.Sprites.shield);
-            case sizeDown:
-                return getSprite(IRes.Sprites.sizeDown);
-            case sizeUp:
-                return getSprite(IRes.Sprites.sizeUp);
-            case spring:
-                return getSpringSprite(level);
-            case springShoes:
-                return getSprite(IRes.Sprites.springShoes);
-            case trampoline:
-                return getTrampolineSprite(level);
+    public ISprite getPauseCoverSprite(PauseScreenModes mode) {
+        switch (mode) {
+            case mission:
+                return this.getSprite(IRes.Sprites.pauseCover);
+            case shop:
+                return this.getSprite(IRes.Sprites.shopCover);
             default:
-                logger.error("The sprite of powerup " + powerup.name() + " could not be found");
-                return null;
+                final String error = "Trying to get the cover sprite of a mode that's not available";
+                logger.error(error);
+                throw new UnavailableLevelException(error);
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getTrampolineUsedSprite(final int powerupLevel) {
-        switch (powerupLevel) {
-            case 1:
-                return this.getSprite(IRes.Sprites.trampolineUsed);
-            case 2:
-                return this.getSprite(IRes.Sprites.circusCannonUsed);
-            case 3:
-            case 4:
-                return this.getSprite(IRes.Sprites.rocketLauncherUsed);
-            default:
-                logger.error("The sprite of a trampoline of level " + powerupLevel + " could not be found");
-                return null;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getSpringUsedSprite(final int powerupLevel) {
-        switch (powerupLevel) {
-            case 1:
-                return this.getSprite(IRes.Sprites.springUsed);
-            case 2:
-                return this.getSprite(IRes.Sprites.doubleSpringUsed);
-            case 3:
-            case 4:
-                return this.getSprite(IRes.Sprites.titaniumSpringUsed);
-            default:
-                logger.error("The sprite of a spring of level " + powerupLevel + " could not be found");
-                return null;
-        }
-    }
-
-    // PASSIVE
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite[] getJetpackActiveSprites(final int level) {
-        ISprite[] sprites;
-        switch (level) {
-            case 1:
-                sprites = new ISprite[9];
-                sprites[0] = this.getSprite(IRes.Sprites.jetpack0);
-                sprites[1] = this.getSprite(IRes.Sprites.jetpack1);
-                sprites[2] = this.getSprite(IRes.Sprites.jetpack2);
-                sprites[3] = this.getSprite(IRes.Sprites.jetpack3);
-                sprites[4] = this.getSprite(IRes.Sprites.jetpack4);
-                sprites[5] = this.getSprite(IRes.Sprites.jetpack5);
-                sprites[6] = this.getSprite(IRes.Sprites.jetpack6);
-                sprites[7] = this.getSprite(IRes.Sprites.jetpack7);
-                sprites[8] = this.getSprite(IRes.Sprites.jetpack8);
-                break;
-            case 2:
-                sprites = new ISprite[10];
-                sprites[0] = this.getSprite(IRes.Sprites.afterburner0);
-                sprites[1] = this.getSprite(IRes.Sprites.afterburner1);
-                sprites[2] = this.getSprite(IRes.Sprites.afterburner2);
-                sprites[3] = this.getSprite(IRes.Sprites.afterburner3);
-                sprites[4] = this.getSprite(IRes.Sprites.afterburner4);
-                sprites[5] = this.getSprite(IRes.Sprites.afterburner5);
-                sprites[6] = this.getSprite(IRes.Sprites.afterburner6);
-                sprites[7] = this.getSprite(IRes.Sprites.afterburner7);
-                sprites[8] = this.getSprite(IRes.Sprites.afterburner8);
-                sprites[9] = this.getSprite(IRes.Sprites.afterburner9);
-                break;
-            case 3:
-            case 4:
-                sprites = new ISprite[9];
-                sprites[0] = getSprite(IRes.Sprites.spaceRocket0);
-                sprites[1] = getSprite(IRes.Sprites.spaceRocket1);
-                sprites[2] = getSprite(IRes.Sprites.spaceRocket2);
-                sprites[3] = getSprite(IRes.Sprites.spaceRocket3);
-                sprites[4] = getSprite(IRes.Sprites.spaceRocket4);
-                sprites[5] = getSprite(IRes.Sprites.spaceRocket5);
-                sprites[6] = getSprite(IRes.Sprites.spaceRocket6);
-                sprites[7] = getSprite(IRes.Sprites.spaceRocket7);
-                sprites[8] = getSprite(IRes.Sprites.spaceRocket8);
-                break;
-            default:
-                logger.error("The sprite of a spring of level " + level + " could not be found");
-                return null;
-        }
-
-        return sprites;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite[] getPropellerActiveSprites() {
-        ISprite[] sprites = new ISprite[4];
-        sprites[0] = this.getSprite(IRes.Sprites.propeller0);
-        sprites[1] = this.getSprite(IRes.Sprites.propeller1);
-        sprites[2] = this.getSprite(IRes.Sprites.propeller0);
-        sprites[3] = this.getSprite(IRes.Sprites.propeller2);
-
-        return sprites;
-    }
-
-    //projectiles
-
-    /**
-     * {@inheritDoc}
-     */
-    public ISprite getRegularProjectileSprite() {
-        return this.getSprite(IRes.Sprites.regularProjectile);
-
-    }
-
-
-    // Misc
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getWaitDoNotShootSprite() {
-        return this.getSprite(IRes.Sprites.waitDoNotShoot);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getAvoidSprite() {
-        return this.getSprite(IRes.Sprites.avoid);
-    }
-
-
-    // Score Screen
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getScoreScreenBottom() {
-        return this.getSprite(IRes.Sprites.scoreScreenBottom);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getScoreScreenLeft() {
-        return this.getSprite(IRes.Sprites.scoreScreenLeft);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getScoreScreenTop() {
-        return this.getSprite(IRes.Sprites.scoreScreenTop);
-    }
-
-
-    // Top bar
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getScoreBarSprite() {
-        return this.getSprite(IRes.Sprites.scoreBar);
-    }
-
-
-    // UFO
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getUFOSprite() {
-        return this.getSprite(IRes.Sprites.ufo);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getUFOShiningSprite() {
-        return this.getSprite(IRes.Sprites.ufoShining);
-    }
-
-    // Choose Mode Icons
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getRegularModeButton() {
-        return this.getSprite(IRes.Sprites.regularMode);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getStoryModeButton() {
-        return this.getSprite(IRes.Sprites.storyMode);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getDarknessModeButton() {
-        return this.getSprite(IRes.Sprites.darknessMode);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getInvertModeButton() {
-        return this.getSprite(IRes.Sprites.invertMode);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getUnderwaterModeButton() {
-        return this.getSprite(IRes.Sprites.underwaterMode);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getSpaceModeButton() {
-        return this.getSprite(IRes.Sprites.spaceMode);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getRedCross() {
-        return this.getSprite(IRes.Sprites.redCross);
-    }
-
-    // Missions
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getAchievementSprite() {
-        return getSprite(IRes.Sprites.achievement);
-    }
-
-    //Popup
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPopupBackground() {
-        return getSprite(IRes.Sprites.popupBackground);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ISprite getPopupOkButton() {
-        return getSprite(IRes.Sprites.popupOkButton);
-    }
-
-    // Coins
 
     /**
      * {@inheritDoc}
@@ -973,6 +229,32 @@ public final class SpriteFactory implements ISpriteFactory {
             case 10:
                 return getSprite(IRes.Sprites.coin10);
             default:
+                return null;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISprite getPowerupSprite(final Powerups powerup, final int level) throws UnavailableLevelException {
+        switch (powerup) {
+            case jetpack:
+                return getJetpackSprite(level);
+            case propeller:
+                return getSprite(IRes.Sprites.propeller);
+            case sizeDown:
+                return getSprite(IRes.Sprites.sizeDown);
+            case sizeUp:
+                return getSprite(IRes.Sprites.sizeUp);
+            case spring:
+                return getSpringSprite(level);
+            case springShoes:
+                return getSprite(IRes.Sprites.springShoes);
+            case trampoline:
+                return getTrampolineSprite(level);
+            default:
+                logger.error("The sprite of powerup " + powerup.name() + " could not be found");
                 return null;
         }
     }
@@ -1047,48 +329,6 @@ public final class SpriteFactory implements ISpriteFactory {
                 logger.error(error);
                 throw new UnavailableLevelException(error);
         }
-    }
-
-    // Miscellaneous
-
-    /**
-     * Loads an ISprite with the name {@code ISpriteName}.
-     *
-     * @param spriteName the enumerator defining the requested sprite
-     * @return The {@link ISprite sprite} if it was found. null otherwise
-     */
-    private ISprite loadISprite(final IRes.Sprites spriteName) {
-        assert spriteName != null;
-
-        String filepath = SpriteFactory.serviceLocator.getRes().getSpritePath(spriteName);
-
-        try {
-            BufferedImage image = SpriteFactory.serviceLocator.getFileSystem().readImage(filepath);
-            this.logger.info("Sprite loaded: \"" + filepath + "\"");
-            return new Sprite(getFileName(filepath), image);
-        } catch (FileNotFoundException e) {
-            this.logger.error("CRITICAL ERROR: the sprite \"" + spriteName.toString() + "\" could not be found!");
-            this.logger.error(e);
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Return the requested sprite.
-     *
-     * @param sprite the enumerator defining the requested sprite.
-     * @return the sprite.
-     */
-    private ISprite getSprite(final IRes.Sprites sprite) {
-        assert sprite != null;
-        try {
-            return this.cache.get(sprite);
-        } catch (ExecutionException e) {
-            this.logger.error(e);
-        }
-
-        return null;
     }
 
     /**

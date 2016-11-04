@@ -2,12 +2,13 @@ package objects.doodles;
 
 import input.Keys;
 import objects.IJumpable;
+import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 /**
  * This class describes the behaviour of the doodle in the StartScreen.
  */
-/* package */ class StartScreenDoodle extends Doodle {
+/* package */ final class StartScreenDoodle extends Doodle {
 
     /**
      * Boost reduction specifically for the StartScreen Doodle.
@@ -19,8 +20,8 @@ import system.IServiceLocator;
      *
      * @param sL The ServiceLocator.
      */
-    /* package */ StartScreenDoodle(final IServiceLocator sL) {
-        super(sL, null);
+    /* package */ StartScreenDoodle(final ISprite[] sprites, final IServiceLocator sL) {
+        super(sL, sprites, null);
     }
 
     /**

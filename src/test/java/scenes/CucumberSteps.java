@@ -1,18 +1,18 @@
 package scenes;
 
-import buttons.IButton;
 import cucumber.api.java8.En;
 import objects.doodles.IDoodle;
 import objects.powerups.Powerups;
 import org.mockito.Matchers;
 import org.powermock.reflect.Whitebox;
 import progression.IProgressionManager;
+import progression.Ranks;
 import system.Game;
 import system.IServiceLocator;
 
+import java.awt.*;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -31,6 +31,7 @@ public class CucumberSteps implements En {
                 sL.getProgressionManager().init();
                 IProgressionManager progressionManager = mock(IProgressionManager.class);
                 when(progressionManager.getPowerupLevel(Matchers.<Powerups>any())).thenReturn(1);
+                when(progressionManager.getRank()).thenReturn(Ranks.theBoss);
                 sL.provide(progressionManager);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -57,8 +58,8 @@ public class CucumberSteps implements En {
         });
 
         When("^I press the (.*)-button$", (String button) -> {
-            Object scene = Whitebox.getInternalState(Game.class, "scene");
-            List<IButton> buttons = Whitebox.getInternalState(scene, "buttons");
+            IScene scene = Whitebox.getInternalState(Game.class, "scene");
+            List<Button> buttons = Whitebox.getInternalState(scene, "buttons");
             switch (button) {
                 //MENU
                 case "play":
@@ -86,7 +87,7 @@ public class CucumberSteps implements En {
                     Object action01 = Whitebox.getInternalState(buttons.get(1), "action");
                     ((Runnable) action01).run();
                     break;
-                case "story":
+                case "horizontalOnly":
                     Object action02 = Whitebox.getInternalState(buttons.get(2), "action");
                     ((Runnable) action02).run();
                     break;
@@ -98,7 +99,7 @@ public class CucumberSteps implements En {
                     Object action04 = Whitebox.getInternalState(buttons.get(4), "action");
                     ((Runnable) action04).run();
                     break;
-                case "invert":
+                case "verticalOnly":
                     Object action05 = Whitebox.getInternalState(buttons.get(5), "action");
                     ((Runnable) action05).run();
                     break;
@@ -150,11 +151,11 @@ public class CucumberSteps implements En {
                 case "darkness":
                     assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.darkness));
                     break;
-                case "invert":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.invert));
+                case "verticalOnly":
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.verticalOnly));
                     break;
-                case "story":
-                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.story));
+                case "horizontalOnly":
+                    assertThat(Whitebox.getInternalState(Game.class, "mode"), is(Game.Modes.horizontalOnly));
                     break;
             }
         });
