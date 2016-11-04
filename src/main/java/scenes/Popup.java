@@ -40,6 +40,9 @@ public final class Popup implements IRenderable {
      * @param msg The message the Popup displays
      */
     public Popup(final IServiceLocator serviceLocator, final String msg) {
+        if (serviceLocator == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         this.serviceLocator = serviceLocator;
         this.message = msg;
 
