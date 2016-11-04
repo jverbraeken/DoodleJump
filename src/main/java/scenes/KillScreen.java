@@ -177,11 +177,11 @@ import java.awt.Point;
 
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         Ranks rank = progressionManager.getRank();
-        renderer.drawTextNoAjustments(new Point(
+        renderer.drawTextHUD(new Point(
                         (int) (constants.getGameWidth() * KillScreen.SCORE_TEXT_X),
                         (int) (constants.getGameHeight() * KillScreen.SCORE_TEXT_Y)),
                 "Score: " + score, TextAlignment.left, Color.black);
-        renderer.drawTextNoAjustments(new Point(
+        renderer.drawTextHUD(new Point(
                         (int) (constants.getGameWidth() * KillScreen.RANK_TEXT_X),
                         (int) (constants.getGameHeight() * KillScreen.RANK_TEXT_Y)),
                 "Rank: " + rank.getName(), TextAlignment.left, Color.black);
