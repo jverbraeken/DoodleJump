@@ -577,7 +577,7 @@ public final class ProgressionManager implements IProgressionManager {
     /**
      * Responsible for managing the missions
      */
-    private final class MissionManager {
+    /* package */ final class MissionManager {
         /**
          * The maximum amount of missions active at the same time.
          */
