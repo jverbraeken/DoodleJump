@@ -387,9 +387,7 @@ public final class Game {
         assert scene != null;
         if (Game.scene == null) {
             synchronized (Game.LOCK) {
-                if (Game.scene == null) {
-                    Game.startScene(scene);
-                }
+                Game.startScene(scene);
             }
         } else {
             Game.scene.stop();
