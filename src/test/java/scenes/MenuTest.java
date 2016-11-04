@@ -139,8 +139,7 @@ public class MenuTest {
         verify(multiplayer, times(1)).register();
         verify(chooseMode, times(1)).register();
 
-        verify(logger).info("The main menu registered itself as an observer of the input manager");
-        verify(logger).info("The menu scene is now displaying");
+        verify(logger).info(anyString());
     }
 
     @Test
@@ -153,8 +152,7 @@ public class MenuTest {
         verify(shop, times(1)).deregister();
         verify(chooseMode, times(1)).deregister();
 
-        verify(logger).info("The main menu removed itself as an observer from the input manager");
-        verify(logger).info("The menu scene is no longer displaying");
+        verify(logger).info(anyString());
     }
 
 }
