@@ -1,15 +1,15 @@
 package objects.powerups;
 
 import objects.doodles.IDoodle;
+import resources.animations.IAnimation;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
-
 import java.awt.Point;
 
 /**
  * Extended by classes that are powerups with which the Doodle can fly.
  */
-public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowerup {
+/* package */ abstract class AEquipmentPowerup extends APowerup implements IEquipmentPowerup {
 
     /**
      * The boost the flyable powerup object provides.
@@ -63,9 +63,9 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
     private ISprite defaultSprite;
 
     /**
-     * The sprites for an active flyable powerup.
+     * The animation for an active flyable powerup.
      */
-    private ISprite[] spritePack;
+    private IAnimation animation;
     /**
      * The Doodle that owns this flyable powerup.
      */
@@ -91,23 +91,19 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
     /**
      * Flyable powerup constructor.
      *
-     * @param sL      The service locator
-     * @param point   The location of the powerup
-     * @param maxTime the time for which the powerup can power the doodle
-     * @param sprite  The sprite used for the powerup placed on a platform
-     * @param sprites The animation used when the doodle equips the powerup
-     * @param powerup The class of the powerup
+     * @param serviceLocator The service locator
+     * @param point          The location of the powerup
+     * @param type           The type of the powerup
+     * @param level          The level of the powerup
      */
-    /* package */ AFlyablePowerup(final IServiceLocator sL,
-                                  final Point point,
-                                  final int maxTime,
-                                  final ISprite sprite,
-                                  final ISprite[] sprites,
-                                  final Class<?> powerup) {
-        super(sL, point, sprite, powerup);
-        this.timeLimit = maxTime;
-        this.defaultSprite = sprite;
-        this.spritePack = sprites;
+    /* package */ AEquipmentPowerup(final IServiceLocator serviceLocator,
+                                    final Point point,
+                                    final Powerups type,
+                                    final int level) {
+        super(serviceLocator, point, type, level);
+        this.timeLimit = type.getMaxTimeInAir(level);
+        this.defaultSprite = serviceLocator.getSpriteFactory().getPowerupSprite(type, level);
+        this.animation = serviceLocator.getAnimationFactory().getAnimation(type.getAnimation(level));
     }
 
     /**
@@ -210,7 +206,7 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
             }
 
             this.spriteIndex = offset + ((spriteIndex + 1) % ANIMATION_REFRESH_RATE);
-            this.setSprite(this.spritePack[this.spriteIndex]);
+            this.setSprite(this.animation.getFromIndex(this.spriteIndex));
         }
 
         if (this.owner != null) {
@@ -225,7 +221,5 @@ public abstract class AFlyablePowerup extends APowerup implements IEquipmentPowe
     protected final IDoodle getOwner() {
         return owner;
     }
-
-
 }
 
