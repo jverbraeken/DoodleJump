@@ -140,7 +140,7 @@ public class ChooseModeTest {
         verify(horizontal, times(1)).register();
         verify(vertical, times(1)).register();
 
-        verify(logger).info(anyString());
+        verify(logger, atLeastOnce()).info(anyString());
     }
 
     @Test
@@ -154,7 +154,7 @@ public class ChooseModeTest {
         verify(horizontal, times(1)).deregister();
         verify(vertical, times(1)).deregister();
 
-        verify(logger).info(anyString());
+        verify(logger, atLeastOnce()).info(anyString());
     }
 
 }
