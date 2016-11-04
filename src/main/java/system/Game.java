@@ -419,20 +419,21 @@ public final class Game {
     }
 
     /**
-     * Pauses or resumes the game.
-     *
-     * @param paused <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
+     * Pause the game.
      */
-    public static void setPaused(final boolean paused) {
-        if (paused) {
-            Game.logger.info("The game has been paused");
-            Game.pauseScreen.start();
-        } else {
-            Game.logger.info("The game has been resumed");
-            Game.pauseScreen.stop();
-        }
+    public static void pauseGame() {
+        Game.logger.info("The game has been paused");
+        Game.pauseScreen.start();
+        Game.isPaused = true;
+    }
 
-        Game.isPaused = paused;
+    /**
+     * Resume the game.
+     */
+    public static void resumeGame() {
+        Game.logger.info("The game has been resumed");
+        Game.pauseScreen.stop();
+        Game.isPaused = false;
     }
 
     /**
