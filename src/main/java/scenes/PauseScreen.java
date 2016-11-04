@@ -151,6 +151,9 @@ import java.util.Map;
      * @param sL The games service locator.
      */
     /* package */ PauseScreen(final IServiceLocator sL) {
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         this.serviceLocator = sL;
         this.logger = sL.getLoggerFactory().createLogger(PauseScreen.class);
 

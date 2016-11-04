@@ -6,7 +6,6 @@ import constants.IConstants;
 import logging.ILogger;
 import logging.ILoggerFactory;
 import objects.powerups.Powerups;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -104,7 +103,7 @@ public class PauseScreenTest {
         assertEquals(sprites, Whitebox.getInternalState(pauseScreen, "coinSprites"));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testConstructor2() throws Exception {
         IServiceLocator nullServiceLocator = null;
         new PauseScreen(nullServiceLocator);
@@ -263,9 +262,4 @@ public class PauseScreenTest {
         verify(missionButton, times(1)).render();
     }
 
-    @After
-    public void cleanUp() {
-        missions.clear();
-        buttonMap.clear();
-    }
 }
