@@ -8,6 +8,7 @@ import objects.IJumpable;
 import objects.blocks.platform.IPlatform;
 import objects.blocks.platform.IPlatformFactory;
 import objects.blocks.platform.Platform;
+import objects.enemies.Enemies;
 import objects.powerups.IPowerup;
 import system.IServiceLocator;
 
@@ -40,7 +41,7 @@ public final class BlockFactory implements IBlockFactory {
     /**
      * The chance that an enemy will spawn.
      */
-    private static final double ENEMY_CHANCE = 9700;
+    private static final double ENEMY_CHANCE = 9700d;
 
     /**
      * Total threshold number for item generation.
@@ -129,9 +130,6 @@ public final class BlockFactory implements IBlockFactory {
      */
     @Override
     public synchronized IBlock createBlock(final IJumpable topJumpable, final BlockTypes type, final boolean enemies) throws RuntimeException {
-
-        IJumpable newTopJumpable = topJumpable;
-
         switch (type) {
             case standardBlock:
                 return createTypeOnlyBlock(topJumpable, randomPlatform, enemies);
@@ -257,7 +255,7 @@ public final class BlockFactory implements IBlockFactory {
         ICalc calc = serviceLocator.getCalc();
         double randomDouble = calc.getRandomDouble(MAX_RANDOM_THRESHOLD);
         final int randomNr = (int) (randomDouble);
-        IGameObject enemy = null;
+        IGameObject enemy;
 
         if (randomNr >= ENEMY_CHANCE) {
             do {
@@ -282,6 +280,6 @@ public final class BlockFactory implements IBlockFactory {
         int xLoc = (int) (widthDeviation * (serviceLocator.getConstants().getGameWidth() - platform.getHitBox()[AGameObject.HITBOX_RIGHT]));
         int yLoc = (int) (platform.getYPos() - heightDividedPlatforms - (heightDeviation * heightDividedPlatforms));
 
-        return serviceLocator.getEnemyFactory().createOrdinaryEnemy(xLoc, yLoc);
+        return serviceLocator.getEnemyFactory().createEnemy(Enemies.ordinaryMonster, xLoc, yLoc);
     }
 }

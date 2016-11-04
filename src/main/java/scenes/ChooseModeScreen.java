@@ -2,13 +2,11 @@ package scenes;
 
 import buttons.IButton;
 import buttons.IButtonFactory;
-import constants.IConstants;
 import logging.ILogger;
 import progression.IProgressionManager;
 import progression.Ranks;
 import objects.powerups.Powerups;
-import rendering.Color;
-import rendering.IRenderer;
+import resources.IRes;
 import resources.sprites.ISprite;
 import system.Game;
 import system.IRenderable;
@@ -52,11 +50,6 @@ public final class ChooseModeScreen implements IScene {
     private static final double MAIN_MENU_BUTTON_X = 0.35, MAIN_MENU_BUTTON_Y = 0.13;
 
     /**
-     * The height of the rectangle on the top and the Y location of the rank text.
-     */
-    private static final int TOP_RECTANGLE_HEIGHT = 65, POPUP_TEXT_Y = 10;
-
-    /**
      * Used to gain access to all services.
      */
     private final IServiceLocator serviceLocator;
@@ -84,7 +77,7 @@ public final class ChooseModeScreen implements IScene {
     /**
      * If the popup is active.
      */
-    public static boolean activePopup = false;
+    private static boolean activePopup = false;
 
     /**
      * Registers itself to an {@link IServiceLocator} so that other classes can use the services provided by this class.
@@ -96,8 +89,8 @@ public final class ChooseModeScreen implements IScene {
         this.serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(ChooseModeScreen.class);
 
-        background = sL.getSpriteFactory().getBackground();
-        bottomChooseModeScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
+        background = sL.getSpriteFactory().getSprite(IRes.Sprites.background);
+        bottomChooseModeScreen = sL.getSpriteFactory().getSprite(IRes.Sprites.killScreenBottom);
 
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         rank = progressionManager.getRank();
@@ -138,7 +131,7 @@ public final class ChooseModeScreen implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
+    public void start() {
         for (IButton button : buttons) {
             button.register();
         }
@@ -149,7 +142,7 @@ public final class ChooseModeScreen implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
+    public void stop() {
         for (IButton button : buttons) {
             button.deregister();
         }
@@ -178,28 +171,17 @@ public final class ChooseModeScreen implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
-    }
-
-    /**
-     * Renders the popup with a message given in the attribute.
-     */
-    private void renderPopup() {
-        IConstants constants = this.serviceLocator.getConstants();
-        IRenderer renderer = this.serviceLocator.getRenderer();
-
-        renderer.fillRectangle(new Point(0, 0), constants.getGameWidth(), TOP_RECTANGLE_HEIGHT, rendering.Color.halfOpaqueWhite);
-        renderer.drawText(new Point(0, POPUP_TEXT_Y), "Rank: " + rank.getName(), Color.red);
+    public void update(final double delta) {
     }
 
     /**
      * Render the crosses that indicate whether a mode is available given the rank of the player.
      */
     private void renderByRank() {
-        int rankLevel = rank.getLevelNumber();
-        int gameWidth = this.serviceLocator.getConstants().getGameWidth();
-        int gameHeight = this.serviceLocator.getConstants().getGameHeight();
-        ISprite redCross = this.serviceLocator.getSpriteFactory().getRedCross();
+        final int rankLevel = rank.getLevelNumber();
+        final int gameWidth = this.serviceLocator.getConstants().getGameWidth();
+        final int gameHeight = this.serviceLocator.getConstants().getGameHeight();
+        final ISprite redCross = this.serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.redCross);
         if (rankLevel < Game.Modes.horizontalOnly.getRankRequired()) {
             serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (STORY_MODE_X * gameWidth), (int) (STORY_MODE_Y * gameHeight)));
         }
@@ -222,7 +204,7 @@ public final class ChooseModeScreen implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void switchDisplay(PauseScreenModes mode) {
+    public void switchDisplay(PauseScreenModes mode) {
     }
 
     /**
@@ -230,6 +212,20 @@ public final class ChooseModeScreen implements IScene {
      */
     @Override
     public void updateButton(final Powerups powerup, final double x, final double y) {
+    }
+
+    /**
+     * Show a popup on the screen.
+     */
+    public static void showPopup() {
+        activePopup = true;
+    }
+
+    /**
+     * Hide the popup from the screen.
+     */
+    public static void hidePopup() {
+        activePopup = false;
     }
 
 }

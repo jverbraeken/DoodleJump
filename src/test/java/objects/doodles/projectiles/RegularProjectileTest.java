@@ -6,8 +6,10 @@ import objects.doodles.IDoodle;
 import objects.doodles.doodle_behavior.RegularBehavior;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.internal.util.reflection.Whitebox;
 import rendering.IRenderer;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -41,7 +43,7 @@ public class RegularProjectileTest {
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getRenderer()).thenReturn(renderer);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
-        when(spriteFactory.getRegularProjectileSprite()).thenReturn(sprite);
+        when(spriteFactory.getSprite(Matchers.<IRes.Sprites>any())).thenReturn(sprite);
 
         projectile = new RegularProjectile(serviceLocator, point, direction);
     }
