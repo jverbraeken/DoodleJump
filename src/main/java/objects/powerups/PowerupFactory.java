@@ -113,7 +113,8 @@ public final class PowerupFactory implements IPowerupFactory {
         final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
         assert level > 0;
         assert level <= type.getMaxLevel();
-        SizeDown sizeDown = new SizeDown(serviceLocator, new Point(x, y), level);
+        Point point = new Point(x, y);
+        SizeDown sizeDown = new SizeDown(serviceLocator, point, level);
         logger.info("A new SizeDown has been created");
         for (ISizeDownCreatedObserver observer : sizeDownObservers) {
             observer.alertSizeDownCreated(sizeDown);

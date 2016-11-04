@@ -9,11 +9,10 @@ import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
 import objects.enemies.IEnemy;
-import objects.powerups.Powerups;
 import progression.IProgressionManager;
-import progression.ProgressionManager;
 import rendering.AccelerationType;
 import rendering.ICamera;
+import rendering.IRenderer;
 import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -155,10 +154,10 @@ public final class World implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void start() {
-        this.serviceLocator.getRenderer().getCamera().setYPos(this.serviceLocator.getConstants().getGameHeight() / 2d);
-        this.scoreBar.register();
-        this.doodles.forEach(IDoodle::register);
+    public void start() {
+        final IRenderer renderer = this.serviceLocator.getRenderer();
+        renderer.getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
+        this.register();
         this.logger.info("The world is now displaying");
     }
 
@@ -166,7 +165,26 @@ public final class World implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void stop() {
+    public void stop() {
+        this.deregister();
+        this.logger.info("The world scene is stopped");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register() {
+        this.scoreBar.register();
+        this.doodles.forEach(IDoodle::register);
+        this.logger.info("The world is now registered");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deregister() {
         this.scoreBar.deregister();
         this.doodles.forEach(IDoodle::deregister);
         this.logger.info("The world scene is stopped");
@@ -176,7 +194,7 @@ public final class World implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void render() {
+    public void render() {
         this.serviceLocator.getRenderer().drawSpriteHUD(this.background, new Point(0, 0));
 
         this.drawables.get(DrawableLevels.back).addAll(this.newDrawables.get(DrawableLevels.back));
@@ -195,7 +213,7 @@ public final class World implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public final void update(final double delta) {
+    public void update(final double delta) {
         this.updateObjects(delta);
         this.cleanUp();
         this.newBlocks();
@@ -208,7 +226,7 @@ public final class World implements IScene {
      *
      * @param renderable An object implementing the IRenderable interface.
      */
-    public final void addDrawable(final IRenderable renderable) {
+    public void addDrawable(final IRenderable renderable) {
         this.newDrawables.get(DrawableLevels.middle).add(renderable);
     }
 
@@ -217,7 +235,7 @@ public final class World implements IScene {
      *
      * @param updatable An object implementing the IUpdatable interface.
      */
-    public final void addUpdatable(final IUpdatable updatable) {
+    public void addUpdatable(final IUpdatable updatable) {
         this.newUpdatables.add(updatable);
     }
 
@@ -226,7 +244,7 @@ public final class World implements IScene {
      *
      * @param score The score the player got.
      */
-    public final void endGameInstance(final double score, final double extraExp) {
+    public void endGameInstance(final double score, final double extraExp) {
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         progressionManager.addHighScore("Doodle", score);
         progressionManager.addExperience((int) score);
@@ -240,7 +258,7 @@ public final class World implements IScene {
      *
      * @param doodle The Doodle to add.
      */
-    final void addDoodle(final IDoodle doodle) {
+    void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
         this.newUpdatables.add(doodle);
         this.newDrawables.get(DrawableLevels.middle).add(doodle);
@@ -547,34 +565,6 @@ public final class World implements IScene {
 
         }
 
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void switchDisplay(PauseScreenModes mode) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
-    }
-
-    /**
-     * Activate the input observers of doodles that are active in this scene.
-     */
-    public void registerDoodles() {
-        this.doodles.forEach(IDoodle::register);
-    }
-
-    /**
-     * Deactivate the input observers of doodles that are active in this scene.
-     */
-    public void deregisterDoodles() {
-        this.doodles.forEach(IDoodle::deregister);
     }
 
 }

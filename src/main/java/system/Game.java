@@ -4,8 +4,10 @@ import input.IInputManager;
 import logging.ILogger;
 import math.ICalc;
 import objects.blocks.BlockTypes;
+import objects.powerups.Powerups;
 import resources.sprites.SpriteFactory;
 import scenes.IScene;
+import scenes.PauseScreenModes;
 import scenes.Popup;
 
 import javax.swing.JFrame;
@@ -46,12 +48,6 @@ public final class Game {
      * does need the name of the log file.
      */
     public static final String LOGFILE_NAME = "async.log";
-
-    /**
-     * The current frame.
-     */
-    private static JFrame frame;
-
     /**
      * The time in milliseconds per frame.
      */
@@ -72,7 +68,11 @@ public final class Game {
     /**
      * Used to gain access to all services.
      */
-    private static volatile IServiceLocator serviceLocator = null;
+    private static volatile IServiceLocator serviceLocator;
+    /**
+     * The current frame.
+     */
+    private static JFrame frame;
     /**
      * The logger for the Game class.
      */
@@ -84,7 +84,39 @@ public final class Game {
     /**
      * The current scene.
      */
-    private static IScene scene;
+    private static IScene scene = new IScene() {
+        @Override
+        public void start() {
+        }
+
+        @Override
+        public void stop() {
+        }
+
+        @Override
+        public void register() {
+        }
+
+        @Override
+        public void deregister() {
+        }
+
+        @Override
+        public void switchDisplay(final PauseScreenModes mode) {
+        }
+
+        @Override
+        public void updateButton(final Powerups powerup, final double x, final double y) {
+        }
+
+        @Override
+        public void render() {
+        }
+
+        @Override
+        public void update(final double delta) {
+        }
+    };
     /**
      * Track if the game is paused.
      */
@@ -147,12 +179,10 @@ public final class Game {
             return rankRequired;
         }
     }
-
     /**
      * Track the current mode of the game.
      */
     private static Modes mode = regular;
-
     /**
      * The enums for the player mode.
      */
@@ -166,7 +196,6 @@ public final class Game {
          */
         multi
     }
-
     /**
      * Track the current playerMode of the game.
      */
@@ -221,31 +250,35 @@ public final class Game {
      */
     public static void main(final String[] argv) {
         new Game(ServiceLocator.getServiceLocator());
-        logger.info("The game has been launched");
-        serviceLocator.getProgressionManager().init();
-        Game.pauseScreen = serviceLocator.getSceneFactory().createPauseScreen();
-        IInputManager inputManager = serviceLocator.getInputManager();
+        Game.logger.info("The game has been launched");
+        Game.serviceLocator.getProgressionManager().init();
+        Game.pauseScreen = Game.serviceLocator.getSceneFactory().createPauseScreen();
+        IInputManager inputManager = Game.serviceLocator.getInputManager();
 
         // Initialize frame
-        frame = new JFrame("Doodle Jump");
-        frame.addMouseListener(inputManager);
-        frame.addKeyListener(inputManager);
-        frame.setSize(serviceLocator.getConstants().getGameWidth(), serviceLocator.getConstants().getGameHeight());
-        frame.setVisible(true);
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(serviceLocator.getConstants().getGameWidth() / 2, serviceLocator.getConstants().getGameHeight() / 2);
-        frame.addWindowListener(new WindowAdapter() {
+        Game.frame = new JFrame("Doodle Jump");
+        Game.frame.addMouseListener(inputManager);
+        Game.frame.addKeyListener(inputManager);
+        Game.frame.setSize(Game.serviceLocator.getConstants().getGameWidth(),
+                Game.serviceLocator.getConstants().getGameHeight());
+        Game.frame.setVisible(true);
+        Game.frame.setResizable(false);
+        Game.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        Game.frame.setSize(Game.serviceLocator.getConstants().getGameWidth() / 2,
+                Game.serviceLocator.getConstants().getGameHeight() / 2);
+        Game.frame.addWindowListener(new WindowAdapter() {
+
             /**
              * Invoked when a window is in the process of being closed.
              */
             public void windowClosing(final WindowEvent windowEvent) {
                 System.exit(0);
             }
+
         });
 
         // Initialize panel
-        panel = new JPanel() {
+        Game.panel = new JPanel() {
             /**
              * Paint the component to the proper scale.
              *
@@ -253,33 +286,31 @@ public final class Game {
              */
             @Override
             public void paintComponent(final Graphics g) {
-                serviceLocator.getRenderer().setGraphicsBuffer(g);
+                Game.serviceLocator.getRenderer().setGraphicsBuffer(g);
 
                 ((Graphics2D) g).scale(1 / scale, 1 / scale);
                 if (Game.scene != null) {
                     Game.scene.render();
                 }
 
-                if (isPaused) {
-                    pauseScreen.render();
+                if (Game.isPaused) {
+                    Game.pauseScreen.render();
                 }
 
-                for (Popup popup : activePopups) {
-                    popup.render();
-                }
-
-                ((Graphics2D) g).scale(scale, scale);
+                Game.activePopups.forEach(Popup::render);
+                ((Graphics2D) g).scale(Game.scale, Game.scale);
             }
         };
-        panel.setLayout(new GridLayout(1, 1));
-        frame.setContentPane(panel);
 
-        setScene(serviceLocator.getSceneFactory().createMainMenu());
-        int x = (int) (panel.getLocationOnScreen().getX() - frame.getLocationOnScreen().getX());
-        int y = (int) (panel.getLocationOnScreen().getY() - frame.getLocationOnScreen().getY());
-        serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
+        Game.panel.setLayout(new GridLayout(1, 1));
+        Game.frame.setContentPane(Game.panel);
 
-        start();
+        Game.setScene(Game.serviceLocator.getSceneFactory().createMainMenu());
+        int x = (int) (Game.panel.getLocationOnScreen().getX() - Game.frame.getLocationOnScreen().getX());
+        int y = (int) (Game.panel.getLocationOnScreen().getY() - Game.frame.getLocationOnScreen().getY());
+        Game.serviceLocator.getInputManager().setMainWindowBorderSize(x, y);
+
+        Game.start();
     }
 
     /**
@@ -287,18 +318,9 @@ public final class Game {
      * intervals.
      */
     public static void start() {
-        frame.setVisible(true);
-
+        Game.frame.setVisible(true);
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-
-        service.scheduleAtFixedRate(new Runnable() {
-
-            @Override
-            public void run() {
-                loop();
-            }
-        }, 0, FRAME_TIME, TimeUnit.MILLISECONDS);
-
+        service.scheduleAtFixedRate(Game::loop, 0, Game.FRAME_TIME, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -307,7 +329,7 @@ public final class Game {
      * @return the mode.
      */
     public static Modes getMode() {
-        return mode;
+        return Game.mode;
     }
 
     /**
@@ -316,18 +338,18 @@ public final class Game {
      * @param m The mode to set.
      */
     public static void setMode(final Modes m) {
-        mode = m;
-        serviceLocator.getRes().setSkin(m);
-        SpriteFactory.register(serviceLocator);
-        setScene(serviceLocator.getSceneFactory().newChooseMode());
+        Game.mode = m;
+        Game.serviceLocator.getRes().setSkin(m);
+        SpriteFactory.register(Game.serviceLocator);
+        setScene(Game.serviceLocator.getSceneFactory().newChooseMode());
         BlockTypes.setMode(m);
-        logger.info("The mode is now " + m);
+        Game.logger.info("The mode is now " + m);
     }
 
     /**
      * Get the current playerMode.
      *
-     * @return the playermode of the player.
+     * @return the player mode of the player.
      */
     public static PlayerModes getPlayerMode() {
         return Game.playerMode;
@@ -336,7 +358,7 @@ public final class Game {
     /**
      * Set the current playerMode.
      *
-     * @param m the playermode the player has to be set on.
+     * @param m the player mode the player has to be set on.
      */
     public static void setPlayerMode(final PlayerModes m) {
         Game.playerMode = m;
@@ -352,35 +374,41 @@ public final class Game {
             long now = System.nanoTime();
             long updateLength = now - lastLoopTime;
             lastLoopTime = now;
-            double delta = updateLength / ((double) OPTIMAL_TIME);
+            double delta = updateLength / ((double) Game.OPTIMAL_TIME);
 
             lastFpsTime += updateLength;
             if (lastFpsTime >= ICalc.NANOSECONDS) {
                 lastFpsTime = 0;
             }
 
-            while (addToRunnables.size() > 0) {
-                runnables.add(addToRunnables.remove());
+            // Add new runnables
+            while (Game.addToRunnables.size() > 0) {
+                Game.runnables.add(Game.addToRunnables.remove());
             }
-            while (runnables.size() > 0) {
-                (runnables.remove()).run();
+            // Run runnables
+            while (Game.runnables.size() > 0) {
+                (Game.runnables.remove()).run();
             }
-            if (!isPaused) {
-                scene.update(delta);
-                serviceLocator.getProgressionManager().update();
+
+            // Render the pause screen if necessary, otherwise render the normal scene
+            if (Game.isPaused) {
+                Game.pauseScreen.update(delta);
             } else {
-                pauseScreen.update(delta);
+                Game.scene.update(delta);
+                Game.serviceLocator.getProgressionManager().update();
             }
 
+            // Render the frame
+            Game.panel.repaint();
 
-            panel.repaint();
+            // Sleep until the next frame
             try {
-                Thread.sleep(FRAME_TIME - (now - System.nanoTime()) / ICalc.NANOSECONDS);
+                Thread.sleep(Game.FRAME_TIME - (now - System.nanoTime()) / ICalc.NANOSECONDS);
             } catch (InterruptedException e) {
-                logger.error(e);
+                Game.logger.error(e);
             }
 
-            logger.info("FPS is " + getFPS(updateLength, 0));
+            Game.logger.info("FPS is " + Game.getFPS(updateLength, 0));
         }
     }
 
@@ -391,16 +419,22 @@ public final class Game {
      */
     public static void setScene(final IScene scene) {
         assert scene != null;
-        if (Game.scene == null) {
-            synchronized (LOCK) {
-                if (Game.scene == null) {
-                    startScene(scene);
-                }
-            }
-        } else {
+        synchronized (Game.LOCK) {
             Game.scene.stop();
-            startScene(scene);
+            Game.startScene(scene);
         }
+    }
+
+    /**
+     * Private helper method that starts a new {@link IScene scene}.
+     *
+     * @param scene The scene that must be started
+     */
+    private static void startScene(final IScene scene) {
+        assert scene != null;
+        Game.serviceLocator.getRenderer().getCamera().setYPos(0d);
+        Game.scene = scene;
+        Game.scene.start();
     }
 
     /**
@@ -413,32 +447,21 @@ public final class Game {
     }
 
     /**
-     * Private helper method that starts a new {@link IScene scene}.
-     *
-     * @param scene The scene that must be started
+     * Pause the game.
      */
-    private static void startScene(final IScene scene) {
-        assert scene != null;
-        serviceLocator.getRenderer().getCamera().setYPos(0d);
-        scene.start();
-        Game.scene = scene;
+    public static void pauseGame() {
+        Game.logger.info("The game has been paused");
+        Game.pauseScreen.start();
+        Game.isPaused = true;
     }
 
     /**
-     * Pauses or resumes the game.
-     *
-     * @param paused <b>True</b> if the game must be paused, <b>false</b> if the game must be resumed
+     * Resume the game.
      */
-    public static void setPaused(final boolean paused) {
-        if (paused) {
-            logger.info("The game has been paused");
-            pauseScreen.start();
-        } else {
-            logger.info("The game has been resumed");
-            pauseScreen.stop();
-        }
-
-        isPaused = paused;
+    public static void resumeGame() {
+        Game.logger.info("The game has been resumed");
+        Game.pauseScreen.stop();
+        Game.isPaused = false;
     }
 
     /**
@@ -450,7 +473,7 @@ public final class Game {
      */
     private static double getFPS(final long threadSleep, final long renderTime) {
         if (threadSleep + renderTime == 0) {
-            return TARGET_FPS;
+            return Game.TARGET_FPS;
         }
         return (double) ICalc.NANOSECONDS / (double) (threadSleep + renderTime);
     }
@@ -461,7 +484,7 @@ public final class Game {
      * @return IScene object
      */
     public static IScene getPauseScreen() {
-        return pauseScreen;
+        return Game.pauseScreen;
     }
 
     /**
@@ -470,22 +493,24 @@ public final class Game {
      * @return IScene object
      */
     public static IScene getScene() {
-        return scene;
+        return Game.scene;
     }
 
     /**
      * Add a Popup to the activePopups.
+     *
      * @param popup the Popup that has to be added.
      */
     public static void addPopup(final Popup popup) {
-        activePopups.add(popup);
+        Game.activePopups.add(popup);
     }
 
     /**
      * Deletes a Popup from the activePopups.
+     *
      * @param popup the Popup that has to be deleted.
      */
     public static void deletePopup(final Popup popup) {
-        activePopups.remove(popup);
+        Game.activePopups.remove(popup);
     }
 }
