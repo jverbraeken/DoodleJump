@@ -86,27 +86,6 @@ public class FileSystemTest {
     }
 
     @Test
-    public void testDeleteFile() throws IOException {
-        (new Thread() {
-            public void run() {
-                final File file = ((new File(NOT_EXISTING_NAME)));
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                fileSystem.deleteFile(NOT_EXISTING_NAME);
-                assertThat(file.exists(), is(false));
-            }
-        }).start();
-    }
-
-    @Test
     public void testClearFile() throws IOException {
         fileSystem.writeProjectFile(NOT_EXISTING_NAME, "foo");
         fileSystem.clearFile(NOT_EXISTING_NAME);
