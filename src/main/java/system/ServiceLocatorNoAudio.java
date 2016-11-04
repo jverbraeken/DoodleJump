@@ -38,6 +38,7 @@ import resources.animations.AnimationFactory;
 import resources.animations.IAnimationFactory;
 import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
+import resources.audio.Sounds;
 import resources.sprites.ISpriteFactory;
 import resources.sprites.SpriteFactory;
 import scenes.ISceneFactory;
@@ -305,15 +306,15 @@ import scenes.SceneFactory;
             }
 
             @Override
-            public void play(AudioManager.Sound sound) {
+            public void play(Sounds sound) {
             }
 
             @Override
-            public void loop(AudioManager.Sound sound) {
+            public void loop(Sounds sound) {
             }
 
             @Override
-            public void stop(AudioManager.Sound sound) {
+            public void stop(Sounds sound) {
             }
         };
     }

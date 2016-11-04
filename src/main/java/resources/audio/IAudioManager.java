@@ -14,17 +14,17 @@ public interface IAudioManager {
      * Play a sound specified one time.
      * @param sound The sound that should be played
      */
-    void play(final AudioManager.Sound sound);
+    void play(final Sounds sound);
 
     /**
      * Loop a sound over and over again.
      * @param sound The sound that should be looped
      */
-    void loop(final AudioManager.Sound sound);
+    void loop(final Sounds sound);
 
     /**
      * Stops a sound from playing or looping.
      * @param sound The sound that should be stopped
      */
-    void stop(final AudioManager.Sound sound);
+    void stop(final Sounds sound);
 }

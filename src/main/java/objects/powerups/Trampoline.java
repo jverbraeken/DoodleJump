@@ -7,6 +7,7 @@ import objects.doodles.IDoodle;
 import progression.ITrampolineJumpedObserver;
 import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
+import resources.audio.Sounds;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -92,7 +93,7 @@ public final class Trampoline extends AJumpablePowerup {
      */
     /* package */ void playSound() {
         IAudioManager audioManager = getServiceLocator().getAudioManager();
-        audioManager.play(AudioManager.Sound.TRAMPOLINE);
+        audioManager.play(Sounds.TRAMPOLINE);
     }
 
     /**

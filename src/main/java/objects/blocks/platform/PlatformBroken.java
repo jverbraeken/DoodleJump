@@ -5,6 +5,7 @@ import objects.doodles.IDoodle;
 import resources.IRes;
 import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
+import resources.audio.Sounds;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
 
@@ -112,6 +113,6 @@ public final class PlatformBroken extends PlatformDecorator implements IPlatform
      */
     private void playBreakSound() {
         IAudioManager audioManager = getServiceLocator().getAudioManager();
-        audioManager.play(AudioManager.Sound.LOMISE);
+        audioManager.play(Sounds.LOMISE);
     }
 }
