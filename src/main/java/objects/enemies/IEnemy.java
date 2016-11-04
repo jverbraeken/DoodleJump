@@ -35,4 +35,10 @@ public interface IEnemy extends IGameObject, IJumpable {
      * @return the attribute vSpeed.
      */
     double getVerticalSpeed();
+
+    /**
+     * Returns the amount of experience won by killing this enemy.
+     * @return the amount of experience.
+     */
+    int getAmountOfExperience();
 }

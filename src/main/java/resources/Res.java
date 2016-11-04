@@ -205,7 +205,6 @@ public final class Res implements IRes {
         sprites.put(Sprites.jetpack6, SPRITE_PATH + "jetpack-6@2x.png");
         sprites.put(Sprites.jetpack7, SPRITE_PATH + "jetpack-7@2x.png");
         sprites.put(Sprites.jetpack8, SPRITE_PATH + "jetpack-8@2x.png");
-        sprites.put(Sprites.jetpack9, SPRITE_PATH + "jetpack-9@2x.png");
         sprites.put(Sprites.propeller0, SPRITE_PATH + "propeller-0@2x.png");
         sprites.put(Sprites.propeller1, SPRITE_PATH + "propeller-1@2x.png");
         sprites.put(Sprites.propeller2, SPRITE_PATH + "propeller-2@2x.png");
@@ -229,7 +228,7 @@ public final class Res implements IRes {
         sprites.put(Sprites.scoreBar, SPRITE_PATH + "scorebar.png");
 
         // Choose mode icons
-        sprites.put(Sprites.horzontalOnlyMode, SPRITE_PATH + "only-horizontal-mode@4x.png");
+        sprites.put(Sprites.horizontalOnlyMode, SPRITE_PATH + "only-horizontal-mode@4x.png");
         sprites.put(Sprites.regularMode, SPRITE_PATH + "regular-mode@4x.png");
         sprites.put(Sprites.darknessMode, SPRITE_PATH + "darkness-mode@4x.png");
         sprites.put(Sprites.verticalOnlyMode, SPRITE_PATH + "only-vertical-mode@4x.png");
