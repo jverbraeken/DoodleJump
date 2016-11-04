@@ -319,7 +319,7 @@ public final class SpriteFactory implements ISpriteFactory {
             case 1:
                 return getSprite(IRes.Sprites.jetpack);
             case 2:
-                return getSprite(IRes.Sprites.spaceRocket);
+                return getSprite(IRes.Sprites.afterburner);
             case 3:
                 return getSprite(IRes.Sprites.spaceRocket);
             case 4:

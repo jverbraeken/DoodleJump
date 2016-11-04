@@ -27,7 +27,7 @@ public enum Powerups {
                     .setAnimationOffsets(new int[]{0, 3, 6})
                     .build(),
             new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.jetpack, 100)
-                    .setAnimation(IRes.Animations.jetpack)
+                    .setAnimation(IRes.Animations.afterburner)
                     .setAcceleration(-2d)
                     .setInitDropSpeed(-25d)
                     .setBoost(-25d)
