@@ -295,22 +295,6 @@ public final class PauseScreen implements IScene {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public void switchDisplay(PauseScreenModes mode) {
-        this.mode = mode;
-        if (this.mode.equals(PauseScreenModes.mission)) {
-            this.stopShopCover();
-            this.switchShopButton.register();
-            this.logger.info("The switch button to the shop cover is now available");
-        } else {
-            this.switchShopButton.deregister();
-            this.logger.info("The switch button to the shop cover is no longer available");
-            this.setShopCover();
-        }
-    }
-
-    /**
      * Draws the text of the powerups.
      */
     private void drawText() {
@@ -330,7 +314,7 @@ public final class PauseScreen implements IScene {
     }
 
     /**
-     * Creates the buttons for the powerps that can be unlocked or upgraded.
+     * Creates the buttons for the powerups that can be unlocked or upgraded.
      */
     private void createPowerupButton() {
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
@@ -373,6 +357,7 @@ public final class PauseScreen implements IScene {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void updateButton(final Powerups powerup, final double x, final double y) {
         buttonMap.get(powerup).deregister();
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
@@ -380,6 +365,23 @@ public final class PauseScreen implements IScene {
         buttonMap.remove(powerup);
         buttonMap.put(powerup, button);
         button.register();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void switchDisplay(final PauseScreenModes mode) {
+        this.mode = mode;
+        if (this.mode.equals(PauseScreenModes.mission)) {
+            this.stopShopCover();
+            this.switchShopButton.register();
+            this.logger.info("The switch button to the shop cover is now available");
+        } else {
+            this.switchShopButton.deregister();
+            this.logger.info("The switch button to the shop cover is no longer available");
+            this.setShopCover();
+        }
     }
 
     /**

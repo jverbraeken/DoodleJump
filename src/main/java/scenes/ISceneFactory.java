@@ -28,7 +28,7 @@ public interface ISceneFactory extends IFactory {
      *
      * @return An IScene of the pause screen.
      */
-    PauseScreen createPauseScreen();
+    IScene createPauseScreen();
 
     /**
      * Create a new score screen.

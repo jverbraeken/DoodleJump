@@ -29,4 +29,24 @@ public interface IScene extends IUpdatable, IRenderable {
      */
     void deregister();
 
+    /**
+     * Update the buttons in the Scene.
+     *
+     * @param powerup   The powerup the button is related to.
+     * @param x         The X position of the button.
+     * @param y         The Y position of the button.
+     */
+    default void updateButton(final Powerups powerup, final double x, final double y) {
+        // Shouldn't do anything in most scenes.
+    }
+
+    /**
+     * Switch the display of the Scene.
+     *
+     * @param mode The mode to switch to.
+     */
+    default void switchDisplay(final PauseScreenModes mode) {
+        // Shouldn't do anything in most scenes.
+    }
+
 }

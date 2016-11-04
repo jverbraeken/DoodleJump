@@ -179,7 +179,7 @@ public final class Game {
     /**
      * The pause screen for the game.
      */
-    private static PauseScreen pauseScreen;
+    private static IScene pauseScreen;
     /**
      * Runnables scheduled to run during the next iteration.
      */
@@ -461,7 +461,7 @@ public final class Game {
      *
      * @return IScene object
      */
-    public static PauseScreen getPauseScreen() {
+    public static IScene getPauseScreen() {
         return pauseScreen;
     }
 
