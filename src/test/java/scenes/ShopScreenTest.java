@@ -17,7 +17,6 @@ import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -28,6 +27,8 @@ import static org.powermock.api.mockito.PowerMockito.when;
  */
 public class ShopScreenTest {
 
+    private int height = 100;
+    private double xPos = 150, yPos = 200;
     private IServiceLocator serviceLocator = mock(IServiceLocator.class);
     private ILogger logger = mock(ILogger.class);
     private ILoggerFactory loggerFactory = mock(ILoggerFactory.class);
@@ -61,13 +62,13 @@ public class ShopScreenTest {
         when(spriteFactory.getSprite(IRes.Sprites.killScreenBottom)).thenReturn(bottomScreen);
         when(spriteFactory.getCoinSprite(anyInt())).thenReturn(sprite);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
-        when(buttonFactory.createShopPowerupButton(Powerups.jetpack, anyDouble(), anyDouble(), anyInt())).thenReturn(jetpackButton);
-        when(buttonFactory.createShopPowerupButton(Powerups.propeller, anyDouble(), anyDouble(), anyInt())).thenReturn(propellerButton);
-        when(buttonFactory.createShopPowerupButton(Powerups.sizeDown, anyDouble(), anyDouble(), anyInt())).thenReturn(sizeDownButton);
-        when(buttonFactory.createShopPowerupButton(Powerups.sizeUp, anyDouble(), anyDouble(), anyInt())).thenReturn(sizeUpButton);
-        when(buttonFactory.createShopPowerupButton(Powerups.spring, anyDouble(), anyDouble(), anyInt())).thenReturn(springButton);
-        when(buttonFactory.createShopPowerupButton(Powerups.springShoes, anyDouble(), anyDouble(), anyInt())).thenReturn(springShoesButton);
-        when(buttonFactory.createShopPowerupButton(Powerups.trampoline, anyDouble(), anyDouble(), anyInt())).thenReturn(trampolineButton);
+        when(buttonFactory.createShopPowerupButton(Powerups.jetpack, xPos, yPos, height)).thenReturn(jetpackButton);
+        when(buttonFactory.createShopPowerupButton(Powerups.propeller, xPos, yPos, height)).thenReturn(propellerButton);
+        when(buttonFactory.createShopPowerupButton(Powerups.sizeDown, xPos, yPos, height)).thenReturn(sizeDownButton);
+        when(buttonFactory.createShopPowerupButton(Powerups.sizeUp, xPos, yPos, height)).thenReturn(sizeUpButton);
+        when(buttonFactory.createShopPowerupButton(Powerups.spring, xPos, yPos, height)).thenReturn(springButton);
+        when(buttonFactory.createShopPowerupButton(Powerups.springShoes, xPos, yPos, height)).thenReturn(springShoesButton);
+        when(buttonFactory.createShopPowerupButton(Powerups.trampoline, xPos, yPos, height)).thenReturn(trampolineButton);
 
         shopScreen = new ShopScreen(serviceLocator);
     }
