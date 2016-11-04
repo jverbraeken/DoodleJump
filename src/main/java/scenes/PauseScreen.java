@@ -152,6 +152,9 @@ import java.util.Map;
      * @param sL The games service locator.
      */
     /* package */ PauseScreen(final IServiceLocator sL) {
+        if (sL == null) {
+            throw new IllegalArgumentException("The service locator cannot be null");
+        }
         this.serviceLocator = sL;
         this.logger = sL.getLoggerFactory().createLogger(PauseScreen.class);
 
@@ -255,7 +258,7 @@ import java.util.Map;
         this.switchMissionButton.register();
         this.logger.info("The switch button to the mission cover is now available");
         if (buttonMap.size() == 0) {
-            this.createPowerupbutton();
+            this.createPowerupButton();
         }
         for (Map.Entry<Powerups, IButton> entry : buttonMap.entrySet()) {
             entry.getValue().register();
@@ -313,7 +316,7 @@ import java.util.Map;
     /**
      * Creates the buttons for the powerps that can be unlocked or upgraded.
      */
-    private void createPowerupbutton() {
+    private void createPowerupButton() {
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
         this.buttonMap.put(Powerups.jetpack, buttonFactory.createPausePowerupButton(Powerups.jetpack, JETPACK_BUTTON_X, JETPACK_BUTTON_Y));
         this.buttonMap.put(Powerups.propeller, buttonFactory.createPausePowerupButton(Powerups.propeller, PROPELLER_BUTTON_X, PROPELLER_BUTTON_Y));
