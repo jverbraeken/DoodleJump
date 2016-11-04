@@ -388,7 +388,7 @@ public final class ProgressionManager implements IProgressionManager {
 
     }
     
-    private final class CoinManager {
+    /* package */ final class CoinManager {
         /**
          * The amount of coins the player has.
          */
@@ -431,7 +431,7 @@ public final class ProgressionManager implements IProgressionManager {
         /**
          * Thrown when there are more coins requested to be subtracted from the budget than there are available.
          */
-        private final class InsufficientCoinsException extends RuntimeException {
+        /* package */ final class InsufficientCoinsException extends RuntimeException {
 
             /**
              * Construct a new InsufficientCoinsException with a certain message.
@@ -445,7 +445,7 @@ public final class ProgressionManager implements IProgressionManager {
         }
     }
 
-    private final class RankManager {
+    /* package */ final class RankManager {
         /**
          * The current rank of the player.
          */
@@ -477,7 +477,7 @@ public final class ProgressionManager implements IProgressionManager {
         }
     }
     
-    private final class ExperienceManager {
+    /* package */ final class ExperienceManager {
         /**
          * The amount of experience the player has.
          */
@@ -511,18 +511,18 @@ public final class ProgressionManager implements IProgressionManager {
         }
     }
     
-    private final class LevelManager {
+    /* package */ final class LevelManager {
         /**
          * Incremented by 1 after every mission; used to determine which mission should be created.
          */
         private int level = 0;
     }
     
-    private final class HighScoreManager {
+    /* package */ final class HighScoreManager {
         /**
          * The maximum amount of entries in a HighScoresList.
          */
-        private final int MAX_HIGHSCORE_ENTRIES = 10;
+        private static final int MAX_HIGHSCORE_ENTRIES = 10;
 
         /**
          * A refererence to the outer class
@@ -549,7 +549,7 @@ public final class ProgressionManager implements IProgressionManager {
          */
         private void updateHighScores() {
             Collections.sort(this.highScores);
-            for (int i = this.highScores.size(); i > this.MAX_HIGHSCORE_ENTRIES; i--) {
+            for (int i = this.highScores.size(); i > HighScoreManager.MAX_HIGHSCORE_ENTRIES; i--) {
                 this.highScores.remove(i - 1);
             }
 
@@ -557,7 +557,7 @@ public final class ProgressionManager implements IProgressionManager {
         }
     }
     
-    private final class MissionManager {
+    /* package */ final class MissionManager {
         /**
          * The maximum amount of missions active at the same time.
          */
@@ -635,7 +635,7 @@ public final class ProgressionManager implements IProgressionManager {
         }
     }
     
-    private final class PowerupLevelManager {
+    /* package */ final class PowerupLevelManager {
         /**
          * The level that the player has unlocked of each powerup. 0 = not available yet.
          */

@@ -67,20 +67,22 @@ public class ProgressionManagerTest {
 
 
     @Test
-    public void testNoHighScore() {
-        Object temp = Whitebox.getInternalState(progressionManager, "highScores");
+    public void testNoHighScore() throws ClassNotFoundException{
+        ProgressionManager.HighScoreManager highScoreManager = Whitebox.getInternalState(progressionManager, "highScoreManager");
+        Object temp = Whitebox.getInternalState(highScoreManager, "highScores");
         List<HighScore> actual = (List<HighScore>) temp;
 
         assertThat(actual.size() == 0, is(true));
     }
 
     @Test
-    public void testAdd1HighScore() {
+    public void testAdd1HighScore() throws ClassNotFoundException{
+        ProgressionManager.HighScoreManager highScoreManager = Whitebox.getInternalState(progressionManager, "highScoreManager");
         progressionManager.addHighScore(SCORE_1.getName(), SCORE_1.getScore());
 
         expected.add(SCORE_1);
 
-        Object temp = Whitebox.getInternalState(progressionManager, "highScores");
+        Object temp = Whitebox.getInternalState(highScoreManager, "highScores");
         ArrayList<HighScore> actual = (ArrayList<HighScore>) temp;
 
         assertThat(actual.size() == 1, is(true));
@@ -91,14 +93,15 @@ public class ProgressionManagerTest {
     }
 
     @Test
-    public void testAdd2HighScores() {
+    public void testAdd2HighScores() throws ClassNotFoundException{
+        ProgressionManager.HighScoreManager highScoreManager = Whitebox.getInternalState(progressionManager, "highScoreManager");
         progressionManager.addHighScore(SCORE_1.getName(), SCORE_1.getScore());
         progressionManager.addHighScore(SCORE_2.getName(), SCORE_2.getScore());
 
         expected.add(SCORE_2);
         expected.add(SCORE_1);
 
-        Object temp = Whitebox.getInternalState(progressionManager, "highScores");
+        Object temp = Whitebox.getInternalState(highScoreManager, "highScores");
         ArrayList<HighScore> actual = (ArrayList<HighScore>) temp;
 
         assertThat(actual.size() == 2, is(true));
@@ -112,7 +115,8 @@ public class ProgressionManagerTest {
     }
 
     @Test
-    public void testAdd3HighScores() {
+    public void testAdd3HighScores() throws ClassNotFoundException{
+        ProgressionManager.HighScoreManager highScoreManager = Whitebox.getInternalState(progressionManager, "highScoreManager");
         progressionManager.addHighScore(SCORE_1.getName(), SCORE_1.getScore());
         progressionManager.addHighScore(SCORE_2.getName(), SCORE_2.getScore());
         progressionManager.addHighScore(SCORE_3.getName(), SCORE_3.getScore());
@@ -123,7 +127,7 @@ public class ProgressionManagerTest {
         expected.add(SCORE_3);
         expected.add(SCORE_4);
 
-        Object temp = Whitebox.getInternalState(progressionManager, "highScores");
+        Object temp = Whitebox.getInternalState(highScoreManager, "highScores");
         ArrayList<HighScore> actual = (ArrayList<HighScore>) temp;
 
         assertThat(actual.size() == 4, is(true));
@@ -143,17 +147,20 @@ public class ProgressionManagerTest {
     }
 
     @Test
-    public void testInitFileNotFound() throws IOException {
+    public void testInitFileNotFound() throws IOException, ClassNotFoundException {
+        ProgressionManager.HighScoreManager highScoreManager = Whitebox.getInternalState(progressionManager, "highScoreManager");
+        ProgressionManager.CoinManager coinManager = Whitebox.getInternalState(progressionManager, "coinManager");
+        ProgressionManager.PowerupLevelManager powerupLevelManager = Whitebox.getInternalState(progressionManager, "powerupLevelManager");
         when(fileSystem.parseJson(serviceLocator.getConstants().getSaveFilePath(), SaveFile.class)).thenThrow(FileNotFoundException.class);
         progressionManager.init();
 
-        Object temp = Whitebox.getInternalState(progressionManager, "highScores");
+        Object temp = Whitebox.getInternalState(highScoreManager, "highScores");
         List<HighScore> actual = (List<HighScore>) temp;
 
         assertThat(actual.size(), is(0));
         assertThat(actual.size(), is(expected.size()));
 
-        int coins = Whitebox.getInternalState(progressionManager, "coins");
+        int coins = Whitebox.getInternalState(coinManager, "coins");
 
         assertThat(coins, is(0));
 
@@ -167,13 +174,14 @@ public class ProgressionManagerTest {
         expectedPowerupLevels.put(Powerups.springShoes, 0);
         expectedPowerupLevels.put(Powerups.trampoline, 0);
 
-        Map<Powerups, Integer> powerupLevels = Whitebox.getInternalState(progressionManager, "powerupLevels");
+        Map<Powerups, Integer> powerupLevels = Whitebox.getInternalState(powerupLevelManager, "powerupLevels");
 
         assertThat(powerupLevels, is(equalTo(expectedPowerupLevels)));
     }
 
     @Test
-    public void testUpdateHighScores_CorrectOrder() {
+    public void testUpdateHighScores_CorrectOrder() throws ClassNotFoundException{
+        ProgressionManager.HighScoreManager clazz = Whitebox.getInternalState(progressionManager, "highScoreManager");
         progressionManager.addHighScore(SCORE_2.getName(), SCORE_2.getScore());
         progressionManager.addHighScore(SCORE_4.getName(), SCORE_4.getScore());
         progressionManager.addHighScore(SCORE_3.getName(), SCORE_3.getScore());
@@ -185,7 +193,7 @@ public class ProgressionManagerTest {
         expected.add(SCORE_3);
         expected.add(SCORE_4);
 
-        Object temp = Whitebox.getInternalState(progressionManager, "highScores");
+        Object temp = Whitebox.getInternalState(clazz, "highScores");
         ArrayList<HighScore> actual = (ArrayList<HighScore>) temp;
 
         assertThat(actual.get(0).getName().equals(expected.get(0).getName()), is(true));
@@ -202,15 +210,17 @@ public class ProgressionManagerTest {
     }
 
     @Test
-    public void testUpdateHighScores_MaxHighScores() {
-        Object temp = Whitebox.getInternalState(ProgressionManager.class, "MAX_HIGHSCORE_ENTRIES");
+    public void testUpdateHighScores_MaxHighScores() throws ClassNotFoundException{
+        Class clazz = Whitebox.getInnerClassType(ProgressionManager.class, "HighScoreManager");
+        Object temp = Whitebox.getInternalState(clazz, "MAX_HIGHSCORE_ENTRIES");
         int maxEntries = (int) temp;
 
         for (int i = 0; i < maxEntries + 1; i++) {
             progressionManager.addHighScore(SCORE_1.getName(), SCORE_1.getScore());
         }
 
-        temp = Whitebox.getInternalState(progressionManager, "highScores");
+        ProgressionManager.HighScoreManager clazz2 = Whitebox.getInternalState(progressionManager, "highScoreManager");
+        temp = Whitebox.getInternalState(clazz2, "highScores");
         ArrayList<HighScore> actual = (ArrayList<HighScore>) temp;
         assertThat(actual.size(), is(maxEntries));
     }
@@ -233,25 +243,28 @@ public class ProgressionManagerTest {
     }
 
     @Test
-    public void testGetCoins() {
+    public void testGetCoins() throws ClassNotFoundException{
         final int coins = 42;
-        Whitebox.setInternalState(progressionManager, "coins", coins);
+        ProgressionManager.CoinManager clazz = Whitebox.getInternalState(progressionManager, "coinManager");
+        Whitebox.setInternalState(clazz, "coins", coins);
 
         assertThat(progressionManager.getCoins(), is(coins));
     }
 
     @Test
-    public void testGetMissions() {
+    public void testGetMissions() throws ClassNotFoundException{
         final List missions = mock(List.class);
-        Whitebox.setInternalState(progressionManager, "missions", missions);
+        ProgressionManager.MissionManager clazz = Whitebox.getInternalState(progressionManager, "missionManager");
+        Whitebox.setInternalState(clazz, "missions", missions);
 
         assertThat(progressionManager.getMissions(), is(missions));
     }
 
     @Test
-    public void testAlertMissionFinishedLogs() {
+    public void testAlertMissionFinishedLogs() throws ClassNotFoundException{
         missions.add(mission);
-        Whitebox.setInternalState(progressionManager, "missions", missions);
+        ProgressionManager.MissionManager clazz = Whitebox.getInternalState(progressionManager, "missionManager");
+        Whitebox.setInternalState(clazz, "missions", missions);
         progressionManager.alertMissionFinished(mission);
         verify(logger, times(1)).info(anyString());
     }
@@ -262,32 +275,35 @@ public class ProgressionManagerTest {
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws ClassNotFoundException {
         finishedMissionsQueue.add(mission);
-        Whitebox.setInternalState(progressionManager, "finishedMissionsQueue", finishedMissionsQueue);
+        ProgressionManager.MissionManager clazz = Whitebox.getInternalState(progressionManager, "missionManager");
+        Whitebox.setInternalState(clazz, "finishedMissionsQueue", finishedMissionsQueue);
         progressionManager.update();
-        Queue<Mission> actual = Whitebox.getInternalState(progressionManager, "finishedMissionsQueue");
+        Queue<Mission> actual = Whitebox.getInternalState(clazz, "finishedMissionsQueue");
         finishedMissionsQueue.remove(mission);
         assertThat(actual, is(finishedMissionsQueue));
     }
 
     @Test
-    public void testDecreaseCoins() {
-        Whitebox.setInternalState(progressionManager, "coins", 1);
+    public void testDecreaseCoins() throws ClassNotFoundException{
+        ProgressionManager.CoinManager clazz = Whitebox.getInternalState(progressionManager, "coinManager");
+        Whitebox.setInternalState(clazz, "coins", 1);
         progressionManager.decreaseCoins(1);
-        int coins = Whitebox.getInternalState(progressionManager, "coins");
+        int coins = Whitebox.getInternalState(clazz, "coins");
         assertThat(coins, is(0));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testDecreaseCoinsNegativeAmount() {
-        Whitebox.setInternalState(progressionManager, "coins", 0);
+    public void testDecreaseCoinsNegativeAmount() throws ClassNotFoundException{
+        ProgressionManager.CoinManager clazz = Whitebox.getInternalState(progressionManager, "coinManager");
+        Whitebox.setInternalState(clazz, "coins", 0);
         progressionManager.decreaseCoins(-1);
     }
 
     @Test(expected = RuntimeException.class)
     public void testDecreaseCoinsInsufficientCoins() {
-        Whitebox.setInternalState(progressionManager, "coins", 0);
+        ProgressionManager.CoinManager clazz = Whitebox.getInternalState(progressionManager, "coinManager");
         progressionManager.decreaseCoins(1);
     }
 
