@@ -45,51 +45,45 @@ import scenes.SceneFactory;
 
 /**
  * Default implementation for the ServiceLocatorNoAudio. Used to gain access to all services.
- * The difference between this ServiceLcoator and the standard one is the absence of Audio services.
+ * The difference between this ServiceLocator and the standard one is the absence of Audio services.
  */
 /* package */ class ServiceLocatorNoAudio implements IServiceLocator {
-
-    // constants.json
-    private IConstants constants;
-
-    // input
-    private IInputManager inputManager;
-
-    // enemies
-    private IEnemyFactory enemyFactory;
-
-    // rendering
-    private ICameraFactory cameraFactory;
-    private IRenderer renderer;
-    private IButtonFactory buttonFactory;
 
     // filesystem
     private IFileSystem fileSystem;
 
-    // util
-    private ILoggerFactory loggerFactory;
+    // input
+    private IInputManager inputManager;
 
     // objects
-    private IPowerupFactory powerupFactory;
-    private IDoodleFactory doodleFactory;
     private IBlockFactory blockFactory;
+    private IDoodleFactory doodleFactory;
+    private IEnemyFactory enemyFactory;
     private IPlatformFactory platformFactory;
+    private IPowerupFactory powerupFactory;
     private IProjectileFactory projectileFactory;
 
     // progression
-    private IProgressionManager progressionManager;
     private IMissionFactory missionFactory;
+    private IProgressionManager progressionManager;
+
+    // rendering
+    private ICameraFactory cameraFactory;
+    private IRenderer renderer;
 
     // resources
     private IAnimationFactory animationFactory;
-    private ISpriteFactory spriteFactory;
     private IRes res;
+    private ISpriteFactory spriteFactory;
 
     // scenes
     private ISceneFactory sceneFactory;
 
     // utility
+    private IButtonFactory buttonFactory;
     private ICalc calc;
+    private IConstants constants;
+    private ILoggerFactory loggerFactory;
 
     /**
      * The serviceLocator.
@@ -99,7 +93,7 @@ import scenes.SceneFactory;
     /**
      * Initialize the ServiceLocator class.
      */
-    protected ServiceLocatorNoAudio() {
+    /* package */ ServiceLocatorNoAudio() {
         this.init();
     }
 
@@ -109,7 +103,7 @@ import scenes.SceneFactory;
      * @return the service locator.
      */
     public static IServiceLocator getServiceLocator() {
-        return SERVICE_LOCATOR;
+        return ServiceLocatorNoAudio.SERVICE_LOCATOR;
     }
 
     /**
@@ -117,6 +111,7 @@ import scenes.SceneFactory;
      */
     @Override
     public void provide(final IAudioManager aM) {
+        // Shouldn't do anything, as this is a ServiceLocator without an AudioManager
     }
 
     /**
@@ -303,6 +298,7 @@ import scenes.SceneFactory;
      */
     @Override
     public IAudioManager getAudioManager() {
+        // Returns a fake AudioManager that doesn't do anything.
         return new IAudioManager() {
             @Override
             public void preload() {
@@ -327,8 +323,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IEnemyFactory getEnemyFactory() {
-        assert enemyFactory != null;
-        return enemyFactory;
+        assert this.enemyFactory != null;
+        return this.enemyFactory;
     }
 
     /**
@@ -336,8 +332,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IFileSystem getFileSystem() {
-        assert fileSystem != null;
-        return fileSystem;
+        assert this.fileSystem != null;
+        return this.fileSystem;
     }
 
     /**
@@ -345,8 +341,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IInputManager getInputManager() {
-        assert inputManager != null;
-        return inputManager;
+        assert this.inputManager != null;
+        return this.inputManager;
     }
 
     /**
@@ -354,8 +350,8 @@ import scenes.SceneFactory;
      */
     @Override
     public ICalc getCalc() {
-        assert calc != null;
-        return calc;
+        assert this.calc != null;
+        return this.calc;
     }
 
     /**
@@ -363,8 +359,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IBlockFactory getBlockFactory() {
-        assert blockFactory != null;
-        return blockFactory;
+        assert this.blockFactory != null;
+        return this.blockFactory;
     }
 
     /**
@@ -372,8 +368,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IDoodleFactory getDoodleFactory() {
-        assert doodleFactory != null;
-        return doodleFactory;
+        assert this.doodleFactory != null;
+        return this.doodleFactory;
     }
 
     /**
@@ -381,8 +377,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IPowerupFactory getPowerupFactory() {
-        assert powerupFactory != null;
-        return powerupFactory;
+        assert this.powerupFactory != null;
+        return this.powerupFactory;
     }
 
     /**
@@ -390,8 +386,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IRenderer getRenderer() {
-        assert renderer != null;
-        return renderer;
+        assert this.renderer != null;
+        return this.renderer;
     }
 
     /**
@@ -399,8 +395,8 @@ import scenes.SceneFactory;
      */
     @Override
     public ISpriteFactory getSpriteFactory() {
-        assert spriteFactory != null;
-        return spriteFactory;
+        assert this.spriteFactory != null;
+        return this.spriteFactory;
     }
 
     /**
@@ -408,8 +404,8 @@ import scenes.SceneFactory;
      */
     @Override
     public ISceneFactory getSceneFactory() {
-        assert sceneFactory != null;
-        return sceneFactory;
+        assert this.sceneFactory != null;
+        return this.sceneFactory;
     }
 
     /**
@@ -417,8 +413,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IPlatformFactory getPlatformFactory() {
-        assert platformFactory != null;
-        return platformFactory;
+        assert this.platformFactory != null;
+        return this.platformFactory;
     }
 
     /**
@@ -426,8 +422,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IRes getRes() {
-        assert res != null;
-        return res;
+        assert this.res != null;
+        return this.res;
     }
 
     /**
@@ -435,8 +431,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IButtonFactory getButtonFactory() {
-        assert buttonFactory != null;
-        return buttonFactory;
+        assert this.buttonFactory != null;
+        return this.buttonFactory;
     }
 
     /**
@@ -444,8 +440,8 @@ import scenes.SceneFactory;
      */
     @Override
     public IConstants getConstants() {
-        assert constants != null;
-        return constants;
+        assert this.constants != null;
+        return this.constants;
     }
 
     /**
@@ -453,8 +449,8 @@ import scenes.SceneFactory;
      */
     @Override
     public ILoggerFactory getLoggerFactory() {
-        assert loggerFactory != null;
-        return loggerFactory;
+        assert this.loggerFactory != null;
+        return this.loggerFactory;
     }
 
     /**
@@ -506,11 +502,13 @@ import scenes.SceneFactory;
      * Initialize the ServiceLocator.
      */
     private void init() {
+        // Need to be registered first
         Res.register(this);
         FileSystem.register(this);
         Constants.register(this);
         LoggerFactory.register(this);
 
+        // Registering order does not matter here
         EnemyFactory.register(this);
         InputManager.register(this);
         Calc.register(this);
@@ -528,4 +526,5 @@ import scenes.SceneFactory;
         MissionFactory.register(this);
         AnimationFactory.register(this);
     }
+
 }
