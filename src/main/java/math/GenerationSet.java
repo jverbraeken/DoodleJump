@@ -146,7 +146,7 @@ public final class GenerationSet implements IWeightsSet {
     /**
      * Acts as an adapter between the enums {@link Powerups} and {@link ElementTypes}.
      *
-     * @param elementType The ElementType to be converted to a Powerup
+     * @param elementType The ElementType to be converted to a APowerup
      * @return The powerup conversion of ElementType. If elementType is not a powerup, an IllegalArgumentException is thrown
      */
     private Powerups elementTypeToPowerup(final ElementTypes elementType) {

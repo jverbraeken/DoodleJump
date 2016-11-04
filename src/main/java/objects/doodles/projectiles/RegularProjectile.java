@@ -2,6 +2,7 @@ package objects.doodles.projectiles;
 
 import objects.AGameObject;
 import objects.doodles.IDoodle;
+import resources.IRes;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -28,7 +29,7 @@ public final class RegularProjectile extends AGameObject {
      * @param point The location.
      */
     /* package */ RegularProjectile(final IServiceLocator sL, final Point point, final int direction) {
-        super(sL, point, sL.getSpriteFactory().getRegularProjectileSprite(), RegularProjectile.class);
+        super(sL, point, sL.getSpriteFactory().getSprite(IRes.Sprites.regularProjectile), RegularProjectile.class);
         this.direction = direction;
     }
 
