@@ -84,7 +84,7 @@ public class MenuTest {
         startCover = mock(ISprite.class);
 
         spriteFactory = mock(ISpriteFactory.class);
-        when(spriteFactory.getStartCoverSprite()).thenReturn(startCover);
+        when(spriteFactory.getSprite(any())).thenReturn(startCover);
 
         progressionManager = mock(IProgressionManager.class);
         when(progressionManager.getRank()).thenReturn(Ranks.theBoss);
