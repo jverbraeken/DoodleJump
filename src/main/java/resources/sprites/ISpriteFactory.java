@@ -1,220 +1,37 @@
 package resources.sprites;
 
 import objects.powerups.Powerups;
+import resources.IRes;
+import resources.animations.IAnimation;
 import scenes.PauseScreenModes;
 import system.IFactory;
 
 /**
- * Interface for a SpriteFactory.
- * <br>
- * It is not deemed necessary for all individual sprites to have a JavaDoc.
+ * Defines a {@link ISprite} factory.
  */
 public interface ISpriteFactory extends IFactory {
 
-    // Buttons
-    ISprite getMenuButtonSprite();
+    /**
+     * Loads an ISprite with the name {@code sprite}.
+     *
+     * @param sprite the enumerator defining the requested sprite
+     * @return The {@link ISprite sprite} if it was found. null otherwise
+     */
+    ISprite getSprite(final IRes.Sprites sprite);
 
-    ISprite getPauseButtonSprite();
-
-    ISprite getPlayButtonSprite();
-
-    ISprite getMultiplayerButtonSprite();
-
-    ISprite getPlayAgainButtonSprite();
-
-    ISprite getResumeButtonSprite();
-
-    ISprite getScoreButtonSprite();
-
-    ISprite getChooseModeButtonSprite();
-
-    ISprite getShopButtonSprite();
-
-    // Covers
-    ISprite getBackground();
-
-    ISprite getPauseCoverSprite(PauseScreenModes mode);
-
-    ISprite getStartCoverSprite();
-
-    // Doodle
     ISprite[] getGreenDoodleSprites();
 
     ISprite[] getRedDoodleSprites();
 
     ISprite[] getBlueDoodleSprites();
 
-    ISprite getDoodleLocationArrowSprite();
-
-    // Kill screen
-    ISprite getGameOverSprite();
-
-    ISprite getKillScreenBottomSprite();
-
-    // Monsters
-    ISprite getPuddingMonsterSprite1(); // By default the green monster with some blood
-
-    ISprite getPuddingMonsterSprite2();
-
-    ISprite getPuddingMonsterSprite3();
-
-    ISprite getPuddingMonsterSprite4();
-
-    ISprite getPuddingMonsterSprite5();
-
-    ISprite getTwinMonsterSprite(); // By default the blue twin
-
-    ISprite getThreeEyedMonsterSprite1(); // By default three yellow eyes
-
-    ISprite getThreeEyedMonsterSprite2();
-
-    ISprite getThreeEyedMonsterSprite3();
-
-    ISprite getThreeEyedMonsterSprite4();
-
-    ISprite getThreeEyedMonsterSprite5();
-
-    ISprite getVampireMonsterSprite1(); // By default a blue monster with 2 red teeth
-
-    ISprite getVampireMonsterSprite2();
-
-    ISprite getVampireMonsterSprite3();
-
-    ISprite getVampireMonsterSprite4();
-
-    ISprite getVampireMonsterSprite5();
-
-    ISprite getOrdinaryMonsterSprite(); // By default the purple monster with a blank head
-
-    ISprite getCactusMonsterSprite1(); // By default with three flaps at its Left and Right side and three eyes
-
-    ISprite getCactusMonsterSprite2();
-
-    ISprite getFiveFeetMonsterSprite(); // By default a blue pudding with 5 red feet
-
-    ISprite getLowFiveFeetMonsterSprite1(); // By default a green very low monster with 5 feet
-
-    ISprite getLowFiveFeetMonsterSprite2();
-
-    ISprite getSmallMonsterSprite(); // By default a very small three eyed red monster
-
-    // Stars
-    ISprite getStarSprite1();
-
-    ISprite getStarSprite2();
-
-    ISprite getStarSprite3();
-
-    // Platforms
-    ISprite getPlatformSprite1();
-
-    ISprite getPlatformSpriteHorizontal();
-
-    ISprite getPlatformSpriteVertical();
-
-    ISprite getPlatformSprite4();
-
-    ISprite getPlatformSprite5();
-
-    ISprite getPlatformSprite6();
-
-    ISprite getPlatformSprite7();
-
-    ISprite getPlatformSprite8();
-
-    ISprite getPlatformSprite9();
+    ISprite[] getDigitSprites();
 
     ISprite getPlatformBrokenSprite(final int index);
 
-    ISprite getPlatformExplosiveSprite1();
+    ISprite getPauseCoverSprite(PauseScreenModes mode);
 
-    ISprite getPlatformExplosiveSprite2();
+    ISprite getCoinSprite(final int digit);
 
-    ISprite getPlatformExplosiveSprite3();
-
-    ISprite getPlatformMovableSprite1();
-
-    ISprite getPlatformMovableSprite2();
-
-    ISprite getPlatformMovableSprite3();
-
-    ISprite getPlatformMovableSprite4();
-
-    ISprite getPlatformShiningSprite1();
-
-    ISprite getPlatformShiningSprite2();
-
-    ISprite getPlatformShiningSprite3();
-
-    // Powerups
     ISprite getPowerupSprite(final Powerups powerup, final int currentPowerupLevel);
-
-    ISprite getTrampolineUsedSprite(final int currentPowerupLevel);
-
-    ISprite getSpringUsedSprite(final int currentPowerupLevel);
-
-    /**
-     * Returns a list with sprites when a doodle has collided with a jetpack.
-     *
-     * @return list of sprites.
-     */
-    ISprite[] getJetpackActiveSprites(final int level);
-
-    /**
-     * Returns a list with sprites when a doodle has collided with a propeller.
-     *
-     * @return list of sprites.
-     */
-    ISprite[] getPropellerActiveSprites();
-
-    // projectiles
-    ISprite getRegularProjectileSprite();
-
-    // Score screen
-    ISprite getScoreScreenBottom();
-
-    ISprite getScoreScreenLeft();
-
-    ISprite getScoreScreenTop();
-
-    // Text
-    ISprite getWaitDoNotShootSprite();
-
-    ISprite getAvoidSprite();
-
-    // Top bar
-    ISprite getScoreBarSprite();
-
-    // UFO
-    ISprite getUFOSprite();
-
-    ISprite getUFOShiningSprite();
-
-    // Choose mode icons
-    ISprite getRegularModeButton();
-
-    ISprite getStoryModeButton();
-
-    ISprite getDarknessModeButton();
-
-    ISprite getInvertModeButton();
-
-    ISprite getSpaceModeButton();
-
-    ISprite getUnderwaterModeButton();
-
-    ISprite getRedCross();
-
-    // Coins
-    ISprite getCoinSprite(final int i);
-
-    ISprite[] getDigitSprites();
-
-    // Missions
-
-    ISprite getAchievementSprite();
-
-    //Popup
-    ISprite getPopupBackground();
-    ISprite getPopupOkButton();
 }

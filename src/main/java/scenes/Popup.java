@@ -2,6 +2,7 @@ package scenes;
 
 import buttons.IButton;
 import rendering.Color;
+import resources.IRes;
 import system.IRenderable;
 import system.IServiceLocator;
 
@@ -51,7 +52,7 @@ public final class Popup implements IRenderable {
      */
     @Override
     public void render() {
-        this.serviceLocator.getRenderer().drawSprite(this.serviceLocator.getSpriteFactory().getPopupBackground(), new Point(0, 0));
+        this.serviceLocator.getRenderer().drawSprite(this.serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.popupBackground), new Point(0, 0));
         int width = this.serviceLocator.getConstants().getGameWidth();
         int height = this.serviceLocator.getConstants().getGameHeight();
         this.serviceLocator.getRenderer().drawText(new Point((int) (POPUP_TEXT_X * width), (int) (POPUP_TEXT_Y * height)), message, Color.black);

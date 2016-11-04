@@ -49,6 +49,11 @@ public final class Game {
     public static final String LOGFILE_NAME = "async.log";
 
     /**
+     * The current frame.
+     */
+    private static JFrame frame;
+
+    /**
      * The time in milliseconds per frame.
      */
     private static final int FRAME_TIME = 16;
@@ -73,10 +78,6 @@ public final class Game {
      * The logger for the Game class.
      */
     private static ILogger logger;
-    /**
-     * The current frame.
-     */
-    public static JFrame frame;
     /**
      * The current panel.
      */

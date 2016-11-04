@@ -9,6 +9,7 @@ import progression.IProgressionManager;
 import rendering.Color;
 import rendering.IRenderer;
 import rendering.TextAlignment;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IRenderable;
@@ -177,8 +178,8 @@ import java.util.ArrayList;
         this.serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(ShopScreen.class);
 
-        background = sL.getSpriteFactory().getBackground();
-        bottomChooseModeScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
+        background = sL.getSpriteFactory().getSprite(IRes.Sprites.background);
+        bottomChooseModeScreen = sL.getSpriteFactory().getSprite(IRes.Sprites.killScreenBottom);
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         IButton mainMenuButton = buttonFactory.createMainMenuButton(

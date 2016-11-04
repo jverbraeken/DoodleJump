@@ -11,9 +11,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by Nick on 3-11-2016.
- */
 public class BlockTypesTest {
 
     @Test

@@ -10,12 +10,12 @@ import objects.doodles.doodle_behavior.MovementBehavior;
 import objects.doodles.doodle_behavior.RegularBehavior;
 import objects.doodles.doodle_behavior.SpaceBehavior;
 import objects.doodles.doodle_behavior.UnderwaterBehavior;
-import objects.enemies.AEnemy;
-import objects.powerups.APowerup;
+import objects.enemies.IEnemy;
 import objects.powerups.IPowerup;
 import objects.powerups.PowerupOccasion;
 import rendering.ICamera;
 import rendering.IRenderer;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import scenes.World;
@@ -82,9 +82,87 @@ public class Doodle extends AGameObject implements IDoodle {
     private static final double ARROW_SCALAR = 100d;
 
     /**
-     * Fake Powerup instance to return when actual powerup value is null.
+     * Fake APowerup instance to return when actual powerup value is null.
      */
-    private static volatile APowerup fakePowerup = null;
+    private static volatile IPowerup fakePowerup = new IPowerup() {
+        @Override
+        public void perform(PowerupOccasion occasion) {
+        }
+
+        @Override
+        public void setPositionOnPlatform(IPlatform platform) {
+        }
+
+        @Override
+        public void endPowerup() {
+        }
+
+        @Override
+        public void addXPos(double xPos) {
+        }
+
+        @Override
+        public void addYPos(double yPos) {
+        }
+
+        @Override
+        public boolean checkCollision(IGameObject gameObject) {
+            return false;
+        }
+
+        @Override
+        public void collidesWith(IDoodle doodle) {
+        }
+
+        @Override
+        public double[] getHitBox() {
+            return new double[0];
+        }
+
+        @Override
+        public ISprite getSprite() {
+            return null;
+        }
+
+        @Override
+        public double getXPos() {
+            return 0;
+        }
+
+        @Override
+        public double getYPos() {
+            return 0;
+        }
+
+        @Override
+        public Point getPoint() {
+            return null;
+        }
+
+        @Override
+        public void setHitBox(int left, int top, int right, int bottom) {
+        }
+
+        @Override
+        public void setSprite(ISprite sprite) {
+        }
+
+        @Override
+        public void setXPos(double xPos) {
+        }
+
+        @Override
+        public void setYPos(double yPos) {
+        }
+
+        @Override
+        public void render() {
+        }
+
+        @Override
+        public void update(double delta) {
+        }
+    };
     /**
      * The world the Doodle lives in.
      */
@@ -137,37 +215,17 @@ public class Doodle extends AGameObject implements IDoodle {
     /**
      * Doodle constructor.
      *
-     * @param sL The service locator.
-     * @param w  The world the Doodle lives in.
+     * @param serviceLocator The service locator.
+     * @param world  The world the Doodle lives in.
      */
-    /* package */ Doodle(final IServiceLocator sL, final ISprite[] sprites, final World w) {
-        super(sL,
-                new Point(sL.getConstants().getGameWidth() / 2,
-                        sL.getConstants().getGameHeight() / 2),
+    /* package */ Doodle(final IServiceLocator serviceLocator, final ISprite[] sprites, final World world) {
+        super(serviceLocator,
+                new Point(serviceLocator.getConstants().getGameWidth() / 2,
+                        serviceLocator.getConstants().getGameHeight() / 2),
                 sprites[0],
                 Doodle.class);
 
-        if (Doodle.fakePowerup == null) {
-            synchronized (this) {
-                if (Doodle.fakePowerup == null) {
-                    Doodle.fakePowerup = new APowerup(sL, new Point(0, 0), sL.getSpriteFactory().getPauseButtonSprite(), APowerup.class) {
-                        @Override
-                        public void render() {
-                        }
-
-                        @Override
-                        public void collidesWith(final IDoodle doodle) {
-                        }
-
-                        @Override
-                        public void setPositionOnPlatform(final IPlatform platform) {
-                        }
-                    };
-                }
-            }
-        }
-
-        this.shootingObserver = new ShootingObserver(sL, this);
+        this.shootingObserver = new ShootingObserver(serviceLocator, this);
 
         this.updateHitBox();
         this.setBehavior(Game.getMode());
@@ -182,7 +240,7 @@ public class Doodle extends AGameObject implements IDoodle {
         rightSprites[1] = sprites[3];
         this.sprites.put(MovementBehavior.Directions.Right, rightSprites);
 
-        this.world = w;
+        this.world = world;
     }
 
     /**
@@ -209,8 +267,8 @@ public class Doodle extends AGameObject implements IDoodle {
         double boost = jumpable.getBoost();
         this.behavior.setVerticalSpeed(boost);
         this.getPowerup().perform(PowerupOccasion.collision);
-        if (jumpable instanceof AEnemy) {
-            addExperiencePoints(((AEnemy) jumpable).getAmountOfExperience());
+        if (jumpable instanceof IEnemy) {
+            addExperiencePoints(((IEnemy) jumpable).getAmountOfExperience());
         }
     }
 
@@ -349,8 +407,8 @@ public class Doodle extends AGameObject implements IDoodle {
         final ISprite sprite = this.getSprite();
 
         if (camY > this.getYPos() + sprite.getHeight()) {
-            final Point arrowPoint = new Point((int) this.getXPos(), spriteFactory.getScoreBarSprite().getHeight());
-            ISprite arrowSprite = spriteFactory.getDoodleLocationArrowSprite();
+            final Point arrowPoint = new Point((int) this.getXPos(), spriteFactory.getSprite(IRes.Sprites.scoreBar).getHeight());
+            ISprite arrowSprite = spriteFactory.getSprite(IRes.Sprites.doodleArrow);
             final double scale = Math.sqrt((camY - getYPos() - sprite.getHeight()) / ARROW_SCALAR) + 2;
             renderer.drawSpriteHUD(arrowSprite, arrowPoint, (int) (arrowPoint.getX() / scale), (int) (arrowPoint.getY() / scale));
         } else {
@@ -390,9 +448,9 @@ public class Doodle extends AGameObject implements IDoodle {
         this.applyMovementBehavior(delta);
         this.wrap();
         this.checkDeadPosition();
-        this.getPowerup().update(delta);
         this.updateScore();
         this.updateProjectiles(delta);
+        this.getPowerup().update(delta);
     }
 
     /**
@@ -581,11 +639,11 @@ public class Doodle extends AGameObject implements IDoodle {
      */
     private ISprite getStarSprite() {
         if (starNumber % STAR_FRAMES < FIRST_STAR_FRAME) {
-            return getServiceLocator().getSpriteFactory().getStarSprite1();
+            return getServiceLocator().getSpriteFactory().getSprite(IRes.Sprites.confusedStars1);
         } else if (starNumber % STAR_FRAMES < SECOND_STAR_FRAME) {
-            return getServiceLocator().getSpriteFactory().getStarSprite2();
+            return getServiceLocator().getSpriteFactory().getSprite(IRes.Sprites.confusedStars2);
         }
-        return getServiceLocator().getSpriteFactory().getStarSprite3();
+        return getServiceLocator().getSpriteFactory().getSprite(IRes.Sprites.confusedStars3);
     }
 
     /**

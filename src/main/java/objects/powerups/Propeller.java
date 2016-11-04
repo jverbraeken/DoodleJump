@@ -2,7 +2,7 @@ package objects.powerups;
 
 import objects.blocks.platform.IPlatform;
 import objects.doodles.IDoodle;
-import resources.sprites.ISprite;
+import resources.animations.IAnimation;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -15,36 +15,40 @@ import java.awt.Point;
     /**
      * The acceleration provided by the Propeller.
      */
-    private static final double ACCELERATION = -1d;
+    private final double acceleration;
     /**
      * The boost for the Propeller when it is being dropped.
      */
-    private static final double INITIAL_DROP_SPEED = -20d;
+    private final double initialDropSpeed;
     /**
      * The boost the Propeller gives.
      */
-    private static final double MAX_BOOST = -20d;
+    private final double boost;
     /**
      * The horizontal speed for a Propeller.
      */
-    private static final double HORIZONTAL_SPEED = 1.2d;
+    private final double horizontalSpeed;
     /**
      * The maximum time the Propeller is active.
      */
-    private static final int MAX_TIMER = 150;
+    private final int maxTimer;
     /**
      * Y offset for drawing the Propeller when on Doodle.
      */
-    private static final int OWNED_Y_OFFSET = -26;
+    private final int ownedYOffset;
     /**
      * The refresh rate for the active animation.
      */
-    private static final int ANIMATION_REFRESH_RATE = 3;
+    private final int animationRefreshRate;
 
     /**
-     * The sprites for an active Propeller.
+     * The animation for an active Propeller.
      */
-    private static volatile ISprite[] spritePack = null;
+    private final IAnimation animation;
+    /**
+     * The current level of the powerup.
+     */
+    private final int level;
     /**
      * The index of the current sprite.
      */
@@ -65,18 +69,22 @@ import java.awt.Point;
     /**
      * Propeller constructor.
      *
-     * @param sL - The Games service locator.
-     * @param point  - The location for the Propeller.
+     * @param serviceLocator The service locator
+     * @param point          The location for the powerup
+     * @param level          The level of the powerup
      */
-    /* package */ Propeller(final IServiceLocator sL, final Point point) {
-        super(sL, point, sL.getSpriteFactory().getPowerupSprite(Powerups.propeller, 1), Propeller.class);
-        if (Propeller.spritePack == null) {
-            synchronized (this) {
-                if (Propeller.spritePack == null) {
-                    Propeller.spritePack = sL.getSpriteFactory().getPropellerActiveSprites();
-                }
-            }
-        }
+    /* package */ Propeller(final IServiceLocator serviceLocator, final Point point, final int level) {
+        super(serviceLocator, point, Powerups.propeller, level);
+        final Powerups type = Powerups.propeller;
+        this.animation = serviceLocator.getAnimationFactory().getAnimation(type.getAnimation(level));
+        this.acceleration = type.getAcceleration(level);
+        this.initialDropSpeed = type.getInitDropSpeed(level);
+        this.boost = type.getBoost(level);
+        this.horizontalSpeed = type.getHorSpeed(level);
+        this.maxTimer = type.getMaxTimeInAir(level);
+        this.ownedYOffset = type.getOwnedYOffset(level);
+        this.animationRefreshRate = type.getAnimationRefreshRate(level);
+        this.level = level;
     }
 
     /**
@@ -128,8 +136,8 @@ import java.awt.Point;
      */
     @Override
     public void endPowerup() {
-        this.setSprite(getServiceLocator().getSpriteFactory().getPowerupSprite(Powerups.propeller, 1));
-        this.vSpeed = INITIAL_DROP_SPEED;
+        this.setSprite(getServiceLocator().getSpriteFactory().getSprite(Powerups.propeller.getSprite(level)));
+        this.vSpeed = initialDropSpeed;
 
         this.owner.removePowerup(this);
         this.owner.getWorld().addDrawable(this);
@@ -151,16 +159,16 @@ import java.awt.Point;
     private void updateOwned() {
         this.timer++;
 
-        if (this.timer >= MAX_TIMER) {
+        if (this.timer >= maxTimer) {
             this.endPowerup();
             return;
-        } else if (this.vSpeed > MAX_BOOST) {
-            this.vSpeed += ACCELERATION;
+        } else if (this.vSpeed > boost) {
+            this.vSpeed += acceleration;
         }
 
-        if (this.timer % ANIMATION_REFRESH_RATE == 0) {
-            this.spriteIndex = (spriteIndex + 1) % Propeller.spritePack.length;
-            this.setSprite(Propeller.spritePack[this.spriteIndex]);
+        if (this.timer % animationRefreshRate == 0) {
+            this.spriteIndex = (spriteIndex + 1) % this.animation.getLength();
+            this.setSprite(this.animation.getFromIndex(this.spriteIndex));
         }
 
         if (this.owner != null) {
@@ -168,7 +176,7 @@ import java.awt.Point;
                     + this.getSprite().getWidth() / 2);
             this.setYPos((int) this.owner.getYPos()
                     + this.getSprite().getHeight() / 2
-                    + OWNED_Y_OFFSET);
+                    + ownedYOffset);
         }
     }
 
@@ -177,7 +185,7 @@ import java.awt.Point;
      */
     private void updateFalling() {
         this.applyGravity();
-        this.addXPos(HORIZONTAL_SPEED);
+        this.addXPos(horizontalSpeed);
     }
 
     /**
@@ -187,5 +195,4 @@ import java.awt.Point;
         this.vSpeed += getServiceLocator().getConstants().getGravityAcceleration();
         this.addYPos(this.vSpeed);
     }
-
 }
