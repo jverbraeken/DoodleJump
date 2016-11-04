@@ -87,27 +87,27 @@ public enum Powerups {
                     .setUsedSprite(IRes.Sprites.springUsed)
                     .setBoost(-30)
                     .build(),
-            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.doubleSpring, 0)
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.doubleSpring, 50)
                     .setUsedSprite(IRes.Sprites.doubleSpringUsed)
                     .setBoost(-40)
                     .build(),
-            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.titaniumSpring, 0)
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.titaniumSpring, 150)
                     .setUsedSprite(IRes.Sprites.titaniumSpringUsed)
                     .setBoost(-50)
                     .build()
     }),
     trampoline(Trampoline.class, new PowerupLevel[]{
-            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.trampoline, 0)
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.trampoline, 50)
                     .setUsedSprite(IRes.Sprites.trampolineUsed)
                     .setBoost(-30)
                     .setRetractSpeed(250)
                     .build(),
-            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.circusCannon, 0)
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.circusCannon, 150)
                     .setUsedSprite(IRes.Sprites.circusCannonUsed)
                     .setBoost(-40)
                     .setRetractSpeed(250)
                     .build(),
-            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.rocketLauncher, 0)
+            new PowerupLevel.PowerupLevelBuilder(IRes.Sprites.rocketLauncher, 300)
                     .setUsedSprite(IRes.Sprites.rocketLauncherUsed)
                     .setBoost(-50)
                     .setRetractSpeed(250)

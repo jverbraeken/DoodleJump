@@ -156,17 +156,6 @@ import java.util.concurrent.Callable;
     }
 
     /**
-     * Of course we rather use notify, but as that name is occupied already by java.lang it's not possible
-     * to use that name unfortunately.
-     *
-     * @param amount The amount of which the variable that caused the trigger to alert the observers has been changed.
-     */
-    private void alert(final double amount) {
-        this.counter += amount;
-        checkFinished();
-    }
-
-    /**
      * Executes everything that must be done when the mission is finished successfully.
      */
     private void finished() {

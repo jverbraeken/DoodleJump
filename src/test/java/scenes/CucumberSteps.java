@@ -153,7 +153,7 @@ public class CucumberSteps implements En {
         Then("^the score should be (\\d+)", (String score) -> {
             double scoreDouble = Double.parseDouble(score);
             Object scene = Whitebox.getInternalState(Game.class, "scene");
-            List<IDoodle> doodles = (List<IDoodle>) Whitebox.getInternalState(scene, "doodles");
+            List<IDoodle> doodles = Whitebox.getInternalState(scene, "doodles");
             for (IDoodle doodle : doodles) {
                 assertThat((double) Whitebox.getInternalState(doodle, "score") >= (scoreDouble), is(true));
             }

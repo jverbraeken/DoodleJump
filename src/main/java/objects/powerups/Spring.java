@@ -102,7 +102,7 @@ public final class Spring extends AJumpablePowerup {
      *
      * @param springUsedObserver The observer that wants to get notifications from the Spring
      */
-    public void addObserver(final SpringUsedObserver springUsedObserver) {
+    public void addObserver(final ISpringUsedObserver springUsedObserver) {
         if (springUsedObserver == null) {
             final String error = "Cannot add a null springUsedObserver";
             logger.error(error);
