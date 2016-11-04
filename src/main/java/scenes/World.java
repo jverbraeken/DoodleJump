@@ -15,6 +15,7 @@ import progression.ProgressionManager;
 import rendering.AccelerationType;
 import rendering.ICamera;
 import resources.IRes;
+import resources.audio.AudioManager;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.Game;
@@ -144,8 +145,8 @@ public final class World implements IScene {
         this.scoreBar = new ScoreBar();
         this.newDrawables.get(DrawableLevels.front).add(this.scoreBar);
 
-        this.serviceLocator.getAudioManager().playStart();
-        this.serviceLocator.getAudioManager().loopThemeSong();
+        this.serviceLocator.getAudioManager().play(AudioManager.Sound.START);
+        this.serviceLocator.getAudioManager().loop(AudioManager.Sound.THEME_SONG);
 
         this.start();
         this.logger.info("Level started");
@@ -230,7 +231,7 @@ public final class World implements IScene {
         IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
         progressionManager.addHighScore("Doodle", score);
         progressionManager.addExperience((int) score);
-        this.serviceLocator.getAudioManager().stopLoopingThemeSong();
+        this.serviceLocator.getAudioManager().stop(AudioManager.Sound.THEME_SONG);
 
         Game.setScene(this.serviceLocator.getSceneFactory().createKillScreen((int) score, (int) extraExp));
     }

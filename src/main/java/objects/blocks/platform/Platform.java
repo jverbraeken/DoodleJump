@@ -2,6 +2,7 @@ package objects.blocks.platform;
 
 import objects.AGameObject;
 import objects.doodles.IDoodle;
+import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
 import resources.sprites.ISprite;
 import system.IServiceLocator;
@@ -136,7 +137,7 @@ public final class Platform extends AGameObject implements IPlatform {
      */
     private void playSound() {
         IAudioManager audioManager = getServiceLocator().getAudioManager();
-        audioManager.playJump();
+        audioManager.play(AudioManager.Sound.JUMP);
     }
 
     /**
