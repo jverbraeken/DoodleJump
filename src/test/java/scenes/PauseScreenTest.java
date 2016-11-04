@@ -5,15 +5,14 @@ import buttons.IButtonFactory;
 import constants.IConstants;
 import logging.ILogger;
 import logging.ILoggerFactory;
-import objects.powerups.IPowerup;
 import objects.powerups.Powerups;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 import progression.IProgressionManager;
 import progression.Ranks;
-import rendering.*;
 import rendering.Color;
+import rendering.IRenderer;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -36,7 +35,7 @@ public class PauseScreenTest {
     private ISprite coinsprites, background, scoreBar, powerup;
     private IProgressionManager progressionManager;
     private IButtonFactory buttonFactory;
-    private IButton resume, switchMission, switchShop, jetPack;
+    private IButton resume, switchMission, switchShop, jetPack, propellor, sizeUp, sizeDown,spring, springShoes, trampoline;
     private PauseScreen pauseScreen;
 
     @Before
@@ -46,11 +45,24 @@ public class PauseScreenTest {
         switchMission = mock(IButton.class);
         switchShop = mock(IButton.class);
         jetPack = mock(IButton.class);
+        propellor = mock(IButton.class);
+        sizeDown = mock(IButton.class);
+        sizeUp = mock(IButton.class);
+        spring = mock(IButton.class);
+        springShoes = mock(IButton.class);
+        jetPack = mock(IButton.class);
 
         buttonFactory = mock(IButtonFactory.class);
         when(buttonFactory.createResumeButton(anyDouble(), anyDouble())).thenReturn(resume);
         when(buttonFactory.createSwitchToMissionButton(anyDouble(), anyDouble())).thenReturn(switchMission);
         when(buttonFactory.createSwitchToShopButton(anyDouble(), anyDouble())).thenReturn(switchShop);
+        when(buttonFactory.createPausePowerupButton(eq(Powerups.jetpack), anyDouble(), anyDouble())).thenReturn(jetPack);
+        when(buttonFactory.createPausePowerupButton(eq(Powerups.sizeUp), anyDouble(), anyDouble())).thenReturn(sizeUp);
+        when(buttonFactory.createPausePowerupButton(eq(Powerups.sizeDown), anyDouble(), anyDouble())).thenReturn(sizeDown);
+        when(buttonFactory.createPausePowerupButton(eq(Powerups.propeller), anyDouble(), anyDouble())).thenReturn(propellor);
+        when(buttonFactory.createPausePowerupButton(eq(Powerups.spring), anyDouble(), anyDouble())).thenReturn(spring);
+        when(buttonFactory.createPausePowerupButton(eq(Powerups.trampoline), anyDouble(), anyDouble())).thenReturn(trampoline);
+        when(buttonFactory.createPausePowerupButton(eq(Powerups.springShoes), anyDouble(), anyDouble())).thenReturn(springShoes);
 
         renderer = mock(IRenderer.class);
 
@@ -97,7 +109,7 @@ public class PauseScreenTest {
         verify(renderer, times(1)).drawSpriteHUD(background, new Point(0, 0));
         verify(renderer, atLeastOnce()).drawSpriteHUD(coinsprites, new Point(anyInt(), anyInt()));
 
-        verify(renderer, atLeastOnce()).drawTextHUD(new Point(anyInt(),anyInt()), anyString(), Color.black);
+        verify(renderer, atLeastOnce()).drawTextHUD(new Point(anyInt(), anyInt()), anyString(), Color.black);
 
 
         verify(resume, times(1)).render();
@@ -151,6 +163,46 @@ public class PauseScreenTest {
         verify(logger, times(1)).info("The resume button is no longer available");
         verify(logger, times(0)).info("The switch button to the mission cover is no longer available");
         verify(logger, times(1)).info("The switch button to the shop cover is no longer available");
+
+    }
+
+    @Test
+    public void testUpdate() {
+        Whitebox.setInternalState(pauseScreen, "coinSpriteIndex", 0);
+        pauseScreen.update(1d);
+        assertEquals(0.3d, (double) Whitebox.getInternalState(pauseScreen, "coinSpriteIndex"), 0.01);
+    }
+
+
+    @Test
+    public void testUpdateButton() {
+        Whitebox.setInternalState(pauseScreen, "mode", PauseScreenModes.mission);
+        EnumMap<Powerups, IButton> map = Whitebox.getInternalState(pauseScreen, "buttonMap");
+        map.put(Powerups.jetpack, jetPack);
+        Whitebox.setInternalState(pauseScreen, "buttonMap", map);
+
+        pauseScreen.updateButton(Powerups.jetpack, 99, 123);
+
+        verify(jetPack).deregister();
+        verify(jetPack).register();
+    }
+
+    @Test
+    public void testCreatePowerupButton() throws Exception {
+        Whitebox.invokeMethod(pauseScreen, "createPowerupbutton");
+        EnumMap<Powerups, IButton> map = Whitebox.getInternalState(pauseScreen, "buttonMap");
+
+        assertEquals(jetPack, map.get(Powerups.jetpack));
+        assertEquals(propellor, map.get(Powerups.propeller));
+        assertEquals(sizeDown, map.get(Powerups.sizeDown));
+        assertEquals(sizeUp, map.get(Powerups.sizeUp));
+        assertEquals(spring, map.get(Powerups.spring));
+        assertEquals(springShoes, map.get(Powerups.springShoes));
+        assertEquals(trampoline, map.get(Powerups.trampoline));
+    }
+
+    @Test
+    public void testSwitchDisplay() {
 
     }
 
