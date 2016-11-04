@@ -1,8 +1,9 @@
 package resources.audio;
 
-import system.IServiceLocator;
+import logging.ILogger;
 
 import javax.sound.sampled.Clip;
+import java.io.FileNotFoundException;
 
 /**
  * Enum with the paths to all sound files.
@@ -56,7 +57,7 @@ public enum Sounds {
     /**
      * A clip containing the sounds.
      */
-    private Clip clip;
+    private String filepath;
 
     /**
      * Preload a sound.
@@ -64,39 +65,16 @@ public enum Sounds {
      * @param filepath The path of the file of the sound.
      */
     /* package */ Sounds(final String filepath) {
+        this.filepath = filepath;
     }
 
     /**
-     * Load all sounds into memory.
+     * Get the file path related to the enum value.
+     *
+     * @return The file path.
      */
-    /* package */ static void preload(final IServiceLocator sL) {
-        Sounds.values();
-    }
-
-    /**
-     * Play a sound.
-     */
-    /* package */ void play() {
-        this.clip.stop();
-        this.clip.setFramePosition(0);
-        this.clip.start();
-    }
-
-    /**
-     * Stop a sound.
-     */
-    /* package */ void stop() {
-        this.clip.stop();
-        this.clip.setFramePosition(0);
-        this.clip.start();
-    }
-
-    /**
-     * Stop a sound.
-     */
-    /* package */ void loop() {
-        this.clip.setFramePosition(0);
-        this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+    /* package */ String getFilepath() {
+        return this.filepath;
     }
 
 }
