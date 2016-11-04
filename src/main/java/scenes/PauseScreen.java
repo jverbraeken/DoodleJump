@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * PauseScreen implementation of a scene.
  */
-/* package */ final class PauseScreen implements IScene {
+public final class PauseScreen implements IScene {
 
     /**
      * The X and Y location for the resume button.
@@ -176,7 +176,27 @@ import java.util.Map;
      */
     @Override
     public void start() {
-        mode = PauseScreenModes.mission; // when opening the pause screen, the screen will display the missions by default.
+        this.mode = PauseScreenModes.mission; // when opening the pause screen, the screen will display the missions by default.
+        this.register();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void stop() {
+        this.deregister();
+
+        if (mode == PauseScreenModes.shop) {
+            this.stopShopCover();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register() {
         this.resumeButton.register();
         this.logger.info("The resume button is now available");
         this.switchShopButton.register();
@@ -187,16 +207,12 @@ import java.util.Map;
      * {@inheritDoc}
      */
     @Override
-    public void stop() {
+    public void deregister() {
         this.resumeButton.deregister();
         this.logger.info("The resume button is no longer available");
+        this.switchShopButton.deregister();
+        this.logger.info("The switch button is no longer available");
 
-        if (mode == PauseScreenModes.shop) {
-            this.stopShopCover();
-        } else {
-            this.switchShopButton.deregister();
-            this.logger.info("The switch button to the shop cover is no longer available");
-        }
     }
 
     /**
@@ -279,22 +295,6 @@ import java.util.Map;
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public void switchDisplay(PauseScreenModes mode) {
-        this.mode = mode;
-        if (this.mode.equals(PauseScreenModes.mission)) {
-            this.stopShopCover();
-            this.switchShopButton.register();
-            this.logger.info("The switch button to the shop cover is now available");
-        } else {
-            this.switchShopButton.deregister();
-            this.logger.info("The switch button to the shop cover is no longer available");
-            this.setShopCover();
-        }
-    }
-
-    /**
      * Draws the text of the powerups.
      */
     private void drawText() {
@@ -314,7 +314,7 @@ import java.util.Map;
     }
 
     /**
-     * Creates the buttons for the powerps that can be unlocked or upgraded.
+     * Creates the buttons for the powerups that can be unlocked or upgraded.
      */
     private void createPowerupButton() {
         IButtonFactory buttonFactory = this.serviceLocator.getButtonFactory();
@@ -365,6 +365,23 @@ import java.util.Map;
         buttonMap.remove(powerup);
         buttonMap.put(powerup, button);
         button.register();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void switchDisplay(final PauseScreenModes mode) {
+        this.mode = mode;
+        if (this.mode.equals(PauseScreenModes.mission)) {
+            this.stopShopCover();
+            this.switchShopButton.register();
+            this.logger.info("The switch button to the shop cover is now available");
+        } else {
+            this.switchShopButton.deregister();
+            this.logger.info("The switch button to the shop cover is no longer available");
+            this.setShopCover();
+        }
     }
 
     /**
