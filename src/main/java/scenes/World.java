@@ -9,10 +9,10 @@ import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
 import objects.enemies.IEnemy;
-import objects.powerups.Powerups;
 import progression.IProgressionManager;
 import rendering.AccelerationType;
 import rendering.ICamera;
+import rendering.IRenderer;
 import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -155,9 +155,9 @@ public final class World implements IScene {
      */
     @Override
     public void start() {
-        this.serviceLocator.getRenderer().getCamera().setYPos(this.serviceLocator.getConstants().getGameHeight() / 2d);
-        this.scoreBar.register();
-        this.doodles.forEach(IDoodle::register);
+        final IRenderer renderer = this.serviceLocator.getRenderer();
+        renderer.getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
+        this.register();
         this.logger.info("The world is now displaying");
     }
 
@@ -166,6 +166,25 @@ public final class World implements IScene {
      */
     @Override
     public void stop() {
+        this.deregister();
+        this.logger.info("The world scene is stopped");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register() {
+        this.scoreBar.register();
+        this.doodles.forEach(IDoodle::register);
+        this.logger.info("The world is now registered");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deregister() {
         this.scoreBar.deregister();
         this.doodles.forEach(IDoodle::deregister);
         this.logger.info("The world scene is stopped");
@@ -546,34 +565,6 @@ public final class World implements IScene {
 
         }
 
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void switchDisplay(PauseScreenModes mode) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
-    }
-
-    /**
-     * Activate the input observers of doodles that are active in this scene.
-     */
-    public void registerDoodles() {
-        this.doodles.forEach(IDoodle::register);
-    }
-
-    /**
-     * Deactivate the input observers of doodles that are active in this scene.
-     */
-    public void deregisterDoodles() {
-        this.doodles.forEach(IDoodle::deregister);
     }
 
 }

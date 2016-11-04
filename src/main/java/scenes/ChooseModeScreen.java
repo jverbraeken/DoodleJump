@@ -131,22 +131,34 @@ public final class ChooseModeScreen implements IScene {
      * {@inheritDoc}
      */
     @Override
-    public void start() {
-        for (IButton button : buttons) {
-            button.register();
-        }
-        logger.info("The choose mode scene is now displaying");
+    public final void start() {
+        this.register();
+        this.logger.info("The choose mode scene is now displaying");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void stop() {
-        for (IButton button : buttons) {
+    public final void stop() {
+        this.deregister();
+        this.logger.info("The choose mode scene is no longer displaying");
+    }
+
+    @Override
+    public void register() {
+        for (IButton button : this.buttons) {
+            button.register();
+        }
+        this.logger.info("The score scene is now registered");
+    }
+
+    @Override
+    public void deregister() {
+        for (IButton button : this.buttons) {
             button.deregister();
         }
-        logger.info("The choose mode scene is no longer displaying");
+        this.logger.info("The score scene is now deregistered");
     }
 
     /**
@@ -197,21 +209,6 @@ public final class ChooseModeScreen implements IScene {
         if (rankLevel < Game.Modes.verticalOnly.getRankRequired()) {
             serviceLocator.getRenderer().drawSprite(redCross, new Point((int) (INVERT_MODE_X * gameWidth), (int) (INVERT_MODE_Y * gameHeight)));
         }
-    }
-
-
-    /*
-     * {@inheritDoc}
-     */
-    @Override
-    public void switchDisplay(PauseScreenModes mode) {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateButton(final Powerups powerup, final double x, final double y) {
     }
 
     /**

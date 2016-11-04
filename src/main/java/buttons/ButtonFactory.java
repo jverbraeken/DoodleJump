@@ -113,7 +113,7 @@ public final class ButtonFactory implements IButtonFactory {
         ISprite buttonSprite = spriteFactory.getSprite(IRes.Sprites.resume);
         Runnable resumeAction = () -> {
             Game.resumeGame();
-            ((World) Game.getScene()).registerDoodles();
+            Game.getScene().register();
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, resumeAction, "resume");
     }
@@ -268,7 +268,7 @@ public final class ButtonFactory implements IButtonFactory {
         ISpriteFactory spriteFactory = ButtonFactory.serviceLocator.getSpriteFactory();
         ISprite buttonSprite = spriteFactory.getSprite(IRes.Sprites.spaceMode);
         Runnable spaceMode = () -> {
-            if (this.serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.space.getRankRequired()) {
+            if (ButtonFactory.serviceLocator.getProgressionManager().getRank().getLevelNumber() >= Game.Modes.space.getRankRequired()) {
                 Game.setMode(Game.Modes.space);
             } else {
                 Popup popup = new Popup(serviceLocator, Ranks.getRankByLevelNumber(Game.Modes.space.getRankRequired()).getName() + " rank required.");
@@ -395,7 +395,7 @@ public final class ButtonFactory implements IButtonFactory {
         ISprite buttonSprite = spriteFactory.getSprite(IRes.Sprites.pause);
         Runnable pause = () -> {
             Game.pauseGame();
-            ((World) Game.getScene()).deregisterDoodles();
+            Game.getScene().deregister();
         };
         return new Button(ButtonFactory.serviceLocator, (int) (gameWidth * x), (int) (gameHeight * y), buttonSprite, pause, "pause");
     }
