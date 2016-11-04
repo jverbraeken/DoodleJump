@@ -232,6 +232,7 @@ public final class AudioManager implements IAudioManager {
             clip.stop();
             clip.setFramePosition(0);
             clip.start();
+            logger.info("Playing the sound: " + sound.toString());
         } catch (ExecutionException e) {
             this.logger.error(e);
         }
@@ -247,6 +248,7 @@ public final class AudioManager implements IAudioManager {
             final Clip clip = this.soundsCache.get(sound);
             clip.stop();
             clip.setFramePosition(0);
+            logger.info("Stopped the sound: " + sound.toString());
         } catch (ExecutionException e) {
             this.logger.error(e);
         }
@@ -262,6 +264,7 @@ public final class AudioManager implements IAudioManager {
             final Clip clip = this.soundsCache.get(sound);
             clip.setFramePosition(0);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
+            logger.info("Looping the sound: " + sound.toString());
         } catch (ExecutionException e) {
             this.logger.error(e);
         }
