@@ -36,7 +36,6 @@ import resources.IRes;
 import resources.Res;
 import resources.animations.AnimationFactory;
 import resources.animations.IAnimationFactory;
-import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
 import resources.audio.Sounds;
 import resources.sprites.ISpriteFactory;

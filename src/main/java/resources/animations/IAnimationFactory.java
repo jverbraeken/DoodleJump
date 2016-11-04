@@ -1,7 +1,6 @@
 package resources.animations;
 
 import resources.IRes;
-import resources.sprites.ISprite;
 
 /**
  * Defines a {@link IAnimation} factory.

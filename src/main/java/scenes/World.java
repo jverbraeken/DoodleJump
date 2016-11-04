@@ -14,7 +14,6 @@ import rendering.AccelerationType;
 import rendering.ICamera;
 import rendering.IRenderer;
 import resources.IRes;
-import resources.audio.AudioManager;
 import resources.audio.Sounds;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;

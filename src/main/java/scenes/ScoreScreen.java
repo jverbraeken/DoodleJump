@@ -4,7 +4,6 @@ import buttons.IButton;
 import buttons.IButtonFactory;
 import constants.IConstants;
 import logging.ILogger;
-import objects.powerups.Powerups;
 import progression.HighScore;
 import rendering.Color;
 import rendering.IRenderer;

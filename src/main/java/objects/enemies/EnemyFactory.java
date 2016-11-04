@@ -2,7 +2,6 @@ package objects.enemies;
 
 import logging.ILogger;
 import objects.IGameObject;
-import resources.animations.IAnimation;
 import system.IServiceLocator;
 
 import java.awt.Point;

@@ -6,8 +6,6 @@ import com.google.common.cache.LoadingCache;
 import logging.ILogger;
 import objects.powerups.Powerups;
 import resources.IRes;
-import resources.animations.Animation;
-import resources.animations.IAnimation;
 import scenes.PauseScreenModes;
 import system.IServiceLocator;
 

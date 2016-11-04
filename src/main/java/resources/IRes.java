@@ -1,6 +1,5 @@
 package resources;
 
-import resources.sprites.ISprite;
 import system.Game;
 
 /**
