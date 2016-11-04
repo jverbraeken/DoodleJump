@@ -94,6 +94,14 @@ public final class Game {
         }
 
         @Override
+        public void register() {
+        }
+
+        @Override
+        public void deregister() {
+        }
+
+        @Override
         public void switchDisplay(final PauseScreenModes mode) {
         }
 
