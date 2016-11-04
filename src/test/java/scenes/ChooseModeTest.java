@@ -48,13 +48,13 @@ public class ChooseModeTest {
         menu = mock(IButton.class);
 
         buttonFactory = mock(IButtonFactory.class);
-        when(buttonFactory.createDarknessModeButton(0.6, 0.45)).thenReturn(darkness);
-        when(buttonFactory.createInvertModeButton(0.6, 0.65)).thenReturn(vertical);
-        when(buttonFactory.createRegularModeButton(0.2, 0.25)).thenReturn(regular);
-        when(buttonFactory.createUnderwaterModeButton(0.2, 0.45)).thenReturn(underwater);
-        when(buttonFactory.createSpaceModeButton(0.2, 0.65)).thenReturn(space);
-        when(buttonFactory.createStoryModeButton(0.6, 0.25)).thenReturn(horizontal);
-        when(buttonFactory.createMainMenuButton(0.35, 0.13)).thenReturn(menu);
+        when(buttonFactory.createDarknessModeButton(anyDouble(), anyDouble())).thenReturn(darkness);
+        when(buttonFactory.createInvertModeButton(anyDouble(), anyDouble())).thenReturn(vertical);
+        when(buttonFactory.createRegularModeButton(anyDouble(), anyDouble())).thenReturn(regular);
+        when(buttonFactory.createUnderwaterModeButton(anyDouble(), anyDouble())).thenReturn(underwater);
+        when(buttonFactory.createSpaceModeButton(anyDouble(), anyDouble())).thenReturn(space);
+        when(buttonFactory.createStoryModeButton(anyDouble(), anyDouble())).thenReturn(horizontal);
+        when(buttonFactory.createMainMenuButton(anyDouble(), anyDouble())).thenReturn(menu);
 
         renderer = mock(IRenderer.class);
 
