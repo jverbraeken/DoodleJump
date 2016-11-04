@@ -13,6 +13,7 @@ import progression.IProgressionManager;
 import progression.Ranks;
 import rendering.Color;
 import rendering.IRenderer;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -111,7 +112,7 @@ import java.util.List;
         this.serviceLocator = sL;
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        this.cover = spriteFactory.getStartCoverSprite();
+        this.cover = spriteFactory.getSprite(IRes.Sprites.startCover);
 
         IConstants constants = sL.getConstants();
         final int gameWidth = constants.getGameWidth();
@@ -128,8 +129,8 @@ import java.util.List;
                 Menu.MULTIPLAYER_BUTTON_X,
                 Menu.MULTIPLAYER_BUTTON_Y));
         this.buttons.add(buttonFactory.createShopButton(
-                SHOP_BUTTON_X,
-                SHOP_BUTTON_Y));
+                Menu.SHOP_BUTTON_X,
+                Menu.SHOP_BUTTON_Y));
         this.buttons.add(buttonFactory.createChooseModeButton(
                 Menu.CHOOSE_MODE_X,
                 Menu.CHOOSE_MODE_Y));

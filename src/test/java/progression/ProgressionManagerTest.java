@@ -167,7 +167,6 @@ public class ProgressionManagerTest {
         final Map<Powerups, Integer> expectedPowerupLevels = new EnumMap<>(Powerups.class);
         expectedPowerupLevels.put(Powerups.jetpack, 0);
         expectedPowerupLevels.put(Powerups.propeller, 0);
-        expectedPowerupLevels.put(Powerups.shield, 0);
         expectedPowerupLevels.put(Powerups.sizeDown, 0);
         expectedPowerupLevels.put(Powerups.sizeUp, 0);
         expectedPowerupLevels.put(Powerups.spring, 1);

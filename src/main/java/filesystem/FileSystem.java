@@ -5,6 +5,7 @@ import logging.ILogger;
 import system.Game;
 import system.IServiceLocator;
 
+import javax.annotation.Nonnull;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -63,7 +64,7 @@ public final class FileSystem implements IFileSystem {
         // a {@link NullPointerException}.
         Writer fw = new Writer() {
             @Override
-            public void write(final char[] cbuf, final int off, final int len) throws IOException {
+            public void write(@Nonnull final char[] cbuf, final int off, final int len) throws IOException {
             }
 
             @Override
@@ -104,19 +105,7 @@ public final class FileSystem implements IFileSystem {
     @Override
     public List<String> readResourceFile(final String filename) throws FileNotFoundException {
         File file = this.getResourceFile(filename);
-        List<String> result = new ArrayList<>();
-
-        String line;
-        try (BufferedReader br = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8)) {
-            while ((line = br.readLine()) != null) {
-                result.add(line);
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
+        return readFile(file);
     }
 
     /**
@@ -131,19 +120,7 @@ public final class FileSystem implements IFileSystem {
             throw new FileNotFoundException(filename + " was not found by the FileSystem");
         }
 
-        List<String> result = new ArrayList<>();
-
-        String line;
-        try (BufferedReader br = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8)) {
-            while ((line = br.readLine()) != null) {
-                result.add(line);
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
+        return readFile(file);
     }
 
     /**
@@ -196,40 +173,16 @@ public final class FileSystem implements IFileSystem {
     @Override
     public void writeResourceFile(final String filename, final String content) throws FileNotFoundException {
         File file = this.getResourceFile(filename);
-        try (final OutputStream fs = new FileOutputStream(file);
-             final Writer ow = new OutputStreamWriter(fs, StandardCharsets.UTF_8);
-             final Writer bufferedFileWriter = new BufferedWriter(ow)) {
-            bufferedFileWriter.write(content);
-            bufferedFileWriter.close();
-            ow.close();
-            fs.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writeFile(file, content);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeProjectFile(final String filename, final String content) throws FileNotFoundException {
-        File file;
-        try {
-            file = this.getProjectFile(filename);
-        } catch (IOException e) {
-            throw new FileNotFoundException(filename + " was not found by the FileSystem");
-        }
-
-        try (final OutputStream fs = new FileOutputStream(file);
-             final Writer ow = new OutputStreamWriter(fs, StandardCharsets.UTF_8);
-             final Writer bufferedFileWriter = new BufferedWriter(ow)) {
-            bufferedFileWriter.write(content);
-            bufferedFileWriter.close();
-            ow.close();
-            fs.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void writeProjectFile(final String filename, final String content) throws IOException {
+        File file = this.getProjectFile(filename);
+        writeFile(file, content);
     }
 
     /**
@@ -256,6 +209,7 @@ public final class FileSystem implements IFileSystem {
             e.printStackTrace();
         }
 
+        assert file != null;
         try (final OutputStream outputStream = new FileOutputStream(file);
              final Writer w = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
              final PrintWriter pw = new PrintWriter(w, false)) {
@@ -344,8 +298,7 @@ public final class FileSystem implements IFileSystem {
     @Override
     public String serializeJson(final Object image) {
         final Gson gson = new Gson();
-        final String result = gson.toJson(image);
-        return result;
+        return gson.toJson(image);
     }
 
     /**
@@ -366,5 +319,45 @@ public final class FileSystem implements IFileSystem {
             font = DEFAULT_FONT;
         }
         return font;
+    }
+
+    /**
+     * Writes the text to a file.
+     *
+     * @param file The file to which {@code content} should be written
+     * @param content The text that should be written to {@code file}
+     */
+    private void writeFile(final File file, final String content) {
+        try (final OutputStream fs = new FileOutputStream(file);
+             final Writer ow = new OutputStreamWriter(fs, StandardCharsets.UTF_8);
+             final Writer bufferedFileWriter = new BufferedWriter(ow)) {
+            bufferedFileWriter.write(content);
+            bufferedFileWriter.close();
+            ow.close();
+            fs.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Writes the content of a file.
+     *
+     * @param file The file that must be read
+     * @return A list containing the lines of the file
+     */
+    private List<String> readFile(final File file) {
+        List<String> result = new ArrayList<>();
+        String line;
+        try (BufferedReader br = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8)) {
+            while ((line = br.readLine()) != null) {
+                result.add(line);
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

@@ -2,13 +2,14 @@ package objects.enemies;
 
 import logging.ILogger;
 import logging.ILoggerFactory;
-import objects.powerups.PowerupFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -40,7 +41,7 @@ public class EnemyFactoryTest {
         when(loggerFactory.createLogger(Enemy.class)).thenReturn(logger);
         when(serviceLocator.getLoggerFactory()).thenReturn(loggerFactory);
         when(serviceLocator.getSpriteFactory()).thenReturn(spriteFactory);
-        when(spriteFactory.getOrdinaryMonsterSprite()).thenReturn(sprite);
+        when(spriteFactory.getSprite(Matchers.<IRes.Sprites>any())).thenReturn(sprite);
 
         whenNew(Point.class).withArguments(xPos, yPos).thenReturn(point);
 
@@ -50,9 +51,9 @@ public class EnemyFactoryTest {
 
     @Test
     public void testCreateOrdinaryEnemy() throws Exception {
-        whenNew(Enemy.class).withArguments(serviceLocator, point, sprite).thenReturn(enemy);
-        enemyFactory.createOrdinaryEnemy(xPos, yPos);
-        verifyNew(Enemy.class).withArguments(serviceLocator, point, sprite);
+        whenNew(Enemy.class).withArguments(serviceLocator, point, Enemies.ordinaryMonster).thenReturn(enemy);
+        enemyFactory.createEnemy(Enemies.ordinaryMonster, xPos, yPos);
+        verifyNew(Enemy.class).withArguments(serviceLocator, point, Enemies.ordinaryMonster);
     }
 
 }

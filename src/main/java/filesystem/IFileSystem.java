@@ -79,7 +79,7 @@ public interface IFileSystem {
      * @param content  The text to write to the file.
      * @throws FileNotFoundException Thrown when the file could not be found.
      */
-    void writeProjectFile(final String filename, final String content) throws FileNotFoundException;
+    void writeProjectFile(final String filename, final String content) throws IOException;
 
     /**
      * Deletes the file specified by {@code filename} from the disk.

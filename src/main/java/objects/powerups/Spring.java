@@ -7,7 +7,6 @@ import objects.doodles.IDoodle;
 import progression.ISpringUsedObserver;
 import progression.SpringUsedObserver;
 import resources.audio.IAudioManager;
-import resources.sprites.ISprite;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -23,7 +22,7 @@ public final class Spring extends AJumpablePowerup {
     /**
      * The speed with which the spring retracts after it is used.
      */
-    private static final int RETRACT_SPEED = 250;
+    private final int retractSpeed;
 
     /**
      * A list containing the observer that want to get a notification when the doodle jumps upon a Spring.
@@ -39,15 +38,14 @@ public final class Spring extends AJumpablePowerup {
     /**
      * Constructs a new Spring.
      *
-     * @param serviceLocator The Game's service locator
-     *                       @param point The coordinates of the trampoline
+     * @param serviceLocator The service locator
+     * @param point          The location for the powerup
      * @param level          The level of the powerup
-     * @param usedSprite     The sprite that's drawn when the powerup is used
-     * @param boost          The vertical speed boost the {@link objects.doodles.IDoodle Doodle} gets after hitting the Spring
      */
-    /* package */ Spring(final IServiceLocator serviceLocator, final Point point, final int level, final ISprite usedSprite, final int boost) {
-        super(serviceLocator, point, boost, new ISprite[] {serviceLocator.getSpriteFactory().getPowerupSprite(Powerups.spring, level), usedSprite}, Spring.class);
+    /* package */ Spring(final IServiceLocator serviceLocator, final Point point, final int level) {
+        super(serviceLocator, point, Powerups.spring, level);
         this.logger = serviceLocator.getLoggerFactory().createLogger(this.getClass());
+        this.retractSpeed = Powerups.spring.getRetractSpeed(level);
     }
 
     /**
@@ -55,7 +53,7 @@ public final class Spring extends AJumpablePowerup {
      */
     @Override
     public void animate() {
-        super.executeDefaultAnimation(this, RETRACT_SPEED);
+        super.executeDefaultAnimation(retractSpeed);
     }
 
     /**
