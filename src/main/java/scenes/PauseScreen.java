@@ -187,9 +187,6 @@ public final class PauseScreen implements IScene {
     public void stop() {
         this.deregister();
 
-        if (mode == PauseScreenModes.shop) {
-            this.stopShopCover();
-        }
     }
 
     /**
@@ -210,8 +207,13 @@ public final class PauseScreen implements IScene {
     public void deregister() {
         this.resumeButton.deregister();
         this.logger.info("The resume button is no longer available");
-        this.switchShopButton.deregister();
-        this.logger.info("The switch button is no longer available");
+
+        if (mode == PauseScreenModes.shop) {
+            this.stopShopCover();
+        } else {
+            this.switchShopButton.deregister();
+            this.logger.info("The switch button is no longer available");
+        }
 
     }
 
