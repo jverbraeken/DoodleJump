@@ -52,7 +52,7 @@ public final class Trampoline extends AJumpablePowerup {
      */
     @Override
     public void animate() {
-        super.executeDefaultAnimation(this, retractSpeed);
+        super.executeDefaultAnimation(retractSpeed);
     }
 
     /**

@@ -149,7 +149,7 @@ public class SpringTest {
         spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, new Point(50, 200), 1);
         Whitebox.invokeMethod(spring, "animate");
         assertEquals(usedSprite, spring.getSprite());
-        assertEquals(200, spring.getYPos(),  0.001);
+        assertEquals(180, spring.getYPos(), 0.001);
     }
 
     /**
