@@ -11,7 +11,9 @@ import org.powermock.reflect.Whitebox;
 import org.powermock.reflect.exceptions.ConstructorNotFoundException;
 import rendering.IRenderer;
 import resources.IRes;
+import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
+import resources.audio.Sounds;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -94,7 +96,7 @@ public class TrampolineTest {
     public void testPlaySound() throws Exception {
         trampoline = Whitebox.invokeConstructor(Trampoline.class, serviceLocator, new Point(0, 0), 1);
         Whitebox.invokeMethod(trampoline, "playSound");
-        verify(audioManager).playTrampoline();
+        verify(audioManager).play(Sounds.TRAMPOLINE);
     }
 
     /**

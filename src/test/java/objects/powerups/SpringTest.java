@@ -13,8 +13,10 @@ import progression.IProgressionManager;
 import rendering.IRenderer;
 import resources.IRes;
 import resources.animations.IAnimationFactory;
+import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
 import resources.animations.IAnimation;
+import resources.audio.Sounds;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -96,7 +98,7 @@ public class SpringTest {
     public void testPlaySound() throws Exception {
         spring = Whitebox.invokeConstructor(Spring.class, serviceLocator, new Point(0, 0), 1);
         Whitebox.invokeMethod(spring, "playSound");
-        verify(audioManager).playFeder();
+        verify(audioManager).play(Sounds.FEDER);
     }
 
     /**

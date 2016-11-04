@@ -14,7 +14,9 @@ import org.powermock.reflect.Whitebox;
 import rendering.ICamera;
 import rendering.IRenderer;
 import resources.IRes;
+import resources.audio.AudioManager;
 import resources.audio.IAudioManager;
+import resources.audio.Sounds;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -130,7 +132,7 @@ public class PlatformTest {
         p.collidesWith(doodle);
 
         Mockito.verify(doodle).collide(p);
-        Mockito.verify(audioManager).playJump();
+        Mockito.verify(audioManager).play(Sounds.JUMP);
     }
 
     @Test
@@ -138,7 +140,7 @@ public class PlatformTest {
         q.collidesWith(doodle);
 
         Mockito.verify(doodle, Mockito.times(0)).collide(q);
-        Mockito.verify(audioManager).playLomise();
+        Mockito.verify(audioManager).play(Sounds.LOMISE);
     }
 
     @Test(expected=IllegalArgumentException.class)
