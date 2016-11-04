@@ -232,7 +232,7 @@ public final class ProgressionManager implements IProgressionManager {
         image.setCoins(this.coinManager.coins);
         image.setExperience(this.experienceManager.experience);
 
-        List<SaveFileHighScoreEntry> highScoreEntries = new ArrayList<>(this.highScoreManager.MAX_HIGHSCORE_ENTRIES);
+        List<SaveFileHighScoreEntry> highScoreEntries = new ArrayList<>(ProgressionManager.HighScoreManager.MAX_HIGHSCORE_ENTRIES);
         for (HighScore highScore : this.highScoreManager.highScores) {
             SaveFileHighScoreEntry entry = new SaveFileHighScoreEntry();
             entry.setName(highScore.getName());
@@ -395,35 +395,40 @@ public final class ProgressionManager implements IProgressionManager {
         private int coins;
 
         /**
-         * A refererence to the outer class
+         * A reference to the progressionManager class
          */
-        private ProgressionManager outer;
+        private final ProgressionManager progressionManager;
 
         /**
          * Construct a class responsible for managing the coins.
          * @param progressionManager The ProgressionManager used in the game
          */
-        private CoinManager(ProgressionManager progressionManager) {
-            outer = progressionManager;
+        private CoinManager(final ProgressionManager progressionManager) {
+            this.progressionManager = progressionManager;
         }
 
+        /**
+         * Decreases the amount of coins with {@code amount}.
+         *
+         * @param amount The amount of coins that should be subtracted from the total amount of coins
+         */
         private void decreaseCoins(final int amount) {
             assert this.coins >= 0;
 
             if (amount < 0) {
                 final String error = "The amount of coins to be subtracted must be more than 0";
-                outer.logger.error(error);
+                progressionManager.logger.error(error);
                 throw new IllegalArgumentException(error);
             }
             if (this.coins - amount < 0) {
                 final String error = "Insufficient coins available: coins = " + this.coins
                         + ", subtraction amount = " + amount;
-                outer.logger.error(error);
+                progressionManager.logger.error(error);
                 throw new InsufficientCoinsException(error);
             }
             this.coins -= amount;
 
-            outer.saveData();
+            progressionManager.saveData();
 
             assert this.coins >= 0;
         }
@@ -452,16 +457,16 @@ public final class ProgressionManager implements IProgressionManager {
         private Ranks rank;
 
         /**
-         * A refererence to the outer class
+         * A reference to the progressionManager class
          */
-        private ProgressionManager outer;
+        private final ProgressionManager progressionManager;
 
         /**
          * Construct a class responsible for managing the rank.
          * @param progressionManager The ProgressionManager used in the game
          */
-        private RankManager(ProgressionManager progressionManager) {
-            outer = progressionManager;
+        private RankManager(final ProgressionManager progressionManager) {
+            this.progressionManager = progressionManager;
         }
 
         /**
@@ -470,7 +475,7 @@ public final class ProgressionManager implements IProgressionManager {
         private void setRankAccordingExperience() {
             this.rank = Ranks.newbie;
             for (Ranks checkRank : Ranks.values()) {
-                if (checkRank.getExperience() < this.outer.experienceManager.experience) {
+                if (checkRank.getExperience() < this.progressionManager.experienceManager.experience) {
                     this.rank = checkRank;
                 }
             }
@@ -484,16 +489,16 @@ public final class ProgressionManager implements IProgressionManager {
         private int experience;
 
         /**
-         * A refererence to the outer class
+         * A reference to the progressionManager class
          */
-        private ProgressionManager outer;
+        private final ProgressionManager progressionManager;
 
         /**
          * Construct a class responsible for managing the experience.
          * @param progressionManager The ProgressionManager used in the game
          */
-        private ExperienceManager(ProgressionManager progressionManager) {
-            outer = progressionManager;
+        private ExperienceManager(final ProgressionManager progressionManager) {
+            this.progressionManager = progressionManager;
         }
 
         /**
@@ -507,7 +512,7 @@ public final class ProgressionManager implements IProgressionManager {
 
             this.experience += amount;
             ProgressionManager.this.rankManager.setRankAccordingExperience();
-            outer.saveData();
+            progressionManager.saveData();
         }
     }
     
@@ -525,16 +530,16 @@ public final class ProgressionManager implements IProgressionManager {
         private static final int MAX_HIGHSCORE_ENTRIES = 10;
 
         /**
-         * A refererence to the outer class
+         * A reference to the progressionManager class
          */
-        private ProgressionManager outer;
+        private final ProgressionManager progressionManager;
 
         /**
          * Construct a class responsible for managing the highscores.
          * @param progressionManager The ProgressionManager used in the game
          */
-        private HighScoreManager(ProgressionManager progressionManager) {
-            outer = progressionManager;
+        private HighScoreManager(final ProgressionManager progressionManager) {
+            this.progressionManager = progressionManager;
         }
         
         /**
@@ -553,7 +558,7 @@ public final class ProgressionManager implements IProgressionManager {
                 this.highScores.remove(i - 1);
             }
 
-            outer.saveData();
+            progressionManager.saveData();
         }
     }
     
@@ -583,16 +588,16 @@ public final class ProgressionManager implements IProgressionManager {
         };
 
         /**
-         * A refererence to the outer class
+         * A reference to the progressionManager class
          */
-        private ProgressionManager outer;
+        private final ProgressionManager progressionManager;
 
         /**
          * Construct a class responsible for managing the missions.
          * @param progressionManager The ProgressionManager used in the game
          */
-        private MissionManager(ProgressionManager progressionManager) {
-            outer = progressionManager;
+        private MissionManager(final ProgressionManager progressionManager) {
+            this.progressionManager = progressionManager;
         }
 
         /**
@@ -600,9 +605,9 @@ public final class ProgressionManager implements IProgressionManager {
          */
         private void createNewMission() {
             assert this.missions.size() < this.MAX_MISSIONS;
-            if (outer.levelManager.level < this.missionsData.length) {
-                final int levelCopy = outer.levelManager.level;
-                outer.logger.info("New mission was created: level = "
+            if (progressionManager.levelManager.level < this.missionsData.length) {
+                final int levelCopy = progressionManager.levelManager.level;
+                progressionManager.logger.info("New mission was created: level = "
                         + levelCopy
                         + ", mission = "
                         + this.missionsData[levelCopy].type.toString()
@@ -610,28 +615,28 @@ public final class ProgressionManager implements IProgressionManager {
                         + this.missionsData[levelCopy].amount
                         + ", reward = "
                         + this.missionsData[levelCopy].reward);
-                outer.missionManager.missions.add(serviceLocator.getMissionFactory().createMission(
+                progressionManager.missionManager.missions.add(serviceLocator.getMissionFactory().createMission(
                         this.missionsData[levelCopy].type,
                         this.missionsData[levelCopy].observerType,
                         this.missionsData[levelCopy].amount,
                         () -> {
-                            outer.coinManager.coins += this.missionsData[levelCopy].reward;
+                            progressionManager.coinManager.coins += this.missionsData[levelCopy].reward;
                             return null;
                         }
                 ));
             } else {
-                outer.logger.info("Maximum mission limit reached at level" + outer.levelManager.level + ". Last mission created again...");
+                progressionManager.logger.info("Maximum mission limit reached at level" + progressionManager.levelManager.level + ". Last mission created again...");
                 this.missions.add(serviceLocator.getMissionFactory().createMission(
                         this.missionsData[this.missionsData.length - 1].type,
                         this.missionsData[this.missionsData.length - 1].observerType,
                         this.missionsData[this.missionsData.length - 1].amount,
                         () -> {
-                            outer.coinManager.coins += this.missionsData[this.missionsData.length - 1].reward;
+                            progressionManager.coinManager.coins += this.missionsData[this.missionsData.length - 1].reward;
                             return null;
                         }
                 ));
             }
-            outer.levelManager.level++;
+            progressionManager.levelManager.level++;
         }
     }
     
@@ -642,33 +647,42 @@ public final class ProgressionManager implements IProgressionManager {
         private final Map<Powerups, Integer> powerupLevels = new EnumMap<>(Powerups.class);
 
         /**
-         * A refererence to the outer class
+         * A reference to the progressionManager class
          */
-        private ProgressionManager outer;
+        private final ProgressionManager progressionManager;
 
         /**
          * Construct a class responsible for managing the powerup levels.
          * @param progressionManager The ProgressionManager used in the game
          */
-        private PowerupLevelManager(ProgressionManager progressionManager) {
-            outer = progressionManager;
+        private PowerupLevelManager(final ProgressionManager progressionManager) {
+            this.progressionManager = progressionManager;
         }
 
+        /**
+         * @param powerup The powerup you want to retrieve the current level from. Cannot be null
+         * @return The level of the powerup
+         */
         private int getPowerupLevel(final Powerups powerup) {
             if (powerup == null) {
                 final String error = "The powerup cannot be null";
-                outer.logger.error(error);
+                progressionManager.logger.error(error);
                 throw new IllegalArgumentException(error);
             }
 
             if (this.powerupLevels.get(powerup) == null) {
-                outer.logger.warning("The powerupLevels for the powerup " + powerup.toString() + " are missing");
+                progressionManager.logger.warning("The powerupLevels for the powerup " + powerup.toString() + " are missing");
                 return 0;
             } else {
                 return this.powerupLevels.get(powerup);
             }
         }
 
+        /**
+         * Increases the powerup level of the powerup specified by 1.
+         *
+         * @param powerup The powerup that should be upgraded
+         */
         private void increasePowerupLevel(final Powerups powerup) {
             if (powerup == null) {
                 throw new IllegalArgumentException("The level of the null powerup cannot be increased");
@@ -681,7 +695,7 @@ public final class ProgressionManager implements IProgressionManager {
 
             this.powerupLevels.replace(powerup, currentLevel + 1);
 
-            outer.saveData();
+            progressionManager.saveData();
         }
     }
 
