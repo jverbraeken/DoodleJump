@@ -14,6 +14,7 @@ import progression.IProgressionManager;
 import progression.ProgressionManager;
 import rendering.AccelerationType;
 import rendering.ICamera;
+import rendering.IRenderer;
 import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
@@ -174,7 +175,8 @@ public final class World implements IScene {
      */
     @Override
     public final void register() {
-        this.serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
+        final IRenderer renderer = this.serviceLocator.getRenderer();
+        renderer.getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
         this.scoreBar.register();
         this.doodles.forEach(IDoodle::register);
         this.logger.info("The world is now registered");
