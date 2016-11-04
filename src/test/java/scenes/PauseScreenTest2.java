@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
-public class PauseScreenTest {
+public class PauseScreenTest2 {
 
     private IRenderer renderer;
     private IConstants constants;
