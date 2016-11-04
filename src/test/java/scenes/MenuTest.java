@@ -139,7 +139,7 @@ public class MenuTest {
         verify(multiplayer, times(1)).register();
         verify(chooseMode, times(1)).register();
 
-        verify(logger).info(anyString());
+        verify(logger, atLeastOnce()).info(anyString());
     }
 
     @Test
@@ -152,7 +152,7 @@ public class MenuTest {
         verify(shop, times(1)).deregister();
         verify(chooseMode, times(1)).deregister();
 
-        verify(logger).info(anyString());
+        verify(logger, atLeastOnce()).info(anyString());
     }
 
 }
