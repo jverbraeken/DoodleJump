@@ -1,10 +1,5 @@
 package resources.audio;
 
-import logging.ILogger;
-
-import javax.sound.sampled.Clip;
-import java.io.FileNotFoundException;
-
 /**
  * Enum with the paths to all sound files.
  */

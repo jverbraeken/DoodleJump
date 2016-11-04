@@ -3,8 +3,15 @@ package resources.audio;
 import logging.ILogger;
 import system.IServiceLocator;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.Control;
+import javax.sound.sampled.Line;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.EnumMap;
 
 /**
@@ -23,6 +30,148 @@ public final class AudioManager implements IAudioManager {
      * A map that maps enum values to clips.
      */
     private static EnumMap<Sounds, Clip> clips = new EnumMap<>(Sounds.class);
+    /**
+     * A fake clip to return when a clip is requested from the clips map to prevent errors.
+     */
+    private static Clip fakeClip = new Clip() {
+
+        @Override
+        public void open(AudioFormat format, byte[] data, int offset, int bufferSize) throws LineUnavailableException {
+        }
+
+        @Override
+        public void open(AudioInputStream stream) throws LineUnavailableException, IOException {
+        }
+
+        @Override
+        public int getFrameLength() {
+            return 0;
+        }
+
+        @Override
+        public long getMicrosecondLength() {
+            return 0;
+        }
+
+        @Override
+        public void setFramePosition(int frames) {
+        }
+
+        @Override
+        public void setMicrosecondPosition(long microseconds) {
+        }
+
+        @Override
+        public void setLoopPoints(int start, int end) {
+        }
+
+        @Override
+        public void loop(int count) {
+        }
+
+        @Override
+        public void drain() {
+        }
+
+        @Override
+        public void flush() {
+        }
+
+        @Override
+        public void start() {
+        }
+
+        @Override
+        public void stop() {
+        }
+
+        @Override
+        public boolean isRunning() {
+            return false;
+        }
+
+        @Override
+        public boolean isActive() {
+            return false;
+        }
+
+        @Override
+        public AudioFormat getFormat() {
+            return null;
+        }
+
+        @Override
+        public int getBufferSize() {
+            return 0;
+        }
+
+        @Override
+        public int available() {
+            return 0;
+        }
+
+        @Override
+        public int getFramePosition() {
+            return 0;
+        }
+
+        @Override
+        public long getLongFramePosition() {
+            return 0;
+        }
+
+        @Override
+        public long getMicrosecondPosition() {
+            return 0;
+        }
+
+        @Override
+        public float getLevel() {
+            return 0;
+        }
+
+        @Override
+        public Line.Info getLineInfo() {
+            return null;
+        }
+
+        @Override
+        public void open() throws LineUnavailableException {
+        }
+
+        @Override
+        public void close() {
+        }
+
+        @Override
+        public boolean isOpen() {
+            return false;
+        }
+
+        @Override
+        public Control[] getControls() {
+            return new Control[0];
+        }
+
+        @Override
+        public boolean isControlSupported(Control.Type control) {
+            return false;
+        }
+
+        @Override
+        public Control getControl(Control.Type control) {
+            return null;
+        }
+
+        @Override
+        public void addLineListener(LineListener listener) {
+        }
+
+        @Override
+        public void removeLineListener(LineListener listener) {
+        }
+
+    };
     /**
      * The logger for the AudioManager.
      */
@@ -103,7 +252,7 @@ public final class AudioManager implements IAudioManager {
      */
     @Override
     public void play(final Sounds sound) {
-        Clip clip = AudioManager.clips.get(sound);
+        final Clip clip = AudioManager.clips.getOrDefault(sound, AudioManager.fakeClip);
         clip.stop();
         clip.setFramePosition(0);
         clip.start();
@@ -114,7 +263,7 @@ public final class AudioManager implements IAudioManager {
      */
     @Override
     public void stop(final Sounds sound) {
-        Clip clip = AudioManager.clips.get(sound);
+        final Clip clip = AudioManager.clips.getOrDefault(sound, AudioManager.fakeClip);
         clip.stop();
         clip.setFramePosition(0);
         clip.start();
@@ -125,7 +274,7 @@ public final class AudioManager implements IAudioManager {
      */
     @Override
     public void loop(final Sounds sound) {
-        Clip clip = AudioManager.clips.get(sound);
+        final Clip clip = AudioManager.clips.getOrDefault(sound, AudioManager.fakeClip);
         clip.setFramePosition(0);
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
