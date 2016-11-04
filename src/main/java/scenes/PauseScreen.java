@@ -189,9 +189,6 @@ public final class PauseScreen implements IScene {
 
         if (mode == PauseScreenModes.shop) {
             this.stopShopCover();
-        } else {
-            this.switchShopButton.deregister();
-            this.logger.info("The switch button to the shop cover is no longer available");
         }
     }
 
