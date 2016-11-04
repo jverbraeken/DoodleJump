@@ -8,6 +8,7 @@ import objects.powerups.Powerups;
 import progression.HighScore;
 import rendering.Color;
 import rendering.IRenderer;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
@@ -19,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Score screen implementation of a scene.
  */
-/* package */ class ScoreScreen implements IScene {
+/* package */ final class ScoreScreen implements IScene {
 
     /**
      * The X and Y location for the resume button.
@@ -68,9 +69,9 @@ import java.util.concurrent.atomic.AtomicInteger;
         logger = sL.getLoggerFactory().createLogger(ScoreScreen.class);
 
         ISpriteFactory spriteFactory = sL.getSpriteFactory();
-        this.bottom = spriteFactory.getScoreScreenBottom();
-        this.left = spriteFactory.getScoreScreenLeft();
-        this.top = spriteFactory.getScoreScreenTop();
+        this.bottom = spriteFactory.getSprite(IRes.Sprites.scoreScreenBottom);
+        this.left = spriteFactory.getSprite(IRes.Sprites.scoreScreenLeft);
+        this.top = spriteFactory.getSprite(IRes.Sprites.scoreScreenTop);
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         this.menuButton = buttonFactory.createMainMenuButton(ScoreScreen.MENU_BUTTON_X, ScoreScreen.MENU_BUTTON_Y);

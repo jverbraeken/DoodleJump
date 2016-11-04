@@ -34,7 +34,6 @@ public class SizeUpTest {
     private ISpriteFactory spriteFactory = mock(ISpriteFactory.class);
 
     private SizeUp sizeUp;
-    private double sizeUpScalar = Whitebox.getInternalState(SizeUp.class, "SCALE_INCREASE");
 
     @Before
     public void init() {
@@ -48,13 +47,13 @@ public class SizeUpTest {
         when(sprite.getWidth()).thenReturn(0);
         when(spriteFactory.getPowerupSprite(anyObject(), anyInt())).thenReturn(sprite);
 
-        sizeUp = new SizeUp(serviceLocator, new Point(0, 0));
+        sizeUp = new SizeUp(serviceLocator, new Point(0, 0), 1);
     }
 
     @Test
     public void testCollidesWith() throws Exception {
         sizeUp.collidesWith(doodle);
-        verify(doodle, times(1)).increaseSpriteScalar(sizeUpScalar);
+        verify(doodle, times(1)).increaseSpriteScalar(Powerups.sizeUp.getScale(1));
     }
 
     @Test(expected = IllegalArgumentException.class)

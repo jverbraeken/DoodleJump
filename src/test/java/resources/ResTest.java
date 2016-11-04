@@ -19,6 +19,7 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.*;
 
 
@@ -225,7 +226,6 @@ public class ResTest {
         assertThat(insertedSprites.get(Sprites.jetpack6), is(SPRITE_PATH + "jetpack-6@2x.png"));
         assertThat(insertedSprites.get(Sprites.jetpack7), is(SPRITE_PATH + "jetpack-7@2x.png"));
         assertThat(insertedSprites.get(Sprites.jetpack8), is(SPRITE_PATH + "jetpack-8@2x.png"));
-        assertThat(insertedSprites.get(Sprites.jetpack9), is(SPRITE_PATH + "jetpack-9@2x.png"));
     }
 
     @Test
@@ -278,7 +278,7 @@ public class ResTest {
     public void testSetDefaultSkinIcons() throws Exception {
         Whitebox.invokeMethod(res, "setDefaultSkin");
         insertedSprites = Whitebox.getInternalState(res, "sprites");
-        assertThat(insertedSprites.get(Sprites.horzontalOnlyMode), is(SPRITE_PATH + "only-horizontal-mode@4x.png"));
+        assertThat(insertedSprites.get(Sprites.horizontalOnlyMode), is(SPRITE_PATH + "only-horizontal-mode@4x.png"));
         assertThat(insertedSprites.get(Sprites.regularMode), is(SPRITE_PATH + "regular-mode@4x.png"));
         assertThat(insertedSprites.get(Sprites.darknessMode), is(SPRITE_PATH + "darkness-mode@4x.png"));
         assertThat(insertedSprites.get(Sprites.verticalOnlyMode), is(SPRITE_PATH + "only-vertical-mode@4x.png"));

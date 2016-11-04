@@ -2,7 +2,6 @@ package objects.powerups;
 
 import logging.ILogger;
 import objects.IGameObject;
-import resources.sprites.ISpriteFactory;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -14,23 +13,6 @@ import java.util.List;
  */
 public final class PowerupFactory implements IPowerupFactory {
 
-    /**
-     * The boosts per level of {@link Spring spring} powerups.
-     */
-    private static final int[] BOOST_SPRING = new int[]{-30, -40, -50};
-    /**
-     * The boosts per level of {@link Trampoline trampoline} powerups.
-     */
-    private static final int[] BOOST_TRAMPOLINE = new int[]{-40, -55, -70};
-
-    /**
-     * The time measured in frames a {@link Jetpack} is in the air.
-     */
-    private static final int[] MAX_TIME_JETPACK = new int[]{175, 200, 225};
-    /**
-     * The Y-offset for drawing the Jetpack when on Doodle.
-     */
-    private static final int[] OWNED_Y_OFFSET_JETPACK = new int[]{35, 35, -70};
     /**
      * Used to gain access to all services.
      */
@@ -51,6 +33,22 @@ public final class PowerupFactory implements IPowerupFactory {
      * The jetpack creation observers of PowerupFactory.
      */
     private final List<IJetpackCreatedObserver> jetpackObservers = new ArrayList<>();
+    /**
+     * The sizeDown creation observers of PowerupFactory.
+     */
+    private final List<ISizeDownCreatedObserver> sizeDownObservers = new ArrayList<>();
+    /**
+     * The sizeUp creation observers of PowerupFactory.
+     */
+    private final List<ISizeUpCreatedObserver> sizeUpObservers = new ArrayList<>();
+    /**
+     * The springShoes creation observers of PowerupFactory.
+     */
+    private final List<ISpringShoesCreatedObserver> springShoesObservers = new ArrayList<>();
+    /**
+     * The propeller creation observers of PowerupFactory.
+     */
+    private final List<IPropellerCreatedObserver> propellerObservers = new ArrayList<>();
 
     /**
      * Private constructor to prevent instantiation from outside the class.
@@ -81,8 +79,7 @@ public final class PowerupFactory implements IPowerupFactory {
         final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
         assert level > 0;
         assert level <= type.getMaxLevel();
-        final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
-        Jetpack jetpack = new Jetpack(serviceLocator, new Point(x, y), level, spriteFactory.getJetpackActiveSprites(level), MAX_TIME_JETPACK[level - 1], OWNED_Y_OFFSET_JETPACK[level - 1]);
+        Jetpack jetpack = new Jetpack(serviceLocator, new Point(x, y), level);
         logger.info("A new Jetpack of level " + level + " was created");
         for (IJetpackCreatedObserver observer : jetpackObservers) {
             observer.alertJetpackCreated(jetpack);
@@ -95,9 +92,16 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createPropeller(final int x, final int y) {
+        final Powerups type = Powerups.propeller;
+        final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
+        assert level > 0;
+        assert level <= type.getMaxLevel();
+        Propeller propeller = new Propeller(serviceLocator, new Point(x, y), level);
         logger.info("A new Propeller has been created");
-        final Point point = new Point(x, y);
-        return new Propeller(serviceLocator, point);
+        for (IPropellerCreatedObserver observer : propellerObservers) {
+            observer.alertPropellerCreated(propeller);
+        }
+        return propeller;
     }
 
     /**
@@ -105,9 +109,16 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createSizeDown(final int x, final int y) {
+        final Powerups type = Powerups.sizeDown;
+        final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
+        assert level > 0;
+        assert level <= type.getMaxLevel();
+        SizeDown sizeDown = new SizeDown(serviceLocator, new Point(x, y), level);
         logger.info("A new SizeDown has been created");
-        final Point point = new Point(x, y);
-        return new SizeDown(serviceLocator, point);
+        for (ISizeDownCreatedObserver observer : sizeDownObservers) {
+            observer.alertSizeDownCreated(sizeDown);
+        }
+        return sizeDown;
     }
 
     /**
@@ -115,9 +126,16 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createSizeUp(final int x, final int y) {
+        final Powerups type = Powerups.sizeUp;
+        final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
+        assert level > 0;
+        assert level <= type.getMaxLevel();
+        SizeUp sizeUp = new SizeUp(serviceLocator, new Point(x, y), level);
         logger.info("A new SizeUp has been created");
-        final Point point = new Point(x, y);
-        return new SizeUp(serviceLocator, point);
+        for (ISizeUpCreatedObserver observer : sizeUpObservers) {
+            observer.alertSizeUpCreated(sizeUp);
+        }
+        return sizeUp;
     }
 
     /**
@@ -129,9 +147,8 @@ public final class PowerupFactory implements IPowerupFactory {
         final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
         assert level > 0;
         assert level <= type.getMaxLevel();
-        final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         final Point point = new Point(x, y);
-        Spring spring = new Spring(serviceLocator, point, level, spriteFactory.getSpringUsedSprite(level), BOOST_SPRING[level - 1]);
+        Spring spring = new Spring(serviceLocator, point, level);
         logger.info("A new Spring of level " + level + " was created");
         for (ISpringCreatedObserver observer : springObservers) {
             observer.alertSpringCreated(spring);
@@ -144,9 +161,17 @@ public final class PowerupFactory implements IPowerupFactory {
      */
     @Override
     public IGameObject createSpringShoes(final int x, final int y) {
-        logger.info("A new pair of Spring Shoes has been created");
+        final Powerups type = Powerups.springShoes;
+        final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
+        assert level > 0;
+        assert level <= type.getMaxLevel();
         final Point point = new Point(x, y);
-        return new SpringShoes(serviceLocator,point);
+        SpringShoes springShoes = new SpringShoes(serviceLocator, point, level);
+        for (ISpringShoesCreatedObserver observer : springShoesObservers) {
+            observer.alertSpringShoesCreated(springShoes);
+        }
+        logger.info("A new pair of SpringShoes has been created");
+        return springShoes;
     }
 
     /**
@@ -158,9 +183,8 @@ public final class PowerupFactory implements IPowerupFactory {
         final int level = serviceLocator.getProgressionManager().getPowerupLevel(type);
         assert level > 0;
         assert level <= type.getMaxLevel();
-        final ISpriteFactory spriteFactory = serviceLocator.getSpriteFactory();
         final Point point = new Point(x, y);
-        Trampoline trampoline = new Trampoline(serviceLocator, new Point(x, y), level, spriteFactory.getTrampolineUsedSprite(level), BOOST_TRAMPOLINE[level - 1]);
+        Trampoline trampoline = new Trampoline(serviceLocator, point, level);
         logger.info("A new Trampoline of level " + level + " was created");
         for (ITrampolineCreatedObserver observer : trampolineObservers) {
             observer.trampolineCreated(trampoline);

@@ -8,11 +8,15 @@ import objects.blocks.BlockTypes;
 import objects.blocks.IBlock;
 import objects.blocks.IBlockFactory;
 import objects.doodles.IDoodle;
-import objects.enemies.AEnemy;
+import objects.enemies.IEnemy;
 import objects.powerups.Powerups;
+import progression.IProgressionManager;
+import progression.ProgressionManager;
 import rendering.AccelerationType;
 import rendering.ICamera;
+import resources.IRes;
 import resources.sprites.ISprite;
+import resources.sprites.ISpriteFactory;
 import system.Game;
 import system.IRenderable;
 import system.IServiceLocator;
@@ -33,7 +37,7 @@ import java.util.stream.Collectors;
 /**
  * This class describes the scene in which the actual standard game is played.
  */
-public class World implements IScene {
+public final class World implements IScene {
 
     /**
      * The offset of the pause button.
@@ -51,10 +55,6 @@ public class World implements IScene {
      * The amount of blocks kept in a buffer.
      */
     private static final int BLOCK_BUFFER = 4;
-    /**
-     * The amount of experience earned from killing an enemy.
-     */
-    private static final int EXP_KILLING_ENEMY = 200;
 
     /**
      * Used to access all services.
@@ -85,7 +85,7 @@ public class World implements IScene {
     /**
      * A set of drawables that should be added next time the World is rendered.
      */
-    private final Set<IRenderable> newDrawables = new HashSet<>();
+    private final Map<DrawableLevels, Set<IRenderable>> newDrawables = new EnumMap<>(DrawableLevels.class);
     /**
      * List of game objects that should be updated every frame.
      */
@@ -117,35 +117,38 @@ public class World implements IScene {
             throw new IllegalArgumentException("The service locator cannot be null");
         }
 
-        serviceLocator = sL;
-        logger = sL.getLoggerFactory().createLogger(World.class);
+        this.serviceLocator = sL;
+        this.logger = sL.getLoggerFactory().createLogger(World.class);
 
         this.drawables.put(DrawableLevels.back, Collections.newSetFromMap(new WeakHashMap<>()));
         this.drawables.put(DrawableLevels.middle, Collections.newSetFromMap(new WeakHashMap<>()));
         this.drawables.put(DrawableLevels.front, Collections.newSetFromMap(new WeakHashMap<>()));
+        this.newDrawables.put(DrawableLevels.back, Collections.newSetFromMap(new WeakHashMap<>()));
+        this.newDrawables.put(DrawableLevels.middle, Collections.newSetFromMap(new WeakHashMap<>()));
+        this.newDrawables.put(DrawableLevels.front, Collections.newSetFromMap(new WeakHashMap<>()));
 
         IBlockFactory blockFactory = sL.getBlockFactory();
         this.topBlock = blockFactory.createStartBlock();
         this.blocks.add(this.topBlock);
-        this.drawables.get(DrawableLevels.back).add(this.topBlock);
-        this.updatables.add(this.topBlock);
+        this.newDrawables.get(DrawableLevels.back).add(this.topBlock);
+        this.newUpdatables.add(this.topBlock);
 
         for (int i = 1; i < 2; i++) {
             this.topBlock = blockFactory.createBlock(this.topBlock.getTopJumpable(), BlockTypes.normalOnlyBlock, false);
             this.blocks.add(this.topBlock);
-            this.drawables.get(DrawableLevels.back).add(this.topBlock);
-            this.updatables.add(this.topBlock);
+            this.newDrawables.get(DrawableLevels.back).add(this.topBlock);
+            this.newUpdatables.add(this.topBlock);
         }
 
-        this.background = sL.getSpriteFactory().getBackground();
+        this.background = sL.getSpriteFactory().getSprite(IRes.Sprites.background);
         this.scoreBar = new ScoreBar();
-        this.drawables.get(DrawableLevels.front).add(this.scoreBar);
+        this.newDrawables.get(DrawableLevels.front).add(this.scoreBar);
 
-        serviceLocator.getAudioManager().playStart();
-        serviceLocator.getAudioManager().loopThemeSong();
+        this.serviceLocator.getAudioManager().playStart();
+        this.serviceLocator.getAudioManager().loopThemeSong();
 
         this.start();
-        logger.info("Level started");
+        this.logger.info("Level started");
     }
 
     /**
@@ -153,13 +156,10 @@ public class World implements IScene {
      */
     @Override
     public final void start() {
-        this.serviceLocator.getRenderer().getCamera().setYPos(serviceLocator.getConstants().getGameHeight() / 2d);
+        this.serviceLocator.getRenderer().getCamera().setYPos(this.serviceLocator.getConstants().getGameHeight() / 2d);
         this.scoreBar.register();
-        for (IDoodle doodle : this.doodles) {
-            doodle.register();
-        }
-
-        logger.info("The world is now displaying");
+        this.doodles.forEach(IDoodle::register);
+        this.logger.info("The world is now displaying");
     }
 
     /**
@@ -168,10 +168,8 @@ public class World implements IScene {
     @Override
     public final void stop() {
         this.scoreBar.deregister();
-        for (IDoodle doodle : this.doodles) {
-            doodle.deregister();
-        }
-        logger.info("The world scene is stopped");
+        this.doodles.forEach(IDoodle::deregister);
+        this.logger.info("The world scene is stopped");
     }
 
     /**
@@ -179,14 +177,18 @@ public class World implements IScene {
      */
     @Override
     public final void render() {
-        serviceLocator.getRenderer().drawSpriteHUD(this.background, new Point(0, 0));
+        this.serviceLocator.getRenderer().drawSpriteHUD(this.background, new Point(0, 0));
 
-        drawables.get(DrawableLevels.back).addAll(newDrawables);
-        newDrawables.clear();
+        this.drawables.get(DrawableLevels.back).addAll(this.newDrawables.get(DrawableLevels.back));
+        this.drawables.get(DrawableLevels.middle).addAll(this.newDrawables.get(DrawableLevels.middle));
+        this.drawables.get(DrawableLevels.front).addAll(this.newDrawables.get(DrawableLevels.front));
+        this.newDrawables.get(DrawableLevels.back).clear();
+        this.newDrawables.get(DrawableLevels.middle).clear();
+        this.newDrawables.get(DrawableLevels.front).clear();
 
-        drawables.get(DrawableLevels.back).forEach(IRenderable::render);
-        drawables.get(DrawableLevels.middle).forEach(IRenderable::render);
-        drawables.get(DrawableLevels.front).forEach(IRenderable::render);
+        this.drawables.get(DrawableLevels.back).forEach(IRenderable::render);
+        this.drawables.get(DrawableLevels.middle).forEach(IRenderable::render);
+        this.drawables.get(DrawableLevels.front).forEach(IRenderable::render);
     }
 
     /**
@@ -194,8 +196,6 @@ public class World implements IScene {
      */
     @Override
     public final void update(final double delta) {
-        this.updatables.addAll(this.newUpdatables);
-
         this.updateObjects(delta);
         this.cleanUp();
         this.newBlocks();
@@ -209,7 +209,7 @@ public class World implements IScene {
      * @param renderable An object implementing the IRenderable interface.
      */
     public final void addDrawable(final IRenderable renderable) {
-        newDrawables.add(renderable);
+        this.newDrawables.get(DrawableLevels.middle).add(renderable);
     }
 
     /**
@@ -218,7 +218,7 @@ public class World implements IScene {
      * @param updatable An object implementing the IUpdatable interface.
      */
     public final void addUpdatable(final IUpdatable updatable) {
-        newUpdatables.add(updatable);
+        this.newUpdatables.add(updatable);
     }
 
     /**
@@ -227,11 +227,12 @@ public class World implements IScene {
      * @param score The score the player got.
      */
     public final void endGameInstance(final double score, final double extraExp) {
-        serviceLocator.getProgressionManager().addHighScore("Doodle", score);
-        serviceLocator.getProgressionManager().addExperience((int) score);
-        serviceLocator.getAudioManager().stopLoopingThemeSong();
+        IProgressionManager progressionManager = this.serviceLocator.getProgressionManager();
+        progressionManager.addHighScore("Doodle", score);
+        progressionManager.addExperience((int) score);
+        this.serviceLocator.getAudioManager().stopLoopingThemeSong();
 
-        Game.setScene(serviceLocator.getSceneFactory().createKillScreen((int) score, (int) extraExp));
+        Game.setScene(this.serviceLocator.getSceneFactory().createKillScreen((int) score, (int) extraExp));
     }
 
     /**
@@ -241,8 +242,8 @@ public class World implements IScene {
      */
     final void addDoodle(final IDoodle doodle) {
         this.doodles.add(doodle);
-        this.updatables.add(doodle);
-        this.drawables.get(DrawableLevels.middle).add(doodle);
+        this.newUpdatables.add(doodle);
+        this.newDrawables.get(DrawableLevels.middle).add(doodle);
     }
 
     /**
@@ -251,8 +252,11 @@ public class World implements IScene {
      * @param delta The time since the previous update.
      */
     private void updateObjects(final double delta) {
-        for (IUpdatable e : updatables) {
-            e.update(delta);
+        this.updatables.addAll(this.newUpdatables);
+        this.newUpdatables.clear();
+
+        for (IUpdatable updatable : this.updatables) {
+            updatable.update(delta);
         }
     }
 
@@ -274,14 +278,14 @@ public class World implements IScene {
     private void checkCollisions(final IDoodle doodle) {
         assert doodle != null;
         if (doodle.isAlive()) {
-            for (IBlock block : blocks) {
+            for (IBlock block : this.blocks) {
                 Set<IGameObject> elements = block.getElements();
                 for (IGameObject element : elements) {
                     if (doodle.checkCollision(element)) {
                         element.collidesWith(doodle);
                     }
-                    if (element instanceof AEnemy) {
-                        AEnemy enemy = (AEnemy) element;
+                    if (element instanceof IEnemy) {
+                        IEnemy enemy = (IEnemy) element;
                         HashSet<IGameObject> projectilesToRemove = new HashSet<>();
                         for (IGameObject projectile : doodle.getProjectiles()) {
                             if (projectile.checkCollision(enemy)) {
@@ -317,12 +321,13 @@ public class World implements IScene {
      * Generate new blocks if there are under 3 present.
      */
     private void newBlocks() {
-        if (blocks.size() < BLOCK_BUFFER) {
-            IJumpable topPlatform = topBlock.getTopJumpable();
-            this.topBlock = serviceLocator.getBlockFactory().createBlock(topPlatform, BlockTypes.randomType(), doodles.size() < 2);
-            this.blocks.add(topBlock);
-            this.drawables.get(DrawableLevels.back).add(topBlock);
-            this.updatables.add(topBlock);
+        if (this.blocks.size() < World.BLOCK_BUFFER) {
+            IJumpable topPlatform = this.topBlock.getTopJumpable();
+            this.topBlock = this.serviceLocator.getBlockFactory()
+                    .createBlock(topPlatform, BlockTypes.randomType(), this.doodles.size() < 2);
+            this.blocks.add(this.topBlock);
+            this.newDrawables.get(DrawableLevels.back).add(this.topBlock);
+            this.newUpdatables.add(this.topBlock);
         }
     }
 
@@ -399,18 +404,32 @@ public class World implements IScene {
         /**
          * Create a new scoreBar.
          */
-        public ScoreBar() {
-            this.scoreBarSprite = World.this.serviceLocator.getSpriteFactory().getScoreBarSprite();
+        /* package */ ScoreBar() {
+            this.scoreBarSprite = World.this.serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.scoreBar);
             this.scaling = (double) World.this.serviceLocator.getConstants().getGameWidth()
                     / (double) this.scoreBarSprite.getWidth();
             this.scoreBarHeight = (int) (this.scaling * this.scoreBarSprite.getHeight());
 
-            ISprite[] digitSprites = World.this.serviceLocator.getSpriteFactory().getDigitSprites();
+            ISpriteFactory sf = serviceLocator.getSpriteFactory();
+
+            ISprite[] digitSprites = new ISprite[]{
+                    sf.getSprite(IRes.Sprites.zero),
+                    sf.getSprite(IRes.Sprites.one),
+                    sf.getSprite(IRes.Sprites.two),
+                    sf.getSprite(IRes.Sprites.three),
+                    sf.getSprite(IRes.Sprites.four),
+                    sf.getSprite(IRes.Sprites.five),
+                    sf.getSprite(IRes.Sprites.six),
+                    sf.getSprite(IRes.Sprites.seven),
+                    sf.getSprite(IRes.Sprites.eight),
+                    sf.getSprite(IRes.Sprites.nine),
+            };
+
             int scoreX = (int) (digitSprites[2].getWidth() * this.scaling);
             int scoreY = (int) (this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d);
             this.scoreText = new ScoreText(scoreX, scoreY, this.scaling, digitSprites);
 
-            ISprite pauseSprite = World.this.serviceLocator.getSpriteFactory().getPauseButtonSprite();
+            ISprite pauseSprite = World.this.serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.pause);
             final int gameWidth = World.this.serviceLocator.getConstants().getGameWidth();
             double pauseX = 1d - pauseSprite.getWidth() * this.scaling / gameWidth - World.PAUSE_OFFSET * this.scaling / gameWidth;
             double pauseY = this.scaling * (this.scoreBarSprite.getHeight() - ScoreBar.SCORE_BAR_DEAD_ZONE) / 2d / gameWidth
@@ -547,19 +566,15 @@ public class World implements IScene {
     /**
      * Activate the input observers of doodles that are active in this scene.
      */
-    public void registerDoodle() {
-        for (IDoodle doodle : doodles) {
-            doodle.register();
-        }
+    public void registerDoodles() {
+        this.doodles.forEach(IDoodle::register);
     }
 
     /**
      * Deactivate the input observers of doodles that are active in this scene.
      */
-    public void deregisterDoodle() {
-        for (IDoodle doodle : doodles) {
-            doodle.deregister();
-        }
+    public void deregisterDoodles() {
+        this.doodles.forEach(IDoodle::deregister);
     }
 
 }

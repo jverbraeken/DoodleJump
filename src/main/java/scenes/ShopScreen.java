@@ -9,6 +9,7 @@ import progression.IProgressionManager;
 import rendering.Color;
 import rendering.IRenderer;
 import rendering.TextAlignment;
+import resources.IRes;
 import resources.sprites.ISprite;
 import resources.sprites.ISpriteFactory;
 import system.IRenderable;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 /**
  * This class is a scene that is displays when the doodle dies in a world.
  */
-/* package */ class ShopScreen implements IScene {
+/* package */ final class ShopScreen implements IScene {
 
     /**
      * X & Y location in relation to the frame of the main menu button.
@@ -179,8 +180,8 @@ import java.util.ArrayList;
         this.serviceLocator = sL;
         logger = sL.getLoggerFactory().createLogger(ShopScreen.class);
 
-        background = sL.getSpriteFactory().getBackground();
-        bottomChooseModeScreen = sL.getSpriteFactory().getKillScreenBottomSprite();
+        background = sL.getSpriteFactory().getSprite(IRes.Sprites.background);
+        bottomChooseModeScreen = sL.getSpriteFactory().getSprite(IRes.Sprites.killScreenBottom);
 
         IButtonFactory buttonFactory = sL.getButtonFactory();
         IButton mainMenuButton = buttonFactory.createMainMenuButton(

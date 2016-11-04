@@ -1,6 +1,8 @@
 package progression;
 
+import rendering.IRenderer;
 import rendering.TextAlignment;
+import resources.IRes;
 import system.IServiceLocator;
 
 import java.awt.Point;
@@ -10,6 +12,7 @@ import java.awt.Point;
  * <p>This class represents a mission that the player can complete.</p>
  */
 public final class Mission {
+
     /**
      * The offset for text of the mission entry drawn at the pause menu.
      */
@@ -57,8 +60,8 @@ public final class Mission {
     /**
      * @return The maximum amount of times its observer must be notified before the mission is considered finished.
      */
-    public int getMaximumTimes() {
-        return observer.getMaximumTimes();
+    /* package */ int getMaximumTimes() {
+        return this.observer.getMaximumTimes();
     }
 
     /**
@@ -67,21 +70,23 @@ public final class Mission {
      * @param y The y-position at which the mission should be rendered.
      */
     public void render(final int y) {
-        serviceLocator.getRenderer().drawSpriteHUD(serviceLocator.getSpriteFactory().getAchievementSprite(), new Point(0, y));
-        serviceLocator.getRenderer().drawTextHUD(new Point(serviceLocator.getConstants().getGameWidth() / 2, y + TEXT_Y_OFFSET), this.message, TextAlignment.center);
+        final IRenderer renderer = this.serviceLocator.getRenderer();
+        renderer.drawSpriteHUD(serviceLocator.getSpriteFactory().getSprite(IRes.Sprites.achievement), new Point(0, y));
+        renderer.drawTextHUD(new Point(serviceLocator.getConstants().getGameWidth() / 2, y + TEXT_Y_OFFSET), this.message, TextAlignment.center);
     }
 
     /**
      * Called when the mission should restart.
      */
     /* package */ void alertStartOver() {
-        observer.reset();
+        this.observer.reset();
     }
 
     /**
      * Called when the mission is finished.
      */
     /* package */ void alertFinished() {
-        serviceLocator.getProgressionManager().alertMissionFinished(this);
+        this.serviceLocator.getProgressionManager().alertMissionFinished(this);
     }
+
 }
