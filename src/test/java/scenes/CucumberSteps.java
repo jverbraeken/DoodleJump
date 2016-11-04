@@ -28,6 +28,7 @@ public class CucumberSteps implements En {
             try {
                 Whitebox.invokeConstructor(Game.class);
                 sL = Whitebox.getInternalState(Game.class, "serviceLocator");
+                Whitebox.setInternalState(Game.class, "pauseScreen", sL.getSceneFactory().createPauseScreen());
                 sL.getProgressionManager().init();
                 IProgressionManager progressionManager = mock(IProgressionManager.class);
                 when(progressionManager.getPowerupLevel(Matchers.<Powerups>any())).thenReturn(1);
@@ -37,6 +38,7 @@ public class CucumberSteps implements En {
                 e.printStackTrace();
             }
         });
+
         Given("^that the scene is (.*)$", (String scene) -> {
             switch (scene) {
                 case "Menu":
@@ -54,7 +56,24 @@ public class CucumberSteps implements En {
             }
         });
 
+        When("^the world is (.*)$", (String paused) -> {
+            if (paused.equals("running")) {
+                Game.resumeGame();
+            } else if (paused.equals("paused")) {
+                Game.pauseGame();
+            }
+        });
+
         When("^I do nothing$", () -> {
+            Game.getScene().update(0d);
+        });
+
+        When("^I resume the game$", () -> {
+            Game.resumeGame();
+        });
+
+        When("^I pause the game$", () -> {
+            Game.pauseGame();
         });
 
         When("^I press the (.*)-button$", (String button) -> {
@@ -77,6 +96,10 @@ public class CucumberSteps implements En {
                 case "multiplayer":
                     Object action2 = Whitebox.getInternalState(buttons.get(2), "action");
                     ((Runnable) action2).run();
+                    break;
+                case "shop":
+                    Object action4 = Whitebox.getInternalState(buttons.get(3), "action");
+                    ((Runnable) action4).run();
                     break;
                 //CHOOSEMODE
                 case "menu":
@@ -124,6 +147,9 @@ public class CucumberSteps implements En {
                     break;
                 case "Menu":
                     assertThat(Whitebox.getInternalState(Game.class, "scene") instanceof Menu, is(true));
+                    break;
+                case "ShopScreen":
+                    assertThat(Whitebox.getInternalState(Game.class, "scene") instanceof ShopScreen, is(true));
                     break;
             }
         });
