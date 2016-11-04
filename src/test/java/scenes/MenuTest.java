@@ -54,18 +54,18 @@ public class MenuTest {
         chooseMode = mock(IButton.class);
 
         buttonFactory = mock(IButtonFactory.class);
-        when(buttonFactory.createPlayButton(0.15, 0.25)).thenReturn(play);
-        when(buttonFactory.createScoreButton(0.25, 0.36)).thenReturn(scores);
-        when(buttonFactory.createShopButton(0.35, 0.47)).thenReturn(shop);
-        when(buttonFactory.createMultiplayerButton(0.15+3*0.1, 0.25+3*0.11)).thenReturn(multiplayer);
-        when(buttonFactory.createChooseModeButton(0.55, 0.69)).thenReturn(chooseMode);
+        when(buttonFactory.createPlayButton(anyDouble(), anyDouble())).thenReturn(play);
+        when(buttonFactory.createScoreButton(anyDouble(), anyDouble())).thenReturn(scores);
+        when(buttonFactory.createShopButton(anyDouble(), anyDouble())).thenReturn(shop);
+        when(buttonFactory.createMultiplayerButton(anyDouble(), anyDouble())).thenReturn(multiplayer);
+        when(buttonFactory.createChooseModeButton(anyDouble(), anyDouble())).thenReturn(chooseMode);
 
         renderer = mock(IRenderer.class);
 
         platform = mock(IPlatform.class);
 
         platformFactory = mock(IPlatformFactory.class);
-        when(platformFactory.createPlatform(10, 78)).thenReturn(platform);
+        when(platformFactory.createPlatform(anyInt(), anyInt())).thenReturn(platform);
 
         doodle = mock(IDoodle.class);
         when(doodle.checkCollision(platform)).thenReturn(true);
