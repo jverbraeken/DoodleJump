@@ -42,8 +42,8 @@ public class KillScreenTest {
         menu = mock(IButton.class);
 
         buttonFactory = mock(IButtonFactory.class);
-        when(buttonFactory.createPlayAgainButton(0.3, 0.6)).thenReturn(playagain);
-        when(buttonFactory.createMainMenuButton(0.6, 0.7)).thenReturn(menu);
+        when(buttonFactory.createPlayAgainButton(anyDouble(), anyDouble())).thenReturn(playagain);
+        when(buttonFactory.createMainMenuButton(anyDouble(), anyDouble())).thenReturn(menu);
 
         renderer = mock(IRenderer.class);
 
