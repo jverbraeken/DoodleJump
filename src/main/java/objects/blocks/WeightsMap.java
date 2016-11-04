@@ -40,7 +40,7 @@ public final class WeightsMap {
     /**
      * The chance of the jetpack spawning.
      */
-    private static final double JETPACK_POWERUP = 0.01;
+    private static final double JETPACK_POWERUP = 0.009;
 
     /**
      * The chance of the propellor spawning.
@@ -65,7 +65,7 @@ public final class WeightsMap {
     /**
      * The chance of the spring trampoline spawning.
      */
-    private static final double TRAMPOLINE_POWERUP = 0.003;
+    private static final double TRAMPOLINE_POWERUP = 0.03;
 
 
     static {
