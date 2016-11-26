@@ -1,5 +1,7 @@
 # Feedback/Grades Group 8008
 
+## Final lab grade = 8.0
+
 ## Initial working version
 
 ### Requirements
@@ -225,3 +227,15 @@ q2 = 4/4: excellent analysis.
 
 ### General Feedback
 - do you ever close issues?
+
+## Final version = 8,4:
+- Completeness = 9.5: Great game! The game looks good and includes different game modes, multiplayer and achievements. Only downside is that there is only one type of achievement and I miss the option to go back to the main menu on some screens.
+- Source code quality = 9: You've always paid great attention to your code quality. Looking at incode you have some minor design flaws, however nothing too severe. I've not always agreed with your style of interfaces everywhere, but this is a style thing and doesn't influence your code quality in a bad way (but arguably in a good way). No checkstyle warnings and only 1 pmd error. Great work!
+- Testing = 8: 77% line coverage over whole project, no UI testing document provided.
+- Code readability:
+    - Formatting = 10
+    - Naming = 8
+    - Comments = 10
+- Responsiveness to feedback = 5: lots of recurring comments about RDD/CRC cards etc. If your TA points something out, make sure it's included/changed next time!
+
+Final Lab Grade = 8.0
