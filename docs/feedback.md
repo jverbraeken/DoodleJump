@@ -1,6 +1,6 @@
 # Feedback/Grades Group 8008
 
-## Final lab grade = 8.0
+## Final lab grade = 7.7
 
 ## Initial working version
 
@@ -238,4 +238,4 @@ q2 = 4/4: excellent analysis.
     - Comments = 10
 - Responsiveness to feedback = 5: lots of recurring comments about RDD/CRC cards etc. If your TA points something out, make sure it's included/changed next time!
 
-Final Lab Grade = 8.0
+Final Lab Grade = 7.7
